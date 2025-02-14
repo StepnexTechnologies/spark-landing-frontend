@@ -22,7 +22,7 @@ const ParticleEffect = () => {
           }}
           transition={{
             duration: 2 + Math.random() * 2,
-            repeat: Infinity,
+            repeat: Number.POSITIVE_INFINITY,
             delay: Math.random() * 2,
           }}
         />
@@ -38,10 +38,8 @@ const HeroSection = () => {
   const sparkRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Letter-by-letter animation for "IGNITING NOW..."
     const text = "IGNITING NOW...";
     const tl = gsap.timeline();
-
     [...text].forEach((letter, index) => {
       tl.fromTo(
         `#letter-${index}`,
@@ -50,7 +48,6 @@ const HeroSection = () => {
       );
     });
 
-    // Enhanced final dot animation
     tl.to("#final-dot", {
       scale: 1.2,
       opacity: 0.8,
@@ -60,7 +57,6 @@ const HeroSection = () => {
       ease: "power2.inOut",
     });
 
-    // Subtle pulse animation for the entire title
     gsap.to(".title-container", {
       scale: 1.02,
       duration: 2,
@@ -85,7 +81,6 @@ const HeroSection = () => {
         setIsTextRevealed(true);
       }
 
-      // Spark effect following cursor
       if (sparkRef.current) {
         gsap.to(sparkRef.current, {
           x: e.clientX,
@@ -105,7 +100,6 @@ const HeroSection = () => {
     >
       <ParticleEffect />
 
-      {/* Enhanced smoke effect */}
       <div className="absolute inset-0 pointer-events-none">
         <motion.div
           className="w-full h-full"
@@ -123,7 +117,6 @@ const HeroSection = () => {
         />
       </div>
 
-      {/* Cursor spark effect */}
       <div
         ref={sparkRef}
         className="fixed pointer-events-none z-50 mix-blend-screen"
@@ -134,7 +127,11 @@ const HeroSection = () => {
           animate={{
             scale: 1.2,
           }}
-          transition={{ duration: 1, repeat: Infinity, repeatType: "reverse" }}
+          transition={{
+            duration: 1,
+            repeat: Number.POSITIVE_INFINITY,
+            repeatType: "reverse",
+          }}
         />
       </div>
 
@@ -182,7 +179,7 @@ const HeroSection = () => {
               }}
               transition={{
                 duration: 2,
-                repeat: Infinity,
+                repeat: Number.POSITIVE_INFINITY,
                 repeatType: "reverse",
               }}
             />
@@ -207,7 +204,7 @@ const HeroSection = () => {
               }}
               transition={{
                 duration: 3,
-                repeat: Infinity,
+                repeat: Number.POSITIVE_INFINITY,
                 repeatType: "reverse",
               }}
             />

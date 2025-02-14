@@ -2,7 +2,6 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import HeroSection from "../components/HeroSection";
-import Footer from "../components/Footer";
 import { SparklesCore } from "@/components/sparkles";
 
 export default function Home() {
@@ -43,7 +42,6 @@ export default function Home() {
       <div className="relative z-10 hero-content">
         <HeroSection />
       </div>
-      <Footer />
     </main>
   );
 }
