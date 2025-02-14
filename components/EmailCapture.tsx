@@ -1,45 +1,116 @@
 "use client";
-
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useState, useRef, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Sparkles } from "lucide-react";
 
 export default function EmailCapture() {
   const [email, setEmail] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  useEffect(() => {
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if (isMobile && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, []);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitted(true);
-    // Here you would typically send the email to your backend
-    setTimeout(() => {
-      window.location.href = "/thank-you";
-    }, 2000);
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    window.location.href = "/thank-you";
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="w-full max-w-md mx-auto relative mb-6"
-    >
-      <div className="relative group">
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Get Early Access, Leave Your Email"
-          className="w-full px-4 pr-12 py-3 bg-transparent border-2 border-[#6C63FF] rounded-md text-white placeholder-gray-400 focus:outline-none focus:border-white transition-all duration-300 text-sm sm:text-base"
-          required
-        />
-        <motion.button
-          type="submit"
-          className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-[#6C63FF] hover:bg-[#5b54d6] text-white w-8 h-8 sm:w-10 sm:h-10 rounded-md transition-all duration-300 flex items-center justify-center text-sm sm:text-base"
-        >
-          &gt;
-        </motion.button>
-      </div>
-      <p className="text-xs sm:text-sm text-gray-400 mt-2 text-center">
-        No spam. Just sparks.
-      </p>
-    </form>
+    <div className="w-full max-w-md mx-auto relative mb-6">
+      <AnimatePresence mode="wait">
+        {!isSubmitted ? (
+          <motion.form
+            onSubmit={handleSubmit}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            className="relative group"
+          >
+            <div className="relative flex items-center">
+              <motion.div
+                animate={{
+                  boxShadow: isFocused
+                    ? "0 0 20px rgba(108,99,255,0.3)"
+                    : "0 0 0px rgba(108,99,255,0)",
+                }}
+                className="absolute inset-0 rounded-md transition-all duration-300"
+              />
+
+              <input
+                ref={inputRef}
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setIsFocused(false)}
+                placeholder="Get Early Access, Leave Your Email"
+                className="w-full px-4 pr-12 py-3 bg-black/50 backdrop-blur-sm border-2 border-[#6C63FF] rounded-md text-white placeholder-gray-400 focus:outline-none focus:border-white transition-all duration-300 text-sm sm:text-base"
+                required
+              />
+
+              <div className="absolute right-2 flex items-center">
+                <motion.button
+                  type="submit"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  animate={{
+                    boxShadow: [
+                      "0 0 10px #6C63FF",
+                      "0 0 20px #6C63FF",
+                      "0 0 10px #6C63FF",
+                    ],
+                  }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                  className="bg-[#6C63FF] text-white w-8 h-8 sm:w-10 sm:h-10 rounded-md flex items-center justify-center overflow-hidden"
+                >
+                  <motion.span className="text-xl" whileHover={{ scale: 1.1 }}>
+                    &gt;
+                  </motion.span>
+                </motion.button>
+              </div>
+            </div>
+
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2 }}
+              className="text-xs sm:text-sm text-gray-400 mt-2 text-center italic"
+            >
+              No spam. Just sparks.
+            </motion.p>
+          </motion.form>
+        ) : (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="text-center py-3"
+          >
+            <motion.div
+              className="flex items-center justify-center gap-2 text-purple-400"
+              animate={{
+                scale: [1, 1.1, 1],
+              }}
+              transition={{
+                duration: 1.5,
+                repeat: Infinity,
+                repeatType: "reverse",
+              }}
+            >
+              <Sparkles className="w-5 h-5" />
+              <p className="text-white text-lg">Igniting your journey...</p>
+              <Sparkles className="w-5 h-5" />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
   );
 }

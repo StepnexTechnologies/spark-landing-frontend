@@ -1,12 +1,47 @@
-import { Lock } from "lucide-react";
+import { Lock, Info } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function Footer() {
   return (
-    <footer className="w-full flex justify-center items-center py-6 mt-auto">
-      <div className="flex items-center space-x-2 text-xs sm:text-sm text-gray-400">
-        <Lock className="w-3 h-3 sm:w-4 sm:h-4" />
-        <span>Your data is secure with us</span>
+    <motion.footer
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.5, duration: 0.5 }}
+      className="fixed bottom-4 w-full left-0 right-0 flex justify-center items-center px-4"
+    >
+      <div className="flex flex-col items-center space-y-2 w-full max-w-2xl">
+        <motion.div
+          className="flex items-center justify-center space-x-3 px-4 py-2 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 w-fit"
+          whileHover={{ scale: 1.02 }}
+          transition={{ duration: 0.2 }}
+        >
+          <div className="flex items-center space-x-2 text-xs sm:text-sm text-gray-300">
+            <motion.div
+              animate={{
+                scale: [1, 1.1, 1],
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                repeatType: "reverse",
+              }}
+            >
+              <Lock className="w-3 h-3 sm:w-4 sm:h-4 text-purple-400" />
+            </motion.div>
+            <span>Your data is secure with us</span>
+          </div>
+        </motion.div>
+
+        <motion.div
+          className="flex items-center justify-center space-x-1 text-[10px] sm:text-xs text-gray-500 w-full"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.8 }}
+        >
+          <Info className="w-3 h-3" />
+          <span>© 2025 Sparkonomy. All rights reserved.</span>
+        </motion.div>
       </div>
-    </footer>
+    </motion.footer>
   );
 }

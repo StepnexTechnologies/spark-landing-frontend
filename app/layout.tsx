@@ -1,13 +1,13 @@
 import "./globals.css";
+import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import type React from "react";
-import { ThemeProvider } from "../components/theme-provider";
-import Particles from "../components/Particles";
+import type React from "react"; // Added import for React
+import InteractiveBackground from "@/components/interactive-background";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const inter = Inter({ subsets: ["latin"] });
 
-export const metadata = {
-  title: "Sparkonomy - Igniting AI Innovation",
+export const metadata: Metadata = {
+  title: "Sparkonomy - Igniting Now",
   description: "Developing AI to spark livelihoods globally",
 };
 
@@ -17,14 +17,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} font-sans bg-black text-white`}>
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-          <div className="min-h-screen flex flex-col relative">
-            <Particles />
-            {children}
-          </div>
-        </ThemeProvider>
+    <html lang="en">
+      <body className={inter.className}>
+        <InteractiveBackground />
+        {children}
       </body>
     </html>
   );
