@@ -9,20 +9,33 @@ import Footer from "@/components/Footer";
 
 const HeroSection = () => {
   const [isTextRevealed, setIsTextRevealed] = useState(false);
+  const [showContent, setShowContent] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
   const sparkRef = useRef<HTMLDivElement>(null);
   const sparkonomyRef = useRef<HTMLHeadingElement>(null);
   const taglineRef = useRef<HTMLParagraphElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const loadingText = "I G N I T I N G   N O W . . .";
     const tl = gsap.timeline();
 
-    // Animate "IGNITING NOW..." letter by letter
-    [...loadingText].forEach((letter, index) => {
+    // Animate "IGNITING" letter by letter
+    [..."I G N I T I N G"].forEach((letter, index) => {
       tl.fromTo(
-        `#letter-${index}`,
+        `#letter-igniting-${index}`,
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.1, ease: "power2.out" }
+      );
+    });
+
+    // Add a small pause between animations
+    tl.to({}, { duration: 0.3 });
+
+    // Animate "NOW..." letter by letter
+    [..."N O W . . ."].forEach((letter, index) => {
+      tl.fromTo(
+        `#letter-now-${index}`,
         { opacity: 0, y: 20 },
         { opacity: 1, y: 0, duration: 0.1, ease: "power2.out" }
       );
@@ -38,106 +51,10 @@ const HeroSection = () => {
       yoyo: true,
     });
 
-    // Animate "sparkonomy" text
-    if (sparkonomyRef.current) {
-      const chars = sparkonomyRef.current.textContent?.split("") || [];
-      sparkonomyRef.current.innerHTML = "";
-      chars.forEach((char, index) => {
-        const span = document.createElement("span");
-        span.textContent = char;
-        span.style.display = "inline-block";
-        span.style.opacity = "0";
-        sparkonomyRef.current?.appendChild(span);
-
-        tl.to(
-          span,
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.5,
-            delay: 0.05 * index,
-            ease: "power2.out",
-          },
-          "-=0.4"
-        );
-      });
-
-      tl.to(
-        sparkonomyRef.current.children,
-        {
-          color: "#6C63FF",
-          textShadow: "0 0 10px rgba(108,99,255,0.7)",
-          duration: 0.5,
-          stagger: {
-            each: 0.1,
-            repeat: -1,
-            yoyo: true,
-          },
-          onUpdate: function (this: gsap.TweenVars) {
-            const progress = this.progress();
-            const scaleValue = 1 + Math.sin(progress * Math.PI) * 0.1;
-            gsap.set(this.targets(), { scale: scaleValue });
-          },
-        },
-        "-=0.5"
-      );
-
-      // Add floating animation to "sparkonomy"
-      gsap.to(sparkonomyRef.current, {
-        y: -10,
-        duration: 2,
-        repeat: -1,
-        yoyo: true,
-        ease: "power1.inOut",
-      });
-    }
-
-    // Animate tagline
-    if (taglineRef.current) {
-      const words = taglineRef.current.textContent?.split(" ") || [];
-      taglineRef.current.innerHTML = "";
-      words.forEach((word, index) => {
-        const span = document.createElement("span");
-        span.textContent = word + " ";
-        span.style.display = "inline-block";
-        span.style.opacity = "0";
-        span.style.transform = "translateY(20px)";
-        taglineRef.current?.appendChild(span);
-
-        tl.to(
-          span,
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.5,
-            delay: 0.1 * index,
-            ease: "power2.out",
-          },
-          "-=0.4"
-        );
-      });
-
-      // Ensure the parent p tag becomes visible
-      tl.to(
-        taglineRef.current,
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.5,
-          ease: "power2.out",
-        },
-        "-=0.5"
-      );
-
-      // Add pulsating glow effect to tagline
-      gsap.to(taglineRef.current, {
-        textShadow: "0 0 15px rgba(108,99,255,0.7)",
-        duration: 1.5,
-        repeat: -1,
-        yoyo: true,
-        ease: "power1.inOut",
-      });
-    }
+    // Set a timeout to show the content after 3 seconds
+    const timer = setTimeout(() => {
+      setShowContent(true);
+    }, 3000);
 
     // Animate background
     gsap.to(".bg-animation", {
@@ -149,8 +66,104 @@ const HeroSection = () => {
 
     return () => {
       tl.kill();
+      clearTimeout(timer);
     };
   }, []);
+
+  useEffect(() => {
+    if (showContent) {
+      const contentTl = gsap.timeline();
+
+      // Animate "sparkonomy" text
+      if (sparkonomyRef.current) {
+        const chars = sparkonomyRef.current.textContent?.split("") || [];
+        sparkonomyRef.current.innerHTML = "";
+        chars.forEach((char, index) => {
+          const span = document.createElement("span");
+          span.textContent = char;
+          span.style.display = "inline-block";
+          span.style.opacity = "0";
+          sparkonomyRef.current?.appendChild(span);
+
+          contentTl.to(
+            span,
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.5,
+              delay: 0.05 * index,
+              ease: "power2.out",
+            },
+            "-=0.4"
+          );
+        });
+
+        contentTl.to(
+          sparkonomyRef.current.children,
+          {
+            color: "#6C63FF",
+            textShadow: "0 0 10px rgba(108,99,255,0.7)",
+            duration: 0.5,
+            stagger: {
+              each: 0.1,
+              repeat: -1,
+              yoyo: true,
+            },
+            onUpdate: function (this: gsap.TweenVars) {
+              const progress = this.progress();
+              const scaleValue = 1 + Math.sin(progress * Math.PI) * 0.1;
+              gsap.set(this.targets(), { scale: scaleValue });
+            },
+          },
+          "-=0.5"
+        );
+
+        // Add floating animation to "sparkonomy"
+        gsap.to(sparkonomyRef.current, {
+          y: -10,
+          duration: 2,
+          repeat: -1,
+          yoyo: true,
+          ease: "power1.inOut",
+        });
+      }
+
+      // Animate tagline
+      if (taglineRef.current) {
+        const words = taglineRef.current.textContent?.split(" ") || [];
+        taglineRef.current.innerHTML = "";
+        words.forEach((word, index) => {
+          const span = document.createElement("span");
+          span.textContent = word + " ";
+          span.style.display = "inline-block";
+          span.style.opacity = "0";
+          span.style.transform = "translateY(20px)";
+          taglineRef.current?.appendChild(span);
+
+          contentTl.to(
+            span,
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.5,
+              delay: 0.1 * index,
+              ease: "power2.out",
+            },
+            "-=0.4"
+          );
+        });
+
+        // Add pulsating glow effect to tagline
+        gsap.to(taglineRef.current, {
+          textShadow: "0 0 15px rgba(108,99,255,0.7)",
+          duration: 1.5,
+          repeat: -1,
+          yoyo: true,
+          ease: "power1.inOut",
+        });
+      }
+    }
+  }, [showContent]);
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (containerRef.current) {
@@ -227,41 +240,67 @@ const HeroSection = () => {
 
       <div className="text-center relative z-10">
         <div className="title-container relative mb-12">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-wide text-white">
-            {[..."I G N I T I N G   N O W . . ."].map((letter, index) => (
-              <motion.span
-                key={index}
-                id={`letter-${index}`}
-                className="inline-block"
-                style={{
-                  textShadow: "0 0 10px rgba(108,99,255,0.5)",
-                }}
-              >
-                {letter}
-              </motion.span>
-            ))}
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-wide text-white flex items-center justify-center gap-4">
+            <span className="flex">
+              {[..."I G N I T I N G"].map((letter, index) => (
+                <motion.span
+                  key={`igniting-${index}`}
+                  id={`letter-igniting-${index}`}
+                  className="inline-block"
+                  style={{
+                    textShadow: "0 0 10px rgba(108,99,255,0.5)",
+                  }}
+                >
+                  {letter}
+                </motion.span>
+              ))}
+            </span>
+            <span className="flex">
+              {[..."N O W . . ."].map((letter, index) => (
+                <motion.span
+                  key={`now-${index}`}
+                  id={`letter-now-${index}`}
+                  className="inline-block"
+                  style={{
+                    textShadow: "0 0 10px rgba(108,99,255,0.5)",
+                  }}
+                >
+                  {letter}
+                </motion.span>
+              ))}
+            </span>
           </h1>
         </div>
 
-        <div className="relative">
-          <h2
-            ref={sparkonomyRef}
-            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-6 uppercase tracking-wider text-white"
-            style={{
-              textShadow: "0 0 20px rgba(108,99,255,0.3)",
-            }}
-          >
-            sparkonomy
-          </h2>
-        </div>
-
-        <p
-          className="tagline text-lg sm:text-xl md:text-2xl mb-12 relative text-white opacity-100"
+        <motion.div
+          ref={contentRef}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{
+            opacity: showContent ? 1 : 0,
+            y: showContent ? 0 : 20,
+          }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
         >
-          Developing AI to spark livelihoods globally
-        </p>
+          <div className="relative">
+            <h2
+              ref={sparkonomyRef}
+              className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-6 uppercase tracking-wider text-white"
+              style={{
+                textShadow: "0 0 20px rgba(108,99,255,0.3)",
+              }}
+            >
+              sparkonomy
+            </h2>
+          </div>
 
-        <EmailCapture />
+          <p
+            className="tagline text-lg sm:text-xl md:text-2xl mb-12 relative text-white opacity-100"
+          >
+            Developing AI to spark livelihoods globally
+          </p>
+
+          <EmailCapture />
+        </motion.div>
       </div>
 
       <Footer />
