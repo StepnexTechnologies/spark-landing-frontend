@@ -1,68 +1,150 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import type React from "react";
+
 import { motion } from "framer-motion";
-import { gsap } from "gsap";
+import gsap from "gsap";
 import EmailCapture from "@/components/EmailCapture";
 import Footer from "@/components/Footer";
-
-const ParticleEffect = () => {
-  return (
-    <div className="absolute inset-0 pointer-events-none">
-      {[...Array(20)].map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute w-1 h-1 bg-purple-300/30"
-          initial={{
-            x: Math.random() * 100 + "%",
-            y: Math.random() * 100 + "%",
-          }}
-          animate={{
-            y: [0, -20, 0],
-            opacity: [0.2, 0.5, 0.2],
-          }}
-          transition={{
-            duration: 2 + Math.random() * 2,
-            repeat: Number.POSITIVE_INFINITY,
-            delay: Math.random() * 2,
-          }}
-        />
-      ))}
-    </div>
-  );
-};
 
 const HeroSection = () => {
   const [isTextRevealed, setIsTextRevealed] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
   const sparkRef = useRef<HTMLDivElement>(null);
+  const sparkonomyRef = useRef<HTMLHeadingElement>(null);
+  const taglineRef = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
-    const text = "IGNITING NOW...";
+    const loadingText = "I G N I T I N G   N O W . . .";
     const tl = gsap.timeline();
-    [...text].forEach((letter, index) => {
+
+    // Animate "IGNITING NOW..." letter by letter
+    [...loadingText].forEach((letter, index) => {
       tl.fromTo(
         `#letter-${index}`,
         { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 0.1 }
+        { opacity: 1, y: 0, duration: 0.1, ease: "power2.out" }
       );
     });
 
+    // Animate the final dot
     tl.to("#final-dot", {
       scale: 1.2,
-      opacity: 0.8,
+      opacity: 1,
       repeat: -1,
-      duration: 1.5,
-      yoyo: true,
+      duration: 1.6,
       ease: "power2.inOut",
+      yoyo: true,
     });
 
-    gsap.to(".title-container", {
-      scale: 1.02,
-      duration: 2,
+    // Animate "sparkonomy" text
+    if (sparkonomyRef.current) {
+      const chars = sparkonomyRef.current.textContent?.split("") || [];
+      sparkonomyRef.current.innerHTML = "";
+      chars.forEach((char, index) => {
+        const span = document.createElement("span");
+        span.textContent = char;
+        span.style.display = "inline-block";
+        span.style.opacity = "0";
+        sparkonomyRef.current?.appendChild(span);
+
+        tl.to(
+          span,
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.5,
+            delay: 0.05 * index,
+            ease: "power2.out",
+          },
+          "-=0.4"
+        );
+      });
+
+      tl.to(
+        sparkonomyRef.current.children,
+        {
+          color: "#6C63FF",
+          textShadow: "0 0 10px rgba(108,99,255,0.7)",
+          duration: 0.5,
+          stagger: {
+            each: 0.1,
+            repeat: -1,
+            yoyo: true,
+          },
+          onUpdate: function (this: gsap.TweenVars) {
+            const progress = this.progress();
+            const scaleValue = 1 + Math.sin(progress * Math.PI) * 0.1;
+            gsap.set(this.targets(), { scale: scaleValue });
+          },
+        },
+        "-=0.5"
+      );
+
+      // Add floating animation to "sparkonomy"
+      gsap.to(sparkonomyRef.current, {
+        y: -10,
+        duration: 2,
+        repeat: -1,
+        yoyo: true,
+        ease: "power1.inOut",
+      });
+    }
+
+    // Animate tagline
+    if (taglineRef.current) {
+      const words = taglineRef.current.textContent?.split(" ") || [];
+      taglineRef.current.innerHTML = "";
+      words.forEach((word, index) => {
+        const span = document.createElement("span");
+        span.textContent = word + " ";
+        span.style.display = "inline-block";
+        span.style.opacity = "0";
+        span.style.transform = "translateY(20px)";
+        taglineRef.current?.appendChild(span);
+
+        tl.to(
+          span,
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.5,
+            delay: 0.1 * index,
+            ease: "power2.out",
+          },
+          "-=0.4"
+        );
+      });
+
+      // Ensure the parent p tag becomes visible
+      tl.to(
+        taglineRef.current,
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.5,
+          ease: "power2.out",
+        },
+        "-=0.5"
+      );
+
+      // Add pulsating glow effect to tagline
+      gsap.to(taglineRef.current, {
+        textShadow: "0 0 15px rgba(108,99,255,0.7)",
+        duration: 1.5,
+        repeat: -1,
+        yoyo: true,
+        ease: "power1.inOut",
+      });
+    }
+
+    // Animate background
+    gsap.to(".bg-animation", {
+      backgroundPosition: "100% 100%",
+      duration: 20,
       repeat: -1,
-      yoyo: true,
-      ease: "power1.inOut",
+      ease: "none",
     });
 
     return () => {
@@ -98,7 +180,15 @@ const HeroSection = () => {
       onMouseMove={handleMouseMove}
       className="flex flex-col items-center justify-center min-h-screen p-4 relative overflow-hidden"
     >
-      <ParticleEffect />
+      <div
+        className="absolute inset-0 pointer-events-none bg-animation"
+        style={{
+          backgroundImage:
+            "url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPgogIDxkZWZzPgogICAgPHBhdHRlcm4gaWQ9InBhdHRlcm4iIHg9IjAiIHk9IjAiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CiAgICAgIDxjaXJjbGUgY3g9IjIwIiBjeT0iMjAiIHI9IjEiIGZpbGw9InJnYmEoMTA4LCA5OSwgMjU1LCAwLjEpIiAvPgogICAgPC9wYXR0ZXJuPgogIDwvZGVmcz4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3BhdHRlcm4pIiAvPgo8L3N2Zz4=')",
+          backgroundSize: "200% 200%",
+          backgroundPosition: "0% 0%",
+        }}
+      ></div>
 
       <div className="absolute inset-0 pointer-events-none">
         <motion.div
@@ -136,20 +226,15 @@ const HeroSection = () => {
       </div>
 
       <div className="text-center relative z-10">
-        <div className="title-container relative">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 tracking-wide">
-            {[..."IGNITING NOW..."].map((letter, index) => (
+        <div className="title-container relative mb-12">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-wide text-white">
+            {[..."I G N I T I N G   N O W . . ."].map((letter, index) => (
               <motion.span
                 key={index}
                 id={`letter-${index}`}
                 className="inline-block"
-                whileHover={{
-                  scale: 1.2,
-                  color: "#6C63FF",
-                  transition: { duration: 0.2 },
-                }}
                 style={{
-                  textShadow: "0 0 10px rgba(255, 255, 255, 0.5)",
+                  textShadow: "0 0 10px rgba(108,99,255,0.5)",
                 }}
               >
                 {letter}
@@ -158,58 +243,23 @@ const HeroSection = () => {
           </h1>
         </div>
 
-        <motion.h2
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{
-            opacity: isTextRevealed ? 1 : 0.3,
-            scale: isTextRevealed ? 1 : 0.9,
-          }}
-          whileHover={{ scale: 1.05 }}
-          className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-6 uppercase tracking-wider"
-          style={{
-            textShadow: "0 0 20px rgba(108,99,255,0.3)",
-          }}
-        >
-          <span className="relative inline-block">
+        <div className="relative">
+          <h2
+            ref={sparkonomyRef}
+            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-6 uppercase tracking-wider text-white"
+            style={{
+              textShadow: "0 0 20px rgba(108,99,255,0.3)",
+            }}
+          >
             sparkonomy
-            <motion.div
-              className="absolute -inset-4 bg-purple-500/20 blur-xl -z-10"
-              animate={{
-                opacity: 0.3,
-              }}
-              transition={{
-                duration: 2,
-                repeat: Number.POSITIVE_INFINITY,
-                repeatType: "reverse",
-              }}
-            />
-          </span>
-        </motion.h2>
+          </h2>
+        </div>
 
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{
-            opacity: isTextRevealed ? 1 : 0,
-            y: isTextRevealed ? 0 : 20,
-          }}
-          transition={{ delay: 0.3 }}
-          className="text-lg sm:text-xl md:text-2xl mb-12 relative"
+        <p
+          className="tagline text-lg sm:text-xl md:text-2xl mb-12 relative text-white opacity-100"
         >
-          <span className="relative inline-block">
-            Developing AI to spark livelihoods globally
-            <motion.div
-              className="absolute -inset-2 bg-purple-500/10 blur-lg -z-10"
-              animate={{
-                scale: 1.1,
-              }}
-              transition={{
-                duration: 3,
-                repeat: Number.POSITIVE_INFINITY,
-                repeatType: "reverse",
-              }}
-            />
-          </span>
-        </motion.p>
+          Developing AI to spark livelihoods globally
+        </p>
 
         <EmailCapture />
       </div>

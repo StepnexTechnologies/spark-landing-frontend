@@ -2,7 +2,8 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import HeroSection from "../components/HeroSection";
-import { SparklesCore } from "@/components/sparkles";
+import { AuroraBackgroundDemo } from "../components/AuroraBackgroundDemo";
+import InteractiveBackground from "@/components/interactive-background";
 
 export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -24,24 +25,13 @@ export default function Home() {
   }, []);
 
   return (
-    <main
-      ref={containerRef}
-      className="min-h-screen bg-black text-white opacity-0"
-    >
-      <div className="h-full w-full absolute inset-0 z-0">
-        <SparklesCore
-          id="tsparticlesfullpage"
-          background="transparent"
-          minSize={0.6}
-          maxSize={1.4}
-          particleDensity={100}
-          className="w-full h-full"
-          particleColor="#FFFFFF"
-        />
-      </div>
-      <div className="relative z-10 hero-content">
-        <HeroSection />
-      </div>
-    </main>
+    <div ref={containerRef} className="opacity-0">
+      <AuroraBackgroundDemo>
+        <InteractiveBackground />
+        <div className="min-h-screen w-full">
+          <HeroSection />
+        </div>
+      </AuroraBackgroundDemo>
+    </div>
   );
 }

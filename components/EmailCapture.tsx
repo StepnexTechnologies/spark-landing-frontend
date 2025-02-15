@@ -1,5 +1,7 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
+import type React from "react";
+
 import { motion, AnimatePresence } from "framer-motion";
 import { Sparkles } from "lucide-react";
 
@@ -41,7 +43,7 @@ export default function EmailCapture() {
                     ? "0 0 20px rgba(108,99,255,0.3)"
                     : "0 0 0px rgba(108,99,255,0)",
                 }}
-                className="absolute inset-0 rounded-md transition-all duration-300"
+                className="absolute inset-0 rounded-full transition-all duration-300"
               />
 
               <input
@@ -52,7 +54,7 @@ export default function EmailCapture() {
                 onFocus={() => setIsFocused(true)}
                 onBlur={() => setIsFocused(false)}
                 placeholder="Get Early Access, Leave Your Email"
-                className="w-full px-4 pr-12 py-3 bg-black/50 backdrop-blur-sm border-2 border-[#6C63FF] rounded-md text-white placeholder-gray-400 focus:outline-none focus:border-white transition-all duration-300 text-sm sm:text-base"
+                className="w-full px-4 pr-12 py-3 bg-black/50 backdrop-blur-sm border-2 border-[#6C63FF] rounded-full text-white placeholder-gray-400 focus:outline-none focus:border-white transition-all duration-300 text-sm sm:text-base"
                 required
               />
 
@@ -68,8 +70,8 @@ export default function EmailCapture() {
                       "0 0 10px #6C63FF",
                     ],
                   }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                  className="bg-[#6C63FF] text-white w-8 h-8 sm:w-10 sm:h-10 rounded-md flex items-center justify-center overflow-hidden"
+                  transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
+                  className="bg-[#6C63FF] text-white w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center overflow-hidden"
                 >
                   <motion.span className="text-xl" whileHover={{ scale: 1.1 }}>
                     &gt;
@@ -100,7 +102,7 @@ export default function EmailCapture() {
               }}
               transition={{
                 duration: 1.5,
-                repeat: Infinity,
+                repeat: Number.POSITIVE_INFINITY,
                 repeatType: "reverse",
               }}
             >

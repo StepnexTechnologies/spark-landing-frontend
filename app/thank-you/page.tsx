@@ -1,79 +1,91 @@
 "use client";
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
+import { motion, useAnimation } from "framer-motion";
 import { LampContainer } from "@/components/Vortex";
+import { AuroraBackground } from "@/components/ui/aurora-background";
 
 export default function ThankYou() {
   const [count, setCount] = useState(0);
+  const controls = useAnimation();
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setCount(Math.floor(Math.random() * 100) + 1);
-  }, []);
+    controls.start({ opacity: 1, y: 0 });
+  }, [controls]);
 
   return (
-    <LampContainer>
-      <main className="flex flex-col items-center justify-center text-white relative overflow-hidden">
-        <motion.h1
-          initial={{ opacity: 0.5, y: 50, scale: 0.8 }}
-          whileInView={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{
-            delay: 0.2,
-            duration: 0.6,
-            ease: "easeOut",
-          }}
-          className="text-6xl md:text-7xl mb-6 tracking-tight font-bold"
-        >
-          Thank You!
-        </motion.h1>
-
-        <motion.div
-          initial={{ scale: 0, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="text-3xl md:text-4xl lg:text-5xl mb-6 text-center relative z-10 bg-[rgba(35,33,57,0.5)] px-6 py-2 rounded-full backdrop-blur-sm"
-        >
-          You&apos;re Spark #{count}
-          <motion.span
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.8 }}
-            className="ml-2"
+    <div className="w-screen h-screen overflow-hidden" ref={containerRef}>
+      <AuroraBackground>
+        <LampContainer className="z-10">
+          <motion.div
+            className="flex flex-col items-center justify-center space-y-6 md:space-y-8 relative"
+            initial={{ opacity: 0, y: 50 }}
+            animate={controls}
+            transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            ✨
-          </motion.span>
-        </motion.div>
-
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-          className="text-xl md:text-2xl text-center mb-8 relative z-10 text-gray-300 max-w-2xl"
-        >
-          We&apos;re excited to have you join our journey to ignite AI
-          innovation.
-        </motion.p>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.7 }}
-          className="relative z-10"
-        >
-          <Link
-            href="/"
-            className="text-purple-300 hover:text-white transition-all duration-300 flex items-center gap-2 bg-[rgba(35,33,57,0.5)] px-4 py-2 rounded-lg hover:bg-[rgba(35,33,57,0.7)]"
-          >
-            <motion.span
-              animate={{ x: [-2, 0, -2] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
+            <motion.h1
+              className="text-5xl md:text-7xl font-bold text-white text-center"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.8, ease: "easeOut" }}
             >
-              &larr;
-            </motion.span>
-            <span>Back to Home</span>
-          </Link>
-        </motion.div>
-      </main>
-    </LampContainer>
+              Thank You!
+            </motion.h1>
+
+            <motion.div
+              className="text-2xl md:text-4xl text-center bg-[rgba(35,33,57,0.5)] px-8 py-4 rounded-full backdrop-blur-sm text-white"
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: 0.4, duration: 0.6, ease: "easeOut" }}
+            >
+              You&apos;re Spark #{count}
+              <motion.span
+                className="ml-2 inline-block"
+                initial={{ opacity: 0, rotate: -45 }}
+                animate={{ opacity: 1, rotate: 0 }}
+                transition={{ delay: 0.8, duration: 0.5, ease: "easeOut" }}
+              >
+                ✨
+              </motion.span>
+            </motion.div>
+
+            <motion.p
+              className="text-lg md:text-xl text-center text-gray-300 max-w-2xl px-4"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6, duration: 0.8, ease: "easeOut" }}
+            >
+              We&apos;re excited to have you join our journey to ignite AI
+              innovation.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.8, duration: 0.8, ease: "easeOut" }}
+            >
+              <Link
+                href="/"
+                className="text-purple-300 hover:text-white transition-all duration-300 flex items-center gap-2 bg-[rgba(35,33,57,0.5)] px-8 py-4 rounded-full hover:bg-[rgba(35,33,57,0.7)] group"
+              >
+                <motion.span
+                  animate={{ x: [-2, 0, -2] }}
+                  transition={{
+                    duration: 1.5,
+                    repeat: Number.POSITIVE_INFINITY,
+                  }}
+                  className="group-hover:translate-x-[-4px] transition-transform duration-300"
+                >
+                  &larr;
+                </motion.span>
+                <span>Back to Home</span>
+              </Link>
+            </motion.div>
+          </motion.div>
+        </LampContainer>
+      </AuroraBackground>
+    </div>
   );
 }
