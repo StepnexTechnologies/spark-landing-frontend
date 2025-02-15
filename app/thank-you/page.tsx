@@ -20,13 +20,13 @@ export default function ThankYou() {
       <AuroraBackground>
         <LampContainer className="z-10">
           <motion.div
-            className="flex flex-col items-center justify-center space-y-6 md:space-y-8 relative"
+            className="flex flex-col items-center justify-center space-y-6 md:space-y-8 relative translate-y-[-20vh]"
             initial={{ opacity: 0, y: 50 }}
             animate={controls}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
             <motion.h1
-              className="text-5xl md:text-7xl font-bold text-white text-center"
+              className="text-5xl md:text-7xl font-bold text-white text-center drop-shadow-[0_0_15px_rgba(168,85,247,0.5)]"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.8, ease: "easeOut" }}
@@ -65,6 +65,7 @@ export default function ThankYou() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8, duration: 0.8, ease: "easeOut" }}
+              className="mt-8"
             >
               <Link
                 href="/"
