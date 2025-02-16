@@ -1,18 +1,26 @@
 "use client";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef } from "react";
 import Link from "next/link";
 import { motion, useAnimation } from "framer-motion";
 import { LampContainer } from "@/components/Vortex";
 import Footer from "@/components/Footer";
 import { AuroraBackground } from "@/components/ui/aurora-background";
+import { useSearchParams } from "next/navigation";
 
 export default function ThankYou() {
-  const [count, setCount] = useState(0);
+  const searchParams = useSearchParams();
+  const number = searchParams.get("waitlist_id");
+
+  if (number == null) {
+    window.location.href = `/`;
+  }
+  const responseMessage = localStorage.getItem("waitlistResponse");
+  console.log(responseMessage)
+
   const controls = useAnimation();
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setCount(Math.floor(Math.random() * 100) + 1);
     controls.start({ opacity: 1, y: 0 });
   }, [controls]);
 
@@ -41,7 +49,7 @@ export default function ThankYou() {
               animate={{ scale: 1, opacity: 1 }}
               transition={{ delay: 0.4, duration: 0.6, ease: "easeOut" }}
             >
-              You&apos;re Spark #{count}
+              You&apos;re Spark #{number}
               <motion.span
                 className="ml-2 inline-block"
                 initial={{ opacity: 0, rotate: -45 }}
@@ -58,8 +66,10 @@ export default function ThankYou() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6, duration: 0.8, ease: "easeOut" }}
             >
-              We&apos;re excited to have you join our journey to ignite AI
-              innovation.
+              {/*We&apos;re excited to have you join our journey to ignite AI*/}
+              {/*innovation.*/}
+              {responseMessage == 'You have been added to the waitlist!' ? `We're excited to have you join our journey to ignite AI
+              innovation.`: responseMessage == 'Already in the waitlist' ? `We love your enthusiasm and you're already in the queue...` : `Oops an unexpected error occurred, we'll fix it right away!`}
             </motion.p>
 
             <motion.div

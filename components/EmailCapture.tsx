@@ -1,15 +1,17 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
 import type React from "react";
-
 import { motion, AnimatePresence } from "framer-motion";
-import {ArrowRightIcon, Sparkles} from "lucide-react";
+import { ArrowRightIcon, Sparkles } from "lucide-react";
+import { useSubmitEmail } from "@/lib/hooks/useSubmitEmail";
 
 export default function EmailCapture() {
   const [email, setEmail] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+
+    const { submitEmail, loading, error, responseNumber } = useSubmitEmail();
 
   useEffect(() => {
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
@@ -21,8 +23,15 @@ export default function EmailCapture() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitted(true);
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    window.location.href = "/thank-you";
+
+    const { number, message } = await submitEmail(email);
+    console.log("Received number from server:", number);
+    console.log("Received message from server:", message);
+
+    if (number !== null) {
+      localStorage.setItem("waitlistResponse", message);
+      window.location.href = `/thank-you?waitlist_id=${number}`;
+    }
   };
 
   return (
@@ -61,25 +70,40 @@ export default function EmailCapture() {
               <div className="absolute right-2 flex items-center">
                 <motion.button
                   type="submit"
+                  disabled={loading}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   animate={{
-                    boxShadow: [
-                      "0 0 10px #6C63FF",
-                      "0 0 20px #6C63FF",
-                      "0 0 10px #6C63FF",
-                    ],
+                    boxShadow: loading
+                      ? "0 0 10px rgba(255,255,255,0.5)"
+                      : ["0 0 10px #6C63FF", "0 0 20px #6C63FF", "0 0 10px #6C63FF"],
                   }}
                   transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
                   className="bg-[#6C63FF] text-white w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center overflow-hidden"
                 >
-                  <motion.span className="text-xl" whileHover={{ scale: 1.1 }}>
-                    {/*&gt;*/}
+                  {loading ? (
+                    <motion.div
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 1, repeat: Number.POSITIVE_INFINITY }}
+                      className="w-4 h-4 border-2 border-white border-t-transparent rounded-full"
+                    />
+                  ) : (
                     <ArrowRightIcon />
-                  </motion.span>
+                  )}
                 </motion.button>
               </div>
             </div>
+
+            {error && (
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.2 }}
+                className="text-xs sm:text-sm text-red-400 mt-2 text-center italic"
+              >
+                {error}
+              </motion.p>
+            )}
 
             <motion.p
               initial={{ opacity: 0 }}
@@ -108,7 +132,11 @@ export default function EmailCapture() {
               }}
             >
               <Sparkles className="w-5 h-5" />
-              <p className="text-white text-lg">Igniting your journey...</p>
+              <p className="text-white text-lg">
+                {responseNumber !== null
+                  ? `Your lucky number: ${responseNumber}`
+                  : "Igniting your journey..."}
+              </p>
               <Sparkles className="w-5 h-5" />
             </motion.div>
           </motion.div>
