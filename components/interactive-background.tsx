@@ -25,8 +25,7 @@ const InteractiveBackground: React.FC = () => {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
-    let particles: Particle[];
-    // particles = [];
+    let particles: Particle[] = [];
 
     const MAX_PARTICLES = 500;
 
