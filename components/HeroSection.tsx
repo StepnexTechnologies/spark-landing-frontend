@@ -5,7 +5,6 @@ import type React from "react";
 import { motion } from "framer-motion";
 import gsap from "gsap";
 import EmailCapture from "@/components/EmailCapture";
-import Footer from "@/components/Footer";
 
 const HeroSection = () => {
   const [isTextRevealed, setIsTextRevealed] = useState(false);
@@ -16,28 +15,29 @@ const HeroSection = () => {
   const sparkonomyRef = useRef<HTMLHeadingElement>(null);
   const taglineRef = useRef<HTMLParagraphElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const [showIgnitingNow, setShowIgnitingNow] = useState<boolean>(true);
 
   useEffect(() => {
     const tl = gsap.timeline();
 
     // Animate "IGNITING" letter by letter
-    [..."I G N I T I N G"].forEach((letter, index) => {
+    [..."I g n i t i n g"].forEach((letter, index) => {
       tl.fromTo(
         `#letter-igniting-${index}`,
         { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 0.1, ease: "power2.out" }
+        { opacity: 1, y: 0, duration: 0.05, ease: "power2.out" }
       );
     });
 
     // Add a small pause between animations
-    tl.to({}, { duration: 0.3 });
+    // tl.to({}, { duration: 0.3 });
 
     // Animate "NOW..." letter by letter
-    [..."N O W . . ."].forEach((letter, index) => {
+    [..."N o w . . ."].forEach((letter, index) => {
       tl.fromTo(
         `#letter-now-${index}`,
         { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 0.1, ease: "power2.out" }
+        { opacity: 1, y: 0, duration: 0.05, ease: "power2.out" }
       );
     });
 
@@ -54,6 +54,7 @@ const HeroSection = () => {
     // Set a timeout to show the content after 3 seconds
     const timer = setTimeout(() => {
       setShowContent(true);
+      setShowIgnitingNow(false);
     }, 3000);
 
     // Animate background
@@ -78,7 +79,7 @@ const HeroSection = () => {
       if (sparkonomyRef.current) {
         const chars = sparkonomyRef.current.textContent?.split("") || [];
         sparkonomyRef.current.innerHTML = "";
-        chars.forEach((char, index) => {
+        chars.forEach((char) => {
           const span = document.createElement("span");
           span.textContent = char;
           span.style.display = "inline-block";
@@ -91,7 +92,7 @@ const HeroSection = () => {
               opacity: 1,
               y: 0,
               duration: 0.5,
-              delay: 0.05 * index,
+              delay: 0.02,
               ease: "power2.out",
             },
             "-=0.4"
@@ -239,10 +240,13 @@ const HeroSection = () => {
       </div>
 
       <div className="text-center relative z-10">
-        <div className="title-container relative mb-12">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-wide text-white flex items-center justify-center gap-4">
+        <motion.div
+          transition={{ duration: 1, ease: "easeInOut" }}
+          className={`title-container relative mb-12 ${!showIgnitingNow && 'hidden'}`}>
+          <h1
+            className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-wide text-white flex items-center justify-center gap-4">
             <span className="flex">
-              {[..."I G N I T I N G"].map((letter, index) => (
+              {[..."I g n i t i n g"].map((letter, index) => (
                 <motion.span
                   key={`igniting-${index}`}
                   id={`letter-igniting-${index}`}
@@ -256,7 +260,7 @@ const HeroSection = () => {
               ))}
             </span>
             <span className="flex">
-              {[..."N O W . . ."].map((letter, index) => (
+              {[..."N o w . . ."].map((letter, index) => (
                 <motion.span
                   key={`now-${index}`}
                   id={`letter-now-${index}`}
@@ -264,13 +268,14 @@ const HeroSection = () => {
                   style={{
                     textShadow: "0 0 10px rgba(108,99,255,0.5)",
                   }}
+                  onAnimationEnd={() => setShowContent(true)}
                 >
                   {letter}
                 </motion.span>
               ))}
             </span>
           </h1>
-        </div>
+        </motion.div>
 
         <motion.div
           ref={contentRef}
@@ -279,17 +284,17 @@ const HeroSection = () => {
             opacity: showContent ? 1 : 0,
             y: showContent ? 0 : 20,
           }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
+          transition={{ duration: 1, ease: "easeInOut" }}
         >
           <div className="relative">
             <h2
               ref={sparkonomyRef}
-              className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-6 uppercase tracking-wider text-white"
+              className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-6 tracking-normal text-white"
               style={{
                 textShadow: "0 0 20px rgba(108,99,255,0.3)",
               }}
             >
-              sparkonomy
+              Sparkonomy
             </h2>
           </div>
 
@@ -299,11 +304,11 @@ const HeroSection = () => {
             Developing AI to spark livelihoods globally
           </p>
 
-          <EmailCapture />
+          <div className="relative pt-12">
+            <EmailCapture />
+          </div>
         </motion.div>
       </div>
-
-      <Footer />
     </motion.section>
   );
 };

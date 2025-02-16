@@ -15,7 +15,7 @@ export default function Footer() {
           whileHover={{ scale: 1.02 }}
           transition={{ duration: 0.2 }}
         >
-          <div className="flex items-center space-x-2 text-xs sm:text-sm text-gray-300">
+          <div className="flex items-center space-x-2 text-[8px] sm:text-sm text-gray-300">
             <motion.div
               animate={{
                 scale: [1, 1.1, 1],
@@ -28,12 +28,12 @@ export default function Footer() {
             >
               <Lock className="w-3 h-3 sm:w-4 sm:h-4 text-purple-400" />
             </motion.div>
-            <span>Your data is secure with us</span>
+            <span className={'text-xs'}>Your data is secure with us</span>
           </div>
         </motion.div>
 
         <motion.div
-          className="flex items-center justify-center space-x-1 text-[10px] sm:text-xs text-gray-500 w-full"
+          className="flex items-center justify-center space-x-1 text-[8px] sm:text-xs text-gray-500 w-full"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8 }}

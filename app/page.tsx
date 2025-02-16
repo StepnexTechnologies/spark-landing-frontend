@@ -1,9 +1,11 @@
 "use client";
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import HeroSection from "../components/HeroSection";
-import { AuroraBackgroundDemo } from "../components/AuroraBackgroundDemo";
+// import { AuroraBackgroundDemo } from "@/components/AuroraBackgroundDemo";
 import InteractiveBackground from "@/components/interactive-background";
+import Footer from "@/components/Footer";
+import {AuroraBackground} from "@/components/ui/aurora-background";
 
 export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -26,12 +28,13 @@ export default function Home() {
 
   return (
     <div ref={containerRef} className="opacity-0">
-      <AuroraBackgroundDemo>
+      <AuroraBackground>
         <InteractiveBackground />
         <div className="min-h-screen w-full">
           <HeroSection />
+          <Footer />
         </div>
-      </AuroraBackgroundDemo>
+      </AuroraBackground>
     </div>
   );
 }
