@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import type React from "react";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { Sparkles } from "lucide-react";
+import {ArrowRightIcon, Sparkles} from "lucide-react";
 
 export default function EmailCapture() {
   const [email, setEmail] = useState("");
@@ -74,7 +74,8 @@ export default function EmailCapture() {
                   className="bg-[#6C63FF] text-white w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center overflow-hidden"
                 >
                   <motion.span className="text-xl" whileHover={{ scale: 1.1 }}>
-                    &gt;
+                    {/*&gt;*/}
+                    <ArrowRightIcon />
                   </motion.span>
                 </motion.button>
               </div>

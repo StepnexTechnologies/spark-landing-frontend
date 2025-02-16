@@ -24,19 +24,19 @@ const HeroSection = () => {
     [..."I g n i t i n g"].forEach((letter, index) => {
       tl.fromTo(
         `#letter-igniting-${index}`,
-        { opacity: 0, y: 20 },
+        { opacity: 0, y: 10 },
         { opacity: 1, y: 0, duration: 0.05, ease: "power2.out" }
       );
     });
 
     // Add a small pause between animations
-    // tl.to({}, { duration: 0.3 });
+    tl.to({}, { duration: 0.3 });
 
     // Animate "NOW..." letter by letter
     [..."N o w . . ."].forEach((letter, index) => {
       tl.fromTo(
         `#letter-now-${index}`,
-        { opacity: 0, y: 20 },
+        { opacity: 0, y: 10 },
         { opacity: 1, y: 0, duration: 0.05, ease: "power2.out" }
       );
     });
@@ -240,56 +240,58 @@ const HeroSection = () => {
       </div>
 
       <div className="text-center relative z-10">
-        <motion.div
-          transition={{ duration: 1, ease: "easeInOut" }}
-          className={`title-container relative mb-12 ${!showIgnitingNow && 'hidden'}`}>
-          <h1
-            className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-wide text-white flex items-center justify-center gap-4">
+        <div
+          className={`absolute inset-0 flex items-center justify-center mb-12 ${
+            showIgnitingNow ? "flex" : "hidden"
+          }`}
+        >
+          <h1 className="text-5xl md:text-6xl font-bold text-white flex items-center justify-center gap-4">
+    <span className="flex">
+      {[..."I g n i t i n g"].map((letter, index) => (
+        <motion.span
+          key={`igniting-${index}`}
+          id={`letter-igniting-${index}`}
+          className="inline-block"
+          style={{
+            textShadow: "0 0 10px rgba(108,99,255,0.5)",
+          }}
+        >
+          {letter}
+        </motion.span>
+      ))}
+    </span>
             <span className="flex">
-              {[..."I g n i t i n g"].map((letter, index) => (
-                <motion.span
-                  key={`igniting-${index}`}
-                  id={`letter-igniting-${index}`}
-                  className="inline-block"
-                  style={{
-                    textShadow: "0 0 10px rgba(108,99,255,0.5)",
-                  }}
-                >
-                  {letter}
-                </motion.span>
-              ))}
-            </span>
-            <span className="flex">
-              {[..."N o w . . ."].map((letter, index) => (
-                <motion.span
-                  key={`now-${index}`}
-                  id={`letter-now-${index}`}
-                  className="inline-block"
-                  style={{
-                    textShadow: "0 0 10px rgba(108,99,255,0.5)",
-                  }}
-                  onAnimationEnd={() => setShowContent(true)}
-                >
-                  {letter}
-                </motion.span>
-              ))}
-            </span>
+      {[..."N o w . . ."].map((letter, index) => (
+        <motion.span
+          key={`now-${index}`}
+          id={`letter-now-${index}`}
+          className="inline-block"
+          style={{
+            textShadow: "0 0 10px rgba(108,99,255,0.5)",
+          }}
+          onAnimationEnd={() => setShowContent(true)}
+        >
+          {letter}
+        </motion.span>
+      ))}
+    </span>
           </h1>
-        </motion.div>
+        </div>
+
 
         <motion.div
           ref={contentRef}
-          initial={{ opacity: 0, y: 20 }}
+          initial={{opacity: 0, y: 20}}
           animate={{
             opacity: showContent ? 1 : 0,
             y: showContent ? 0 : 20,
           }}
-          transition={{ duration: 1, ease: "easeInOut" }}
+          transition={{duration: 1, ease: "easeInOut"}}
         >
           <div className="relative">
             <h2
               ref={sparkonomyRef}
-              className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-6 tracking-normal text-white"
+              className="text-8xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-6 tracking-normal text-white"
               style={{
                 textShadow: "0 0 20px rgba(108,99,255,0.3)",
               }}
@@ -305,7 +307,7 @@ const HeroSection = () => {
           </p>
 
           <div className="relative pt-12">
-            <EmailCapture />
+            <EmailCapture/>
           </div>
         </motion.div>
       </div>

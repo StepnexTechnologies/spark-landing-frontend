@@ -27,13 +27,7 @@ const InteractiveBackground: React.FC = () => {
 
     let particles: Particle[] = [];
 
-    const MAX_PARTICLES = 500;
-
     const createParticle = (x: number, y: number) => {
-      if (particles.length >= MAX_PARTICLES) {
-        particles.shift();
-      }
-
       const size = Math.random() * 5 + 1;
       const color = `hsl(${Math.random() * 360}, 100%, 50%)`;
       const speedX = Math.random() * 3 - 1.5;
