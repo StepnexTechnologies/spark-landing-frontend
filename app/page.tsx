@@ -2,7 +2,6 @@
 import React, { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import HeroSection from "../components/HeroSection";
-// import { AuroraBackgroundDemo } from "@/components/AuroraBackgroundDemo";
 import InteractiveBackground from "@/components/interactive-background";
 import Footer from "@/components/Footer";
 import {AuroraBackground} from "@/components/ui/aurora-background";
