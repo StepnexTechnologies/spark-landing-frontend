@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, Suspense } from "react";
 import Link from "next/link";
 import { motion, useAnimation } from "framer-motion";
 import { LampContainer } from "@/components/Vortex";
@@ -7,7 +7,8 @@ import Footer from "@/components/Footer";
 import { AuroraBackground } from "@/components/ui/aurora-background";
 import { useSearchParams, useRouter } from "next/navigation";
 
-export default function ThankYou() {
+// Separate component that uses useSearchParams
+function ThankYouContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [responseMessage, setResponseMessage] = useState<string | null>(null);
@@ -21,14 +22,12 @@ export default function ThankYou() {
       return;
     }
 
-    // Move localStorage access to useEffect
     const message = localStorage.getItem("waitlistResponse");
     setResponseMessage(message);
 
     controls.start({ opacity: 1, y: 0 });
   }, [controls, number, router]);
 
-  // Early return while checking number
   if (number == null) {
     return null;
   }
@@ -110,5 +109,23 @@ export default function ThankYou() {
         <Footer />
       </AuroraBackground>
     </div>
+  );
+}
+
+// Loading component
+function LoadingState() {
+  return (
+    <div className="w-screen h-screen flex items-center justify-center">
+      <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-purple-500"></div>
+    </div>
+  );
+}
+
+// Main component with Suspense boundary
+export default function ThankYou() {
+  return (
+    <Suspense fallback={<LoadingState />}>
+      <ThankYouContent />
+    </Suspense>
   );
 }
