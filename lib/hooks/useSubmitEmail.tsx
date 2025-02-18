@@ -14,7 +14,7 @@ export function useSubmitEmail() {
     const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s timeout
 
     try {
-      const res = await fetch(`http://64.227.135.104:8002/enter_waitlist?email=${email}`, {
+      const res = await fetch(`https://spark-backend.stepnex.in/enter_waitlist?email=${email}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
