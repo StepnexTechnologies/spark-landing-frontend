@@ -11,6 +11,8 @@ function WebGLFluidBackground() {
     const simulation = new WebGLFluidEnhanced(containerRef.current);
     simulation.start();
 
+    setInterval(() => {simulation.multipleSplats(6)}, 4000);
+
     return () => {
       console.log("WebGL Simulation Stopping...");
       simulation.stop();
