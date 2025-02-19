@@ -2,8 +2,6 @@
 import { useEffect, useRef, useState, Suspense } from "react";
 import Link from "next/link";
 import { motion, useAnimation } from "framer-motion";
-import { LampContainer } from "@/components/Vortex";
-import Footer from "@/components/Footer";
 import { useSearchParams, useRouter } from "next/navigation";
 
 function ThankYouContent() {

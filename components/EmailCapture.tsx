@@ -2,7 +2,7 @@
 import { useState, useRef, useEffect } from "react";
 import type React from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRightIcon, Sparkles } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 import { useSubmitEmail } from "@/lib/hooks/useSubmitEmail";
 
 export default function EmailCapture() {
@@ -37,21 +37,41 @@ export default function EmailCapture() {
 
   const glowVariants = {
     initial: {
-      boxShadow: "0 0 0px rgba(108,99,255,0)",
+      boxShadow: "0 0 20px rgba(108,99,255,0.3), 0 0 40px rgba(108,99,255,0.1)",
     },
     hover: {
       boxShadow: [
-        "0 0 10px rgba(108,99,255,0.3)",
-        "0 0 20px rgba(108,99,255,0.3)",
-        "0 0 10px rgba(108,99,255,0.3)",
+        "0 0 20px rgba(108,99,255,0.5), 0 0 40px rgba(108,99,255,0.2), 0 0 60px rgba(108,99,255,0.1)",
+        "0 0 30px rgba(108,99,255,0.6), 0 0 50px rgba(108,99,255,0.3), 0 0 70px rgba(108,99,255,0.2)",
+        "0 0 20px rgba(108,99,255,0.5), 0 0 40px rgba(108,99,255,0.2), 0 0 60px rgba(108,99,255,0.1)",
       ],
       transition: {
         duration: 2,
         repeat: Number.POSITIVE_INFINITY,
+        ease: "easeInOut",
       },
     },
     focus: {
-      boxShadow: "0 0 20px rgba(108,99,255,0.4)",
+      boxShadow:
+        "0 0 30px rgba(108,99,255,0.8), 0 0 50px rgba(108,99,255,0.4), 0 0 70px rgba(108,99,255,0.2)",
+    },
+  };
+
+  // Synchronized button glow animation
+  const buttonGlowVariants = {
+    animate: {
+      boxShadow: loading
+        ? "0 0 10px rgba(255,255,255,0.5)"
+        : [
+            "0 0 10px rgba(108,99,255,0.4)",
+            "0 0 20px rgba(108,99,255,0.5)",
+            "0 0 10px rgba(108,99,255,0.4)",
+          ],
+      transition: {
+        duration: 2,
+        repeat: Number.POSITIVE_INFINITY,
+        ease: "easeInOut",
+      },
     },
   };
 
@@ -70,7 +90,7 @@ export default function EmailCapture() {
               <motion.div
                 initial="initial"
                 animate={[
-                  isHovered ? "hover" : "",
+                  isHovered ? "hover" : "initial",
                   isFocused ? "focus" : "",
                 ].filter(Boolean)}
                 variants={glowVariants}
@@ -97,16 +117,8 @@ export default function EmailCapture() {
                   disabled={loading}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  animate={{
-                    boxShadow: loading
-                      ? "0 0 10px rgba(255,255,255,0.5)"
-                      : [
-                          "0 0 10px #6C63FF",
-                          "0 0 20px #6C63FF",
-                          "0 0 10px #6C63FF",
-                        ],
-                  }}
-                  transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
+                  variants={buttonGlowVariants}
+                  animate="animate"
                   className="bg-[#6C63FF] text-white w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center overflow-hidden"
                 >
                   {loading ? (
@@ -119,7 +131,7 @@ export default function EmailCapture() {
                       className="w-4 h-4 border-2 border-white border-t-transparent rounded-full"
                     />
                   ) : (
-                    <ArrowRightIcon />
+                    <ArrowRight />
                   )}
                 </motion.button>
               </div>
