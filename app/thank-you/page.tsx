@@ -31,12 +31,12 @@ function ThankYouContent() {
   }
 
   return (
+    // <div className={"text-8xl text-white z-50 absolute flex"}>Thank YOu</div>
     <div
-      className="min-h-screen flex flex-col bg-black select-none"
       ref={containerRef}
+      className={"absolute text-white w-full flex items-center justify-center z-50 pointer-events-none"}
     >
-      <div className="flex-grow relative">
-        <LampContainer className="absolute inset-0">
+        {/*<LampContainer className={"absolute"}>*/}
           <motion.div
             className="flex flex-col items-center justify-center space-y-8 md:space-y-12 relative mt-20 md:mt-32"
             initial={{ opacity: 0, y: 50 }}
@@ -90,7 +90,7 @@ function ThankYouContent() {
             >
               <Link
                 href="/"
-                className="text-purple-300 hover:text-white transition-all duration-300 flex items-center gap-2 bg-black/50 px-6 py-3 md:px-8 md:py-4 rounded-full hover:bg-black/70 group text-sm md:text-base"
+                className="text-white hover:text-white transition-all duration-300 flex items-center gap-2 bg-black/50 px-6 py-3 md:px-8 md:py-4 rounded-full hover:bg-black/70 group text-sm md:text-base pointer-events-auto"
               >
                 <motion.span
                   animate={{ x: [-2, 0, -2] }}
@@ -102,13 +102,11 @@ function ThankYouContent() {
                 >
                   &larr;
                 </motion.span>
-                <span>Back to Home</span>
+                <span className={"text-white"}>Back to Home</span>
               </Link>
             </motion.div>
           </motion.div>
-        </LampContainer>
-      </div>
-      <Footer />
+        {/*</LampContainer>*/}
     </div>
   );
 }

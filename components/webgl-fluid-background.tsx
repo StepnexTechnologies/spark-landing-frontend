@@ -6,6 +6,8 @@ function WebGLFluidBackground() {
 
   useEffect(() => {
     console.log("WebGL Simulation Starting...");
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
     const simulation = new WebGLFluidEnhanced(containerRef.current);
     simulation.start();
 

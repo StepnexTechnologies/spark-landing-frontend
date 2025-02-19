@@ -40,11 +40,11 @@ export const LampContainer = ({
   return (
     <div
       className={cn(
-        "relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-slate-950 w-full rounded-md z-0",
+        "overflow-hidden bg-red w-full rounded-md z-20",
         className
       )}
     >
-      <div className="relative flex w-full flex-1 scale-y-125 items-center justify-center isolate z-0">
+      <div className=" flex w-full flex-1 scale-y-125 items-center justify-center isolate">
         <motion.div
           initial={{ opacity: 0.5, width: "15rem" }}
           animate={controls}
@@ -54,13 +54,14 @@ export const LampContainer = ({
             ease: "easeInOut",
           }}
           style={{
-            backgroundImage: `conic-gradient(var(--conic-position), var(--tw-gradient-stops))`,
+            // backgroundImage: `conic-gradient(var(--conic-position), var(--tw-gradient-stops))`,
             height: lampSize.height,
           }}
-          className="absolute inset-auto right-1/2 overflow-visible bg-gradient-conic from-[#D8B4FE] via-transparent to-transparent text-white [--conic-position:from_70deg_at_center_top]"
+          // className="absolute inset-auto right-1/2 overflow-visible bg-gradient-conic from-[#D8B4FE] via-transparent to-transparent text-white [--conic-position:from_70deg_at_center_top]"
+          className="absolute inset-auto right-1/2 overflow-visible text-white"
         >
-          <div className="absolute w-full left-0 bg-slate-950 h-2/3 bottom-0 z-20 [mask-image:linear-gradient(to_top,white,transparent)]" />
-          <div className="absolute w-1/3 h-full left-0 bg-slate-950 bottom-0 z-20 [mask-image:linear-gradient(to_right,white,transparent)]" />
+          {/*<div className="absolute w-full left-0 h-2/3 bottom-0 z-20 [mask-image:linear-gradient(to_top,white,transparent)]" />*/}
+          {/*<div className="absolute w-1/3 h-full left-0 bottom-0 z-20 [mask-image:linear-gradient(to_right,white,transparent)]" />*/}
         </motion.div>
         <motion.div
           initial={{ opacity: 0.5, width: "15rem" }}
@@ -71,18 +72,18 @@ export const LampContainer = ({
             ease: "easeInOut",
           }}
           style={{
-            backgroundImage: `conic-gradient(var(--conic-position), var(--tw-gradient-stops))`,
+            // backgroundImage: `conic-gradient(var(--conic-position), var(--tw-gradient-stops))`,
             height: lampSize.height,
           }}
-          className="absolute inset-auto left-1/2 bg-gradient-conic from-transparent via-transparent to-[#D8B4FE] text-white [--conic-position:from_290deg_at_center_top]"
+          className=" inset-auto left-1/2 text-white"
         >
-          <div className="absolute w-1/3 h-full right-0 bg-slate-950 bottom-0 z-20 [mask-image:linear-gradient(to_left,white,transparent)]" />
-          <div className="absolute w-full right-0 bg-slate-950 h-2/3 bottom-0 z-20 [mask-image:linear-gradient(to_top,white,transparent)]" />
+          {/*<div className=" w-1/3 h-full right-0  bottom-0 z-20 [mask-image:linear-gradient(to_left,white,transparent)]" />*/}
+          {/*<div className=" w-full right-0 h-2/3 bottom-0 z-20 [mask-image:linear-gradient(to_top,white,transparent)]" />*/}
         </motion.div>
-        <div className="absolute top-1/2 h-48 w-full translate-y-12 scale-x-150 bg-slate-950 blur-2xl"></div>
-        <div className="absolute top-1/2 z-50 h-48 w-full bg-transparent opacity-10 backdrop-blur-md"></div>
+        <div className=" top-1/2 h-48 w-full translate-y-12 scale-x-150  blur-2xl"></div>
+        <div className=" top-1/2 z-50 h-48 w-full"></div>
         <div
-          className="absolute inset-auto z-50 rounded-full bg-[#D8B4FE] opacity-50 blur-3xl"
+          className=" inset-auto z-50 rounded-full opacity-50 blur-3xl"
           style={{ width: lampSize.width, height: lampSize.height }}
         ></div>
         <motion.div
@@ -93,11 +94,12 @@ export const LampContainer = ({
             ease: "easeInOut",
           }}
           className="absolute inset-auto z-30 rounded-full bg-[#D8B4FE] blur-2xl"
+          // className=" inset-auto z-30 rounded-full blur-2xl"
           style={{ height: lampSize.height }}
         ></motion.div>
       </div>
 
-      <div className="relative z-50 flex -translate-y-80 flex-col items-center px-5">
+      <div className=" z-50 flex -translate-y-80 flex-col items-center px-5">
         {children}
       </div>
     </div>
