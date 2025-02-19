@@ -9,9 +9,10 @@ export default function EmailCapture() {
   const [email, setEmail] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
-    const { submitEmail, loading, error, responseNumber } = useSubmitEmail();
+  const { submitEmail, loading, error, responseNumber } = useSubmitEmail();
 
   useEffect(() => {
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
@@ -34,6 +35,26 @@ export default function EmailCapture() {
     }
   };
 
+  const glowVariants = {
+    initial: {
+      boxShadow: "0 0 0px rgba(108,99,255,0)",
+    },
+    hover: {
+      boxShadow: [
+        "0 0 10px rgba(108,99,255,0.3)",
+        "0 0 20px rgba(108,99,255,0.3)",
+        "0 0 10px rgba(108,99,255,0.3)",
+      ],
+      transition: {
+        duration: 2,
+        repeat: Number.POSITIVE_INFINITY,
+      },
+    },
+    focus: {
+      boxShadow: "0 0 20px rgba(108,99,255,0.4)",
+    },
+  };
+
   return (
     <div className="w-full max-w-md mx-auto relative mb-6">
       <AnimatePresence mode="wait">
@@ -47,11 +68,12 @@ export default function EmailCapture() {
           >
             <div className="relative flex items-center">
               <motion.div
-                animate={{
-                  boxShadow: isFocused
-                    ? "0 0 20px rgba(108,99,255,0.3)"
-                    : "0 0 0px rgba(108,99,255,0)",
-                }}
+                initial="initial"
+                animate={[
+                  isHovered ? "hover" : "",
+                  isFocused ? "focus" : "",
+                ].filter(Boolean)}
+                variants={glowVariants}
                 className="absolute inset-0 rounded-full transition-all duration-300"
               />
 
@@ -62,6 +84,8 @@ export default function EmailCapture() {
                 onChange={(e) => setEmail(e.target.value)}
                 onFocus={() => setIsFocused(true)}
                 onBlur={() => setIsFocused(false)}
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
                 placeholder="Get Early Access, Leave Your Email"
                 className="w-full px-4 pr-12 py-3 bg-black/50 backdrop-blur-sm border-2 border-[#6C63FF] rounded-full text-white placeholder-gray-400 focus:outline-none focus:border-white transition-all duration-300 text-sm sm:text-base"
                 required
@@ -76,7 +100,11 @@ export default function EmailCapture() {
                   animate={{
                     boxShadow: loading
                       ? "0 0 10px rgba(255,255,255,0.5)"
-                      : ["0 0 10px #6C63FF", "0 0 20px #6C63FF", "0 0 10px #6C63FF"],
+                      : [
+                          "0 0 10px #6C63FF",
+                          "0 0 20px #6C63FF",
+                          "0 0 10px #6C63FF",
+                        ],
                   }}
                   transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
                   className="bg-[#6C63FF] text-white w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center overflow-hidden"
@@ -84,7 +112,10 @@ export default function EmailCapture() {
                   {loading ? (
                     <motion.div
                       animate={{ rotate: 360 }}
-                      transition={{ duration: 1, repeat: Number.POSITIVE_INFINITY }}
+                      transition={{
+                        duration: 1,
+                        repeat: Number.POSITIVE_INFINITY,
+                      }}
                       className="w-4 h-4 border-2 border-white border-t-transparent rounded-full"
                     />
                   ) : (
@@ -109,7 +140,7 @@ export default function EmailCapture() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.2 }}
-              className="text-xs sm:text-sm text-gray-400 mt-2 text-center italic"
+              className="text-xs sm:text-sm text-gray-400 mt-2 text-center italic select-none"
             >
               No spam. Just sparks.
             </motion.p>
@@ -121,7 +152,7 @@ export default function EmailCapture() {
             className="text-center py-3"
           >
             <motion.div
-              className="flex items-center justify-center gap-2 text-purple-400"
+              className="flex items-center justify-center gap-2 text-purple-400 select-none"
               animate={{
                 scale: [1, 1.1, 1],
               }}

@@ -1,39 +1,36 @@
 "use client";
-import React, { useEffect, useRef } from "react";
-import { gsap } from "gsap";
-import HeroSection from "../components/HeroSection";
-import InteractiveBackground from "@/components/interactive-background";
+
+import type React from "react";
+import { useState } from "react";
+import HeroSection from "@/components/HeroSection";
 import Footer from "@/components/Footer";
-import {AuroraBackground} from "@/components/ui/aurora-background";
+import WebGLFluidBackground from "@/components/webgl-fluid-background";
 
 export default function Home() {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
-  useEffect(() => {
-    const tl = gsap.timeline();
-
-    // Single fade in animation for the entire container
-    tl.fromTo(
-      containerRef.current,
-      { opacity: 0 },
-      { opacity: 1, duration: 1, ease: "power2.out" }
-    ).fromTo(
-      ".hero-content",
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 1, ease: "power3.out" },
-      "-=0.5"
-    );
-  }, []);
+  const handleMouseMove = (e: React.MouseEvent) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width;
+    const y = (e.clientY - rect.top) / rect.height;
+    setMousePosition({ x, y });
+  };
 
   return (
-    <div ref={containerRef} className="opacity-0">
-      <AuroraBackground>
-        <InteractiveBackground />
-        <div className="min-h-screen w-full">
+    <main
+      onMouseMove={handleMouseMove}
+      className="h-screen w-screen overflow-hidden relative bg-black"
+    >
+      {/* Background */}
+      <WebGLFluidBackground mousePosition={mousePosition} />
+
+      {/* Content */}
+      <div className="absolute inset-0 z-10 flex flex-col h-full">
+        <div className="flex-grow">
           <HeroSection />
-          <Footer />
         </div>
-      </AuroraBackground>
-    </div>
+        <Footer />
+      </div>
+    </main>
   );
 }

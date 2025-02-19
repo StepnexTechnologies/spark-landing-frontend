@@ -10,15 +10,25 @@ const HeroSection = () => {
   const [isTextRevealed, setIsTextRevealed] = useState(false);
   const [showContent, setShowContent] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [showIgnitingNow, setShowIgnitingNow] = useState<boolean>(true);
+  const [isInitialAnimationComplete, setIsInitialAnimationComplete] =
+    useState(false);
+
   const containerRef = useRef<HTMLDivElement>(null);
   const sparkRef = useRef<HTMLDivElement>(null);
   const sparkonomyRef = useRef<HTMLHeadingElement>(null);
   const taglineRef = useRef<HTMLParagraphElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
-  const [showIgnitingNow, setShowIgnitingNow] = useState<boolean>(true);
 
   useEffect(() => {
-    const tl = gsap.timeline();
+    const tl = gsap.timeline({
+      onComplete: () => {
+        setTimeout(() => {
+          setShowIgnitingNow(false);
+          setIsInitialAnimationComplete(true);
+        }, 500); // Add a small delay after animation completes
+      },
+    });
 
     // Animate "IGNITING" letter by letter
     [..."I g n i t i n g"].forEach((letter, index) => {
@@ -45,17 +55,11 @@ const HeroSection = () => {
     tl.to("#final-dot", {
       scale: 1.2,
       opacity: 1,
-      repeat: -1,
-      duration: 1.6,
+      repeat: 3, // Reduced repeats to match the timing
+      duration: 0.8,
       ease: "power2.inOut",
       yoyo: true,
     });
-
-    // Set a timeout to show the content after 3 seconds
-    const timer = setTimeout(() => {
-      setShowContent(true);
-      setShowIgnitingNow(false);
-    }, 3000);
 
     // Animate background
     gsap.to(".bg-animation", {
@@ -67,9 +71,29 @@ const HeroSection = () => {
 
     return () => {
       tl.kill();
-      clearTimeout(timer);
     };
   }, []);
+
+  useEffect(() => {
+    if (isInitialAnimationComplete && !showContent) {
+      const handleInteraction = () => {
+        setShowContent(true);
+        window.removeEventListener("mousemove", handleInteraction);
+        window.removeEventListener("click", handleInteraction);
+        window.removeEventListener("touchstart", handleInteraction);
+      };
+
+      window.addEventListener("mousemove", handleInteraction);
+      window.addEventListener("click", handleInteraction);
+      window.addEventListener("touchstart", handleInteraction);
+
+      return () => {
+        window.removeEventListener("mousemove", handleInteraction);
+        window.removeEventListener("click", handleInteraction);
+        window.removeEventListener("touchstart", handleInteraction);
+      };
+    }
+  }, [isInitialAnimationComplete, showContent]);
 
   useEffect(() => {
     if (showContent) {
@@ -166,7 +190,7 @@ const HeroSection = () => {
     }
   }, [showContent]);
 
-  const handleMouseMove = (e: React.MouseEvent) => {
+  const handleUserInteraction = (e: React.MouseEvent) => {
     if (containerRef.current) {
       const rect = containerRef.current.getBoundingClientRect();
       const x = (e.clientX - rect.left) / rect.width;
@@ -191,19 +215,10 @@ const HeroSection = () => {
   return (
     <motion.section
       ref={containerRef}
-      onMouseMove={handleMouseMove}
-      className="flex flex-col items-center justify-center min-h-screen p-4 relative overflow-hidden"
+      onMouseMove={handleUserInteraction}
+      onClick={handleUserInteraction}
+      className="flex flex-col items-center justify-center min-h-screen p-4 relative overflow-hidden select-none"
     >
-      <div
-        className="absolute inset-0 pointer-events-none bg-animation"
-        style={{
-          backgroundImage:
-            "url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPgogIDxkZWZzPgogICAgPHBhdHRlcm4gaWQ9InBhdHRlcm4iIHg9IjAiIHk9IjAiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CiAgICAgIDxjaXJjbGUgY3g9IjIwIiBjeT0iMjAiIHI9IjEiIGZpbGw9InJnYmEoMTA4LCA5OSwgMjU1LCAwLjEpIiAvPgogICAgPC9wYXR0ZXJuPgogIDwvZGVmcz4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3BhdHRlcm4pIiAvPgo8L3N2Zz4=')",
-          backgroundSize: "200% 200%",
-          backgroundPosition: "0% 0%",
-        }}
-      ></div>
-
       <div className="absolute inset-0 pointer-events-none">
         <motion.div
           className="w-full h-full"
@@ -240,58 +255,57 @@ const HeroSection = () => {
       </div>
 
       <div className="text-center relative z-10">
-        <div
-          className={`absolute inset-0 flex items-center justify-center mb-12 ${
-            showIgnitingNow ? "flex" : "hidden"
-          }`}
+        <motion.div
+          className={`absolute inset-0 flex items-center justify-center mb-12`}
+          initial={{ opacity: 1 }}
+          animate={{ opacity: showIgnitingNow ? 1 : 0 }}
+          transition={{ duration: 0.5 }}
         >
-          <h1 className="text-5xl md:text-6xl font-bold text-white flex items-center justify-center gap-4">
-    <span className="flex">
-      {[..."I g n i t i n g"].map((letter, index) => (
-        <motion.span
-          key={`igniting-${index}`}
-          id={`letter-igniting-${index}`}
-          className="inline-block"
-          style={{
-            textShadow: "0 0 10px rgba(108,99,255,0.5)",
-          }}
-        >
-          {letter}
-        </motion.span>
-      ))}
-    </span>
+          <h1 className="text-5xl md:text-6xl font-bold text-white flex items-center justify-center gap-4 select-none">
             <span className="flex">
-      {[..."N o w . . ."].map((letter, index) => (
-        <motion.span
-          key={`now-${index}`}
-          id={`letter-now-${index}`}
-          className="inline-block"
-          style={{
-            textShadow: "0 0 10px rgba(108,99,255,0.5)",
-          }}
-          onAnimationEnd={() => setShowContent(true)}
-        >
-          {letter}
-        </motion.span>
-      ))}
-    </span>
+              {[..."I g n i t i n g"].map((letter, index) => (
+                <motion.span
+                  key={`igniting-${index}`}
+                  id={`letter-igniting-${index}`}
+                  className="inline-block"
+                  style={{
+                    textShadow: "0 0 10px rgba(108,99,255,0.5)",
+                  }}
+                >
+                  {letter}
+                </motion.span>
+              ))}
+            </span>
+            <span className="flex">
+              {[..."N o w . . ."].map((letter, index) => (
+                <motion.span
+                  key={`now-${index}`}
+                  id={`letter-now-${index}`}
+                  className="inline-block"
+                  style={{
+                    textShadow: "0 0 10px rgba(108,99,255,0.5)",
+                  }}
+                >
+                  {letter}
+                </motion.span>
+              ))}
+            </span>
           </h1>
-        </div>
-
+        </motion.div>
 
         <motion.div
           ref={contentRef}
-          initial={{opacity: 0, y: 20}}
+          initial={{ opacity: 0, y: 20 }}
           animate={{
             opacity: showContent ? 1 : 0,
             y: showContent ? 0 : 20,
           }}
-          transition={{duration: 1, ease: "easeInOut"}}
+          transition={{ duration: 1, ease: "easeInOut" }}
         >
           <div className="relative">
             <h2
               ref={sparkonomyRef}
-              className="text-8xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-6 tracking-normal text-white"
+              className="text-6xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-6 tracking-normal text-white whitespace-nowrap select-none"
               style={{
                 textShadow: "0 0 20px rgba(108,99,255,0.3)",
               }}
@@ -300,14 +314,12 @@ const HeroSection = () => {
             </h2>
           </div>
 
-          <p
-            className="tagline text-lg sm:text-xl md:text-2xl mb-12 relative text-white opacity-100"
-          >
+          <p className="tagline text-lg sm:text-xl md:text-2xl mb-12 relative text-white opacity-100 select-none">
             Developing AI to spark livelihoods globally
           </p>
 
-          <div className="relative pt-12">
-            <EmailCapture/>
+          <div className="relative">
+            <EmailCapture />
           </div>
         </motion.div>
       </div>

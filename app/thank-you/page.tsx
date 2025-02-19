@@ -4,10 +4,8 @@ import Link from "next/link";
 import { motion, useAnimation } from "framer-motion";
 import { LampContainer } from "@/components/Vortex";
 import Footer from "@/components/Footer";
-import { AuroraBackground } from "@/components/ui/aurora-background";
 import { useSearchParams, useRouter } from "next/navigation";
 
-// Separate component that uses useSearchParams
 function ThankYouContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -33,11 +31,11 @@ function ThankYouContent() {
   }
 
   return (
-    <div className="w-screen h-screen overflow-hidden" ref={containerRef}>
-      <AuroraBackground>
-        <LampContainer className="z-0">
+    <div className="min-h-screen flex flex-col bg-black" ref={containerRef}>
+      <div className="flex-grow relative">
+        <LampContainer className="absolute inset-0">
           <motion.div
-            className="flex flex-col items-center justify-center space-y-8 md:space-y-12 relative mt-32 md:mt-48"
+            className="flex flex-col items-center justify-center space-y-8 md:space-y-12 relative mt-20 md:mt-32"
             initial={{ opacity: 0, y: 50 }}
             animate={controls}
             transition={{ duration: 0.8, ease: "easeOut" }}
@@ -52,7 +50,7 @@ function ThankYouContent() {
             </motion.h1>
 
             <motion.div
-              className="text-xl md:text-3xl lg:text-4xl text-center bg-[rgba(35,33,57,0.5)] px-6 py-3 md:px-8 md:py-4 rounded-full backdrop-blur-sm text-white"
+              className="text-xl md:text-3xl lg:text-4xl text-center bg-black/50 px-6 py-3 md:px-8 md:py-4 rounded-full backdrop-blur-sm text-white"
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ delay: 0.4, duration: 0.6, ease: "easeOut" }}
@@ -89,7 +87,7 @@ function ThankYouContent() {
             >
               <Link
                 href="/"
-                className="text-purple-300 hover:text-white transition-all duration-300 flex items-center gap-2 bg-[rgba(35,33,57,0.5)] px-6 py-3 md:px-8 md:py-4 rounded-full hover:bg-[rgba(35,33,57,0.7)] group text-sm md:text-base"
+                className="text-purple-300 hover:text-white transition-all duration-300 flex items-center gap-2 bg-black/50 px-6 py-3 md:px-8 md:py-4 rounded-full hover:bg-black/70 group text-sm md:text-base"
               >
                 <motion.span
                   animate={{ x: [-2, 0, -2] }}
@@ -106,22 +104,20 @@ function ThankYouContent() {
             </motion.div>
           </motion.div>
         </LampContainer>
-        <Footer />
-      </AuroraBackground>
+      </div>
+      <Footer />
     </div>
   );
 }
 
-// Loading component
 function LoadingState() {
   return (
-    <div className="w-screen h-screen flex items-center justify-center">
+    <div className="w-screen h-screen flex items-center justify-center bg-black">
       <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-purple-500"></div>
     </div>
   );
 }
 
-// Main component with Suspense boundary
 export default function ThankYou() {
   return (
     <Suspense fallback={<LoadingState />}>

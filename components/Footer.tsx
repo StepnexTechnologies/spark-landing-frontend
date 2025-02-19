@@ -1,3 +1,5 @@
+"use client";
+
 import { Lock, Info } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -7,7 +9,7 @@ export default function Footer() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.5, duration: 0.5 }}
-      className="fixed bottom-4 w-full left-0 right-0 flex justify-center items-center px-4"
+      className="fixed bottom-4 w-full left-0 right-0 flex justify-center items-center px-4 select-none"
     >
       <div className="flex flex-col items-center space-y-2 w-full max-w-2xl">
         <motion.div
@@ -22,13 +24,13 @@ export default function Footer() {
               }}
               transition={{
                 duration: 2,
-                repeat: Infinity,
+                repeat: Number.POSITIVE_INFINITY,
                 repeatType: "reverse",
               }}
             >
               <Lock className="w-3 h-3 sm:w-4 sm:h-4 text-purple-400" />
             </motion.div>
-            <span className={'text-xs'}>Your data is secure with us</span>
+            <span className="text-xs">Your data is secure with us</span>
           </div>
         </motion.div>
 
