@@ -31,7 +31,10 @@ function ThankYouContent() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-black" ref={containerRef}>
+    <div
+      className="min-h-screen flex flex-col bg-black select-none"
+      ref={containerRef}
+    >
       <div className="flex-grow relative">
         <LampContainer className="absolute inset-0">
           <motion.div
