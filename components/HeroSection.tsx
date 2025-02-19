@@ -26,7 +26,7 @@ const HeroSection = () => {
         setTimeout(() => {
           setShowIgnitingNow(false);
           setIsInitialAnimationComplete(true);
-        }, 500); // Add a small delay after animation completes
+        }, 500);
       },
     });
 

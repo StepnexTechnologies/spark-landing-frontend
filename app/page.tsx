@@ -7,8 +7,6 @@ export default function Home() {
 
   return (
     <main className="overflow-hidden">
-
-      {/* Content */}
       <div className="">
         <div className="flex-grow">
           <HeroSection/>
