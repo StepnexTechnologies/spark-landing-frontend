@@ -9,7 +9,7 @@ export default function Footer() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.5, duration: 0.5 }}
-      className="fixed bottom-4 w-full left-0 right-0 flex justify-center items-center px-4 select-none"
+      className="fixed bottom-4 w-full left-0 right-0 flex justify-center items-center px-4 select-none z-50"
     >
       <div className="flex flex-col items-center space-y-2 w-full max-w-2xl">
         <motion.div
