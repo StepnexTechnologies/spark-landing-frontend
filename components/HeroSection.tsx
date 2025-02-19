@@ -97,7 +97,20 @@ const HeroSection = () => {
 
   useEffect(() => {
     if (showContent) {
+
+
       const contentTl = gsap.timeline();
+      const simulationInstance = (window as any).fluidSimulation;
+
+      // Add multiple splats for a dramatic effect when content shows
+      if (simulationInstance) {
+        // Add splats in different positions with slight delays
+        const addSplatsEffect = () => {
+          // Center splat
+          simulationInstance.multipleSplats(20);
+        }
+        addSplatsEffect();
+      }
 
       // Animate "sparkonomy" text
       if (sparkonomyRef.current) {

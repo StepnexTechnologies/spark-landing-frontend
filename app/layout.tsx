@@ -1,4 +1,4 @@
-"use client"
+// layout.tsx (remove "use client")
 import "./globals.css";
 import { Montserrat } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
@@ -10,23 +10,23 @@ import Footer from "@/components/Footer";
 const inter = Montserrat({ subsets: ["latin"] });
 
 export default function RootLayout({
-                                     children,
+                                       children,
                                    }: {
-  children: React.ReactNode;
+    children: React.ReactNode;
 }) {
-  return (
-    <html lang="en">
-    <body className={`${inter.className} min-h-screen relative`}>
-    <div className="relative">
-      <div className="absolute inset-0 z-10">
-        <WebGLFluidBackground/>
-      </div>
-      {children}
-      <Analytics/>
-      <SpeedInsights/>
-      <Footer/>
-    </div>
-    </body>
-    </html>
-  );
+    return (
+        <html lang="en">
+        <body className={`${inter.className} min-h-screen relative`}>
+        <div className="relative">
+            <div className="absolute inset-0 z-10">
+                <WebGLFluidBackground/>
+            </div>
+            {children}
+            <Analytics/>
+            <SpeedInsights/>
+            <Footer/>
+        </div>
+        </body>
+        </html>
+    );
 }
