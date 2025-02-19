@@ -1,36 +1,27 @@
 "use client";
 
 import type React from "react";
-import { useState } from "react";
 import HeroSection from "@/components/HeroSection";
 import Footer from "@/components/Footer";
-import WebGLFluidBackground from "@/components/webgl-fluid-background";
+import {WebGLFluidBackground} from "@/components/webgl-fluid-background";
 
 export default function Home() {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width;
-    const y = (e.clientY - rect.top) / rect.height;
-    setMousePosition({ x, y });
-  };
 
   return (
-    <main
-      onMouseMove={handleMouseMove}
-      className="h-screen w-screen overflow-hidden relative bg-black"
-    >
+    <main className="overflow-hidden">
       {/* Background */}
-      <WebGLFluidBackground mousePosition={mousePosition} />
+      <div className="absolute inset-0 z-10">
+        <WebGLFluidBackground/>
+      </div>
 
       {/* Content */}
-      <div className="absolute inset-0 z-10 flex flex-col h-full">
+      <div className="bg-none">
         <div className="flex-grow">
-          <HeroSection />
+          <HeroSection/>
         </div>
-        <Footer />
+        <Footer/>
       </div>
     </main>
+
   );
 }

@@ -1,8 +1,10 @@
+"use client"
 import "./globals.css";
 import { Montserrat } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type React from "react";
+import {WebGLFluidBackground} from "@/components/webgl-fluid-background";
 
 const inter = Montserrat({ subsets: ["latin"] });
 

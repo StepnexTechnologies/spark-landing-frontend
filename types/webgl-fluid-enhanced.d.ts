@@ -14,10 +14,10 @@ declare module "webgl-fluid-enhanced" {
   }
 
   export default class WebGLFluidEnhanced {
-    constructor(config: { canvas: HTMLElement } & WebGLFluidConfig);
+    constructor(config: *);
     start(): void;
     stop(): void;
     multipleSplats(n: number): void;
     splatAtLocation(x: number, y: number, dx: number, dy: number): void;
   }
-} 
+}

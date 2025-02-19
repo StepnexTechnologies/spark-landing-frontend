@@ -217,21 +217,20 @@ const HeroSection = () => {
       ref={containerRef}
       onMouseMove={handleUserInteraction}
       onClick={handleUserInteraction}
-      className="flex flex-col items-center justify-center min-h-screen p-4 relative overflow-hidden select-none"
+      className="flex flex-col items-center justify-center min-h-screen p-4 relative overflow-hidden bg-none"
     >
-      <div className="absolute inset-0 pointer-events-none">
+      <div className="absolute inset-0-none">
         <motion.div
-          className="w-full h-full"
-          animate={{
-            background: `radial-gradient(circle at ${mousePosition.x * 100}% ${
-              mousePosition.y * 100
-            }%, rgba(108,99,255,0.2), transparent 50%), 
-                        radial-gradient(circle at ${
-                          100 - mousePosition.x * 100
-                        }% ${
-              100 - mousePosition.y * 100
-            }%, rgba(108,99,255,0.1), transparent 30%)`,
-          }}
+          // animate={{
+          //   background: `radial-gradient(circle at ${mousePosition.x * 100}% ${
+          //     mousePosition.y * 100
+          //   }%, rgba(108,99,255,0.2), transparent 50%),
+          //               radial-gradient(circle at ${
+          //                 100 - mousePosition.x * 100
+          //               }% ${
+          //     100 - mousePosition.y * 100
+          //   }%, rgba(108,99,255,0.1), transparent 30%)`,
+          // }}
           transition={{ type: "tween", duration: 0.2 }}
         />
       </div>
