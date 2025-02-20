@@ -3,6 +3,7 @@ import { useEffect, useRef, useState, Suspense } from "react";
 import Link from "next/link";
 import { motion, useAnimation } from "framer-motion";
 import { useSearchParams, useRouter } from "next/navigation";
+import { Home, Sparkles } from "lucide-react";
 
 function ThankYouContent() {
   const searchParams = useSearchParams();
@@ -21,9 +22,11 @@ function ThankYouContent() {
     const message = localStorage.getItem("waitlistResponse");
     setResponseMessage(message);
 
-    const simulationInstance = (window as unknown as Window & { fluidSimulation: any }).fluidSimulation;
-    if (simulationInstance){
-      simulationInstance.multipleSplats(7)
+    const simulationInstance = (
+      window as unknown as Window & { fluidSimulation: any }
+    ).fluidSimulation;
+    if (simulationInstance) {
+      simulationInstance.multipleSplats(7);
     }
 
     controls.start({ opacity: 1, y: 0 });
@@ -36,7 +39,9 @@ function ThankYouContent() {
   return (
     <div
       ref={containerRef}
-      className={"absolute text-white w-full flex items-center justify-center z-50 pointer-events-none"}
+      className={
+        "absolute text-white w-full flex items-center justify-center z-50 pointer-events-none"
+      }
     >
       <motion.div
         className="flex flex-col items-center justify-center space-y-8 md:space-y-12 relative mt-20 md:mt-32"
@@ -45,7 +50,7 @@ function ThankYouContent() {
         transition={{ duration: 0.8, ease: "easeOut" }}
       >
         <motion.h1
-          className="text-4xl md:text-6xl lg:text-7xl font-bold text-white text-center drop-shadow-[0_0_15px_rgba(168,85,247,0.5)] pt-4"
+          className="text-4xl md:text-6xl lg:text-7xl font-bold text-white text-center drop-shadow-[0_0_15px_rgba(108,99,255,0.5)] pt-4"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.8, ease: "easeOut" }}
@@ -54,20 +59,25 @@ function ThankYouContent() {
         </motion.h1>
 
         <motion.div
-          className="text-xl md:text-3xl lg:text-4xl text-center bg-black/50 px-6 py-3 md:px-8 md:py-4 rounded-full backdrop-blur-sm text-white"
+          className="flex items-center justify-center text-xl md:text-3xl lg:text-4xl"
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ delay: 0.4, duration: 0.6, ease: "easeOut" }}
         >
-          You&apos;re Spark #{number}
           <motion.span
-            className="ml-2 inline-block"
-            initial={{ opacity: 0, rotate: -45 }}
-            animate={{ opacity: 1, rotate: 0 }}
-            transition={{ delay: 0.8, duration: 0.5, ease: "easeOut" }}
+            className="text-white font-bold tracking-widest"
+            style={{
+              textShadow: "0 0 10px rgba(108,99,255,0.5)",
+            }}
           >
-            ✨
+            You&apos;re Spark #{number}
           </motion.span>
+          <Sparkles
+            className="ml-3 w-6 h-6 sm:w-7 sm:h-7 text-[#6C63FF]"
+            style={{
+              filter: "drop-shadow(0 0 10px rgba(108,99,255,0.7))",
+            }}
+          />
         </motion.div>
 
         <motion.p
@@ -91,9 +101,9 @@ function ThankYouContent() {
         >
           <Link
             href="/"
-            className="text-white hover:text-white transition-all duration-300 flex items-center gap-2 bg-black/50 px-6 py-3 md:px-8 md:py-4 rounded-full hover:bg-black/70 group text-sm md:text-base pointer-events-auto"
+            className="text-white hover:text-white transition-all duration-300 flex items-center justify-center bg-black/50 p-3 md:p-4 rounded-full hover:bg-black/70 group pointer-events-auto"
           >
-            <motion.span
+            <motion.div
               animate={{ x: [-2, 0, -2] }}
               transition={{
                 duration: 1.5,
@@ -101,9 +111,8 @@ function ThankYouContent() {
               }}
               className="group-hover:translate-x-[-4px] transition-transform duration-300"
             >
-              &larr;
-            </motion.span>
-            <span className={"text-white"}>Back to Home</span>
+              <Home size={24} />
+            </motion.div>
           </Link>
         </motion.div>
       </motion.div>
