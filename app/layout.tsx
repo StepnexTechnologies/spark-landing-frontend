@@ -14,11 +14,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="h-full overflow-hidden">
+    <html lang="en" className="h-[100dvh]">
       <body
-        className={`${inter.className} min-h-full w-full relative overflow-x-hidden touch-pan-y`}
+        className={`${inter.className} min-h-[100dvh] w-full relative overflow-x-hidden touch-pan-y`}
       >
-        <div className="relative min-h-screen w-full flex flex-col">
+        <div className="relative min-h-[100dvh] w-full flex flex-col">
           <div className="fixed inset-0 z-0">
             <WebGLFluidBackground />
           </div>
