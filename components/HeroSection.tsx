@@ -20,15 +20,68 @@ const HeroSection = () => {
   const taglineRef = useRef<HTMLParagraphElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
+  // const splatInterval = useRef<NodeJS.Timeout | null>(null);
+  // const inactivityTimer = useRef<NodeJS.Timeout | null>(null);
+  //
+  // const startSplats = () => {
+  //   if (!splatInterval.current) {
+  //     splatInterval.current = setInterval(() => {
+  //       if (simulationInstance && showContent && document.visibilityState === "visible") {
+  //         simulationInstance.multipleSplats(Math.random() * (5 - 2) + 2); // Random splats between 2 and 5
+  //       }
+  //     }, 5000);
+  //   }
+  // };
+  //
+  // const stopSplats = () => {
+  //   if (splatInterval.current) {
+  //     clearInterval(splatInterval.current);
+  //     splatInterval.current = null;
+  //   }
+  // };
+  //
+  // const resetInactivityTimer = () => {
+  //   if (inactivityTimer.current) {
+  //     clearTimeout(inactivityTimer.current);
+  //   }
+  //   stopSplats(); // Stop splats immediately on interaction
+  //
+  //   inactivityTimer.current = setTimeout(() => {
+  //     startSplats(); // Start splats after 5 seconds of inactivity
+  //   }, 5000);
+  // };
+  //
+  // useEffect(() => {
+  //   // User activity events to reset the inactivity timer
+  //   const handleUserActivity = () => resetInactivityTimer();
+  //
+  //   window.addEventListener("mousemove", handleUserActivity);
+  //   window.addEventListener("keydown", handleUserActivity);
+  //   window.addEventListener("click", handleUserActivity);
+  //   window.addEventListener("scroll", handleUserActivity);
+  //   window.addEventListener("touchstart", handleUserActivity);
+  //
+  //   // Start inactivity timer when component mounts
+  //   resetInactivityTimer();
+  //
+  //   return () => {
+  //     stopSplats();
+  //     if (inactivityTimer.current) clearTimeout(inactivityTimer.current);
+  //     window.removeEventListener("mousemove", handleUserActivity);
+  //     window.removeEventListener("keydown", handleUserActivity);
+  //     window.removeEventListener("click", handleUserActivity);
+  //     window.removeEventListener("scroll", handleUserActivity);
+  //     window.removeEventListener("touchstart", handleUserActivity);
+  //   };
+  // }, []);
+
   useEffect(() => {
     const tl = gsap.timeline({
       onComplete: () => {
         setTimeout(() => {
-          setShowIgnitingNow(false);
-          setIsInitialAnimationComplete(true);
-        }, 500);
-      },
-    });
+        setIsInitialAnimationComplete(true);
+      }, 500)
+    }});
 
     // Animate "IGNITING" letter by letter
     [..."I g n i t i n g"].forEach((letter, index) => {
@@ -97,19 +150,13 @@ const HeroSection = () => {
 
   useEffect(() => {
     if (showContent) {
+      setShowIgnitingNow(false);
 
 
       const contentTl = gsap.timeline();
-      const simulationInstance = (window as any).fluidSimulation;
-
-      // Add multiple splats for a dramatic effect when content shows
+      const simulationInstance = (window as unknown as Window & { fluidSimulation: any }).fluidSimulation;
       if (simulationInstance) {
-        // Add splats in different positions with slight delays
-        const addSplatsEffect = () => {
-          // Center splat
-          simulationInstance.multipleSplats(20);
-        }
-        addSplatsEffect();
+        simulationInstance.multipleSplats(10);
       }
 
       // Animate "sparkonomy" text
@@ -268,7 +315,7 @@ const HeroSection = () => {
 
       <div className="text-center relative z-10">
         <motion.div
-          className={`absolute inset-0 flex items-center justify-center mb-12`}
+          className={`absolute inset-0 flex flex-col space-y-8 items-center justify-center mb-12`}
           initial={{ opacity: 1 }}
           animate={{ opacity: showIgnitingNow ? 1 : 0 }}
           transition={{ duration: 0.5 }}
@@ -303,11 +350,24 @@ const HeroSection = () => {
               ))}
             </span>
           </h1>
+          {
+              <motion.h3
+                  initial={{opacity: 0, y: 20}}
+                  animate={{
+                    opacity: isInitialAnimationComplete ? 1 : 0,
+                    y: isInitialAnimationComplete ? 0 : 20,
+                  }}
+                  transition={{ duration: 1, ease: "easeInOut" }}
+              >
+            <p className="tagline text-md sm:text-lg md:text-xl mb-12 relative text-zinc-300 opacity-100 select-none">
+              It begins with you—move to ignite.
+            </p>
+          </motion.h3>}
         </motion.div>
 
         <motion.div
           ref={contentRef}
-          initial={{ opacity: 0, y: 20 }}
+          initial={{opacity: 0, y: 20}}
           animate={{
             opacity: showContent ? 1 : 0,
             y: showContent ? 0 : 20,
@@ -331,7 +391,7 @@ const HeroSection = () => {
           </p>
 
           <div className="relative pointer-events-auto">
-            <EmailCapture />
+            {showContent && <EmailCapture/>}
           </div>
         </motion.div>
       </div>
