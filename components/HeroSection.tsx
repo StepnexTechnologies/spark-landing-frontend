@@ -13,6 +13,7 @@ const HeroSection = () => {
   const [showIgnitingNow, setShowIgnitingNow] = useState<boolean>(true);
   const [isInitialAnimationComplete, setIsInitialAnimationComplete] =
     useState(false);
+  const [isDesktopDevice, setIsDesktopDevice] = useState(true); // Default to desktop
 
   const containerRef = useRef<HTMLDivElement>(null);
   const sparkRef = useRef<HTMLDivElement>(null);
@@ -75,32 +76,104 @@ const HeroSection = () => {
   //   };
   // }, []);
 
+  // Device detection - run once on component mount
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    // Start with desktop assumption (the default state is already true)
+    let isDesktop = true;
+
+    // Then check explicitly for mobile indicators in user agent
+    if (
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+      )
+    ) {
+      isDesktop = false;
+    }
+
+    // Set the state based on detection
+    setIsDesktopDevice(isDesktop);
+
+    // Add diagnostic classes to body for potential CSS targeting and debugging
+    if (isDesktop) {
+      document.body.classList.add("desktop-device");
+      document.body.classList.remove("mobile-device");
+    } else {
+      document.body.classList.add("mobile-device");
+      document.body.classList.remove("desktop-device");
+    }
+
+    console.log(
+      "Device detected as:",
+      isDesktop ? "desktop/laptop" : "mobile/tablet"
+    );
+    console.log("User agent:", navigator.userAgent);
+  }, []);
+
+  // Explicit text setting via DOM after render - backup approach
+  useEffect(() => {
+    const updateMoveText = () => {
+      const moveTextElement = document.getElementById("moveText");
+      if (!moveTextElement) return;
+
+      const textContent = isDesktopDevice
+        ? "move to ignite"
+        : "touch to ignite";
+
+      // Only update if different to avoid unnecessary DOM manipulation
+      if (moveTextElement.textContent !== textContent) {
+        moveTextElement.textContent = textContent;
+        console.log("Text forcibly updated to:", textContent);
+      }
+    };
+
+    // Update immediately and after a short delay to handle any race conditions
+    updateMoveText();
+    const timeoutId = setTimeout(updateMoveText, 500);
+
+    return () => clearTimeout(timeoutId);
+  }, [isDesktopDevice]);
+
   useEffect(() => {
     const tl = gsap.timeline({
       onComplete: () => {
         setTimeout(() => {
-        setIsInitialAnimationComplete(true);
-      }, 500)
-    }});
+          setIsInitialAnimationComplete(true);
+        }, 500);
+      },
+    });
 
-    // Animate "IGNITING" letter by letter
+    // Animate "IGNITING" letter by letter with chained timing
     [..."I g n i t i n g"].forEach((letter, index) => {
       tl.fromTo(
         `#letter-igniting-${index}`,
         { opacity: 0, y: 10 },
-        { opacity: 1, y: 0, duration: 0.05, ease: "power2.out" }
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.08,
+          ease: "power1.out",
+        },
+        "+=0.02" // Small delay between each letter
       );
     });
 
-    // Add a small pause between animations
-    tl.to({}, { duration: 0.3 });
+    // Add a small pause between word animations
+    tl.to({}, { duration: 0.2 });
 
-    // Animate "NOW..." letter by letter
+    // Animate "NOW..." letter by letter with chained timing
     [..."N o w . . ."].forEach((letter, index) => {
       tl.fromTo(
         `#letter-now-${index}`,
         { opacity: 0, y: 10 },
-        { opacity: 1, y: 0, duration: 0.05, ease: "power2.out" }
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.08,
+          ease: "power1.out",
+        },
+        "+=0.02" // Small delay between each letter
       );
     });
 
@@ -108,7 +181,7 @@ const HeroSection = () => {
     tl.to("#final-dot", {
       scale: 1.2,
       opacity: 1,
-      repeat: 3, // Reduced repeats to match the timing
+      repeat: 3,
       duration: 0.8,
       ease: "power2.inOut",
       yoyo: true,
@@ -152,9 +225,10 @@ const HeroSection = () => {
     if (showContent) {
       setShowIgnitingNow(false);
 
-
       const contentTl = gsap.timeline();
-      const simulationInstance = (window as unknown as Window & { fluidSimulation: any }).fluidSimulation;
+      const simulationInstance = (
+        window as unknown as Window & { fluidSimulation: any }
+      ).fluidSimulation;
       if (simulationInstance) {
         simulationInstance.multipleSplats(10);
       }
@@ -169,18 +243,15 @@ const HeroSection = () => {
           span.style.display = "inline-block";
           span.style.opacity = "0";
           sparkonomyRef.current?.appendChild(span);
+        });
 
-          contentTl.to(
-            span,
-            {
-              opacity: 1,
-              y: 0,
-              duration: 0.5,
-              delay: 0.02,
-              ease: "power2.out",
-            },
-            "-=0.4"
-          );
+        // Animate each letter with smooth, sequential timing
+        contentTl.to(sparkonomyRef.current.children, {
+          opacity: 1,
+          y: 0,
+          duration: 0.3,
+          stagger: 0.03, // Small stagger between letters
+          ease: "power1.out",
         });
 
         contentTl.to(
@@ -200,7 +271,7 @@ const HeroSection = () => {
               gsap.set(this.targets(), { scale: scaleValue });
             },
           },
-          "-=0.5"
+          "+=0.1"
         );
 
         // Add floating animation to "sparkonomy"
@@ -351,33 +422,34 @@ const HeroSection = () => {
             </span>
           </h1>
           {
-              <motion.h3
-                  initial={{opacity: 0, y: 20}}
-                  animate={{
-                    opacity: isInitialAnimationComplete ? 1 : 0,
-                    y: isInitialAnimationComplete ? 0 : 20,
-                  }}
-                  transition={{ duration: 1, ease: "easeInOut" }}
-              >
-            <p className="tagline text-md sm:text-lg md:text-xl mb-12 relative text-zinc-300 opacity-100 select-none">
-              It begins with you—move to ignite.
-            </p>
-          </motion.h3>}
+            <motion.h3
+              initial={{ opacity: 0, y: 20 }}
+              animate={{
+                opacity: isInitialAnimationComplete ? 1 : 0,
+                y: isInitialAnimationComplete ? 0 : 20,
+              }}
+              transition={{ duration: 1, ease: "easeInOut" }}
+            >
+              <p className="tagline text-md sm:text-lg md:text-xl mb-12 relative text-zinc-300 opacity-100 select-none">
+                It begins with you—<span id="moveText">move to ignite</span>.
+              </p>
+            </motion.h3>
+          }
         </motion.div>
 
         <motion.div
           ref={contentRef}
-          initial={{opacity: 0, y: 20}}
+          initial={{ opacity: 0, y: 20 }}
           animate={{
             opacity: showContent ? 1 : 0,
             y: showContent ? 0 : 20,
           }}
           transition={{ duration: 1, ease: "easeInOut" }}
         >
-          <div className="relative">
+          <div className="relative px-4 w-full flex justify-center">
             <h2
               ref={sparkonomyRef}
-              className="text-6xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-6 tracking-normal text-white whitespace-nowrap select-none"
+              className="text-4xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-normal text-white select-none whitespace-nowrap"
               style={{
                 textShadow: "0 0 20px rgba(108,99,255,0.3)",
               }}
@@ -386,12 +458,14 @@ const HeroSection = () => {
             </h2>
           </div>
 
-          <p className="tagline text-lg sm:text-xl md:text-2xl mb-12 relative text-white opacity-100 select-none">
+          <p
+            className="tagline text-lg sm:text-xl md:text-2xl mb-12 relative text-white opacity-100 select-none px-4"
+          >
             Developing AI to spark livelihoods globally
           </p>
 
           <div className="relative pointer-events-auto">
-            {showContent && <EmailCapture/>}
+            {showContent && <EmailCapture />}
           </div>
         </motion.div>
       </div>

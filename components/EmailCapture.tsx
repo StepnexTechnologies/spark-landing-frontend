@@ -1,5 +1,5 @@
 "use client";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef} from "react";
 import type React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, Sparkles } from "lucide-react";
@@ -13,13 +13,6 @@ export default function EmailCapture() {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const { submitEmail, loading, error, responseNumber } = useSubmitEmail();
-
-  useEffect(() => {
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    if (isMobile && inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -37,23 +30,24 @@ export default function EmailCapture() {
 
   const glowVariants = {
     initial: {
-      boxShadow: "0 0 20px rgba(108,99,255,0.3), 0 0 40px rgba(108,99,255,0.1)",
+      boxShadow:
+        "0 0 35px rgba(108,99,255,0.7), 0 0 70px rgba(108,99,255,0.4), 0 0 100px rgba(108,99,255,0.2)",
     },
     hover: {
       boxShadow: [
-        "0 0 20px rgba(108,99,255,0.5), 0 0 40px rgba(108,99,255,0.2), 0 0 60px rgba(108,99,255,0.1)",
-        "0 0 30px rgba(108,99,255,0.6), 0 0 50px rgba(108,99,255,0.3), 0 0 70px rgba(108,99,255,0.2)",
-        "0 0 20px rgba(108,99,255,0.5), 0 0 40px rgba(108,99,255,0.2), 0 0 60px rgba(108,99,255,0.1)",
+        "0 0 40px rgba(108,99,255,0.8), 0 0 80px rgba(108,99,255,0.6), 0 0 120px rgba(108,99,255,0.4)",
+        "0 0 50px rgba(108,99,255,0.9), 0 0 100px rgba(108,99,255,0.7), 0 0 150px rgba(108,99,255,0.5)",
+        "0 0 40px rgba(108,99,255,0.8), 0 0 80px rgba(108,99,255,0.6), 0 0 120px rgba(108,99,255,0.4)",
       ],
       transition: {
-        duration: 2,
+        duration: 2.5,
         repeat: Number.POSITIVE_INFINITY,
         ease: "easeInOut",
       },
     },
     focus: {
       boxShadow:
-        "0 0 30px rgba(108,99,255,0.8), 0 0 50px rgba(108,99,255,0.4), 0 0 70px rgba(108,99,255,0.2)",
+        "0 0 60px rgba(108,99,255,1), 0 0 100px rgba(108,99,255,0.8), 0 0 150px rgba(108,99,255,0.5)",
     },
   };
 
@@ -61,14 +55,14 @@ export default function EmailCapture() {
   const buttonGlowVariants = {
     animate: {
       boxShadow: loading
-        ? "0 0 10px rgba(255,255,255,0.5)"
+        ? "0 0 25px rgba(255,255,255,0.8), 0 0 40px rgba(255,255,255,0.4)"
         : [
-            "0 0 10px rgba(108,99,255,0.4)",
-            "0 0 20px rgba(108,99,255,0.5)",
-            "0 0 10px rgba(108,99,255,0.4)",
+            "0 0 25px rgba(108,99,255,0.8), 0 0 40px rgba(108,99,255,0.5)",
+            "0 0 35px rgba(108,99,255,0.9), 0 0 50px rgba(108,99,255,0.6)",
+            "0 0 25px rgba(108,99,255,0.8), 0 0 40px rgba(108,99,255,0.5)",
           ],
       transition: {
-        duration: 2,
+        duration: 2.5,
         repeat: Number.POSITIVE_INFINITY,
         ease: "easeInOut",
       },
@@ -106,9 +100,11 @@ export default function EmailCapture() {
                 onBlur={() => setIsFocused(false)}
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
-                placeholder="Get Early Access, Leave Your Email"
+                placeholder="Get Early access, By Invitation"
                 className="w-full px-4 pr-12 py-3 bg-black/50 backdrop-blur-sm border-2 border-[#6C63FF] rounded-full text-white placeholder-gray-400 focus:outline-none focus:border-white transition-all duration-300 text-sm sm:text-base"
                 required
+                // Adding autocomplete off can also help prevent autofocus issues
+                autoComplete="off"
               />
 
               <div className="absolute right-2 flex items-center">

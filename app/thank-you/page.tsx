@@ -3,6 +3,7 @@ import { useEffect, useRef, useState, Suspense } from "react";
 import Link from "next/link";
 import { motion, useAnimation } from "framer-motion";
 import { useSearchParams, useRouter } from "next/navigation";
+import { Home, Sparkles } from "lucide-react";
 
 function ThankYouContent() {
   const searchParams = useSearchParams();
@@ -21,9 +22,11 @@ function ThankYouContent() {
     const message = localStorage.getItem("waitlistResponse");
     setResponseMessage(message);
 
-    const simulationInstance = (window as unknown as Window & { fluidSimulation: any }).fluidSimulation;
-    if (simulationInstance){
-      simulationInstance.multipleSplats(7)
+    const simulationInstance = (
+      window as unknown as Window & { fluidSimulation: any }
+    ).fluidSimulation;
+    if (simulationInstance) {
+      simulationInstance.multipleSplats(7);
     }
 
     controls.start({ opacity: 1, y: 0 });
@@ -36,7 +39,9 @@ function ThankYouContent() {
   return (
     <div
       ref={containerRef}
-      className={"absolute text-white w-full flex items-center justify-center z-50 pointer-events-none"}
+      className={
+        "absolute text-white w-full flex items-center justify-center z-50 pointer-events-none"
+      }
     >
       <motion.div
         className="flex flex-col items-center justify-center space-y-8 md:space-y-12 relative mt-20 md:mt-32"
@@ -66,7 +71,7 @@ function ThankYouContent() {
             animate={{ opacity: 1, rotate: 0 }}
             transition={{ delay: 0.8, duration: 0.5, ease: "easeOut" }}
           >
-            ✨
+            <Sparkles size={20} className="text-purple-500" />
           </motion.span>
         </motion.div>
 
@@ -101,9 +106,8 @@ function ThankYouContent() {
               }}
               className="group-hover:translate-x-[-4px] transition-transform duration-300"
             >
-              &larr;
+              <Home size={18} className="text-white" />
             </motion.span>
-            <span className={"text-white"}>Back to Home</span>
           </Link>
         </motion.div>
       </motion.div>
