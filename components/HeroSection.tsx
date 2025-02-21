@@ -1,4 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
+"use client";
+import { useEffect, useRef, useState } from "react";
+import type React from "react";
+
 import { motion } from "framer-motion";
 import gsap from "gsap";
 import EmailCapture from "@/components/EmailCapture";
@@ -7,11 +10,9 @@ const HeroSection = () => {
   const [isTextRevealed, setIsTextRevealed] = useState(false);
   const [showContent, setShowContent] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [showIgnitingNow, setShowIgnitingNow] = useState(true);
+  const [showIgnitingNow, setShowIgnitingNow] = useState<boolean>(true);
   const [isInitialAnimationComplete, setIsInitialAnimationComplete] =
     useState(false);
-  const [displayText, setDisplayText] = useState("");
-  const [isSpacedText, setIsSpacedText] = useState(true);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const sparkRef = useRef<HTMLDivElement>(null);
@@ -19,80 +20,117 @@ const HeroSection = () => {
   const taglineRef = useRef<HTMLParagraphElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
-  // Detect device type and screen size
-  useEffect(() => {
-    const updateDisplayText = () => {
-      const isTouchDevice =
-        "ontouchstart" in window ||
-        navigator.maxTouchPoints > 0 ||
-        (navigator as any).msMaxTouchPoints > 0;
-      const isLargeScreen = window.innerWidth >= 1024;
-
-      if (isTouchDevice && !isLargeScreen) {
-        setDisplayText("Touch To Ignite");
-        setIsSpacedText(false);
-      } else {
-        setDisplayText("Move To Ignite");
-        setIsSpacedText(true);
-      }
-    };
-
-    updateDisplayText();
-    window.addEventListener("resize", updateDisplayText);
-
-    return () => {
-      window.removeEventListener("resize", updateDisplayText);
-    };
-  }, []);
+  // const splatInterval = useRef<NodeJS.Timeout | null>(null);
+  // const inactivityTimer = useRef<NodeJS.Timeout | null>(null);
+  //
+  // const startSplats = () => {
+  //   if (!splatInterval.current) {
+  //     splatInterval.current = setInterval(() => {
+  //       if (simulationInstance && showContent && document.visibilityState === "visible") {
+  //         simulationInstance.multipleSplats(Math.random() * (5 - 2) + 2); // Random splats between 2 and 5
+  //       }
+  //     }, 5000);
+  //   }
+  // };
+  //
+  // const stopSplats = () => {
+  //   if (splatInterval.current) {
+  //     clearInterval(splatInterval.current);
+  //     splatInterval.current = null;
+  //   }
+  // };
+  //
+  // const resetInactivityTimer = () => {
+  //   if (inactivityTimer.current) {
+  //     clearTimeout(inactivityTimer.current);
+  //   }
+  //   stopSplats(); // Stop splats immediately on interaction
+  //
+  //   inactivityTimer.current = setTimeout(() => {
+  //     startSplats(); // Start splats after 5 seconds of inactivity
+  //   }, 5000);
+  // };
+  //
+  // useEffect(() => {
+  //   // User activity events to reset the inactivity timer
+  //   const handleUserActivity = () => resetInactivityTimer();
+  //
+  //   window.addEventListener("mousemove", handleUserActivity);
+  //   window.addEventListener("keydown", handleUserActivity);
+  //   window.addEventListener("click", handleUserActivity);
+  //   window.addEventListener("scroll", handleUserActivity);
+  //   window.addEventListener("touchstart", handleUserActivity);
+  //
+  //   // Start inactivity timer when component mounts
+  //   resetInactivityTimer();
+  //
+  //   return () => {
+  //     stopSplats();
+  //     if (inactivityTimer.current) clearTimeout(inactivityTimer.current);
+  //     window.removeEventListener("mousemove", handleUserActivity);
+  //     window.removeEventListener("keydown", handleUserActivity);
+  //     window.removeEventListener("click", handleUserActivity);
+  //     window.removeEventListener("scroll", handleUserActivity);
+  //     window.removeEventListener("touchstart", handleUserActivity);
+  //   };
+  // }, []);
 
   useEffect(() => {
     const tl = gsap.timeline({
       onComplete: () => {
         setTimeout(() => {
-          setIsInitialAnimationComplete(true);
-        }, 500);
-      },
+        setIsInitialAnimationComplete(true);
+      }, 500)
+    }});
+
+    // Animate "IGNITING" letter by letter
+    [..."I g n i t i n g"].forEach((letter, index) => {
+      tl.fromTo(
+        `#letter-igniting-${index}`,
+        { opacity: 0, y: 10 },
+        { opacity: 1, y: 0, duration: 0.05, ease: "power2.out" }
+      );
     });
 
-    // Create a smoother animation sequence for letters
-    const words = displayText.split(" ");
-    let letterIndex = 0;
+    // Add a small pause between animations
+    tl.to({}, { duration: 0.3 });
 
-    words.forEach((word, wordIndex) => {
-      [...word].forEach(() => {
-        tl.fromTo(
-          `#letter-${letterIndex}`,
-          {
-            opacity: 0,
-            y: 20,
-          },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.6, // Increased duration for smoother animation
-            ease: "power1.out", // Changed to smoother easing
-            stagger: 0.05, // Added stagger for more consistent timing
-          },
-          "-=0.35" // Overlap animations slightly for smoother flow
-        );
-        letterIndex++;
-      });
+    // Animate "NOW..." letter by letter
+    [..."N o w . . ."].forEach((letter, index) => {
+      tl.fromTo(
+        `#letter-now-${index}`,
+        { opacity: 0, y: 10 },
+        { opacity: 1, y: 0, duration: 0.05, ease: "power2.out" }
+      );
+    });
 
-      if (wordIndex < words.length - 1) {
-        letterIndex++;
-      }
+    // Animate the final dot
+    tl.to("#final-dot", {
+      scale: 1.2,
+      opacity: 1,
+      repeat: 3, // Reduced repeats to match the timing
+      duration: 0.8,
+      ease: "power2.inOut",
+      yoyo: true,
+    });
+
+    // Animate background
+    gsap.to(".bg-animation", {
+      backgroundPosition: "100% 100%",
+      duration: 20,
+      repeat: -1,
+      ease: "none",
     });
 
     return () => {
       tl.kill();
     };
-  }, [displayText]);
+  }, []);
 
   useEffect(() => {
     if (isInitialAnimationComplete && !showContent) {
       const handleInteraction = () => {
         setShowContent(true);
-        setShowIgnitingNow(false);
         window.removeEventListener("mousemove", handleInteraction);
         window.removeEventListener("click", handleInteraction);
         window.removeEventListener("touchstart", handleInteraction);
@@ -111,76 +149,104 @@ const HeroSection = () => {
   }, [isInitialAnimationComplete, showContent]);
 
   useEffect(() => {
-    if (showContent && sparkonomyRef.current) {
-      const text = "Sparkonomy";
-      sparkonomyRef.current.innerHTML = "";
+    if (showContent) {
+      setShowIgnitingNow(false);
 
-      [...text].forEach((char, index) => {
-        const span = document.createElement("span");
-        span.textContent = char;
-        span.style.opacity = "0";
-        span.style.display = "inline-block";
-        sparkonomyRef.current?.appendChild(span);
 
-        gsap.to(span, {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          delay: index * 0.1,
-          ease: "power2.out",
-          onComplete: () => {
-            if (index === text.length - 1) {
-              gsap.to(sparkonomyRef.current!.children, {
-                color: "#6C63FF",
-                textShadow: "0 0 20px rgba(108,99,255,0.7)",
-                duration: 0.8,
-                stagger: {
-                  each: 0.1,
-                  repeat: -1,
-                  yoyo: true,
-                },
-                onUpdate: function (this: gsap.TweenVars) {
-                  const progress = this.progress();
-                  const scaleValue = 1 + Math.sin(progress * Math.PI) * 0.1;
-                  gsap.set(this.targets(), { scale: scaleValue });
-                },
-              });
-            }
+      const contentTl = gsap.timeline();
+      const simulationInstance = (window as unknown as Window & { fluidSimulation: any }).fluidSimulation;
+      if (simulationInstance) {
+        simulationInstance.multipleSplats(10);
+      }
+
+      // Animate "sparkonomy" text
+      if (sparkonomyRef.current) {
+        const chars = sparkonomyRef.current.textContent?.split("") || [];
+        sparkonomyRef.current.innerHTML = "";
+        chars.forEach((char) => {
+          const span = document.createElement("span");
+          span.textContent = char;
+          span.style.display = "inline-block";
+          span.style.opacity = "0";
+          sparkonomyRef.current?.appendChild(span);
+
+          contentTl.to(
+            span,
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.5,
+              delay: 0.02,
+              ease: "power2.out",
+            },
+            "-=0.4"
+          );
+        });
+
+        contentTl.to(
+          sparkonomyRef.current.children,
+          {
+            color: "#6C63FF",
+            textShadow: "0 0 10px rgba(108,99,255,0.7)",
+            duration: 0.5,
+            stagger: {
+              each: 0.1,
+              repeat: -1,
+              yoyo: true,
+            },
+            onUpdate: function (this: gsap.TweenVars) {
+              const progress = this.progress();
+              const scaleValue = 1 + Math.sin(progress * Math.PI) * 0.1;
+              gsap.set(this.targets(), { scale: scaleValue });
+            },
           },
+          "-=0.5"
+        );
+
+        // Add floating animation to "sparkonomy"
+        gsap.to(sparkonomyRef.current, {
+          y: -10,
+          duration: 2,
+          repeat: -1,
+          yoyo: true,
+          ease: "power1.inOut",
         });
-      });
+      }
 
-      // Smoother floating animation
-      gsap.to(sparkonomyRef.current, {
-        y: -10,
-        duration: 2.5, // Slightly longer duration
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut", // Smoother easing
-      });
-    }
-  }, [showContent]);
+      // Animate tagline
+      if (taglineRef.current) {
+        const words = taglineRef.current.textContent?.split(" ") || [];
+        taglineRef.current.innerHTML = "";
+        words.forEach((word, index) => {
+          const span = document.createElement("span");
+          span.textContent = word + " ";
+          span.style.display = "inline-block";
+          span.style.opacity = "0";
+          span.style.transform = "translateY(20px)";
+          taglineRef.current?.appendChild(span);
 
-  useEffect(() => {
-    if (showContent && taglineRef.current) {
-      const text = "Developing AI to spark livelihoods globally";
-      taglineRef.current.innerHTML = "";
-
-      [...text].forEach((char, index) => {
-        const span = document.createElement("span");
-        span.textContent = char;
-        span.style.opacity = "0";
-        span.style.display = "inline-block";
-        taglineRef.current?.appendChild(span);
-
-        gsap.to(span, {
-          opacity: 1,
-          y: 0,
-          duration: 0.5,
-          delay: index * 0.05,
-          ease: "power2.out",
+          contentTl.to(
+            span,
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.5,
+              delay: 0.1 * index,
+              ease: "power2.out",
+            },
+            "-=0.4"
+          );
         });
-      });
+
+        // Add pulsating glow effect to tagline
+        gsap.to(taglineRef.current, {
+          textShadow: "0 0 15px rgba(108,99,255,0.7)",
+          duration: 1.5,
+          repeat: -1,
+          yoyo: true,
+          ease: "power1.inOut",
+        });
+      }
     }
   }, [showContent]);
 
@@ -213,20 +279,19 @@ const HeroSection = () => {
       onClick={handleUserInteraction}
       className="flex flex-col items-center justify-center min-h-screen p-4 relative overflow-hidden bg-none pointer-events-none"
     >
-      <div className="absolute inset-0">
+      <div className="absolute inset-0-none">
         <motion.div
           animate={{
             background: `radial-gradient(circle at ${mousePosition.x * 100}% ${
               mousePosition.y * 100
             }%, rgba(108,99,255,0.2), transparent 50%),
-                      radial-gradient(circle at ${
-                        100 - mousePosition.x * 100
-                      }% ${
+                        radial-gradient(circle at ${
+                          100 - mousePosition.x * 100
+                        }% ${
               100 - mousePosition.y * 100
             }%, rgba(108,99,255,0.1), transparent 30%)`,
           }}
           transition={{ type: "tween", duration: 0.2 }}
-          className="w-full h-full"
         />
       </div>
 
@@ -248,65 +313,71 @@ const HeroSection = () => {
         />
       </div>
 
-      <div className="text-center relative z-10 w-full max-w-6xl mx-auto px-4">
+      <div className="text-center relative z-10">
         <motion.div
-          className="flex flex-col items-center justify-center mb-12"
+          className={`absolute inset-0 flex flex-col space-y-8 items-center justify-center mb-12`}
           initial={{ opacity: 1 }}
           animate={{ opacity: showIgnitingNow ? 1 : 0 }}
           transition={{ duration: 0.5 }}
         >
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white flex flex-wrap justify-center select-none tracking-widest px-2">
-            {(() => {
-              const words = displayText.split(" ");
-              let letterIndex = 0;
-
-              return words.map((word, wordIndex) => (
-                <React.Fragment key={`word-${wordIndex}`}>
-                  <span className="flex">
-                    {[...word].map((letter) => {
-                      const currentIndex = letterIndex++;
-                      return (
-                        <motion.span
-                          key={`letter-${currentIndex}`}
-                          id={`letter-${currentIndex}`}
-                          className={`inline-block ${
-                            isSpacedText ? "mx-1" : ""
-                          }`}
-                          style={{
-                            textShadow: "0 0 10px rgba(108,99,255,0.5)",
-                          }}
-                        >
-                          {letter}
-                        </motion.span>
-                      );
-                    })}
-                  </span>
-                  {wordIndex < words.length - 1 && (
-                    <motion.span
-                      key={`space-${wordIndex}`}
-                      id={`letter-${letterIndex++}`}
-                      className="inline-block w-4 sm:w-6"
-                    />
-                  )}
-                </React.Fragment>
-              ));
-            })()}
+          <h1 className="text-5xl md:text-6xl font-bold text-white flex items-center justify-center gap-4 select-none">
+            <span className="flex">
+              {[..."I g n i t i n g"].map((letter, index) => (
+                <motion.span
+                  key={`igniting-${index}`}
+                  id={`letter-igniting-${index}`}
+                  className="inline-block"
+                  style={{
+                    textShadow: "0 0 10px rgba(108,99,255,0.5)",
+                  }}
+                >
+                  {letter}
+                </motion.span>
+              ))}
+            </span>
+            <span className="flex">
+              {[..."N o w . . ."].map((letter, index) => (
+                <motion.span
+                  key={`now-${index}`}
+                  id={`letter-now-${index}`}
+                  className="inline-block"
+                  style={{
+                    textShadow: "0 0 10px rgba(108,99,255,0.5)",
+                  }}
+                >
+                  {letter}
+                </motion.span>
+              ))}
+            </span>
           </h1>
+          {
+              <motion.h3
+                  initial={{opacity: 0, y: 20}}
+                  animate={{
+                    opacity: isInitialAnimationComplete ? 1 : 0,
+                    y: isInitialAnimationComplete ? 0 : 20,
+                  }}
+                  transition={{ duration: 1, ease: "easeInOut" }}
+              >
+            <p className="tagline text-md sm:text-lg md:text-xl mb-12 relative text-zinc-300 opacity-100 select-none">
+              It begins with you—move to ignite.
+            </p>
+          </motion.h3>}
         </motion.div>
 
         <motion.div
           ref={contentRef}
-          initial={{ opacity: 0, y: 20 }}
+          initial={{opacity: 0, y: 20}}
           animate={{
             opacity: showContent ? 1 : 0,
             y: showContent ? 0 : 20,
           }}
           transition={{ duration: 1, ease: "easeInOut" }}
         >
-          <div className="relative px-6 md:px-8"> {/* Added padding for Sparkonomy */}
+          <div className="relative">
             <h2
               ref={sparkonomyRef}
-              className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-6 tracking-normal text-white whitespace-nowrap select-none mx-auto"
+              className="text-6xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-6 tracking-normal text-white whitespace-nowrap select-none"
               style={{
                 textShadow: "0 0 20px rgba(108,99,255,0.3)",
               }}
@@ -315,14 +386,12 @@ const HeroSection = () => {
             </h2>
           </div>
 
-          <p
-            className="text-lg sm:text-xl md:text-2xl mb-12 relative text-white opacity-100 select-none"
-          >
+          <p className="tagline text-lg sm:text-xl md:text-2xl mb-12 relative text-white opacity-100 select-none">
             Developing AI to spark livelihoods globally
           </p>
 
           <div className="relative pointer-events-auto">
-            {showContent && <EmailCapture />}
+            {showContent && <EmailCapture/>}
           </div>
         </motion.div>
       </div>

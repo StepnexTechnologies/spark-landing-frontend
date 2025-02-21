@@ -37,38 +37,38 @@ export default function EmailCapture() {
 
   const glowVariants = {
     initial: {
-      boxShadow: "0 0 50px rgba(108,99,255,0.5), 0 0 80px rgba(108,99,255,0.3)",
+      boxShadow: "0 0 20px rgba(108,99,255,0.3), 0 0 40px rgba(108,99,255,0.1)",
     },
     hover: {
       boxShadow: [
-        "0 0 60px rgba(108,99,255,0.7), 0 0 100px rgba(108,99,255,0.4), 0 0 140px rgba(108,99,255,0.3)",
-        "0 0 80px rgba(108,99,255,0.8), 0 0 120px rgba(108,99,255,0.5), 0 0 160px rgba(108,99,255,0.4)",
-        "0 0 60px rgba(108,99,255,0.7), 0 0 100px rgba(108,99,255,0.4), 0 0 140px rgba(108,99,255,0.3)",
+        "0 0 20px rgba(108,99,255,0.5), 0 0 40px rgba(108,99,255,0.2), 0 0 60px rgba(108,99,255,0.1)",
+        "0 0 30px rgba(108,99,255,0.6), 0 0 50px rgba(108,99,255,0.3), 0 0 70px rgba(108,99,255,0.2)",
+        "0 0 20px rgba(108,99,255,0.5), 0 0 40px rgba(108,99,255,0.2), 0 0 60px rgba(108,99,255,0.1)",
       ],
       transition: {
-        duration: 3,
+        duration: 2,
         repeat: Number.POSITIVE_INFINITY,
         ease: "easeInOut",
       },
     },
     focus: {
       boxShadow:
-        "0 0 80px rgba(108,99,255,0.9), 0 0 120px rgba(108,99,255,0.6), 0 0 160px rgba(108,99,255,0.4)",
+        "0 0 30px rgba(108,99,255,0.8), 0 0 50px rgba(108,99,255,0.4), 0 0 70px rgba(108,99,255,0.2)",
     },
   };
 
+  // Synchronized button glow animation
   const buttonGlowVariants = {
     animate: {
       boxShadow: loading
-        ? "0 0 30px rgba(255,255,255,0.6)"
+        ? "0 0 10px rgba(255,255,255,0.5)"
         : [
-            "0 0 30px rgba(108,99,255,0.7)",
-            "0 0 50px rgba(108,99,255,0.8)",
-            "0 0 30px rgba(108,99,255,0.7)",
+            "0 0 10px rgba(108,99,255,0.4)",
+            "0 0 20px rgba(108,99,255,0.5)",
+            "0 0 10px rgba(108,99,255,0.4)",
           ],
-      scale: loading ? 1 : [1, 1.05, 1],
       transition: {
-        duration: 3,
+        duration: 2,
         repeat: Number.POSITIVE_INFINITY,
         ease: "easeInOut",
       },
@@ -86,18 +86,6 @@ export default function EmailCapture() {
             exit={{ opacity: 0, scale: 0.95 }}
             className="relative group"
           >
-            <motion.div
-              className="absolute -inset-4 bg-gradient-to-r from-purple-600/20 via-violet-600/20 to-purple-600/20 rounded-2xl blur-lg -z-10"
-              animate={{
-                opacity: [0.5, 0.8, 0.5],
-              }}
-              transition={{
-                duration: 3,
-                repeat: Number.POSITIVE_INFINITY,
-                ease: "easeInOut",
-              }}
-            />
-
             <div className="relative flex items-center">
               <motion.div
                 initial="initial"
@@ -118,12 +106,12 @@ export default function EmailCapture() {
                 onBlur={() => setIsFocused(false)}
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
-                placeholder="Get Early Access, By Invitation"
-                className="w-full px-6 pr-14 py-4 bg-black/50 backdrop-blur-sm border-2 border-[#6C63FF] rounded-full text-white placeholder-gray-400 focus:outline-none focus:border-white transition-all duration-300 text-base sm:text-lg"
+                placeholder="Get Early Access, Leave Your Email"
+                className="w-full px-4 pr-12 py-3 bg-black/50 backdrop-blur-sm border-2 border-[#6C63FF] rounded-full text-white placeholder-gray-400 focus:outline-none focus:border-white transition-all duration-300 text-sm sm:text-base"
                 required
               />
 
-              <div className="absolute right-3 flex items-center">
+              <div className="absolute right-2 flex items-center">
                 <motion.button
                   type="submit"
                   disabled={loading}
@@ -131,7 +119,7 @@ export default function EmailCapture() {
                   whileTap={{ scale: 0.95 }}
                   variants={buttonGlowVariants}
                   animate="animate"
-                  className="bg-[#6C63FF] text-white w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center overflow-hidden"
+                  className="bg-[#6C63FF] text-white w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center overflow-hidden"
                 >
                   {loading ? (
                     <motion.div
@@ -140,10 +128,10 @@ export default function EmailCapture() {
                         duration: 1,
                         repeat: Number.POSITIVE_INFINITY,
                       }}
-                      className="w-5 h-5 border-2 border-white border-t-transparent rounded-full"
+                      className="w-4 h-4 border-2 border-white border-t-transparent rounded-full"
                     />
                   ) : (
-                    <ArrowRight className="w-6 h-6 sm:w-7 sm:h-7" />
+                    <ArrowRight />
                   )}
                 </motion.button>
               </div>
@@ -154,7 +142,7 @@ export default function EmailCapture() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.2 }}
-                className="text-sm sm:text-base text-red-400 mt-3 text-center italic"
+                className="text-xs sm:text-sm text-red-400 mt-2 text-center italic"
               >
                 {error}
               </motion.p>
@@ -164,7 +152,7 @@ export default function EmailCapture() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.2 }}
-              className="text-sm sm:text-base text-gray-400 mt-3 text-center italic select-none"
+              className="text-xs sm:text-sm text-gray-400 mt-2 text-center italic select-none"
             >
               No spam. Just sparks.
             </motion.p>
@@ -173,10 +161,10 @@ export default function EmailCapture() {
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="text-center py-4"
+            className="text-center py-3"
           >
             <motion.div
-              className="flex items-center justify-center gap-3 text-purple-400 select-none"
+              className="flex items-center justify-center gap-2 text-purple-400 select-none"
               animate={{
                 scale: [1, 1.1, 1],
               }}
@@ -186,13 +174,13 @@ export default function EmailCapture() {
                 repeatType: "reverse",
               }}
             >
-              <Sparkles className="w-6 h-6 sm:w-7 sm:h-7" />
-              <p className="text-white text-lg sm:text-xl">
+              <Sparkles className="w-5 h-5" />
+              <p className="text-white text-lg">
                 {responseNumber !== null
                   ? `Your lucky number: ${responseNumber}`
                   : "Igniting your journey..."}
               </p>
-              <Sparkles className="w-6 h-6 sm:w-7 sm:h-7" />
+              <Sparkles className="w-5 h-5" />
             </motion.div>
           </motion.div>
         )}
