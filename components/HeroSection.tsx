@@ -16,6 +16,7 @@ const HeroSection = () => {
   const [isDesktopDevice, setIsDesktopDevice] = useState(true); // Default to desktop
   const [userHasInteracted, setUserHasInteracted] = useState(false);
   const [showPromptLine, setShowPromptLine] = useState(false);
+  const [allowInteraction, setAllowInteraction] = useState(false);
 
   // States for sequential lazy loading
   const [titleVisible, setTitleVisible] = useState(false);
@@ -92,6 +93,8 @@ const HeroSection = () => {
       onComplete: () => {
         // "Igniting Now..." animation is complete
         setIsInitialAnimationComplete(true);
+        // Only allow interaction after animation completes
+        setAllowInteraction(true);
       },
     });
 
@@ -151,8 +154,10 @@ const HeroSection = () => {
     };
   }, []);
 
-  // Track user interactions
+  // Track user interactions, but only after interaction is allowed
   useEffect(() => {
+    if (!allowInteraction) return;
+
     const handleUserInteraction = () => {
       setUserHasInteracted(true);
     };
@@ -168,7 +173,7 @@ const HeroSection = () => {
       window.removeEventListener("click", handleUserInteraction);
       window.removeEventListener("touchstart", handleUserInteraction);
     };
-  }, []);
+  }, [allowInteraction]);
 
   // Decide what to show after initial animation completes
   useEffect(() => {
@@ -373,6 +378,9 @@ const HeroSection = () => {
   }, [emailCaptureVisible]);
 
   const handleUserInteraction = (e: React.MouseEvent) => {
+    // Only process mouse interactions if allowed
+    if (!allowInteraction) return;
+
     if (containerRef.current) {
       const rect = containerRef.current.getBoundingClientRect();
       const x = (e.clientX - rect.left) / rect.width;
@@ -399,7 +407,9 @@ const HeroSection = () => {
       ref={containerRef}
       onMouseMove={handleUserInteraction}
       onClick={handleUserInteraction}
-      className="flex flex-col items-center justify-center min-h-screen p-4 relative overflow-hidden bg-none pointer-events-none"
+      className={`flex flex-col items-center justify-center min-h-screen p-4 relative overflow-hidden bg-none ${
+        allowInteraction ? "pointer-events-auto" : "pointer-events-none"
+      }`}
     >
       <div className="absolute inset-0-none">
         <motion.div
