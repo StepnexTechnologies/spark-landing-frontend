@@ -10,13 +10,8 @@ const HeroSection = () => {
   const [isTextRevealed, setIsTextRevealed] = useState(false);
   const [showContent, setShowContent] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [showIgnitingNow, setShowIgnitingNow] = useState<boolean>(true);
-  const [isInitialAnimationComplete, setIsInitialAnimationComplete] =
-    useState(false);
+  const [isInitialAnimationComplete, setIsInitialAnimationComplete] = useState(false);
   const [isDesktopDevice, setIsDesktopDevice] = useState(true); // Default to desktop
-  const [userHasInteracted, setUserHasInteracted] = useState(false);
-  const [showPromptLine, setShowPromptLine] = useState(false);
-  const [allowInteraction, setAllowInteraction] = useState(false);
 
   // States for sequential lazy loading
   const [titleVisible, setTitleVisible] = useState(false);
@@ -33,10 +28,8 @@ const HeroSection = () => {
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    // Start with desktop assumption (the default state is already true)
     let isDesktop = true;
 
-    // Then check explicitly for mobile indicators in user agent
     if (
       /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
         navigator.userAgent
@@ -56,60 +49,27 @@ const HeroSection = () => {
       document.body.classList.add("mobile-device");
       document.body.classList.remove("desktop-device");
     }
-
-    console.log(
-      "Device detected as:",
-      isDesktop ? "desktop/laptop" : "mobile/tablet"
-    );
-    console.log("User agent:", navigator.userAgent);
   }, []);
-
-  // Explicit text setting via DOM after render - backup approach
-  useEffect(() => {
-    const updateMoveText = () => {
-      const moveTextElement = document.getElementById("moveText");
-      if (!moveTextElement) return;
-
-      const textContent = isDesktopDevice
-        ? "move to ignite"
-        : "touch to ignite";
-
-      // Only update if different to avoid unnecessary DOM manipulation
-      if (moveTextElement.textContent !== textContent) {
-        moveTextElement.textContent = textContent;
-        console.log("Text forcibly updated to:", textContent);
-      }
-    };
-
-    // Update immediately and after a short delay to handle any race conditions
-    updateMoveText();
-    const timeoutId = setTimeout(updateMoveText, 500);
-
-    return () => clearTimeout(timeoutId);
-  }, [isDesktopDevice]);
 
   useEffect(() => {
     const tl = gsap.timeline({
       onComplete: () => {
         // "Igniting Now..." animation is complete
         setIsInitialAnimationComplete(true);
-        // Only allow interaction after animation completes
-        setAllowInteraction(true);
       },
     });
 
     // Animate "IGNITING" letter by letter with chained timing
-    [..."I g n i t i n g"].forEach((letter, index) => {
+    [..."I g n i t i n g"].forEach((letter,index) => {
       tl.fromTo(
         `#letter-igniting-${index}`,
-        { opacity: 0, y: 10 },
+        { opacity: 0, x: 10 },
         {
           opacity: 1,
           y: 0,
-          duration: 0.08,
-          ease: "power1.out",
+          duration: 0.06,
+          ease: "easeInOut",
         },
-        "+=0.02" // Small delay between each letter
       );
     });
 
@@ -117,36 +77,17 @@ const HeroSection = () => {
     tl.to({}, { duration: 0.2 });
 
     // Animate "NOW..." letter by letter with chained timing
-    [..."N o w . . ."].forEach((letter, index) => {
+    [..."N o w . . ."].forEach(( letter,index) => {
       tl.fromTo(
         `#letter-now-${index}`,
-        { opacity: 0, y: 10 },
+        { opacity: 0, x: 10 },
         {
           opacity: 1,
           y: 0,
-          duration: 0.08,
-          ease: "power1.out",
+          duration: 0.06,
+          ease: "easeInOut",
         },
-        "+=0.02" // Small delay between each letter
       );
-    });
-
-    // Animate the final dot
-    tl.to("#final-dot", {
-      scale: 1.2,
-      opacity: 1,
-      repeat: 3,
-      duration: 0.8,
-      ease: "power2.inOut",
-      yoyo: true,
-    });
-
-    // Animate background
-    gsap.to(".bg-animation", {
-      backgroundPosition: "100% 100%",
-      duration: 20,
-      repeat: -1,
-      ease: "none",
     });
 
     return () => {
@@ -154,99 +95,28 @@ const HeroSection = () => {
     };
   }, []);
 
-  // Track user interactions, but only after interaction is allowed
-  useEffect(() => {
-    if (!allowInteraction) return;
-
-    const handleUserInteraction = () => {
-      setUserHasInteracted(true);
-    };
-
-    window.addEventListener("mousemove", handleUserInteraction, { once: true });
-    window.addEventListener("click", handleUserInteraction, { once: true });
-    window.addEventListener("touchstart", handleUserInteraction, {
-      once: true,
-    });
-
-    return () => {
-      window.removeEventListener("mousemove", handleUserInteraction);
-      window.removeEventListener("click", handleUserInteraction);
-      window.removeEventListener("touchstart", handleUserInteraction);
-    };
-  }, [allowInteraction]);
-
   // Decide what to show after initial animation completes
   useEffect(() => {
-    if (isInitialAnimationComplete) {
-      if (userHasInteracted) {
-        // User has already interacted, skip the prompt and show content
+    if (isInitialAnimationComplete && !showContent) {
+      const handleInteraction = () => {
         setShowContent(true);
-        setShowIgnitingNow(false);
-        setShowPromptLine(false);
-      } else {
-        // User hasn't interacted yet, show the prompt line
-        setShowPromptLine(true);
+        window.removeEventListener("mousemove", handleInteraction);
+        window.removeEventListener("click", handleInteraction);
+        window.removeEventListener("touchstart", handleInteraction);
+      };
 
-        // Setup interaction listeners to show content when user interacts
-        const showContentOnInteraction = () => {
-          setShowContent(true);
-          setShowIgnitingNow(false);
-          setShowPromptLine(false);
+      window.addEventListener("mousemove", handleInteraction);
+      window.addEventListener("click", handleInteraction);
+      window.addEventListener("touchstart", handleInteraction);
 
-          window.removeEventListener("mousemove", showContentOnInteraction);
-          window.removeEventListener("click", showContentOnInteraction);
-          window.removeEventListener("touchstart", showContentOnInteraction);
-        };
-
-        window.addEventListener("mousemove", showContentOnInteraction);
-        window.addEventListener("click", showContentOnInteraction);
-        window.addEventListener("touchstart", showContentOnInteraction);
-
-        return () => {
-          window.removeEventListener("mousemove", showContentOnInteraction);
-          window.removeEventListener("click", showContentOnInteraction);
-          window.removeEventListener("touchstart", showContentOnInteraction);
-        };
-      }
+      return () => {
+        window.removeEventListener("mousemove", handleInteraction);
+        window.removeEventListener("click", handleInteraction);
+        window.removeEventListener("touchstart", handleInteraction);
+      };
     }
-  }, [isInitialAnimationComplete, userHasInteracted]);
+  }, [isInitialAnimationComplete, showContent]);
 
-  // Animate the prompt line
-  useEffect(() => {
-    if (showPromptLine) {
-      const promptLineElement = document.getElementById("promptLine");
-      if (promptLineElement) {
-        gsap.fromTo(
-          promptLineElement,
-          {
-            opacity: 0,
-            y: 20,
-          },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.5,
-            ease: "power2.out",
-          }
-        );
-
-        // Add a pulsing animation to the "move to ignite" text
-        const moveTextElement = document.getElementById("moveText");
-        if (moveTextElement) {
-          gsap.to(moveTextElement, {
-            scale: 1.05,
-            textShadow: "0 0 8px rgba(255,255,255,0.8)",
-            color: "#ffffff",
-            delay: 0.5,
-            duration: 1,
-            repeat: -1,
-            yoyo: true,
-            ease: "power1.inOut",
-          });
-        }
-      }
-    }
-  }, [showPromptLine]);
 
   // Sequential lazy loading animation when content should be shown
   useEffect(() => {
@@ -270,10 +140,10 @@ const HeroSection = () => {
         // After another 1 second, show the email capture
         const emailTimer = setTimeout(() => {
           setEmailCaptureVisible(true);
-        }, 1000);
+        }, 200);
 
         return () => clearTimeout(emailTimer);
-      }, 1000);
+      }, 200);
 
       return () => clearTimeout(subtextTimer);
     }
@@ -378,9 +248,6 @@ const HeroSection = () => {
   }, [emailCaptureVisible]);
 
   const handleUserInteraction = (e: React.MouseEvent) => {
-    // Only process mouse interactions if allowed
-    if (!allowInteraction) return;
-
     if (containerRef.current) {
       const rect = containerRef.current.getBoundingClientRect();
       const x = (e.clientX - rect.left) / rect.width;
@@ -407,9 +274,7 @@ const HeroSection = () => {
       ref={containerRef}
       onMouseMove={handleUserInteraction}
       onClick={handleUserInteraction}
-      className={`flex flex-col items-center justify-center min-h-screen p-4 relative overflow-hidden bg-none ${
-        allowInteraction ? "pointer-events-auto" : "pointer-events-none"
-      }`}
+      className={`flex flex-col items-center justify-center min-h-screen p-4 relative overflow-hidden bg-none pointer-events-none`}
     >
       <div className="absolute inset-0-none">
         <motion.div
@@ -447,10 +312,10 @@ const HeroSection = () => {
 
       <div className="text-center relative z-10">
         <motion.div
-          className={`absolute inset-0 flex flex-col space-y-8 items-center justify-center mb-12`}
+          className={`absolute inset-0 flex flex-col space-y-8 items-center justify-center mb-12 ${showContent && 'hidden'}`}
           initial={{ opacity: 1 }}
-          animate={{ opacity: showIgnitingNow ? 1 : 0 }}
-          transition={{ duration: 0.5 }}
+          animate={{ opacity: showContent ? 0 : 1 }}
+          transition={{ duration: 0.5, ease: "easeInOut" }}
         >
           <h1 className="text-5xl md:text-6xl font-bold text-white flex items-center justify-center gap-4 select-none">
             <span className="flex">
@@ -482,24 +347,21 @@ const HeroSection = () => {
               ))}
             </span>
           </h1>
-          {
-            <motion.h3
-              id="promptLine"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{
-                opacity: showPromptLine ? 1 : 0,
-                y: showPromptLine ? 0 : 20,
-              }}
-              transition={{ duration: 0.5, ease: "easeOut" }}
-            >
-              <p className="tagline text-md sm:text-lg md:text-xl mb-12 relative text-zinc-300 opacity-100 select-none">
-                It begins with you—
-                <span id="moveText">
-                  {isDesktopDevice ? "move to ignite" : "touch to ignite"}
-                </span>
-              </p>
-            </motion.h3>
-          }
+          <motion.h3
+            id="promptLine"
+            initial={{ opacity: 0 }}
+            animate={{
+              opacity: (isInitialAnimationComplete && !showContent) ? 1 : 0 ,
+            }}
+            transition={{ delay: 2, duration: 1, ease: "easeInOut" }}
+          >
+            <p className={`tagline text-md sm:text-lg md:text-xl mb-12 relative text-zinc-300 select-none ${showContent && 'hidden'}`}>
+              It begins with you—
+              <span id="moveText">
+                {isDesktopDevice ? "move to ignite" : "touch to ignite"}
+              </span>
+            </p>
+          </motion.h3>
         </motion.div>
 
         <motion.div
@@ -517,7 +379,7 @@ const HeroSection = () => {
           >
             <h2
               ref={sparkonomyRef}
-              className="text-5xl xs:text-5xl sm:text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-bold mb-6 tracking-normal text-white select-none whitespace-nowrap"
+              className="text-5xl xs:text-5xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-6 tracking-normal text-white select-none whitespace-nowrap"
               style={{
                 textShadow: "0 0 20px rgba(108,99,255,0.3)",
               }}
