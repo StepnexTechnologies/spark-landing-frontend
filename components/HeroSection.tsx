@@ -14,6 +14,8 @@ const HeroSection = () => {
   const [isInitialAnimationComplete, setIsInitialAnimationComplete] =
     useState(false);
   const [isDesktopDevice, setIsDesktopDevice] = useState(true); // Default to desktop
+  const [userHasInteracted, setUserHasInteracted] = useState(false);
+  const [showPromptLine, setShowPromptLine] = useState(false);
 
   // States for sequential lazy loading
   const [titleVisible, setTitleVisible] = useState(false);
@@ -25,61 +27,6 @@ const HeroSection = () => {
   const sparkonomyRef = useRef<HTMLHeadingElement>(null);
   const taglineRef = useRef<HTMLParagraphElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
-
-  // const splatInterval = useRef<NodeJS.Timeout | null>(null);
-  // const inactivityTimer = useRef<NodeJS.Timeout | null>(null);
-  //
-  // const startSplats = () => {
-  //   if (!splatInterval.current) {
-  //     splatInterval.current = setInterval(() => {
-  //       if (simulationInstance && showContent && document.visibilityState === "visible") {
-  //         simulationInstance.multipleSplats(Math.random() * (5 - 2) + 2); // Random splats between 2 and 5
-  //       }
-  //     }, 5000);
-  //   }
-  // };
-  //
-  // const stopSplats = () => {
-  //   if (splatInterval.current) {
-  //     clearInterval(splatInterval.current);
-  //     splatInterval.current = null;
-  //   }
-  // };
-  //
-  // const resetInactivityTimer = () => {
-  //   if (inactivityTimer.current) {
-  //     clearTimeout(inactivityTimer.current);
-  //   }
-  //   stopSplats(); // Stop splats immediately on interaction
-  //
-  //   inactivityTimer.current = setTimeout(() => {
-  //     startSplats(); // Start splats after 5 seconds of inactivity
-  //   }, 5000);
-  // };
-  //
-  // useEffect(() => {
-  //   // User activity events to reset the inactivity timer
-  //   const handleUserActivity = () => resetInactivityTimer();
-  //
-  //   window.addEventListener("mousemove", handleUserActivity);
-  //   window.addEventListener("keydown", handleUserActivity);
-  //   window.addEventListener("click", handleUserActivity);
-  //   window.addEventListener("scroll", handleUserActivity);
-  //   window.addEventListener("touchstart", handleUserActivity);
-  //
-  //   // Start inactivity timer when component mounts
-  //   resetInactivityTimer();
-  //
-  //   return () => {
-  //     stopSplats();
-  //     if (inactivityTimer.current) clearTimeout(inactivityTimer.current);
-  //     window.removeEventListener("mousemove", handleUserActivity);
-  //     window.removeEventListener("keydown", handleUserActivity);
-  //     window.removeEventListener("click", handleUserActivity);
-  //     window.removeEventListener("scroll", handleUserActivity);
-  //     window.removeEventListener("touchstart", handleUserActivity);
-  //   };
-  // }, []);
 
   // Device detection - run once on component mount
   useEffect(() => {
@@ -143,9 +90,8 @@ const HeroSection = () => {
   useEffect(() => {
     const tl = gsap.timeline({
       onComplete: () => {
-        setTimeout(() => {
-          setIsInitialAnimationComplete(true);
-        }, 300); // Reduced from 500 to 300 for faster transition
+        // "Igniting Now..." animation is complete
+        setIsInitialAnimationComplete(true);
       },
     });
 
@@ -205,32 +151,101 @@ const HeroSection = () => {
     };
   }, []);
 
+  // Track user interactions
   useEffect(() => {
-    if (isInitialAnimationComplete && !showContent) {
-      const handleInteraction = () => {
+    const handleUserInteraction = () => {
+      setUserHasInteracted(true);
+    };
+
+    window.addEventListener("mousemove", handleUserInteraction, { once: true });
+    window.addEventListener("click", handleUserInteraction, { once: true });
+    window.addEventListener("touchstart", handleUserInteraction, {
+      once: true,
+    });
+
+    return () => {
+      window.removeEventListener("mousemove", handleUserInteraction);
+      window.removeEventListener("click", handleUserInteraction);
+      window.removeEventListener("touchstart", handleUserInteraction);
+    };
+  }, []);
+
+  // Decide what to show after initial animation completes
+  useEffect(() => {
+    if (isInitialAnimationComplete) {
+      if (userHasInteracted) {
+        // User has already interacted, skip the prompt and show content
         setShowContent(true);
-        window.removeEventListener("mousemove", handleInteraction);
-        window.removeEventListener("click", handleInteraction);
-        window.removeEventListener("touchstart", handleInteraction);
-      };
+        setShowIgnitingNow(false);
+        setShowPromptLine(false);
+      } else {
+        // User hasn't interacted yet, show the prompt line
+        setShowPromptLine(true);
 
-      window.addEventListener("mousemove", handleInteraction);
-      window.addEventListener("click", handleInteraction);
-      window.addEventListener("touchstart", handleInteraction);
+        // Setup interaction listeners to show content when user interacts
+        const showContentOnInteraction = () => {
+          setShowContent(true);
+          setShowIgnitingNow(false);
+          setShowPromptLine(false);
 
-      return () => {
-        window.removeEventListener("mousemove", handleInteraction);
-        window.removeEventListener("click", handleInteraction);
-        window.removeEventListener("touchstart", handleInteraction);
-      };
+          window.removeEventListener("mousemove", showContentOnInteraction);
+          window.removeEventListener("click", showContentOnInteraction);
+          window.removeEventListener("touchstart", showContentOnInteraction);
+        };
+
+        window.addEventListener("mousemove", showContentOnInteraction);
+        window.addEventListener("click", showContentOnInteraction);
+        window.addEventListener("touchstart", showContentOnInteraction);
+
+        return () => {
+          window.removeEventListener("mousemove", showContentOnInteraction);
+          window.removeEventListener("click", showContentOnInteraction);
+          window.removeEventListener("touchstart", showContentOnInteraction);
+        };
+      }
     }
-  }, [isInitialAnimationComplete, showContent]);
+  }, [isInitialAnimationComplete, userHasInteracted]);
+
+  // Animate the prompt line
+  useEffect(() => {
+    if (showPromptLine) {
+      const promptLineElement = document.getElementById("promptLine");
+      if (promptLineElement) {
+        gsap.fromTo(
+          promptLineElement,
+          {
+            opacity: 0,
+            y: 20,
+          },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.5,
+            ease: "power2.out",
+          }
+        );
+
+        // Add a pulsing animation to the "move to ignite" text
+        const moveTextElement = document.getElementById("moveText");
+        if (moveTextElement) {
+          gsap.to(moveTextElement, {
+            scale: 1.05,
+            textShadow: "0 0 8px rgba(255,255,255,0.8)",
+            color: "#ffffff",
+            delay: 0.5,
+            duration: 1,
+            repeat: -1,
+            yoyo: true,
+            ease: "power1.inOut",
+          });
+        }
+      }
+    }
+  }, [showPromptLine]);
 
   // Sequential lazy loading animation when content should be shown
   useEffect(() => {
     if (showContent) {
-      setShowIgnitingNow(false);
-
       // Trigger fluid simulation if available
       const simulationInstance = (
         window as unknown as Window & { fluidSimulation: any }
@@ -459,15 +474,19 @@ const HeroSection = () => {
           </h1>
           {
             <motion.h3
+              id="promptLine"
               initial={{ opacity: 0, y: 20 }}
               animate={{
-                opacity: isInitialAnimationComplete ? 1 : 0,
-                y: isInitialAnimationComplete ? 0 : 20,
+                opacity: showPromptLine ? 1 : 0,
+                y: showPromptLine ? 0 : 20,
               }}
-              transition={{ duration: 0.5, ease: "easeOut" }} // Reduced from 1 to 0.5 and changed ease
+              transition={{ duration: 0.5, ease: "easeOut" }}
             >
               <p className="tagline text-md sm:text-lg md:text-xl mb-12 relative text-zinc-300 opacity-100 select-none">
-                It begins with you—<span id="moveText">move to ignite</span>.
+                It begins with you—
+                <span id="moveText">
+                  {isDesktopDevice ? "move to ignite" : "touch to ignite"}
+                </span>
               </p>
             </motion.h3>
           }
