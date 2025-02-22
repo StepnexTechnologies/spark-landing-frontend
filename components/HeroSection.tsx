@@ -15,6 +15,11 @@ const HeroSection = () => {
     useState(false);
   const [isDesktopDevice, setIsDesktopDevice] = useState(true); // Default to desktop
 
+  // States for sequential lazy loading
+  const [titleVisible, setTitleVisible] = useState(false);
+  const [subtextVisible, setSubtextVisible] = useState(false);
+  const [emailCaptureVisible, setEmailCaptureVisible] = useState(false);
+
   const containerRef = useRef<HTMLDivElement>(null);
   const sparkRef = useRef<HTMLDivElement>(null);
   const sparkonomyRef = useRef<HTMLHeadingElement>(null);
@@ -140,7 +145,7 @@ const HeroSection = () => {
       onComplete: () => {
         setTimeout(() => {
           setIsInitialAnimationComplete(true);
-        }, 500);
+        }, 300); // Reduced from 500 to 300 for faster transition
       },
     });
 
@@ -221,11 +226,12 @@ const HeroSection = () => {
     }
   }, [isInitialAnimationComplete, showContent]);
 
+  // Sequential lazy loading animation when content should be shown
   useEffect(() => {
     if (showContent) {
       setShowIgnitingNow(false);
 
-      const contentTl = gsap.timeline();
+      // Trigger fluid simulation if available
       const simulationInstance = (
         window as unknown as Window & { fluidSimulation: any }
       ).fluidSimulation;
@@ -233,93 +239,123 @@ const HeroSection = () => {
         simulationInstance.multipleSplats(10);
       }
 
-      // Animate "sparkonomy" text
-      if (sparkonomyRef.current) {
-        const chars = sparkonomyRef.current.textContent?.split("") || [];
-        sparkonomyRef.current.innerHTML = "";
-        chars.forEach((char) => {
-          const span = document.createElement("span");
-          span.textContent = char;
-          span.style.display = "inline-block";
-          span.style.opacity = "0";
-          sparkonomyRef.current?.appendChild(span);
-        });
+      // Sequential loading with delays
+      // First show the title
+      setTitleVisible(true);
 
-        // Animate each letter with smooth, sequential timing
-        contentTl.to(sparkonomyRef.current.children, {
-          opacity: 1,
-          y: 0,
-          duration: 0.3,
-          stagger: 0.03, // Small stagger between letters
-          ease: "power1.out",
-        });
+      // After 1 second, show the subtext
+      const subtextTimer = setTimeout(() => {
+        setSubtextVisible(true);
 
-        contentTl.to(
-          sparkonomyRef.current.children,
-          {
-            color: "#6C63FF",
-            textShadow: "0 0 10px rgba(108,99,255,0.7)",
-            duration: 0.5,
-            stagger: {
-              each: 0.1,
-              repeat: -1,
-              yoyo: true,
-            },
-            onUpdate: function (this: gsap.TweenVars) {
-              const progress = this.progress();
-              const scaleValue = 1 + Math.sin(progress * Math.PI) * 0.1;
-              gsap.set(this.targets(), { scale: scaleValue });
-            },
-          },
-          "+=0.1"
-        );
+        // After another 1 second, show the email capture
+        const emailTimer = setTimeout(() => {
+          setEmailCaptureVisible(true);
+        }, 1000);
 
-        // Add floating animation to "sparkonomy"
-        gsap.to(sparkonomyRef.current, {
-          y: -10,
-          duration: 2,
-          repeat: -1,
-          yoyo: true,
-          ease: "power1.inOut",
-        });
-      }
+        return () => clearTimeout(emailTimer);
+      }, 1000);
 
-      // Animate tagline
-      if (taglineRef.current) {
-        const words = taglineRef.current.textContent?.split(" ") || [];
-        taglineRef.current.innerHTML = "";
-        words.forEach((word, index) => {
-          const span = document.createElement("span");
-          span.textContent = word + " ";
-          span.style.display = "inline-block";
-          span.style.opacity = "0";
-          span.style.transform = "translateY(20px)";
-          taglineRef.current?.appendChild(span);
-
-          contentTl.to(
-            span,
-            {
-              opacity: 1,
-              y: 0,
-              duration: 0.5,
-              delay: 0.1 * index,
-              ease: "power2.out",
-            },
-            "-=0.4"
-          );
-        });
-
-        // Add pulsating glow effect to tagline
-        gsap.to(taglineRef.current, {
-          textShadow: "0 0 15px rgba(108,99,255,0.7)",
-          duration: 1.5,
-          repeat: -1,
-          yoyo: true,
-          ease: "power1.inOut",
-        });
-      }
+      return () => clearTimeout(subtextTimer);
     }
   }, [showContent]);
+
+  // Apply animations to title when it becomes visible
+  useEffect(() => {
+    if (titleVisible && sparkonomyRef.current) {
+      const contentTl = gsap.timeline();
+
+      // Apply animations to the title
+      const chars = sparkonomyRef.current.textContent?.split("") || [];
+      sparkonomyRef.current.innerHTML = "";
+      chars.forEach((char) => {
+        const span = document.createElement("span");
+        span.textContent = char;
+        span.style.display = "inline-block";
+        span.style.opacity = "0";
+        sparkonomyRef.current?.appendChild(span);
+      });
+
+      // Animate each letter with smooth, sequential timing
+      contentTl.to(sparkonomyRef.current.children, {
+        opacity: 1,
+        y: 0,
+        duration: 0.3,
+        stagger: 0.03,
+        ease: "power1.out",
+      });
+
+      contentTl.to(
+        sparkonomyRef.current.children,
+        {
+          color: "#6C63FF",
+          textShadow: "0 0 10px rgba(108,99,255,0.7)",
+          duration: 0.5,
+          stagger: {
+            each: 0.1,
+            repeat: -1,
+            yoyo: true,
+          },
+          onUpdate: function (this: gsap.TweenVars) {
+            const progress = this.progress();
+            const scaleValue = 1 + Math.sin(progress * Math.PI) * 0.1;
+            gsap.set(this.targets(), { scale: scaleValue });
+          },
+        },
+        "+=0.1"
+      );
+
+      // Add floating animation to "sparkonomy"
+      gsap.to(sparkonomyRef.current, {
+        y: -10,
+        duration: 2,
+        repeat: -1,
+        yoyo: true,
+        ease: "power1.inOut",
+      });
+    }
+  }, [titleVisible]);
+
+  // Apply smooth animation to tagline when it becomes visible
+  useEffect(() => {
+    if (subtextVisible && taglineRef.current) {
+      // Smoothly animate in the tagline
+      gsap.fromTo(
+        taglineRef.current,
+        {
+          opacity: 0,
+          y: 20,
+        },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power2.out",
+        }
+      );
+    }
+  }, [subtextVisible]);
+
+  // Apply smooth animation to email capture when it becomes visible
+  useEffect(() => {
+    if (emailCaptureVisible) {
+      const emailContainer = document.querySelector(".email-container");
+      if (emailContainer) {
+        gsap.fromTo(
+          emailContainer,
+          {
+            opacity: 0,
+            y: 20,
+          },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: "power2.out",
+          }
+        );
+      }
+    }
+  }, [emailCaptureVisible]);
 
   const handleUserInteraction = (e: React.MouseEvent) => {
     if (containerRef.current) {
@@ -428,7 +464,7 @@ const HeroSection = () => {
                 opacity: isInitialAnimationComplete ? 1 : 0,
                 y: isInitialAnimationComplete ? 0 : 20,
               }}
-              transition={{ duration: 1, ease: "easeInOut" }}
+              transition={{ duration: 0.5, ease: "easeOut" }} // Reduced from 1 to 0.5 and changed ease
             >
               <p className="tagline text-md sm:text-lg md:text-xl mb-12 relative text-zinc-300 opacity-100 select-none">
                 It begins with you—<span id="moveText">move to ignite</span>.
@@ -446,10 +482,13 @@ const HeroSection = () => {
           }}
           transition={{ duration: 1, ease: "easeInOut" }}
         >
-          <div className="relative px-4 w-full flex justify-center">
+          <div
+            className="relative px-4 w-full flex justify-center transition-opacity duration-700"
+            style={{ opacity: titleVisible ? 1 : 0 }}
+          >
             <h2
               ref={sparkonomyRef}
-              className="text-4xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-normal text-white select-none whitespace-nowrap"
+              className="text-5xl xs:text-5xl sm:text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-bold mb-6 tracking-normal text-white select-none whitespace-nowrap"
               style={{
                 textShadow: "0 0 20px rgba(108,99,255,0.3)",
               }}
@@ -459,12 +498,25 @@ const HeroSection = () => {
           </div>
 
           <p
-            className="tagline text-lg sm:text-xl md:text-2xl mb-12 relative text-white opacity-100 select-none px-4"
+            ref={taglineRef}
+            className="tagline text-lg sm:text-xl md:text-2xl mb-12 relative text-white select-none px-4 transition-opacity duration-700"
+            style={{
+              opacity: subtextVisible ? 1 : 0,
+              transform: subtextVisible ? "translateY(0)" : "translateY(20px)",
+            }}
           >
             Developing AI to spark livelihoods globally
           </p>
 
-          <div className="relative pointer-events-auto">
+          <div
+            className="relative pointer-events-auto transition-all duration-700 email-container"
+            style={{
+              opacity: emailCaptureVisible ? 1 : 0,
+              transform: emailCaptureVisible
+                ? "translateY(0)"
+                : "translateY(20px)",
+            }}
+          >
             {showContent && <EmailCapture />}
           </div>
         </motion.div>
