@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState, Suspense } from "react";
+import { useEffect, useRef, Suspense } from "react";
 import Link from "next/link";
 import { motion, useAnimation } from "framer-motion";
 import { useSearchParams, useRouter } from "next/navigation";
@@ -8,7 +8,7 @@ import { Home, Sparkles } from "lucide-react";
 function ThankYouContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const [responseMessage, setResponseMessage] = useState<string | null>(null);
+  // const [responseMessage, setResponseMessage] = useState<string | null>(null);
   const number = searchParams.get("waitlist_id");
   const controls = useAnimation();
   const containerRef = useRef<HTMLDivElement>(null);
@@ -19,8 +19,8 @@ function ThankYouContent() {
       return;
     }
 
-    const message = localStorage.getItem("waitlistResponse");
-    setResponseMessage(message);
+    // const message = localStorage.getItem("waitlistResponse");
+    // setResponseMessage(message);
 
     const simulationInstance = (
       window as unknown as Window & { fluidSimulation: any }
