@@ -100,7 +100,7 @@ export default function EmailCapture() {
                 onBlur={() => setIsFocused(false)}
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
-                placeholder="Get Early access, By Invitation"
+                placeholder="By Invitation, Leave Your Email"
                 className="w-full px-4 pr-12 py-3 bg-black/50 backdrop-blur-sm border-2 border-[#6C63FF] rounded-full text-white placeholder-gray-400 focus:outline-none focus:border-white transition-all duration-300 text-sm sm:text-base"
                 required
                 // Adding autocomplete off can also help prevent autofocus issues

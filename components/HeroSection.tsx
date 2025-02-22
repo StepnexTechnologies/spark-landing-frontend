@@ -60,15 +60,14 @@ const HeroSection = () => {
     });
 
     // Animate "IGNITING" letter by letter with chained timing
-    [..."I g n i t i n g"].forEach((letter,index) => {
+    [..."Igniting"].forEach((letter,index) => {
       tl.fromTo(
         `#letter-igniting-${index}`,
-        { opacity: 0, x: 10 },
+        { opacity: 0},
         {
           opacity: 1,
-          y: 0,
-          duration: 0.06,
-          ease: "easeInOut",
+          duration: 0.11,
+          ease: "",
         },
       );
     });
@@ -77,14 +76,13 @@ const HeroSection = () => {
     tl.to({}, { duration: 0.2 });
 
     // Animate "NOW..." letter by letter with chained timing
-    [..."N o w . . ."].forEach(( letter,index) => {
+    [..."Now..."].forEach(( letter,index) => {
       tl.fromTo(
         `#letter-now-${index}`,
-        { opacity: 0, x: 10 },
+        { opacity: 0},
         {
           opacity: 1,
-          y: 0,
-          duration: 0.06,
+          duration: 0.11,
           ease: "easeInOut",
         },
       );
@@ -318,12 +316,12 @@ const HeroSection = () => {
           transition={{ duration: 0.5, ease: "easeInOut" }}
         >
           <h1 className="text-5xl md:text-6xl font-bold text-white flex items-center justify-center gap-4 select-none">
-            <span className="flex">
-              {[..."I g n i t i n g"].map((letter, index) => (
+            <span className="flex justify-center items-center w-min">
+              {[..."Igniting"].map((letter, index) => (
                 <motion.span
                   key={`igniting-${index}`}
                   id={`letter-igniting-${index}`}
-                  className="inline-block"
+                  className="flex w-min justify-center items-center"
                   style={{
                     textShadow: "0 0 10px rgba(108,99,255,0.5)",
                   }}
@@ -332,12 +330,12 @@ const HeroSection = () => {
                 </motion.span>
               ))}
             </span>
-            <span className="flex">
-              {[..."N o w . . ."].map((letter, index) => (
+            <span className="flex justify-center items-center w-min">
+              {[..."Now..."].map((letter, index) => (
                 <motion.span
                   key={`now-${index}`}
                   id={`letter-now-${index}`}
-                  className="inline-block"
+                  className="flex w-min justify-center items-center"
                   style={{
                     textShadow: "0 0 10px rgba(108,99,255,0.5)",
                   }}
@@ -358,7 +356,7 @@ const HeroSection = () => {
             <p className={`tagline text-md sm:text-lg md:text-xl mb-12 relative text-zinc-300 select-none ${showContent && 'hidden'}`}>
               It begins with you—
               <span id="moveText">
-                {isDesktopDevice ? "move to ignite" : "touch to ignite"}
+                {isDesktopDevice ? "move to ignite" : "touch to ignite"}.
               </span>
             </p>
           </motion.h3>
