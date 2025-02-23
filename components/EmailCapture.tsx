@@ -84,7 +84,7 @@ export default function EmailCapture() {
               <motion.div
                 initial="initial"
                 animate={[
-                  isHovered ? "hover" : "initial",
+                  isHovered ? "focus" : "initial",
                   isFocused ? "focus" : "",
                 ].filter(Boolean)}
                 variants={glowVariants}
@@ -101,10 +101,10 @@ export default function EmailCapture() {
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
                 placeholder="By Invitation, Leave Your Email"
-                className="w-full px-4 pr-12 py-3 bg-black/50 backdrop-blur-sm border-2 border-[#6C63FF] rounded-full text-white placeholder-gray-400 focus:outline-none focus:border-white transition-all duration-300 text-sm sm:text-base"
+                className="w-full px-4 pr-12 py-3 bg-black/50 backdrop-blur-sm border-2 border-[#6C63FF] rounded-full text-white placeholder-gray-400 focus:outline-none focus:border-white transition-all duration-300 text-[16px]"
                 required
                 // Adding autocomplete off can also help prevent autofocus issues
-                autoComplete="off"
+                autoComplete="on"
               />
 
               <div className="absolute right-2 flex items-center">
@@ -114,7 +114,6 @@ export default function EmailCapture() {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   variants={buttonGlowVariants}
-                  animate="animate"
                   className="bg-[#6C63FF] text-white w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center overflow-hidden"
                 >
                   {loading ? (
