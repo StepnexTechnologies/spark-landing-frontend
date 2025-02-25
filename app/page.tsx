@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     description: "Welcome to Sparkonomy - Let's Build The Future Together!",
     images: [
       {
-        url: "/Sparkonomy.jpg",
+        url: "/Sparkonomy.png",
         width: 1200,
         height: 630,
         alt: "Sparkonomy Thumbnail",
