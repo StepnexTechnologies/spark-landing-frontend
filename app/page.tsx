@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Sparkonomy",
     description: "Welcome to Sparkonomy - Let's Build The Future Together!",
-    images: ["/Sparkonomy.jpg"],
+    images: ["/Sparkonomy.png"],
   },
 };
 
