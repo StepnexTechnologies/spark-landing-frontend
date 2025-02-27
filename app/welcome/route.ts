@@ -9,7 +9,7 @@ export async function GET(request: NextRequest) {
   console.log(`Redirecting email: ${email} to Tally form`);
   
   // Construct the destination URL with the email parameter
-  const redirectUrl = `https://tally.so/r/3lMzGB?email=${encodeURIComponent(email)}`;
+  const redirectUrl = `https://tally.so/r/3lMzGB?email=${email}`;
   
   // Return a redirect response with a temporary redirect status
   return NextResponse.redirect(redirectUrl, { status: 307 });
