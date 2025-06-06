@@ -41,7 +41,7 @@ export default function Footer() {
           transition={{ delay: 0.8 }}
         >
           <Info className="w-3 h-3" />
-          <span>© 2025 Sparkonomy. All rights reserved.</span>
+          <span>© 2025 Sparkonomy Pte Ltd. All rights reserved.</span>
         </motion.div>
       </div>
     </motion.footer>
