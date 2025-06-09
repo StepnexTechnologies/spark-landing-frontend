@@ -14,7 +14,7 @@ export default function Footer() {
     >
       <div className="flex flex-col items-center space-y-2 w-full max-w-2xl">
         <motion.div
-          className="flex items-center justify-center space-x-3 px-4 py-2 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 w-fit"
+          className="flex items-center justify-center space-x-3 px-4 py-2 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 w-fit cursor-pointer"
           whileHover={{ scale: 1.02 }}
           transition={{ duration: 0.2 }}
         >
@@ -31,7 +31,7 @@ export default function Footer() {
             >
               <Lock className="w-3 h-3 sm:w-4 sm:h-4 text-purple-400" />
             </motion.div>
-            <span className="text-xs">Your data is secure with us</span>
+            <Link href="/terms" className="text-xs">Your data is secure with us</Link>
           </div>
         </motion.div>
 

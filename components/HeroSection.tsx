@@ -394,7 +394,7 @@ const HeroSection = () => {
               transform: subtextVisible ? "translateY(0)" : "translateY(20px)",
             }}
           >
-            Developing AI to spark livelihoods globally
+            Developing AI to spark creator livelihoods globally
           </p>
 
           <div
