@@ -1,4 +1,4 @@
-import type { Config } from "tailwindcss";
+import type {Config} from "tailwindcss";
 import animatePlugin from "tailwindcss-animate";
 
 const config: Config = {
@@ -29,7 +29,7 @@ const config: Config = {
           foreground: 'hsl(var(--popover-foreground))'
         },
         primary: {
-          DEFAULT: 'hsl(var(--primary))',
+          DEFAULT: '#8134a5',
           foreground: 'hsl(var(--primary-foreground))'
         },
         secondary: {

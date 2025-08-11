@@ -1,32 +1,25 @@
 import "./globals.css";
-import { Montserrat } from "next/font/google";
-import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/next";
+import {Montserrat} from "next/font/google";
+import {Analytics} from "@vercel/analytics/react";
+import {SpeedInsights} from "@vercel/speed-insights/next";
 import type React from "react";
-import { WebGLFluidBackground } from "@/components/webgl-fluid-background";
-import Footer from "@/components/Footer";
+import {RootLayoutClient} from "./root-layout-client";
 
 const inter = Montserrat({ subsets: ["latin"] });
 
-export default function RootLayout({
+export default function Layout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="h-full overflow-hidden">
-      <body
-        className={`${inter.className} min-h-[100dvh] w-full relative overflow-x-hidden touch-pan-y`}
-      >
-        <div className="relative min-h-[100dvh] w-full flex flex-col">
-          <div className="fixed inset-0 z-0">
-            <WebGLFluidBackground />
-          </div>
+    <html lang="en" className="h-full">
+      <body className={`${inter.className} min-h-[100dvh] w-full relative`}>
+        <RootLayoutClient>
           {children}
-          <Analytics />
-          <SpeedInsights />
-          <Footer />
-        </div>
+        </RootLayoutClient>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

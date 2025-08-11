@@ -1,7 +1,7 @@
 "use client";
 
-import { Lock, Info } from "lucide-react";
-import { motion } from "framer-motion";
+import {Info, Lock} from "lucide-react";
+import {motion} from "framer-motion";
 import Link from "next/link";
 
 export default function Footer() {
@@ -42,7 +42,7 @@ export default function Footer() {
           transition={{ delay: 0.8 }}
         >
           <Info className="w-3 h-3" />
-          <span>© 2025 Sparkonomy Pte. Ltd. All rights reserved | <Link href="/terms" className="hover:underline hover:text-purple-400">Terms of Service</Link></span>
+          <span>© 2025 Sparkonomy Pte. Ltd. All rights reserved | <Link href="/legal/terms" className="hover:underline hover:text-purple-400">Terms of Service</Link></span>
         </motion.div>
       </div>
     </motion.footer>
