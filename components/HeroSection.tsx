@@ -1,10 +1,11 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
 import type React from "react";
+import {useEffect, useRef, useState} from "react";
 
-import { motion } from "framer-motion";
+import {motion} from "framer-motion";
 import gsap from "gsap";
 import EmailCapture from "@/components/EmailCapture";
+import CampaignTrackerCTA from "@/components/CampaignTrackerCTA";
 
 const HeroSection = () => {
   const [isTextRevealed, setIsTextRevealed] = useState(false);
@@ -16,6 +17,7 @@ const HeroSection = () => {
   // States for sequential lazy loading
   const [titleVisible, setTitleVisible] = useState(false);
   const [subtextVisible, setSubtextVisible] = useState(false);
+  const [ctaVisible, setCtaVisible] = useState(false);
   const [emailCaptureVisible, setEmailCaptureVisible] = useState(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -135,12 +137,19 @@ const HeroSection = () => {
       const subtextTimer = setTimeout(() => {
         setSubtextVisible(true);
 
-        // After another 1 second, show the email capture
-        const emailTimer = setTimeout(() => {
-          setEmailCaptureVisible(true);
+        // After another 200ms, show the CTA
+        const ctaTimer = setTimeout(() => {
+          setCtaVisible(true);
+
+          // After another 200ms, show the email capture
+          const emailTimer = setTimeout(() => {
+            setEmailCaptureVisible(true);
+          }, 200);
+
+          return () => clearTimeout(emailTimer);
         }, 200);
 
-        return () => clearTimeout(emailTimer);
+        return () => clearTimeout(ctaTimer);
       }, 200);
 
       return () => clearTimeout(subtextTimer);
@@ -388,7 +397,7 @@ const HeroSection = () => {
 
           <p
             ref={taglineRef}
-            className="tagline text-lg sm:text-xl md:text-2xl mb-12 relative text-white select-none px-4 transition-opacity duration-700"
+            className="tagline text-lg sm:text-xl md:text-2xl mb-8 relative text-white select-none px-4 transition-opacity duration-700"
             style={{
               opacity: subtextVisible ? 1 : 0,
               transform: subtextVisible ? "translateY(0)" : "translateY(20px)",
@@ -396,6 +405,8 @@ const HeroSection = () => {
           >
             Developing AI to spark creator livelihoods globally
           </p>
+
+          {showContent && <CampaignTrackerCTA isVisible={ctaVisible} />}
 
           <div
             className="relative pointer-events-auto transition-all duration-700 email-container"

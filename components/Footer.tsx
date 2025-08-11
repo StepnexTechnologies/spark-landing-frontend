@@ -31,7 +31,7 @@ export default function Footer() {
             >
               <Lock className="w-3 h-3 sm:w-4 sm:h-4 text-purple-400" />
             </motion.div>
-            <Link href="/terms" className="text-xs">Your data is secure with us</Link>
+            <Link href="/legal/privacy-policy" className="text-xs">Your data is secure with us</Link>
           </div>
         </motion.div>
 
@@ -42,7 +42,7 @@ export default function Footer() {
           transition={{ delay: 0.8 }}
         >
           <Info className="w-3 h-3" />
-          <span>© 2025 Sparkonomy Pte. Ltd. All rights reserved | <Link href="/legal/terms" className="hover:underline hover:text-purple-400">Terms of Service</Link></span>
+          <span>© 2025 Sparkonomy Pte. Ltd. All rights reserved | <Link href="/legal/privacy-policy" className="hover:underline hover:text-purple-400">Privacy Policy</Link> | <Link href="/legal/terms" className="hover:underline hover:text-purple-400">Terms of Service</Link></span>
         </motion.div>
       </div>
     </motion.footer>
