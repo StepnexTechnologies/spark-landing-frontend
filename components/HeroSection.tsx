@@ -5,7 +5,6 @@ import {useEffect, useRef, useState} from "react";
 import {motion} from "framer-motion";
 import gsap from "gsap";
 import EmailCapture from "@/components/EmailCapture";
-import CampaignTrackerCTA from "@/components/CampaignTrackerCTA";
 
 const HeroSection = () => {
   const [isTextRevealed, setIsTextRevealed] = useState(false);
@@ -406,7 +405,7 @@ const HeroSection = () => {
             Developing AI to spark creator livelihoods globally
           </p>
 
-          {showContent && <CampaignTrackerCTA isVisible={ctaVisible} />}
+          {/*{showContent && <CampaignTrackerCTA isVisible={ctaVisible} />}*/}
 
           <div
             className="relative pointer-events-auto transition-all duration-700 email-container"
@@ -418,6 +417,27 @@ const HeroSection = () => {
             }}
           >
             {showContent && <EmailCapture />}
+          </div>
+
+          <div
+            className="relative pointer-events-auto transition-all duration-700 mt-4"
+            style={{
+              opacity: emailCaptureVisible ? 1 : 0,
+              transform: emailCaptureVisible
+                ? "translateY(0)"
+                : "translateY(20px)",
+            }}
+          >
+            {showContent && (
+              <a
+                href="https://beta.brand.sparkonomy.com/rtct"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[16px] text-gray-400 hover:text-white transition-colors duration-300 cursor-pointer select-none"
+              >
+                Private Beta! Real Time Campaign Tracker
+              </a>
+            )}
           </div>
         </motion.div>
       </div>
