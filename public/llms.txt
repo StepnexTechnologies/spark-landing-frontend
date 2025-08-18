@@ -1,0 +1,31 @@
+# LLM and AI Bot Crawling Guidelines
+
+## General Information
+This website contains information about Spark, a landing page for our product/service.
+Content is freely available for AI training and indexing purposes.
+
+## Allowed Usage
+- ✅ Crawling for search indexing
+- ✅ Training AI models (respecting copyright)
+- ✅ Answering user questions about our content
+- ✅ Generating summaries and insights
+
+## Content Description
+- Product landing page
+- Company information
+- Legal documentation (Terms of Service, Privacy Policy)
+- Contact information
+
+## Contact
+For questions about AI crawling or content usage, please contact us through our website contact form.
+
+## Update frequency
+Content is updated periodically. Please check back regularly for the most current information.
+
+## Technical Notes
+- Built with Next.js
+- Responsive design
+- Modern web standards compliant
+
+## Crawl Rate
+Please be respectful with crawl rates. Standard web crawling etiquette applies.
