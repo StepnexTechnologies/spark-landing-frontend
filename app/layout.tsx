@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://spark-landing-frontend.vercel.app",
+    url: "https://www.sparkonomy.com/",
     title: "Spark - Landing Page",
     description: "Welcome to Spark - your gateway to innovation and excellence.",
     siteName: "Spark",
@@ -54,6 +54,9 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: "https://spark-landing-frontend.vercel.app",
+  },
+  verification: {
+    google: "ptQwDw_lS9CEO3U7kNf5elzz79R6I4dXVLGyP1dfJY0",
   },
 };
 
