@@ -318,14 +318,22 @@ export default function PrivacyPolicyPage() {
                     </li>
                     <li>
                         <strong>Revoking Access for YouTube:</strong> You can revoke our
-                        access to your YouTube data at any time via the
+                        access to your YouTube data at any time via the{" "}
                         <a
                             className={"text-blue-700 hover:underline"}
                             href={"https://security.google.com/settings/security/permissions"}
                         >
                             Google security settings page
-                        </a>
-                        .
+                        </a>{" "}through your profile account settings or unlink options.
+                    </li>
+                    <li>
+                        <strong>Revoking Access for Meta:</strong> You can revoke our access to your Meta data at any time via the{" "}
+                        <a
+                            className={"text-blue-700 hover:underline"}
+                            href={"https://security.google.com/settings/security/permissions"}
+                        >
+                            Meta Accounts Center page
+                        </a>{" "}through your profile account settings or unlink options.
                     </li>
                     <li>
                         <strong>Full Account Deletion:</strong> When you close your account,
