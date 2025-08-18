@@ -42,6 +42,7 @@ export default function Footer() {
           transition={{ delay: 0.8 }}
         >
           <div className="flex items-center justify-center md:justify-start space-x-2 md:space-x-4">
+            <Link href="/" className="hover:underline hover:text-purple-400">Home</Link>
             <Link href="/about" className="hover:underline hover:text-purple-400">About Us</Link>
             {/*<span className="text-gray-600">|</span>*/}
             <Link href="/contact" className="hover:underline hover:text-purple-400">Contact Us</Link>
