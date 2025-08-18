@@ -1,15 +1,16 @@
 "use client";
-import { useState, useRef} from "react";
 import type React from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, Sparkles } from "lucide-react";
-import { useSubmitEmail } from "@/lib/hooks/useSubmitEmail";
+import {useRef, useState} from "react";
+import {AnimatePresence, motion} from "framer-motion";
+import {ArrowRight, Mail, Phone, Sparkles} from "lucide-react";
+import {useSubmitEmail} from "@/lib/hooks/useSubmitEmail";
 
 export default function EmailCapture() {
   const [email, setEmail] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const [inputType, setInputType] = useState<'email' | 'phone'>('email');
   const inputRef = useRef<HTMLInputElement>(null);
 
   const { submitEmail, loading, error, responseNumber } = useSubmitEmail();
@@ -27,6 +28,28 @@ export default function EmailCapture() {
       window.location.href = `/thank-you?waitlist_id=${number}`;
     }
   };
+
+  const toggleInputType = () => {
+    setInputType(prev => prev === 'email' ? 'phone' : 'email');
+    setEmail(''); // Clear input when switching types
+  };
+
+  const getPlaceholder = () => {
+    return inputType === 'email' 
+      ? "By Invitation, Leave Your Email"
+      : "By Invitation, Leave Your Phone";
+  };
+
+  const isValidInput = () => {
+    if (!email.trim()) return false;
+    if (inputType === 'email') {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    } else {
+      return /^[\+]?[1-9][\d]{0,15}$/.test(email.replace(/\s/g, ''));
+    }
+  };
+
+  const hasInput = email.trim().length > 0;
 
   const glowVariants = {
     initial: {
@@ -93,42 +116,105 @@ export default function EmailCapture() {
 
               <input
                 ref={inputRef}
-                type="email"
+                type={inputType === 'email' ? 'email' : 'tel'}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 onFocus={() => setIsFocused(true)}
                 onBlur={() => setIsFocused(false)}
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
-                placeholder="By Invitation, Leave Your Email"
-                className="w-full px-4 pr-12 py-3 bg-black/50 backdrop-blur-sm border-2 border-[#6C63FF] rounded-full text-white placeholder-gray-400 focus:outline-none focus:border-white transition-all duration-300 text-[16px]"
+                placeholder={getPlaceholder()}
+                className="w-full px-4 pr-16 py-3 bg-black/50 backdrop-blur-sm border-2 border-[#6C63FF] rounded-full text-white placeholder-gray-400 focus:outline-none focus:border-white transition-all duration-300 text-[16px]"
                 required
-                // Adding autocomplete off can also help prevent autofocus issues
                 autoComplete="on"
               />
 
-              <div className="absolute right-2 flex items-center">
-                <motion.button
-                  type="submit"
-                  disabled={loading}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  variants={buttonGlowVariants}
-                  className="bg-[#6C63FF] text-white w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center overflow-hidden"
-                >
-                  {loading ? (
+              <div className="absolute right-2 flex items-center space-x-1">
+                <AnimatePresence mode="wait">
+                  {!hasInput ? (
+                    // Professional toggle switch when input is empty
                     <motion.div
-                      animate={{ rotate: 360 }}
-                      transition={{
-                        duration: 1,
-                        repeat: Number.POSITIVE_INFINITY,
-                      }}
-                      className="w-4 h-4 border-2 border-white border-t-transparent rounded-full"
-                    />
+                      key="toggle"
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.8 }}
+                      transition={{ duration: 0.2 }}
+                      className="relative"
+                    >
+                      <motion.button
+                        type="button"
+                        onClick={toggleInputType}
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        className="relative flex items-center bg-white/10 backdrop-blur-sm rounded-full p-1 border border-white/20 hover:bg-white/15 transition-all duration-300"
+                        style={{ width: '72px', height: '36px' }}
+                      >
+                        {/* Background sliding indicator */}
+                        <motion.div
+                          className="absolute bg-[#6C63FF] rounded-full shadow-lg"
+                          style={{ width: '32px', height: '28px' }}
+                          animate={{
+                            x: inputType === 'email' ? -0.5 : 30,
+                          }}
+                          transition={{ 
+                            type: "spring", 
+                            stiffness: 500, 
+                            damping: 30 
+                          }}
+                        />
+                        
+                        {/* Email icon */}
+                        <div className="relative z-10 flex items-center justify-center" style={{ width: '32px', height: '28px' }}>
+                          <Mail 
+                            className={`w-4 h-4 transition-colors duration-300 ${
+                              inputType === 'email' ? 'text-white' : 'text-gray-400'
+                            }`} 
+                          />
+                        </div>
+                        
+                        {/* Phone icon */}
+                        <div className="relative z-10 flex items-center justify-center" style={{ width: '32px', height: '28px' }}>
+                          <Phone 
+                            className={`w-4 h-4 transition-colors duration-300 ${
+                              inputType === 'phone' ? 'text-white' : 'text-gray-400'
+                            }`} 
+                          />
+                        </div>
+                      </motion.button>
+                    </motion.div>
                   ) : (
-                    <ArrowRight />
+                    // Submit arrow when input has content
+                    <motion.button
+                      key="submit"
+                      type="submit"
+                      disabled={loading || !isValidInput()}
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.8 }}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      variants={buttonGlowVariants}
+                      className={`text-white w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center overflow-hidden transition-all duration-300 ${
+                        isValidInput() 
+                          ? 'bg-[#6C63FF] cursor-pointer' 
+                          : 'bg-gray-600 cursor-not-allowed opacity-50'
+                      }`}
+                    >
+                      {loading ? (
+                        <motion.div
+                          animate={{ rotate: 360 }}
+                          transition={{
+                            duration: 1,
+                            repeat: Number.POSITIVE_INFINITY,
+                          }}
+                          className="w-4 h-4 border-2 border-white border-t-transparent rounded-full"
+                        />
+                      ) : (
+                        <ArrowRight className="w-4 h-4" />
+                      )}
+                    </motion.button>
                   )}
-                </motion.button>
+                </AnimatePresence>
               </div>
             </div>
 

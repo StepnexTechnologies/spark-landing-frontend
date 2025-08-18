@@ -7,9 +7,12 @@ import {Mail, MapPin, Sparkles, Target, Users} from "lucide-react";
 
 const AboutPage = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isClient, setIsClient] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    setIsClient(true);
+    
     // Trigger fluid simulation if available
     const simulationInstance = (
       window as unknown as Window & { fluidSimulation: any }
@@ -277,44 +280,48 @@ const AboutPage = () => {
         </div>
       </div>
 
-      {/* Floating elements for visual interest */}
-      <motion.div
-        className="absolute top-20 left-10 w-2 h-2 bg-purple-400 rounded-full opacity-60"
-        animate={{
-          y: [0, -20, 0],
-          scale: [1, 1.2, 1],
-        }}
-        transition={{
-          duration: 4,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-      />
-      <motion.div
-        className="absolute top-40 right-20 w-1 h-1 bg-blue-400 rounded-full opacity-40"
-        animate={{
-          y: [0, -15, 0],
-          x: [0, 10, 0],
-        }}
-        transition={{
-          duration: 6,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 1,
-        }}
-      />
-      <motion.div
-        className="absolute bottom-40 left-20 w-3 h-3 bg-purple-300 rounded-full opacity-30"
-        animate={{
-          rotate: [0, 360],
-          scale: [1, 0.8, 1],
-        }}
-        transition={{
-          duration: 8,
-          repeat: Infinity,
-          ease: "linear",
-        }}
-      />
+      {/* Floating elements for visual interest - only render on client */}
+      {isClient && (
+        <>
+          <motion.div
+            className="absolute top-20 left-10 w-2 h-2 bg-purple-400 rounded-full opacity-60"
+            animate={{
+              y: [0, -20, 0],
+              scale: [1, 1.2, 1],
+            }}
+            transition={{
+              duration: 4,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          />
+          <motion.div
+            className="absolute top-40 right-20 w-1 h-1 bg-blue-400 rounded-full opacity-40"
+            animate={{
+              y: [0, -15, 0],
+              x: [0, 10, 0],
+            }}
+            transition={{
+              duration: 6,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: 1,
+            }}
+          />
+          <motion.div
+            className="absolute bottom-40 left-20 w-3 h-3 bg-purple-300 rounded-full opacity-30"
+            animate={{
+              rotate: [0, 360],
+              scale: [1, 0.8, 1],
+            }}
+            transition={{
+              duration: 8,
+              repeat: Infinity,
+              ease: "linear",
+            }}
+          />
+        </>
+      )}
     </div>
   );
 };
