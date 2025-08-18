@@ -434,7 +434,7 @@ const HeroSection = () => {
                 href="https://beta.brand.sparkonomy.com/rtct"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[16px] text-gray-400 hover:text-white transition-colors duration-300 cursor-pointer select-none"
+                className="text-[16px] text-gray-400 hover:text-white transition-colors duration-300 cursor-pointer select-none italic"
               >
                 Private Beta! Real Time Campaign Tracker
               </a>
