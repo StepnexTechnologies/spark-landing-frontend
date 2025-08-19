@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://spark-landing-frontend.vercel.app/sitemap.xml
+Sitemap: https://www.sparkonomy.com/sitemap.xml
 
 # AI/LLM bot guidance
 # See /llms.txt for detailed AI crawling guidelines

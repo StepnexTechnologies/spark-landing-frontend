@@ -9,7 +9,7 @@ import type {Metadata} from "next";
 const inter = Montserrat({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://spark-landing-frontend.vercel.app'),
+  metadataBase: new URL('https://www.sparkonomy.com'),
   title: {
     default: "Spark - Landing Page",
     template: "%s | Spark"
@@ -69,7 +69,7 @@ export default function Layout({
     <html lang="en" className="h-full">
       <head>
         <link rel="icon" href="/favicon.ico" />
-        <link rel="canonical" href="https://spark-landing-frontend.vercel.app" />
+        <link rel="canonical" href="https://www.sparkonomy.com" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#000000" />
       </head>
