@@ -53,7 +53,7 @@ export const metadata: Metadata = {
     images: ["/Sparkonomy.png"],
   },
   alternates: {
-    canonical: "https://spark-landing-frontend.vercel.app",
+    canonical: "https://www.sparkonomy.com/",
   },
   verification: {
     google: "ptQwDw_lS9CEO3U7kNf5elzz79R6I4dXVLGyP1dfJY0",

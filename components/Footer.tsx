@@ -42,12 +42,12 @@ export default function Footer() {
           transition={{ delay: 0.8 }}
         >
           <div className="flex items-center justify-center md:justify-start space-x-2 md:space-x-4">
-            <Link href="/" className="hover:underline hover:text-purple-400">Home</Link>
             <Link href="/about" className="hover:underline hover:text-purple-400">About Us</Link>
             {/*<span className="text-gray-600">|</span>*/}
             <Link href="/contact" className="hover:underline hover:text-purple-400">Contact Us</Link>
+            <div className="hover:underline hover:text-purple-400 xl:px-5 lg:px-5 md:px-5 sm:px-0 xs:px-0" />
           </div>
-          
+
           <div className="flex items-center justify-center space-x-1">
             <Info className="w-3 h-3" />
             <span className="text-center">© 2025 Sparkonomy Pte. Ltd. All rights reserved</span>
@@ -55,7 +55,6 @@ export default function Footer() {
           
           <div className="flex items-center justify-center md:justify-end space-x-2 md:space-x-4">
             <Link href="/legal/privacy-policy" className="hover:underline hover:text-purple-400">Privacy Policy</Link>
-            {/*<span className="text-gray-600">|</span>*/}
             <Link href="/legal/terms" className="hover:underline hover:text-purple-400">Terms of Service</Link>
           </div>
         </motion.div>
