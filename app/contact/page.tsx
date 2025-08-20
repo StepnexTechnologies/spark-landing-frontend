@@ -212,13 +212,17 @@ const ContactPage = () => {
                     <div className="w-10 h-10 bg-purple-500/20 rounded-full flex items-center justify-center">
                       <MapPin className="w-5 h-5 text-purple-400" />
                     </div>
-                    <h3 className="text-xl font-bold text-white">Our Office</h3>
+                    <h3 className="text-xl font-bold text-white">Sparkonomy's Office</h3>
                   </div>
                   <address className="text-gray-300 not-italic leading-relaxed">
                     <strong className="text-white">Sparkonomy Pte. Ltd.</strong><br />
                     100D PASIR PANJANG<br />
                     #05-03 MEISSA<br />
-                    SINGAPORE 11852
+                    SINGAPORE 11852<br /><br />
+                    <div className="flex items-center space-x-2 text-purple-400">
+                      <Phone className="w-4 h-4" />
+                      <span>+65 91455382 | +91 9910772075</span>
+                    </div>
                   </address>
                 </motion.div>
               </motion.div>

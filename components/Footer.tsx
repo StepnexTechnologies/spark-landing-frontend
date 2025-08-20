@@ -1,6 +1,6 @@
 "use client";
 
-import {Info, Lock} from "lucide-react";
+import {Lock} from "lucide-react";
 import {motion} from "framer-motion";
 import Link from "next/link";
 
@@ -36,24 +36,28 @@ export default function Footer() {
         </motion.div>
 
         <motion.div
-          className="flex flex-col md:flex-row md:items-center md:justify-between text-[12px] md:text-[14px] text-gray-500 w-full space-y-2 md:space-y-0"
+          className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-4 text-[12px] md:text-[14px] text-gray-500 w-full"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8 }}
         >
-          <div className="flex items-center justify-center md:justify-start space-x-2 md:space-x-4">
-            <Link href="/about" className="hover:underline hover:text-purple-400">About Us</Link>
-            {/*<span className="text-gray-600">|</span>*/}
-            <Link href="/contact" className="hover:underline hover:text-purple-400">Contact Us</Link>
-            <div className="hover:underline hover:text-purple-400 xl:px-5 lg:px-5 md:px-5 sm:px-0 xs:px-0" />
+          {/* Left Column */}
+          <div className="flex flex-row items-center md:items-start space-y-1 md:justify-self-start">
+            <div className="flex items-center space-x-2 md:space-x-4">
+              <Link href="/about" className="hover:underline hover:text-purple-400">About Us</Link>
+              <Link href="/contact" className="hover:underline hover:text-purple-400">Contact Us</Link>
+            <p className="select-text text-center md:text-left">+65 91455382 | +91 9910772075</p>
+            </div>
           </div>
 
-          <div className="flex items-center justify-center space-x-1">
-            <Info className="w-3 h-3" />
+          {/* Center Column - Copyright (always centered) */}
+          <div className="flex items-center justify-center space-x-1 md:justify-self-center">
+            {/*<Info className="w-3 h-3" />*/}
             <span className="text-center">© 2025 Sparkonomy Pte. Ltd. All rights reserved</span>
           </div>
           
-          <div className="flex items-center justify-center md:justify-end space-x-2 md:space-x-4">
+          {/* Right Column */}
+          <div className="flex items-center justify-center md:justify-end space-x-2 md:space-x-4 md:justify-self-end">
             <Link href="/legal/privacy-policy" className="hover:underline hover:text-purple-400">Privacy Policy</Link>
             <Link href="/legal/terms" className="hover:underline hover:text-purple-400">Terms of Service</Link>
           </div>

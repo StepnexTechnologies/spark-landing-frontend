@@ -94,7 +94,7 @@ const AboutPage = () => {
                 textShadow: "0 0 30px rgba(108,99,255,0.3)",
               }}
             >
-              About Us
+              About Sparkonomy
             </motion.h1>
             <motion.div
               variants={fadeInVariants}
@@ -122,7 +122,7 @@ const AboutPage = () => {
                 <div className="w-8 h-8 bg-purple-500/20 rounded-full flex items-center justify-center">
                   <Sparkles className="w-4 h-4 text-purple-400" />
                 </div>
-                <h2 className="text-2xl sm:text-3xl font-bold text-white">Our Story</h2>
+                <h2 className="text-2xl sm:text-3xl font-bold text-white">Sparkonomy's Story</h2>
               </div>
               <p className="text-gray-300 leading-relaxed text-lg">
                 In today&apos;s creator economy, greatness is everywhere. But the path to success is a maze.
@@ -155,10 +155,10 @@ const AboutPage = () => {
                 <div className="w-8 h-8 bg-purple-500/20 rounded-full flex items-center justify-center">
                   <Target className="w-4 h-4 text-purple-400" />
                 </div>
-                <h2 className="text-2xl sm:text-3xl font-bold text-white">Our Mission</h2>
+                <h2 className="text-2xl sm:text-3xl font-bold text-white">Sparkonomy's Mission</h2>
               </div>
               <p className="text-gray-300 leading-relaxed text-lg">
-                Our mission is to be the AI thinking partner for every creator, helping them build thriving 
+                Sparkonomy's mission is to be the AI thinking partner for every creator, helping them build thriving 
                 livelihoods. This clarity and professionalism, in turn, will allow brands to discover and 
                 collaborate with the right partners, seamlessly and with confidence.
               </p>
@@ -222,7 +222,7 @@ const AboutPage = () => {
                 <div className="w-8 h-8 bg-purple-500/20 rounded-full flex items-center justify-center">
                   <Users className="w-4 h-4 text-purple-400" />
                 </div>
-                <h2 className="text-2xl sm:text-3xl font-bold text-white">Our Team</h2>
+                <h2 className="text-2xl sm:text-3xl font-bold text-white">Sparkonomy's Team</h2>
               </div>
               <p className="text-gray-300 leading-relaxed text-lg">
                 We&apos;re a team of creators, brand experts, and AI technologists who have sat on both sides
@@ -261,7 +261,9 @@ const AboutPage = () => {
                   className="text-purple-400 hover:text-purple-300 transition-colors duration-300 underline"
                 >
                   hello@sparkonomy.com
-                </a>
+                </a>{" "}
+                or call us at{" "}
+                <span className="text-purple-400 select-text">+65 91455382 | +91 9910772075</span>
               </p>
               
               <div className="flex items-start space-x-3">

@@ -1,9 +1,9 @@
 import type React from "react";
 import HeroSection from "@/components/HeroSection";
-import { Metadata } from "next";
+import {Metadata} from "next";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://spark-landing-frontend-three.vercel.app/"),
+  metadataBase: new URL("https://www.sparkonomy/"),
   title: "Sparkonomy",
   description: "Welcome to Sparkonomy - Let's Build The Future Together!",
   openGraph: {
