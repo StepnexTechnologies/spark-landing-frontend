@@ -11,14 +11,14 @@ const inter = Montserrat({ subsets: ["latin"] });
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.sparkonomy.com'),
   title: {
-    default: "Spark - Landing Page",
-    template: "%s | Spark"
+    default: "Sparkonomy",
+    template: "%s | Sparkonomy"
   },
-  description: "Welcome to Spark - your gateway to innovation and excellence.",
-  keywords: ["spark", "landing page", "innovation", "technology"],
-  authors: [{ name: "Spark Team" }],
-  creator: "Spark",
-  publisher: "Spark",
+  description: "Welcome to Sparkonomy - your gateway to innovation and excellence.",
+  keywords: ["sparkonomy", "landing page", "innovation", "technology", "creator", "social media", "influencer", "community", "platform"],
+  authors: [{ name: "Sparkonomy Team" }],
+  creator: "Sparkonomy",
+  publisher: "Sparkonomy",
   robots: {
     index: true,
     follow: true,
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://www.sparkonomy.com/",
     title: "Spark - Landing Page",
-    description: "Welcome to Spark - your gateway to innovation and excellence.",
+    description: "Welcome to Sparkonomy - your gateway to innovation and excellence.",
     siteName: "Spark",
     images: [
       {
@@ -48,8 +48,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Spark - Landing Page",
-    description: "Welcome to Spark - your gateway to innovation and excellence.",
+    title: "Sparkonomy - Landing Page",
+    description: "Welcome to Sparkonomy - your gateway to innovation and excellence.",
     images: ["/Sparkonomy.png"],
   },
   alternates: {
@@ -58,6 +58,7 @@ export const metadata: Metadata = {
   verification: {
     google: "ptQwDw_lS9CEO3U7kNf5elzz79R6I4dXVLGyP1dfJY0",
   },
+
 };
 
 export default function Layout({
@@ -71,6 +72,7 @@ export default function Layout({
         <link rel="icon" href="/favicon.ico" />
         <link rel="canonical" href="https://www.sparkonomy.com" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="facebook-domain-verification" content="dq4gtmx7isvdg6evweg50e3rmarkil" />
         <meta name="theme-color" content="#000000" />
       </head>
       <body className={`${inter.className} min-h-[100dvh] w-full relative`}>
