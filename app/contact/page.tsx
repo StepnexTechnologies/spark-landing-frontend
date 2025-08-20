@@ -212,7 +212,7 @@ const ContactPage = () => {
                     <div className="w-10 h-10 bg-purple-500/20 rounded-full flex items-center justify-center">
                       <MapPin className="w-5 h-5 text-purple-400" />
                     </div>
-                    <h3 className="text-xl font-bold text-white">Sparkonomy's Office</h3>
+                    <h3 className="text-xl font-bold text-white">Sparkonomy&#39;s Office</h3>
                   </div>
                   <address className="text-gray-300 not-italic leading-relaxed">
                     <strong className="text-white">Sparkonomy Pte. Ltd.</strong><br />
