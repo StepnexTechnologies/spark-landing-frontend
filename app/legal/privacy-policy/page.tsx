@@ -8,7 +8,7 @@ export default function PrivacyPolicyPage() {
                     Sparkonomy Privacy Policy
                 </h1>
                 <p className="text-sm text-gray-500 mb-8">
-                    Effective Date: 21 July 2025
+                    Effective Date: 19 August 2025
                 </p>
 
                 <h2 className="text-xl font-semibold mt-8 mb-4">
