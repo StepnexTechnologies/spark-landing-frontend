@@ -299,7 +299,7 @@ export default function PrivacyPolicyPage() {
                             only shared for a specific purpose when you give your express
                             consent
                         </strong>
-                        , such as to a brand & agency user for campaign tracking or by clicking <strong>&quot;Apply to this Opportunity&quot;</strong>{" "}
+                        , for facilitating collaboration & partnerships with other users, by clicking <strong>&quot;Apply to this Opportunity&quot;</strong>{" "}
                         or <strong>&quot;Share My Portfolio&quot;</strong>.
                     </li>
                 </ul>
