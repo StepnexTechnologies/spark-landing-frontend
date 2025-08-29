@@ -220,13 +220,6 @@ export default function PrivacyPolicyPage() {
                     </table>
                 </div>
 
-                {/*<p className="mb-6">*/}
-                {/*  <strong>Sensitive Data.</strong> We do not intentionally collect*/}
-                {/*  sensitive personal data (e.g., government identifiers, health data)*/}
-                {/*  unless you voluntarily provide it and we need it for the Service (Art.*/}
-                {/*  9 GDPR). Do not upload sensitive data unless strictly necessary.*/}
-                {/*</p>*/}
-
                 <h2 className="text-xl font-semibold mt-8 mb-4">
                     2. Your Data from Connected Social Platforms
                 </h2>
@@ -258,7 +251,12 @@ export default function PrivacyPolicyPage() {
                     </li>
                     <li>
                         <strong>For Users Connecting YouTube Accounts:</strong> By using
-                        Sparkonomy, you agree to be bound by the{" "}
+                        Sparkonomy,you acknowledge that we use the{" "}<a
+                        className={"text-blue-700 hover:underline"}
+                        href={"https://developers.google.com/youtube/terms/developer-policies#definition-youtube-api-services"}
+                    >
+                        YouTube API Services
+                    </a>, for which you agree to be bound by the{" "}
                         <a
                             className={"text-blue-700 hover:underline"}
                             href={"https://www.youtube.com/t/terms"}
