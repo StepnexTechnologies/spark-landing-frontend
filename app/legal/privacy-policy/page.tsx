@@ -251,7 +251,7 @@ export default function PrivacyPolicyPage() {
                     </li>
                     <li>
                         <strong>For Users Connecting YouTube Accounts:</strong> By using
-                        Sparkonomy,you acknowledge that we use the{" "}<a
+                        Sparkonomy, you acknowledge that we use the{" "}<a
                         className={"text-blue-700 hover:underline"}
                         href={"https://developers.google.com/youtube/terms/developer-policies#definition-youtube-api-services"}
                     >
@@ -299,7 +299,7 @@ export default function PrivacyPolicyPage() {
                             only shared for a specific purpose when you give your express
                             consent
                         </strong>
-                        , such as by clicking <strong>&quot;Apply to this Opportunity&quot;</strong>{" "}
+                        , such as to a brand & agency user for campaign tracking or by clicking <strong>&quot;Apply to this Opportunity&quot;</strong>{" "}
                         or <strong>&quot;Share My Portfolio&quot;</strong>.
                     </li>
                 </ul>
@@ -328,7 +328,7 @@ export default function PrivacyPolicyPage() {
                         <strong>Revoking Access for Meta:</strong> You can revoke our access to your Meta data at any time via the{" "}
                         <a
                             className={"text-blue-700 hover:underline"}
-                            href={"https://security.google.com/settings/security/permissions"}
+                            href={"https://accountscenter.meta.com/"}
                         >
                             Meta Accounts Center page
                         </a>{" "}through your profile account settings or unlink options.
