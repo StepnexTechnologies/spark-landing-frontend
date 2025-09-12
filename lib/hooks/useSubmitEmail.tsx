@@ -18,7 +18,7 @@ export function useSubmitEmail() {
         ? { email: value }
         : { phone: value };
         
-      const res = await fetch(`${process.env.API_BASE}/api/v1/landing/waitlist/enter`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/api/v1/landing/waitlist/enter`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
