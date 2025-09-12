@@ -39,8 +39,8 @@ export const metadata: Metadata = {
     images: [
       {
         url: "/sparkonomy_full.png",
-        width: 1200,
-        height: 630,
+        width: 610,
+        height: 112,
         alt: "Sparkonomy Thumbnail",
       },
     ],
