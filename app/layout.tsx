@@ -4,62 +4,61 @@ import {Analytics} from "@vercel/analytics/react";
 import {SpeedInsights} from "@vercel/speed-insights/next";
 import type React from "react";
 import {RootLayoutClient} from "./root-layout-client";
-import type {Metadata} from "next";
 
 const inter = Montserrat({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
-  metadataBase: new URL('https://www.sparkonomy.com'),
-  title: {
-    default: "Sparkonomy",
-    template: "%s | Sparkonomy"
-  },
-  description: "Welcome to Sparkonomy - your gateway to innovation and excellence.",
-  keywords: ["sparkonomy", "landing page", "innovation", "technology", "creator", "social media", "influencer", "community", "platform"],
-  authors: [{ name: "Sparkonomy Team" }],
-  creator: "Sparkonomy",
-  publisher: "Sparkonomy",
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
-  openGraph: {
-    type: "website",
-    locale: "en_US",
-    url: "https://www.sparkonomy.com/",
-    title: "Spark - Landing Page",
-    description: "Welcome to Sparkonomy - your gateway to innovation and excellence.",
-    siteName: "Spark",
-    images: [
-      {
-        url: "/Sparkonomy.png",
-        width: 1200,
-        height: 630,
-        alt: "Spark Logo",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Sparkonomy - Landing Page",
-    description: "Welcome to Sparkonomy - your gateway to innovation and excellence.",
-    images: ["/Sparkonomy.png"],
-  },
-  alternates: {
-    canonical: "https://www.sparkonomy.com/",
-  },
-  verification: {
-    google: "ptQwDw_lS9CEO3U7kNf5elzz79R6I4dXVLGyP1dfJY0",
-  },
-
-};
+// export const metadata: Metadata = {
+//   metadataBase: new URL('https://www.sparkonomy.com'),
+//   title: {
+//     default: "Sparkonomy",
+//     template: "%s | Sparkonomy"
+//   },
+//   description: "Welcome to Sparkonomy - your gateway to innovation and excellence.",
+//   keywords: ["sparkonomy", "landing page", "innovation", "technology", "creator", "social media", "influencer", "community", "platform"],
+//   authors: [{ name: "Sparkonomy Team" }],
+//   creator: "Sparkonomy",
+//   publisher: "Sparkonomy",
+//   robots: {
+//     index: true,
+//     follow: true,
+//     googleBot: {
+//       index: true,
+//       follow: true,
+//       'max-video-preview': -1,
+//       'max-image-preview': 'large',
+//       'max-snippet': -1,
+//     },
+//   },
+//   openGraph: {
+//     type: "website",
+//     locale: "en_US",
+//     url: "https://www.sparkonomy.com/",
+//     title: "Spark - Landing Page",
+//     description: "Welcome to Sparkonomy - your gateway to innovation and excellence.",
+//     siteName: "Spark",
+//     images: [
+//       {
+//         url: "/sparkonomy.png",
+//         width: 1200,
+//         height: 630,
+//         alt: "Spark Logo",
+//       },
+//     ],
+//   },
+//   twitter: {
+//     card: "summary_large_image",
+//     title: "Sparkonomy - Landing Page",
+//     description: "Welcome to Sparkonomy - your gateway to innovation and excellence.",
+//     images: ["/sparkonomy.png"],
+//   },
+//   alternates: {
+//     canonical: "https://www.sparkonomy.com/",
+//   },
+//   verification: {
+//     google: "ptQwDw_lS9CEO3U7kNf5elzz79R6I4dXVLGyP1dfJY0",
+//   },
+//
+// };
 
 export default function Layout({
   children,

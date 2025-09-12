@@ -5,7 +5,7 @@ import {Metadata} from "next";
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.sparkonomy.com/"),
   title: "Sparkonomy",
-  description: "Welcome to Sparkonomy - Let's Build The Future Together!",
+  description: "Welcome to Sparkonomy - Transforming the creator economy!",
     keywords: [
         "sparkonomy",
         "landing page",
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
         "community",
         "platform",
     ],
-    authors: [{ name: "Sparkonomy Team" }],
+    authors: [{ name: "Team Sparkonomy" }],
     creator: "Sparkonomy",
     publisher: "Sparkonomy",
     robots: {
@@ -35,10 +35,10 @@ export const metadata: Metadata = {
       siteName: "Sparkonomy",
       url: "https://sparkonomy.com/",
     title: "Sparkonomy",
-    description: "Welcome to Sparkonomy - Let's Build The Future Together!",
+    description: "Welcome to Sparkonomy - Transforming the creator economy!",
     images: [
       {
-        url: "/Sparkonomy.png",
+        url: "/sparkonomy_full.png",
         width: 1200,
         height: 630,
         alt: "Sparkonomy Thumbnail",
@@ -50,8 +50,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Sparkonomy",
-    description: "Welcome to Sparkonomy - Let's Build The Future Together!",
-    images: ["/Sparkonomy.png"],
+    description: "Welcome to Sparkonomy - Transforming the creator economy!",
+    images: ["/sparkonomy_full.png"],
   },
 };
 
