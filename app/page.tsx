@@ -3,10 +3,37 @@ import HeroSection from "@/components/HeroSection";
 import {Metadata} from "next";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.sparkonomy/"),
+  metadataBase: new URL("https://www.sparkonomy.com/"),
   title: "Sparkonomy",
   description: "Welcome to Sparkonomy - Let's Build The Future Together!",
+    keywords: [
+        "sparkonomy",
+        "landing page",
+        "innovation",
+        "technology",
+        "creator",
+        "social media",
+        "influencer",
+        "community",
+        "platform",
+    ],
+    authors: [{ name: "Sparkonomy Team" }],
+    creator: "Sparkonomy",
+    publisher: "Sparkonomy",
+    robots: {
+        index: true,
+        follow: true,
+        googleBot: {
+        index: true,
+        follow: true,
+        "max-video-preview": -1,
+        "max-image-preview": "standard",
+        "max-snippet": -1,
+        },
+    },
   openGraph: {
+      siteName: "Sparkonomy",
+      url: "https://sparkonomy.com/",
     title: "Sparkonomy",
     description: "Welcome to Sparkonomy - Let's Build The Future Together!",
     images: [
