@@ -38,9 +38,9 @@ export const metadata: Metadata = {
     description: "Welcome to Sparkonomy - Transforming the creator economy!",
     images: [
       {
-        url: "/sparkonomy_full.png",
-        width: 610,
-        height: 112,
+        url: "/sparkonomy.png",
+        width: 1200,
+        height: 630,
         alt: "Sparkonomy Thumbnail",
       },
     ],
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Sparkonomy",
     description: "Welcome to Sparkonomy - Transforming the creator economy!",
-    images: ["/sparkonomy_full.png"],
+    images: ["/sparkonomy.png"],
   },
 };
 
