@@ -16,8 +16,8 @@ const HeroSection = () => {
   // States for sequential lazy loading
   const [titleVisible, setTitleVisible] = useState(false);
   const [subtextVisible, setSubtextVisible] = useState(false);
-  const [ctaVisible, setCtaVisible] = useState(false);
-  console.log(ctaVisible)
+  const [,setCtaVisible] = useState(false);
+  // console.log(ctaVisible)
   const [emailCaptureVisible, setEmailCaptureVisible] = useState(false);
 
   const containerRef = useRef<HTMLDivElement>(null);

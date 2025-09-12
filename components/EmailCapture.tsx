@@ -19,9 +19,9 @@ export default function EmailCapture() {
     e.preventDefault();
     setIsSubmitted(true);
 
-    const { number, message } = await submitEmail(email);
-    console.log("Received number from server:", number);
-    console.log("Received message from server:", message);
+    const { number, message } = await submitEmail(email, inputType);
+    // console.log("Received number from server:", number);
+    // console.log("Received message from server:", message);
 
     if (number !== null) {
       localStorage.setItem("waitlistResponse", message);

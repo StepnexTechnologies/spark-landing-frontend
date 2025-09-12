@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {useState} from "react";
 
 export function useSubmitEmail() {
   const [loading, setLoading] = useState(false);
@@ -6,7 +6,7 @@ export function useSubmitEmail() {
   const [responseNumber, setResponseNumber] = useState<number | null>(null);
   const [responseMessage, setResponseMessage] = useState<string | null>(null);
 
-  const submitEmail = async (email: string): Promise<{ number: number | null; message: string }> => {
+  const submitEmail = async (value: string, type: 'email' | 'phone' = 'email'): Promise<{ number: number | null; message: string }> => {
     setLoading(true);
     setError(null);
 
@@ -14,12 +14,16 @@ export function useSubmitEmail() {
     const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s timeout
 
     try {
-      const res = await fetch(`https://spark-backend.stepnex.in/enter_waitlist?email=${email}`, {
+      const payload = type === 'email' 
+        ? { email: value }
+        : { phone: value };
+        
+      const res = await fetch(`${process.env.API_BASE}/api/v1/landing/waitlist/enter`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify(payload),
         signal: controller.signal,
       });
 

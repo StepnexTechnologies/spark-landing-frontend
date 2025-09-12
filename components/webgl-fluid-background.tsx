@@ -1,13 +1,13 @@
 // webgl-fluid-background.tsx
 "use client"
-import { useEffect, useRef } from 'react';
+import {useEffect, useRef} from 'react';
 import WebGLFluidEnhanced from 'webgl-fluid-enhanced';
 
 export function WebGLFluidBackground() {
   const containerRef = useRef(null);
 
   useEffect(() => {
-    console.log("WebGL Simulation Starting...");
+    // console.log("WebGL Simulation Starting...");
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
     const simulation = new WebGLFluidEnhanced(containerRef.current);
@@ -18,7 +18,7 @@ export function WebGLFluidBackground() {
     // setInterval(() => {simulation.multipleSplats(6)}, 4000);
 
     return () => {
-      console.log("WebGL Simulation Stopping...");
+      // console.log("WebGL Simulation Stopping...");
       simulation.stop();
       delete (window as any).fluidSimulation;
     };
