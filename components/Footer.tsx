@@ -46,7 +46,7 @@ export default function Footer() {
             <div className="flex items-center space-x-2 md:space-x-4">
               <Link href="/about" className="hover:underline hover:text-purple-400">About Us</Link>
               <Link href="/contact" className="hover:underline hover:text-purple-400">Contact Us</Link>
-            <p className="select-text text-center md:text-left">+65 91455382 | +91 9910772075</p>
+            <p className="select-text text-center md:text-left">+91 9910772075</p>
             </div>
           </div>
 
