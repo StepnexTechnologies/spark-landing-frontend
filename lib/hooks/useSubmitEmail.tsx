@@ -35,14 +35,14 @@ export function useSubmitEmail() {
         throw new Error(data.message || "Failed to submit email");
       }
 
-      if (typeof data.waitlist_id !== "number" || typeof data.message !== "string") {
-        throw new Error("Invalid response format");
-      }
+      // if (typeof data.waitlist_id !== "string" || typeof data.message !== "string") {
+      //   throw new Error("Invalid response format");
+      // }
 
-      setResponseNumber(data.waitlist_id);
+      setResponseNumber(data.waitlist_number);
       setResponseMessage(data.message);
 
-      return { number: data.waitlist_id, message: data.message };
+      return { number: data.waitlist_number, message: data.message };
     } catch (err) {
       const errorMessage = (err as Error).name === "AbortError" ? "Request timed out" : (err as Error).message;
       setError(errorMessage);

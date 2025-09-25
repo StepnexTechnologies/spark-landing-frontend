@@ -23,6 +23,7 @@ export default function EmailCapture() {
     // console.log("Received number from server:", number);
     // console.log("Received message from server:", message);
 
+      console.log("Redirecting to thank-you page with waitlist_id:", number);
     if (number !== null) {
       localStorage.setItem("waitlistResponse", message);
       window.location.href = `/thank-you?waitlist_id=${number}`;
