@@ -42,7 +42,7 @@ export default function Footer() {
           transition={{ delay: 0.8 }}
         >
           {/* Left Column */}
-          <div className="flex flex-row items-center md:items-start space-y-1 md:justify-self-start">
+          <div className="flex flex-row justify-center items-center md:items-start space-y-1 md:justify-self-start">
             <div className="flex items-center space-x-2 md:space-x-4">
               <Link href="/about" className="hover:underline hover:text-purple-400">About Us</Link>
               <Link href="/contact" className="hover:underline hover:text-purple-400">Contact Us</Link>
