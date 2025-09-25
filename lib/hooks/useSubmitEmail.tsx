@@ -16,7 +16,7 @@ export function useSubmitEmail() {
     try {
       const payload = type === 'email' 
         ? { email: value }
-        : { phone: value };
+        : { phone_number: value };
         
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/api/v1/landing/waitlist/enter`, {
         method: "POST",
