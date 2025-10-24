@@ -22,7 +22,7 @@ export default function BenefitCard({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.6 }}
-      className="relative w-full max-w-[358px] h-[436px] rounded-[32px] p-[10px] bg-gradient-to-br from-white/10 via-white/0 to-black/10 border border-white/20 backdrop-blur-[2px] shadow-[10px_10px_30px_rgba(0,0,0,0.2),-10px_-10px_30px_rgba(255,255,255,0.1)]"
+      className="relative w-full max-w-[358px] h-[460px] rounded-[32px] p-[10px] bg-gradient-to-br from-white/10 via-white/0 to-black/10 border border-white/20 backdrop-blur-[2px] shadow-[10px_10px_30px_rgba(0,0,0,0.2),-10px_-10px_30px_rgba(255,255,255,0.1)]"
     >
       {/* Card Background */}
       <div className="absolute inset-0 rounded-[32px] bg-transparent" />
