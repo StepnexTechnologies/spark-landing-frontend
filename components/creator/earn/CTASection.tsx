@@ -13,7 +13,7 @@ export default function CTASection() {
         transition={{ duration: 0.8 }}
         className="max-w-[1440px] mx-auto"
       >
-        <div className="max-w-[348px] md:max-w-[1060px] mx-auto">
+        <div className="max-w-full md:max-w-[1060px] mx-auto">
           {/* CTA Card */}
           <div className="border-2 border-[#dd2a7b] rounded-[24px] p-8 md:p-8 flex flex-col items-center justify-center gap-8 min-h-[253px]">
             {/* Heading */}

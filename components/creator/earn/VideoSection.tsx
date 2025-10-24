@@ -15,7 +15,7 @@ export default function VideoSection() {
         className="max-w-[1440px] mx-auto"
       >
         {/* Video Player Container */}
-        <div className="relative max-w-[347px] md:max-w-[855px] mx-auto mb-6 md:mb-8">
+        <div className="relative max-w-full md:max-w-[855px] mx-auto mb-6 md:mb-8">
           {/* Outer Container with Gradient Background */}
           <div className="bg-white/10 rounded-[16px] md:rounded-[48px] p-2 md:p-4">
             {/* Inner Video Container */}

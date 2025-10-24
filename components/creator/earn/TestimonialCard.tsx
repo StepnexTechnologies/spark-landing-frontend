@@ -28,7 +28,7 @@ export default function TestimonialCard({
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.6, delay: index * 0.1 }}
       className={`
-        p-6 rounded-[32px] border border-white/20
+        p-6 rounded-[32px] bg-gradient-to-br from-white/10 via-white/0 to-black/10 border border-white/20 backdrop-blur-[2px]
         ${highlighted ? "bg-white/10" : "bg-transparent"}
         max-w-[299px] md:max-w-[299px]
       `}

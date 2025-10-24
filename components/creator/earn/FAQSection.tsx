@@ -68,7 +68,7 @@ export default function FAQSection() {
           </div>
 
           {/* View All Button */}
-          <div className="flex justify-center md:justify-start">
+          <div className="flex justify-center">
               <CTAButton buttonText={"View All"}/>
           </div>
         </div>
