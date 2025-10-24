@@ -56,7 +56,7 @@ export default function VideoSection() {
           transition={{ duration: 0.6, delay: 0.3 }}
           className="flex justify-center"
         >
-          <CTAButton>Completely Free, Start Now</CTAButton>
+            <CTAButton buttonText={"Completely Free, Start Now"}/>
         </motion.div>
       </motion.div>
     </section>

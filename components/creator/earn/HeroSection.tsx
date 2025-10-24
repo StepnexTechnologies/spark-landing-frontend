@@ -18,19 +18,6 @@ export default function HeroSection() {
           India&apos;s 1st, invoicing AI exclusively for Creators. Now in Private Beta.⚡️
         </h1>
 
-        {/* Image Container with Glassmorphic Background */}
-        {/*<div className="absolute w-full max-w-[356px] md:max-w-[821px] mx-auto z-50">*/}
-        {/*  /!* Glassmorphic Card - Outer Container with Padding *!/*/}
-        {/*  <div className="rounded-[32px] p-[10px]">*/}
-        {/*    /!* Inner Glassmorphic Container *!/*/}
-        {/*    <div className="rounded-[26px] bg-red backdrop-blur-[2px] p-16 md:p-8">*/}
-
-
-        {/*    </div>*/}
-        {/*  </div>*/}
-        {/*</div>*/}
-
-
           {/* Woman with Phone Image */}
           <motion.div
               initial={{ opacity: 0, scale: 0.9 }}

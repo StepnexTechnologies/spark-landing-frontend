@@ -1,74 +1,25 @@
-"use client";
-
-import {motion} from "framer-motion";
-import {ReactNode} from "react";
+import React from "react";
 
 interface CTAButtonProps {
-  children: ReactNode;
-  onClick?: () => void;
-  href?: string;
-  variant?: "primary" | "secondary";
-  size?: "sm" | "md" | "lg";
-  className?: string;
+    buttonText?: string;
+    className?: string;
+
 }
 
-export default function CTAButton({
-  children,
-  onClick,
-  href,
-  variant = "primary",
-  size = "md",
-  className = "",
-}: CTAButtonProps) {
-  const sizeClasses = {
-    sm: "px-4 py-3 text-sm",
-    md: "px-4 py-3 text-base",
-    lg: "px-6 py-3 text-base md:text-lg",
-  };
-
-  const variantClasses = {
-    primary:
-      "bg-white/10 ring-1 ring-[#dd2a7b] ring-offset-2 backdrop-blur-sm hover:bg-white/20",
-    secondary: "bg-[#dd2a7b] hover:bg-[#c42569]",
-  };
-
-  const baseClasses = `
-    ${sizeClasses[size]}
-    ${variantClasses[variant]}
-    rounded-full
-    font-medium
-    text-white
-    transition-all
-    duration-300
-    cursor-pointer
-    inline-flex
-    items-center
-    justify-center
-    gap-2
-    ${className}
-  `.trim().replace(/\s+/g, ' ');
-
-  const content = (
-    <motion.span
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
-      className="inline-block"
-    >
-      {children}
-    </motion.span>
-  );
-
-  if (href) {
+const CTAButton = ({buttonText = "Send Invoices For Free", className}: CTAButtonProps) => {
     return (
-      <a href={href} className={baseClasses} onClick={onClick}>
-        {content}
-      </a>
+        <button
+            className={`all-[unset] box-border inline-flex items-start p-0.5 [-webkit-backdrop-filter:blur(16px)_brightness(100%)] relative flex-col rounded-[32px] backdrop-blur-[2px] backdrop-brightness-[100%] gap-2.5 bg-[#ffffff1a] border border-solid before:content-[''] before:[mask-composite:exclude] before:pointer-events-none before:inset-0 before:[background:linear-gradient(162deg,rgba(221,42,123,1)_0%,rgba(151,71,255,1)_64%)] before:absolute before:[-webkit-mask:linear-gradient(#fff_0_0)_content-box,linear-gradient(#fff_0_0)] before:rounded-[32px] before:p-px before:z-[1] before:[-webkit-mask-composite:xor] ${className}`}
+        >
+            <div
+                className={`all-[unset] box-border items-center gap-2.5 flex-[0_0_auto] px-4 py-2.5 rounded-[32px] justify-center relative bg-[linear-gradient(162deg,rgba(221,42,123,0.4)_0%,rgba(151,71,255,0.4)_64%)] inline-flex shadow-[inset_0_1px_0_rgba(255,255,255,0.40),inset_1px_0_0_rgba(255,255,255,0.32),inset_0_-1px_1px_rgba(0,0,0,0.13),inset_-1px_0_1px_rgba(0,0,0,0.11)] [-webkit-backdrop-filter:blur(2.0px)_brightness(100.0%)_saturate(100.0%)] backdrop-blur-[2.0px] backdrop-brightness-[100.0%] backdrop-saturate-[100.0%]`}
+            >
+                <div className="font-title w-fit mt-[-1.00px] tracking-[var(--title-letter-spacing)] text-[length:var(--title-font-size)] [font-style:var(--title-font-style)] text-white font-[number:var(--title-font-weight)] leading-[var(--title-line-height)] whitespace-nowrap relative">
+                    {buttonText}
+                </div>
+            </div>
+        </button>
     );
-  }
+};
 
-  return (
-    <button className={baseClasses} onClick={onClick}>
-      {content}
-    </button>
-  );
-}
+export default CTAButton;

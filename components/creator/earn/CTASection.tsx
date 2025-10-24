@@ -22,7 +22,7 @@ export default function CTASection() {
             </h2>
 
             {/* CTA Button */}
-            <CTAButton size="lg">Make Your First Invoices Now</CTAButton>
+              <CTAButton buttonText={"Make your first Invoice Now"}/>
           </div>
         </div>
       </motion.div>

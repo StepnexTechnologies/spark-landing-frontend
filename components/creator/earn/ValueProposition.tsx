@@ -35,7 +35,7 @@ export default function ValueProposition() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <CTAButton size="lg">Send Invoices For Free</CTAButton>
+              <CTAButton buttonText={"Send Invoices For Free"}/>
           </motion.div>
         </div>
       </motion.div>

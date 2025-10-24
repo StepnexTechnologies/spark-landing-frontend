@@ -10,28 +10,28 @@ export default function AdvantageSection() {
       title: "Payment Ready",
       description: "GST auto‑calculated, payment integrated",
       iconUrl:
-        "https://www.figma.com/api/mcp/asset/94ff5481-5d58-4790-a77b-7eb678a3ce82",
+        "/images/creator/earn/payment-ready-illustration.png",
       hasMoneyIcon: true,
     },
     {
       title: "Tax‑Compliant",
       description: "GSTIN, HSN, Barters managed.",
       iconUrl:
-        "https://www.figma.com/api/mcp/asset/2e477eda-b7b8-4ec0-a164-fa5efc50c164",
+        "/images/creator/earn/tax-illustration.png",
       hasMoneyIcon: false,
     },
     {
       title: "WhatsApp Alerts",
       description: "Your money tracked!",
       iconUrl:
-        "https://www.figma.com/api/mcp/asset/db1ee620-979a-4417-8ca5-3333f4b42898",
+        "/images/creator/earn/whatsapp-illustration.png",
       hasMoneyIcon: false,
     },
     {
       title: "Proof Of Work",
       description: "Auto-fetched, no more screenshots",
       iconUrl:
-        "https://www.figma.com/api/mcp/asset/0aedbd9d-cd34-4325-988f-64b36cb8bd2e",
+        "/images/creator/earn/proof-of-work-illustration.png",
       hasMoneyIcon: false,
     },
   ];
@@ -77,7 +77,7 @@ export default function AdvantageSection() {
           transition={{ duration: 0.6 }}
           className="flex justify-center"
         >
-          <CTAButton>Get Paid Faster</CTAButton>
+          <CTAButton buttonText={"Get Paid Faster"}/>
         </motion.div>
       </div>
     </section>

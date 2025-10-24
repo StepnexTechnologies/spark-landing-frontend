@@ -79,7 +79,7 @@ export default function BenefitsSection() {
           transition={{ duration: 0.6 }}
           className="flex justify-center"
         >
-          <CTAButton>Don&apos;t Wait, Try For Free</CTAButton>
+            <CTAButton buttonText={"Don't Wait Try For Free"}/>
         </motion.div>
       </div>
     </section>

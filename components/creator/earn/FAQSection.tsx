@@ -69,7 +69,7 @@ export default function FAQSection() {
 
           {/* View All Button */}
           <div className="flex justify-center md:justify-start">
-            <CTAButton>View All</CTAButton>
+              <CTAButton buttonText={"View All"}/>
           </div>
         </div>
       </motion.div>
