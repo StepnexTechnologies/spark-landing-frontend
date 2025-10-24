@@ -10,7 +10,7 @@ export default function FAQSection() {
   const faqs = getHomepageFAQs(6);
 
   return (
-    <section className="relative py-12 md:py-20 px-5 md:px-20">
+    <section className="relative py-4 px-5 md:px-20">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}

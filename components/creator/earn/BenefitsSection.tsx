@@ -43,7 +43,7 @@ export default function BenefitsSection() {
   ];
 
   return (
-    <section className="relative py-12 md:py-20 px-5 md:px-20">
+    <section className="relative py-4 px-5 md:px-20">
       <div className="max-w-[1440px] mx-auto">
         {/* Section Header */}
         <motion.div
