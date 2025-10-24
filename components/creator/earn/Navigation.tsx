@@ -3,6 +3,7 @@
 import {motion} from "framer-motion";
 import Image from "next/image";
 import CTAButton from "./CTAButton";
+import Link from "next/link";
 
 export default function Navigation() {
   return (
@@ -14,7 +15,7 @@ export default function Navigation() {
     >
       <div className="flex items-center justify-between max-w-[1440px] mx-auto">
         {/* Logo */}
-        <div className="relative h-6 w-[130px] md:h-10 md:w-[218px]">
+        <Link className="relative h-6 w-[130px] md:h-10 md:w-[218px]" href={"/creator/earn"}>
           <Image
             src={"/sparkonomy_full_white.png"}
             alt="Sparkonomy Logo"
@@ -22,7 +23,7 @@ export default function Navigation() {
             className="object-contain"
             priority
           />
-        </div>
+        </Link>
         <CTAButton buttonText={"Get Early Access"} />
 
       </div>
