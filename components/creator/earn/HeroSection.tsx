@@ -12,7 +12,7 @@ export default function HeroSection() {
       const scrollPosition = window.scrollY;
       const windowHeight = window.innerHeight;
       // Calculate scroll progress (0 to 1) - completes in 0.4 viewport height for much faster animation
-      const progress = Math.min(scrollPosition / (windowHeight * 0.25), 1);
+      const progress = Math.min(scrollPosition / (windowHeight * 0.4), 1);
       setScrollProgress(progress);
     };
 

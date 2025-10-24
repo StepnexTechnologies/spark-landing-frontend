@@ -15,7 +15,7 @@ export default function ValueProposition() {
       >
         <div className="max-w-[321px] md:max-w-[931px] mx-auto space-y-6 md:space-y-8">
           {/* Main Heading */}
-          <h2 className="text-[40px] md:text-[52px] font-bold text-white leading-tight">
+          <h2 className="text-[40px] md:text-[52px] font-bold text-white leading-tight md:inline-flex">
             <span className="block md:inline">Earn More. Stress Less.</span>
             <span className="block">Get Paid Faster!</span>
           </h2>
