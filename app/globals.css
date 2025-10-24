@@ -6,10 +6,13 @@
   --foreground-rgb: 255, 255, 255;
   --background-start-rgb: 0, 0, 0;
   --background-end-rgb: 0, 0, 0;
-  
+
   /* Primary color for legal pages and components */
     --primary: 222.2 47.4% 11.2%;
     --primary-foreground: 210 40% 98%;
+
+  /* Gradient for creator pages */
+  --pink-to-purple: linear-gradient(162deg, #DD2A7B 4.78%, #9747FF 89.95%);
 }
 
 @layer utilities {
@@ -50,6 +53,12 @@ body {
             #d7ccff 50.88%,
             #d9eaf6 72.99%
     );
+}
+
+.gradient-blob {
+    border-radius: 1330.357px;
+    background: var(--pink-to-purple, linear-gradient(162deg, #DD2A7B 4.78%, #9747FF 89.95%));
+    filter: blur(150px);
 }
 
 

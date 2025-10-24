@@ -12,9 +12,10 @@ export function RootLayoutClient({
 }) {
   const pathname = usePathname();
   const isLegalPage = pathname.startsWith("/legal");
+  const isCreatorPage = pathname.startsWith("/creator");
 
-  if (isLegalPage) {
-    // For legal pages, render children without WebGL background or Footer
+  if (isLegalPage || isCreatorPage) {
+    // For legal and creator pages, render children without WebGL background or Footer
     return <>{children}</>;
   }
 
