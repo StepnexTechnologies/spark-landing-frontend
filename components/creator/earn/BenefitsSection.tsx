@@ -59,7 +59,7 @@ export default function BenefitsSection() {
         </motion.div>
 
         {/* Benefits Cards */}
-        <div className="flex flex-col md:flex-row gap-6 md:gap-8 items-center md:items-start justify-center mb-12 md:mb-16">
+        <div className="flex flex-col md:flex-row gap-4 md:gap-8 items-center md:items-start justify-center mb-12 md:mb-16">
           {benefits.map((benefit, index) => (
             <BenefitCard
               key={index}

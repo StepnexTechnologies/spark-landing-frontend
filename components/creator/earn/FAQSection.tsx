@@ -49,7 +49,7 @@ export default function FAQSection() {
         transition={{ duration: 0.8 }}
         className="max-w-[1440px] mx-auto"
       >
-        <div className="max-w-[349px] md:max-w-[1060px] mx-auto">
+        <div className="w-full mx-auto">
           {/* Section Header */}
           <h2 className="text-[40px] md:text-[40px] font-bold text-white mb-6 md:mb-12">
             Frequently Asked Questions

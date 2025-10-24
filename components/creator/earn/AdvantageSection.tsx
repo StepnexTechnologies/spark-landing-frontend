@@ -56,7 +56,7 @@ export default function AdvantageSection() {
         </motion.div>
 
         {/* Advantages Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-x-[55px] md:gap-y-[49px] max-w-[358px] md:max-w-[1162px] mx-auto mb-12 md:mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-x-[55px] md:gap-y-[49px] w-full mx-auto mb-12 md:mb-16">
           {advantages.map((advantage, index) => (
             <AdvantageFeature
               key={index}

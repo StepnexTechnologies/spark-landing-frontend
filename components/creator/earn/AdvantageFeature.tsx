@@ -24,7 +24,7 @@ export default function AdvantageFeature({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.6, delay: index * 0.1 }}
-      className="flex flex-col md:flex-row gap-3.5 items-center md:items-start text-center md:text-left pb-3 border-b border-white/20 max-w-[326px] md:max-w-none"
+      className="flex flex-row md:flex-col gap-3.5 items-center md:justify-center text-center md:text-left pb-3 border-b border-white/20 w-full md:max-w-none"
     >
       {/* Icon Container */}
       <div className="relative w-[65px] h-[79px] flex-shrink-0">
@@ -42,11 +42,11 @@ export default function AdvantageFeature({
       </div>
 
       {/* Text Content */}
-      <div className="flex flex-col gap-3.5 max-w-[247px]">
+      <div className="flex flex-col items-start md:items-center justify-center gap-3.5 max-w-[247px]">
         <h3 className="text-2xl font-semibold text-white leading-normal">
           {title}
         </h3>
-        <p className="text-sm text-white leading-[1.4]">{description}</p>
+        <p className="text-sm text-white text-nowrap">{description}</p>
       </div>
     </motion.div>
   );
