@@ -59,6 +59,16 @@ body {
     border-radius: 1330.357px;
     background: var(--pink-to-purple, linear-gradient(162deg, #DD2A7B 4.78%, #9747FF 89.95%));
     filter: blur(150px);
+    will-change: transform;
+    transform: translate3d(0, 0, 0);
+    -webkit-backface-visibility: hidden;
+}
+
+/* Reduced blur for mobile devices to improve rendering performance */
+@media (max-width: 768px) {
+    .gradient-blob {
+        filter: blur(80px);
+    }
 }
 
 .cta-button-gradient {
