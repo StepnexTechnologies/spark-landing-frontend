@@ -10,9 +10,9 @@ const roboto = Roboto({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.sparkonomy.com/"),
-  title: "Earn More with Sparkonomy | India's 1st Invoicing AI for Creators",
+  title: "Earn More with Sparkonomy | India's 1st AI built exclusively for the Creator Economy!",
   description:
-    "Get paid faster with India's first invoicing AI built exclusively for creators. Send invoices, track payments, and manage taxes effortlessly. Now in Private Beta!",
+    "Get paid faster with India's first AI built exclusively for the Creator Economy!. Send invoices, track payments, and manage taxes effortlessly. Now in Private Beta!",
   keywords: [
     "creator invoicing",
     "AI invoicing",
@@ -42,15 +42,15 @@ export const metadata: Metadata = {
   openGraph: {
     siteName: "Sparkonomy",
     url: "https://sparkonomy.com/creator/earn",
-    title: "Earn More with Sparkonomy | India's 1st Invoicing AI for Creators",
+    title: "Earn More with Sparkonomy | India's 1st AI built exclusively for the Creator Economy!",
     description:
-      "Get paid faster with India's first invoicing AI built exclusively for creators. Send invoices, track payments, and manage taxes effortlessly.",
+      "Get paid faster with India's first AI built exclusively for the Creator Economy!. Send invoices, track payments, and manage taxes effortlessly.",
     images: [
       {
         url: "/sparkonomy-earn.png",
         width: 1200,
         height: 630,
-        alt: "Sparkonomy Invoicing AI for Creators",
+        alt: "Sparkonomy AI built exclusively for the Creator Economy!",
       },
     ],
     locale: "en_IN",
@@ -58,9 +58,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Earn More with Sparkonomy | India's 1st Invoicing AI for Creators",
+    title: "Earn More with Sparkonomy | India's 1st AI built exclusively for the Creator Economy!",
     description:
-      "Get paid faster with India's first invoicing AI built exclusively for creators. Send invoices, track payments, and manage taxes effortlessly.",
+      "Get paid faster with India's first AI built exclusively for the Creator Economy!. Send invoices, track payments, and manage taxes effortlessly.",
     images: ["/sparkonomy-earn.png"],
   },
 };

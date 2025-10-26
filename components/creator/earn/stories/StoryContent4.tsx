@@ -58,7 +58,7 @@ export default function StoryContent4() {
       <div className="absolute top-[63%] left-1/2 -translate-x-1/2 flex flex-col gap-0.5 w-full max-w-[312px] px-3" style={{ fontFamily: "Courier New" }}>
         <div className="bg-white px-2 py-1.5 rounded w-fit">
           <p className="text-[#111111] text-[15px] font-bold leading-tight tracking-tight">
-            I found an Invoicing AI made for us creator folks.
+            I found an AI made for us creator folks.
           </p>
         </div>
         <div className="bg-white px-2 py-1 rounded w-fit">
