@@ -30,7 +30,12 @@ export default function StoriesContainer({
   const [isVisible, setIsVisible] = useState(true);
 
   const currentStory = stories[currentIndex];
-  const CurrentStoryComponent = currentStory.component;
+  const previousStory = stories[currentIndex >= 0 ? currentIndex - 1 : 0];
+  const nextStory = stories[currentIndex < stories.length - 1 ? currentIndex + 1 : stories.length - 1];
+
+  const CurrentStoryComponent = currentStory?.component;
+  const PreviousStoryComponent = previousStory?.component;
+  const NextStoryComponent = nextStory?.component;
 
   // Handle story progression
   useEffect(() => {
@@ -56,8 +61,8 @@ export default function StoriesContainer({
       setCurrentIndex((prev) => prev + 1);
       setProgress(0);
     } else {
-      // Mark stories as viewed in localStorage
-      localStorage.setItem("storiesViewed", "true");
+      // Mark stories as viewed in sessionStorage
+      sessionStorage.setItem("storiesViewed", "true");
       setIsVisible(false);
       setTimeout(() => {
         onComplete();
@@ -74,7 +79,7 @@ export default function StoriesContainer({
 
   const handleClose = useCallback(() => {
     // Mark stories as viewed even if closed early
-    localStorage.setItem("storiesViewed", "true");
+    sessionStorage.setItem("storiesViewed", "true");
     setIsVisible(false);
     setTimeout(() => {
       onComplete();
@@ -92,16 +97,33 @@ export default function StoriesContainer({
           transition={{ duration: 0.3 }}
         >
           {/* Desktop Layout - Instagram Style */}
-          <div className="hidden md:flex items-center justify-center h-full">
+          <div className="hidden md:flex items-center justify-center h-full bg-[#212529]">
             {/* Left Side Story (Blurred) */}
-            <div className="absolute left-[10%] w-[292px] h-[580px] opacity-20 blur-sm pointer-events-none">
+            <div className="absolute scale-75 left-[10%] bottom-[25%] w-[292px] h-[580px] opacity-10 blur-sm pointer-events-none">
               {currentIndex > 0 && (
-                <div className="w-full h-full bg-[#212529] rounded-3xl" />
+                  <div className="relative w-[390px] h-[773px] bg-[#212529] rounded-3xl overflow-hidden">
+                      <StoryProgressBar
+                          currentIndex={currentIndex - 1}
+                          totalStories={stories.length}
+                          progress={progress}
+                      />
+                      <StoryPanel
+                          currentIndex={currentIndex - 1}
+                          totalStories={stories.length}
+                          onNext={handleNext}
+                          onPrevious={handlePrevious}
+                          onClose={handleClose}
+                          isPaused={isPaused}
+                          onPauseChange={setIsPaused}
+                      >
+                          <PreviousStoryComponent />
+                      </StoryPanel>
+                  </div>
               )}
             </div>
 
             {/* Center Story (Active) */}
-            <div className="relative w-[390px] h-[773px] bg-[#212529] rounded-3xl overflow-hidden shadow-2xl">
+            <div className="relative w-[390px] h-[773px] bg-[#212529] rounded-3xl overflow-hidden">
               <StoryProgressBar
                 currentIndex={currentIndex}
                 totalStories={stories.length}
@@ -118,22 +140,31 @@ export default function StoriesContainer({
               >
                 <CurrentStoryComponent />
               </StoryPanel>
-
-              {/* Skip Button */}
-              {/*<button*/}
-              {/*  onClick={handleClose}*/}
-              {/*  className="absolute top-16 right-4 text-white text-sm font-medium bg-black/30 px-4 py-2 rounded-full hover:bg-black/50 transition-colors z-50"*/}
-              {/*>*/}
-              {/*  Skip*/}
-              {/*</button>*/}
             </div>
 
             {/* Right Side Story (Blurred) */}
-            <div className="absolute right-[10%] w-[292px] h-[580px] opacity-20 blur-sm pointer-events-none">
-              {currentIndex < stories.length - 1 && (
-                <div className="w-full h-full bg-[#212529] rounded-3xl" />
-              )}
-            </div>
+              <div className="absolute scale-75 right-[10%] bottom-[25%] w-[292px] h-[580px] opacity-10 blur-sm pointer-events-none">
+                  {currentIndex < 3 && (
+                      <div className="relative w-[390px] h-[773px] bg-[#212529] rounded-3xl overflow-hidden">
+                          <StoryProgressBar
+                              currentIndex={currentIndex + 1}
+                              totalStories={stories.length}
+                              progress={progress}
+                          />
+                          <StoryPanel
+                              currentIndex={currentIndex + 1}
+                              totalStories={stories.length}
+                              onNext={handleNext}
+                              onPrevious={handlePrevious}
+                              onClose={handleClose}
+                              isPaused={isPaused}
+                              onPauseChange={setIsPaused}
+                          >
+                              <NextStoryComponent />
+                          </StoryPanel>
+                      </div>
+                  )}
+              </div>
           </div>
 
           {/* Mobile Layout - Fullscreen */}
@@ -155,13 +186,6 @@ export default function StoriesContainer({
               <CurrentStoryComponent />
             </StoryPanel>
 
-            {/* Skip Button */}
-            {/*<button*/}
-            {/*  onClick={handleClose}*/}
-            {/*  className="absolute top-16 right-4 text-white text-sm font-medium bg-black/30 px-4 py-2 rounded-full active:bg-black/50 transition-colors z-50"*/}
-            {/*>*/}
-            {/*  Skip*/}
-            {/*</button>*/}
           </div>
         </motion.div>
       )}

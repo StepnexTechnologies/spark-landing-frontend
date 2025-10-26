@@ -21,7 +21,7 @@ export default function CreatorEarnPage() {
 
   useEffect(() => {
     // Check if user has already viewed stories
-    const storiesViewed = localStorage.getItem("storiesViewed");
+    const storiesViewed = sessionStorage.getItem("storiesViewed");
 
     if (storiesViewed === "true") {
       // Skip stories, show landing page directly

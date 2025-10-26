@@ -1,7 +1,7 @@
 "use client";
 
 import {useEffect, useState} from "react";
-import {Heart, Send, XIcon} from "lucide-react";
+import {BadgeCheck, Heart, Send, XIcon} from "lucide-react";
 import AnimatedEmojis from "./AnimatedEmojis";
 import Image from "next/image";
 import FloatingHearts from "./FloatingHearts";
@@ -11,9 +11,13 @@ export default function StoryContent4() {
 
   // Auto-trigger hearts at intervals
   useEffect(() => {
+    // Trigger immediately on mount
+    setHeartTriggerCount(1);
+
+    // Then continue at intervals
     const interval = setInterval(() => {
       setHeartTriggerCount((prev) => prev + 1);
-    }, 600); // Trigger every 600ms for faster continuous hearts
+    }, 1400); // Trigger every 1400ms for smoother, less jittery animation
 
     return () => clearInterval(interval);
   }, []);
@@ -27,7 +31,7 @@ export default function StoryContent4() {
           <div className="flex flex-col">
             <div className="flex items-center gap-1">
               <p className="text-white text-xs font-semibold">Ruffles</p>
-              <span className="text-[10px]">✓</span>
+              <span className="text-[10px]"><BadgeCheck width={14} height={14} /></span>
             </div>
             <p className="text-white/70 text-[11px]">Sponsored</p>
           </div>
@@ -88,7 +92,7 @@ export default function StoryContent4() {
           />
         </div>
         <button className="text-white text-xl">
-          <Heart width={24} height={24} />
+          <Heart width={24} height={24} fill="#FF0000" stroke={"FF0000"} />
         </button>
         <button className="text-white text-xl"><Send width={24} height={24} /></button>
       </div>
