@@ -43,19 +43,19 @@ export default function StoryContent4() {
       </div>
 
       {/* Main Image */}
-      <div className="absolute top-[18%] left-1/2 -translate-x-1/2 w-[362px] h-[595px] rounded-3xl overflow-hidden bg-gradient-to-br from-purple-900/50 to-pink-900/50">
+      <div className="absolute top-[15%] left-1/2 -translate-x-1/2 w-[362px] h-[595px] rounded-3xl overflow-hidden bg-gradient-to-br from-purple-900/50 to-pink-900/50">
         <Image src={"/images/creator/earn/upset-young-beautiful-businesswoman-sitting-workplace-3.png"} alt={"Bunny"}  width={362} height={595}/>
       </div>
 
       {/* Top Text */}
-      <div className="absolute top-[23%] left-1/2 -translate-x-1/2 bg-white px-3 py-2 rounded-2xl">
+      <div className="absolute top-[20%] left-1/2 -translate-x-1/2 bg-white px-3 py-2 rounded-2xl">
         <p className="text-[#111111] text-[27px] font-semibold text-center leading-tight tracking-tight text-nowrap">
           🚫NO MORE! 🙅🏻‍♀️🙅🏽
         </p>
       </div>
 
       {/* Features List */}
-      <div className="absolute top-[60%] left-1/2 -translate-x-1/2 flex flex-col gap-0.5 w-full max-w-[312px] px-3" style={{ fontFamily: "Courier New" }}>
+      <div className="absolute top-[63%] left-1/2 -translate-x-1/2 flex flex-col gap-0.5 w-full max-w-[312px] px-3" style={{ fontFamily: "Courier New" }}>
         <div className="bg-white px-2 py-1.5 rounded w-fit">
           <p className="text-[#111111] text-[15px] font-bold leading-tight tracking-tight">
             I found an Invoicing AI made for us creator folks.

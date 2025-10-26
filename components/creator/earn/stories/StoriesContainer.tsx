@@ -43,7 +43,7 @@ export default function StoriesContainer({
 
     const interval = setInterval(() => {
       setProgress((prev) => {
-        const increment = (100 / currentStory.duration) * 50; // Update every 50ms
+        const increment = (100 / currentStory?.duration) * 50; // Update every 50ms
         if (prev >= 100) {
           clearInterval(interval);
           handleNext();
@@ -54,7 +54,7 @@ export default function StoriesContainer({
     }, 50);
 
     return () => clearInterval(interval);
-  }, [currentIndex, isPaused, currentStory.duration, isVisible]);
+  }, [currentIndex, isPaused, currentStory?.duration, isVisible]);
 
   const handleNext = useCallback(() => {
     if (currentIndex < stories.length - 1) {

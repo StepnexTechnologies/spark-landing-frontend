@@ -29,19 +29,19 @@ export default function StoryContent1() {
       </div>
 
       {/* Main Image */}
-      <div className="absolute top-[18%] left-1/2 -translate-x-1/2 w-[362px] h-[595px] rounded-3xl overflow-hidden bg-gradient-to-br from-purple-900/50 to-pink-900/50">
+      <div className="absolute top-[15%] left-1/2 -translate-x-1/2 w-[362px] h-[595px] rounded-3xl overflow-hidden bg-gradient-to-br from-purple-900/50 to-pink-900/50">
         <Image src={"/images/creator/earn/bunny.png"} alt={"Bunny"}  width={362} height={595}/>
       </div>
 
       {/* Top Text */}
-      <div className="absolute top-[23%] left-1/2 -translate-x-1/2 bg-white px-3 py-2 rounded-2xl">
+      <div className="absolute top-[26%] left-1/2 -translate-x-1/2 bg-white px-3 py-2 rounded-2xl">
         <p className="text-[#111111] text-[27px] font-semibold text-center leading-tight tracking-tight text-nowrap">
           RAISE YOUR HAND
         </p>
       </div>
 
       {/* Bottom Text */}
-      <div className="absolute top-[66%] left-1/2 -translate-x-1/2 bg-white px-3 py-1.5 rounded-xl">
+      <div className="absolute top-[70%] left-1/2 -translate-x-1/2 bg-white px-3 py-1.5 rounded-xl">
         <p className="text-black text-lg font-medium text-center w-[190px]">
           IF you want your
           <br />
