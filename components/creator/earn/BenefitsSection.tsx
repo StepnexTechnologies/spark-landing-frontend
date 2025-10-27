@@ -34,7 +34,7 @@ export default function BenefitsSection() {
       decorativeImages: [],
     },
     {
-      title: "Go Pro. With your Pocket Money Manager/CFO.",
+      title: "Go Pro. With your Pocket CFO.",
       description: `Get weekly, 5-minute updates of your cash flow, overdue payments, and income growth. We keep your records organised and help your business stay tax compliant. <span class="font-bold italic">You go Pro, we get you there.</span>`,
       imageUrl:
         "https://www.figma.com/api/mcp/asset/93c9c051-d7dc-472d-af00-51b0f59fc8fe",
