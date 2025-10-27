@@ -89,9 +89,9 @@ export default function TestimonialsSection() {
           <h2 className="text-2xl md:text-[52px] font-bold text-white">
             What People Say
           </h2>
-          <p className="text-base text-white max-w-[292px] md:max-w-full mx-auto">
-            Invoices that get you paid faster, and make you look good!
-          </p>
+          {/*<p className="text-base text-white max-w-[292px] md:max-w-full mx-auto">*/}
+          {/*  Invoices that get you paid faster, and make you look good!*/}
+          {/*</p>*/}
         </motion.div>
 
         {/* Mobile/Tablet Carousel */}

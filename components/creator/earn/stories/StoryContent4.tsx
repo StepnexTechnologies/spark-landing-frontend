@@ -87,7 +87,7 @@ export default function StoryContent4() {
       <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-full max-w-[390px] px-2 flex items-center gap-4 z-40">
         <div className="flex-1 border border-white/50 rounded-full px-5 py-1.5 flex items-center justify-start">
           <AnimatedEmojis
-            emojis={["❤️", "❤️", "❤️", "❤️", "❤️", "❤️", "❤️"]}
+            emojis={["❤️", "❤️", "❤️", "❤️", "❤️", "❤️", "❤️", "❤️", "❤️", "❤️"]}
             className="text-base"
           />
         </div>

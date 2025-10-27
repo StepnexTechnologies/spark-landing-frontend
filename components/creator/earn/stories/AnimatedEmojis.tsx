@@ -16,8 +16,8 @@ export default function AnimatedEmojis({ emojis, className = "" }: AnimatedEmoji
           initial={{ opacity: 0, scale: 0, y: 4 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{
-            duration: 0.3,
-            delay: index * 0.07,
+            duration: 0.5,
+            delay: index * 0.1 + 0.5,
             ease: [0.34, 1.56, 0.64, 1],
           }}
           className="inline-block"

@@ -42,15 +42,15 @@ export const metadata: Metadata = {
   openGraph: {
     siteName: "Sparkonomy",
     url: "https://sparkonomy.com/creator/earn",
-    title: "Earn More with Sparkonomy | India's 1st AI built exclusively for the Creator Economy!",
+    title: "Grow Your Earnings with Sparkonomy | India's 1st AI exclusively for creators. Free!",
     description:
-      "Get paid faster with India's first AI built exclusively for the Creator Economy!. Send invoices, track payments, and manage taxes effortlessly.",
+      "Earn more, Stress Less. Invoices in a few taps, automatic payment reminders and effortless tax.\n",
     images: [
       {
-        url: "/sparkonomy-earn.png",
+        url: "/sparkonomy.png",
         width: 1200,
         height: 630,
-        alt: "Sparkonomy AI built exclusively for the Creator Economy!",
+        alt: "Sparkonomy AI",
       },
     ],
     locale: "en_IN",
@@ -58,9 +58,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Earn More with Sparkonomy | India's 1st AI built exclusively for the Creator Economy!",
+    title: "Grow Your Earnings with Sparkonomy | India's 1st AI exclusively for creators. Free!",
     description:
-      "Get paid faster with India's first AI built exclusively for the Creator Economy!. Send invoices, track payments, and manage taxes effortlessly.",
+      "Earn more, Stress Less. Invoices in a few taps, automatic payment reminders and effortless tax.\n",
     images: ["/sparkonomy-earn.png"],
   },
 };
