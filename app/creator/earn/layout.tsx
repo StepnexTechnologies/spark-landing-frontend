@@ -10,9 +10,9 @@ const roboto = Roboto({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.sparkonomy.com/"),
-  title: "Earn More with Sparkonomy | India's 1st AI built exclusively for the Creator Economy!",
+  title: "Grow Your Earnings with Sparkonomy | India's 1st AI exclusively for creators. Free!",
   description:
-    "Get paid faster with India's first AI built exclusively for the Creator Economy!. Send invoices, track payments, and manage taxes effortlessly. Now in Private Beta!",
+    "Earn more, Stress Less. Invoices in a few taps, automatic payment reminders and effortless tax.",
   keywords: [
     "creator invoicing",
     "AI invoicing",
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     url: "https://sparkonomy.com/creator/earn",
     title: "Grow Your Earnings with Sparkonomy | India's 1st AI exclusively for creators. Free!",
     description:
-      "Earn more, Stress Less. Invoices in a few taps, automatic payment reminders and effortless tax.\n",
+      "Earn more, Stress Less. Invoices in a few taps, automatic payment reminders and effortless tax.",
     images: [
       {
         url: "/sparkonomy.png",
