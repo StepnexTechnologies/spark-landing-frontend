@@ -46,15 +46,15 @@ export default function TestimonialsSection() {
         "https://www.figma.com/api/mcp/asset/68c70e45-5a7e-4297-ac43-5be68d0a7b06",
       highlighted: false,
     },
-    {
-      quote:
-        "Streamlined invoices that not only speed up your payments but also enhance your professional image!",
-      name: "Alex Cooper",
-      handle: "@alex.cop",
-      avatarUrl:
-        "https://www.figma.com/api/mcp/asset/68c70e45-5a7e-4297-ac43-5be68d0a7b06",
-      highlighted: false,
-    },
+    // {
+    //   quote:
+    //     "Streamlined invoices that not only speed up your payments but also enhance your professional image!",
+    //   name: "Alex Cooper",
+    //   handle: "@alex.cop",
+    //   avatarUrl:
+    //     "https://www.figma.com/api/mcp/asset/68c70e45-5a7e-4297-ac43-5be68d0a7b06",
+    //   highlighted: false,
+    // },
   ];
 
   const onDragEnd = (_event: any, info: any) => {
