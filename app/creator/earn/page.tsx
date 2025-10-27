@@ -13,6 +13,7 @@ import FAQSection from "@/components/creator/earn/FAQSection";
 import CTASection from "@/components/creator/earn/CTASection";
 import EarnFooter from "@/components/creator/earn/EarnFooter";
 import StoriesContainer from "@/components/creator/earn/stories/StoriesContainer";
+import FloatingCTA from "@/components/creator/earn/FloatingCTA";
 
 export default function CreatorEarnPage() {
   const [showStories, setShowStories] = useState(false);
@@ -86,6 +87,9 @@ export default function CreatorEarnPage() {
               <CTASection />
               <EarnFooter />
             </div>
+
+            {/* Floating CTA Button */}
+            <FloatingCTA />
           </motion.main>
         )}
       </AnimatePresence>
