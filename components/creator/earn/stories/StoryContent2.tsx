@@ -42,8 +42,8 @@ export default function StoryContent2() {
             </div>
 
             {/* Bottom Text */}
-            <div className="absolute top-[70%] left-1/2 -translate-x-1/2 bg-white px-3 py-1.5 rounded-xl">
-                <p className="text-black text-lg font-medium text-center w-[190px] leading-tight">
+            <div className="absolute top-[80%] left-1/2 -translate-x-1/2 bg-black px-3 py-1.5 border border-white" style={{ fontFamily: "Courier New" }}>
+                <p className="text-white text-nowrap text-lg font-medium text-center w-[190px] leading-tight">
                     AND GOT GHOSTED!💔
                 </p>
             </div>
