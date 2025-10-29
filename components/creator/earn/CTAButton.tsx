@@ -7,7 +7,7 @@ interface CTAButtonProps {
     navigateTo?: string;
 }
 
-const CTAButton = ({buttonText = "Send Invoices For Free", className, navigateTo = "https://dev.creator.sparkonomy.com/auth?service=earn"}: CTAButtonProps) => {
+const CTAButton = ({buttonText = "Send Invoices For Free", className, navigateTo = "https://beta.creator.sparkonomy.com/auth?service=earn"}: CTAButtonProps) => {
     return (
         <Link
             className={`all-[unset] box-border inline-flex items-start p-[1px] relative flex-col rounded-[32px] gap-2.5 border-[none] overflow-hidden ${className}`}
