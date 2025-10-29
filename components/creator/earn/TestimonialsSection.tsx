@@ -22,7 +22,7 @@ export default function TestimonialsSection() {
     {
       quote:
         "And I have to reach out so many times to get paid in 3 months, and still it hasn't happened 15-20 times! I want you to do my payment reminders",
-      name: "Alex Cooper",
+      name: " Food YouTuber",
       handle: "700K Followers",
       avatarUrl:
         "/images/creator/earn/testimonial-1.png",

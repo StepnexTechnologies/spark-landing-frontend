@@ -7,7 +7,7 @@ import AnimatedEmojis from "./AnimatedEmojis";
 export default function StoryContent2() {
 
     return (
-        <div className="relative w-full h-full bg-[#212529]">
+        <div className="relative w-full h-full ">
             {/* Header */}
             <div className="absolute top-[41px] left-1/2 -translate-x-1/2 w-full max-w-[390px] px-3 flex items-center justify-between z-40">
                 <div className="flex items-center gap-2">
@@ -30,13 +30,14 @@ export default function StoryContent2() {
             </div>
 
             {/* Main Image */}
-            <div className="absolute top-[15%] left-1/2 -translate-x-1/2 w-[362px] h-[595px] rounded-3xl overflow-hidden bg-gradient-to-br from-purple-900/50 to-pink-900/50">
+            <div className="absolute top-[15%] left-1/2 -translate-x-1/2 w-[90vw] sm:w-[362px] max-w-[362px] max-h-[calc(100%-120px)] aspect-[362/595] rounded-3xl overflow-hidden ">
                 <Image
                     src={"/images/creator/earn/story-4.png"}
                     alt={"Bunny"}
                     width={362}
                     height={595}
                     priority
+                    className="h-full w-full object-contain"
                 />
             </div>
 
