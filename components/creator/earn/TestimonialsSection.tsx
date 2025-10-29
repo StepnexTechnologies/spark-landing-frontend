@@ -21,29 +21,29 @@ export default function TestimonialsSection() {
   const testimonials = [
     {
       quote:
-        "“And I have to reach out so many times to get paid in 3 months, and still it hasn't happened 15-20 times! I want you to do my payment reminders”",
+        "And I have to reach out so many times to get paid in 3 months, and still it hasn't happened 15-20 times! I want you to do my payment reminders",
       name: "Alex Cooper",
-      handle: "@alex.cop",
+      handle: "700K Followers",
       avatarUrl:
-        "https://www.figma.com/api/mcp/asset/68c70e45-5a7e-4297-ac43-5be68d0a7b06",
+        "/images/creator/earn/testimonial-1.png",
       highlighted: false,
     },
     {
       quote:
-        "Streamlined invoices that not only speed up your payments but also enhance your professional image!",
-      name: "Alex Cooper",
-      handle: "@alex.cop",
+        "I raise invoices once a month mostly..don't get time… and it delays my payments. I want you help me raise instant invoices in under 5 mins from my phone",
+      name: "Tech Instagrammer",
+      handle: "1M Followers",
       avatarUrl:
-        "https://www.figma.com/api/mcp/asset/68c70e45-5a7e-4297-ac43-5be68d0a7b06",
+        "/images/creator/earn/testimonial-2.png",
       highlighted: false,
     },
     {
       quote:
-        "Streamlined invoices that not only speed up your payments but also enhance your professional image!",
-      name: "Alex Cooper",
-      handle: "@alex.cop",
+        "I don't have time to write down and track all payments in Excel and become my own accountant! I want you to track & remind me of my money matters",
+      name: "Lifestyle Instagrammer",
+      handle: "320K Followers",
       avatarUrl:
-        "https://www.figma.com/api/mcp/asset/68c70e45-5a7e-4297-ac43-5be68d0a7b06",
+        "/images/creator/earn/testimonial-3.png",
       highlighted: false,
     },
     // {

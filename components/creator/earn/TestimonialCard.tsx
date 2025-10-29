@@ -30,11 +30,11 @@ export default function TestimonialCard({
       className={`
         p-6 rounded-[32px] bg-gradient-to-br from-white/10 via-white/0 to-black/10 border border-white/20 backdrop-blur-[2px]
         ${highlighted ? "bg-white/10" : "bg-transparent"}
-        max-w-[299px] md:max-w-[299px]
+        max-w-[284px] md:max-w-[364px]
       `}
     >
       {/* Quote */}
-      <p className="text-white text-xl leading-normal text-center mb-3 h-[124px] flex items-center justify-center">
+      <p className="text-white text-[15px] leading-normal text-center mb-3 h-[124px] flex items-center justify-center">
         &ldquo;{quote}&rdquo;
       </p>
 
@@ -48,14 +48,14 @@ export default function TestimonialCard({
         {/* Name and Handle */}
         <div className="flex flex-col flex-1">
           <div className="flex items-center gap-1">
-            <span className="text-white font-medium text-base leading-normal">
+            <span className="text-white font-medium text-[14px] leading-normal">
               {name}
             </span>
             <div className="w-4 h-4 rounded-full bg-blue-500 flex items-center justify-center">
               <Check className="w-3 h-3 text-white" strokeWidth={3} />
             </div>
           </div>
-          <span className="text-white text-sm leading-5">{handle}</span>
+          <span className="text-white leading-5 text-[12px]">{handle}</span>
         </div>
       </div>
     </motion.div>
