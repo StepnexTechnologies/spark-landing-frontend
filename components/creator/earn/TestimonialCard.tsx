@@ -34,7 +34,7 @@ export default function TestimonialCard({
       `}
     >
       {/* Quote */}
-      <p className="text-white text-[15px] leading-normal text-center mb-3 h-[124px] flex items-center justify-center">
+      <p className="text-white text-[15px] leading-normal text-center mb-3 h-[124px] flex items-center justify-center italic">
         &ldquo;{quote}&rdquo;
       </p>
 
