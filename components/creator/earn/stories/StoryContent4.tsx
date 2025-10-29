@@ -8,7 +8,6 @@ import FloatingHearts from "./FloatingHearts";
 
 export default function StoryContent4() {
   const [heartTriggerCount, setHeartTriggerCount] = useState(0);
-  const [isImageLoaded, setIsImageLoaded] = useState(false);
 
   // Auto-trigger hearts at intervals
   useEffect(() => {
@@ -46,46 +45,45 @@ export default function StoryContent4() {
       {/* Main Image */}
       <div className="absolute top-[15%] left-1/2 -translate-x-1/2 w-[362px] h-[595px] rounded-3xl overflow-hidden bg-gradient-to-br from-purple-900/50 to-pink-900/50">
         <Image
-          src={"/images/creator/earn/upset-young-beautiful-businesswoman-sitting-workplace (2) 5.png"}
+          src={"/images/creator/earn/story-1.png"}
           alt={"Bunny"}
           width={362}
           height={595}
           priority
-          onLoad={() => setIsImageLoaded(true)}
         />
       </div>
 
-      {/* Top Text */}
-      <div className={`absolute top-[20%] left-1/2 -translate-x-1/2 bg-white px-3 py-2 rounded-2xl transition-opacity duration-200 ${isImageLoaded ? 'opacity-100' : 'opacity-0'}`}>
-        <p className="text-[#111111] text-[27px] font-semibold text-center leading-tight tracking-tight text-nowrap">
-          🚫NO MORE! 🙅🏻‍♀️🙅🏽
-        </p>
-      </div>
+      {/*/!* Top Text *!/*/}
+      {/*<div className={`absolute top-[20%] left-1/2 -translate-x-1/2 bg-white px-3 py-2 rounded-2xl transition-opacity duration-200 ${isImageLoaded ? 'opacity-100' : 'opacity-0'}`}>*/}
+      {/*  <p className="text-[#111111] text-[27px] font-semibold text-center leading-tight tracking-tight text-nowrap">*/}
+      {/*    🚫NO MORE! 🙅🏻‍♀️🙅🏽*/}
+      {/*  </p>*/}
+      {/*</div>*/}
 
-      {/* Features List */}
-      <div className={`absolute top-[63%] left-1/2 -translate-x-1/2 flex flex-col gap-0.5 w-full max-w-[312px] px-3 transition-opacity duration-200 ${isImageLoaded ? 'opacity-100' : 'opacity-0'}`}>
-        <div className="bg-white px-2 py-1.5 rounded w-fit">
-          <p className="text-[#111111] text-[15px] font-bold leading-tight tracking-tight" style={{ fontFamily: "Courier New" }}>
-            I found an AI made for us creator folks.
-          </p>
-        </div>
-        <div className="bg-white px-2 py-1 rounded w-fit">
-          <p className="text-[#111111] text-[15px] leading-tight tracking-tight italic font-[400]" style={{ fontFamily: "Damion" }}>
-            ✅ Chat/Screenshot ➡️ Invoice
-          </p>
-        </div>
-        <div className="bg-white px-2 py-1 rounded w-fit">
-            <p className="text-[#111111] text-[15px] leading-tight tracking-tight italic font-[400]" style={{ fontFamily: "Damion" }}>
-            ✅Auto Reminders
-          </p>
-        </div>
-        <div className="bg-white px-2 py-1 rounded w-fit">
-            <p className="text-[#111111] text-[15px] leading-tight tracking-tight italic font-[400]" style={{ fontFamily: "Damion" }}>
-            ✅ 🇮🇳Tax Compliant
-          </p>
-        </div>
-          <div className={"bg-[#FBFF00] text-black p-2 transform skew-x-[-15deg] w-fit font-[700]"} style={{ fontFamily: "Courier New" }}>🤩 free FREE free 🤩</div>
-      </div>
+      {/*/!* Features List *!/*/}
+      {/*<div className={`absolute top-[63%] left-1/2 -translate-x-1/2 flex flex-col gap-0.5 w-full max-w-[312px] px-3 transition-opacity duration-200 ${isImageLoaded ? 'opacity-100' : 'opacity-0'}`}>*/}
+      {/*  <div className="bg-white px-2 py-1.5 rounded w-fit">*/}
+      {/*    <p className="text-[#111111] text-[15px] font-bold leading-tight tracking-tight" style={{ fontFamily: "Courier New" }}>*/}
+      {/*      I found an AI made for us creator folks.*/}
+      {/*    </p>*/}
+      {/*  </div>*/}
+      {/*  <div className="bg-white px-2 py-1 rounded w-fit">*/}
+      {/*    <p className="text-[#111111] text-[15px] leading-tight tracking-tight italic font-[400]" style={{ fontFamily: "Damion" }}>*/}
+      {/*      ✅ Chat/Screenshot ➡️ Invoice*/}
+      {/*    </p>*/}
+      {/*  </div>*/}
+      {/*  <div className="bg-white px-2 py-1 rounded w-fit">*/}
+      {/*      <p className="text-[#111111] text-[15px] leading-tight tracking-tight italic font-[400]" style={{ fontFamily: "Damion" }}>*/}
+      {/*      ✅Auto Reminders*/}
+      {/*    </p>*/}
+      {/*  </div>*/}
+      {/*  <div className="bg-white px-2 py-1 rounded w-fit">*/}
+      {/*      <p className="text-[#111111] text-[15px] leading-tight tracking-tight italic font-[400]" style={{ fontFamily: "Damion" }}>*/}
+      {/*      ✅ 🇮🇳Tax Compliant*/}
+      {/*    </p>*/}
+      {/*  </div>*/}
+      {/*    <div className={"bg-[#FBFF00] text-black p-2 transform skew-x-[-15deg] w-fit font-[700]"} style={{ fontFamily: "Courier New" }}>🤩 free FREE free 🤩</div>*/}
+      {/*</div>*/}
 
       {/* Bottom Navigation */}
       <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-full max-w-[390px] px-2 flex items-center gap-4 z-40">
