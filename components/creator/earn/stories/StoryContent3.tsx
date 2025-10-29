@@ -3,8 +3,11 @@
 import Image from "next/image";
 import {BadgeCheck, Heart, Send, XIcon} from "lucide-react";
 import AnimatedEmojis from "./AnimatedEmojis";
+import {useState} from "react";
 
 export default function StoryContent3() {
+    const [isImageLoaded, setIsImageLoaded] = useState(false);
+
     return (
         <div className="relative w-full h-full bg-[#212529]">
             {/* Header */}
@@ -30,11 +33,18 @@ export default function StoryContent3() {
 
             {/* Main Image */}
             <div className="absolute top-[15%] left-1/2 -translate-x-1/2 w-[362px] h-[595px] rounded-3xl overflow-hidden bg-gradient-to-br from-purple-900/50 to-pink-900/50">
-                <Image src={"/images/creator/earn/upset-young-beautiful-businesswoman-sitting-workplace (2) 4.png"} alt={"Bunny"}  width={362} height={595}/>
+                <Image
+                    src={"/images/creator/earn/upset-young-beautiful-businesswoman-sitting-workplace (2) 4.png"}
+                    alt={"Bunny"}
+                    width={362}
+                    height={595}
+                    priority
+                    onLoad={() => setIsImageLoaded(true)}
+                />
             </div>
 
             {/* Top Text */}
-            <div className="absolute top-[26%] left-1/2 -translate-x-1/2 bg-white px-3 py-2 rounded-2xl">
+            <div className={`absolute top-[26%] left-1/2 -translate-x-1/2 bg-white px-3 py-2 rounded-2xl transition-opacity duration-200 ${isImageLoaded ? 'opacity-100' : 'opacity-0'}`}>
                 <p className="text-[#111111] text-[27px] font-semibold text-center leading-tight tracking-tight text-nowrap">
                     IF you messed up your
                     <br />
@@ -43,7 +53,7 @@ export default function StoryContent3() {
             </div>
 
             {/* Bottom Text */}
-            <div className="absolute top-[80%] left-1/2 -translate-x-1/2 bg-[#47FF72] px-3 py-1.5" style={{ fontFamily: "Courier New" }}>
+            <div className={`absolute top-[80%] left-1/2 -translate-x-1/2 bg-[#47FF72] px-3 py-1.5 transition-opacity duration-200 ${isImageLoaded ? 'opacity-100' : 'opacity-0'}`} style={{ fontFamily: "Courier New" }}>
                 <p className="text-black text-nowrap text-[16px] text-center w-[190px] font-[700]">🤯🤯GST & TAX MATHS☠️</p>
             </div>
 

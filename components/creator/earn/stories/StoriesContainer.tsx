@@ -99,9 +99,12 @@ export default function StoriesContainer({
           {/* Desktop Layout - Instagram Style */}
           <div className="hidden md:flex items-center justify-center h-full bg-[#212529]">
             {/* Left Side Story (Blurred) */}
-            <div className="absolute scale-75 left-[10%] bottom-[25%] w-[292px] h-[580px] opacity-10 blur-sm pointer-events-none">
+            <div
+              className="absolute scale-75 left-[10%] bottom-[25%] w-[292px] h-[580px] opacity-10 blur-sm cursor-pointer hover:opacity-20 transition-opacity"
+              onClick={handlePrevious}
+            >
               {currentIndex > 0 && (
-                  <div className="relative w-[390px] h-[773px] bg-[#212529] rounded-3xl overflow-hidden">
+                  <div className="relative w-[390px] h-[773px] bg-[#212529] rounded-3xl overflow-hidden pointer-events-none">
                       <StoryProgressBar
                           currentIndex={currentIndex - 1}
                           totalStories={stories.length}
@@ -143,9 +146,12 @@ export default function StoriesContainer({
             </div>
 
             {/* Right Side Story (Blurred) */}
-              <div className="absolute scale-75 right-[10%] bottom-[25%] w-[292px] h-[580px] opacity-10 blur-sm pointer-events-none">
+              <div
+                className="absolute scale-75 right-[10%] bottom-[25%] w-[292px] h-[580px] opacity-10 blur-sm cursor-pointer hover:opacity-20 transition-opacity"
+                onClick={handleNext}
+              >
                   {currentIndex < 3 && (
-                      <div className="relative w-[390px] h-[773px] bg-[#212529] rounded-3xl overflow-hidden">
+                      <div className="relative w-[390px] h-[773px] bg-[#212529] rounded-3xl overflow-hidden pointer-events-none">
                           <StoryProgressBar
                               currentIndex={currentIndex + 1}
                               totalStories={stories.length}

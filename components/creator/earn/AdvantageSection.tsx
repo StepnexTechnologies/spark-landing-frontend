@@ -8,7 +8,7 @@ export default function AdvantageSection() {
   const advantages = [
     {
       title: "Payment Ready",
-      description: "GST auto‑calculated, payment integrated",
+      description: "GST auto‑calculated, payment integrated.",
       iconUrl:
         "/images/creator/earn/payment-ready-illustration.png",
       hasMoneyIcon: true,
@@ -29,7 +29,7 @@ export default function AdvantageSection() {
     },
     {
       title: "Proof Of Work",
-      description: "Auto-fetched, no more screenshots",
+      description: "Auto-fetched, no more screenshots.",
       iconUrl:
         "/images/creator/earn/proof-of-work-illustration.png",
       hasMoneyIcon: false,

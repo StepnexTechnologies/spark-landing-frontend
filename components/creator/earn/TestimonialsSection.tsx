@@ -21,7 +21,7 @@ export default function TestimonialsSection() {
   const testimonials = [
     {
       quote:
-        "Streamlined invoices that not only speed up your payments but also enhance your professional image!",
+        "“And I have to reach out so many times to get paid in 3 months, and still it hasn't happened 15-20 times! I want you to do my payment reminders”",
       name: "Alex Cooper",
       handle: "@alex.cop",
       avatarUrl:
