@@ -16,7 +16,7 @@ export default function StoryContent2() {
                     <Image src={"/images/creator/earn/story-avatar.png"} alt={"Avatar"} width={36} height={36}/>
                     <div className="flex flex-col">
                         <div className="flex items-center gap-1">
-                            <p className="text-white text-xs font-semibold pr-0.5">Ruffles</p>
+                            <p className="text-white text-xs font-semibold pr-0.5">creator.cries</p>
                             <span className="text-[10px]"><BadgeCheck width={14} height={14} /></span>
                         </div>
                         <p className="text-white/70 text-[11px]">Sponsored</p>
@@ -30,7 +30,7 @@ export default function StoryContent2() {
 
             {/* Main Image */}
             <div className="absolute top-[15%] left-1/2 -translate-x-1/2 w-[362px] h-[595px] rounded-3xl overflow-hidden bg-gradient-to-br from-purple-900/50 to-pink-900/50">
-                <Image src={"/images/creator/earn/upset-young-beautiful-businesswoman-sitting-workplace.png"} alt={"Bunny"}  width={362} height={595}/>
+                <Image src={"/images/creator/earn/upset-young-beautiful-businesswoman-sitting-workplace (2) 3.png"} alt={"Bunny"}  width={362} height={595}/>
             </div>
 
             {/* Top Text */}
@@ -44,7 +44,7 @@ export default function StoryContent2() {
             {/* Bottom Text */}
             <div className="absolute top-[70%] left-1/2 -translate-x-1/2 bg-white px-3 py-1.5 rounded-xl">
                 <p className="text-black text-lg font-medium text-center w-[190px] leading-tight">
-                    TILL THEY BROKE YOUR HEART💔
+                    AND GOT GHOSTED!💔
                 </p>
             </div>
 
