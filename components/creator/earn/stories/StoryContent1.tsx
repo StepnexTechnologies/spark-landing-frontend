@@ -41,11 +41,11 @@ export default function StoryContent1() {
       </div>
 
       {/* Bottom Text */}
-      <div className="absolute top-[70%] left-1/2 -translate-x-1/2  px-3 py-1.5 rounded-xl" style={{ fontFamily: "Courier New" }}>
+      <div className="absolute top-[75%] left-1/2 -translate-x-1/2  px-3 py-1.5 rounded-xl" style={{ fontFamily: "Courier New" }}>
         <p className="text-black text-lg font-[700] text-center w-[190px]">
-            <span className={"bg-[#FBFF00] p-2"}>if YOU want your</span>
+            <div className={"bg-[#FBFF00] p-2 transform skew-x-[-15deg] -mb-7"}>if YOU want your</div>
           <br />
-            <span className={"bg-[#FBFF00] p-2"}>payments faster!</span>
+            <div className={"bg-[#FBFF00] p-2 transform skew-x-[-15deg]"}>payments faster!</div>
         </p>
       </div>
 

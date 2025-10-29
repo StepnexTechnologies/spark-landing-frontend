@@ -43,10 +43,8 @@ export default function StoryContent3() {
             </div>
 
             {/* Bottom Text */}
-            <div className="absolute top-[70%] left-1/2 -translate-x-1/2 bg-white px-3 py-1.5 rounded-xl">
-                <p className="text-black text-lg font-medium text-center w-[190px]">
-                    🤯🤯GST & TAX MATHS ☠️
-                </p>
+            <div className="absolute top-[80%] left-1/2 -translate-x-1/2 bg-[#47FF72] px-3 py-1.5" style={{ fontFamily: "Courier New" }}>
+                <p className="text-black text-nowrap text-[16px] text-center w-[190px] font-[700]">🤯🤯GST & TAX MATHS☠️</p>
             </div>
 
             {/* Bottom Navigation */}
