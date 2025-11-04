@@ -5,14 +5,226 @@
   /* Base container */
   width: 100%;
   max-width: 100%;
+}
+
+/* Preserve WordPress default typography - only set base if not already styled */
+.wordpress-content p:not([class]),
+.wordpress-content li:not([class]) {
   color: #1f2937;
   font-size: 1.125rem;
   line-height: 1.75;
 }
 
+/* Global heading styles for WordPress content */
+.wordpress-content h1 {
+  font-size: 3rem;
+  font-weight: bold;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+  margin-top: 2rem;
+  color: #000000;
+}
+
+.wordpress-content h2 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+  margin-top: 2rem;
+  color: #000000;
+}
+
+.wordpress-content h3 {
+  font-size: 2rem;
+  font-weight: bold;
+  line-height: 1.3;
+  margin-bottom: 1rem;
+  margin-top: 1.5rem;
+  color: #000000;
+}
+
+.wordpress-content h4 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  line-height: 1.4;
+  margin-bottom: 0.75rem;
+  margin-top: 1.25rem;
+  color: #000000;
+}
+
+.wordpress-content h5 {
+  font-size: 1.25rem;
+  font-weight: bold;
+  line-height: 1.4;
+  margin-bottom: 0.5rem;
+  margin-top: 1rem;
+  color: #000000;
+}
+
+.wordpress-content h6 {
+  font-size: 1.125rem;
+  font-weight: bold;
+  line-height: 1.4;
+  margin-bottom: 0.5rem;
+  margin-top: 1rem;
+  color: #000000;
+}
+
+/* Global paragraph and list styles */
+.wordpress-content p {
+  margin-bottom: 1.5rem;
+  font-size: 1.125rem;
+  line-height: 1.75;
+  color: #1f2937;
+}
+
+.wordpress-content ul,
+.wordpress-content ol {
+  margin-bottom: 1.5rem;
+  padding-left: 2.5rem;
+  list-style-position: outside;
+}
+
+.wordpress-content ul {
+  list-style-type: disc;
+}
+
+.wordpress-content ol {
+  list-style-type: decimal;
+}
+
+.wordpress-content ul ul {
+  list-style-type: circle;
+  margin-top: 0.5rem;
+}
+
+.wordpress-content ol ol {
+  list-style-type: lower-alpha;
+  margin-top: 0.5rem;
+}
+
+.wordpress-content li {
+  margin-bottom: 0.5rem;
+  font-size: 1.125rem;
+  line-height: 1.75;
+  color: #1f2937;
+  display: list-item;
+}
+
+/* WordPress list blocks */
+.wordpress-content .wp-block-list {
+  list-style-type: disc;
+  padding-left: 2.5rem;
+}
+
+.wordpress-content .wp-block-list li {
+  display: list-item;
+}
+
+.wordpress-content strong,
+.wordpress-content b {
+  font-weight: 600;
+}
+
+.wordpress-content em,
+.wordpress-content i {
+  font-style: italic;
+}
+
 /* Ensure all WordPress blocks render at full width */
 .wordpress-content > * {
   max-width: 100%;
+}
+
+/* Media & Text blocks (image + text side by side) should be full width and touch screen edges */
+.wordpress-content .wp-block-media-text {
+  margin-left: calc(-40vw + 50%); /* Break out to 80vw width */
+  margin-right: calc(-40vw + 50%);
+  max-width: 80vw;
+  width: 80vw;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* Add gap between image and text in media-text blocks */
+.wordpress-content .wp-block-media-text__content {
+  padding: 2rem 4rem !important;
+}
+
+/* Preserve WordPress typography styles within media-text content */
+.wordpress-content .wp-block-media-text__content h1,
+.wordpress-content .wp-block-media-text__content h2,
+.wordpress-content .wp-block-media-text__content h3,
+.wordpress-content .wp-block-media-text__content h4,
+.wordpress-content .wp-block-media-text__content h5,
+.wordpress-content .wp-block-media-text__content h6 {
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.wordpress-content .wp-block-media-text__content h2 {
+  font-size: 2.5rem;
+  line-height: 1.2;
+}
+
+.wordpress-content .wp-block-media-text__content h3 {
+  font-size: 2rem;
+  line-height: 1.3;
+}
+
+.wordpress-content .wp-block-media-text__content p {
+  font-size: 1.125rem;
+  line-height: 1.75;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+.wordpress-content .wp-block-media-text__media {
+  margin: 0 !important;
+}
+
+/* Columns blocks should be full width */
+.wordpress-content .wp-block-columns {
+  margin-left: calc(-40vw + 50%);
+  margin-right: calc(-40vw + 50%);
+  max-width: 80vw;
+  width: 80vw;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* Add gap between columns */
+.wordpress-content .wp-block-columns {
+  gap: 3rem;
+}
+
+/* Group blocks that contain media should be full width */
+.wordpress-content .wp-block-group:has(img) {
+  margin-left: calc(-40vw + 50%);
+  margin-right: calc(-40vw + 50%);
+  max-width: 80vw;
+  width: 80vw;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* On mobile, adjust for smaller padding */
+@media (max-width: 768px) {
+  .wordpress-content .wp-block-media-text,
+  .wordpress-content .wp-block-columns,
+  .wordpress-content .wp-block-group:has(img) {
+    margin-left: calc(-40vw + 50%);
+    margin-right: calc(-40vw + 50%);
+    width: 80vw;
+  }
+
+  .wordpress-content .wp-block-media-text__content {
+    padding: 1.5rem 2rem !important;
+  }
+
+  .wordpress-content .wp-block-columns {
+    gap: 1.5rem;
+  }
 }
 
 /* Fix video player height */
@@ -44,6 +256,83 @@
 .wordpress-content img {
   max-width: 100%;
   height: auto;
+}
+
+/* Table styles */
+.wordpress-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 2rem;
+  background-color: transparent;
+}
+
+.wordpress-content table th,
+.wordpress-content table td {
+  padding: 1rem;
+  border: 1px solid #000000;
+  color: #000000;
+  text-align: left;
+}
+
+.wordpress-content table th {
+  font-weight: bold;
+  background-color: transparent;
+}
+
+.wordpress-content table tbody tr {
+  background-color: transparent;
+}
+
+/* WordPress table block specific styles */
+.wordpress-content .wp-block-table {
+  margin-bottom: 2rem;
+}
+
+.wordpress-content .wp-block-table table {
+  border: 1px solid #000000;
+}
+
+.wordpress-content .wp-block-table td,
+.wordpress-content .wp-block-table th {
+  border: 1px solid #000000;
+  color: #000000;
+  padding: 1rem;
+}
+
+/* Pullquote/Quote blocks with borders (for slogans like "happiness is homemade") */
+.wordpress-content .wp-block-pullquote,
+.wordpress-content .wp-block-quote {
+  border-top: 4px solid #000000;
+  border-bottom: 4px solid #000000;
+  padding: 2rem 0;
+  margin: 2rem auto;
+  text-align: center;
+  color: #000000;
+}
+
+.wordpress-content .wp-block-pullquote p,
+.wordpress-content .wp-block-quote p {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #000000;
+  margin: 0;
+}
+
+.wordpress-content .wp-block-pullquote cite,
+.wordpress-content .wp-block-quote cite {
+  color: #000000;
+}
+
+/* Custom paragraph with borders (if using custom classes) */
+.wordpress-content p.has-border,
+.wordpress-content .bordered-text {
+  border-top: 2px solid #000000;
+  border-bottom: 2px solid #000000;
+  padding: 1.5rem 0;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #000000;
 }
 
 /* Clear floats */
