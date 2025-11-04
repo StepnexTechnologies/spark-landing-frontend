@@ -1,0 +1,54 @@
+/* WordPress Content Styles */
+/* Minimal overrides to work with WordPress block library styles */
+
+.wordpress-content {
+  /* Base container */
+  width: 100%;
+  max-width: 100%;
+  color: #1f2937;
+  font-size: 1.125rem;
+  line-height: 1.75;
+}
+
+/* Ensure all WordPress blocks render at full width */
+.wordpress-content > * {
+  max-width: 100%;
+}
+
+/* Fix video player height */
+.wordpress-content video {
+  min-height: 400px;
+  width: 100%;
+}
+
+.wordpress-content .wp-block-video video {
+  min-height: 400px;
+}
+
+/* Ensure audio players stretch full width */
+.wordpress-content audio {
+  width: 100%;
+  display: block;
+}
+
+.wordpress-content .wp-block-audio audio {
+  width: 100%;
+}
+
+/* Ensure iframes (embeds) are responsive */
+.wordpress-content iframe {
+  max-width: 100%;
+}
+
+/* Ensure images don't break layout */
+.wordpress-content img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Clear floats */
+.wordpress-content::after {
+  content: "";
+  display: table;
+  clear: both;
+}

@@ -9,6 +9,16 @@ const nextConfig: NextConfig = {
                 hostname: 'www.figma.com',
                 pathname: '/**',
             },
+            {
+                protocol: 'https',
+                hostname: 'blog.sparkonomy.com',
+                pathname: '/**',
+            },
+            {
+                protocol: 'https',
+                hostname: 'secure.gravatar.com',
+                pathname: '/**',
+            },
         ],
     },
 };
