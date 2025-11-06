@@ -79,3 +79,13 @@ body {
     border-radius: 32px;
     border: 1px solid var(--pink-to-purple, #DD2A7B);
 }
+
+/* Prevent all images from being draggable */
+img {
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
