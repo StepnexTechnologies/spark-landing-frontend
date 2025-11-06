@@ -1,84 +1,94 @@
 "use client";
 
-import {motion} from "framer-motion";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import useEmblaCarousel, { EmblaCarouselType } from "embla-carousel-react";
 import TestimonialCard from "./TestimonialCard";
-import {useEffect, useState} from "react";
+import styles from "./carousel.module.css";
+import { motion } from "framer-motion";
 
 export default function TestimonialsSection() {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [windowWidth, setWindowWidth] = useState(0);
+  const [windowWidth, setWindowWidth] = useState<number>(0);
 
+  // track window width client-side (SSR-safe)
   useEffect(() => {
-    // Set initial width
-    setWindowWidth(window.innerWidth);
-
-    // Update on resize
-    const handleResize = () => setWindowWidth(window.innerWidth);
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    const setWidth = () => setWindowWidth(window.innerWidth);
+    setWidth();
+    window.addEventListener("resize", setWidth);
+    return () => window.removeEventListener("resize", setWidth);
   }, []);
 
-  const testimonials = [
-    {
-      quote:
-        "And I have to reach out so many times to get paid in 3 months, and still it hasn't happened 15-20 times! I want you to do my payment reminders",
-      name: " Food YouTuber",
-      handle: "700K Followers",
-      avatarUrl:
-        "/images/creator/earn/testimonial-1.png",
-      highlighted: false,
-    },
-    {
-      quote:
-        "I raise invoices once a month mostly..don't get time… and it delays my payments. I want you help me raise instant invoices in under 5 mins from my phone",
-      name: "Tech Instagrammer",
-      handle: "1M Followers",
-      avatarUrl:
-        "/images/creator/earn/testimonial-2.png",
-      highlighted: false,
-    },
-    {
-      quote:
-        "I don't have time to write down and track all payments in Excel and become my own accountant! I want you to track & remind me of my money matters",
-      name: "Lifestyle Instagrammer",
-      handle: "320K Followers",
-      avatarUrl:
-        "/images/creator/earn/testimonial-3.png",
-      highlighted: false,
-    },
-    // {
-    //   quote:
-    //     "Streamlined invoices that not only speed up your payments but also enhance your professional image!",
-    //   name: "Alex Cooper",
-    //   handle: "@alex.cop",
-    //   avatarUrl:
-    //     "https://www.figma.com/api/mcp/asset/68c70e45-5a7e-4297-ac43-5be68d0a7b06",
-    //   highlighted: false,
-    // },
-  ];
+  // only active for tablet and phone
+  const isCarouselActive = windowWidth > 0 && windowWidth < 1024; // Tailwind `lg`
 
-  const onDragEnd = (_event: any, info: any) => {
-    const offset = info.offset.x;
-    const threshold = 50;
+  const testimonials = useMemo(
+    () => [
+      {
+        quote:
+          "And I have to reach out so many times to get paid in 3 months, and still it hasn't happened 15-20 times! I want you to do my payment reminders",
+        name: "Food YouTuber",
+        handle: "700K Followers",
+        avatarUrl: "/images/creator/earn/testimonial-1.png",
+        highlighted: false,
+      },
+      {
+        quote:
+          "I raise invoices once a month mostly..don't get time… and it delays my payments. I want you help me raise instant invoices in under 5 mins from my phone",
+        name: "Tech Instagrammer",
+        handle: "1M Followers",
+        avatarUrl: "/images/creator/earn/testimonial-2.png",
+        highlighted: false,
+      },
+      {
+        quote:
+          "I don't have time to write down and track all payments in Excel and become my own accountant! I want you to track & remind me of my money matters",
+        name: "Lifestyle Instagrammer",
+        handle: "320K Followers",
+        avatarUrl: "/images/creator/earn/testimonial-3.png",
+        highlighted: false,
+      },
+    ],
+    []
+  );
 
-    if (offset < -threshold && currentSlide < testimonials.length - 1) {
-      setCurrentSlide(currentSlide + 1);
-    } else if (offset > threshold && currentSlide > 0) {
-      setCurrentSlide(currentSlide - 1);
-    }
-  };
+  const emblaOptions = useMemo(
+    () => ({
+      align: "center", // ensures centered active card
+      containScroll: "trimSnaps",
+      loop: false,
+      draggable: true,
+      skipSnaps: false,
+    }),
+    []
+  );
 
-  // Calculate position to center active card
-  // Card width: 299px, Gap: 16px (gap-4), Total per card: 315px
-  const cardWidth = 315;
-  const cardHalfWidth = 299 / 2;
-  const centerOffset = windowWidth / 2 - cardHalfWidth;
-  const offsetX = -(currentSlide * cardWidth) + centerOffset;
+  const [emblaRef, emblaApi] = useEmblaCarousel(emblaOptions);
+  const [selectedIndex, setSelectedIndex] = useState<number>(1); // Start with 2nd card
+
+  const onSelect = useCallback((embla?: EmblaCarouselType) => {
+    if (!embla) return;
+    setSelectedIndex(embla.selectedScrollSnap());
+  }, []);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    onSelect(emblaApi);
+    emblaApi.on("select", () => onSelect(emblaApi));
+    emblaApi.on("reInit", () => onSelect(emblaApi));
+    // Scroll to 2nd card (index 1) on init
+    emblaApi.scrollTo(1, true); // true = instant, no animation
+  }, [emblaApi, onSelect]);
+
+  const scrollTo = useCallback(
+    (index: number) => emblaApi && emblaApi.scrollTo(index),
+    [emblaApi]
+  );
+
+  const snaps = emblaApi ? emblaApi.scrollSnapList() : testimonials.map((_, i) => i);
 
   return (
-    <section className="relative py-4 px-5 md:px-20">
+    <section className="relative py-4 md:px-20">
       <div className="max-w-[1440px] mx-auto">
-        {/* Section Header */}
+        {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -89,79 +99,66 @@ export default function TestimonialsSection() {
           <h2 className="text-2xl md:text-[52px] font-bold text-white">
             What People Say
           </h2>
-          {/*<p className="text-base text-white max-w-[292px] md:max-w-full mx-auto">*/}
-          {/*  Invoices that get you paid faster, and make you look good!*/}
-          {/*</p>*/}
         </motion.div>
 
-        {/* Mobile/Tablet Carousel */}
-        <div className="lg:hidden overflow-hidden">
-          <motion.div
-            drag="x"
-            dragConstraints={{
-              left: -(testimonials.length - 1) * cardWidth + centerOffset,
-              right: centerOffset
-            }}
-            dragElastic={0.2}
-            onDragEnd={onDragEnd}
-            animate={{ x: offsetX }}
-            transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className="flex gap-4 items-center"
-          >
-            {testimonials.map((testimonial, index) => (
-              <motion.div
-                key={index}
-                animate={{
-                  scale: currentSlide === index ? 1 : 0.85,
-                  opacity: currentSlide === index ? 1 : 0.5,
-                }}
-                transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                className="flex-shrink-0"
-                style={{ width: "299px" }}
-              >
-                <TestimonialCard
-                  quote={testimonial.quote}
-                  name={testimonial.name}
-                  handle={testimonial.handle}
-                  avatarUrl={testimonial.avatarUrl}
-                  highlighted={testimonial.highlighted}
-                  index={0}
-                />
-              </motion.div>
-            ))}
-          </motion.div>
+        {/* ---------- Carousel for tablet & phone ---------- */}
+        {isCarouselActive ? (
+          <div className="relative">
+            <div className={styles.embla} ref={emblaRef as any}>
+              <div className={styles.embla__container}>
+                {testimonials.map((testimonial, index) => (
+                  <div className={styles.embla__slide} key={index}>
+                    <motion.div
+                      animate={{
+                        scale: selectedIndex === index ? 1 : 0.93,
+                        opacity: selectedIndex === index ? 1 : 0.55,
+                      }}
+                      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                    >
+                      <TestimonialCard
+                        quote={testimonial.quote}
+                        name={testimonial.name}
+                        handle={testimonial.handle}
+                        avatarUrl={testimonial.avatarUrl}
+                        highlighted={testimonial.highlighted}
+                        index={index}
+                      />
+                    </motion.div>
+                  </div>
+                ))}
+              </div>
+            </div>
 
-          {/* Navigation Dots */}
-          <div className="flex justify-center gap-2 mt-6">
-            {testimonials.map((_, index) => (
-              <button
+            {/* Dots */}
+            <div className={styles.dots}>
+              {snaps.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => scrollTo(index)}
+                  aria-label={`Go to slide ${index + 1}`}
+                  className={`${styles.dot} ${
+                    selectedIndex === index ? styles.dotActive : ""
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
+        ) : (
+          /* ---------- Desktop: non-carousel grid ---------- */
+          <div className="hidden lg:flex flex-wrap gap-8 justify-center items-stretch">
+            {testimonials.map((testimonial, index) => (
+              <TestimonialCard
                 key={index}
-                onClick={() => setCurrentSlide(index)}
-                className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                  currentSlide === index
-                    ? "bg-white w-6"
-                    : "bg-white/40"
-                }`}
-                aria-label={`Go to slide ${index + 1}`}
+                quote={testimonial.quote}
+                name={testimonial.name}
+                handle={testimonial.handle}
+                avatarUrl={testimonial.avatarUrl}
+                highlighted={testimonial.highlighted}
+                index={index}
               />
             ))}
           </div>
-        </div>
-
-        {/* Desktop Row */}
-        <div className="hidden lg:flex flex-wrap gap-8 justify-center items-stretch">
-          {testimonials.map((testimonial, index) => (
-            <TestimonialCard
-              key={index}
-              quote={testimonial.quote}
-              name={testimonial.name}
-              handle={testimonial.handle}
-              avatarUrl={testimonial.avatarUrl}
-              highlighted={testimonial.highlighted}
-              index={index}
-            />
-          ))}
-        </div>
+        )}
       </div>
     </section>
   );
