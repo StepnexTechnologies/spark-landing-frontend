@@ -30,14 +30,14 @@ export default function StoryContent3() {
             </div>
 
             {/* Main Image */}
-            <div className="absolute top-[15%] left-1/2 -translate-x-1/2 w-[90vw] sm:w-[362px] max-w-[362px] aspect-[362/595] rounded-3xl overflow-hidden relative">
+            <div className="absolute top-[15%] left-1/2 -translate-x-1/2 w-[90vw] sm:w-[362px] max-w-[362px] max-h-[calc(100%-150px)] aspect-[362/595] rounded-3xl overflow-hidden">
                 <Image
                     src={"/images/creator/earn/story-3.png"}
                     alt={"Bunny"}
-                    fill
+                    width={362}
+                    height={595}
                     priority
-                    className="object-cover"
-                    style={{ objectPosition: 'center' }}
+                    className="h-full w-full object-contain"
                 />
             </div>
 
