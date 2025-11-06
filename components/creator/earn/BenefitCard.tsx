@@ -28,11 +28,11 @@ export default function BenefitCard({
       <div className="absolute inset-0 rounded-[32px] bg-transparent" />
 
       {/* Image Container */}
-      <div className="relative ">
+      <div className="relative">
         {/* White Background with Opacity */}
         <div className="relative w-full min-h-[220px] rounded-[22px] bg-white/20 overflow-hidden">
           {/* Main Image */}
-          <div className="relative w-full h-[220px]">
+          <div className="relative w-full min-h-[220px] aspect-square">
             <Image
               src={imageUrl}
               alt={title}
