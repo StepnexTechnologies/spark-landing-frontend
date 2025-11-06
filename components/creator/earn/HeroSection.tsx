@@ -21,8 +21,8 @@ export default function HeroSection() {
   }, []);
 
   return (
-    <section className="relative pt-24 md:pt-32 pb-12 md:pb-20 px-5 md:px-20 overflow-hidden">
-      {/* Hero Content */}
+    <section className="relative pt-8 md:pt-16 pb-12 md:pb-20 px-5 md:px-20 overflow-hidden">
+      {/* Hero Content - pt-8 (32px mobile), pt-16 (64px desktop) to match Figma */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
