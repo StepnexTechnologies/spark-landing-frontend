@@ -9,35 +9,19 @@ export default function BenefitsSection() {
     {
       title: "Send a Chat. Get an Invoice.",
       description: `Upload a WhatsApp message, email, or PO — or just type "Make me an invoice for…" and our AI does the rest. Perfect pro formatting, GST/PAN handled, no typos, no approval tension. <span class="font-bold italic">You create content, we create cash flow.</span>`,
-      imageUrl:
-        "https://www.figma.com/api/mcp/asset/0cfd3ffa-9810-43b1-b26c-ec6326cee9c1",
-      decorativeImages: [
-        {
-          url: "https://www.figma.com/api/mcp/asset/62731bed-e879-4fc2-9ffd-5d48e693cd47",
-          className: "absolute top-[100px] right-[77px] w-[46px] h-[34px]",
-        },
-        {
-          url: "https://www.figma.com/api/mcp/asset/0a8940d1-0e33-4344-bda1-9ec378109372",
-          className: "absolute top-[55px] left-[58px] w-[34px] h-[37px]",
-        },
-        {
-          url: "https://www.figma.com/api/mcp/asset/09f29977-afb6-4245-ac2d-120af0605530",
-          className: "absolute bottom-[35px] left-[104px] w-[26px] h-[28px]",
-        },
-      ],
+      imageUrl: "/images/creator/earn/benefit-1.png",
+      decorativeImages: [],
     },
     {
       title: "You Create. We Chase.",
       description: `No more painful "Hey, just checking on the payment?" reminder follow-ups. Our AI sends polite, friendly payment reminders so you don't have to. <span class="font-bold italic">You build relationships; we get payments.</span>`,
-      imageUrl:
-        "https://www.figma.com/api/mcp/asset/da9a6152-3732-4b56-b8ae-c5e8fab23385",
+      imageUrl: "/images/creator/earn/benefit-2.png",
       decorativeImages: [],
     },
     {
       title: "Go Pro. With your Pocket CFO.",
       description: `Get weekly, 5-minute updates of your cash flow, overdue payments, and income growth. We keep your records organised and help your business stay tax compliant. <span class="font-bold italic">You go Pro, we get you there.</span>`,
-      imageUrl:
-        "https://www.figma.com/api/mcp/asset/93c9c051-d7dc-472d-af00-51b0f59fc8fe",
+      imageUrl: "/images/creator/earn/benefit-3.png",
       decorativeImages: [],
     },
   ];

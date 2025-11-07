@@ -31,10 +31,10 @@ export default function FAQPageContent() {
 
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
           {/* Mobile Category Dropdown */}
-          <div className="lg:hidden">
+          <div className="lg:hidden relative">
             <button
               onClick={() => setShowCategoryDropdown(!showCategoryDropdown)}
-              className="w-full bg-white/4 rounded-[12px] p-4 flex items-center justify-between text-white bg-gradient-to-br from-white/10 via-white/0 to-black/10 border border-white/20 backdrop-blur-[2px] shadow-[10px_10px_30px_rgba(0,0,0,0.2),-10px_-10px_30px_rgba(255,255,255,0.1)]"
+              className="w-full bg-white/4 rounded-[12px] p-4 flex items-center justify-between text-white bg-gradient-to-br from-white/10 via-white/0 to-black/10 border border-white/20 backdrop-blur-[2px]"
             >
               <span className="font-medium">{selectedCategory}</span>
               <ChevronDown
@@ -47,11 +47,9 @@ export default function FAQPageContent() {
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="absolute z-10 mt-2 bg-white/10 rounded-[12px] overflow-hidden p-[10px] mr-4 bg-gradient-to-br from-white/10 via-white/0 to-black/10 border border-white/20 backdrop-blur-[2px] shadow-[10px_10px_30px_rgba(0,0,0,0.2),-10px_-10px_30px_rgba(255,255,255,0.1)]"
+                transition={{ duration: 0.2 }}
+                className="absolute z-50 top-full mt-2 left-0 right-0 bg-white/10 rounded-[16px] border border-white/20 backdrop-blur-md overflow-hidden p-2"
               >
-                  <div
-                      className="bg-white/20 rounded-[12px] overflow-hidden p-1 bg-gradient-to-br from-white/20 via-white/10 to-black/10 border border-white/20 backdrop-blur-[12px] shadow-[10px_10px_30px_rgba(0,0,0,0.2),-10px_-10px_30px_rgba(255,255,255,0.1)]"
-                  >
                 {faqCategories.map((category) => (
                   <button
                     key={category}
@@ -61,15 +59,13 @@ export default function FAQPageContent() {
                     }}
                     className={`w-full p-3 text-left transition-colors rounded-[12px] font-medium ${
                       selectedCategory === category
-                        ? "bg-black/10 text-gray-700"
-                        : "text-gray-700 hover:text-gray-800"
+                        ? "bg-white/30 text-white"
+                        : "text-white/70 hover:bg-white/10 hover:text-white"
                     }`}
                   >
                     {category}
                   </button>
                 ))}
-                  </div>
-
               </motion.div>
             )}
           </div>

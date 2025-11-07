@@ -30,7 +30,7 @@ export default function StoryContent3() {
             </div>
 
             {/* Main Image */}
-            <div className="absolute top-[15%] left-1/2 -translate-x-1/2 w-[90vw] sm:w-[362px] max-w-[362px] max-h-[calc(100%-150px)] aspect-[362/595] rounded-3xl overflow-hidden ">
+            <div className="absolute top-[15%] left-1/2 -translate-x-1/2 w-[90vw] sm:w-[362px] max-w-[362px] max-h-[calc(100%-150px)] aspect-[362/595] rounded-3xl overflow-hidden">
                 <Image
                     src={"/images/creator/earn/story-3.png"}
                     alt={"Bunny"}

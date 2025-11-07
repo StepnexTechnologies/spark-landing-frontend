@@ -1,0 +1,89 @@
+/* carousel.module.css
+   Centers the active slide exactly and keeps a visible peek
+   on previous/next slides by computing container padding based
+   on the slide width (--slide-width).
+*/
+
+.embla {
+  /* make the viewport span full available width inside the centered page container */
+  width: 100%;
+  overflow: hidden;
+  /* remove any side padding here — padding is computed on the container below */
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* container holds slides and gets computed padding-inline so the active snap is centered */
+.embla__container {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  will-change: transform;
+
+  /*
+    The trick: add horizontal padding equal to half the remaining space so
+    the center of the first/last slide lines up with the viewport center.
+    (100% - slideWidth) / 2
+  */
+  padding-inline: calc((100% - var(--slide-width)) / 2);
+  box-sizing: content-box; /* important so padding doesn't shrink slide widths */
+}
+
+/* slide width controlled via CSS variable for easy tuning */
+.embla__slide {
+  box-sizing: border-box;
+  flex-shrink: 0;
+  width: var(--slide-width, 85%);
+  display: flex;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+
+/* --- Dots --- */
+.dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 1.2rem;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.35);
+  border: none;
+  cursor: pointer;
+  transition: all 200ms ease;
+}
+.dotActive {
+  width: 28px;
+  background: #fff;
+}
+
+/* ----- Responsive slide sizing ----- */
+/* Phone: large slide so big peek */
+@media (max-width: 639px) {
+  :root {
+    --slide-width: 85%;
+  }
+}
+
+/* Tablet: smaller slide but still shows peek */
+@media (min-width: 640px) and (max-width: 1023px) {
+  :root {
+    --slide-width: 70%;
+  }
+}
+
+/* Desktop fallback (embla not used) */
+@media (min-width: 1024px) {
+  :root {
+    --slide-width: 299px;
+  }
+
+  /* keep container padding minimal for desktop fallback */
+  .embla__container {
+    padding-inline: 0;
+  }
+}
