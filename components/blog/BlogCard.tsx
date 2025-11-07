@@ -1,82 +1,180 @@
-"use client";
-
-import { motion } from "framer-motion";
+import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import type { WordPressPost } from "@/types/wordpress";
-import { getFeaturedImageUrl, formatDate, getExcerpt, stripHtml } from "@/lib/wordpress-improved";
 
-interface BlogCardProps {
-  post: WordPressPost;
-  index?: number;
+type Layout = "vertical" | "horizontal";
+type DescriptionPosition = "bottom" | "right";
+
+export interface CardProps {
+  title: string;
+  description?: string;
+  imageSrc?: string;
+  imageAlt?: string;
+  href?: string;
+  layout?: Layout;
+  descriptionPosition?: DescriptionPosition;
+  showDescription?: boolean;
+  className?: string;
+  tag?: React.ReactNode;
+  action?: React.ReactNode;
+  /** meta example: date, reading time etc. */
+  meta?: React.ReactNode;
+  /** allow Image to use priority (for featured cards) */
+  imagePriority?: boolean;
+  /** show read more button */
+  showReadMore?: boolean;
 }
 
-export default function BlogCard({ post, index = 0 }: BlogCardProps) {
-  const featuredImage = getFeaturedImageUrl(post, "medium");
-  const publishDate = formatDate(post.date);
-  const excerpt = getExcerpt(post, 150);
-  const cleanTitle = stripHtml(post.title.rendered);
+export default function Card({
+  title,
+  description,
+  imageSrc,
+  imageAlt = "card image",
+  href,
+  layout = "vertical",
+  descriptionPosition = "bottom",
+  showDescription = true,
+  className = "",
+  tag,
+  action,
+  meta,
+  imagePriority = false,
+  showReadMore = false,
+}: CardProps) {
+  const isHorizontal = layout === "horizontal";
 
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, delay: index * 0.1 }}
-      className="group"
+  const content = (
+    <div
+      className={`flex ${isHorizontal ? "flex-row gap-4" : "flex-col"} w-full h-full p-4`}
     >
-      <Link href={`/blogs/${post.slug}`} className="block">
-        <article className="relative rounded-lg overflow-hidden bg-white border border-gray-200 hover:border-purple-500/50 transition-all duration-300 hover:shadow-lg">
-          {/* Featured Image */}
-          {featuredImage && (
-            <div className="relative w-full h-[280px] overflow-hidden">
-              <Image
-                src={featuredImage}
-                alt={cleanTitle}
-                fill
-                className="object-cover transition-transform duration-300 group-hover:scale-105"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              />
+      {imageSrc && (
+        <div
+          className={`flex-shrink-0 ${
+            isHorizontal ? "w-1/3 md:w-2/5" : "w-full"
+          }`}
+        >
+          {/* Image wrapper: using Next Image with fill for responsive cropping */}
+          <div
+            className={`relative w-full h-full aspect-[4/3] md:aspect-video overflow-hidden rounded-xl`}
+          >
+            <Image
+              src={imageSrc}
+              alt={imageAlt}
+              fill
+              style={{ objectFit: "cover" }}
+              sizes={
+                isHorizontal
+                  ? "(min-width: 1024px) 40vw, (min-width: 640px) 33vw, 100vw"
+                  : "100vw"
+              }
+              priority={imagePriority}
+            />
+          </div>
+        </div>
+      )}
+
+      <div
+        className={`flex flex-col ${
+          isHorizontal ? "w-2/3 md:w-3/5 mt-4" : "w-full mt-4"
+        }`}
+      >
+        {/* Date */}
+        {meta ? (
+          <div className="text-xs text-slate-400 mb-3">
+            {meta}
+          </div>
+        ) : (
+          <div className="text-xs text-slate-400 mb-3">
+            <span>November 4, 2025</span>
+          </div>
+        )}
+
+        {/* Title */}
+        <div className="flex items-start gap-3">
+          <div className="flex-1 min-w-0">
+            <h3
+              className="font-semibold leading-tight text-slate-900"
+              style={{
+                fontSize: "clamp(1rem, calc(0.9rem + 1.2vw), 1.25rem)",
+              }}
+              title={title}
+            >
+              {title}
+            </h3>
+
+            {tag && <div className="mt-2 text-xs text-slate-500">{tag}</div>}
+          </div>
+
+          {action && <div className="flex-shrink-0">{action}</div>}
+        </div>
+
+        {/* Description */}
+        {showDescription && description && (
+          <div
+            className={`text-sm text-slate-600 mt-3 ${
+              isHorizontal && descriptionPosition === "right" ? "md:block" : ""
+            }`}
+            style={
+              {
+                display: "-webkit-box",
+                WebkitLineClamp: 3,
+                WebkitBoxOrient: "vertical",
+                overflow: "hidden",
+              } as React.CSSProperties
+            }
+          >
+            {description}
+          </div>
+        )}
+
+        {/* Button */}
+        <div className="mt-auto pt-4">
+          {showReadMore && href && (
+            <div>
+              <Link
+                href={href}
+                className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-purple-600 rounded-full hover:bg-purple-700 transition-colors"
+              >
+                Read More
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M7 17L17 7M17 7H7M17 7V17"
+                  />
+                </svg>
+              </Link>
             </div>
           )}
+        </div>
+      </div>
+    </div>
+  );
 
-          {/* Content */}
-          <div className="p-6 space-y-3">
-            {/* Title */}
-            <h2
-              className="text-2xl font-bold text-gray-900 line-clamp-2 group-hover:text-purple-600 transition-colors"
-              dangerouslySetInnerHTML={{ __html: post.title.rendered }}
-            />
+  const wrapperClasses =
+    "rounded-2xl bg-white overflow-hidden border border-slate-200";
 
-            {/* Date */}
-            <p className="text-sm text-gray-500">
-              {publishDate}
-            </p>
+  const cardInner = href && !showReadMore ? (
+    <Link
+      href={href}
+      className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-400"
+      aria-label={title}
+    >
+      {content}
+    </Link>
+  ) : (
+    <div>{content}</div>
+  );
 
-            {/* Excerpt */}
-            <p className="text-base text-gray-700 line-clamp-3 leading-relaxed">
-              {excerpt}
-            </p>
-
-            {/* Read More Indicator */}
-            <div className="flex items-center gap-2 text-purple-600 group-hover:text-purple-700 transition-colors pt-2">
-              <span className="text-sm font-medium">Read more</span>
-              <svg
-                className="w-4 h-4 transition-transform group-hover:translate-x-1"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
-            </div>
-          </div>
-        </article>
-      </Link>
-    </motion.div>
+  return (
+    <article className={`${wrapperClasses} ${className}`} role="article">
+      {cardInner}
+    </article>
   );
 }
