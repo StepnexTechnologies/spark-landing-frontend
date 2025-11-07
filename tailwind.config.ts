@@ -9,12 +9,17 @@ const config: Config = {
       animation: {
         aurora: "aurora 15s ease infinite",
         "aurora-delayed": "aurora 15s ease infinite -5s",
+        shimmer: "shimmer 2s infinite linear",
       },
       keyframes: {
         aurora: {
           "0%": { transform: "translateX(-100%) skewX(-10deg)" },
           "50%": { transform: "translateX(100%) skewX(-10deg)" },
           "100%": { transform: "translateX(-100%) skewX(-10deg)" },
+        },
+        shimmer: {
+          "0%": { backgroundPosition: "-200% 0" },
+          "100%": { backgroundPosition: "200% 0" },
         },
       },
       colors: {

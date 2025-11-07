@@ -1,6 +1,7 @@
 import React, { Suspense } from "react";
 import type { Metadata } from "next";
 import Card from "@/components/blog/BlogCard";
+import BlogCardSkeleton from "@/components/blog/BlogCardSkeleton";
 import { getPosts } from "@/lib/wordpress-improved";
 
 export const dynamic = 'force-dynamic';
@@ -98,6 +99,30 @@ async function BlogPosts() {
   );
 }
 
+function BlogPostsSkeleton() {
+  return (
+    <>
+      {/* First Row - 2 vertical skeletons */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        <BlogCardSkeleton layout="vertical" />
+        <BlogCardSkeleton layout="vertical" />
+      </div>
+
+      {/* Second Row - 1 horizontal skeleton */}
+      <div className="grid grid-cols-1 gap-6 mb-6">
+        <BlogCardSkeleton layout="horizontal" />
+      </div>
+
+      {/* Remaining Rows - 6 vertical skeletons (showing 2 rows of 3) */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {[...Array(6)].map((_, i) => (
+          <BlogCardSkeleton key={i} layout="vertical" />
+        ))}
+      </div>
+    </>
+  );
+}
+
 export default function Home() {
   return (
     <main className="min-h-screen relative p-6 overflow-hidden bg-white">
@@ -109,7 +134,7 @@ export default function Home() {
       />
 
       <div className="max-w-7xl mx-auto relative z-10">
-        <Suspense fallback={<div className="text-center py-20">Loading posts...</div>}>
+        <Suspense fallback={<BlogPostsSkeleton />}>
           <BlogPosts />
         </Suspense>
       </div>

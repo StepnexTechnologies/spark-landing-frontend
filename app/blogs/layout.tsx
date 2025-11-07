@@ -1,4 +1,5 @@
 import BlogHeader from "@/components/blog/BlogHeader";
+import BlogFooter from "@/components/blog/BlogFooter";
 
 export default function BlogsLayout({
   children,
@@ -6,9 +7,10 @@ export default function BlogsLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white flex flex-col">
       <BlogHeader />
-      {children}
+      <main className="flex-1">{children}</main>
+      <BlogFooter />
     </div>
   );
 }
