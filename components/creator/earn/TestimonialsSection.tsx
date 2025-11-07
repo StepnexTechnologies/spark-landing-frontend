@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import useEmblaCarousel, { EmblaCarouselType } from "embla-carousel-react";
+import useEmblaCarousel, { UseEmblaCarouselType } from "embla-carousel-react";
 import TestimonialCard from "./TestimonialCard";
 import styles from "./carousel.module.css";
 import { motion } from "framer-motion";
@@ -52,8 +52,8 @@ export default function TestimonialsSection() {
 
   const emblaOptions = useMemo(
     () => ({
-      align: "center", // ensures centered active card
-      containScroll: "trimSnaps",
+      align: "center" as const, // ensures centered active card
+      containScroll: "trimSnaps" as const,
       loop: false,
       draggable: true,
       skipSnaps: false,
@@ -64,7 +64,7 @@ export default function TestimonialsSection() {
   const [emblaRef, emblaApi] = useEmblaCarousel(emblaOptions);
   const [selectedIndex, setSelectedIndex] = useState<number>(1); // Start with 2nd card
 
-  const onSelect = useCallback((embla?: EmblaCarouselType) => {
+  const onSelect = useCallback((embla?: UseEmblaCarouselType[1]) => {
     if (!embla) return;
     setSelectedIndex(embla.selectedScrollSnap());
   }, []);
