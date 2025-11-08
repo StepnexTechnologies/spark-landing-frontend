@@ -157,8 +157,9 @@ export default function Card({
     </div>
   );
 
-  const wrapperClasses =
-    "rounded-2xl bg-white overflow-hidden border border-slate-200";
+  const wrapperClasses = `rounded-2xl overflow-hidden border border-slate-200 ${
+    isHorizontal && descriptionPosition === "right" ? "bg-white/50" : "bg-white"
+  }`;
 
   const cardInner = href && !showReadMore ? (
     <Link

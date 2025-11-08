@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import { getCategoryBySlug, getPostsByCategory } from "@/lib/wordpress-improved";
 import BlogCard from "@/components/blog/BlogCard";
 import BlogCardSkeleton from "@/components/blog/BlogCardSkeleton";
+import MainSection from "@/components/blog/MainSection";
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -120,16 +121,29 @@ function BlogPostsSkeleton() {
 
 export default function CompanyPage() {
   return (
-    <main className="min-h-screen relative overflow-hidden bg-white">
-      {/* Radial Gradient Background */}
+    <main className="min-h-screen relative overflow-hidden">
+      {/* Radial Gradient Background - covers entire page */}
       <div className="absolute inset-0 pointer-events-none"
            style={{
              background: 'radial-gradient(ellipse 1500px 1500px at center, rgba(221, 42, 123, 0.15) 0%, rgba(151, 71, 255, 0.1) 35%, rgba(51, 76, 202, 0.05) 60%, transparent 100%)'
            }}
       />
 
+      {/* Main Section with Background Image */}
+      <div className="relative z-10">
+        <MainSection
+          title="Company News & Updates"
+          subtitle="About Sparkonomy"
+          description="Stay updated with the latest news, product launches, and company milestones from Sparkonomy."
+          buttonText="Explore"
+          buttonLink="#posts"
+          imageSrc="/BlogsMainImage.png"
+          hashtags={["CompanyNews", "ProductUpdates", "Announcements"]}
+        />
+      </div>
+
       {/* Blog Posts Grid */}
-      <section className="py-16 px-6 relative z-10">
+      <section className="py-16 px-6 relative z-10" id="posts">
         <div className="max-w-7xl mx-auto">
           <Suspense key="company-posts" fallback={<BlogPostsSkeleton />}>
             <CompanyPosts />

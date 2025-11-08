@@ -2,6 +2,7 @@ import React, { Suspense } from "react";
 import type { Metadata } from "next";
 import Card from "@/components/blog/BlogCard";
 import BlogCardSkeleton from "@/components/blog/BlogCardSkeleton";
+import MainSection from "@/components/blog/MainSection";
 import { getPosts } from "@/lib/wordpress-improved";
 
 export const dynamic = 'force-dynamic';
@@ -125,15 +126,28 @@ function BlogPostsSkeleton() {
 
 export default function Home() {
   return (
-    <main className="min-h-screen relative p-6 overflow-hidden bg-white">
-      {/* Radial Gradient Background */}
+    <main className="min-h-screen relative overflow-hidden">
+      {/* Radial Gradient Background - covers entire page */}
       <div className="absolute inset-0 pointer-events-none"
            style={{
              background: 'radial-gradient(ellipse 1500px 1500px at center, rgba(221, 42, 123, 0.15) 0%, rgba(151, 71, 255, 0.1) 35%, rgba(51, 76, 202, 0.05) 60%, transparent 100%)'
            }}
       />
 
-      <div className="max-w-7xl mx-auto relative z-10">
+      {/* Main Section with Background Image */}
+      <div className="relative z-10">
+        <MainSection
+          title="How Creators Are Earning Passive Income in 2025"
+          subtitle=""
+          description="Explore the best ways to make your content work for you, even after you sleep."
+          buttonText="Read More"
+          buttonLink="#posts"
+          imageSrc="/BlogsMainImage.png"
+          hashtags={["MonetizeYourContent", "CreatorEconomy", "PassiveIncome"]}
+        />
+      </div>
+
+      <div className="max-w-7xl mx-auto relative z-10 p-6" id="posts">
         <Suspense fallback={<BlogPostsSkeleton />}>
           <BlogPosts />
         </Suspense>
