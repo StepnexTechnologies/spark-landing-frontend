@@ -1,6 +1,7 @@
 import React, { Suspense } from "react";
 import type { Metadata } from "next";
 import Card from "@/components/blog/BlogCard";
+import FeaturedBlogCard from "@/components/blog/FeaturedBlogCard";
 import BlogCardSkeleton from "@/components/blog/BlogCardSkeleton";
 import MainSection from "@/components/blog/MainSection";
 import { getPosts } from "@/lib/wordpress-improved";
@@ -31,45 +32,46 @@ async function BlogPosts() {
     );
   }
 
-  const firstRowPosts = posts.slice(0, 2);
-  const secondRowPost = posts.slice(2, 3);
-  const remainingPosts = posts.slice(3);
+  const firstRowPosts = posts.slice(0, 3);
+  const secondRowPost = posts.slice(3, 4);
+  const remainingPosts = posts.slice(4);
 
   return (
     <>
-      {/* First Row - 2 vertical cards */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-        {firstRowPosts.map((p) => (
-          <Card
-            key={p.id}
-            title={p.title.rendered}
-            description={p.excerpt.rendered.replace(/<[^>]*>/g, '')}
-            imageSrc={p._embedded?.['wp:featuredmedia']?.[0]?.source_url}
-            href={`/blogs/${p.slug}`}
-            layout="vertical"
-            descriptionPosition="bottom"
-            imagePriority={true}
-            showReadMore={true}
-            meta={
-              <span>{new Date(p.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
-            }
-          />
-        ))}
+      {/* Container for First Row */}
+      <div className="max-w-7xl mx-auto px-4">
+        {/* First Row - 3 vertical cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:mb-12">
+          {firstRowPosts.map((p) => (
+            <Card
+              key={p.id}
+              title={p.title.rendered}
+              description={p.excerpt.rendered.replace(/<[^>]*>/g, '')}
+              imageSrc={p._embedded?.['wp:featuredmedia']?.[0]?.source_url}
+              href={`/blogs/${p.slug}`}
+              layout="vertical"
+              descriptionPosition="bottom"
+              imagePriority={true}
+              showReadMore={true}
+              meta={
+                <span>{new Date(p.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+              }
+            />
+          ))}
+        </div>
       </div>
 
-      {/* Second Row - 1 horizontal card */}
-      <div className="grid grid-cols-1 gap-6 mb-6">
+      {/* Second Row - 1 featured horizontal card (full width, no container) */}
+      <div className="w-full md:mb-12">
         {secondRowPost.map((p) => (
-          <Card
+          <FeaturedBlogCard
             key={p.id}
             title={p.title.rendered}
             description={p.excerpt.rendered.replace(/<[^>]*>/g, '')}
             imageSrc={p._embedded?.['wp:featuredmedia']?.[0]?.source_url}
             href={`/blogs/${p.slug}`}
-            layout="horizontal"
-            descriptionPosition="right"
+            tag="Brand Story"
             imagePriority={true}
-            showReadMore={true}
             meta={
               <span>{new Date(p.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
             }
@@ -77,24 +79,27 @@ async function BlogPosts() {
         ))}
       </div>
 
-      {/* Remaining Rows - 3 vertical cards per row */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {remainingPosts.map((p) => (
-          <Card
-            key={p.id}
-            title={p.title.rendered}
-            description={p.excerpt.rendered.replace(/<[^>]*>/g, '')}
-            imageSrc={p._embedded?.['wp:featuredmedia']?.[0]?.source_url}
-            href={`/blogs/${p.slug}`}
-            layout="vertical"
-            descriptionPosition="bottom"
-            imagePriority={false}
-            showReadMore={true}
-            meta={
-              <span>{new Date(p.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
-            }
-          />
-        ))}
+      {/* Container for Remaining Rows */}
+      <div className="max-w-7xl mx-auto px-4">
+        {/* Remaining Rows - 3 vertical cards per row */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {remainingPosts.map((p) => (
+            <Card
+              key={p.id}
+              title={p.title.rendered}
+              description={p.excerpt.rendered.replace(/<[^>]*>/g, '')}
+              imageSrc={p._embedded?.['wp:featuredmedia']?.[0]?.source_url}
+              href={`/blogs/${p.slug}`}
+              layout="vertical"
+              descriptionPosition="bottom"
+              imagePriority={false}
+              showReadMore={true}
+              meta={
+                <span>{new Date(p.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+              }
+            />
+          ))}
+        </div>
       </div>
     </>
   );
@@ -103,22 +108,29 @@ async function BlogPosts() {
 function BlogPostsSkeleton() {
   return (
     <>
-      {/* First Row - 2 vertical skeletons */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-        <BlogCardSkeleton layout="vertical" />
-        <BlogCardSkeleton layout="vertical" />
+      {/* Container for First Row */}
+      <div className="max-w-7xl mx-auto px-4">
+        {/* First Row - 3 vertical skeletons */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:mb-12">
+          <BlogCardSkeleton layout="vertical" />
+          <BlogCardSkeleton layout="vertical" />
+          <BlogCardSkeleton layout="vertical" />
+        </div>
       </div>
 
-      {/* Second Row - 1 horizontal skeleton */}
-      <div className="grid grid-cols-1 gap-6 mb-6">
+      {/* Second Row - 1 horizontal skeleton (full width, no container) */}
+      <div className="w-full md:mb-12">
         <BlogCardSkeleton layout="horizontal" />
       </div>
 
-      {/* Remaining Rows - 6 vertical skeletons (showing 2 rows of 3) */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {[...Array(6)].map((_, i) => (
-          <BlogCardSkeleton key={i} layout="vertical" />
-        ))}
+      {/* Container for Remaining Rows */}
+      <div className="max-w-7xl mx-auto px-4">
+        {/* Remaining Rows - 6 vertical skeletons (showing 2 rows of 3) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {[...Array(6)].map((_, i) => (
+            <BlogCardSkeleton key={i} layout="vertical" />
+          ))}
+        </div>
       </div>
     </>
   );
@@ -127,13 +139,6 @@ function BlogPostsSkeleton() {
 export default function Home() {
   return (
     <main className="min-h-screen relative overflow-hidden">
-      {/* Radial Gradient Background - covers entire page */}
-      <div className="absolute inset-0 pointer-events-none"
-           style={{
-             background: 'radial-gradient(ellipse 1500px 1500px at center, rgba(221, 42, 123, 0.15) 0%, rgba(151, 71, 255, 0.1) 35%, rgba(51, 76, 202, 0.05) 60%, transparent 100%)'
-           }}
-      />
-
       {/* Main Section with Background Image */}
       <div className="relative z-10">
         <MainSection
@@ -142,15 +147,27 @@ export default function Home() {
           description="Explore the best ways to make your content work for you, even after you sleep."
           buttonText="Read More"
           buttonLink="#posts"
-          imageSrc="/BlogsMainImage.png"
+          imageSrc="/MainImage.svg"
           hashtags={["MonetizeYourContent", "CreatorEconomy", "PassiveIncome"]}
         />
       </div>
 
-      <div className="max-w-7xl mx-auto relative z-10 p-6" id="posts">
-        <Suspense fallback={<BlogPostsSkeleton />}>
-          <BlogPosts />
-        </Suspense>
+      {/* Blog Posts Section with Gradient Background */}
+      <div className="relative py-12" id="posts">
+        {/* Linear Gradient Background with Blur - only for posts section */}
+        <div
+          className="absolute inset-0 pointer-events-none opacity-20"
+          style={{
+            background: 'linear-gradient(169.7deg, #DD2A7B 1.49%, #9747FF 42.07%, #334CCA 99.84%)',
+            filter: 'blur(300px)'
+          }}
+        />
+
+        <div className="relative z-10">
+          <Suspense fallback={<BlogPostsSkeleton />}>
+            <BlogPosts />
+          </Suspense>
+        </div>
       </div>
     </main>
   );

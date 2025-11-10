@@ -45,7 +45,14 @@ export default function Card({
 
   const content = (
     <div
-      className={`flex ${isHorizontal ? "flex-row gap-4" : "flex-col"} w-full h-full p-4`}
+      className={`flex ${isHorizontal ? "flex-row" : "flex-col"}`}
+      style={{
+        gap: '10px',
+        paddingTop: '8px',
+        paddingRight: '8px',
+        paddingBottom: '32px',
+        paddingLeft: '8px'
+      }}
     >
       {imageSrc && (
         <div
@@ -53,9 +60,13 @@ export default function Card({
             isHorizontal ? "w-1/3 md:w-2/5" : "w-full"
           }`}
         >
-          {/* Image wrapper: using Next Image with fill for responsive cropping */}
+          {/* Image wrapper: 398px × 284px with 30px border radius */}
           <div
-            className={`relative w-full h-full aspect-[4/3] md:aspect-video overflow-hidden rounded-xl`}
+            className={`relative overflow-hidden w-full`}
+            style={{
+              aspectRatio: '398 / 284',
+              borderRadius: '30px'
+            }}
           >
             <Image
               src={imageSrc}
@@ -65,7 +76,7 @@ export default function Card({
               sizes={
                 isHorizontal
                   ? "(min-width: 1024px) 40vw, (min-width: 640px) 33vw, 100vw"
-                  : "100vw"
+                  : "398px"
               }
               priority={imagePriority}
             />
@@ -74,44 +85,36 @@ export default function Card({
       )}
 
       <div
-        className={`flex flex-col ${
-          isHorizontal ? "w-2/3 md:w-3/5 mt-4" : "w-full mt-4"
+        className={`flex flex-col px-7 py-4 ${
+          isHorizontal ? "w-2/3 md:w-3/5" : "w-full"
         }`}
       >
-        {/* Date */}
-        {meta ? (
-          <div className="text-xs text-slate-400 mb-3">
+        
+          <div className="text-sm text-[#999999] mb-3 font-normal">
             {meta}
           </div>
-        ) : (
-          <div className="text-xs text-slate-400 mb-3">
-            <span>November 4, 2025</span>
-          </div>
-        )}
+        
 
         {/* Title */}
         <div className="flex items-start gap-3">
           <div className="flex-1 min-w-0">
             <h3
-              className="font-semibold leading-tight text-slate-900"
-              style={{
-                fontSize: "clamp(1rem, calc(0.9rem + 1.2vw), 1.25rem)",
-              }}
+              className="font-semibold leading-tight text-2xl text-[#212529]"
               title={title}
             >
               {title}
             </h3>
 
-            {tag && <div className="mt-2 text-xs text-slate-500">{tag}</div>}
+            {/* {tag && <div className="mt-2 text-xs text-slate-500">{tag}</div>} */}
           </div>
 
-          {action && <div className="flex-shrink-0">{action}</div>}
+          {/* {action && <div className="flex-shrink-0">{action}</div>} */}
         </div>
 
         {/* Description */}
         {showDescription && description && (
           <div
-            className={`text-sm text-slate-600 mt-3 ${
+            className={`text-sm font-normal text-[#999999] mt-3 ${
               isHorizontal && descriptionPosition === "right" ? "md:block" : ""
             }`}
             style={
@@ -128,12 +131,15 @@ export default function Card({
         )}
 
         {/* Button */}
-        <div className="mt-auto pt-4">
+        <div className="flex justify-end pt-4">
           {showReadMore && href && (
             <div>
               <Link
                 href={href}
-                className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-purple-600 rounded-full hover:bg-purple-700 transition-colors"
+                className="inline-flex items-center gap-2 px-4 py-3 text-sm font-medium text-white rounded-full hover:opacity-90 transition-opacity"
+                style={{
+                  background: 'linear-gradient(180.27deg, #DD2A7B -46.92%, #9747FF 80.1%)'
+                }}
               >
                 Read More
                 <svg
@@ -157,8 +163,8 @@ export default function Card({
     </div>
   );
 
-  const wrapperClasses = `rounded-2xl overflow-hidden border border-slate-200 ${
-    isHorizontal && descriptionPosition === "right" ? "bg-white/50" : "bg-white"
+  const wrapperClasses = `overflow-hidden border bg-white ${
+    isHorizontal && descriptionPosition === "right" ? "bg-white/50" : ""
   }`;
 
   const cardInner = href && !showReadMore ? (
@@ -174,7 +180,15 @@ export default function Card({
   );
 
   return (
-    <article className={`${wrapperClasses} ${className}`} role="article">
+    <article
+      className={`${wrapperClasses} ${className} w-full`}
+      role="article"
+      style={{
+        borderRadius: '34px',
+        borderColor: '#F2F2F2',
+        borderWidth: '1px'
+      }}
+    >
       {cardInner}
     </article>
   );
