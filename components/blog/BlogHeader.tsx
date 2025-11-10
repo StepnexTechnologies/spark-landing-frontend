@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import { useState } from "react";
 import Button from "../common/button";
 
-export default function BlogHeader() {
+export default function  BlogHeader() {
     const pathname = usePathname();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -18,28 +18,33 @@ export default function BlogHeader() {
     ];
 
     return (
-        <header className="sticky top-0 z-50 w-full bg-white  px-10 md:px-14 lg:px-20 py-[14px]">
-            <div className="flex items-center justify-between gap-3 lg:gap-5">
-                <div>
+        <header className="sticky top-0 z-50 w-full bg-white px-6 md:px-10 lg:px-20 py-[14px]">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                {/* Top row: Logo and Button */}
+                <div className="flex items-center justify-between">
                     <Link href="/" className="flex items-center">
                         <Image
                             src="/logo.png"
                             alt="Sparkonomy"
                             width={180}
                             height={40}
-                            className="h-10 w-auto"
+                            className="h-auto w-[130px] md:w-[180px]"
                             priority
                         />
                     </Link>
+                    <Button variant="gradient" className="md:hidden !px-7 !py-[14px]">Subscribe Now</Button>
                 </div>
-                <div className="flex items-center gap-5 lg:gap-12">
-                    <nav className="hidden md:flex items-center gap-12">
+
+                {/* Bottom row on mobile, right side on desktop: Nav + Button */}
+                <div className="flex items-center justify-center md:justify-end gap-5 lg:gap-12 w-full md:w-auto">
+                    {/* Navigation - visible on mobile and desktop */}
+                    <nav className="flex items-center gap-6 md:gap-12">
                         {navItems.map((item) => (
                             <Link
                                 key={item.href}
                                 href={item.href}
                                 className={cn(
-                                    "relative py-2 font-medium transition-colors",
+                                    "relative py-2 font-medium transition-colors text-sm md:text-base",
                                     "after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5",
                                     "after:transition-all after:duration-300",
                                     "after:bg-gradient-to-r after:from-[#DD2A7B] after:to-[#9747FF] after:opacity-0 hover:after:opacity-100",
@@ -52,10 +57,9 @@ export default function BlogHeader() {
                             </Link>
                         ))}
                     </nav>
-                    <Button variant="gradient">Get Early Access</Button>
+                    {/* Button - hidden on mobile, visible on desktop */}
+                    <Button variant="gradient" className="hidden md:inline-flex !px-8 !py-4">Subscribe Now</Button>
                 </div>
-
-
             </div>
         </header>
     );

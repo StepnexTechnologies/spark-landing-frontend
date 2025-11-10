@@ -22,7 +22,7 @@ export default function MainSection({
   hashtags = ["MonetizeYourContent", "CreatorEconomy", "PassiveIncome"],
 }: MainSectionProps) {
   return (
-    <section className="relative w-full h-[400px] md:h-[500px] lg:h-[690px] overflow-hidden rounded-b-[40px] md:rounded-b-[60px]">
+    <section className="relative w-full h-[460px] md:h-[500px] lg:h-[690px] overflow-hidden rounded-b-[40px] md:rounded-b-[60px]">
 
       <div className="absolute inset-0">
         <Image
@@ -35,15 +35,15 @@ export default function MainSection({
         />
 
       </div>
-      <div className="relative h-full max-w-7xl mx-auto flex items-end pb-20">
-        <div className="max-w-xl lg:max-w-2xl text-white">
+      <div className="relative h-full max-w-7xl  px-[24px] lg:px-[84px] flex items-end pb-10 lg:pb-20">
+        <div className="max-w-80 md:max-w-lg lg:max-w-2xl text-white">
 
-          <h1 className="text-3xl md:text-4xl lg:text-[52px] xl:text-6xl font-bold mb-4 md:mb-6 leading-tight">
+          <h1 className="text-2xl md:text-4xl lg:text-[52px] xl:text-6xl font-semibold  md:font-bold mb-4 md:mb-6 leading-tight">
             {title}
           </h1>
-
+ 
           {/* Description */}
-          <p className="text-base md:text-lg lg:text-xl mb-6 md:mb-8 font-normal text-white leading-relaxed max-w-lg">
+          <p className="text-sm  md:text-lg lg:text-xl mb-6 md:mb-8 font-normal text-white leading-relaxed max-w-lg">
             {description}
           </p>
 

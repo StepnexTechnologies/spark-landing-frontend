@@ -29,11 +29,11 @@ export default function FeaturedBlogCard({
 }: FeaturedBlogCardProps) {
   const content = (
     <div className="flex flex-col md:flex-row w-full h-full">
-      {/* Image Section - Left Side */}
+      {/* Image Section - Top on mobile, Left on desktop */}
       {imageSrc && (
         <div className="w-full md:w-1/2 relative">
           <div
-            className="relative w-full h-full min-h-[460px] "
+            className="relative w-full h-[276px] md:h-full md:min-h-[460px]"
           >
             <Image
               src={imageSrc}
@@ -47,8 +47,8 @@ export default function FeaturedBlogCard({
         </div>
       )}
 
-      {/* Content Section - Right Side */}
-      <div className="w-full md:w-1/2 flex flex-col text-center justify-center px-8 md:px-16  bg-white">
+      {/* Content Section - Bottom on mobile, Right on desktop */}
+      <div className="w-full md:w-1/2 flex flex-col text-center justify-center  my-6 md:px-16 md:my-0 bg-white">
         {/* Tag */}
         {tag && (
           <div className="text-sm text-[#999999] mb-4 font-normal uppercase tracking-wide">
@@ -109,11 +109,9 @@ export default function FeaturedBlogCard({
 
   return (
     <article
-      className={`w-full bg-white overflow-hidden ${className}`}
+      className={`w-full my-12 bg-white overflow-hidden ${className}`}
       role="article"
-      style={{
-        maxHeight: '454px'
-      }}
+      
     >
       {cardInner}
     </article>
