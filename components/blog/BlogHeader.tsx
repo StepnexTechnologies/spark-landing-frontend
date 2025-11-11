@@ -43,9 +43,9 @@ export default function  BlogHeader() {
                 </div>
 
                 {/* Bottom row on mobile, right side on desktop: Nav + Button */}
-                <div className="flex items-center justify-center md:justify-end gap-5 lg:gap-12 w-full md:w-auto">
+                <div className="flex items-center justify-center md:justify-end gap-5 lg:gap-12 w-full md:w-auto border-t md:border-t-0 pt-4 md:pt-0">
                     {/* Navigation - visible on mobile and desktop */}
-                    <nav className="flex items-center gap-6 md:gap-12">
+                    <nav className="flex items-center gap-6 md:gap-12 list-none">
                         {navItems.map((item) => (
                             <Link
                                 key={item.href}
@@ -65,7 +65,9 @@ export default function  BlogHeader() {
                         ))}
                     </nav>
                     {/* Button - hidden on mobile, visible on desktop */}
-                    <Button variant="gradient" className="hidden md:inline-flex !px-8 !py-4" onClick={scrollToNewsletter}>Subscribe Now</Button>
+                    <div className="hidden md:block">
+                        <Button variant="gradient" className="!px-8 !py-4" onClick={scrollToNewsletter}>Subscribe Now</Button>
+                    </div>
                 </div>
             </div>
         </header>
