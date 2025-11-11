@@ -1,8 +1,10 @@
+import React, { Suspense } from "react";
 import type { Metadata } from "next";
-import { Suspense } from "react";
-import { getPosts } from "@/lib/wordpress-improved";
-import BlogCard from "@/components/blog/BlogCard";
+import Card from "@/components/blog/BlogCard";
+import FeaturedBlogCard from "@/components/blog/FeaturedBlogCard";
 import BlogCardSkeleton from "@/components/blog/BlogCardSkeleton";
+import MainSection from "@/components/blog/MainSection";
+import { getPosts } from "@/lib/wordpress-improved";
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -11,56 +13,8 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://www.sparkonomy.com/"),
   title: "Blog | Sparkonomy",
   description: "Read the latest insights, updates, and stories from Sparkonomy - Transforming the creator economy!",
-  keywords: [
-    "sparkonomy",
-    "blog",
-    "creator economy",
-    "social media",
-    "influencer",
-    "content creator",
-    "insights",
-    "updates",
-  ],
-  authors: [{ name: "Team Sparkonomy" }],
-  creator: "Sparkonomy",
-  publisher: "Sparkonomy",
   alternates: {
     canonical: "https://sparkonomy.com/blogs",
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
-  openGraph: {
-    siteName: "Sparkonomy",
-    url: "https://sparkonomy.com/blogs",
-    title: "Blog | Sparkonomy",
-    description: "Read the latest insights, updates, and stories from Sparkonomy - Transforming the creator economy!",
-    images: [
-      {
-        url: "/sparkonomy.png",
-        width: 1200,
-        height: 630,
-        alt: "Sparkonomy Blog",
-      },
-    ],
-    locale: "en_US",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Blog | Sparkonomy",
-    description: "Read the latest insights, updates, and stories from Sparkonomy - Transforming the creator economy!",
-    images: ["/sparkonomy.png"],
-    site: "@sparkonomy",
-    creator: "@sparkonomy",
   },
 };
 
@@ -70,65 +24,151 @@ async function BlogPosts() {
   if (posts.length === 0) {
     return (
       <div className="text-center py-20 bg-gray-50 rounded-2xl border border-gray-200">
-        <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gray-100 mb-6">
-          <svg
-            className="w-10 h-10 text-gray-400"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"
-            />
-          </svg>
-        </div>
         <h2 className="text-2xl font-semibold text-gray-900 mb-3">No blog posts yet</h2>
         <p className="text-gray-600 max-w-md mx-auto">
-          We're working on bringing you amazing content. Check back soon for updates and insights!
+          We're working on bringing you amazing content. Check back soon!
         </p>
-        <div className="mt-6 text-sm text-gray-500">
-          <p>Make sure to configure your WordPress API URL in the environment variables:</p>
-          <code className="inline-block mt-2 px-4 py-2 bg-gray-100 rounded-lg border border-gray-200">
-            NEXT_PUBLIC_WORDPRESS_API_URL
-          </code>
-        </div>
       </div>
     );
   }
 
+  const firstRowPosts = posts.slice(0, 3);
+  const secondRowPost = posts.slice(3, 4);
+  const remainingPosts = posts.slice(4);
+
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-      {posts.map((post, index) => (
-        <BlogCard key={post.id} post={post} index={index} />
-      ))}
-    </div>
+    <>
+      {/* Container for First Row */}
+      <div className="max-w-7xl mx-auto px-4">
+        {/* First Row - 3 vertical cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:mb-12">
+          {firstRowPosts.map((p) => (
+            <Card
+              key={p.id}
+              title={p.title.rendered}
+              description={p.excerpt.rendered.replace(/<[^>]*>/g, '')}
+              imageSrc={p._embedded?.['wp:featuredmedia']?.[0]?.source_url}
+              href={`/blogs/${p.slug}`}
+              layout="vertical"
+              descriptionPosition="bottom"
+              imagePriority={true}
+              showReadMore={true}
+              meta={
+                <span>{new Date(p.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+              }
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Second Row - 1 featured horizontal card (full width, no container) */}
+      <div className="w-full md:mb-12">
+        {secondRowPost.map((p) => (
+          <FeaturedBlogCard
+            key={p.id}
+            title={p.title.rendered}
+            description={p.excerpt.rendered.replace(/<[^>]*>/g, '')}
+            imageSrc={p._embedded?.['wp:featuredmedia']?.[0]?.source_url}
+            href={`/blogs/${p.slug}`}
+            tag="Brand Story"
+            imagePriority={true}
+            meta={
+              <span>{new Date(p.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+            }
+          />
+        ))}
+      </div>
+
+      {/* Container for Remaining Rows */}
+      <div className="max-w-7xl mx-auto px-4">
+        {/* Remaining Rows - 3 vertical cards per row */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {remainingPosts.map((p) => (
+            <Card
+              key={p.id}
+              title={p.title.rendered}
+              description={p.excerpt.rendered.replace(/<[^>]*>/g, '')}
+              imageSrc={p._embedded?.['wp:featuredmedia']?.[0]?.source_url}
+              href={`/blogs/${p.slug}`}
+              layout="vertical"
+              descriptionPosition="bottom"
+              imagePriority={false}
+              showReadMore={true}
+              meta={
+                <span>{new Date(p.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+              }
+            />
+          ))}
+        </div>
+      </div>
+    </>
   );
 }
 
 function BlogPostsSkeleton() {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-      {[...Array(6)].map((_, i) => (
-        <BlogCardSkeleton key={i} />
-      ))}
-    </div>
+    <>
+      {/* Container for First Row */}
+      <div className="max-w-7xl mx-auto px-4">
+        {/* First Row - 3 vertical skeletons */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:mb-12">
+          <BlogCardSkeleton layout="vertical" />
+          <BlogCardSkeleton layout="vertical" />
+          <BlogCardSkeleton layout="vertical" />
+        </div>
+      </div>
+
+      {/* Second Row - 1 horizontal skeleton (full width, no container) */}
+      <div className="w-full md:mb-12">
+        <BlogCardSkeleton layout="horizontal" />
+      </div>
+
+      {/* Container for Remaining Rows */}
+      <div className="max-w-7xl mx-auto px-4">
+        {/* Remaining Rows - 6 vertical skeletons (showing 2 rows of 3) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {[...Array(6)].map((_, i) => (
+            <BlogCardSkeleton key={i} layout="vertical" />
+          ))}
+        </div>
+      </div>
+    </>
   );
 }
 
-export default function BlogsPage() {
+export default function Home() {
   return (
-    <main className="min-h-screen bg-white">
-      {/* Blog Posts Grid */}
-      <section className="py-16 px-6">
-        <div className="max-w-7xl mx-auto">
-          <Suspense key="all-posts" fallback={<BlogPostsSkeleton />}>
+    <main className="min-h-screen relative overflow-hidden">
+      {/* Main Section with Background Image */}
+      <div className="relative z-10">
+        <MainSection
+          title="How Creators Are Earning Passive Income in 2025"
+          subtitle=""
+          description="Explore the best ways to make your content work for you, even after you sleep."
+          buttonText="Read More"
+          buttonLink="#posts"
+          imageSrc="/MainImage.svg"
+          hashtags={["MonetizeYourContent", "CreatorEconomy", "PassiveIncome"]}
+        />
+      </div>
+
+      {/* Blog Posts Section with Gradient Background */}
+      <div className="relative py-12" id="posts">
+        {/* Linear Gradient Background with Blur - only for posts section */}
+        <div
+          className="absolute inset-0 pointer-events-none opacity-20"
+          style={{
+            background: 'linear-gradient(169.7deg, #DD2A7B 1.49%, #9747FF 42.07%, #334CCA 99.84%)',
+            filter: 'blur(300px)'
+          }}
+        />
+
+        <div className="relative z-10">
+          <Suspense fallback={<BlogPostsSkeleton />}>
             <BlogPosts />
           </Suspense>
         </div>
-      </section>
+      </div>
     </main>
   );
 }

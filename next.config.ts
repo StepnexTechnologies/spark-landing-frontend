@@ -19,6 +19,11 @@ const nextConfig: NextConfig = {
                 hostname: 'secure.gravatar.com',
                 pathname: '/**',
             },
+            {
+                protocol: 'https',
+                hostname: 'images.unsplash.com',
+                pathname: '/**',
+            },
         ],
     },
 };

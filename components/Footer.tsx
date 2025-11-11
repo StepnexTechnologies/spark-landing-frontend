@@ -12,7 +12,7 @@ export default function Footer() {
       transition={{ delay: 4, duration: 0.5, ease: "easeInOut" }}
       className="fixed bottom-0 w-full left-0 right-0 select-none z-50"
     >
-      <div className="flex flex-col items-center space-y-2 w-full px-4 pb-4">
+      <div className="flex flex-col items-center space-y-2 w-full px-10 md:px-14 lg:px-20 pb-4">
         <motion.div
           className="flex items-center justify-center space-x-3 px-4 py-2 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 w-fit cursor-pointer"
           whileHover={{ scale: 1.02 }}
