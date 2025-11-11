@@ -4,7 +4,7 @@ import Image from "next/image";
 export default function BlogFooter() {
   return (
     <footer className="w-full bg-transparent md:bg-white py-4 md:py-5 lg:py-9">
-      <div className="border-t border-gray-200 py-4 mx-[84px]">
+      <div className="border-t border-gray-200 py-4 md:mx-[84px]">
         <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
           <div className="flex flex-col items-center text-center gap-4">
           {/* Logo */}

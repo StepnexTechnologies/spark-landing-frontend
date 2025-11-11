@@ -16,7 +16,7 @@ export default function NewsletterSection() {
   return (
     <section className="w-full">
       {/* Desktop Layout */}
-      <div className="hidden md:flex items-center justify-center gap-[120px] py-4 bg-[#F2F2F2]">
+      <div className="hidden md:flex items-center justify-center gap-10 lg:gap-[120px] py-4 bg-[#F2F2F2] px-4">
         <h2 className="text-2xl lg:text-[32px] py-2 font-bold bg-gradient-to-b from-[#DD2A7B] via-[#9747FF] to-[#334CCA] text-transparent bg-clip-text whitespace-nowrap">
           Sign Up, Stay Updated
         </h2>
@@ -112,9 +112,9 @@ export default function NewsletterSection() {
                 background:
                   "linear-gradient(309.99deg, #DD2A7B 3.31%, #9747FF 39.79%, #334CCA 91.72%)",
               }}
-              className="flex items-center gap-2 px-6 py-3 text-white font-medium hover:opacity-90 transition-opacity whitespace-nowrap text-sm rounded-full"
+              className="flex items-center gap-2  p-3 text-white font-medium hover:opacity-90 transition-opacity whitespace-nowrap text-sm rounded-full"
             >
-              Subscribe 
+             
               <svg
                 className="w-4 h-4"
                 fill="none"
