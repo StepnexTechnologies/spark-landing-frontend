@@ -17,6 +17,13 @@ export default function  BlogHeader() {
         { name: "Company", href: "/blogs/company" },
     ];
 
+    const scrollToNewsletter = () => {
+        const newsletterSection = document.getElementById('newsletter');
+        if (newsletterSection) {
+            newsletterSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    };
+
     return (
         <header className="sticky top-0 z-50 w-full bg-white px-6 md:px-10 lg:px-20 py-[14px]">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
@@ -32,7 +39,7 @@ export default function  BlogHeader() {
                             priority
                         />
                     </Link>
-                    <Button variant="gradient" className="md:hidden !px-7 !py-[14px]">Subscribe Now</Button>
+                    <Button variant="gradient" className="md:hidden !px-7 !py-[14px]" onClick={scrollToNewsletter}>Subscribe Now</Button>
                 </div>
 
                 {/* Bottom row on mobile, right side on desktop: Nav + Button */}
@@ -58,7 +65,7 @@ export default function  BlogHeader() {
                         ))}
                     </nav>
                     {/* Button - hidden on mobile, visible on desktop */}
-                    <Button variant="gradient" className="hidden md:inline-flex !px-8 !py-4">Subscribe Now</Button>
+                    <Button variant="gradient" className="hidden md:inline-flex !px-8 !py-4" onClick={scrollToNewsletter}>Subscribe Now</Button>
                 </div>
             </div>
         </header>

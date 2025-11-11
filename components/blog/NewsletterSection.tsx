@@ -14,7 +14,7 @@ export default function NewsletterSection() {
   });
 
   return (
-    <section className="w-full">
+    <section id="newsletter" className="w-full">
       {/* Desktop Layout */}
       <div className="hidden md:flex items-center justify-center gap-10 lg:gap-[120px] py-4 bg-[#F2F2F2] px-4">
         <h2 className="text-2xl lg:text-[32px] py-2 font-bold bg-gradient-to-b from-[#DD2A7B] via-[#9747FF] to-[#334CCA] text-transparent bg-clip-text whitespace-nowrap">
