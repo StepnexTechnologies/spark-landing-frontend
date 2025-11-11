@@ -1,8 +1,14 @@
 "use client";
 
 import { useForm } from "@tanstack/react-form";
+import { useEffect, useState, useRef } from "react";
 
 export default function NewsletterSection() {
+  const [isFixed, setIsFixed] = useState(false);
+  const [placeholderHeight, setPlaceholderHeight] = useState(0);
+  const originalPositionRef = useRef<number | null>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+
   const form = useForm({
     defaultValues: {
       email: "",
@@ -13,10 +19,73 @@ export default function NewsletterSection() {
     },
   });
 
+  useEffect(() => {
+    let ticking = false;
+
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const scrollThreshold = window.innerHeight * 2; // 2 viewports
+          const currentScrollY = window.scrollY;
+          const newsletterSection = sectionRef.current;
+
+          if (newsletterSection) {
+            // Store original position only once on first load (without any fixed positioning)
+            if (originalPositionRef.current === null) {
+              const rect = newsletterSection.getBoundingClientRect();
+              originalPositionRef.current = currentScrollY + rect.top;
+              setPlaceholderHeight(newsletterSection.offsetHeight);
+            }
+
+            const originalPos = originalPositionRef.current;
+
+            // Get distance from bottom of viewport to check if we reached the original position
+            const windowBottom = currentScrollY + window.innerHeight;
+            const distanceToOriginal = originalPos - windowBottom;
+
+            // Calculate when to show/hide fixed position
+            // Show fixed: after 2 viewports AND haven't scrolled to within view of original position
+            const shouldBeFixed =
+              currentScrollY > scrollThreshold &&
+              originalPos !== null &&
+              distanceToOriginal > 0; // Still above the original position
+
+            if (shouldBeFixed !== isFixed) {
+              setIsFixed(shouldBeFixed);
+            }
+          }
+
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    // Small delay for initial calculation
+    setTimeout(handleScroll, 100);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [isFixed]);
+
   return (
-    <section id="newsletter" className="w-full">
+    <>
+      {/* Placeholder to prevent layout shift when fixed */}
+      {isFixed && <div style={{ height: `${placeholderHeight}px` }} className="w-full" />}
+
+      <section
+        ref={sectionRef}
+        id="newsletter"
+        className={`w-full transition-all duration-300 ease-in-out ${
+          isFixed
+            ? 'fixed bottom-0 left-0 right-0 z-40'
+            : 'relative'
+        }`}
+      >
       {/* Desktop Layout */}
-      <div className="hidden md:flex items-center justify-center gap-10 lg:gap-[120px] py-4 bg-[#F2F2F2] px-4">
+      <div className={`hidden md:flex items-center justify-center gap-10 lg:gap-[120px] py-4 bg-[#F2F2F2] px-4 transition-shadow duration-300 ${isFixed ? 'shadow-[0_-4px_16px_rgba(0,0,0,0.1)]' : ''}`}>
         <h2 className="text-2xl lg:text-[32px] py-2 font-bold bg-gradient-to-b from-[#DD2A7B] via-[#9747FF] to-[#334CCA] text-transparent bg-clip-text whitespace-nowrap">
           Sign Up, Stay Updated
         </h2>
@@ -75,7 +144,7 @@ export default function NewsletterSection() {
       </div>
 
       {/* Mobile Layout */}
-      <div className="md:hidden flex flex-col items-center text-center space-y-6 py-4 bg-[#F2F2F2] px-4">
+      <div className={`md:hidden flex flex-col items-center text-center space-y-6 py-4 bg-[#F2F2F2] px-4 transition-shadow duration-300 ${isFixed ? 'shadow-[0_-4px_16px_rgba(0,0,0,0.1)]' : ''}`}>
         <h2 className="text-xl font-bold bg-gradient-to-b from-[#DD2A7B] via-[#9747FF] to-[#334CCA] text-transparent bg-clip-text">
           Sign Up, Stay Updated
         </h2>
@@ -133,5 +202,6 @@ export default function NewsletterSection() {
         </form>
       </div>
     </section>
+    </>
   );
 }
