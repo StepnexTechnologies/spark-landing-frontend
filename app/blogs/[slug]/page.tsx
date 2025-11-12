@@ -178,7 +178,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         href="https://blog.sparkonomy.com/wp-includes/css/dist/block-library/theme.min.css"
       />
 
-      <main className="min-h-screen px-4 md:px-10 lg:px-[90px] py-5 lg:py-6 bg-white">
+      <main className="min-h-screen px-0 md:px-10 lg:px-[90px] py-5 lg:py-6 bg-white">
         <article className="flex flex-col gap-4 md:gap-6 lg:gap-10">
           {/* Breadcrumb Navigation */}
           <div className=" ">
@@ -194,7 +194,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           </div>
 
           {/* Title */}
-          <div className="px-0 md:px-[50px] lg:px-[130px]">
+          <div className="px-4 md:px-[50px] lg:px-[130px]">
             <h1
               className="text-2xl md:text-3xl lg:text-[40px] font-bold text-[#6B7280] leading-tight"
               dangerouslySetInnerHTML={{ __html: post.title.rendered }}
@@ -202,7 +202,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           </div>
 
           {/* Meta Information */}
-          <div className="px-0 md:px-[50px] lg:px-[130px]">
+          <div className="px-4 md:px-[50px] lg:px-[130px]">
             <div className="flex items-center gap-2 text-lg md:text-xl lg:text-2xl text-[#6B7280]">
               <span>{publishDate}</span>
               <span>·</span>
@@ -297,13 +297,13 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
           {/* Table of Contents */}
           {headings.length > 0 && (
-            <div className="px-0 md:px-[50px] lg:px-[130px]">
+            <div className="px-4 md:px-[50px] lg:px-[130px]">
               <CustomTableOfContents headings={headings} />
             </div>
           )}
 
           {/* Article Content */}
-          <div className="px-0 md:px-[50px] lg:px-[130px]">
+          <div className="px-4 md:px-[50px] lg:px-[130px]">
             <div
               className="wordpress-content"
               dangerouslySetInnerHTML={{ __html: processedContent }}
@@ -319,7 +319,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           <FAQSection />
 
           {/* Author Bio */}
-          <div className="px-0 md:px-[50px] lg:px-[130px]">
+          <div className="px-4 md:px-[50px] lg:px-[130px]">
             <AuthorCard
               name={author}
               role="Technical Writer | Sparkonomy"
