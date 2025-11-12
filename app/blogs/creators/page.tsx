@@ -5,6 +5,7 @@ import BlogCard from "@/components/blog/BlogCard";
 import BlogCardSkeleton from "@/components/blog/BlogCardSkeleton";
 import MainSection from "@/components/blog/MainSection";
 import FeaturedBlogCard from "@/components/blog/FeaturedBlogCard";
+import NewsletterSection from "@/components/blog/NewsletterSection";
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -268,6 +269,9 @@ export default function CreatorsPage() {
           </Suspense>
         </div>
       </section>
+
+      {/* Newsletter Section */}
+      <NewsletterSection />
     </main>
   );
 }

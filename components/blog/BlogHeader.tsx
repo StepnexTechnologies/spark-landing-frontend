@@ -11,9 +11,6 @@ export default function  BlogHeader() {
     const pathname = usePathname();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-    // Check if we're on a category page
-    const isCategoryPage = pathname?.startsWith("/blogs/") && pathname !== "/blogs";
-
     const navItems = [
         { name: "Creators", href: "/blogs/creators" },
         { name: "Brand", href: "/blogs/brand" },
@@ -49,23 +46,21 @@ export default function  BlogHeader() {
                 <div className="flex items-center justify-center md:justify-end gap-5 lg:gap-12 w-full md:w-auto border-t md:border-t-0 pt-4 md:pt-0">
                     {/* Navigation - visible on mobile and desktop */}
                     <nav className="flex items-center gap-6 md:gap-12 list-none">
-                        {/* Blog Home link - only show on category pages */}
-                        {isCategoryPage && (
-                            <Link
-                                href="/blogs"
-                                className={cn(
-                                    "relative py-2 font-medium transition-colors text-sm md:text-base",
-                                    "after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5",
-                                    "after:transition-all after:duration-300",
-                                    "after:bg-gradient-to-r after:from-[#DD2A7B] after:to-[#9747FF] after:opacity-0 hover:after:opacity-100",
-                                    pathname === "/blogs"
-                                        ? "bg-gradient-to-r from-[#DD2A7B] to-[#9747FF] text-transparent bg-clip-text"
-                                        : "text-gray-900 hover:bg-gradient-to-r hover:from-[#DD2A7B] hover:to-[#9747FF] hover:text-transparent hover:bg-clip-text"
-                                )}
-                            >
-                                Blog Home
-                            </Link>
-                        )}
+                        {/* Blog Home link - show on all pages */}
+                        <Link
+                            href="/blogs"
+                            className={cn(
+                                "relative py-2 font-medium transition-colors text-sm md:text-base",
+                                "after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5",
+                                "after:transition-all after:duration-300",
+                                "after:bg-gradient-to-r after:from-[#DD2A7B] after:to-[#9747FF] after:opacity-0 hover:after:opacity-100",
+                                pathname === "/blogs"
+                                    ? "bg-gradient-to-r from-[#DD2A7B] to-[#9747FF] text-transparent bg-clip-text"
+                                    : "text-gray-900 hover:bg-gradient-to-r hover:from-[#DD2A7B] hover:to-[#9747FF] hover:text-transparent hover:bg-clip-text"
+                            )}
+                        >
+                            Blog Home
+                        </Link>
                         {navItems.map((item) => (
                             <Link
                                 key={item.href}
