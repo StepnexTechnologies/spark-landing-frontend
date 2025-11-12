@@ -194,7 +194,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           </div>
 
           {/* Title */}
-          <div className="px-5 md:px-[50px] lg:px-[130px]">
+          <div className="px-0 md:px-[50px] lg:px-[130px]">
             <h1
               className="text-2xl md:text-3xl lg:text-[40px] font-bold text-[#6B7280] leading-tight"
               dangerouslySetInnerHTML={{ __html: post.title.rendered }}
@@ -202,7 +202,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           </div>
 
           {/* Meta Information */}
-          <div className="px-5 md:px-[50px] lg:px-[130px]">
+          <div className="px-0 md:px-[50px] lg:px-[130px]">
             <div className="flex items-center gap-2 text-lg md:text-xl lg:text-2xl text-[#6B7280]">
               <span>{publishDate}</span>
               <span>·</span>
@@ -210,19 +210,19 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             </div>
 
             {/* Author Section with Social Links */}
-            <div className="flex items-center gap-4 md:gap-6 lg:gap-10 py-3 border-b border-t border-[#F2F2F2]">
+            <div className="flex items-center gap-1  md:gap-6 lg:gap-10 py-3 border-b border-t border-[#F2F2F2]">
               {post._embedded?.author?.[0]?.avatar_urls?.["96"] && (
-                <div className="relative w-16 h-16 rounded-full overflow-hidden flex-shrink-0">
+                <div className="relative w-12 h-12  md:w-16 md:h-16 rounded-full overflow-hidden flex-shrink-0">
                   <Image
                     src={post._embedded.author[0].avatar_urls["96"]}
                     alt={author}
                     fill
                     className="object-cover"
-                  />
+                  /> 
                 </div>
               )}
               <div className="flex-1">
-                <p className="text-lg md:text-xl lg:text-2xl font-semibold text-[#6B7280]">{author}</p>
+                <p className="text-base md:text-xl lg:text-2xl font-semibold text-[#6B7280]">{author}</p>
                 <p className="text-xs md:text-sm text-[#415CE7] font-normal italic">
                   Technical Writer | Sparkonomy
                 </p>
@@ -297,13 +297,13 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
           {/* Table of Contents */}
           {headings.length > 0 && (
-            <div className="px-5 md:px-[50px] lg:px-[130px]">
+            <div className="px-0 md:px-[50px] lg:px-[130px]">
               <CustomTableOfContents headings={headings} />
             </div>
           )}
 
           {/* Article Content */}
-          <div className="px-5 md:px-[50px] lg:px-[130px]">
+          <div className="px-0 md:px-[50px] lg:px-[130px]">
             <div
               className="wordpress-content"
               dangerouslySetInnerHTML={{ __html: processedContent }}
@@ -319,7 +319,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           <FAQSection />
 
           {/* Author Bio */}
-          <div className="px-5 md:px-[50px] lg:px-[130px]">
+          <div className="px-0 md:px-[50px] lg:px-[130px]">
             <AuthorCard
               name={author}
               role="Technical Writer | Sparkonomy"
