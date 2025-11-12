@@ -14,9 +14,16 @@ export default function TableOfContents() {
 
   useEffect(() => {
     // Extract headings from the content
-    const headings = Array.from(
+    const allHeadings = Array.from(
       document.querySelectorAll(".wordpress-content h2, .wordpress-content h3")
     );
+
+    // Filter out the "Table of Content" heading itself and any headings that are part of TOC sections
+    const headings = allHeadings.filter((heading) => {
+      const text = heading.textContent?.trim().toLowerCase() || "";
+      // Exclude the TOC heading and any "frequently asked questions" if it's not a real content section
+      return text !== "table of content" && text !== "table of contents";
+    });
 
     const tocItems: TOCItem[] = headings.map((heading, index) => {
       const generatedId = heading.textContent?.toLowerCase().replace(/\s+/g, "-") || `heading-${index}`;
@@ -70,20 +77,20 @@ export default function TableOfContents() {
   };
 
   return (
-    <div className="bg-gray-50 rounded-2xl p-6 mb-12">
-      <h2 className="text-xl font-bold text-gray-900 mb-4">Table of Content</h2>
-      <ul className="space-y-3">
+    <div className="mb-8">
+      <h2 className="text-xl md:text-2xl font-semibold text-gray-800 mb-4">Table of Content</h2>
+      <ul className="space-y-2">
         {toc.map((item) => (
           <li
             key={item.id}
-            className={`${item.level === 3 ? "ml-4" : ""}`}
+            className={`${item.level === 3 ? "ml-6" : ""}`}
           >
             <button
               onClick={() => scrollToSection(item.id)}
-              className={`text-left transition-colors hover:text-purple-600 ${
+              className={`text-left transition-colors hover:text-purple-600 italic ${
                 activeId === item.id
-                  ? "text-purple-600 font-medium"
-                  : "text-gray-700"
+                  ? "text-purple-600"
+                  : "text-gray-500"
               }`}
             >
               {item.text}

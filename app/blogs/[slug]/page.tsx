@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { getPostBySlug, getFeaturedImageUrl, getAuthorName, formatDate, stripHtml, getReadingTime, getPosts } from "@/lib/wordpress-improved";
+import { removeWordPressTOC, extractHeadings, addHeadingIds } from "@/lib/content-processor";
 import ShareButtons from "@/components/blog/ShareButtons";
 import Breadcrumb from "@/components/blog/Breadcrumb";
-import TableOfContents from "@/components/blog/TableOfContents";
+import CustomTableOfContents from "@/components/blog/CustomTableOfContents";
 import AuthorCard from "@/components/blog/AuthorCard";
 import RelatedPosts from "@/components/blog/RelatedPosts";
 import QuoteAuthorInjector from "@/components/blog/QuoteAuthorInjector";
@@ -106,6 +107,11 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const author = getAuthorName(post);
   const publishDate = formatDate(post.date);
   const readingTime = getReadingTime(post);
+
+  // Process content: extract headings FIRST, then remove WordPress TOC
+  const headings = extractHeadings(post.content.rendered);
+  const cleanedContent = removeWordPressTOC(post.content.rendered);
+  const processedContent = addHeadingIds(cleanedContent, headings);
 
   // Get category for breadcrumb
   const categoryName = post._embedded?.["wp:term"]?.[0]?.[0]?.name || "";
@@ -288,15 +294,17 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           )}
 
           {/* Table of Contents */}
-          <div className="px-5 md:px-[50px] lg:px-[130px]">
-            <TableOfContents />
-          </div>
+          {headings.length > 0 && (
+            <div className="px-5 md:px-[50px] lg:px-[130px]">
+              <CustomTableOfContents headings={headings} />
+            </div>
+          )}
 
           {/* Article Content */}
           <div className="px-5 md:px-[50px] lg:px-[130px]">
             <div
               className="wordpress-content"
-              dangerouslySetInnerHTML={{ __html: post.content.rendered }}
+              dangerouslySetInnerHTML={{ __html: processedContent }}
             />
             <QuoteAuthorInjector
               authorName={author}

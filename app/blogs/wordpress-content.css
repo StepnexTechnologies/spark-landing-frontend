@@ -1,6 +1,8 @@
 /* WordPress Content Styles */
 /* Comprehensive styles to match Figma design */
 
+/* Note: WordPress TOC is removed by content processor, so no need for TOC-specific styles */
+
 .wordpress-content {
   /* Base container */
   color: #374151;
