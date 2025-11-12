@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { getCategoryBySlug, getPostsByCategory } from "@/lib/wordpress-improved";
+import { getCategoryBySlug, getPostsByCategory, getPostTags } from "@/lib/wordpress-improved";
 import BlogCard from "@/components/blog/BlogCard";
 import BlogCardSkeleton from "@/components/blog/BlogCardSkeleton";
 import MainSection from "@/components/blog/MainSection";
@@ -56,7 +56,7 @@ export const metadata: Metadata = {
 async function CreatorsPosts() {
   const category = await getCategoryBySlug("creators");
   const { data: posts } = category
-    ? await getPostsByCategory(category.id, 1, 12)
+    ? await getPostsByCategory(category.id, 1, 13)
     : { data: [] };
 
   if (posts.length === 0) {
@@ -90,9 +90,9 @@ async function CreatorsPosts() {
     );
   }
 
-  const firstRowPosts = posts.slice(0, 2);
-  const secondRowPost = posts.slice(2, 3);
-  const remainingPosts = posts.slice(3);
+  const firstRowPosts = posts.slice(1, 3);
+  const secondRowPost = posts.slice(3, 4);
+  const remainingPosts = posts.slice(4);
 
   return (
     <>
@@ -195,20 +195,60 @@ function BlogPostsSkeleton() {
   );
 }
 
+async function HeroSection() {
+  const category = await getCategoryBySlug("creators");
+  const { data: posts } = category
+    ? await getPostsByCategory(category.id, 1, 1)
+    : { data: [] };
+
+  if (posts.length === 0) {
+    return (
+      <MainSection
+        title="Creator Tips & Growth Strategies"
+        subtitle="For Creators"
+        description="Learn how successful creators build their audience, monetize content, and grow their brand."
+        buttonText="Explore"
+        buttonLink="#posts"
+        imageSrc="/BlogsMainImage.png"
+        hashtags={["CreatorTips", "ContentStrategy", "MonetizeContent"]}
+      />
+    );
+  }
+
+  const heroPost = posts[0];
+  const tags = getPostTags(heroPost);
+
+  return (
+    <MainSection
+      title={heroPost.title.rendered}
+      subtitle=""
+      description={heroPost.excerpt.rendered.replace(/<[^>]*>/g, '')}
+      buttonText="Read More"
+      buttonLink={`/blogs/${heroPost.slug}`}
+      imageSrc={heroPost._embedded?.['wp:featuredmedia']?.[0]?.source_url || "/BlogsMainImage.png"}
+      hashtags={tags.length > 0 ? tags : ["CreatorTips", "ContentStrategy", "MonetizeContent"]}
+    />
+  );
+}
+
 export default function CreatorsPage() {
   return (
     <main className="min-h-screen relative overflow-hidden">
       {/* Main Section with Background Image */}
       <div className="relative z-10">
-        <MainSection
-          title="Creator Tips & Growth Strategies"
-          subtitle="For Creators"
-          description="Learn how successful creators build their audience, monetize content, and grow their brand."
-          buttonText="Explore"
-          buttonLink="#posts"
-          imageSrc="/BlogsMainImage.png"
-          hashtags={["CreatorTips", "ContentStrategy", "MonetizeContent"]}
-        />
+        <Suspense fallback={
+          <MainSection
+            title="Creator Tips & Growth Strategies"
+            subtitle="For Creators"
+            description="Learn how successful creators build their audience, monetize content, and grow their brand."
+            buttonText="Explore"
+            buttonLink="#posts"
+            imageSrc="/BlogsMainImage.png"
+            hashtags={["CreatorTips", "ContentStrategy", "MonetizeContent"]}
+          />
+        }>
+          <HeroSection />
+        </Suspense>
       </div>
 
       {/* Blog Posts Section with Gradient Background */}
