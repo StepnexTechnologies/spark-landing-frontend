@@ -58,8 +58,8 @@ export default function CustomTableOfContents({ headings }: CustomTableOfContent
   };
 
   return (
-    <div className="mb-12">
-      <h2 className="text-xl md:text-2xl font-normal text-gray-600 mb-4">
+    <div className="">
+      <h2 className="text-xl md:text-2xl font-normal text-gray-600">
         Table of Content
       </h2>
       <ul className="space-y-2 list-disc pl-10">

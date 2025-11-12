@@ -2,13 +2,14 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { getPostBySlug, getFeaturedImageUrl, getAuthorName, formatDate, stripHtml, getReadingTime, getPosts } from "@/lib/wordpress-improved";
-import { removeWordPressTOC, extractHeadings, addHeadingIds } from "@/lib/content-processor";
+import { removeWordPressTOC, extractHeadings, addHeadingIds, removeFAQSection } from "@/lib/content-processor";
 import ShareButtons from "@/components/blog/ShareButtons";
 import Breadcrumb from "@/components/blog/Breadcrumb";
 import CustomTableOfContents from "@/components/blog/CustomTableOfContents";
 import AuthorCard from "@/components/blog/AuthorCard";
 import RelatedPosts from "@/components/blog/RelatedPosts";
 import QuoteAuthorInjector from "@/components/blog/QuoteAuthorInjector";
+import FAQSection from "@/components/blog/FAQSection";
 import "../wordpress-content.css";
 
 interface BlogPostPageProps {
@@ -108,9 +109,10 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const publishDate = formatDate(post.date);
   const readingTime = getReadingTime(post);
 
-  // Process content: extract headings FIRST, then remove WordPress TOC
+  // Process content: extract headings FIRST, then remove WordPress TOC and FAQ
   const headings = extractHeadings(post.content.rendered);
-  const cleanedContent = removeWordPressTOC(post.content.rendered);
+  let cleanedContent = removeWordPressTOC(post.content.rendered);
+  cleanedContent = removeFAQSection(cleanedContent);
   const processedContent = addHeadingIds(cleanedContent, headings);
 
   // Get category for breadcrumb
@@ -201,7 +203,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
           {/* Meta Information */}
           <div className="px-5 md:px-[50px] lg:px-[130px]">
-            <div className="flex items-center gap-2 text-lg md:text-xl lg:text-2xl text-[#6B7280] mb-4">
+            <div className="flex items-center gap-2 text-lg md:text-xl lg:text-2xl text-[#6B7280]">
               <span>{publishDate}</span>
               <span>·</span>
               <span>{readingTime} min read</span>
@@ -287,7 +289,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                   priority
                 />
               </div>
-              <p className="text-sm text-gray-500 mt-3 italic">
+              <p className="text-sm text-gray-500 italic">
                 Fig: {stripHtml(post.excerpt.rendered).substring(0, 100)}...
               </p>
             </div>
@@ -312,6 +314,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               authorAvatar={post._embedded?.author?.[0]?.avatar_urls?.["96"] || ""}
             />
           </div>
+
+          {/* FAQ Section */}
+          <FAQSection />
 
           {/* Author Bio */}
           <div className="px-5 md:px-[50px] lg:px-[130px]">

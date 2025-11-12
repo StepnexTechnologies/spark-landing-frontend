@@ -26,7 +26,7 @@ export default function AuthorCard({
   socialLinks = {},
 }: AuthorCardProps) {
   return (
-    <div className="bg-gray-50 rounded-2xl p-8 my-12">
+    <div className="bg-gray-50 rounded-2xl p-8">
       <h3 className="text-2xl font-bold text-gray-900 mb-6">About the author</h3>
       <div className="border-l-4 border-purple-600 pl-6">
         <p className="text-gray-700 leading-relaxed mb-6">{bio}</p>

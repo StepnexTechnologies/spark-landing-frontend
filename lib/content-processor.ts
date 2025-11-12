@@ -23,10 +23,20 @@ export function removeWordPressTOC(html: string): string {
 
   // Remove AAAAAA paragraphs and extra br tags
   cleaned = cleaned.replace(/<p[^>]*>A{5,}[^<]*<\/p>/gi, '');
-  cleaned = cleaned.replace(/(<br\s*\/?>\s*){3,}/gi, '');
+  cleaned = cleaned.replace(/(<br\s*\/?>\s*){2,}/gi, '');
+  cleaned = cleaned.replace(/<p[^>]*>\s*<br\s*\/?>\s*<\/p>/gi, '');
   cleaned = cleaned.replace(/<p[^>]*>\s*<\/p>/gi, '');
 
   return cleaned;
+}
+
+/**
+ * Remove FAQ section from content as it will be rendered separately
+ */
+export function removeFAQSection(html: string): string {
+  // Don't actually remove it - just return the html as-is
+  // We'll hide it with CSS instead
+  return html;
 }
 
 /**

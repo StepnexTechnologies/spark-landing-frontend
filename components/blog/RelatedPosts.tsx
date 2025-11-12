@@ -18,7 +18,7 @@ export default function RelatedPosts({ posts }: RelatedPostsProps) {
   if (posts.length === 0) return null;
 
   return (
-    <section className="my-16">
+    <section className="">
       <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
         Also Read
       </h2>
