@@ -144,11 +144,7 @@ export default function NewsletterSection() {
       </div>
 
       {/* Mobile Layout */}
-      <div className={`md:hidden flex flex-col items-center text-center space-y-6 py-4 bg-[#F2F2F2] px-4 transition-shadow duration-300 ${isFixed ? 'shadow-[0_-4px_16px_rgba(0,0,0,0.1)]' : ''}`}>
-        <h2 className="text-xl font-bold bg-gradient-to-b from-[#DD2A7B] via-[#9747FF] to-[#334CCA] text-transparent bg-clip-text">
-          Sign Up, Stay Updated
-        </h2>
-
+      <div className={`md:hidden flex flex-col items-center text-center py-4 bg-[#F2F2F2] px-4 transition-shadow duration-300 ${isFixed ? 'shadow-[0_-4px_16px_rgba(0,0,0,0.1)]' : ''}`}>
         <form
           onSubmit={(e) => {
             e.preventDefault();

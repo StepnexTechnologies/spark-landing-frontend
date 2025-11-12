@@ -10,8 +10,11 @@ interface FAQItem {
 export default function FAQSection() {
   const [faqs, setFaqs] = useState<FAQItem[]>([]);
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
+    setIsMounted(true);
+
     // Find all elements in wordpress content
     const allElements = Array.from(document.querySelectorAll(".wordpress-content *"));
 
@@ -68,6 +71,15 @@ export default function FAQSection() {
 
     setFaqs(faqItems);
   }, []);
+
+  // Show placeholder during initial mount to prevent layout shift
+  if (!isMounted) {
+    return (
+      <div className="px-5 md:px-[50px] lg:px-[130px]">
+        <div className="min-h-[200px]" /> {/* Placeholder */}
+      </div>
+    );
+  }
 
   if (faqs.length === 0) return null;
 

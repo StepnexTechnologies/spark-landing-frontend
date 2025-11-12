@@ -18,9 +18,11 @@ interface RelatedPostsProps {
 
 export default function RelatedPosts({ posts }: RelatedPostsProps) {
   const [windowWidth, setWindowWidth] = useState<number>(0);
+  const [isMounted, setIsMounted] = useState(false);
 
   // Track window width client-side (SSR-safe)
   useEffect(() => {
+    setIsMounted(true);
     const setWidth = () => setWindowWidth(window.innerWidth);
     setWidth();
     window.addEventListener("resize", setWidth);
@@ -28,7 +30,7 @@ export default function RelatedPosts({ posts }: RelatedPostsProps) {
   }, []);
 
   // Only active carousel on mobile and tablet
-  const isCarouselActive = windowWidth > 0 && windowWidth < 1024; // Tailwind `lg`
+  const isCarouselActive = isMounted && windowWidth > 0 && windowWidth < 1024; // Tailwind `lg`
 
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: "center",
@@ -60,6 +62,18 @@ export default function RelatedPosts({ posts }: RelatedPostsProps) {
   );
 
   if (posts.length === 0) return null;
+
+  // Show nothing during SSR to prevent hydration mismatch
+  if (!isMounted) {
+    return (
+      <section className="">
+        <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
+          Also Read
+        </h2>
+        <div className="min-h-[400px]" /> {/* Placeholder to prevent layout shift */}
+      </section>
+    );
+  }
 
   return (
     <section className="">

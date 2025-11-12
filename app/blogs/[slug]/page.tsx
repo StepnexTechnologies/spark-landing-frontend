@@ -181,7 +181,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       <main className="min-h-screen px-0 md:px-10 lg:px-[90px] py-5 lg:py-6 bg-white">
         <article className="flex flex-col gap-4 md:gap-6 lg:gap-10">
           {/* Breadcrumb Navigation */}
-          <div className=" ">
+          <div className="px-4 md:px-0 ">
             <Breadcrumb
               items={[
                 { label: "Blog", href: "/blogs" },
@@ -279,7 +279,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
           {/* Featured Image */}
           {featuredImage && (
-            <div className="">
+            <div className="px-4 md:px-0">
               <div className="relative w-full aspect-video rounded-2xl overflow-hidden">
                 <Image
                   src={featuredImage}
@@ -316,10 +316,12 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           </div>
 
           {/* FAQ Section */}
-          <FAQSection />
+          <div className="relative z-10">
+            <FAQSection />
+          </div>
 
           {/* Author Bio */}
-          <div className="px-4 md:px-[50px] lg:px-[130px]">
+          <div className="px-4 md:px-[50px] lg:px-[130px] relative z-10">
             <AuthorCard
               name={author}
               role="Technical Writer | Sparkonomy"
@@ -335,7 +337,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           </div>
 
           {/* Related Posts */}
-          <div className="">
+          <div className="relative z-0">
             <RelatedPosts posts={relatedPosts} />
           </div>
           
