@@ -111,7 +111,7 @@ export default function NewsletterSection() {
                       form.handleSubmit();
                     }
                   }}
-                  placeholder="Enter Your Email/ WhatsApp Number"
+                  placeholder="Enter email or WhatsApp "
                   className="w-full px-3 rounded-full bg-transparent text-[#999999] placeholder:text-[#999999]/90 focus:outline-none"
                 />
               )}
@@ -122,9 +122,9 @@ export default function NewsletterSection() {
                 background:
                   "linear-gradient(309.99deg, #DD2A7B 3.31%, #9747FF 39.79%, #334CCA 91.72%)",
               }}
-              className="flex items-center gap-2 px-8 py-4 rounded-full text-white font-medium hover:opacity-90 transition-opacity whitespace-nowrap"
+              className="flex items-center text-sm gap-2 px-4 py-3 rounded-full text-white font-medium hover:opacity-90 transition-opacity whitespace-nowrap"
             >
-              Subscribe Now
+              Stay Updated
               <svg
                 className="w-5 h-5"
                 fill="none"
