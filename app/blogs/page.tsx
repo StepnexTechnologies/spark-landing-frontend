@@ -4,6 +4,7 @@ import Card from "@/components/blog/BlogCard";
 import FeaturedBlogCard from "@/components/blog/FeaturedBlogCard";
 import BlogCardSkeleton from "@/components/blog/BlogCardSkeleton";
 import MainSection from "@/components/blog/MainSection";
+import NewsletterSection from "@/components/blog/NewsletterSection";
 import { getPosts, getPostTags } from "@/lib/wordpress-improved";
 
 export const dynamic = 'force-dynamic';
@@ -207,6 +208,9 @@ export default function Home() {
           </Suspense>
         </div>
       </div>
+
+      {/* Newsletter Section */}
+      <NewsletterSection />
     </main>
   );
 }

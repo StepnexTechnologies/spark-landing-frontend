@@ -25,7 +25,7 @@ export default function NewsletterSection() {
     const handleScroll = () => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
-          const scrollThreshold = window.innerHeight * 2; // 2 viewports
+          const scrollThreshold = window.innerHeight; // 1 viewport
           const currentScrollY = window.scrollY;
           const newsletterSection = sectionRef.current;
 
@@ -44,7 +44,7 @@ export default function NewsletterSection() {
             const distanceToOriginal = originalPos - windowBottom;
 
             // Calculate when to show/hide fixed position
-            // Show fixed: after 2 viewports AND haven't scrolled to within view of original position
+            // Show fixed: after 1 viewport AND haven't scrolled to within view of original position
             const shouldBeFixed =
               currentScrollY > scrollThreshold &&
               originalPos !== null &&

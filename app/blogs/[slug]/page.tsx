@@ -10,6 +10,7 @@ import AuthorCard from "@/components/blog/AuthorCard";
 import RelatedPosts from "@/components/blog/RelatedPosts";
 import QuoteAuthorInjector from "@/components/blog/QuoteAuthorInjector";
 import FAQSection from "@/components/blog/FAQSection";
+import NewsletterSection from "@/components/blog/NewsletterSection";
 import "../wordpress-content.css";
 
 interface BlogPostPageProps {
@@ -340,9 +341,12 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           <div className="relative z-0">
             <RelatedPosts posts={relatedPosts} />
           </div>
-          
+
         </article>
       </main>
+
+      {/* Newsletter Section */}
+      <NewsletterSection />
     </>
   );
 }

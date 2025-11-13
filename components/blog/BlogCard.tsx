@@ -85,7 +85,7 @@ export default function Card({
       )}
 
       <div
-        className={`flex flex-col px-7 py-4 ${
+        className={`flex flex-col px-4 py-4 ${
           isHorizontal ? "w-2/3 md:w-3/5" : "w-full"
         }`}
       >
