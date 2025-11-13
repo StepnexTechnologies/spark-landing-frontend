@@ -36,7 +36,6 @@ export default function RelatedPosts({ posts }: RelatedPostsProps) {
     align: "center",
     containScroll: "trimSnaps",
     loop: false,
-    draggable: true,
     skipSnaps: false,
   });
 
