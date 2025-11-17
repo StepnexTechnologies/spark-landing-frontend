@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { getCategoryBySlug, getPostsByCategory } from "@/lib/wordpress-improved";
+import { getCategoryBySlug, getPostsByCategory, getPostTags } from "@/lib/wordpress-improved";
 import BlogCard from "@/components/blog/BlogCard";
 import FeaturedBlogCard from "@/components/blog/FeaturedBlogCard";
 import BlogCardSkeleton from "@/components/blog/BlogCardSkeleton";
 import MainSection from "@/components/blog/MainSection";
+import NewsletterSection from "@/components/blog/NewsletterSection";
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -56,7 +57,7 @@ export const metadata: Metadata = {
 async function CompanyPosts() {
   const category = await getCategoryBySlug("company");
   const { data: posts } = category
-    ? await getPostsByCategory(category.id, 1, 12)
+    ? await getPostsByCategory(category.id, 1, 13)
     : { data: [] };
 
   if (posts.length === 0) {
@@ -90,9 +91,9 @@ async function CompanyPosts() {
     );
   }
 
-  const firstRowPosts = posts.slice(0, 2);
-  const secondRowPost = posts.slice(2, 3);
-  const remainingPosts = posts.slice(3);
+  const firstRowPosts = posts.slice(1, 3);
+  const secondRowPost = posts.slice(3, 4);
+  const remainingPosts = posts.slice(4);
 
   return (
     <>
@@ -195,20 +196,60 @@ function BlogPostsSkeleton() {
   );
 }
 
+async function HeroSection() {
+  const category = await getCategoryBySlug("company");
+  const { data: posts } = category
+    ? await getPostsByCategory(category.id, 1, 1)
+    : { data: [] };
+
+  if (posts.length === 0) {
+    return (
+      <MainSection
+        title="Company News & Updates"
+        subtitle="About Sparkonomy"
+        description="Stay updated with the latest news, product launches, and company milestones from Sparkonomy."
+        buttonText="Explore"
+        buttonLink="#posts"
+        imageSrc="/CategoriesMainImage.png"
+        hashtags={["CompanyNews", "ProductUpdates", "Announcements"]}
+      />
+    );
+  }
+
+  const heroPost = posts[0];
+  const tags = getPostTags(heroPost);
+
+  return (
+    <MainSection
+      title={heroPost.title.rendered}
+      subtitle=""
+      description={heroPost.excerpt.rendered.replace(/<[^>]*>/g, '')}
+      buttonText="Read More"
+      buttonLink={`/blogs/${heroPost.slug}`}
+      imageSrc={heroPost._embedded?.['wp:featuredmedia']?.[0]?.source_url || "/CategoriesMainImage.png"}
+      hashtags={tags.length > 0 ? tags : ["CompanyNews", "ProductUpdates", "Announcements"]}
+    />
+  );
+}
+
 export default function CompanyPage() {
   return (
     <main className="min-h-screen relative overflow-hidden">
       {/* Main Section with Background Image */}
       <div className="relative z-10">
-        <MainSection
-          title="Company News & Updates"
-          subtitle="About Sparkonomy"
-          description="Stay updated with the latest news, product launches, and company milestones from Sparkonomy."
-          buttonText="Explore"
-          buttonLink="#posts"
-          imageSrc="/CategoriesMainImage.png"
-          hashtags={["CompanyNews", "ProductUpdates", "Announcements"]}
-        />
+        <Suspense fallback={
+          <MainSection
+            title="Company News & Updates"
+            subtitle="About Sparkonomy"
+            description="Stay updated with the latest news, product launches, and company milestones from Sparkonomy."
+            buttonText="Explore"
+            buttonLink="#posts"
+            imageSrc="/CategoriesMainImage.png"
+            hashtags={["CompanyNews", "ProductUpdates", "Announcements"]}
+          />
+        }>
+          <HeroSection />
+        </Suspense>
       </div>
 
       {/* Blog Posts Section with Gradient Background */}
@@ -228,6 +269,9 @@ export default function CompanyPage() {
           </Suspense>
         </div>
       </section>
+
+      {/* Newsletter Section */}
+      <NewsletterSection />
     </main>
   );
 }

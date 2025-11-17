@@ -4,7 +4,8 @@ import Card from "@/components/blog/BlogCard";
 import FeaturedBlogCard from "@/components/blog/FeaturedBlogCard";
 import BlogCardSkeleton from "@/components/blog/BlogCardSkeleton";
 import MainSection from "@/components/blog/MainSection";
-import { getPosts } from "@/lib/wordpress-improved";
+import NewsletterSection from "@/components/blog/NewsletterSection";
+import { getPosts, getPostTags } from "@/lib/wordpress-improved";
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -19,7 +20,7 @@ export const metadata: Metadata = {
 };
 
 async function BlogPosts() {
-  const { data: posts } = await getPosts(1, 12);
+  const { data: posts } = await getPosts(1, 13);
 
   if (posts.length === 0) {
     return (
@@ -32,9 +33,10 @@ async function BlogPosts() {
     );
   }
 
-  const firstRowPosts = posts.slice(0, 3);
-  const secondRowPost = posts.slice(3, 4);
-  const remainingPosts = posts.slice(4);
+  const heroPost = posts[0];
+  const firstRowPosts = posts.slice(1, 4);
+  const secondRowPost = posts.slice(4, 5);
+  const remainingPosts = posts.slice(5);
 
   return (
     <>
@@ -136,20 +138,57 @@ function BlogPostsSkeleton() {
   );
 }
 
+async function HeroSection() {
+  const { data: posts } = await getPosts(1, 1);
+
+  if (posts.length === 0) {
+    return (
+      <MainSection
+        title="How Creators Are Earning Passive Income in 2025"
+        subtitle=""
+        description="Explore the best ways to make your content work for you, even after you sleep."
+        buttonText="Read More"
+        buttonLink="#posts"
+        imageSrc="/MainImage.svg"
+        hashtags={["MonetizeYourContent", "CreatorEconomy", "PassiveIncome"]}
+      />
+    );
+  }
+
+  const heroPost = posts[0];
+  const tags = getPostTags(heroPost);
+
+  return (
+    <MainSection
+      title={heroPost.title.rendered}
+      subtitle=""
+      description={heroPost.excerpt.rendered.replace(/<[^>]*>/g, '')}
+      buttonText="Read More"
+      buttonLink={`/blogs/${heroPost.slug}`}
+      imageSrc={heroPost._embedded?.['wp:featuredmedia']?.[0]?.source_url || "/MainImage.svg"}
+      hashtags={tags.length > 0 ? tags : ["MonetizeYourContent", "CreatorEconomy", "PassiveIncome"]}
+    />
+  );
+}
+
 export default function Home() {
   return (
     <main className="min-h-screen relative overflow-hidden">
       {/* Main Section with Background Image */}
       <div className="relative z-10">
-        <MainSection
-          title="How Creators Are Earning Passive Income in 2025"
-          subtitle=""
-          description="Explore the best ways to make your content work for you, even after you sleep."
-          buttonText="Read More"
-          buttonLink="#posts"
-          imageSrc="/MainImage.svg"
-          hashtags={["MonetizeYourContent", "CreatorEconomy", "PassiveIncome"]}
-        />
+        <Suspense fallback={
+          <MainSection
+            title="How Creators Are Earning Passive Income in 2025"
+            subtitle=""
+            description="Explore the best ways to make your content work for you, even after you sleep."
+            buttonText="Read More"
+            buttonLink="#posts"
+            imageSrc="/MainImage.svg"
+            hashtags={["MonetizeYourContent", "CreatorEconomy", "PassiveIncome"]}
+          />
+        }>
+          <HeroSection />
+        </Suspense>
       </div>
 
       {/* Blog Posts Section with Gradient Background */}
@@ -169,6 +208,9 @@ export default function Home() {
           </Suspense>
         </div>
       </div>
+
+      {/* Newsletter Section */}
+      <NewsletterSection />
     </main>
   );
 }

@@ -1,6 +1,5 @@
 import BlogHeader from "@/components/blog/BlogHeader";
 import BlogFooter from "@/components/blog/BlogFooter";
-import NewsletterSection from "@/components/blog/NewsletterSection";
 import { Roboto } from "next/font/google";
 
 const roboto = Roboto({
@@ -17,7 +16,6 @@ export default function BlogsLayout({
     <div className={`min-h-screen bg-white flex flex-col ${roboto.className}`}>
       <BlogHeader />
       <main className="flex-1">{children}</main>
-      <NewsletterSection />
       <BlogFooter />
     </div>
   );

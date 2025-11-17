@@ -26,9 +26,9 @@ const Button: React.FC<ButtonProps> = ({
 
   const variants = {
     gradient:
-      "bg-white text-[#8134AF] hover:bg-gradient-to-b hover:from-[#DD2A7B] hover:via-[#9747FF] hover:to-[#334CCA] hover:text-white",
+      "bg-white text-[#8134AF] hover:bg-gradient-to-b hover:from-[#DD2A7B] hover:via-[#9747FF] hover:to-[#334CCA] hover:text-white active:bg-white active:text-[#8134AF]",
     filled:
-      "bg-gradient-to-b from-[#DD2A7B] via-[#9747FF] to-[#334CCA] text-white hover:opacity-90",
+      "bg-gradient-to-b from-[#DD2A7B] via-[#9747FF] to-[#334CCA] text-white hover:opacity-90 active:opacity-100",
   };
 
   const buttonClasses = twMerge(
