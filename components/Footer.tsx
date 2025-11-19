@@ -60,6 +60,7 @@ export default function Footer() {
           <div className="flex items-center justify-center md:justify-end space-x-2 md:space-x-4 md:justify-self-end">
             <Link href="/legal/privacy-policy" className="hover:underline hover:text-purple-400">Privacy Policy</Link>
             <Link href="/legal/terms" className="hover:underline hover:text-purple-400">Terms of Service</Link>
+            <Link href="/legal/refund-policy" className="hover:underline hover:text-purple-400">Refunds & Cancellations</Link>
           </div>
         </motion.div>
       </div>
