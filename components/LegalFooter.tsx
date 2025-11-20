@@ -21,6 +21,8 @@ const LegalFooter = () => {
                 <Link className={"text-xs underline"} href={"/legal/privacy-policy"}>Privacy Policy</Link>
                 {" | "}
                 <Link className={"text-xs underline"} href={"/legal/terms"}>Terms of Service</Link>
+                {" | "}
+                <Link className={"text-xs underline"} href={"/legal/refund-policy"}>Refunds & Cancellations</Link>
             </div>
         </div>
     );
