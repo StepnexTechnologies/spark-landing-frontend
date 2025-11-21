@@ -9,6 +9,20 @@ export interface TOCItem {
   level: number;
 }
 
+export interface FAQItem {
+  question: string;
+  answer: string;
+}
+
+export interface VideoItem {
+  url: string;
+  embedUrl: string;
+  name: string;
+  description: string;
+  thumbnailUrl: string;
+  uploadDate?: string;
+}
+
 /**
  * Remove WordPress built-in Table of Contents from HTML
  */
@@ -114,4 +128,118 @@ export function addHeadingIds(html: string, headings: TOCItem[]): string {
   });
 
   return processed;
+}
+
+/**
+ * Extract FAQ items from HTML content for structured data
+ */
+export function extractFAQs(html: string): FAQItem[] {
+  const faqs: FAQItem[] = [];
+
+  // Find FAQ section heading
+  const faqHeadingRegex = /<(h[23])[^>]*>(?:<[^>]*>)*\s*Frequently Asked Questions?\s*(?:<[^>]*>)*<\/\1>/gi;
+  const faqMatch = faqHeadingRegex.exec(html);
+
+  if (!faqMatch) {
+    return faqs;
+  }
+
+  const faqStartIndex = faqMatch.index + faqMatch[0].length;
+  const remainingHtml = html.substring(faqStartIndex);
+
+  // Find next major section (h2) to determine where FAQs end
+  const nextSectionMatch = remainingHtml.match(/<h2[^>]*>/i);
+  const faqSectionHtml = nextSectionMatch
+    ? remainingHtml.substring(0, nextSectionMatch.index)
+    : remainingHtml;
+
+  // Extract Q&A pairs (h3/h4 as questions, following p tags as answers)
+  const headingRegex = /<(h[34])[^>]*>(.*?)<\/\1>/gi;
+  let questionMatch;
+
+  while ((questionMatch = headingRegex.exec(faqSectionHtml)) !== null) {
+    const question = questionMatch[2].replace(/<[^>]*>/g, '').trim();
+
+    // Find the answer (paragraph(s) following the question)
+    const afterQuestion = faqSectionHtml.substring(questionMatch.index + questionMatch[0].length);
+    const paragraphRegex = /<p[^>]*>(.*?)<\/p>/gi;
+    let answerParts: string[] = [];
+    let pMatch;
+    let lastIndex = 0;
+
+    while ((pMatch = paragraphRegex.exec(afterQuestion)) !== null) {
+      // Stop if we hit another heading
+      const textBefore = afterQuestion.substring(lastIndex, pMatch.index);
+      if (/<h[23456]/i.test(textBefore)) {
+        break;
+      }
+
+      const answerText = pMatch[1].replace(/<[^>]*>/g, '').trim();
+      if (answerText) {
+        answerParts.push(answerText);
+      }
+      lastIndex = pMatch.index + pMatch[0].length;
+
+      // Stop after collecting answer paragraphs if we hit another heading
+      const remaining = afterQuestion.substring(lastIndex);
+      if (/<h[23456]/i.test(remaining.substring(0, 100))) {
+        break;
+      }
+    }
+
+    const answer = answerParts.join(' ');
+
+    if (question && answer) {
+      faqs.push({ question, answer });
+    }
+  }
+
+  return faqs;
+}
+
+/**
+ * Extract video information from HTML content for structured data
+ */
+export function extractVideos(html: string, postTitle: string, postDate: string): VideoItem[] {
+  const videos: VideoItem[] = [];
+
+  // Extract YouTube videos from iframes
+  const youtubeRegex = /<iframe[^>]*src=["'](?:https?:)?\/\/(?:www\.)?(?:youtube\.com\/embed\/|youtu\.be\/)([a-zA-Z0-9_-]+)[^"']*["'][^>]*>[\s\S]*?<\/iframe>/gi;
+  let match;
+
+  while ((match = youtubeRegex.exec(html)) !== null) {
+    const videoId = match[1];
+    const url = `https://www.youtube.com/watch?v=${videoId}`;
+    const embedUrl = `https://www.youtube.com/embed/${videoId}`;
+    const thumbnailUrl = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+
+    videos.push({
+      url,
+      embedUrl,
+      name: postTitle,
+      description: `Video embedded in ${postTitle}`,
+      thumbnailUrl,
+      uploadDate: postDate,
+    });
+  }
+
+  // Extract Vimeo videos
+  const vimeoRegex = /<iframe[^>]*src=["'](?:https?:)?\/\/(?:www\.)?player\.vimeo\.com\/video\/([0-9]+)[^"']*["'][^>]*>[\s\S]*?<\/iframe>/gi;
+
+  while ((match = vimeoRegex.exec(html)) !== null) {
+    const videoId = match[1];
+    const url = `https://vimeo.com/${videoId}`;
+    const embedUrl = `https://player.vimeo.com/video/${videoId}`;
+
+    videos.push({
+      url,
+      embedUrl,
+      name: postTitle,
+      description: `Video embedded in ${postTitle}`,
+      thumbnailUrl: '', // Vimeo thumbnails require API call
+      uploadDate: postDate,
+    });
+  }
+
+  return videos;
 }

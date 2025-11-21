@@ -12,10 +12,58 @@ export const revalidate = 0;
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.sparkonomy.com/"),
-  title: "Blog | Sparkonomy",
-  description: "Read the latest insights, updates, and stories from Sparkonomy - Transforming the creator economy!",
+  title: "Blog | Sparkonomy - Creator Economy Insights & Monetization Tips",
+  description: "Discover the latest insights, tips, and strategies for creators to monetize content, grow their audience, and succeed in the creator economy. Expert guides and resources from Sparkonomy.",
+  keywords: [
+    "creator economy",
+    "content monetization",
+    "creator tips",
+    "passive income",
+    "influencer marketing",
+    "content creation",
+    "digital creators",
+    "Sparkonomy blog",
+  ],
+  authors: [{ name: "Sparkonomy Team" }],
+  creator: "Sparkonomy",
+  publisher: "Sparkonomy",
   alternates: {
     canonical: "https://sparkonomy.com/blogs",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  openGraph: {
+    siteName: "Sparkonomy",
+    title: "Blog | Sparkonomy - Creator Economy Insights",
+    description: "Discover the latest insights, tips, and strategies for creators to monetize content and succeed in the creator economy.",
+    url: "https://sparkonomy.com/blogs",
+    type: "website",
+    locale: "en_US",
+    images: [
+      {
+        url: "https://sparkonomy.com/sparkonomy.png",
+        width: 1200,
+        height: 630,
+        alt: "Sparkonomy Blog",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Blog | Sparkonomy - Creator Economy Insights",
+    description: "Discover the latest insights, tips, and strategies for creators to monetize content and succeed in the creator economy.",
+    images: ["https://sparkonomy.com/sparkonomy.png"],
+    creator: "@sparkonomy",
+    site: "@sparkonomy",
   },
 };
 
@@ -172,8 +220,59 @@ async function HeroSection() {
 }
 
 export default function Home() {
+  // Blog structured data for listing page
+  const blogJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    name: "Sparkonomy Blog",
+    description: "Insights, tips, and strategies for creators to monetize content and succeed in the creator economy.",
+    url: "https://sparkonomy.com/blogs",
+    publisher: {
+      "@type": "Organization",
+      name: "Sparkonomy",
+      url: "https://sparkonomy.com",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://sparkonomy.com/sparkonomy.png",
+      },
+    },
+    inLanguage: "en-US",
+  };
+
+  // Breadcrumb for blog listing
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://sparkonomy.com",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Blog",
+        item: "https://sparkonomy.com/blogs",
+      },
+    ],
+  };
+
   return (
     <main className="min-h-screen relative overflow-hidden">
+      {/* Blog Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogJsonLd) }}
+      />
+
+      {/* Breadcrumb Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+
       {/* Main Section with Background Image */}
       <div className="relative z-10">
         <Suspense fallback={
