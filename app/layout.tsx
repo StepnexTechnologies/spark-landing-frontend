@@ -4,6 +4,7 @@ import {Analytics} from "@vercel/analytics/react";
 import {SpeedInsights} from "@vercel/speed-insights/next";
 import type React from "react";
 import {RootLayoutClient} from "./root-layout-client";
+import Script from "next/script";
 
 const inter = Montserrat({ subsets: ["latin"] });
 
@@ -75,6 +76,22 @@ export default function Layout({
         <meta name="theme-color" content="#000000" />
       </head>
       <body className={`${inter.className} min-h-[100dvh] w-full relative`}>
+      <Script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-87CRRH8FXM"
+          strategy="afterInteractive"
+      />
+
+      <Script id="gtag-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-87CRRH8FXM', {
+              page_path: window.location.pathname,
+            });
+          `}
+      </Script>
         <RootLayoutClient>
           {children}
         </RootLayoutClient>
