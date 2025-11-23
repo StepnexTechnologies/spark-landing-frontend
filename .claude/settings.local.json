@@ -3,7 +3,10 @@
     "allow": [
       "Bash(npm run dev:*)",
       "Bash(npm install:*)",
-      "Bash(mkdir:*)"
+      "Bash(mkdir:*)",
+      "Bash(copy NUL \"c:\\Users\\HP\\Desktop\\client\\spark-landing-frontend\\public\\images\\creator\\earn\\referral-default.png\")",
+      "Bash(\"c:\\Users\\HP\\Desktop\\client\\spark-landing-frontend\\public\\images\\creator\\earn\\referral-default.png\")",
+      "Bash(npm run build:*)"
     ],
     "deny": [],
     "ask": []

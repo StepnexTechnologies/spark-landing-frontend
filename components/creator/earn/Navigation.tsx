@@ -1,5 +1,6 @@
 "use client";
 
+import {Suspense} from "react";
 import {motion} from "framer-motion";
 import Image from "next/image";
 import CTAButton from "./CTAButton";
@@ -24,7 +25,9 @@ export default function Navigation() {
             priority
           />
         </Link>
-        <CTAButton buttonText={"Get Early Access"} />
+        <Suspense fallback={<div className="h-10" />}>
+          <CTAButton buttonText={"Get Early Access"} />
+        </Suspense>
 
       </div>
     </motion.nav>

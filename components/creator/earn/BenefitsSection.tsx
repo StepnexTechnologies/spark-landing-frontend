@@ -1,5 +1,6 @@
 "use client";
 
+import {Suspense} from "react";
 import {motion} from "framer-motion";
 import BenefitCard from "./BenefitCard";
 import CTAButton from "./CTAButton";
@@ -63,7 +64,9 @@ export default function BenefitsSection() {
           transition={{ duration: 0.6 }}
           className="flex justify-center"
         >
-            <CTAButton buttonText={"Don't Wait Try For Free"}/>
+            <Suspense fallback={null}>
+              <CTAButton buttonText={"Don't Wait Try For Free"}/>
+            </Suspense>
         </motion.div>
       </div>
     </section>

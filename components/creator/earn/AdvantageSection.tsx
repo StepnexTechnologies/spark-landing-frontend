@@ -1,5 +1,6 @@
 "use client";
 
+import {Suspense} from "react";
 import {motion} from "framer-motion";
 import AdvantageFeature from "./AdvantageFeature";
 import CTAButton from "./CTAButton";
@@ -77,7 +78,9 @@ export default function AdvantageSection() {
           transition={{ duration: 0.6 }}
           className="flex justify-center"
         >
-          <CTAButton buttonText={"Get Paid Faster"}/>
+          <Suspense fallback={null}>
+            <CTAButton buttonText={"Get Paid Faster"}/>
+          </Suspense>
         </motion.div>
       </div>
     </section>

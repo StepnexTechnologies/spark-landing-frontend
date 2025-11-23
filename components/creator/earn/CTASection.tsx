@@ -1,5 +1,6 @@
 "use client";
 
+import {Suspense} from "react";
 import {motion} from "framer-motion";
 import CTAButton from "./CTAButton";
 
@@ -22,7 +23,9 @@ export default function CTASection() {
             </h2>
 
             {/* CTA Button */}
-              <CTAButton buttonText={"Make your first Invoice Now"}/>
+              <Suspense fallback={null}>
+                <CTAButton buttonText={"Make your first Invoice Now"}/>
+              </Suspense>
           </div>
         </div>
       </motion.div>

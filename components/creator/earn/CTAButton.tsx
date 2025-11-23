@@ -1,5 +1,8 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
 interface CTAButtonProps {
     buttonText?: string;
@@ -8,10 +11,18 @@ interface CTAButtonProps {
 }
 
 const CTAButton = ({buttonText = "Send Invoices For Free", className, navigateTo = "https://beta.creator.sparkonomy.com/auth?service=earn"}: CTAButtonProps) => {
+    const searchParams = useSearchParams();
+    const referralCode = searchParams.get("ref");
+
+    // Append referral code to the URL if present
+    const finalUrl = referralCode
+        ? `${navigateTo}${navigateTo.includes('?') ? '&' : '?'}ref=${referralCode}`
+        : navigateTo;
+
     return (
         <Link
             className={`all-[unset] box-border inline-flex items-start p-[1px] relative flex-col rounded-[32px] gap-2.5 border-[none] overflow-hidden ${className}`}
-            href={navigateTo}
+            href={finalUrl}
         >
             <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#ffffff_0%,rgba(221,42,123,1)_10%,rgba(151,71,255,1)_50%,rgba(221,42,123,0.5)_90%,#ffffff_100%)]" />
             <div
