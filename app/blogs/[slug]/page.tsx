@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
 import { getPostBySlug, getFeaturedImageUrl, getAuthorName, formatDate, stripHtml, getReadingTime, getPosts } from "@/lib/wordpress-improved";
 import { removeWordPressTOC, extractHeadings, addHeadingIds, removeFAQSection, extractFAQs, extractVideos } from "@/lib/content-processor";
 import ShareButtons from "@/components/blog/ShareButtons";
@@ -381,7 +382,12 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 </div>
               )}
               <div className="flex-1">
-                <p className="text-base md:text-xl lg:text-2xl font-semibold text-[#6B7280]">{author}</p>
+                <Link
+                  href={`/blogs/author/${post._embedded?.author?.[0]?.slug || ''}`}
+                  className="text-base md:text-xl lg:text-2xl font-semibold text-[#6B7280] hover:text-purple-600 transition-colors"
+                >
+                  {author}
+                </Link>
                 <p className="text-xs md:text-sm text-[#415CE7] font-normal italic">
                   Technical Writer | Sparkonomy
                 </p>
@@ -486,6 +492,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               role="Technical Writer | Sparkonomy"
               bio="We are building AI agents for the agentic web, and our main goal is to build trust in AI agents for handling business operations. Being able to define precise schemas and trust the output is key to our production systems. Structured Outputs have reduced API calls by up to 6x in some workflows and completely eliminated the broken JSON responses that used to require extra validation checks."
               avatarUrl={post._embedded?.author?.[0]?.avatar_urls?.["96"] || ""}
+              authorSlug={post._embedded?.author?.[0]?.slug}
               previousCompanies={["Google", "Netflix", "Spotify"]}
               socialLinks={{
                 linkedin: "https://linkedin.com",
