@@ -1,6 +1,6 @@
 "use client";
 
-import {useEffect, useState} from "react";
+import {Suspense, useEffect, useState} from "react";
 import {AnimatePresence, motion} from "framer-motion";
 import CTAButton from "./CTAButton";
 
@@ -53,10 +53,12 @@ export default function FloatingCTA() {
           }}
           className="fixed bottom-4 left-0 right-0 z-50 flex justify-center items-center"
         >
-          <CTAButton
-            buttonText="Try For Free"
-            className="shadow-[0_8px_32px_rgba(221,42,123,0.3)]"
-          />
+          <Suspense fallback={null}>
+            <CTAButton
+              buttonText="Try For Free"
+              className="shadow-[0_8px_32px_rgba(221,42,123,0.3)]"
+            />
+          </Suspense>
         </motion.div>
       )}
     </AnimatePresence>

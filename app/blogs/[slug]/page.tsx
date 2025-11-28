@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
 import { getPostBySlug, getFeaturedImageUrl, getAuthorName, formatDate, stripHtml, getReadingTime, getPosts } from "@/lib/wordpress-improved";
-import { removeWordPressTOC, extractHeadings, addHeadingIds, removeFAQSection } from "@/lib/content-processor";
+import { removeWordPressTOC, extractHeadings, addHeadingIds, removeFAQSection, extractFAQs, extractVideos } from "@/lib/content-processor";
 import ShareButtons from "@/components/blog/ShareButtons";
 import Breadcrumb from "@/components/blog/Breadcrumb";
 import CustomTableOfContents from "@/components/blog/CustomTableOfContents";
@@ -45,14 +46,19 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
   const canonical = post.yoast_head_json?.canonical || url;
   const ogImage = post.yoast_head_json?.og_image?.[0]?.url || featuredImage || "https://sparkonomy.com/sparkonomy.png";
 
+  // Extract categories and tags for better SEO
+  const categories = post._embedded?.["wp:term"]?.[0]?.map((cat) => cat.name) || [];
+  const tags = post._embedded?.["wp:term"]?.[1]?.map((tag) => tag.name) || [];
+
   return {
     metadataBase: new URL("https://www.sparkonomy.com/"),
     title: seoTitle,
     description: seoDescription,
-    keywords: post._embedded?.["wp:term"]?.[1]?.map((tag) => tag.name) || [],
-    authors: [{ name: author }],
+    keywords: [...tags, ...categories, "Sparkonomy", "creator economy", "content monetization"],
+    authors: [{ name: author, url: post._embedded?.author?.[0]?.link }],
     creator: author,
     publisher: "Sparkonomy",
+    category: categories[0] || "Blog",
     alternates: {
       canonical: canonical,
     },
@@ -76,6 +82,8 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
       publishedTime: publishedTime,
       modifiedTime: modifiedTime,
       authors: [author],
+      tags: tags,
+      section: categories[0] || "Blog",
       images: [
         {
           url: ogImage,
@@ -93,6 +101,13 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
       images: [post.yoast_head_json?.twitter_image || ogImage],
       creator: post.yoast_head_json?.twitter_creator || "@sparkonomy",
       site: post.yoast_head_json?.twitter_site || "@sparkonomy",
+    },
+    other: {
+      "article:published_time": publishedTime,
+      "article:modified_time": modifiedTime,
+      "article:author": author,
+      "article:section": categories[0] || "Blog",
+      "article:tag": tags.join(", "),
     },
   };
 }
@@ -133,42 +148,186 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       date: formatDate(p.date),
     }));
 
-  // Generate JSON-LD structured data for SEO
-  const jsonLd = {
+  // Extract categories and tags for JSON-LD
+  const categories = post._embedded?.["wp:term"]?.[0]?.map((cat) => cat.name) || [];
+  const tags = post._embedded?.["wp:term"]?.[1]?.map((tag) => tag.name) || [];
+
+  // Extract FAQs and Videos for structured data
+  const faqItems = extractFAQs(post.content.rendered);
+  const videoItems = extractVideos(post.content.rendered, stripHtml(post.title.rendered), post.date);
+
+  // Generate comprehensive JSON-LD structured data for SEO
+  const articleJsonLd = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     headline: stripHtml(post.title.rendered),
     description: stripHtml(post.excerpt.rendered),
-    image: featuredImage || "https://sparkonomy.com/sparkonomy.png",
+    image: {
+      "@type": "ImageObject",
+      url: featuredImage || "https://sparkonomy.com/sparkonomy.png",
+      width: 1200,
+      height: 630,
+    },
     datePublished: post.date,
     dateModified: post.modified,
     author: {
       "@type": "Person",
       name: author,
-      url: post._embedded?.author?.[0]?.link,
+      url: post._embedded?.author?.[0]?.link || "https://sparkonomy.com",
+      jobTitle: "Technical Writer",
+      worksFor: {
+        "@type": "Organization",
+        name: "Sparkonomy",
+      },
     },
     publisher: {
       "@type": "Organization",
       name: "Sparkonomy",
+      url: "https://sparkonomy.com",
       logo: {
         "@type": "ImageObject",
         url: "https://sparkonomy.com/sparkonomy.png",
+        width: 600,
+        height: 60,
       },
     },
     mainEntityOfPage: {
       "@type": "WebPage",
       "@id": `https://sparkonomy.com/blogs/${post.slug}`,
     },
+    articleSection: categories[0] || "Blog",
+    keywords: tags.join(", "),
+    wordCount: post.content.rendered.split(/\s+/).length,
+    timeRequired: `PT${readingTime}M`,
+    inLanguage: "en-US",
   };
+
+  // Breadcrumb structured data
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://sparkonomy.com",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Blog",
+        item: "https://sparkonomy.com/blogs",
+      },
+      ...(categoryName
+        ? [
+            {
+              "@type": "ListItem",
+              position: 3,
+              name: categoryName,
+              item: `https://sparkonomy.com/blogs/${categorySlug}`,
+            },
+            {
+              "@type": "ListItem",
+              position: 4,
+              name: stripHtml(post.title.rendered),
+              item: `https://sparkonomy.com/blogs/${post.slug}`,
+            },
+          ]
+        : [
+            {
+              "@type": "ListItem",
+              position: 3,
+              name: stripHtml(post.title.rendered),
+              item: `https://sparkonomy.com/blogs/${post.slug}`,
+            },
+          ]),
+    ],
+  };
+
+  // Author/Person structured data
+  const authorJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: author,
+    url: post._embedded?.author?.[0]?.link || "https://sparkonomy.com",
+    image: post._embedded?.author?.[0]?.avatar_urls?.["96"] || "",
+    jobTitle: "Technical Writer",
+    worksFor: {
+      "@type": "Organization",
+      name: "Sparkonomy",
+      url: "https://sparkonomy.com",
+    },
+    sameAs: [
+      "https://www.linkedin.com",
+      "https://www.instagram.com",
+      "https://www.youtube.com",
+      "https://twitter.com",
+    ],
+  };
+
+  // FAQ structured data (if FAQs exist)
+  const faqJsonLd = faqItems.length > 0 ? {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqItems.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.answer,
+      },
+    })),
+  } : null;
+
+  // Video structured data (if videos exist)
+  const videoJsonLd = videoItems.length > 0 ? videoItems.map((video) => ({
+    "@context": "https://schema.org",
+    "@type": "VideoObject",
+    name: video.name,
+    description: video.description,
+    thumbnailUrl: video.thumbnailUrl,
+    uploadDate: video.uploadDate,
+    contentUrl: video.url,
+    embedUrl: video.embedUrl,
+  })) : null;
 
   return (
     <>
-     
+      {/* Article Structured Data */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
       />
 
+      {/* Breadcrumb Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+
+      {/* Author/Person Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(authorJsonLd) }}
+      />
+
+      {/* FAQ Structured Data (if FAQs exist) */}
+      {faqJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        />
+      )}
+
+      {/* Video Structured Data (if videos exist) */}
+      {videoJsonLd && videoJsonLd.map((video, index) => (
+        <script
+          key={index}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(video) }}
+        />
+      ))}
 
       <link
         rel="stylesheet"
@@ -223,7 +382,12 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 </div>
               )}
               <div className="flex-1">
-                <p className="text-base md:text-xl lg:text-2xl font-semibold text-[#6B7280]">{author}</p>
+                <Link
+                  href={`/blogs/author/${post._embedded?.author?.[0]?.slug || ''}`}
+                  className="text-base md:text-xl lg:text-2xl font-semibold text-[#6B7280] hover:text-purple-600 transition-colors"
+                >
+                  {author}
+                </Link>
                 <p className="text-xs md:text-sm text-[#415CE7] font-normal italic">
                   Technical Writer | Sparkonomy
                 </p>
@@ -314,6 +478,16 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               authorRole="Technical Writer | Sparkonomy"
               authorAvatar={post._embedded?.author?.[0]?.avatar_urls?.["96"] || ""}
             />
+            <QuoteAuthorInjector
+              authorName={author}
+              authorRole="Technical Writer | Sparkonomy"
+              authorAvatar={post._embedded?.author?.[0]?.avatar_urls?.["96"] || ""}
+            />
+          </div>
+
+          {/* FAQ Section */}
+          <div className="relative z-10">
+            <FAQSection />
           </div>
 
           {/* FAQ Section */}
@@ -328,6 +502,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               role="Technical Writer | Sparkonomy"
               bio="We are building AI agents for the agentic web, and our main goal is to build trust in AI agents for handling business operations. Being able to define precise schemas and trust the output is key to our production systems. Structured Outputs have reduced API calls by up to 6x in some workflows and completely eliminated the broken JSON responses that used to require extra validation checks."
               avatarUrl={post._embedded?.author?.[0]?.avatar_urls?.["96"] || ""}
+              authorSlug={post._embedded?.author?.[0]?.slug}
               previousCompanies={["Google", "Netflix", "Spotify"]}
               socialLinks={{
                 linkedin: "https://linkedin.com",

@@ -1,6 +1,6 @@
 "use client";
 
-import {useEffect, useState} from "react";
+import {Suspense, useEffect, useState} from "react";
 import {AnimatePresence, motion} from "framer-motion";
 import Navigation from "@/components/creator/earn/Navigation";
 import HeroSection from "@/components/creator/earn/HeroSection";
@@ -14,6 +14,7 @@ import CTASection from "@/components/creator/earn/CTASection";
 import EarnFooter from "@/components/creator/earn/EarnFooter";
 import StoriesContainer from "@/components/creator/earn/stories/StoriesContainer";
 import FloatingCTA from "@/components/creator/earn/FloatingCTA";
+import ReferralBanner from "@/components/creator/earn/ReferralBanner";
 
 export default function CreatorEarnPage() {
   const [showStories, setShowStories] = useState(false);
@@ -77,6 +78,9 @@ export default function CreatorEarnPage() {
             {/* Content */}
             <div className="relative z-10">
               <Navigation />
+              <Suspense fallback={null}>
+                <ReferralBanner />
+              </Suspense>
               <HeroSection />
               <ValueProposition />
               <BenefitsSection />

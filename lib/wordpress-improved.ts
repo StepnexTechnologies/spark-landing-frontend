@@ -3,7 +3,7 @@
  * Based on next-wp template with better error handling and caching
  */
 
-import type { WordPressPost, WordPressCategory, WordPressTag } from "@/types/wordpress";
+import type { WordPressPost, WordPressCategory, WordPressTag, WordPressAuthor } from "@/types/wordpress";
 
 const WORDPRESS_URL = process.env.NEXT_PUBLIC_WORDPRESS_API_URL || "https://blog.sparkonomy.com/wp-json/wp/v2";
 
@@ -360,4 +360,89 @@ export function getPostTags(post: WordPressPost): string[] {
     return [];
   }
   return post._embedded["wp:term"][1].map(term => term.name);
+}
+
+// ============================================================================
+// AUTHOR FUNCTIONS
+// ============================================================================
+
+/**
+ * Get author by ID
+ */
+export async function getAuthorById(id: number): Promise<WordPressAuthor | null> {
+  try {
+    return await wordpressFetch<WordPressAuthor>(
+      `/users/${id}`,
+      {},
+      ['wordpress', 'authors', `author-${id}`]
+    );
+  } catch (error) {
+    console.error(`Error fetching author by ID (${id}):`, error);
+    return null;
+  }
+}
+
+/**
+ * Get author by slug
+ */
+export async function getAuthorBySlug(slug: string): Promise<WordPressAuthor | null> {
+  try {
+    const authors = await wordpressFetch<WordPressAuthor[]>(
+      `/users?slug=${slug}`,
+      {},
+      ['wordpress', 'authors', `author-${slug}`]
+    );
+    return authors[0] || null;
+  } catch (error) {
+    console.error(`Error fetching author by slug (${slug}):`, error);
+    return null;
+  }
+}
+
+/**
+ * Get all authors
+ */
+export async function getAuthors(): Promise<WordPressAuthor[]> {
+  try {
+    return await wordpressFetch<WordPressAuthor[]>(
+      '/users?per_page=100',
+      {},
+      ['wordpress', 'authors']
+    );
+  } catch (error) {
+    console.error('Error fetching authors:', error);
+    return [];
+  }
+}
+
+/**
+ * Get posts by author with pagination
+ */
+export async function getPostsByAuthor(
+  authorId: number,
+  page: number = 1,
+  perPage: number = 10
+): Promise<WordPressResponse<WordPressPost[]>> {
+  return wordpressFetchWithPagination<WordPressPost[]>(
+    `/posts?author=${authorId}&_embed&page=${page}&per_page=${perPage}`,
+    {},
+    ['wordpress', 'posts', `author-${authorId}`]
+  );
+}
+
+/**
+ * Get all author slugs (useful for static generation)
+ */
+export async function getAllAuthorSlugs(): Promise<string[]> {
+  try {
+    const authors = await wordpressFetch<WordPressAuthor[]>(
+      '/users?per_page=100&_fields=slug',
+      {},
+      ['wordpress', 'authors']
+    );
+    return authors.map(author => author.slug);
+  } catch (error) {
+    console.error('Error fetching all author slugs:', error);
+    return [];
+  }
 }

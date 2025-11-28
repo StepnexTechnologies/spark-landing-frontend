@@ -1,5 +1,6 @@
 "use client";
 
+import {Suspense} from "react";
 import {motion} from "framer-motion";
 import FAQItem from "./FAQItem";
 import CTAButton from "./CTAButton";
@@ -38,7 +39,9 @@ export default function FAQSection() {
 
           {/* View All Button */}
           <div className="flex justify-center">
-              <CTAButton buttonText={"View All"} navigateTo={"/creator/earn/faqs"}/>
+              <Suspense fallback={null}>
+                <CTAButton buttonText={"View All"} navigateTo={"/creator/earn/faqs"}/>
+              </Suspense>
           </div>
         </div>
       </motion.div>
