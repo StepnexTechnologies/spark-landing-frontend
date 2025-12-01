@@ -478,6 +478,16 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               authorRole="Technical Writer | Sparkonomy"
               authorAvatar={post._embedded?.author?.[0]?.avatar_urls?.["96"] || ""}
             />
+            <QuoteAuthorInjector
+              authorName={author}
+              authorRole="Technical Writer | Sparkonomy"
+              authorAvatar={post._embedded?.author?.[0]?.avatar_urls?.["96"] || ""}
+            />
+          </div>
+
+          {/* FAQ Section */}
+          <div className="relative z-10">
+            <FAQSection />
           </div>
 
           {/* FAQ Section */}
