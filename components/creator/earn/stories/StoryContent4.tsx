@@ -1,7 +1,7 @@
 "use client";
 
 import {useEffect, useState} from "react";
-import {BadgeCheck, Heart, Send, XIcon} from "lucide-react";
+import {BadgeCheck, Heart, Send} from "lucide-react";
 import AnimatedEmojis from "./AnimatedEmojis";
 import Image from "next/image";
 import FloatingHearts from "./FloatingHearts";
@@ -36,9 +36,8 @@ export default function StoryContent4() {
             <p className="text-white/70 text-[11px]">Sponsored</p>
           </div>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 mr-10">
           <button className="text-white">⋯</button>
-          <button className="text-white text-3xl"><XIcon/></button>
         </div>
       </div>
 

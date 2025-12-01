@@ -10,26 +10,27 @@ interface ReferrerInfo {
   profile_picture_url: string;
 }
 
-const DEFAULT_IMAGE = "/images/creator/earn/referal-default.png";
-const DEFAULT_NAME = "Chulbuli";
-
 export default function ReferralBanner() {
   const searchParams = useSearchParams();
   const referralCode = searchParams.get("ref");
 
   const [referrerInfo, setReferrerInfo] = useState<ReferrerInfo | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [hasReferral, setHasReferral] = useState(false);
+  const [hasValidReferral, setHasValidReferral] = useState(false);
 
   useEffect(() => {
     if (referralCode) {
-      setHasReferral(true);
+      setIsLoading(true);
       fetchReferrerInfo(referralCode);
     }
   }, [referralCode]);
 
+  // Don't render anything if there's no referral code
+  if (!referralCode) {
+    return null;
+  }
+
   const fetchReferrerInfo = async (code: string) => {
-    setIsLoading(true);
     try {
       const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "https://dev.api.sparkonomy.com";
       const response = await fetch(`${apiBaseUrl}/api/v1/creator/referrals/info/${code}`);
@@ -37,39 +38,26 @@ export default function ReferralBanner() {
       if (response.ok) {
         const data: ReferrerInfo = await response.json();
         setReferrerInfo(data);
+        setHasValidReferral(true);
       } else {
-        // If API fails, show default content
-        setHasReferral(false);
+        // If API fails, hide the section
+        setHasValidReferral(false);
       }
     } catch (error) {
       console.error("Failed to fetch referrer info:", error);
-      setHasReferral(false);
+      setHasValidReferral(false);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const displayName = hasReferral && referrerInfo ? referrerInfo.first_name : DEFAULT_NAME;
-  const displayImage = hasReferral && referrerInfo?.profile_picture_url ? referrerInfo.profile_picture_url : DEFAULT_IMAGE;
+  // Don't render if the referral code is invalid
+  if (!isLoading && !hasValidReferral) {
+    return null;
+  }
 
-  // Text based on whether we have a valid referral
-  const messageText = hasReferral && referrerInfo
-    ? (
-      <div className="font-semibold text-2xl md:text-3xl lg:text-4xl italic">
-        <span>"{displayName}</span> says{" "}
-        <span>this is the easiest app for creator work — and wants you to try it.</span>
-        <br />
-        <span>Sign Up today!"</span>
-      </div>
-    )
-    : (
-      <div className="font-semibold text-2xl md:text-3xl lg:text-4xl italic">
-        <span>"{DEFAULT_NAME}</span> wants you to get{" "}
-        <span>4 free invoices every month, for life.</span> And, try free Pro access for a month on us.
-        <br />
-        <span>Sign Up today!"</span>
-      </div>
-    );
+  const displayName = referrerInfo?.first_name || "";
+  const displayImage = referrerInfo?.profile_picture_url || "";
 
   if (isLoading) {
     return (
@@ -118,7 +106,12 @@ export default function ReferralBanner() {
 
       {/* Message Text */}
       <div className="text-white max-w-[350px] md:max-w-[550px]">
-        {messageText}
+        <div className="font-semibold text-2xl md:text-3xl lg:text-4xl italic">
+          <span>"{displayName}</span>{" "}
+          <span>wants you to get 4 free invoices every month, for life. And try free Pro access for a month.</span>
+          <br />
+          <span>Sign Up today!"</span>
+        </div>
       </div>
     </motion.div>
   );
