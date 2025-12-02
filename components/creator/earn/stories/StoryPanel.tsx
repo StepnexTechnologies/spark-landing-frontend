@@ -4,6 +4,7 @@ import {motion} from "framer-motion";
 import {StoryPanelProps} from "./types";
 // import StoryProgressBar from "./StoryProgressBar";
 import {useEffect, useRef} from "react";
+import {XIcon} from "lucide-react";
 
 export default function StoryPanel({
   currentIndex,
@@ -50,6 +51,11 @@ export default function StoryPanel({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [onNext, onPrevious, onClose]);
 
+  const handleCloseClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onClose();
+  };
+
   return (
     <motion.div
       ref={containerRef}
@@ -66,6 +72,16 @@ export default function StoryPanel({
       transition={{ duration: 0.3 }}
     >
       {children}
+      {/* Close button overlay - positioned to match the X icon in story content */}
+      <button
+        className="absolute top-[41px] right-3 z-50 text-white text-3xl p-2"
+        onClick={handleCloseClick}
+        onMouseDown={(e) => e.stopPropagation()}
+        onTouchStart={(e) => e.stopPropagation()}
+        aria-label="Close stories"
+      >
+        <XIcon />
+      </button>
     </motion.div>
   );
 }
