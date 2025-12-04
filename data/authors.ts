@@ -103,11 +103,11 @@ export interface AuthorEntry {
 // Centralized authors data
 export const authors: AuthorEntry[] = [
   {
-    id: "guneet_singh",
-    slug: "guneet-singh",
-    name: "Guneet Singh",
+    id: "gunnet_singh",
+    slug: "gunnet-singh",
+    name: "Gunnet Singh",
     role: "Founder & Chief Hustler, Sparkonomy",
-    avatarUrl: "/authors/guneet-singh.jpg",
+    avatarUrl: "/authors/ProfilePicture_gunnet.png",
     shortBio: "I am a tech veteran and strategist based in Singapore. After 20 years leading consumer tech businesses at Google and Microsoft, I am now building the AI infrastructure to protect and empower the next generation of entrepreneurs: the creators.",
 
     socialLinks: {
@@ -117,9 +117,9 @@ export const authors: AuthorEntry[] = [
     },
 
     previousCompanies: [
-      { name: "Google", logo: "/logos/google.svg" },
-      { name: "Microsoft", logo: "/logos/microsoft.svg" },
-      { name: "Samsung", logo: "/logos/samsung.svg" },
+      { name: "Google", logo: "/authors/logos/Google.png" },
+      { name: "Microsoft", logo: "/authors/logos/Microsoft.png" },
+      { name: "Samsung", logo: "/authors/logos/Samsung.png" },
     ],
 
     storyTitle: "From Big Tech to the Creator Economy",
@@ -134,13 +134,13 @@ export const authors: AuthorEntry[] = [
       "That is why I built Sparkonomy.",
       "I wanted to tilt my knowledge of the platform ecosystems and the \"big business\" playbook to help the little guy. We are using AI not to replace the creator, but to handle the friction—the contracts, the payments, the operations—so this profession can thrive without the burnout.",
     ],
-    signatureImage: "/authors/guneet-signature.png",
+    signatureImage: "/authors/Gunnet_singh_signature.png",
 
-    aboutTitle: "About Guneet",
+    aboutTitle: "About Gunnet",
     aboutContent: [
-      "Guneet is the Founder and CEO of Sparkonomy, a startup dedicated to building financial and operational infrastructure for the creator economy. Based in Singapore, he combines deep industry expertise with a passion for AI productivity to solve the systemic challenges creators face—from payment friction to sustainable scaling.",
-      "Prior to founding Sparkonomy, Guneet spent over 20 years leading billion-dollar portfolios in the Consumer Tech and Media sectors. He held key leadership positions at Google, Microsoft, and Samsung, driving navigating the intersection of consumer behavior and emerging technology.",
-      "A firm believer in the \"democratization of entrepreneurship,\" Guneet advocates for a future where human creativity is the ultimate economic engine. He actively mentors early-stage startups and writes about the impact of AI on human productivity and the shifting landscape of work.",
+      "Gunnet is the Founder and CEO of Sparkonomy, a startup dedicated to building financial and operational infrastructure for the creator economy. Based in Singapore, he combines deep industry expertise with a passion for AI productivity to solve the systemic challenges creators face—from payment friction to sustainable scaling.",
+      "Prior to founding Sparkonomy, Gunnet spent over 20 years leading billion-dollar portfolios in the Consumer Tech and Media sectors. He held key leadership positions at Google, Microsoft, and Samsung, driving navigating the intersection of consumer behavior and emerging technology.",
+      "A firm believer in the \"democratization of entrepreneurship,\" Gunnet advocates for a future where human creativity is the ultimate economic engine. He actively mentors early-stage startups and writes about the impact of AI on human productivity and the shifting landscape of work.",
     ],
 
     careerHighlights: [
@@ -189,50 +189,9 @@ export const authors: AuthorEntry[] = [
       },
     ],
 
-    featuredArticles: [
-      {
-        id: "fa1",
-        title: "Best Payment method for Creators",
-        description: "Everything you need to know about taxes",
-        imageSrc: "/blog/payment-methods.jpg",
-        date: "September 2025",
-        readingTime: "8 min read",
-        href: "/blogs/best-payment-method-for-creators",
-      },
-      {
-        id: "fa2",
-        title: "How to Scale Your Creator Business",
-        description: "Everything you need to know about scaling",
-        imageSrc: "/blog/scale-business.jpg",
-        date: "September 2025",
-        readingTime: "6 min read",
-        href: "/blogs/how-to-scale-creator-business",
-      },
-    ],
-
-    recentArticles: [
-      {
-        id: "ra1",
-        title: "Understanding Creator Payment Terms",
-        date: "Nov 18, 2025",
-        imageSrc: "/blog/payment-terms.jpg",
-        href: "/blogs/understanding-creator-payment-terms",
-      },
-      {
-        id: "ra2",
-        title: "Invoice Best Practices for Instagram Creators",
-        date: "Nov 18, 2025",
-        imageSrc: "/blog/invoice-practices.jpg",
-        href: "/blogs/invoice-best-practices-instagram",
-      },
-      {
-        id: "ra3",
-        title: "International Payment Methods Compared",
-        date: "Nov 18, 2025",
-        imageSrc: "/blog/international-payments.jpg",
-        href: "/blogs/international-payment-methods-compared",
-      },
-    ],
+    // Articles fetched from WordPress - no hardcoded articles
+    featuredArticles: [],
+    recentArticles: [],
 
     areasOfExpertise: [
       "Creator Economy",

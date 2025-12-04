@@ -49,27 +49,22 @@ export default function ReferralBanner() {
     }
   };
 
-  const displayName = hasReferral && referrerInfo ? referrerInfo.first_name : DEFAULT_NAME;
-  const displayImage = hasReferral && referrerInfo?.profile_picture_url ? referrerInfo.profile_picture_url : DEFAULT_IMAGE;
+  // Don't render anything if there's no referral code in URL
+  if (!referralCode) {
+    return null;
+  }
 
-  // Text based on whether we have a valid referral
-  const messageText = hasReferral && referrerInfo
-    ? (
-      <div className="font-semibold text-2xl md:text-3xl lg:text-4xl italic">
-        <span>"{displayName}</span> says{" "}
-        <span>this is the easiest app for creator work — and wants you to try it.</span>
-        <br />
-        <span>Sign Up today!"</span>
-      </div>
-    )
-    : (
-      <div className="font-semibold text-2xl md:text-3xl lg:text-4xl italic">
-        <span>"{DEFAULT_NAME}</span> wants you to get{" "}
-        <span>4 free invoices every month, for life.</span> And, try free Pro access for a month on us.
-        <br />
-        <span>Sign Up today!"</span>
-      </div>
-    );
+  const displayName = referrerInfo?.first_name || DEFAULT_NAME;
+  const hasProfileImage = !!referrerInfo?.profile_picture_url;
+
+  const messageText = (
+    <div className="font-semibold text-2xl md:text-3xl lg:text-4xl italic">
+      <span>"{displayName}</span> says{" "}
+      <span>this is the easiest app for creator work — and wants you to try it.</span>
+      <br />
+      <span>Sign Up today!"</span>
+    </div>
+  );
 
   if (isLoading) {
     return (
@@ -100,21 +95,23 @@ export default function ReferralBanner() {
       transition={{ duration: 0.6 }}
       className="flex flex-col items-center text-center px-4 py-6"
     >
-      {/* Profile Image with gradient border */}
-      <div className="relative mb-4">
-        <div className="w-[84px] h-[84px] md:w-[140px] md:h-[140px] rounded-full ">
-          <div className="w-full h-full rounded-full overflow-hidden">
-            <Image
-              src={displayImage}
-              alt={`${displayName}'s profile`}
-              width={140}
-              height={140}
-              className="w-full h-full object-cover"
-              unoptimized={displayImage.startsWith("http")}
-            />
+      {/* Profile Image - only show if API returns an image */}
+      {hasProfileImage && (
+        <div className="relative mb-4">
+          <div className="w-[84px] h-[84px] md:w-[140px] md:h-[140px] rounded-full ">
+            <div className="w-full h-full rounded-full overflow-hidden">
+              <Image
+                src={referrerInfo!.profile_picture_url}
+                alt={`${displayName}'s profile`}
+                width={140}
+                height={140}
+                className="w-full h-full object-cover"
+                unoptimized
+              />
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
       {/* Message Text */}
       <div className="text-white max-w-[350px] md:max-w-[550px]">

@@ -34,16 +34,21 @@ export default function EarnFooter() {
           </div>
 
           {/* Footer Links */}
-          <div className="flex items-center justify-center gap-1 text-gray-500 text-xs">
-            <Link href="/legal/terms" className="hover:text-white transition-colors">
-              Terms & Conditions
-            </Link>
-            <span>|</span>
-            <Link href="/legal/privacy-policy" className="hover:text-white transition-colors">
-              Privacy Policy
-            </Link>
-            <span>|</span>
-            <span>©All right reserved.</span>
+          <div className="flex flex-col items-center gap-1 text-gray-500 text-xs">
+            <div className="flex items-center justify-center gap-1">
+              <Link href="/legal/terms" className="hover:text-white transition-colors">
+                Terms & Conditions
+              </Link>
+              <span>|</span>
+              <Link href="/legal/privacy-policy" className="hover:text-white transition-colors">
+                Privacy Policy
+              </Link>
+              <span>|</span>
+              <Link href="/legal/refund-policy" className="hover:text-white transition-colors">
+                Refund Policy
+              </Link>
+            </div>
+            <span>©All rights reserved.</span>
           </div>
         </div>
       </motion.div>
