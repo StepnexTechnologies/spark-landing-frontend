@@ -8,6 +8,7 @@ import {
   RecentArticle,
 } from "@/data/authors";
 import {
+  getPosts,
   getPostsByAuthor,
   getFeaturedImageUrl,
   formatDate,
@@ -141,6 +142,24 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
       console.error("Error fetching WordPress posts for author:", error);
       // Fall back to hardcoded articles if fetch fails
     }
+  }
+
+  // Fetch latest 3 posts from WordPress for Recent Articles section (for all authors)
+  try {
+    const { data: latestPosts } = await getPosts(1, 3);
+
+    if (latestPosts.length > 0) {
+      recentArticles = latestPosts.map((post) => ({
+        id: String(post.id),
+        title: stripHtml(post.title.rendered),
+        date: formatDate(post.date),
+        imageSrc: getFeaturedImageUrl(post) || "/blog/default-thumbnail.jpg",
+        href: `/blogs/${post.slug}`,
+      }));
+    }
+  } catch (error) {
+    console.error("Error fetching latest WordPress posts:", error);
+    // Fall back to hardcoded articles if fetch fails
   }
 
   // Build social links array for structured data

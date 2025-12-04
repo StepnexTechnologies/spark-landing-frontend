@@ -6,7 +6,8 @@
       "Bash(mkdir:*)",
       "Bash(xargs ls:*)",
       "Bash(cat:*)",
-      "Bash(npx tsc:*)"
+      "Bash(npx tsc:*)",
+      "Bash(grep:*)"
     ],
     "deny": [],
     "ask": []
