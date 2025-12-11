@@ -263,7 +263,7 @@ const AboutPage = () => {
                   hello@sparkonomy.com
                 </a>{" "}
                 or call us at{" "}
-                <span className="text-purple-400 select-text">+65 91455382 | +91 9910772075</span>
+                <span className="text-purple-400 select-text">+91 9910772075</span>
               </p>
               
               <div className="flex items-start space-x-3">
