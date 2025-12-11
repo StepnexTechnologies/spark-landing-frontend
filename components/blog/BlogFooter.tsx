@@ -24,17 +24,22 @@ export default function BlogFooter() {
           </p>
 
           {/* Links */}
-          <div className="flex flex-wrap justify-center items-center gap-2 md:gap-3 text-xs md:text-sm lg:text-base font-normal text-gray-600">
-            <Link href="legal/terms" className="hover:text-purple-600 transition-colors whitespace-nowrap">
-              Terms & Conditions
-            </Link>
-            <span className="text-gray-400">|</span>
-            <Link href="legal/privacy-policy" className="hover:text-purple-600 transition-colors whitespace-nowrap">
-              Privacy Policy
-            </Link>
-            <span className="text-gray-400">|</span>
-            <span className="text-gray-600 whitespace-nowrap">
-              ©All right reserved.
+          <div className="flex flex-col items-center gap-1">
+            <div className="flex flex-wrap justify-center items-center gap-2 md:gap-3 text-xs md:text-sm lg:text-base font-normal text-gray-600">
+              <Link href="/legal/terms" className="hover:text-purple-600 transition-colors whitespace-nowrap">
+                Terms & Conditions
+              </Link>
+              <span className="text-gray-400">|</span>
+              <Link href="/legal/privacy-policy" className="hover:text-purple-600 transition-colors whitespace-nowrap">
+                Privacy Policy
+              </Link>
+              <span className="text-gray-400">|</span>
+              <Link href="/legal/refund-policy" className="hover:text-purple-600 transition-colors whitespace-nowrap">
+                Refund Policy
+              </Link>
+            </div>
+            <span className="text-xs md:text-sm lg:text-base font-normal text-gray-600 whitespace-nowrap">
+              ©All rights reserved.
             </span>
           </div>
 

@@ -1,5 +1,6 @@
 "use client";
 
+import {Suspense} from "react";
 import {motion} from "framer-motion";
 import CTAButton from "./CTAButton";
 
@@ -56,7 +57,9 @@ export default function VideoSection() {
           transition={{ duration: 0.6, delay: 0.3 }}
           className="flex justify-center"
         >
-            <CTAButton buttonText={"Completely Free, Start Now"}/>
+            <Suspense fallback={null}>
+              <CTAButton buttonText={"Completely Free, Start Now"}/>
+            </Suspense>
         </motion.div>
       </motion.div>
     </section>

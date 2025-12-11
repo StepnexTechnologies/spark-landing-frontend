@@ -66,9 +66,6 @@ export default function RelatedPosts({ posts }: RelatedPostsProps) {
   if (!isMounted) {
     return (
       <section className="">
-        <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
-          Also Read
-        </h2>
         <div className="min-h-[400px]" /> {/* Placeholder to prevent layout shift */}
       </section>
     );
@@ -76,10 +73,6 @@ export default function RelatedPosts({ posts }: RelatedPostsProps) {
 
   return (
     <section className="">
-      <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
-        Also Read
-      </h2>
-
       {/* Mobile & Tablet: Carousel */}
       {isCarouselActive ? (
         <div className="relative">

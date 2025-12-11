@@ -6,6 +6,7 @@ interface AuthorCardProps {
   role: string;
   bio: string;
   avatarUrl: string;
+  authorSlug?: string;
   previousCompanies?: string[];
   socialLinks?: {
     linkedin?: string;
@@ -21,6 +22,7 @@ export default function  AuthorCard({
   role,
   bio,
   avatarUrl,
+  authorSlug,
   previousCompanies = [],
   socialLinks = {},
 }: AuthorCardProps) {
@@ -49,7 +51,16 @@ export default function  AuthorCard({
             )}
 
             <div className="flex-1">
-              <h4 className="text-base font-medium text-[#6B7280]">{name}</h4>
+              {authorSlug ? (
+                <Link
+                  href={`/blogs/author/${authorSlug}`}
+                  className="text-base font-medium text-[#6B7280] hover:text-purple-600 transition-colors"
+                >
+                  {name}
+                </Link>
+              ) : (
+                <h4 className="text-base font-medium text-[#6B7280]">{name}</h4>
+              )}
               {role && <p className="text-xs text-[#999999] mb-3">{role}</p>}
 
               {/* Social Links */}

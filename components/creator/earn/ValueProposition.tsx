@@ -1,5 +1,6 @@
 "use client";
 
+import {Suspense} from "react";
 import {motion} from "framer-motion";
 import CTAButton from "./CTAButton";
 
@@ -35,7 +36,9 @@ export default function ValueProposition() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-              <CTAButton buttonText={"Send Invoices For Free"}/>
+              <Suspense fallback={null}>
+                <CTAButton buttonText={"Send Invoices For Free"}/>
+              </Suspense>
           </motion.div>
         </div>
       </motion.div>
