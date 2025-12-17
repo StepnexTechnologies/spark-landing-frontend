@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { getPostBySlug, getFeaturedImageUrl, getAuthorName, formatDate, stripHtml, getReadingTime, getPosts } from "@/lib/wordpress-improved";
 import { extractHeadings, addHeadingIds, removeFAQSection, extractFAQs, extractVideos } from "@/lib/content-processor";
-import FAQAccordion from "@/components/blog/FAQAccordion";
 import ShareButtons from "@/components/blog/ShareButtons";
 import Breadcrumb from "@/components/blog/Breadcrumb";
 import TOCEnhancer from "@/components/blog/TOCEnhancer";
@@ -503,8 +502,6 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
           {/* Article Content */}
           <div className="px-4 md:px-[50px] lg:px-[130px]">
-            {/* FAQ Accordion interactivity */}
-            <FAQAccordion />
             {/* TOC smooth scroll enhancement */}
             <TOCEnhancer />
             <div

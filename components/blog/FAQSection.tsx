@@ -15,53 +15,91 @@ export default function FAQSection() {
   useEffect(() => {
     setIsMounted(true);
 
-    // Find all elements in wordpress content
-    const allElements = Array.from(document.querySelectorAll(".wordpress-content *"));
+    const faqItems: FAQItem[] = [];
+    const elementsToHide: Element[] = [];
 
-    // Find the FAQ heading index
+    // Method 1: Find FAQ section with H3/H4 headings (traditional format)
+    const allElements = Array.from(document.querySelectorAll(".wordpress-content *"));
     const faqHeadingIndex = allElements.findIndex((el) =>
       (el.tagName === "H2" || el.tagName === "H3") &&
       el.textContent?.toLowerCase().includes("frequently asked questions")
     );
 
-    if (faqHeadingIndex === -1) return;
+    if (faqHeadingIndex !== -1) {
+      // Hide the FAQ heading itself
+      elementsToHide.push(allElements[faqHeadingIndex]);
 
-    const faqItems: FAQItem[] = [];
-    const elementsToHide: Element[] = [];
+      // Start from the element after FAQ heading
+      for (let i = faqHeadingIndex + 1; i < allElements.length; i++) {
+        const element = allElements[i];
 
-    // Hide the FAQ heading itself
-    elementsToHide.push(allElements[faqHeadingIndex]);
+        // Stop if we hit another H2 (major section)
+        if (element.tagName === "H2") break;
 
-    // Start from the element after FAQ heading
-    for (let i = faqHeadingIndex + 1; i < allElements.length; i++) {
-      const element = allElements[i];
+        // Mark element to be hidden
+        elementsToHide.push(element);
 
-      // Stop if we hit another H2 (major section)
-      if (element.tagName === "H2") break;
+        // If it's a heading (h3, h4), treat it as a question
+        if (element.tagName === "H3" || element.tagName === "H4") {
+          const question = element.textContent?.trim() || "";
+          let answer = "";
 
-      // Mark element to be hidden
-      elementsToHide.push(element);
+          // Collect all paragraphs that follow until the next heading
+          let j = i + 1;
+          while (j < allElements.length && allElements[j].tagName === "P") {
+            answer += allElements[j].textContent + " ";
+            j++;
+          }
 
-      // If it's a heading (h3, h4), treat it as a question
-      if (element.tagName === "H3" || element.tagName === "H4") {
-        const question = element.textContent?.trim() || "";
-        let answer = "";
-
-        // Collect all paragraphs that follow until the next heading
-        let j = i + 1;
-        while (j < allElements.length &&
-               allElements[j].tagName === "P") {
-          answer += allElements[j].textContent + " ";
-          j++;
-        }
-
-        if (question && answer.trim()) {
-          faqItems.push({
-            question,
-            answer: answer.trim()
-          });
+          if (question && answer.trim()) {
+            faqItems.push({
+              question,
+              answer: answer.trim()
+            });
+          }
         }
       }
+    }
+
+    // Method 2: Find WordPress AAB Accordion blocks (plugin format)
+    const accordionContainers = document.querySelectorAll(".wordpress-content .aab__accordion_container");
+
+    if (accordionContainers.length > 0) {
+      // Find and hide the parent accordion block and FAQ heading
+      const accordionBlocks = document.querySelectorAll(".wordpress-content .wp-block-aab-accordion-block");
+      accordionBlocks.forEach(block => {
+        elementsToHide.push(block);
+      });
+
+      // Also hide the FAQ heading if it exists (check all h2/h3 for FAQ-related text)
+      const headings = document.querySelectorAll(".wordpress-content h2, .wordpress-content h3");
+      headings.forEach(heading => {
+        const text = heading.textContent?.toLowerCase() || "";
+        if (text.includes("frequently asked questions") || text.includes("faq")) {
+          elementsToHide.push(heading);
+        }
+      });
+
+      accordionContainers.forEach(container => {
+        const headElement = container.querySelector(".aab__accordion_head");
+        const bodyElement = container.querySelector(".aab__accordion_body");
+
+        if (headElement && bodyElement) {
+          // Get question text - remove the +/- icon text
+          let question = headElement.textContent?.trim() || "";
+          // Clean up: remove leading/trailing + or - symbols
+          question = question.replace(/^[+−-]\s*|\s*[+−-]$/g, "").trim();
+
+          const answer = bodyElement.textContent?.trim() || "";
+
+          if (question && answer) {
+            faqItems.push({ question, answer });
+          }
+        }
+
+        // Hide the accordion container
+        elementsToHide.push(container);
+      });
     }
 
     // Hide all FAQ elements
