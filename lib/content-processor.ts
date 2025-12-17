@@ -29,9 +29,16 @@ export interface VideoItem {
 export function removeWordPressTOC(html: string): string {
   let cleaned = html;
 
-  // Remove Table of Content section
+  // Remove Table of Contents heading and its immediately following list
+  // Match: <h2>Table of Contents</h2> followed by whitespace and <ul>...</ul>
   cleaned = cleaned.replace(
-    /Table of Content[\s\S]*?<ul[^>]*>[\s\S]*?<\/ul>/gi,
+    /<h2[^>]*>(?:<[^>]*>)*\s*Table of Contents?\s*(?:<[^>]*>)*<\/h2>\s*<ul[^>]*class="wp-block-list"[^>]*>[\s\S]*?<\/ul>/gi,
+    ''
+  );
+
+  // Also try without the class restriction (backup)
+  cleaned = cleaned.replace(
+    /<h2[^>]*>(?:<[^>]*>)*\s*Table of Contents?\s*(?:<[^>]*>)*<\/h2>\s*<ul[^>]*>(?:<li[^>]*>[\s\S]*?<\/li>\s*)*<\/ul>/gi,
     ''
   );
 

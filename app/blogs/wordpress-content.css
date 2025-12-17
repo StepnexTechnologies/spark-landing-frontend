@@ -10,6 +10,377 @@
   line-height: 1.75;
 }
 
+/* ====================
+   SECTION-BASED STYLING
+   Each section type gets consistent styling
+   ==================== */
+
+/* Base section styling */
+.blog-section {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+}
+
+/* Intro Section - First section special styling */
+.blog-section--intro {
+  margin-bottom: 2.5rem;
+}
+
+.blog-section--intro h2 {
+  font-size: 1.75rem;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+.blog-section--intro p {
+  font-size: 1.125rem;
+  line-height: 1.8;
+  color: #4b5563;
+}
+
+/* Heading + Paragraph Section */
+.blog-section--heading-para {
+  margin-bottom: 2rem;
+}
+
+.blog-section--heading-para h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+@media (min-width: 768px) {
+  .blog-section--heading-para h2 {
+    font-size: 1.75rem;
+  }
+}
+
+.blog-section--heading-para p {
+  margin-bottom: 1rem;
+  color: #4b5563;
+}
+
+.blog-section--heading-para p:last-child {
+  margin-bottom: 0;
+}
+
+/* Heading + Paragraph + List Section */
+.blog-section--heading-para-list {
+  margin-bottom: 2rem;
+}
+
+.blog-section--heading-para-list h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+@media (min-width: 768px) {
+  .blog-section--heading-para-list h2 {
+    font-size: 1.75rem;
+  }
+}
+
+.blog-section--heading-para-list p {
+  margin-bottom: 1rem;
+  color: #4b5563;
+}
+
+.blog-section--heading-para-list ul,
+.blog-section--heading-para-list ol {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  padding-left: 1.5rem;
+}
+
+.blog-section--heading-para-list li {
+  margin-bottom: 0.5rem;
+  color: #4b5563;
+}
+
+/* Heading + List Section (no paragraphs) */
+.blog-section--heading-list {
+  margin-bottom: 2rem;
+}
+
+.blog-section--heading-list h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+.blog-section--heading-list ul,
+.blog-section--heading-list ol {
+  padding-left: 1.5rem;
+}
+
+.blog-section--heading-list li {
+  margin-bottom: 0.75rem;
+  color: #4b5563;
+  font-size: 1rem;
+}
+
+/* Table Section */
+.blog-section--table {
+  margin-bottom: 2.5rem;
+  overflow-x: auto;
+}
+
+.blog-section--table h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+.blog-section--table .wp-block-table {
+  margin: 0;
+  width: 100%;
+}
+
+.blog-section--table table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.blog-section--table th {
+  background-color: #f9fafb;
+  font-weight: 600;
+  text-align: left;
+  padding: 0.75rem 1rem;
+  border: 1px solid #e5e7eb;
+  color: #1f2937;
+}
+
+.blog-section--table td {
+  padding: 0.75rem 1rem;
+  border: 1px solid #e5e7eb;
+  color: #4b5563;
+  vertical-align: top;
+}
+
+.blog-section--table tr:nth-child(even) {
+  background-color: #f9fafb;
+}
+
+/* FAQ Section */
+.blog-section--faq {
+  margin-bottom: 2.5rem;
+}
+
+.blog-section--faq h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 1.5rem;
+}
+
+/* FAQ Item (details/summary) */
+.faq-item {
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  margin-bottom: 0.75rem;
+  overflow: hidden;
+  background: #fff;
+  transition: all 0.2s ease;
+}
+
+.faq-item:hover {
+  border-color: #d1d5db;
+}
+
+.faq-item[open] {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.faq-question {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  cursor: pointer;
+  font-weight: 500;
+  color: #1f2937;
+  background: #f9fafb;
+  list-style: none;
+  transition: background 0.2s ease;
+}
+
+.faq-question::-webkit-details-marker {
+  display: none;
+}
+
+.faq-question:hover {
+  background: #f3f4f6;
+}
+
+.faq-question-text {
+  flex: 1;
+  font-size: 0.9375rem;
+}
+
+.faq-icon {
+  font-size: 1.25rem;
+  font-weight: 300;
+  color: #6b7280;
+  transition: transform 0.2s ease;
+  margin-left: 1rem;
+}
+
+.faq-item[open] .faq-icon {
+  transform: rotate(45deg);
+}
+
+.faq-answer {
+  padding: 1rem 1.25rem;
+  color: #4b5563;
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  border-top: 1px solid #e5e7eb;
+  background: #fff;
+}
+
+.faq-answer p {
+  margin: 0;
+}
+
+/* WordPress AAB Accordion Styling */
+.wordpress-content .wp-block-aab-accordion-block {
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  margin-bottom: 0.75rem;
+  overflow: hidden;
+  background: #fff;
+}
+
+.wordpress-content .wp-block-aab-accordion-block:hover {
+  border-color: #d1d5db;
+}
+
+.wordpress-content .aab__accordion_head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  cursor: pointer;
+  background: #f9fafb;
+  transition: background 0.2s ease;
+}
+
+.wordpress-content .aab__accordion_head:hover {
+  background: #f3f4f6;
+}
+
+.wordpress-content .aab__accordion_heading {
+  flex: 1;
+}
+
+.wordpress-content .aab__accordion_title {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: #1f2937;
+  margin: 0;
+}
+
+.wordpress-content .aab__accordion_icon {
+  margin-left: 1rem;
+  color: #6b7280;
+  transition: transform 0.2s ease;
+}
+
+.wordpress-content .aab__accordion_body {
+  padding: 1rem 1.25rem;
+  border-top: 1px solid #e5e7eb;
+  color: #4b5563;
+  font-size: 0.9375rem;
+  line-height: 1.7;
+}
+
+.wordpress-content .aab__accordion_body p {
+  margin: 0;
+}
+
+/* Hide custom-css-block divs */
+.wordpress-content .custom-css-block {
+  display: none;
+}
+
+/* Quote Section */
+.blog-section--quote {
+  margin: 2rem 0;
+}
+
+/* Sources/References Section */
+.blog-section--sources {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 2px solid #e5e7eb;
+}
+
+.blog-section--sources h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+.blog-section--sources ol {
+  padding-left: 1.5rem;
+}
+
+.blog-section--sources li {
+  margin-bottom: 0.75rem;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+/* Standalone List Section */
+.blog-section--list ul,
+.blog-section--list ol {
+  padding-left: 1.5rem;
+  margin: 1rem 0;
+}
+
+.blog-section--list li {
+  margin-bottom: 0.5rem;
+  color: #4b5563;
+}
+
+/* Image Section */
+.blog-section--image {
+  margin: 2rem 0;
+}
+
+.blog-section--image figure {
+  margin: 0;
+}
+
+.blog-section--image img {
+  border-radius: 0.75rem;
+  width: 100%;
+  height: auto;
+}
+
+.blog-section--image figcaption {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: #6b7280;
+  font-style: italic;
+}
+
+/* Other/Generic Section */
+.blog-section--other {
+  margin-bottom: 1.5rem;
+}
+
 /* Hide FAQ section items that are extracted and shown separately */
 .wordpress-content .faq-section-hidden {
   display: none !important;
@@ -117,11 +488,33 @@
 
 /* WordPress list blocks */
 .wordpress-content .wp-block-list {
+  padding-left: 1.5rem;
+  margin: 1rem 0;
+}
+
+.wordpress-content ul.wp-block-list {
   list-style-type: disc;
+}
+
+.wordpress-content ol.wp-block-list {
+  list-style-type: decimal;
 }
 
 .wordpress-content .wp-block-list li {
   display: list-item;
+  margin-bottom: 0.5rem;
+}
+
+/* Ensure ordered lists show numbers */
+.wordpress-content ol {
+  list-style-type: decimal !important;
+  padding-left: 1.5rem;
+  margin: 1rem 0;
+}
+
+.wordpress-content ol li {
+  display: list-item;
+  list-style-type: decimal;
 }
 
 .wordpress-content strong,

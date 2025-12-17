@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { getPostBySlug, getFeaturedImageUrl, getAuthorName, formatDate, stripHtml, getReadingTime, getPosts } from "@/lib/wordpress-improved";
 import { removeWordPressTOC, extractHeadings, addHeadingIds, removeFAQSection, extractFAQs, extractVideos } from "@/lib/content-processor";
+import FAQAccordion from "@/components/blog/FAQAccordion";
 import ShareButtons from "@/components/blog/ShareButtons";
 import Breadcrumb from "@/components/blog/Breadcrumb";
 import CustomTableOfContents from "@/components/blog/CustomTableOfContents";
@@ -12,6 +13,7 @@ import RelatedPosts from "@/components/blog/RelatedPosts";
 import QuoteAuthorInjector from "@/components/blog/QuoteAuthorInjector";
 import FAQSection from "@/components/blog/FAQSection";
 import NewsletterSection from "@/components/blog/NewsletterSection";
+import DebugLogger from "@/components/blog/DebugLogger";
 import { getAuthorPageSlug, getAuthorByWordPressSlug } from "@/data/authors";
 import "../wordpress-content.css";
 
@@ -135,7 +137,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const headings = extractHeadings(post.content.rendered);
   let cleanedContent = removeWordPressTOC(post.content.rendered);
   cleanedContent = removeFAQSection(cleanedContent);
-  const processedContent = addHeadingIds(cleanedContent, headings);
+  const contentWithIds = addHeadingIds(cleanedContent, headings);
+  const processedContent = contentWithIds;
 
   // Get category for breadcrumb
   const categoryName = post._embedded?.["wp:term"]?.[0]?.[0]?.name || "";
@@ -300,6 +303,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
   return (
     <>
+      {/* Debug Logger - shows post data in browser console */}
+      <DebugLogger data={post} label="Blog Post Response:" />
+
       {/* Article Structured Data */}
       <script
         type="application/ld+json"
@@ -483,6 +489,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
           {/* Article Content */}
           <div className="px-4 md:px-[50px] lg:px-[130px]">
+            {/* FAQ Accordion interactivity */}
+            <FAQAccordion />
             <div
               className="wordpress-content"
               dangerouslySetInnerHTML={{ __html: processedContent }}

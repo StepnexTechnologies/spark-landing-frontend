@@ -72,13 +72,9 @@ export default function FAQSection() {
     setFaqs(faqItems);
   }, []);
 
-  // Show placeholder during initial mount to prevent layout shift
+  // Don't render anything on server to avoid hydration mismatch
   if (!isMounted) {
-    return (
-      <div className="px-5 md:px-[50px] lg:px-[130px]">
-        <div className="min-h-[200px]" /> {/* Placeholder */}
-      </div>
-    );
+    return null;
   }
 
   if (faqs.length === 0) return null;
