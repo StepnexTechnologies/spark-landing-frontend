@@ -3,11 +3,11 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { getPostBySlug, getFeaturedImageUrl, getAuthorName, formatDate, stripHtml, getReadingTime, getPosts } from "@/lib/wordpress-improved";
-import { removeWordPressTOC, extractHeadings, addHeadingIds, removeFAQSection, extractFAQs, extractVideos } from "@/lib/content-processor";
+import { extractHeadings, addHeadingIds, removeFAQSection, extractFAQs, extractVideos } from "@/lib/content-processor";
 import FAQAccordion from "@/components/blog/FAQAccordion";
 import ShareButtons from "@/components/blog/ShareButtons";
 import Breadcrumb from "@/components/blog/Breadcrumb";
-import CustomTableOfContents from "@/components/blog/CustomTableOfContents";
+import TOCEnhancer from "@/components/blog/TOCEnhancer";
 import AuthorCard from "@/components/blog/AuthorCard";
 import RelatedPosts from "@/components/blog/RelatedPosts";
 import QuoteAuthorInjector from "@/components/blog/QuoteAuthorInjector";
@@ -133,10 +133,10 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const authorPageSlug = getAuthorPageSlug(wpAuthorSlug);
   const localAuthor = getAuthorByWordPressSlug(wpAuthorSlug);
 
-  // Process content: extract headings FIRST, then remove WordPress TOC and FAQ
+  // Process content: extract headings for IDs, keep WordPress TOC in place
   const headings = extractHeadings(post.content.rendered);
-  let cleanedContent = removeWordPressTOC(post.content.rendered);
-  cleanedContent = removeFAQSection(cleanedContent);
+  // Don't remove WordPress TOC - let it stay in its natural position
+  let cleanedContent = removeFAQSection(post.content.rendered);
   const contentWithIds = addHeadingIds(cleanedContent, headings);
   const processedContent = contentWithIds;
 
@@ -474,16 +474,30 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                   priority
                 />
               </div>
-              <p className="text-sm text-gray-500 italic">
-                Fig: {stripHtml(post.excerpt.rendered).substring(0, 100)}...
-              </p>
-            </div>
-          )}
+              {/* Show caption from featured image, or fall back to excerpt */}
+              {(() => {
+                const imageCaption = post._embedded?.["wp:featuredmedia"]?.[0]?.caption?.rendered;
+                const hasImageCaption = imageCaption && stripHtml(imageCaption).trim() !== "";
+                const excerpt = post.excerpt?.rendered;
+                const hasExcerpt = excerpt && stripHtml(excerpt).trim() !== "";
 
-          {/* Table of Contents */}
-          {headings.length > 0 && (
-            <div className="px-4 md:px-[50px] lg:px-[130px]">
-              <CustomTableOfContents headings={headings} />
+                if (hasImageCaption) {
+                  return (
+                    <p
+                      className="text-sm text-gray-500 italic mt-2"
+                      dangerouslySetInnerHTML={{ __html: imageCaption }}
+                    />
+                  );
+                } else if (hasExcerpt) {
+                  return (
+                    <p
+                      className="text-sm text-gray-500 italic mt-2"
+                      dangerouslySetInnerHTML={{ __html: excerpt }}
+                    />
+                  );
+                }
+                return null;
+              })()}
             </div>
           )}
 
@@ -491,6 +505,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           <div className="px-4 md:px-[50px] lg:px-[130px]">
             {/* FAQ Accordion interactivity */}
             <FAQAccordion />
+            {/* TOC smooth scroll enhancement */}
+            <TOCEnhancer />
             <div
               className="wordpress-content"
               dangerouslySetInnerHTML={{ __html: processedContent }}
@@ -500,16 +516,6 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               authorRole="Technical Writer | Sparkonomy"
               authorAvatar={post._embedded?.author?.[0]?.avatar_urls?.["96"] || ""}
             />
-            <QuoteAuthorInjector
-              authorName={author}
-              authorRole="Technical Writer | Sparkonomy"
-              authorAvatar={post._embedded?.author?.[0]?.avatar_urls?.["96"] || ""}
-            />
-          </div>
-
-          {/* FAQ Section */}
-          <div className="relative z-10">
-            <FAQSection />
           </div>
 
           {/* FAQ Section */}
