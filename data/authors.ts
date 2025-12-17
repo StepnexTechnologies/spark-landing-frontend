@@ -103,9 +103,14 @@ export interface AuthorEntry {
 // Centralized authors data
 export const authors: AuthorEntry[] = [
   {
-    id: "gunnet_singh",
-    slug: "gunnet-singh",
-    name: "Gunnet Singh",
+    id: "guneet_singh",
+    slug: "guneet-singh",
+
+    // WordPress matching
+    wordpressSlug: "guneet",
+    wordpressAuthorId: 5,
+
+    name: "Guneet Singh",
     role: "Founder & Chief Hustler, Sparkonomy",
     avatarUrl: "/authors/ProfilePicture_gunnet.png",
     shortBio: "I am a tech veteran and strategist based in Singapore. After 20 years leading consumer tech businesses at Google and Microsoft, I am now building the AI infrastructure to protect and empower the next generation of entrepreneurs: the creators.",
@@ -136,11 +141,11 @@ export const authors: AuthorEntry[] = [
     ],
     signatureImage: "/authors/Gunnet_singh_signature.png",
 
-    aboutTitle: "About Gunnet",
+    aboutTitle: "About Guneet",
     aboutContent: [
-      "Gunnet is the Founder and CEO of Sparkonomy, a startup dedicated to building financial and operational infrastructure for the creator economy. Based in Singapore, he combines deep industry expertise with a passion for AI productivity to solve the systemic challenges creators face—from payment friction to sustainable scaling.",
-      "Prior to founding Sparkonomy, Gunnet spent over 20 years leading billion-dollar portfolios in the Consumer Tech and Media sectors. He held key leadership positions at Google, Microsoft, and Samsung, driving navigating the intersection of consumer behavior and emerging technology.",
-      "A firm believer in the \"democratization of entrepreneurship,\" Gunnet advocates for a future where human creativity is the ultimate economic engine. He actively mentors early-stage startups and writes about the impact of AI on human productivity and the shifting landscape of work.",
+      "Guneet is the Founder and CEO of Sparkonomy, a startup dedicated to building financial and operational infrastructure for the creator economy. Based in Singapore, he combines deep industry expertise with a passion for AI productivity to solve the systemic challenges creators face—from payment friction to sustainable scaling.",
+      "Prior to founding Sparkonomy, Guneet spent over 20 years leading billion-dollar portfolios in the Consumer Tech and Media sectors. He held key leadership positions at Google, Microsoft, and Samsung, driving navigating the intersection of consumer behavior and emerging technology.",
+      "A firm believer in the \"democratization of entrepreneurship,\" Guneet advocates for a future where human creativity is the ultimate economic engine. He actively mentors early-stage startups and writes about the impact of AI on human productivity and the shifting landscape of work.",
     ],
 
     careerHighlights: [
