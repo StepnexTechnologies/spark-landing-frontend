@@ -1208,3 +1208,205 @@
     font-size: 1.25rem;
   }
 }
+
+/* ====================
+   FAQ ACCORDION ENHANCER STYLES
+   Styles for in-place FAQ accordion interactivity
+   ==================== */
+
+/* FAQ Section Heading - "People Also Ask" style */
+.wordpress-content .faq-section-heading {
+  font-size: 1.5rem !important;
+  font-weight: 400 !important;
+  color: #6B7280 !important;
+  margin-bottom: 1rem !important;
+  padding-bottom: 0 !important;
+  border: none !important;
+}
+
+@media (min-width: 768px) {
+  .wordpress-content .faq-section-heading {
+    font-size: 1.875rem !important;
+  }
+}
+
+/* FAQ Accordion Wrapper - for WordPress AAB Accordion blocks */
+.wordpress-content .faq-accordion-wrapper {
+  border: none !important;
+  background: transparent !important;
+  margin-bottom: 0 !important;
+}
+
+/* FAQ Item Enhanced - for WordPress AAB accordions */
+.wordpress-content .faq-item-enhanced {
+  border: none !important;
+  border-bottom: 1px solid #e5e7eb !important;
+  border-radius: 0 !important;
+  margin-bottom: 0 !important;
+  background: transparent !important;
+}
+
+.wordpress-content .faq-item-enhanced:last-child {
+  border-bottom: none !important;
+}
+
+/* Clickable head styling */
+.wordpress-content .faq-head-clickable {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+  padding: 1rem 0 !important;
+  background: white !important;
+  cursor: pointer !important;
+  transition: background-color 0.2s ease !important;
+  border: none !important;
+}
+
+.wordpress-content .faq-head-clickable:hover {
+  background: #f9fafb !important;
+}
+
+/* Hide the default +/- icons from WordPress accordion */
+.wordpress-content .faq-item-enhanced .aab__accordion_icon {
+  display: none !important;
+}
+
+/* Question text styling */
+.wordpress-content .faq-item-enhanced .aab__accordion_heading,
+.wordpress-content .faq-item-enhanced .aab__accordion_title {
+  font-size: 1rem !important;
+  font-weight: 400 !important;
+  color: #6B7280 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  text-align: left !important;
+  flex: 1 !important;
+}
+
+@media (min-width: 768px) {
+  .wordpress-content .faq-item-enhanced .aab__accordion_heading,
+  .wordpress-content .faq-item-enhanced .aab__accordion_title {
+    font-size: 1.125rem !important;
+  }
+}
+
+/* Add chevron icon via CSS pseudo-element */
+.wordpress-content .faq-head-clickable::after {
+  content: '';
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  margin-left: 1rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%239CA3AF'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  transition: transform 0.2s ease;
+}
+
+/* Rotate chevron when expanded */
+.wordpress-content .faq-expanded .faq-head-clickable::after {
+  transform: rotate(180deg);
+}
+
+/* Answer body styling */
+.wordpress-content .faq-item-enhanced .aab__accordion_body {
+  padding: 0 0 1rem 0 !important;
+  border-top: none !important;
+  background: white !important;
+}
+
+.wordpress-content .faq-item-enhanced .aab__accordion_body p {
+  font-size: 0.875rem !important;
+  color: #6B7280 !important;
+  line-height: 1.6 !important;
+  margin: 0 !important;
+}
+
+@media (min-width: 768px) {
+  .wordpress-content .faq-item-enhanced .aab__accordion_body p {
+    font-size: 1rem !important;
+  }
+}
+
+/* Hidden state for FAQ body */
+.wordpress-content .faq-body-hidden {
+  display: none !important;
+}
+
+/* ====================
+   TRADITIONAL FAQ (H3/H4) STYLES
+   ==================== */
+
+/* Q&A Wrapper */
+.wordpress-content .faq-qa-wrapper {
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.wordpress-content .faq-qa-wrapper:last-of-type {
+  border-bottom: none;
+}
+
+/* Question Button */
+.wordpress-content .faq-question-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 1rem 0;
+  background: white;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.2s ease;
+}
+
+.wordpress-content .faq-question-button:hover {
+  background: #f9fafb;
+}
+
+.wordpress-content .faq-question-text {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #6B7280;
+  flex: 1;
+  padding-right: 1rem;
+}
+
+@media (min-width: 768px) {
+  .wordpress-content .faq-question-text {
+    font-size: 1.125rem;
+  }
+}
+
+/* Chevron icon */
+.wordpress-content .faq-chevron {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  color: #9CA3AF;
+  transition: transform 0.2s ease;
+}
+
+.wordpress-content .faq-expanded .faq-chevron {
+  transform: rotate(180deg);
+}
+
+/* Answer Container */
+.wordpress-content .faq-answer-container {
+  padding-bottom: 1rem;
+  background: white;
+}
+
+.wordpress-content .faq-answer-text {
+  font-size: 0.875rem !important;
+  color: #6B7280 !important;
+  line-height: 1.6 !important;
+  margin: 0 !important;
+}
+
+@media (min-width: 768px) {
+  .wordpress-content .faq-answer-text {
+    font-size: 1rem !important;
+  }
+}

@@ -3,14 +3,14 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { getPostBySlug, getFeaturedImageUrl, getAuthorName, formatDate, stripHtml, getReadingTime, getPosts } from "@/lib/wordpress-improved";
-import { extractHeadings, addHeadingIds, removeFAQSection, extractFAQs, extractVideos } from "@/lib/content-processor";
+import { extractHeadings, addHeadingIds, extractFAQs, extractVideos } from "@/lib/content-processor";
 import ShareButtons from "@/components/blog/ShareButtons";
 import Breadcrumb from "@/components/blog/Breadcrumb";
 import TOCEnhancer from "@/components/blog/TOCEnhancer";
 import AuthorCard from "@/components/blog/AuthorCard";
 import RelatedPosts from "@/components/blog/RelatedPosts";
 import QuoteAuthorInjector from "@/components/blog/QuoteAuthorInjector";
-import FAQSection from "@/components/blog/FAQSection";
+import FAQAccordionEnhancer from "@/components/blog/FAQAccordionEnhancer";
 import NewsletterSection from "@/components/blog/NewsletterSection";
 import DebugLogger from "@/components/blog/DebugLogger";
 import { getAuthorPageSlug, getAuthorByWordPressSlug } from "@/data/authors";
@@ -132,11 +132,10 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const authorPageSlug = getAuthorPageSlug(wpAuthorSlug);
   const localAuthor = getAuthorByWordPressSlug(wpAuthorSlug);
 
-  // Process content: extract headings for IDs, keep WordPress TOC in place
+  // Process content: extract headings for IDs, keep WordPress TOC and FAQ in place
   const headings = extractHeadings(post.content.rendered);
-  // Don't remove WordPress TOC - let it stay in its natural position
-  let cleanedContent = removeFAQSection(post.content.rendered);
-  const contentWithIds = addHeadingIds(cleanedContent, headings);
+  // Don't remove WordPress TOC or FAQ - let them stay in their natural position
+  const contentWithIds = addHeadingIds(post.content.rendered, headings);
   const processedContent = contentWithIds;
 
   // Get category for breadcrumb
@@ -504,6 +503,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           <div className="px-4 md:px-[50px] lg:px-[130px]">
             {/* TOC smooth scroll enhancement */}
             <TOCEnhancer />
+            {/* FAQ accordion interactivity enhancement */}
+            <FAQAccordionEnhancer />
             <div
               className="wordpress-content"
               dangerouslySetInnerHTML={{ __html: processedContent }}
@@ -513,11 +514,6 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               authorRole="Technical Writer | Sparkonomy"
               authorAvatar={post._embedded?.author?.[0]?.avatar_urls?.["96"] || ""}
             />
-          </div>
-
-          {/* FAQ Section */}
-          <div className="relative z-10">
-            <FAQSection />
           </div>
 
           {/* Author Bio */}
