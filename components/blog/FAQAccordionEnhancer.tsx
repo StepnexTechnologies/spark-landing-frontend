@@ -24,7 +24,7 @@ export default function FAQAccordionEnhancer() {
     const timer = setTimeout(() => {
       enhanceWordPressAccordions();
       enhanceTraditionalFAQs();
-    }, 150);
+    }, 300);
 
     return () => clearTimeout(timer);
   }, [isMounted]);
@@ -42,17 +42,14 @@ function enhanceWordPressAccordions() {
 
   if (accordionContainers.length === 0) return;
 
-  // Find the parent accordion block and add a "People Also Ask" heading if not present
+  // Find the parent accordion block and add styling class
   const accordionBlocks = document.querySelectorAll(
     ".wordpress-content .wp-block-aab-accordion-block"
   );
 
   accordionBlocks.forEach((block) => {
-    // Check if we already enhanced this block
     if (block.classList.contains("faq-enhanced")) return;
     block.classList.add("faq-enhanced");
-
-    // Add wrapper class for styling
     block.classList.add("faq-accordion-wrapper");
   });
 
@@ -61,35 +58,51 @@ function enhanceWordPressAccordions() {
     if (container.classList.contains("faq-item-enhanced")) return;
     container.classList.add("faq-item-enhanced");
 
-    const headElement = container.querySelector(".aab__accordion_head");
-    const bodyElement = container.querySelector(".aab__accordion_body");
+    const headElement = container.querySelector(".aab__accordion_head") as HTMLElement;
+    const bodyElement = container.querySelector(".aab__accordion_body") as HTMLElement;
 
     if (!headElement || !bodyElement) return;
 
     // Set initial state - collapsed
-    bodyElement.classList.add("faq-body-hidden");
+    bodyElement.style.display = "none";
     container.classList.add("faq-collapsed");
 
-    // Add click handler for toggle
-    headElement.addEventListener("click", (e) => {
+    // Make head element clickable
+    headElement.style.cursor = "pointer";
+    headElement.classList.add("faq-head-clickable");
+    headElement.setAttribute("role", "button");
+    headElement.setAttribute("tabindex", "0");
+
+    // Create click handler function
+    const handleClick = function(e: Event) {
       e.preventDefault();
       e.stopPropagation();
 
-      const isExpanded = !bodyElement.classList.contains("faq-body-hidden");
+      const isHidden = bodyElement.style.display === "none";
 
-      if (isExpanded) {
-        bodyElement.classList.add("faq-body-hidden");
-        container.classList.add("faq-collapsed");
-        container.classList.remove("faq-expanded");
-      } else {
-        bodyElement.classList.remove("faq-body-hidden");
+      if (isHidden) {
+        // Expand
+        bodyElement.style.display = "block";
         container.classList.remove("faq-collapsed");
         container.classList.add("faq-expanded");
+      } else {
+        // Collapse
+        bodyElement.style.display = "none";
+        container.classList.add("faq-collapsed");
+        container.classList.remove("faq-expanded");
+      }
+    };
+
+    // Add click event listener
+    headElement.addEventListener("click", handleClick);
+
+    // Also handle keyboard for accessibility
+    headElement.addEventListener("keydown", function(e: KeyboardEvent) {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        handleClick(e);
       }
     });
-
-    // Make head element look clickable
-    headElement.classList.add("faq-head-clickable");
   });
 }
 
@@ -155,6 +168,7 @@ function enhanceTraditionalFAQs() {
       // Create question button
       const questionButton = document.createElement("button");
       questionButton.className = "faq-question-button";
+      questionButton.type = "button";
       questionButton.innerHTML = `
         <span class="faq-question-text">${element.textContent}</span>
         <svg class="faq-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -164,7 +178,8 @@ function enhanceTraditionalFAQs() {
 
       // Create answer container
       const answerContainer = document.createElement("div");
-      answerContainer.className = "faq-answer-container faq-body-hidden";
+      answerContainer.className = "faq-answer-container";
+      answerContainer.style.display = "none";
 
       // Move answer paragraphs into container
       answerElements.forEach((p) => {
@@ -184,17 +199,22 @@ function enhanceTraditionalFAQs() {
       wrapper.appendChild(answerContainer);
 
       // Add click handler
-      questionButton.addEventListener("click", () => {
-        const isExpanded = !answerContainer.classList.contains("faq-body-hidden");
+      questionButton.addEventListener("click", function(e) {
+        e.preventDefault();
+        e.stopPropagation();
 
-        if (isExpanded) {
-          answerContainer.classList.add("faq-body-hidden");
-          wrapper.classList.add("faq-collapsed");
-          wrapper.classList.remove("faq-expanded");
-        } else {
-          answerContainer.classList.remove("faq-body-hidden");
+        const isHidden = answerContainer.style.display === "none";
+
+        if (isHidden) {
+          // Expand
+          answerContainer.style.display = "block";
           wrapper.classList.remove("faq-collapsed");
           wrapper.classList.add("faq-expanded");
+        } else {
+          // Collapse
+          answerContainer.style.display = "none";
+          wrapper.classList.add("faq-collapsed");
+          wrapper.classList.remove("faq-expanded");
         }
       });
     }
