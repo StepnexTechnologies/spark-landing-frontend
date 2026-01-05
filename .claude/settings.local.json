@@ -8,7 +8,13 @@
       "Bash(cat:*)",
       "Bash(npx tsc:*)",
       "Bash(grep:*)",
-      "Bash(rd /s /q \"c:\\Users\\HP\\Desktop\\client\\spark-landing-frontend\\app\\api\\revalidate\")"
+      "Bash(rd /s /q \"c:\\Users\\HP\\Desktop\\client\\spark-landing-frontend\\app\\api\\revalidate\")",
+      "Bash(yarn add:*)",
+      "Bash(npm run build:*)",
+      "Bash(timeout 15 npm run dev:*)",
+      "Bash(npm ls:*)",
+      "Bash(npm run lint:*)",
+      "Bash(npx next lint)"
     ],
     "deny": [],
     "ask": []

@@ -36,7 +36,7 @@ export default function EmailCapture() {
   };
 
   const getPlaceholder = () => {
-    return inputType === 'email' 
+    return inputType === 'email'
       ? "By Invitation, Leave Your Email"
       : "By Invitation, Leave Your Phone";
   };

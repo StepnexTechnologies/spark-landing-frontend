@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { useTranslation } from "react-i18next";
 import Image from "next/image";
 import { motion } from "framer-motion";
 
@@ -11,9 +12,9 @@ interface ReferrerInfo {
 }
 
 const DEFAULT_IMAGE = "/images/creator/earn/referal-default.png";
-const DEFAULT_NAME = "Chulbuli";
 
 export default function ReferralBanner() {
+  const { t } = useTranslation("creatorEarn");
   const searchParams = useSearchParams();
   const referralCode = searchParams.get("ref");
 
@@ -54,15 +55,14 @@ export default function ReferralBanner() {
     return null;
   }
 
-  const displayName = referrerInfo?.first_name || DEFAULT_NAME;
+  const displayName = referrerInfo?.first_name || t("referral.defaultName");
   const hasProfileImage = !!referrerInfo?.profile_picture_url;
 
   const messageText = (
     <div className="font-semibold text-2xl md:text-3xl lg:text-4xl italic">
-      <span>"{displayName}</span> says{" "}
-      <span>this is the easiest app for creator work — and wants you to try it.</span>
+      <span>"{displayName}</span> {t("referral.message")}
       <br />
-      <span>Sign Up today!"</span>
+      <span>{t("referral.signUp")}"</span>
     </div>
   );
 
