@@ -2,9 +2,11 @@
 
 import {Suspense, useEffect, useState} from "react";
 import {AnimatePresence, motion} from "framer-motion";
+import { useTranslation } from "react-i18next";
 import CTAButton from "./CTAButton";
 
 export default function FloatingCTA() {
+  const { t } = useTranslation("creatorEarn");
   const [isVisible, setIsVisible] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
 
@@ -55,7 +57,7 @@ export default function FloatingCTA() {
         >
           <Suspense fallback={null}>
             <CTAButton
-              buttonText="Try For Free"
+              buttonText={t("floatingCta.button")}
               className="shadow-[0_8px_32px_rgba(221,42,123,0.3)]"
             />
           </Suspense>

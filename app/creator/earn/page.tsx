@@ -2,6 +2,7 @@
 
 import {Suspense, useEffect, useState} from "react";
 import {AnimatePresence, motion} from "framer-motion";
+import "@/lib/i18n"; // Initialize i18n
 import Navigation from "@/components/creator/earn/Navigation";
 import HeroSection from "@/components/creator/earn/HeroSection";
 import ValueProposition from "@/components/creator/earn/ValueProposition";

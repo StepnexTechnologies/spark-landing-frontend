@@ -2,35 +2,38 @@
 
 import {Suspense} from "react";
 import {motion} from "framer-motion";
+import { useTranslation } from "react-i18next";
 import AdvantageFeature from "./AdvantageFeature";
 import CTAButton from "./CTAButton";
 
 export default function AdvantageSection() {
+  const { t } = useTranslation("creatorEarn");
+
   const advantages = [
     {
-      title: "Payment Ready",
-      description: "GST auto‑calculated, payment integrated.",
+      title: t("advantage.items.0.title"),
+      description: t("advantage.items.0.description"),
       iconUrl:
         "/images/creator/earn/payment-ready-illustration.png",
       hasMoneyIcon: true,
     },
     {
-      title: "Tax‑Compliant",
-      description: "GSTIN, HSN, Barters managed.",
+      title: t("advantage.items.1.title"),
+      description: t("advantage.items.1.description"),
       iconUrl:
         "/images/creator/earn/tax-illustration.png",
       hasMoneyIcon: false,
     },
     {
-      title: "WhatsApp Alerts",
-      description: "Your money tracked!",
+      title: t("advantage.items.2.title"),
+      description: t("advantage.items.2.description"),
       iconUrl:
         "/images/creator/earn/whatsapp-illustration.png",
       hasMoneyIcon: false,
     },
     {
-      title: "Proof Of Work",
-      description: "Auto-fetched, no more screenshots.",
+      title: t("advantage.items.3.title"),
+      description: t("advantage.items.3.description"),
       iconUrl:
         "/images/creator/earn/proof-of-work-illustration.png",
       hasMoneyIcon: false,
@@ -49,10 +52,10 @@ export default function AdvantageSection() {
           className="text-center mb-8 md:mb-12 space-y-4"
         >
           <h2 className="text-2xl md:text-[52px] font-bold text-white">
-            Your Advantage
+            {t("advantage.title")}
           </h2>
           <p className="text-base text-white max-w-[292px] md:max-w-full mx-auto">
-            Invoices that get you paid faster, and make you look good!
+            {t("advantage.subtitle")}
           </p>
         </motion.div>
 
@@ -79,7 +82,7 @@ export default function AdvantageSection() {
           className="flex justify-center"
         >
           <Suspense fallback={null}>
-            <CTAButton buttonText={"Get Paid Faster"}/>
+            <CTAButton buttonText={t("advantage.cta")}/>
           </Suspense>
         </motion.div>
       </div>

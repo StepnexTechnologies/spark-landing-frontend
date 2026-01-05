@@ -2,26 +2,29 @@
 
 import {Suspense} from "react";
 import {motion} from "framer-motion";
+import { useTranslation } from "react-i18next";
 import BenefitCard from "./BenefitCard";
 import CTAButton from "./CTAButton";
 
 export default function BenefitsSection() {
+  const { t } = useTranslation("creatorEarn");
+
   const benefits = [
     {
-      title: "Send a Chat. Get an Invoice.",
-      description: `Upload a WhatsApp message, email, or PO — or just type "Make me an invoice for…" and our AI does the rest. Perfect pro formatting, GST/PAN handled, no typos, no approval tension. <span class="font-bold italic">You create content, we create cash flow.</span>`,
+      title: t("benefits.items.0.title"),
+      description: `${t("benefits.items.0.description")} <span class="font-bold italic">${t("benefits.items.0.highlight")}</span>`,
       imageUrl: "/images/creator/earn/benefit-1.png",
       decorativeImages: [],
     },
     {
-      title: "You Create. We Chase.",
-      description: `No more painful "Hey, just checking on the payment?" reminder follow-ups. Our AI sends polite, friendly payment reminders so you don't have to. <span class="font-bold italic">You build relationships; we get payments.</span>`,
+      title: t("benefits.items.1.title"),
+      description: `${t("benefits.items.1.description")} <span class="font-bold italic">${t("benefits.items.1.highlight")}</span>`,
       imageUrl: "/images/creator/earn/benefit-2.png",
       decorativeImages: [],
     },
     {
-      title: "Go Pro. With your Pocket CFO.",
-      description: `Get weekly, 5-minute updates of your cash flow, overdue payments, and income growth. We keep your records organised and help your business stay tax compliant. <span class="font-bold italic">You go Pro, we get you there.</span>`,
+      title: t("benefits.items.2.title"),
+      description: `${t("benefits.items.2.description")} <span class="font-bold italic">${t("benefits.items.2.highlight")}</span>`,
       imageUrl: "/images/creator/earn/benefit-3.png",
       decorativeImages: [],
     },
@@ -39,7 +42,7 @@ export default function BenefitsSection() {
           className="text-center mb-12 md:mb-16"
         >
           <h2 className="text-2xl md:text-[52px] font-bold text-white">
-            Benefits
+            {t("benefits.title")}
           </h2>
         </motion.div>
 
@@ -65,7 +68,7 @@ export default function BenefitsSection() {
           className="flex justify-center"
         >
             <Suspense fallback={null}>
-              <CTAButton buttonText={"Don't Wait Try For Free"}/>
+              <CTAButton buttonText={t("benefits.cta")}/>
             </Suspense>
         </motion.div>
       </div>
