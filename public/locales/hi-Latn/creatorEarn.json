@@ -124,36 +124,36 @@
         "answer": "Aapko GST rate ki tension lene ki zarurat nahi hai - Sparkonomy ka AI aapke liye GST ka dhyaan rakhta hai! Yeh automatically aapki service ko sahi HSN code se match karta hai, GST ko IGST, SGST ya CGST mein split karta hai, aur ensure karta hai ki har invoice correct ho. Agar aap GST-registered nahi ho, toh Sparkonomy aapko GST add karne nahi dega, matlab galtiyon ka koi scope nahi. Aapka banaya aur bhejha gya har invoice error-free aur compliant hota hai, jisse aapka time aur stress bachta hai."
       },
       {
-        "question": "Brand ko invoice kaise bhejun?",
-        "answer": "Jaise aapko pasand ho! Invoice complete karne ke baad, Sparkonomy ke andar se brand ko bhejo ya download karke email/Whatsapp par personally PDF bhejo. Koi chasing nahi, koi hassle nahi, bas fast cash!"
+        "question": "Main Ek brand ko invoice kaise bheju?",
+        "answer": "Jaise aapko pasand ho! Apna invoice complete karne ke baad, Sparkonomy ke through brand ko bhej do, ya PDF download karke personally email/WhatsApp pe send karo. No chasing, no tension - bas fast cash!"
       },
       {
-        "question": "Kya main apne invoices mein apna logo add kar sakta/sakti hoon?",
-        "answer": "Haan! Hum jaante hain aapke invoices aapki unique brand reflect karne chahiye. Business logo upload karo, profile picture ya bas apne social accounts share karo aur hum aapki profile photo pull kar lenge invoices ko personalize karne ke liye—taaki wo bilkul aapke jaise dikhen! Har invoice ko shiny, pro look dene ke liye 1-tap!"
+        "question": "Kya main apne invoices mein apna logo add kar sakta/ sakti hoon?",
+        "answer": "Haan! Hum jaante hain ki aapke invoices aapke unique brand ko reflect karne chahiye. Apna business logo, profile picture upload karein ya bas apne social accounts share karein, aur hum aapki profile photo leke aapke invoices ko personalize kar denge - taaki woh bilkul aapke jaise lage! Bas 1-tap mein har invoice ko ek shiny, professional look dein."
       },
       {
-        "question": "Kya main Purchase Order (PO) use karke jaldi invoice bana sakta/sakti hoon?",
-        "answer": "Bilkul. Hum jaante hain speed hi sab kuch hai. Saari project details manually enter karne ki jagah, aap \"Create Invoice\" tap karte waqt brand ka Purchase Order (PO) upload kar sakte hain. Hamara smart system instantly document ko break down karega aur basic details jaise brand name, contact info, aur kabhi-kabhi rate bhi pre-fill kar dega - taaki aap details verify karo aur invoice aur bhi jaldi bhejo."
+        "question": "Kya main ek Purchase Order (PO) use karke jaldi se invoice create kar sakta/sakti hoon?",
+        "answer": "Bilkul! Hum jaante hain speed sab kuch hai. Saare project details manually enter karne ke bajay, jab aap 'Create Invoice' pe tap karenge, tab aap brand ka Purchase Order (PO) upload kar sakte hain. Humara smart system instantly document ko breakdown karke basic details jaise brand ka naam, contact info, aur kabhi-kabhi rate bhi pre-fill kar dega - taaki aap details verify karke invoice aur bhi fast bhej saken."
       },
       {
-        "question": "Main aksar invoices bhejne mein delay karta/karti hoon kyunki ye ek kaam lagta hai, ya mujhe galti karne ka darr rehta hai. Kya ye badi baat hai?",
-        "answer": "Haan! Delayed invoices ka matlab brands aapki payment baad mein process karna shuru karti hain, jo aapka payment cycle 45 se 180 din tak push kar sakta hai—wo 6 mahine tak ka wait hai. Hum bhi us delay se nafrat karte hain, isliye humne Sparkonomy ke saath invoicing super simple aur fast banayi. Hamara 'Tap-to-Invoice' design aur AI seconds mein 100% accurate, professional invoices banate hain. Matlab koi errors ya missing info nahi jo payments rok sake. Invoice mistakes aur delays hatakar, hum aapko jaldi pay dilwate hain, taaki aap creating par poora focus kar sako!"
+        "question": "Main aksar apne invoices bhejne mein delay kar deta/deti hoon kyunki ye kaam boring lagta hai, ya mujhe darr hota hai ki koi mistake ho jaayegi. Kya ye badi baat hai?",
+        "answer": " Haan! Agar aap invoice der se bhejte hain, to brands aapka payment process late start karte hain, jo aapke payment cycle ko 45 se 180 din tak push kar sakta hai - matlab 6 mahine tak wait karna pad sakta hai. Hum bhi ye delay pasand nahi karte, isliye Sparkonomy ke saath invoicing super simple aur fast bana di hai. Hamara 'Tap-to-Invoice' design aur AI seconds mein 100% accurate, professional invoices bana dete hain. Iska matlab hai koi errors ya missing info nahi jo payments rok sake. Invoice mistakes aur delays hata kar, hum aapko jaldi payment dilate hain, taaki aap poori tarah se content creation par focus kar sakein!"
       },
       {
-        "question": "Kya aapke invoices HSN ya SAC codes support karte hain?",
-        "answer": "Haan, bilkul! Sparkonomy ka AI automatically saari mandatory details fill karta hai, including correct HSN/SAC codes (Services Accounting Code), aapki service ke liye. Ye ensure karta hai har invoice fully compliant, correctly classified, aur aapki filing aur aapke client ke Input Tax Credit dono ke liye saari legal requirements meet kare. Sparkonomy ke saath, aapko errors ki chinta nahi—hamara AI sab seamlessly handle karta hai!"
+        "question": "Kya aapke invoices HSN ya SAC codes ko support karte hain?",
+        "answer": " Haan, bilkul! Sparkonomy ka AI automatically sabhi mandatory details fill kar deta hai, including sahi HSN/SAC codes (Services Accounting Code) aapki service ke liye. Isse har invoice fully compliant, correctly classified aur legal requirements ke hisaab se ready hota hai, chahe aap filing kar rahe ho ya aapke client ke Input Tax Credit ke liye. Sparkonomy ke saath aapko errors ki chinta karne ki zaroorat nahi - hamara AI sab kuch seamlessly handle karta hai!"
       },
       {
-        "question": "Mujhe lagta hai mere invoice mein error hai. Main kya karun?",
-        "answer": "Agar aapka invoice abhi tak send nahi hua, toh koi tension nahi—bas apne dashboard par jao aur edit option use karo changes karne ke liye. Agar invoice send ho gaya hai aur aap GST-registered nahi hain, toh aap invoice edit kar sakte hain, lekin better practice hai purana cancel karo aur naya invoice bhejo taaki cheezein clean rahein. Agar aap GST-registered hain, toh aapko existing invoice cancel karke fresh ek banana chahiye. Ye aapke invoice serial numbers aur dates correct rakhne mein help karta hai. Aap purana invoice duplicate karke aur bhejne se pehle necessary changes karke speed up kar sakte hain. Ye approach compliance mein help karta hai aur aapke records tidy rakhta hai!"
+        "question": "Mujhe lagta hai ki mere invoice mein koi galti hai. Mujhe kya karna chahiye?",
+        "answer": "Agar aapka invoice abhi tak send nahi hua hai, toh tension mat lo - bas apne dashboard par jao aur edit option use karke changes karo. Agar invoice bhej diya gaya hai aur aap GST-registered nahi ho, toh aap invoice edit kar sakte ho, lekin best practice ye hai ki purana invoice cancel karke naya invoice bhejo, taaki sab clean rahe. Agar aap GST-registered ho, toh existing invoice ko cancel karke fresh invoice create karna chahiye. Isse aapke invoice serial numbers aur dates correct rahenge. Process ko fast karne ke liye, aap purane invoice ko duplicate karke necessary changes kar sakte ho aur phir send kar sakte ho. Ye approach compliance maintain karne mein help karta hai aur records tidy rakhta hai!"
       },
       {
-        "question": "Maine abhi apna Payment Method change kiya. Kya ye mera current invoice affect karega?",
-        "answer": "Aapke payment change se pehle bheje gaye saare invoices purani payment details dikhayenge. Aapki updated payout information save hai aur future invoices aur payouts ke liye use hogi, lekin ensure karo aapki nayi bank details next payment date se pehle fully verify ho jaayein. Agar purana payment system ab paisa accept nahi karta, toh aapko un brands ko quick update bhejni hogi jahan payment abhi pending hai taaki delays na hon."
+        "question": "Maine abhi apna Payment Method change kiya. Kya iska effect mere current invoice par padega?",
+        "answer": " Jo invoices aapne payment change se pehle bheje, unmein purane payment details hi dikhenge. Aapki updated payout information save ho gayi hai aur ye saare future invoices aur payouts ke liye use hogi. Lekin, ensure karein ki aapke naye bank details fully verified ho next payment date se pehle. Agar purana payment system ab paise accept nahi karta, toh un brands ko jaldi update bhejna padega jahan payment abhi pending hai, taaki delays avoid ho sake."
       },
       {
         "question": "Non-paying brands ke final collection aur public disclosure ke liye Sparkonomy ke steps kya hain?",
-        "answer": "Ek brand jo aapki payment ghost kare, ye cool nahi hai. Hum abhi collections ke liye legal support nahi dete, lekin humne paid hone mein help karne ke liye kuch smart hacks rakhe hain. Hum strong follow-up messages draft karne ke tarike aur payment encourage karne ke professional steps suggest karenge—bina kisi drama ke. Aap control mein rehte ho, aur hum cheezein smooth aur professional rakhne mein help karte hain."
+        "answer": " Agar koi brand aapka payment ignore kar raha hai, toh ye cool nahi hai. Hum abhi legal support provide nahi karte, lekin kuch smart hacks hai jo aapko payment lene mein help karenge. Hum suggest karenge ki kaise strong follow-up messages draft karein aur professional steps lein taaki payment encourage ho—without kisi drama ke. Aap control mein rahenge, aur hum ensure karenge ki process smooth aur professional rahe."
       }
     ]
   },

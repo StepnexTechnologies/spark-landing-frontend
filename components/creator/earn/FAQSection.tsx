@@ -33,9 +33,9 @@ export default function FAQSection() {
             {t("faq.title")}
           </h2>
 
-          {/* FAQ Items */}
+          {/* FAQ Items - Show only first 5 on landing page */}
           <div className="space-y-0 mb-8 md:mb-10">
-            {faqs.map((faq, index) => (
+            {faqs.slice(0, 5).map((faq, index) => (
               <FAQItem
                 key={index}
                 question={faq.question}

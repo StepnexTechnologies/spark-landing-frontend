@@ -19,9 +19,9 @@ export default function ValueProposition() {
       >
         <div className="max-w-[321px] md:max-w-[931px] mx-auto space-y-6 md:space-y-8">
           {/* Main Heading */}
-          <h2 className="text-[40px] md:text-[52px] font-bold text-white leading-tight lg:inline-flex">
-            <span className="block md:inline md:text-nowrap">{t("valueProposition.heading1")}</span>
-            <span className="block md:text-nowrap">{t("valueProposition.heading2")}</span>
+          <h2 className="text-[40px] md:text-[52px] font-bold text-white leading-tight">
+            <span className="block">{t("valueProposition.heading1")}</span>
+            <span className="block">{t("valueProposition.heading2")}</span>
           </h2>
 
           {/* Description */}
