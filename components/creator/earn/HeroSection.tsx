@@ -30,7 +30,7 @@ export default function HeroSection() {
         className="max-w-[1440px] mx-auto"
       >
         {/* Heading */}
-        <h1 className="text-[32px] md:text-[52px] font-bold text-white text-center leading-tight mb-8 md:mb-12 max-w-[350px] md:max-w-[740px] mx-auto">
+        <h1 className="text-[32px] md:text-[52px] font-bold text-white text-center leading-tight mb-8 md:mb-12 max-w-[350px] md:max-w-[740px] mx-auto whitespace-pre-line">
           {t("hero.title")}
         </h1>
 
