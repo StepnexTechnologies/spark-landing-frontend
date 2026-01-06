@@ -46,7 +46,7 @@ export default function AdvantageFeature({
         <h3 className="text-2xl font-semibold text-white leading-normal">
           {title}
         </h3>
-        <p className="text-sm text-white text-nowrap">{description}</p>
+        <p className="text-sm text-white text-center">{description}</p>
       </div>
     </motion.div>
   );
