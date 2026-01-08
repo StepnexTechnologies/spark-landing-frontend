@@ -15,6 +15,34 @@ export default function TOCEnhancer() {
   useEffect(() => {
     if (!isMounted) return;
 
+    // Custom smooth scroll function with controlled duration
+    const smoothScrollTo = (targetPosition: number, duration: number) => {
+      const startPosition = window.pageYOffset;
+      const distance = targetPosition - startPosition;
+      let startTime: number | null = null;
+
+      const easeInOutCubic = (t: number): number => {
+        return t < 0.5
+          ? 4 * t * t * t
+          : 1 - Math.pow(-2 * t + 2, 3) / 2;
+      };
+
+      const animation = (currentTime: number) => {
+        if (startTime === null) startTime = currentTime;
+        const timeElapsed = currentTime - startTime;
+        const progress = Math.min(timeElapsed / duration, 1);
+        const easedProgress = easeInOutCubic(progress);
+
+        window.scrollTo(0, startPosition + distance * easedProgress);
+
+        if (timeElapsed < duration) {
+          requestAnimationFrame(animation);
+        }
+      };
+
+      requestAnimationFrame(animation);
+    };
+
     // Small delay to ensure DOM is ready
     const timer = setTimeout(() => {
       // Find all links in the WordPress TOC (links inside wp-block-list after "Table of Content" heading)
@@ -30,14 +58,21 @@ export default function TOCEnhancer() {
           const targetElement = document.getElementById(targetId);
 
           if (targetElement) {
-            const offset = 100;
-            const elementPosition = targetElement.getBoundingClientRect().top;
-            const offsetPosition = elementPosition + window.pageYOffset - offset;
+            // Get the sticky header height
+            const header = document.querySelector('header.sticky, header[class*="sticky"]');
+            const headerHeight = header ? header.getBoundingClientRect().height : 0;
 
-            window.scrollTo({
-              top: offsetPosition,
-              behavior: "smooth",
-            });
+            // Get the heading's absolute position on the page
+            const rect = targetElement.getBoundingClientRect();
+            const scrollTop = window.scrollY || window.pageYOffset;
+            const targetTop = rect.top + scrollTop;
+
+            // Offset = header height + 50px extra to scroll less (show heading higher)
+            const offset = headerHeight + 50;
+            const targetScrollPosition = targetTop - offset;
+
+            // Smooth scroll with 800ms duration
+            smoothScrollTo(Math.max(0, targetScrollPosition), 800);
           }
         });
       });

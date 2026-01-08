@@ -525,9 +525,20 @@
   text-decoration: none;
 }
 
-/* Underline only for Table of Contents list items */
+/* Table of Contents list styling */
 .wordpress-content .toc-list li {
+  text-decoration: none;
+}
+
+.wordpress-content .toc-list .toc-link {
   text-decoration: underline;
+  color: #999999;
+  transition: color 0.2s ease;
+  cursor: pointer;
+}
+
+.wordpress-content .toc-list .toc-link:hover {
+  color: #6B7280;
 }
 
 @media (min-width: 768px) {
