@@ -13,8 +13,8 @@ import QuoteAuthorInjector from "@/components/blog/QuoteAuthorInjector";
 import FAQAccordionEnhancer from "@/components/blog/FAQAccordionEnhancer";
 import ProTipEnhancer from "@/components/blog/ProTipEnhancer";
 import QuoteCleanerEnhancer from "@/components/blog/QuoteCleanerEnhancer";
+import ListMergerEnhancer from "@/components/blog/ListMergerEnhancer";
 import NewsletterSection from "@/components/blog/NewsletterSection";
-import DebugLogger from "@/components/blog/DebugLogger";
 import { getAuthorPageSlug, getAuthorByWordPressSlug } from "@/data/authors";
 import "../wordpress-content.css";
 
@@ -303,9 +303,6 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
   return (
     <>
-      {/* Debug Logger - shows post data in browser console */}
-      <DebugLogger data={post} label="Blog Post Response:" />
-
       {/* Article Structured Data */}
       <script
         type="application/ld+json"
@@ -518,6 +515,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             <ProTipEnhancer />
             {/* Quote cleaner - removes broken quote marks */}
             <QuoteCleanerEnhancer />
+            {/* Merge consecutive lists that WordPress split */}
+            <ListMergerEnhancer />
             <div
               className="wordpress-content"
               dangerouslySetInnerHTML={{ __html: processedContent }}
