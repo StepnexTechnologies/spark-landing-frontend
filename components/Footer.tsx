@@ -55,7 +55,7 @@ export default function Footer() {
             {/*<Info className="w-3 h-3" />*/}
             <span className="text-center">© 2025 Sparkonomy Pte. Ltd. All rights reserved</span>
           </div>
-          
+
           {/* Right Column */}
           <div className="flex items-center justify-center md:justify-end space-x-2 md:space-x-4 md:justify-self-end">
             <Link href="/legal/privacy-policy" className="hover:underline hover:text-purple-400">Privacy Policy</Link>

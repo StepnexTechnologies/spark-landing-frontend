@@ -1,10 +1,13 @@
 "use client";
 
 import {motion} from "framer-motion";
+import { useTranslation } from "react-i18next";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function EarnFooter() {
+  const { t } = useTranslation("creatorEarn");
+
   return (
     <footer className="relative py-8 md:py-12 px-5 md:px-20 mb-36">
       <motion.div
@@ -29,7 +32,7 @@ export default function EarnFooter() {
               />
             </div>
             <p className="text-[#999999] text-lg leading-[1.4] text-center">
-              sparking the creator economy
+              {t("footer.tagline")}
             </p>
           </div>
 
@@ -37,18 +40,18 @@ export default function EarnFooter() {
           <div className="flex flex-col items-center gap-1 text-gray-500 text-xs">
             <div className="flex items-center justify-center gap-1">
               <Link href="/legal/terms" className="hover:text-white transition-colors">
-                Terms & Conditions
+                {t("footer.terms")}
               </Link>
               <span>|</span>
               <Link href="/legal/privacy-policy" className="hover:text-white transition-colors">
-                Privacy Policy
+                {t("footer.privacy")}
               </Link>
               <span>|</span>
               <Link href="/legal/refund-policy" className="hover:text-white transition-colors">
-                Refund Policy
+                {t("footer.refund")}
               </Link>
             </div>
-            <span>©All rights reserved.</span>
+            <span>{t("footer.copyright")}</span>
           </div>
         </div>
       </motion.div>

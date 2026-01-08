@@ -2,11 +2,13 @@
 
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import useEmblaCarousel, { UseEmblaCarouselType } from "embla-carousel-react";
+import { useTranslation } from "react-i18next";
 import TestimonialCard from "./TestimonialCard";
 import styles from "./carousel.module.css";
 import { motion } from "framer-motion";
 
 export default function TestimonialsSection() {
+  const { t } = useTranslation("creatorEarn");
   const [windowWidth, setWindowWidth] = useState<number>(0);
 
   // track window width client-side (SSR-safe)
@@ -23,31 +25,28 @@ export default function TestimonialsSection() {
   const testimonials = useMemo(
     () => [
       {
-        quote:
-          "And I have to reach out so many times to get paid in 3 months, and still it hasn't happened 15-20 times! I want you to do my payment reminders",
-        name: "Food YouTuber",
-        handle: "700K Followers",
+        quote: t("testimonials.items.0.quote"),
+        name: t("testimonials.items.0.name"),
+        handle: t("testimonials.items.0.handle"),
         avatarUrl: "/images/creator/earn/testimonial-1.png",
         highlighted: false,
       },
       {
-        quote:
-          "I raise invoices once a month mostly..don't get time… and it delays my payments. I want you help me raise instant invoices in under 5 mins from my phone",
-        name: "Tech Instagrammer",
-        handle: "1M Followers",
+        quote: t("testimonials.items.1.quote"),
+        name: t("testimonials.items.1.name"),
+        handle: t("testimonials.items.1.handle"),
         avatarUrl: "/images/creator/earn/testimonial-2.png",
         highlighted: false,
       },
       {
-        quote:
-          "I don't have time to write down and track all payments in Excel and become my own accountant! I want you to track & remind me of my money matters",
-        name: "Lifestyle Instagrammer",
-        handle: "320K Followers",
+        quote: t("testimonials.items.2.quote"),
+        name: t("testimonials.items.2.name"),
+        handle: t("testimonials.items.2.handle"),
         avatarUrl: "/images/creator/earn/testimonial-3.png",
         highlighted: false,
       },
     ],
-    []
+    [t]
   );
 
   const emblaOptions = useMemo(
@@ -97,7 +96,7 @@ export default function TestimonialsSection() {
           className="text-center mb-8 md:mb-12 space-y-3"
         >
           <h2 className="text-2xl md:text-[52px] font-bold text-white">
-            What People Say
+            {t("testimonials.title")}
           </h2>
         </motion.div>
 

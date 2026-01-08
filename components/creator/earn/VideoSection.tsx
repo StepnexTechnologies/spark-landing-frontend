@@ -2,9 +2,12 @@
 
 import {Suspense} from "react";
 import {motion} from "framer-motion";
+import { useTranslation } from "react-i18next";
 import CTAButton from "./CTAButton";
 
 export default function VideoSection() {
+  const { t } = useTranslation("creatorEarn");
+
   return (
     <section className="relative py-12 md:py-20 px-5 md:px-20">
       <motion.div
@@ -58,7 +61,7 @@ export default function VideoSection() {
           className="flex justify-center"
         >
             <Suspense fallback={null}>
-              <CTAButton buttonText={"Completely Free, Start Now"}/>
+              <CTAButton buttonText={t("video.cta")}/>
             </Suspense>
         </motion.div>
       </motion.div>
