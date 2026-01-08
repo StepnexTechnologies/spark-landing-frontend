@@ -1509,3 +1509,36 @@
     font-size: 1rem !important;
   }
 }
+
+/* ====================
+   PRO TIP STYLING
+   Light purple highlight for "Pro tip:" paragraphs
+   ==================== */
+
+.wordpress-content .pro-tip-box {
+  background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+  border-left: 4px solid #8b5cf6;
+  border-radius: 0.5rem;
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0;
+  color: #5b21b6;
+}
+
+.wordpress-content .pro-tip-label {
+  font-weight: 700;
+  color: #7c3aed;
+}
+
+/* Hover effect for Pro Tip */
+.wordpress-content .pro-tip-box:hover {
+  box-shadow: 0 4px 12px -2px rgba(139, 92, 246, 0.15);
+  border-left-color: #7c3aed;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .wordpress-content .pro-tip-box {
+    padding: 0.875rem 1rem;
+    margin: 1.25rem 0;
+  }
+}

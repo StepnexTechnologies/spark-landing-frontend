@@ -11,6 +11,7 @@ import AuthorCard from "@/components/blog/AuthorCard";
 import RelatedPosts from "@/components/blog/RelatedPosts";
 import QuoteAuthorInjector from "@/components/blog/QuoteAuthorInjector";
 import FAQAccordionEnhancer from "@/components/blog/FAQAccordionEnhancer";
+import ProTipEnhancer from "@/components/blog/ProTipEnhancer";
 import NewsletterSection from "@/components/blog/NewsletterSection";
 import DebugLogger from "@/components/blog/DebugLogger";
 import { getAuthorPageSlug, getAuthorByWordPressSlug } from "@/data/authors";
@@ -512,6 +513,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             <TOCEnhancer />
             {/* FAQ accordion interactivity enhancement */}
             <FAQAccordionEnhancer />
+            {/* Pro tip highlight enhancement */}
+            <ProTipEnhancer />
             <div
               className="wordpress-content"
               dangerouslySetInnerHTML={{ __html: processedContent }}
