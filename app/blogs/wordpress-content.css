@@ -522,6 +522,11 @@
   line-height: 1.75;
   color: #999999;
   display: list-item;
+  text-decoration: none;
+}
+
+/* Underline only for Table of Contents list items */
+.wordpress-content .toc-list li {
   text-decoration: underline;
 }
 

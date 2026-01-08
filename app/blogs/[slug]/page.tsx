@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { getPostBySlug, getFeaturedImageUrl, getAuthorName, formatDate, stripHtml, getReadingTime, getPosts } from "@/lib/wordpress-improved";
-import { extractHeadings, addHeadingIds, extractFAQs, extractVideos } from "@/lib/content-processor";
+import { extractHeadings, addHeadingIds, extractFAQs, extractVideos, removeWordPressTOC } from "@/lib/content-processor";
 import ShareButtons from "@/components/blog/ShareButtons";
 import Breadcrumb from "@/components/blog/Breadcrumb";
 import TOCEnhancer from "@/components/blog/TOCEnhancer";
@@ -132,10 +132,10 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const authorPageSlug = getAuthorPageSlug(wpAuthorSlug);
   const localAuthor = getAuthorByWordPressSlug(wpAuthorSlug);
 
-  // Process content: extract headings for IDs, keep WordPress TOC and FAQ in place
+  // Process content: extract headings for IDs, add toc-list class to TOC
   const headings = extractHeadings(post.content.rendered);
-  // Don't remove WordPress TOC or FAQ - let them stay in their natural position
-  const contentWithIds = addHeadingIds(post.content.rendered, headings);
+  const contentWithTocClass = removeWordPressTOC(post.content.rendered);
+  const contentWithIds = addHeadingIds(contentWithTocClass, headings);
   const processedContent = contentWithIds;
 
   // Get category for breadcrumb
