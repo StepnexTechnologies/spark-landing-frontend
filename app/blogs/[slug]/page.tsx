@@ -12,6 +12,7 @@ import RelatedPosts from "@/components/blog/RelatedPosts";
 import QuoteAuthorInjector from "@/components/blog/QuoteAuthorInjector";
 import FAQAccordionEnhancer from "@/components/blog/FAQAccordionEnhancer";
 import ProTipEnhancer from "@/components/blog/ProTipEnhancer";
+import QuoteCleanerEnhancer from "@/components/blog/QuoteCleanerEnhancer";
 import NewsletterSection from "@/components/blog/NewsletterSection";
 import DebugLogger from "@/components/blog/DebugLogger";
 import { getAuthorPageSlug, getAuthorByWordPressSlug } from "@/data/authors";
@@ -515,6 +516,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             <FAQAccordionEnhancer />
             {/* Pro tip highlight enhancement */}
             <ProTipEnhancer />
+            {/* Quote cleaner - removes broken quote marks */}
+            <QuoteCleanerEnhancer />
             <div
               className="wordpress-content"
               dangerouslySetInnerHTML={{ __html: processedContent }}

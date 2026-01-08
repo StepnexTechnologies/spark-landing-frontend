@@ -780,15 +780,61 @@
   margin-right: auto;
 }
 
+/* Add proper quote marks using CSS - made prominent */
+.wordpress-content .wp-block-pullquote p:first-of-type::before,
+.wordpress-content .wp-block-quote p:first-of-type::before {
+  content: "\201C";
+  font-size: 3rem;
+  color: #8b5cf6;
+  font-weight: 700;
+  line-height: 0;
+  vertical-align: -0.3em;
+  margin-right: 0.1em;
+}
+
+.wordpress-content .wp-block-pullquote p:last-of-type::after,
+.wordpress-content .wp-block-quote p:last-of-type::after {
+  content: "\201D";
+  font-size: 3rem;
+  color: #8b5cf6;
+  font-weight: 700;
+  line-height: 0;
+  vertical-align: -0.3em;
+  margin-left: 0.1em;
+}
+
 .wordpress-content .wp-block-pullquote cite,
 .wordpress-content .wp-block-quote cite {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.75rem;
-  font-style: normal;
-  margin-top: 1.5rem;
-  color: #1f2937;
+  display: block;
+  text-align: center;
+  font-style: italic;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-top: 1rem;
+  color: #999999;
+}
+
+/* Add dash before author name */
+.wordpress-content .wp-block-pullquote cite::before,
+.wordpress-content .wp-block-quote cite::before {
+  content: "-";
+  margin-right: 0.25rem;
+}
+
+/* Author links within cite - same styling */
+.wordpress-content .wp-block-quote cite a,
+.wordpress-content .wp-block-pullquote cite a {
+  color: #999999;
+  text-decoration: none;
+  font-style: italic;
+}
+
+.wordpress-content .wp-block-quote cite a:hover,
+.wordpress-content .wp-block-pullquote cite a:hover {
+  color: #6366f1;
+  text-decoration: underline;
 }
 
 /* Author avatar and info within cite */
@@ -799,23 +845,6 @@
   border-radius: 50%;
   object-fit: cover;
   margin-bottom: 0.5rem;
-}
-
-/* Author name styling */
-.wordpress-content .wp-block-quote cite,
-.wordpress-content .wp-block-pullquote cite {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #1f2937;
-}
-
-/* If cite contains multiple elements, style them */
-.wordpress-content .wp-block-quote cite > *:last-child,
-.wordpress-content .wp-block-pullquote cite > *:last-child {
-  font-size: 0.875rem;
-  font-weight: 400;
-  color: #6366f1;
-  font-style: italic;
 }
 
 /* Injected quote author info */
