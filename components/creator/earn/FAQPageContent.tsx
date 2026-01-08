@@ -4,15 +4,33 @@ import {motion} from "framer-motion";
 import {useState} from "react";
 import FAQItem from "./FAQItem";
 import {ChevronDown} from "lucide-react";
-import {allFAQs, faqCategories} from "@/data/faqs";
+import {useTranslation} from "react-i18next";
+
+interface FAQTranslation {
+  question: string;
+  answer: string;
+  category?: string;
+}
+
+interface FAQCategoryTranslation {
+  key: string;
+  label: string;
+}
 
 export default function FAQPageContent() {
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const {t} = useTranslation("creatorEarn");
+  const [selectedCategory, setSelectedCategory] = useState("all");
   const [expandedFAQ, setExpandedFAQ] = useState<number | null>(0);
   const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
 
+  // Get FAQs and categories from translations
+  const faqItems = t("faq.items", {returnObjects: true}) as FAQTranslation[];
+  const allFAQs = Array.isArray(faqItems) ? faqItems : [];
+  const faqCategoriesData = t("faq.categories", {returnObjects: true}) as FAQCategoryTranslation[];
+  const faqCategories = Array.isArray(faqCategoriesData) ? faqCategoriesData : [];
+
   const filteredFAQs =
-    selectedCategory === "All"
+    selectedCategory === "all"
       ? allFAQs
       : allFAQs.filter((faq) => faq.category === selectedCategory);
 
@@ -26,7 +44,7 @@ export default function FAQPageContent() {
           transition={{ duration: 0.6 }}
           className="text-[40px] md:text-[40px] font-bold text-white mb-8 md:mb-12 text-left md:text-left"
         >
-          Frequently Asked Questions
+          {t("faq.title")}
         </motion.h1>
 
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
@@ -36,7 +54,9 @@ export default function FAQPageContent() {
               onClick={() => setShowCategoryDropdown(!showCategoryDropdown)}
               className="w-full bg-white/4 rounded-[12px] p-4 flex items-center justify-between text-white bg-gradient-to-br from-white/10 via-white/0 to-black/10 border border-white/20 backdrop-blur-[2px]"
             >
-              <span className="font-medium">{selectedCategory}</span>
+              <span className="font-medium">
+                {faqCategories.find((c) => c.key === selectedCategory)?.label || selectedCategory}
+              </span>
               <ChevronDown
                 className={`w-6 h-6 transition-transform ${
                   showCategoryDropdown ? "rotate-180" : ""
@@ -52,18 +72,18 @@ export default function FAQPageContent() {
               >
                 {faqCategories.map((category) => (
                   <button
-                    key={category}
+                    key={category.key}
                     onClick={() => {
-                      setSelectedCategory(category);
+                      setSelectedCategory(category.key);
                       setShowCategoryDropdown(false);
                     }}
                     className={`w-full p-3 text-left transition-colors rounded-[12px] font-medium ${
-                      selectedCategory === category
+                      selectedCategory === category.key
                         ? "bg-white/30 text-white"
                         : "text-white/70 hover:bg-white/10 hover:text-white"
                     }`}
                   >
-                    {category}
+                    {category.label}
                   </button>
                 ))}
               </motion.div>
@@ -79,15 +99,15 @@ export default function FAQPageContent() {
           >
             {faqCategories.map((category) => (
               <button
-                key={category}
-                onClick={() => setSelectedCategory(category)}
+                key={category.key}
+                onClick={() => setSelectedCategory(category.key)}
                 className={`px-4 py-4 rounded-[30px] text-left transition-all w-full bg-white/4 hover:bg-white/10 p-4 flex items-center justify-center text-white bg-gradient-to-br from-white/10 to-black/10 border border-white/15 backdrop-blur-[2px] shadow-[10px_10px_30px_rgba(0,0,0,0.2),0px_-10px_30px_rgba(255,255,255,0.1)] ${
-                  selectedCategory === category
+                  selectedCategory === category.key
                     ? "bg-white/10"
                     : ""
                 }`}
               >
-                {category}
+                {category.label}
               </button>
             ))}
           </motion.div>
