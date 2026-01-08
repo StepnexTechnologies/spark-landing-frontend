@@ -14,6 +14,7 @@ import FAQAccordionEnhancer from "@/components/blog/FAQAccordionEnhancer";
 import ProTipEnhancer from "@/components/blog/ProTipEnhancer";
 import QuoteCleanerEnhancer from "@/components/blog/QuoteCleanerEnhancer";
 import ListMergerEnhancer from "@/components/blog/ListMergerEnhancer";
+import PromoBannerInjector from "@/components/blog/PromoBannerInjector";
 import NewsletterSection from "@/components/blog/NewsletterSection";
 import { getAuthorPageSlug, getAuthorByWordPressSlug } from "@/data/authors";
 import "../wordpress-content.css";
@@ -517,6 +518,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             <QuoteCleanerEnhancer />
             {/* Merge consecutive lists that WordPress split */}
             <ListMergerEnhancer />
+            {/* Inject promotional banners around FAQ sections */}
+            <PromoBannerInjector />
             <div
               className="wordpress-content"
               dangerouslySetInnerHTML={{ __html: processedContent }}

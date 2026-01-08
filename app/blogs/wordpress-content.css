@@ -1571,3 +1571,86 @@
     margin: 1.25rem 0;
   }
 }
+
+/* ====================
+   PROMO BANNER STYLING
+   Promotional banner with gradient background and CTA button
+   ==================== */
+
+.promo-banner-wrapper {
+  margin: 2.5rem 0;
+}
+
+.promo-banner {
+  background-color: #F3F4F6;
+  padding: 32px 17px;
+  text-align: center;
+}
+
+.promo-banner-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.promo-banner-text {
+  font-size: 20px !important;
+  font-weight: 600 !important;
+  line-height: 1.5 !important;
+  color: #8134a5 !important;
+  max-width: 700px;
+  margin: 0;
+}
+
+.promo-banner-text strong {
+  color: #7C3AED;
+}
+
+.promo-banner-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(162.34deg, #DD2A7B 4.78%, #9747FF 89.95%);
+  color: white;
+  font-weight: 500;
+  font-size: 0.875rem;
+  padding: 0.625rem 1.5rem;
+  border-radius: 9999px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px -2px rgba(151, 71, 255, 0.4);
+}
+
+.promo-banner-cta:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px -2px rgba(151, 71, 255, 0.5);
+  opacity: 0.9;
+}
+
+.promo-banner-arrow {
+  width: 18px;
+  height: 18px;
+  transition: transform 0.2s ease;
+}
+
+.promo-banner-cta:hover .promo-banner-arrow {
+  transform: translate(2px, -2px);
+}
+
+/* Desktop adjustments */
+@media (min-width: 768px) {
+  .promo-banner-text {
+    font-size: 22px;
+  }
+
+  .promo-banner-cta {
+    font-size: 1rem;
+    padding: 0.75rem 2rem;
+  }
+}
+
+/* Spacing between consecutive banners */
+.promo-banner-wrapper + .promo-banner-wrapper {
+  margin-top: 1.5rem;
+}
