@@ -8,7 +8,7 @@
   "valueProposition": {
     "heading1": "Zyada kamaayein. Stress kam Lein.",
     "heading2": "Jaldi Payment Paayein!",
-    "description": "Late payments, baar-baar yaad dilaana, tax ka jhanjhat — sab khatam! Creators ke liye bana pehla AI — smart payments se shuru, jo aapko zyada aur faster earn karne mein help karta hai. Hum tension sambhaalein, aap content banaayen.",
+    "description": "Late payments, baar-baar yaad dilaana, tax ka jhanjhat — sab khatam! Creators ke liye bana pehla AI — smart payments se shuru, jo aapko zyada aur faster earn karne mein help karta hai. Aap content banao, follow ups hum sambhal lenge.",
     "cta": "Free mein invoice bhejna shuru karein"
   },
   "benefits": {
@@ -21,7 +21,7 @@
         "highlight": "Aap bas content banao, Cashflow hum banayenge!"
       },
       {
-        "title": "Aap content banao. follow up hum sambhal lenge.",
+        "title": "Aap content banao. follow ups hum sambhal lenge.",
         "description": "Ab “Hey, just checking on the payment?” bhejne ki zarurat nahi. Sparkonomy ka AI polite aur pro payment reminders bhejta hai — WhatsApp aur email par. Aap control mein rehto ho, hum sirf process easy banate hain.",
         "highlight": "Aap rishte banao. Follow-ups hum sambhal lenge."
       },
@@ -104,7 +104,7 @@
       },
       {
         "question": "Invoicing start karne ke liyee mujhe meri profile mein kya information add Karni padegi?",
-        "answer": "Bas apna name, address, PAN aur Payment details (UPI ya Bank account) share karein. Agar aapka separate billing organization hai, toh uska PAN aur registration jaise CIN ya GSTIN add karein. Aur, hum jaante hain aap busy hain, isliyee typing ki zarurat nahi hai, bas document ki ek photo lein aur upload karein. Isme 5 minutes se bhi kam time lagta hai, aur aapko ye sirf e  k baar hi karna padega!",
+        "answer": "Bas apna name, address, PAN aur Payment details (UPI ya Bank account) share karein. Agar aapka separate billing organization hai, toh uska PAN aur registration jaise CIN ya GSTIN add karein. Aur, hum jaante hain aap busy hain, isliyee typing ki zarurat nahi hai, bas document ki ek photo lein aur upload karein. Isme 5 minutes se bhi kam time lagta hai, aur aapko ye sirf ek baar hi karna padega!",
         "category": "invoice"
       },
       {
@@ -114,7 +114,7 @@
       },
       {
         "question": "Sparkonomy meri taraf se payment reminders kaise bhejhega?",
-        "answer": "Humein pata hai apne haq ke paiso ke liyee baar-baar follow-up karna kitna frustrating hota hai. Jab aap apna invoice banate hain, Sparkonomy aapse poochta hain ki kitne reminders bhejne hain aur kitni baar. Hum unhe aapke client ko WhatsApp aur email par bhejenge. Reminder wale din subah 10 AM par hum aapko ping karte hain aur poochte hain ki kya aap abhi bhi reminder bhejna chahte hain aur agar aap yes bolte ho, toh reminder 3 PM par chala jaata hai. Hum sirf 4 friendly reminder bhejte hain: ek check-in, ek soft poke, ek late fees alert, aur ek final notice. Aap STOP, DELAY, ya PAYMENT DONE jese quick replies ke saath control banaye rakh sakte hain. aap content banao, follow up hum sambhal lenge.",
+        "answer": "Humein pata hai apne haq ke paiso ke liyee baar-baar follow-up karna kitna frustrating hota hai. Jab aap apna invoice banate hain, Sparkonomy aapse poochta hain ki kitne reminders bhejne hain aur kitni baar. Hum unhe aapke client ko WhatsApp aur email par bhejenge. Reminder wale din subah 10 AM par hum aapko ping karte hain aur poochte hain ki kya aap abhi bhi reminder bhejna chahte hain aur agar aap yes bolte ho, toh reminder 3 PM par chala jaata hai. Hum sirf 4 friendly reminder bhejte hain: ek check-in, ek soft poke, ek late fees alert, aur ek final notice. Aap STOP, DELAY, ya PAYMENT DONE jese quick replies ke saath control banaye rakh sakte hain. Aap content banao, follow up hum sambhal lenge.",
         "category": "payment-reminders"
       },
       {
