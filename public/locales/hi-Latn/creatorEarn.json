@@ -118,7 +118,7 @@
         "category": "payment-reminders"
       },
       {
-        "question": "Pocket CFO kya hai aur yeh kya kaam kareinga?",
+        "question": "Pocket CFO kya hai aur yeh kya kaam karega?",
         "answer": "Hum jaante hai ki aap apne creator business ke accountant nahi banna chahte, aur phir bhi aap vahi ban jate hai! Excel, Canva ya Word mein banaye hue invoices ko manage karna aur track karna impossible hai. Sparkonomy ka pocket CFO AI agent every week aapke payments aur cash flow ka analysis karta hai. Phir yeh aapko cash flow, overdue payments, aur income growth par quick weekly 5-minute update bhejta hai. Ye aapke saare records ko clean aur aapke business ko tax-ready rakhta hai. Aap pro bano, ham aapki help kareinnge.",
         "category": "pocket-cfo"
       },
@@ -129,7 +129,7 @@
       },
       {
         "question": "Mere invoices par tax calculate kaise hoga?",
-        "answer": "Ab Aapko Tax errors ke liye brands ko chase nahi karna padega. Tax-man se meetings nahi.  GST registered creators ke liye, Sparkonomy AI automatically sahi GST code lagata hai, CGST/SGST/IGST split karta hai, aur invoice ko GST-ready banata hai. tax calculations aur Compliance hum sambhalte hain. Creation aap.",
+        "answer": "Ab Aapko Tax errors ke liye brands ko chase nahi karna padega. Tax-man se meetings nahi.  GST registered creators ke liye, Sparkonomy AI automatically sahi GST code lagata hai, CGST/SGST/IGST split karta hai, aur invoice ko GST-ready banata hai. Tax compliance hum sambhalte hain. Creation aap.",
         "category": "taxation"
       },
       {
@@ -144,16 +144,16 @@
       },
       {
         "question": "Main Ek brand ko invoice kaise bheju?",
-        "answer": "Jaise aapko pasand ho! Apna invoice complete karne ke baad, Sparkonomy ke through brand ko bhej do, ya PDF download karke personally email/WhatsApp pe send karo. No chasing, no tension - bas fast cash!",
+        "answer": "Jaise aapko pasand ho! Apna invoice complete karne ke baad, Sparkonomy ke through brand ko bhej dein, ya PDF download karke personally email/WhatsApp pe send karein. No chasing, no tension - bas fast cash!",
         "category": "invoice"
       },
       {
-        "question": "Kya main apne invoices mein apna logo add kar sakta/ sakti hoon?",
+        "question": "Kya invoice mein apna logo add kar sakte hain?",
         "answer": "Haan! Hum jaante hain ki aapke invoices aapke unique brand ko reflect karne chahiye. Apna business logo, profile picture upload karein ya bas apne social accounts share karein, aur hum aapki profile photo leke aapke invoices ko personalize kar denge - taaki woh bilkul aapke jaise lage! Bas 1-tap mein har invoice ko ek shiny, pro look dein.",
         "category": "invoice"
       },
       {
-        "question": "Kya main ek Purchase Order (PO) use karke jaldi se invoice create kar sakta/sakti hoon?",
+        "question": "Kya ek Purchase Order (PO) use karke jaldi se invoice create kar sakte hain?",
         "answer": "Bilkul! Hum jaante hain speed sab kuch hai. Saare project details manually enter karne ke bajay, jab aap 'Create Invoice' pe tap karenge, tab aap brand ka Purchase Order (PO) upload kar sakte hain. Humara smart system instantly document ko breakdown karke basic details jaise brand ka naam, contact info, aur kabhi-kabhi rate bhi pre-fill kar dega - taaki aap details verify karke invoice aur bhi fast bhej saken.",
         "category": "invoice"
       },
