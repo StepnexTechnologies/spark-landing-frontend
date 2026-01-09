@@ -22,7 +22,7 @@ const CTAButton = ({buttonText = "Send Invoices For Free", className, navigateTo
         // Use window.location.origin as base for relative URLs
         const base = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000';
         const url = new URL(navigateTo, base);
-        url.searchParams.set('lang', currentLang);
+        // url.searchParams.set('lang', currentLang);
         if (referralCode) {
             url.searchParams.set('ref', referralCode);
         }

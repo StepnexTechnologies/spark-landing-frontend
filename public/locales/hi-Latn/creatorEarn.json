@@ -8,7 +8,7 @@
   "valueProposition": {
     "heading1": "Zyada kamaayein. Stress kam Lein.",
     "heading2": "Jaldi Payment Paayein!",
-    "description": "Late payments, baar-baar yaad dilaana, tax ka jhanjhat — sab khatam! Creators ke liye bana pehla AI — smart payments se shuru, jo aapko zyada aur faster earn karne mein help karta hai. Hum tension sambhaalein, aap content banaayen.",
+    "description": "Late payments, baar-baar yaad dilaana, tax ka jhanjhat — sab khatam! Creators ke liye bana pehla AI — smart payments se shuru, jo aapko zyada aur faster earn karne mein help karta hai. Aap content banao, follow ups hum sambhal lenge.",
     "cta": "Free mein invoice bhejna shuru karein"
   },
   "benefits": {
@@ -21,7 +21,7 @@
         "highlight": "Aap bas content banao, Cashflow hum banayenge!"
       },
       {
-        "title": "Aap content banao. follow up hum sambhal lenge.",
+        "title": "Aap content banao. follow ups hum sambhal lenge.",
         "description": "Ab “Hey, just checking on the payment?” bhejne ki zarurat nahi. Sparkonomy ka AI polite aur pro payment reminders bhejta hai — WhatsApp aur email par. Aap control mein rehto ho, hum sirf process easy banate hain.",
         "highlight": "Aap rishte banao. Follow-ups hum sambhal lenge."
       },
@@ -104,7 +104,7 @@
       },
       {
         "question": "Invoicing start karne ke liyee mujhe meri profile mein kya information add Karni padegi?",
-        "answer": "Bas apna name, address, PAN aur Payment details (UPI ya Bank account) share karein. Agar aapka separate billing organization hai, toh uska PAN aur registration jaise CIN ya GSTIN add karein. Aur, hum jaante hain aap busy hain, isliyee typing ki zarurat nahi hai, bas document ki ek photo lein aur upload karein. Isme 5 minutes se bhi kam time lagta hai, aur aapko ye sirf e  k baar hi karna padega!",
+        "answer": "Bas apna name, address, PAN aur Payment details (UPI ya Bank account) share karein. Agar aapka separate billing organization hai, toh uska PAN aur registration jaise CIN ya GSTIN add karein. Aur, hum jaante hain aap busy hain, isliyee typing ki zarurat nahi hai, bas document ki ek photo lein aur upload karein. Isme 5 minutes se bhi kam time lagta hai, aur aapko ye sirf ek baar hi karna padega!",
         "category": "invoice"
       },
       {
@@ -114,11 +114,11 @@
       },
       {
         "question": "Sparkonomy meri taraf se payment reminders kaise bhejhega?",
-        "answer": "Humein pata hai apne haq ke paiso ke liyee baar-baar follow-up karna kitna frustrating hota hai. Jab aap apna invoice banate hain, Sparkonomy aapse poochta hain ki kitne reminders bhejne hain aur kitni baar. Hum unhe aapke client ko WhatsApp aur email par bhejenge. Reminder wale din subah 10 AM par hum aapko ping karte hain aur poochte hain ki kya aap abhi bhi reminder bhejna chahte hain aur agar aap yes bolte ho, toh reminder 3 PM par chala jaata hai. Hum sirf 4 friendly reminder bhejte hain: ek check-in, ek soft poke, ek late fees alert, aur ek final notice. Aap STOP, DELAY, ya PAYMENT DONE jese quick replies ke saath control banaye rakh sakte hain. aap content banao, follow up hum sambhal lenge.",
+        "answer": "Humein pata hai apne haq ke paiso ke liyee baar-baar follow-up karna kitna frustrating hota hai. Jab aap apna invoice banate hain, Sparkonomy aapse poochta hain ki kitne reminders bhejne hain aur kitni baar. Hum unhe aapke client ko WhatsApp aur email par bhejenge. Reminder wale din subah 10 AM par hum aapko ping karte hain aur poochte hain ki kya aap abhi bhi reminder bhejna chahte hain aur agar aap yes bolte ho, toh reminder 3 PM par chala jaata hai. Hum sirf 4 friendly reminder bhejte hain: ek check-in, ek soft poke, ek late fees alert, aur ek final notice. Aap STOP, DELAY, ya PAYMENT DONE jese quick replies ke saath control banaye rakh sakte hain. Aap content banao, follow up hum sambhal lenge.",
         "category": "payment-reminders"
       },
       {
-        "question": "Pocket CFO kya hai aur yeh kya kaam kareinga?",
+        "question": "Pocket CFO kya hai aur yeh kya kaam karega?",
         "answer": "Hum jaante hai ki aap apne creator business ke accountant nahi banna chahte, aur phir bhi aap vahi ban jate hai! Excel, Canva ya Word mein banaye hue invoices ko manage karna aur track karna impossible hai. Sparkonomy ka pocket CFO AI agent every week aapke payments aur cash flow ka analysis karta hai. Phir yeh aapko cash flow, overdue payments, aur income growth par quick weekly 5-minute update bhejta hai. Ye aapke saare records ko clean aur aapke business ko tax-ready rakhta hai. Aap pro bano, ham aapki help kareinnge.",
         "category": "pocket-cfo"
       },
@@ -129,7 +129,7 @@
       },
       {
         "question": "Mere invoices par tax calculate kaise hoga?",
-        "answer": "Ab Aapko Tax errors ke liye brands ko chase nahi karna padega. Tax-man se meetings nahi.  GST registered creators ke liye, Sparkonomy AI automatically sahi GST code lagata hai, CGST/SGST/IGST split karta hai, aur invoice ko GST-ready banata hai. tax calculations aur Compliance hum sambhalte hain. Creation aap.",
+        "answer": "Ab Aapko Tax errors ke liye brands ko chase nahi karna padega. Tax-man se meetings nahi.  GST registered creators ke liye, Sparkonomy AI automatically sahi GST code lagata hai, CGST/SGST/IGST split karta hai, aur invoice ko GST-ready banata hai. Tax compliance hum sambhalte hain. Creation aap.",
         "category": "taxation"
       },
       {
@@ -144,16 +144,16 @@
       },
       {
         "question": "Main Ek brand ko invoice kaise bheju?",
-        "answer": "Jaise aapko pasand ho! Apna invoice complete karne ke baad, Sparkonomy ke through brand ko bhej do, ya PDF download karke personally email/WhatsApp pe send karo. No chasing, no tension - bas fast cash!",
+        "answer": "Jaise aapko pasand ho! Apna invoice complete karne ke baad, Sparkonomy ke through brand ko bhej dein, ya PDF download karke personally email/WhatsApp pe send karein. No chasing, no tension - bas fast cash!",
         "category": "invoice"
       },
       {
-        "question": "Kya main apne invoices mein apna logo add kar sakta/ sakti hoon?",
+        "question": "Kya invoice mein apna logo add kar sakte hain?",
         "answer": "Haan! Hum jaante hain ki aapke invoices aapke unique brand ko reflect karne chahiye. Apna business logo, profile picture upload karein ya bas apne social accounts share karein, aur hum aapki profile photo leke aapke invoices ko personalize kar denge - taaki woh bilkul aapke jaise lage! Bas 1-tap mein har invoice ko ek shiny, pro look dein.",
         "category": "invoice"
       },
       {
-        "question": "Kya main ek Purchase Order (PO) use karke jaldi se invoice create kar sakta/sakti hoon?",
+        "question": "Kya ek Purchase Order (PO) use karke jaldi se invoice create kar sakte hain?",
         "answer": "Bilkul! Hum jaante hain speed sab kuch hai. Saare project details manually enter karne ke bajay, jab aap 'Create Invoice' pe tap karenge, tab aap brand ka Purchase Order (PO) upload kar sakte hain. Humara smart system instantly document ko breakdown karke basic details jaise brand ka naam, contact info, aur kabhi-kabhi rate bhi pre-fill kar dega - taaki aap details verify karke invoice aur bhi fast bhej saken.",
         "category": "invoice"
       },
