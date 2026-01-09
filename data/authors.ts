@@ -292,6 +292,95 @@ export const authors: AuthorEntry[] = [
     lastUpdated: "December 2, 2025",
     profileId: "authors/dev-sparkonomy",
   },
+  {
+    id: "binny_agarwal",
+    slug: "binny-agarwal",
+
+    // WordPress matching
+    wordpressSlug: "binny",
+    wordpressAuthorId: 7,
+
+    name: "Binny Agarwal",
+    role: "Content Strategist & Chartered Accountant (CA)",
+    avatarUrl: "/authors/ProfilePicture_binny.png",
+    shortBio:
+      "Binny Agarwal helps creators turn their hobby into a real company. She is a Chartered Accountant (CA) with 12 years of experience. At Sparkonomy, she writes simple guides on how to use AI and smart tools to make more money and work less.",
+
+    socialLinks: {
+      twitter: "https://twitter.com/BinnyWriter",
+      linkedin: "https://www.linkedin.com/in/binny-agarwal",
+      email: "contentwriter3851@gmail.com",
+    },
+
+    previousCompanies: [
+      { name: "Sprinklr" },
+      { name: "Freshworks" },
+      { name: "SocialPilot" },
+      { name: "Emitrr" },
+      { name: "SkinVision" },
+      { name: "Masalabox" },
+    ],
+
+    storyTitle: "About Binny",
+    storyContent: [
+      "Binny Agarwal is a Chartered Accountant (CA) and a writer. She has been working for 12 years.",
+      "Most creators are great at making videos or art. But they often struggle with the \"boring\" stuff—like taxes, contracts, and planning for the future. Binny fixes this.",
+    ],
+    highlightQuote:
+      "Build Assets: Make things that pay you even when you are sleeping.",
+    storyConclusion: [
+      "Binny uses her experience with money and business to help you think like a \"Founder,\" not just a user. She teaches you how to build assets, work smart so you don't burn out, and understand the rules of business so you keep more of what you earn.",
+      "Sparkonomy is building the future for creators. This includes AI Agents (smart digital helpers) and tools to run your entire business. Binny is the voice that explains these tools.",
+      "Sparkonomy builds smart AI. Binny writes the playbook on how to use it.",
+      "She connects the dots. She explains how a new AI tool can help you save time. She explains how to price your work. She is here to make sure you use Sparkonomy to build a business that lasts a long time.",
+      "Binny writes simply. She does not use big, confusing words. She gets straight to the point. She wants you to read her advice, understand it fast, and go back to creating.",
+    ],
+
+    aboutTitle: "How She Helps You",
+    aboutContent: [
+      "Binny uses her experience with money and business to help you think like a \"Founder,\" not just a user. She teaches you how to:",
+      "Build Assets: Make things that pay you even when you are sleeping.",
+      "Work Smart: Use strategy so you don't burn out.",
+      "Keep Your Money: Understand the rules of business so you keep more of what you earn.",
+    ],
+
+    careerHighlights: [
+      "12 years of professional experience",
+      "Chartered Accountant (CA) – Expert in numbers and finance",
+      "Focus on turning Creators into Founders",
+      "Specialist in Business Strategy and AI for Creators",
+      "Trusted by teams at Sprinklr, Freshworks, SocialPilot, Emitrr, SkinVision, and Masalabox",
+    ],
+
+    trustItems: [
+      { icon: "experience", label: "Experience", value: "12 Years" },
+      { icon: "expertise", label: "Degree", value: "Chartered Accountant" },
+      { icon: "verified", label: "Focus", value: "Creator to Founder" },
+      { icon: "awards", label: "Skills", value: "Business & AI" },
+    ],
+
+    mediaMentions: [],
+
+    featuredArticles: [],
+    recentArticles: [],
+
+    areasOfExpertise: [
+      "Business for Creators",
+      "AI Tools",
+      "Money Tips",
+      "Smart Strategy",
+      "Building Trust",
+      "Saving Time",
+      "Future of Work",
+    ],
+
+    contactEmail: "contentwriter3851@gmail.com",
+    linkedinSubscribe: "https://www.linkedin.com/in/binny-agarwal",
+    responseTime: "Do you want to build a business, not just a social media page? Binny can help.",
+
+    lastUpdated: "January 9, 2026",
+    profileId: "authors/binny-agarwal",
+  },
 ];
 
 // Helper functions
