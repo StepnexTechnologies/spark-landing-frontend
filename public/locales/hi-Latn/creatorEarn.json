@@ -13,33 +13,33 @@
   },
   "benefits": {
     "title": "Fayde",
-    "cta": "Ruko Mat, Free Mein Try Karo",
+    "cta": "Ruko Mat, Free Mein Try Karein",
     "items": [
       {
         "title": "Chat bheje. Invoice paayein.",
-        "description": "WhatsApp message, email ya brand chat ka screenshot upload karein — ya bas likhein: “Iska invoice bana do.” Baaki ka kaam hamara AI kareinga.  Proper formatting, GST / PAN sambhalna, Typing ki koi galti nahi, Approval ka jhanjhat nahi  ",
-        "highlight": "Aap content banao, hum cash flow banayein."
+        "description": "WhatsApp message, email ya brand chat ka screenshot upload karein — ya bas likhein: “Iska invoice bana do.” Baaki ka kaam hamara AI karega. Aapka invoice proper format mein banega, koi typo nahi, GST/pan ki details safe rahegi aur approval ka bhi jhanjhat nahi. ",
+        "highlight": "Aap bas content banao, Cashflow hum banayenge!"
       },
       {
-        "title": "Aap content banao. Invoice ready hum kareinnge.",
-        "description": "Ab “Hey, just checking on the payment?” bhejne ki zarurat nahi. Sparkonomy ka AI polite aur professional payment reminders bhejta hai — WhatsApp aur email par. Aap control mein rehte ho. Hum sirf process easy banaate hain.",
+        "title": "Aap content banao. Invoice ready hum karenge.",
+        "description": "Ab “Hey, just checking on the payment?” bhejne ki zarurat nahi. Sparkonomy ka AI polite aur professional payment reminders bhejta hai — WhatsApp aur email par. Aap control mein rehto ho, hum sirf process easy banate hain.",
         "highlight": "Aap rishte banao. Follow-ups hum sambhal lenge."
       },
       {
         "title": "Apna Pocket CFO rakhiye - bina accountant bane.",
         "description": "Apne cash flow, overdue payments aur income growth ka update pao har hafte sirf 5 minute mein. Hum aapke records organize rakhte hain aur aapke business ko tax-compliant rahne mein help karte hain. ",
-        "highlight": "Aap professional bano, ham aapki help kareinge."
+        "highlight": "Humare pocket CFO k saath banein pro!"
       }
     ]
   },
   "advantage": {
-    "title": "Aapke Advantage",
+    "title": "Aapka Advantage",
     "subtitle": "Aise invoices jo aapko jaldi payment dilayein aur aapki professional image banayein!",
-    "cta": "Jaldi Payment Paao",
+    "cta": "Jaldi Payment paayein",
     "items": [
       {
         "title": "Payment Ready",
-        "description": "GST automatically calculated hota hai, aur payment process integrated hai."
+        "description": "GST auto calculate hoga aur payment process integrated rahegi"
       },
       {
         "title": "Tax-Compliant",
@@ -47,11 +47,11 @@
       },
       {
         "title": "WhatsApp Alerts",
-        "description": "Aapki payment track ho rahi hai."
+        "description": " Aapki payment track hoti rahegi"
       },
       {
         "title": "Proof Of Work",
-        "description": "Auto-fetched proof, ab screenshots ki jaroorat nahi."
+        "description": "Aapka work auto-fetch ho jaega. Screenshots ki koi zarurat nahi."
       }
     ]
   },
@@ -188,7 +188,7 @@
     "cta": "Bilkul Free, Abhi Shuru Karo"
   },
   "floatingCta": {
-    "button": "Free Mein Try Karo"
+    "button": "Free Mein Try Karein"
   },
   "footer": {
     "tagline": "creator economy ko spark kar rahe hain",
