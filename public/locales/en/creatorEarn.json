@@ -94,8 +94,7 @@
     "items": [
       {
         "question": "How do I sign up?",
-        "answer": "Give your phone number - that is it! After that, share your social handles, answer a couple of easy questions on your billing info, and you'll be sending invoices using Sparkonomy's AI quicker than a collab DM reply! (Psst! We are giving unlimited monthly invoices to our first users. Sign up quickly!)",
-        "category": "getting-started"
+        "answer": "Give your phone number - that is it! After that, share your social handles, answer a couple of easy questions on your billing info, and you'll be sending invoices using Sparkonomy's AI quicker than a collab DM reply! "
       },
       {
         "question": "How is this AI for creators and its smart payment useful for me?",
@@ -124,7 +123,7 @@
       },
       {
         "question": "How much do I have to pay?",
-        "answer": "You can make up to 4 new invoices every month, send unlimited reminders, and get your own Pocket CFO - perfect for most creators. As your needs grow, you can switch to Pro by referring a few friends or for less than the price of a cup of coffee. (Psst! We are giving unlimited monthly invoices to our first users, Sign up quickly!)",
+        "answer": "You can make up to 4 new invoices every month, send unlimited reminders, and get your own Pocket CFO - perfect for most creators. As your needs grow, you can switch to Pro by referring a few friends or for less than the price of a cup of coffee.",
         "category": "pricing"
       },
       {

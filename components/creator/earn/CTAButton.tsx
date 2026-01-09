@@ -3,6 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { useTranslation } from "react-i18next";
 
 interface CTAButtonProps {
     buttonText?: string;
@@ -12,12 +13,27 @@ interface CTAButtonProps {
 
 const CTAButton = ({buttonText = "Send Invoices For Free", className, navigateTo = "https://beta.creator.sparkonomy.com/auth?service=earn"}: CTAButtonProps) => {
     const searchParams = useSearchParams();
+    const { i18n } = useTranslation();
     const referralCode = searchParams.get("ref");
+    const currentLang = i18n.language?.startsWith('hi') ? 'hi-Latn' : 'en';
 
-    // Append referral code to the URL if present
-    const finalUrl = referralCode
-        ? `${navigateTo}${navigateTo.includes('?') ? '&' : '?'}ref=${referralCode}`
-        : navigateTo;
+    // Build URL with language and optional referral code
+    const buildUrl = () => {
+        // Use window.location.origin as base for relative URLs
+        const base = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000';
+        const url = new URL(navigateTo, base);
+        url.searchParams.set('lang', currentLang);
+        if (referralCode) {
+            url.searchParams.set('ref', referralCode);
+        }
+        // Return relative path for internal URLs, full URL for external
+        if (url.origin === base && !navigateTo.startsWith('http')) {
+            return url.pathname + url.search;
+        }
+        return url.toString();
+    };
+
+    const finalUrl = buildUrl();
 
     return (
         <Link
