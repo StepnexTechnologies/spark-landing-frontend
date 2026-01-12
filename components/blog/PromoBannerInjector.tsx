@@ -113,8 +113,9 @@ function injectPromoBanners(config?: PromoBannerConfig) {
       faqEndElement = allAccordionBlocks[allAccordionBlocks.length - 1];
     } else if (faqHeading) {
       // For traditional FAQ, find the next major heading or end of content
-      let current = faqHeading.nextElementSibling;
-      let lastFaqElement = faqHeading;
+      const heading = faqHeading as Element;
+      let current = heading.nextElementSibling;
+      let lastFaqElement: Element = heading;
 
       while (current) {
         // Stop at next H2 that's not FAQ-related
