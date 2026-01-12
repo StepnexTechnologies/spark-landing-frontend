@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import Card from "@/components/blog/BlogCard";
 import FeaturedBlogCard from "@/components/blog/FeaturedBlogCard";
@@ -10,7 +10,7 @@ import { getDraftPosts, getPostTags } from "@/lib/wordpress-improved";
 function decodeHtmlEntities(text: string): string {
   return text
     .replace(/<[^>]*>/g, '') // Strip HTML tags
-    .replace(/&hellip;/g, '...')
+    .replace(/&hellip;/g, '…')
     .replace(/&amp;/g, '&')
     .replace(/&lt;/g, '<')
     .replace(/&gt;/g, '>')
@@ -20,10 +20,10 @@ function decodeHtmlEntities(text: string): string {
     .replace(/&#8217;/g, "'")
     .replace(/&#8220;/g, '"')
     .replace(/&#8221;/g, '"')
-    .replace(/&#8211;/g, '-')
-    .replace(/&#8212;/g, '--')
-    .replace(/\[...\]/g, '...')
-    .replace(/\[\.\.\.\]/g, '...')
+    .replace(/&#8211;/g, '–')
+    .replace(/&#8212;/g, '—')
+    .replace(/\[…\]/g, '…')
+    .replace(/\[\.\.\.\]/g, '…')
     .trim();
 }
 
@@ -44,18 +44,16 @@ export const metadata: Metadata = {
   },
 };
 
-async function DraftBlogPosts() {
+async function BlogPosts() {
   const { data: posts } = await getDraftPosts(1, 13);
 
   if (posts.length === 0) {
     return (
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="text-center py-20 bg-gray-50 rounded-2xl border border-gray-200">
-          <h2 className="text-2xl font-semibold text-gray-900 mb-3">No draft posts</h2>
-          <p className="text-gray-600 max-w-md mx-auto">
-            There are currently no draft posts to preview. Create a draft in WordPress to see it here.
-          </p>
-        </div>
+      <div className="text-center py-20 bg-gray-50 rounded-2xl border border-gray-200">
+        <h2 className="text-2xl font-semibold text-gray-900 mb-3">No draft posts yet</h2>
+        <p className="text-gray-600 max-w-md mx-auto">
+          There are currently no draft posts to preview. Create a draft in WordPress to see it here.
+        </p>
       </div>
     );
   }
@@ -76,18 +74,13 @@ async function DraftBlogPosts() {
               title={p.title.rendered}
               description={decodeHtmlEntities(p.excerpt.rendered)}
               imageSrc={p._embedded?.['wp:featuredmedia']?.[0]?.source_url}
-              href={`/preview/${p.slug}`}
+              href={`/preview/${p.id}`}
               layout="vertical"
               descriptionPosition="bottom"
               imagePriority={true}
               showReadMore={true}
               meta={
-                <span className="flex items-center gap-2">
-                  <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-yellow-100 text-yellow-800">
-                    DRAFT
-                  </span>
-                  {new Date(p.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
-                </span>
+                <span>{new Date(p.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
               }
             />
           ))}
@@ -103,8 +96,8 @@ async function DraftBlogPosts() {
               title={p.title.rendered}
               description={decodeHtmlEntities(p.excerpt.rendered)}
               imageSrc={p._embedded?.['wp:featuredmedia']?.[0]?.source_url}
-              href={`/preview/${p.slug}`}
-              tag="DRAFT"
+              href={`/preview/${p.id}`}
+              tag="Draft"
               imagePriority={true}
               meta={
                 <span>{new Date(p.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
@@ -125,18 +118,13 @@ async function DraftBlogPosts() {
                 title={p.title.rendered}
                 description={decodeHtmlEntities(p.excerpt.rendered)}
                 imageSrc={p._embedded?.['wp:featuredmedia']?.[0]?.source_url}
-                href={`/preview/${p.slug}`}
+                href={`/preview/${p.id}`}
                 layout="vertical"
                 descriptionPosition="bottom"
                 imagePriority={false}
                 showReadMore={true}
                 meta={
-                  <span className="flex items-center gap-2">
-                    <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-yellow-100 text-yellow-800">
-                      DRAFT
-                    </span>
-                    {new Date(p.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
-                  </span>
+                  <span>{new Date(p.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
                 }
               />
             ))}
@@ -201,10 +189,10 @@ async function HeroSection() {
   return (
     <MainSection
       title={heroPost.title.rendered}
-      subtitle="DRAFT PREVIEW"
+      subtitle=""
       description={decodeHtmlEntities(heroPost.excerpt.rendered)}
-      buttonText="Preview Post"
-      buttonLink={`/preview/${heroPost.slug}`}
+      buttonText="Read More"
+      buttonLink={`/preview/${heroPost.id}`}
       imageSrc={heroPost._embedded?.['wp:featuredmedia']?.[0]?.source_url || "/MainImage.svg"}
       hashtags={tags.length > 0 ? tags : ["Preview", "DraftPosts", "ContentReview"]}
     />
@@ -213,12 +201,7 @@ async function HeroSection() {
 
 export default function PreviewPage() {
   return (
-    <main className="min-h-screen relative overflow-hidden">
-      {/* Preview Banner */}
-      <div className="bg-yellow-500 text-yellow-900 py-2 px-4 text-center font-medium">
-        Preview Mode - These are draft posts not yet published
-      </div>
-
+    <main className="min-h-screen relative overflow-hidden bg-white">
       {/* Main Section with Background Image */}
       <div className="relative z-10">
         <Suspense fallback={
@@ -236,7 +219,7 @@ export default function PreviewPage() {
         </Suspense>
       </div>
 
-      {/* Draft Posts Section with Gradient Background */}
+      {/* Blog Posts Section with Gradient Background */}
       <div className="relative py-12" id="posts">
         {/* Linear Gradient Background with Blur - only for posts section */}
         <div
@@ -249,7 +232,7 @@ export default function PreviewPage() {
 
         <div className="relative z-10">
           <Suspense fallback={<BlogPostsSkeleton />}>
-            <DraftBlogPosts />
+            <BlogPosts />
           </Suspense>
         </div>
       </div>
