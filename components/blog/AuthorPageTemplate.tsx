@@ -134,9 +134,9 @@ export default function AuthorPageTemplate({
         {author.previousCompanies.length > 0 && (
           <div className="bg-[#F8F8F8] rounded-[12px] p-4">
             <p className="text-base md:text-lg text-gray-500 mb-4 text-center">Previously scaling billion-dollar businesses at</p>
-            <div className="flex items-center justify-center gap-4 md:gap-12">
+            <div className="grid grid-cols-3 md:grid-cols-4 gap-4 md:gap-6 justify-items-center">
               {author.previousCompanies.map((company) => (
-                <div key={company.name} className="flex items-center">
+                <div key={company.name} className="flex items-center justify-center">
                   {company.logo ? (
                     <Image
                       src={company.logo}
@@ -146,7 +146,7 @@ export default function AuthorPageTemplate({
                       className="h-[16px] md:h-7 w-auto object-contain grayscale opacity-60"
                     />
                   ) : (
-                    <span className="text-gray-500 font-semibold text-lg">{company.name}</span>
+                    <span className="text-gray-500 font-semibold text-sm md:text-lg">{company.name}</span>
                   )}
                 </div>
               ))}
