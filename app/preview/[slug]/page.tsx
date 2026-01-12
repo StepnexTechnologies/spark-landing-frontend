@@ -13,7 +13,7 @@ import ProTipEnhancer from "@/components/blog/ProTipEnhancer";
 import QuoteCleanerEnhancer from "@/components/blog/QuoteCleanerEnhancer";
 import ListMergerEnhancer from "@/components/blog/ListMergerEnhancer";
 import { getAuthorPageSlug, getAuthorByWordPressSlug } from "@/data/authors";
-import "../../_blogs/wordpress-content.css";
+import "../../blogs/wordpress-content.css";
 
 interface PreviewPostPageProps {
   params: Promise<{

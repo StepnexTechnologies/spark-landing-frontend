@@ -302,7 +302,7 @@ export const authors: AuthorEntry[] = [
 
     name: "Binny Agarwal",
     role: "Content Strategist & Chartered Accountant (CA)",
-    avatarUrl: "/authors/ProfilePicture_binny.png",
+    avatarUrl: "/authors/BinnyProfilePictue.jpg",
     shortBio:
       "Binny Agarwal helps creators turn their hobby into a real company. She is a Chartered Accountant (CA) with 12 years of experience. At Sparkonomy, she writes simple guides on how to use AI and smart tools to make more money and work less.",
 
@@ -313,12 +313,12 @@ export const authors: AuthorEntry[] = [
     },
 
     previousCompanies: [
-      { name: "Sprinklr" },
-      { name: "Freshworks" },
-      { name: "SocialPilot" },
-      { name: "Emitrr" },
-      { name: "SkinVision" },
-      { name: "Masalabox" },
+      { name: "Sprinklr", logo: "/authors/Logos/Sprinklr.png" },
+      { name: "Freshworks", logo: "/authors/Logos/FreshWorks.png" },
+      { name: "SocialPilot", logo: "/authors/Logos/SocialPilot.png" },
+      { name: "Emitrr", logo: "/authors/Logos/Emitrr.png" },
+      { name: "SkinVision", logo: "/authors/Logos/SkinVision.png" },
+      { name: "Masalabox", logo: "/authors/Logos/MasalaBox.png" },
     ],
 
     storyTitle: "About Binny",
@@ -380,6 +380,92 @@ export const authors: AuthorEntry[] = [
 
     lastUpdated: "January 9, 2026",
     profileId: "authors/binny-agarwal",
+  },
+  {
+    id: "saurabh_mongia",
+    slug: "saurabh-mongia",
+
+    // WordPress matching - not yet on WordPress
+    wordpressSlug: undefined,
+    wordpressAuthorId: undefined,
+
+    name: "Saurabh Mongia",
+    role: "Chartered Accountant | Tax & Compliance Expert",
+    avatarUrl: "/authors/ProfilePicture_saurabh.png",
+    shortBio:
+      "Saurabh Mongia is a finance leader and Chartered Accountant with 16+ years of experience in financial reporting, regulatory compliance, taxation and control frameworks. He currently serves as Vice President at one of the leading multi national firms. On Sparkonomy, he shares practical guidance that helps creators and teams reduce payment friction with clean invoicing, clear documentation, and audit-ready workflows.",
+
+    socialLinks: {
+      linkedin: "https://www.linkedin.com/in/CompliFinixSolutions/",
+    },
+
+    previousCompanies: [
+      { name: "NatWest Group" },
+      { name: "HSBC" },
+      { name: "Max Life Insurance" },
+    ],
+
+    storyTitle: "About Saurabh",
+    storyContent: [
+      "Saurabh Mongia is a seasoned finance leader with 16+ years of experience across financial reporting, regulatory compliance, and control frameworks. He currently works as Partner at CompliFinix Solutions, a firm with expertise in Financial matters along with Taxation & Compliance matters. He has previously worked as Vice President with Global Shared Service organisations in India, supporting businesses across Asia and EMEA with key focus on Financial Reporting & control, Audit readiness, Tax Compliances and Process improvement.",
+      "But here is the part he genuinely enjoys: taking the finance rules that big companies run on and translating them into creator-friendly steps. He is deeply interested in the creator economy because creator work is real work, and payouts should not feel like a guessing game. When he writes for Sparkonomy, he looks at creator payments through a finance lens and asks simple questions like: What will Accounts Payable need to approve this in one go, and what tiny missing detail will send it back.",
+    ],
+    highlightQuote:
+      "Creator work is real work, and payouts should not feel like a guessing game.",
+    storyConclusion: [
+      "Saurabh spent over a decade at NatWest Group in roles spanning Associate through Vice President, working on reporting, controls, and finance transformation across teams. Earlier in his career, he held finance operations roles at HSBC and Max Life Insurance, and trained as an article trainee at a chartered accountancy firm. That range gives him a practical view of what finance teams check, what slows processing down, and how to keep invoices clean so creators get paid faster with less back-and-forth.",
+    ],
+
+    aboutTitle: "How He Writes",
+    aboutContent: [
+      "Saurabh writes like a finance partner you can actually work with: direct, practical, and detail-first. His goal is to help creators send invoices that a finance team can approve in one pass—so you spend less time chasing and more time creating.",
+      "He focuses on clarity, proof, and process (what to include, why it matters, and how to avoid the common resubmission loop).",
+    ],
+
+    careerHighlights: [
+      "16+ years in finance, reporting, and compliance",
+      "Finance Leader with expertise in Financial control & Reporting",
+      "Focus areas: Process automation, Income Tax & Corporate Compliances",
+      "Chartered Accountant (ICAI)",
+      "Top skills: Financial Reporting & Control, Corporate Income tax, Personal tax planning & ITR filing",
+      "Partner at CompliFinix Solutions",
+      "Former Vice President at NatWest Group",
+      "B.Com (Hons.), ARSD College",
+    ],
+
+    trustItems: [
+      { icon: "experience", label: "Experience", value: "16+ Years" },
+      { icon: "expertise", label: "Degree", value: "Chartered Accountant" },
+      { icon: "verified", label: "Focus", value: "Tax & Compliance" },
+      { icon: "awards", label: "Role", value: "Finance Leader" },
+    ],
+
+    mediaMentions: [],
+
+    featuredArticles: [],
+    recentArticles: [],
+
+    areasOfExpertise: [
+      "Creator Invoicing",
+      "Payment Workflows",
+      "Accounts Payable",
+      "Audit Readiness",
+      "Book Keeping",
+      "Financial Controls",
+      "Regulatory Compliance",
+      "Financial Reporting",
+      "Process Automation",
+      "TDS/GST (India)",
+      "Income Tax & Corporate Compliance",
+      "Professional Fee Invoicing",
+    ],
+
+    contactEmail: "contact@sparkonomy.com",
+    linkedinSubscribe: "https://www.linkedin.com/in/saurabh-mongia",
+    responseTime: "If you want to collaborate or suggest a topic, the fastest way is to connect on LinkedIn.",
+
+    lastUpdated: "January 12, 2026",
+    profileId: "authors/saurabh-mongia",
   },
 ];
 
