@@ -47,7 +47,8 @@ async function wordpressFetch<T>(
   try {
     const response = await fetch(url, {
       ...options,
-      cache: 'no-store', // Always fetch fresh data
+      cache: 'no-store',
+      next: { revalidate: 0 },
     });
 
     if (!response.ok) {
@@ -80,7 +81,8 @@ async function wordpressFetchWithPagination<T>(
   try {
     const response = await fetch(url, {
       ...options,
-      cache: 'no-store', // Always fetch fresh data
+      cache: 'no-store',
+      next: { revalidate: 0 },
     });
 
     if (!response.ok) {
@@ -408,5 +410,99 @@ export async function getAllAuthorSlugs(): Promise<string[]> {
   } catch (error) {
     console.error('Error fetching all author slugs:', error);
     return [];
+  }
+}
+
+// ============================================================================
+// DRAFT POSTS FUNCTIONS (For Preview Page)
+// ============================================================================
+
+/**
+ * Get draft posts (requires authentication)
+ * Note: This requires WordPress application password or JWT token
+ */
+export async function getDraftPosts(
+  page: number = 1,
+  perPage: number = 10
+): Promise<WordPressResponse<WordPressPost[]>> {
+  const username = process.env.WORDPRESS_USERNAME;
+  const appPassword = process.env.WORDPRESS_APP_PASSWORD;
+
+  if (!username || !appPassword) {
+    console.error('WordPress credentials not configured for draft posts');
+    return { data: [], total: 0, totalPages: 0 };
+  }
+
+  const credentials = Buffer.from(`${username}:${appPassword}`).toString('base64');
+  const url = `${WORDPRESS_URL}/posts?_embed&page=${page}&per_page=${perPage}&status=draft`;
+
+  try {
+    const response = await fetch(url, {
+      cache: 'no-store',
+      next: { revalidate: 0 },
+      headers: {
+        'Authorization': `Basic ${credentials}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new WordPressAPIError(
+        `WordPress API error: ${response.statusText}`,
+        response.status,
+        '/posts?status=draft'
+      );
+    }
+
+    const data = await response.json();
+    const total = parseInt(response.headers.get("X-WP-Total") || "0");
+    const totalPages = parseInt(response.headers.get("X-WP-TotalPages") || "1");
+
+    return { data, total, totalPages };
+  } catch (error) {
+    if (error instanceof WordPressAPIError) {
+      throw error;
+    }
+    console.error('Error fetching draft posts:', error);
+    return { data: [], total: 0, totalPages: 0 };
+  }
+}
+
+/**
+ * Get draft post by slug (requires authentication)
+ */
+export async function getDraftPostBySlug(slug: string): Promise<WordPressPost | null> {
+  const username = process.env.WORDPRESS_USERNAME;
+  const appPassword = process.env.WORDPRESS_APP_PASSWORD;
+
+  if (!username || !appPassword) {
+    console.error('WordPress credentials not configured for draft posts');
+    return null;
+  }
+
+  const credentials = Buffer.from(`${username}:${appPassword}`).toString('base64');
+  const url = `${WORDPRESS_URL}/posts?slug=${slug}&_embed&status=draft`;
+
+  try {
+    const response = await fetch(url, {
+      cache: 'no-store',
+      next: { revalidate: 0 },
+      headers: {
+        'Authorization': `Basic ${credentials}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new WordPressAPIError(
+        `WordPress API error: ${response.statusText}`,
+        response.status,
+        `/posts?slug=${slug}&status=draft`
+      );
+    }
+
+    const posts = await response.json();
+    return posts[0] || null;
+  } catch (error) {
+    console.error(`Error fetching draft post by slug (${slug}):`, error);
+    return null;
   }
 }

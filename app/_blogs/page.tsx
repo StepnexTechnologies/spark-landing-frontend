@@ -7,6 +7,27 @@ import MainSection from "@/components/blog/MainSection";
 import NewsletterSection from "@/components/blog/NewsletterSection";
 import { getPosts, getPostTags } from "@/lib/wordpress-improved";
 
+// Helper function to decode HTML entities and strip tags
+function decodeHtmlEntities(text: string): string {
+  return text
+    .replace(/<[^>]*>/g, '') // Strip HTML tags
+    .replace(/&hellip;/g, '…')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#039;/g, "'")
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&#8217;/g, "'")
+    .replace(/&#8220;/g, '"')
+    .replace(/&#8221;/g, '"')
+    .replace(/&#8211;/g, '–')
+    .replace(/&#8212;/g, '—')
+    .replace(/\[…\]/g, '…') // Replace […] with just ellipsis
+    .replace(/\[\.\.\.\]/g, '…') // Replace [...] with ellipsis
+    .trim();
+}
+
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
@@ -96,7 +117,7 @@ async function BlogPosts() {
             <Card
               key={p.id}
               title={p.title.rendered}
-              description={p.excerpt.rendered.replace(/<[^>]*>/g, '')}
+              description={decodeHtmlEntities(p.excerpt.rendered)}
               imageSrc={p._embedded?.['wp:featuredmedia']?.[0]?.source_url}
               href={`/blogs/${p.slug}`}
               layout="vertical"
@@ -117,7 +138,7 @@ async function BlogPosts() {
           <FeaturedBlogCard
             key={p.id}
             title={p.title.rendered}
-            description={p.excerpt.rendered.replace(/<[^>]*>/g, '')}
+            description={decodeHtmlEntities(p.excerpt.rendered)}
             imageSrc={p._embedded?.['wp:featuredmedia']?.[0]?.source_url}
             href={`/blogs/${p.slug}`}
             tag="Brand Story"
@@ -137,7 +158,7 @@ async function BlogPosts() {
             <Card
               key={p.id}
               title={p.title.rendered}
-              description={p.excerpt.rendered.replace(/<[^>]*>/g, '')}
+              description={decodeHtmlEntities(p.excerpt.rendered)}
               imageSrc={p._embedded?.['wp:featuredmedia']?.[0]?.source_url}
               href={`/blogs/${p.slug}`}
               layout="vertical"
@@ -210,7 +231,7 @@ async function HeroSection() {
     <MainSection
       title={heroPost.title.rendered}
       subtitle=""
-      description={heroPost.excerpt.rendered.replace(/<[^>]*>/g, '')}
+      description={decodeHtmlEntities(heroPost.excerpt.rendered)}
       buttonText="Read More"
       buttonLink={`/blogs/${heroPost.slug}`}
       imageSrc={heroPost._embedded?.['wp:featuredmedia']?.[0]?.source_url || "/MainImage.svg"}
