@@ -2,11 +2,12 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { getDraftPostBySlug, getFeaturedImageUrl, getAuthorName, formatDate, stripHtml, getReadingTime } from "@/lib/wordpress-improved";
+import { getDraftPostById, getFeaturedImageUrl, getAuthorName, formatDate, stripHtml, getReadingTime, getDraftPosts } from "@/lib/wordpress-improved";
 import { extractHeadings, addHeadingIds, removeWordPressTOC } from "@/lib/content-processor";
 import Breadcrumb from "@/components/blog/Breadcrumb";
 import TOCEnhancer from "@/components/blog/TOCEnhancer";
 import AuthorCard from "@/components/blog/AuthorCard";
+import RelatedPosts from "@/components/blog/RelatedPosts";
 import QuoteAuthorInjector from "@/components/blog/QuoteAuthorInjector";
 import FAQAccordionEnhancer from "@/components/blog/FAQAccordionEnhancer";
 import ProTipEnhancer from "@/components/blog/ProTipEnhancer";
@@ -24,7 +25,8 @@ interface PreviewPostPageProps {
 // No indexing for preview pages
 export async function generateMetadata({ params }: PreviewPostPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const post = await getDraftPostBySlug(slug);
+  const postId = parseInt(slug, 10);
+  const post = await getDraftPostById(postId);
 
   if (!post) {
     return {
@@ -55,7 +57,8 @@ export async function generateMetadata({ params }: PreviewPostPageProps): Promis
 
 export default async function PreviewPostPage({ params }: PreviewPostPageProps) {
   const { slug } = await params;
-  const post = await getDraftPostBySlug(slug);
+  const postId = parseInt(slug, 10);
+  const post = await getDraftPostById(postId);
 
   if (!post) {
     notFound();
@@ -80,8 +83,21 @@ export default async function PreviewPostPage({ params }: PreviewPostPageProps) 
   // Get category for breadcrumb
   const categoryName = post._embedded?.["wp:term"]?.[0]?.[0]?.name || "";
 
+  // Fetch related draft posts
+  const { data: allPosts } = await getDraftPosts(1, 4);
+  const relatedPosts = allPosts
+    .filter((p) => p.id !== postId)
+    .slice(0, 3)
+    .map((p) => ({
+      slug: `/preview/${p.id}`,
+      title: stripHtml(p.title.rendered),
+      excerpt: stripHtml(p.excerpt.rendered).substring(0, 150),
+      featuredImage: getFeaturedImageUrl(p) || "/sparkonomy.png",
+      date: formatDate(p.date),
+    }));
+
   return (
-    <>
+    <div className="min-h-screen bg-white">
       <link
         rel="stylesheet"
         href="https://blog.sparkonomy.com/wp-includes/css/dist/block-library/style.min.css"
@@ -91,18 +107,7 @@ export default async function PreviewPostPage({ params }: PreviewPostPageProps) 
         href="https://blog.sparkonomy.com/wp-includes/css/dist/block-library/theme.min.css"
       />
 
-      {/* Preview Banner */}
-      <div className="bg-yellow-500 text-yellow-900 py-3 px-4 text-center font-medium sticky top-0 z-50">
-        <div className="flex items-center justify-center gap-2">
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-          </svg>
-          <span>Draft Preview - This post is not yet published</span>
-        </div>
-      </div>
-
-      <main className="min-h-screen px-0 md:px-10 lg:px-[90px] py-5 lg:py-6 bg-white">
+      <main className="px-0 md:px-10 lg:px-[90px] py-5 lg:py-6">
         <article className="flex flex-col gap-4 md:gap-6 lg:gap-10">
           {/* Breadcrumb Navigation */}
           <div className="px-4 md:px-0 ">
@@ -117,11 +122,8 @@ export default async function PreviewPostPage({ params }: PreviewPostPageProps) 
             />
           </div>
 
-          {/* Draft Badge + Title */}
+          {/* Title */}
           <div className="px-4 md:px-[50px] lg:px-[130px]">
-            <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800 mb-4">
-              DRAFT
-            </span>
             <h1
               className="text-2xl md:text-3xl lg:text-[40px] font-bold text-[#6B7280] leading-tight"
               dangerouslySetInnerHTML={{ __html: post.title.rendered }}
@@ -132,7 +134,7 @@ export default async function PreviewPostPage({ params }: PreviewPostPageProps) 
           <div className="px-4 md:px-[50px] lg:px-[130px]">
             <div className="flex items-center gap-2 text-lg md:text-xl lg:text-2xl text-[#6B7280] mb-4">
               <span>{publishDate}</span>
-              <span>.</span>
+              <span>·</span>
               <span>{readingTime} min read</span>
             </div>
 
@@ -303,21 +305,15 @@ export default async function PreviewPostPage({ params }: PreviewPostPageProps) 
             />
           </div>
 
-          {/* Back to Preview */}
-          <div className="px-4 md:px-[50px] lg:px-[130px]">
-            <Link
-              href="/preview"
-              className="inline-flex items-center gap-2 text-purple-600 hover:text-purple-700 font-medium"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-              </svg>
-              Back to all drafts
-            </Link>
-          </div>
+          {/* Related Posts */}
+          {relatedPosts.length > 0 && (
+            <div className="relative z-0">
+              <RelatedPosts posts={relatedPosts} />
+            </div>
+          )}
 
         </article>
       </main>
-    </>
+    </div>
   );
 }
