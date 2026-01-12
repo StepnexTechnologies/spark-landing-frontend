@@ -401,9 +401,9 @@ export const authors: AuthorEntry[] = [
     },
 
     previousCompanies: [
-      { name: "NatWest Group" },
-      { name: "HSBC" },
-      { name: "Max Life Insurance" },
+      { name: "NatWest Group", logo: "/authors/Logos/NatWest.png" },
+      { name: "HSBC", logo: "/authors/Logos/HSBC.png" },
+      { name: "Max Life Insurance", logo: "/authors/Logos/MaxLife.png" },
     ],
 
     storyTitle: "About Saurabh",
