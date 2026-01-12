@@ -13,7 +13,7 @@
   },
   "benefits": {
     "title": "Fayde",
-    "cta": "Ruko Mat, Free Mein Try Karein",
+    "cta": "Bilkul Free. Start Now.",
     "items": [
       {
         "title": "Chat bheje. Invoice paayein.",
@@ -21,7 +21,7 @@
         "highlight": "Aap bas content banao, Cashflow hum banayenge!"
       },
       {
-        "title": "Aap content banao. follow ups hum sambhal lenge.",
+        "title": "Aap content banao. Follow ups hum sambhal lenge.",
         "description": "Ab “Hey, just checking on the payment?” bhejne ki zarurat nahi. Sparkonomy ka AI polite aur pro payment reminders bhejta hai — WhatsApp aur email par. Aap control mein rehto ho, hum sirf process easy banate hain.",
         "highlight": "Aap rishte banao. Follow-ups hum sambhal lenge."
       },
@@ -56,7 +56,7 @@
     ]
   },
   "testimonials": {
-    "title": "Log Kya Kehte Hain",
+    "title": "What People Say",
     "items": [
       {
         "quote": "And I have to reach out so many times to get paid in 3 months, and still it hasn't happened 15-20 times! I want you to do my payment reminders",
@@ -64,7 +64,7 @@
         "handle": "700K Followers"
       },
       {
-        "quote": "I raise invoices once a month mostly..don't get time… and it delays my payments. I want you help me raise instant invoices in under 5 mins from my phone",
+        "quote": "I raise invoices once a month mostly. I don't get time… and it delays my payments. I want you help me raise instant invoices in under 5 mins from my phone",
         "name": "Tech Instagrammer",
         "handle": "1M Followers"
       },
@@ -76,8 +76,8 @@
     ]
   },
   "cta": {
-    "title": "fast payments k liye ready ho?",
-    "button": "Apna Pehla Invoice Banao Abhi"
+    "title": "Kya aap fast payments ke liye ready ho?",
+    "button": "Apna pehla invoice banayein"
   },
   "faq": {
     "title": "Frequently Asked Questions",
@@ -179,7 +179,7 @@
       },
       {
         "question": "Non-paying brands ke final collection aur public disclosure ke liye Sparkonomy ke steps kya hain?",
-        "answer": " Agar koi brand aapka payment ignore kar raha hai, toh ye cool nahi hai. Hum abhi legal support provide nahi karte, lekin kuch smart hacks hai jo aapko payment lene mein help karenge. Hum suggest karenge ki kaise strong follow-up messages draft karein aur pro steps lein taaki payment encourage ho—without kisi drama ke. Aap control mein rahenge, aur hum ensure karenge ki process smooth aur pro rahe.",
+        "answer": " Agar koi brand aapka payment ignore kar raha hai, toh ye cool nahi hai. Hum abhi legal support provide nahi karte, lekin kuch smart hacks hai jo aapko payment lene mein help karenge. Hum suggest karenge ki kaise strong follow-up messages draft karein aur pro steps lein taaki payment jaldi aa jaye ho—without kisi drama ke. Aap control mein rahenge, aur hum ensure karenge ki process smooth aur pro rahe.",
         "category": "payment-reminders"
       }
     ]
@@ -191,11 +191,11 @@
     "button": "Free Mein Try Karein"
   },
   "footer": {
-    "tagline": "creator economy ko spark kar rahe hain",
+    "tagline": "sparking the creator economy",
     "terms": "Terms & Conditions",
     "privacy": "Privacy Policy",
     "refund": "Refund Policy",
-    "copyright": "©Sab rights reserved."
+    "copyright": "©All rights reserved."
   },
   "referral": {
     "defaultName": "Chulbuli",
