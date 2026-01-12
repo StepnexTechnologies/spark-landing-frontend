@@ -141,11 +141,11 @@ export const authors: AuthorEntry[] = [
     ],
     signatureImage: "/authors/Gunnet_singh_signature.png",
 
-    aboutTitle: "About Guneet",
+    aboutTitle: "About Gunnet",
     aboutContent: [
-      "Guneet is the Founder and CEO of Sparkonomy, a startup dedicated to building financial and operational infrastructure for the creator economy. Based in Singapore, he combines deep industry expertise with a passion for AI productivity to solve the systemic challenges creators face—from payment friction to sustainable scaling.",
-      "Prior to founding Sparkonomy, Guneet spent over 20 years leading billion-dollar portfolios in the Consumer Tech and Media sectors. He held key leadership positions at Google, Microsoft, and Samsung, driving navigating the intersection of consumer behavior and emerging technology.",
-      "A firm believer in the \"democratization of entrepreneurship,\" Guneet advocates for a future where human creativity is the ultimate economic engine. He actively mentors early-stage startups and writes about the impact of AI on human productivity and the shifting landscape of work.",
+      "Gunnet is the Founder and CEO of Sparkonomy, a startup dedicated to building financial and operational infrastructure for the creator economy. Based in Singapore, he combines deep industry expertise with a passion for AI productivity to solve the systemic challenges creators face—from payment friction to sustainable scaling.",
+      "Prior to founding Sparkonomy, Gunnet spent over 20 years leading billion-dollar portfolios in the Consumer Tech and Media sectors. He held key leadership positions at Google, Microsoft, and Samsung, driving navigating the intersection of consumer behavior and emerging technology.",
+      "A firm believer in the \"democratization of entrepreneurship,\" Gunnet advocates for a future where human creativity is the ultimate economic engine. He actively mentors early-stage startups and writes about the impact of AI on human productivity and the shifting landscape of work.",
     ],
 
     careerHighlights: [
