@@ -25,15 +25,39 @@ export interface VideoItem {
 
 /**
  * Remove WordPress built-in Table of Contents from HTML
+ * Or add toc-list class to the TOC list for styling and add anchor links
  */
 export function removeWordPressTOC(html: string): string {
   let cleaned = html;
 
-  // Remove Table of Content section
-  cleaned = cleaned.replace(
-    /Table of Content[\s\S]*?<ul[^>]*>[\s\S]*?<\/ul>/gi,
-    ''
-  );
+  // Find the TOC section and process it
+  const tocRegex = /(<h2[^>]*>(?:<[^>]*>)*\s*Table of Contents?\s*(?:<[^>]*>)*<\/h2>\s*)(<ul[^>]*>)([\s\S]*?)(<\/ul>)/gi;
+
+  cleaned = cleaned.replace(tocRegex, (match, heading, ulOpen, listContent, ulClose) => {
+    // Add toc-list class to ul
+    let newUlOpen = ulOpen;
+    if (ulOpen.includes('class="')) {
+      newUlOpen = ulOpen.replace('class="', 'class="toc-list ');
+    } else {
+      newUlOpen = ulOpen.replace('<ul', '<ul class="toc-list"');
+    }
+
+    // Convert list items to anchor links
+    const processedListContent = listContent.replace(
+      /<li[^>]*>([\s\S]*?)<\/li>/gi,
+      (liMatch: string, liContent: string) => {
+        // Extract text content for generating the ID
+        const text = liContent.replace(/<br\s*\/?>/gi, '').replace(/<[^>]*>/g, '').trim();
+        if (text) {
+          const headingId = text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+          return `<li><a href="#${headingId}" class="toc-link">${text}</a></li>`;
+        }
+        return liMatch;
+      }
+    );
+
+    return heading + newUlOpen + processedListContent + ulClose;
+  });
 
   // Remove AAAAAA paragraphs and extra br tags
   cleaned = cleaned.replace(/<p[^>]*>A{5,}[^<]*<\/p>/gi, '');
@@ -99,31 +123,35 @@ export function extractHeadings(html: string): TOCItem[] {
 
 /**
  * Add IDs to headings in HTML if they don't have them
+ * Generates IDs based on heading text content
  */
 export function addHeadingIds(html: string, headings: TOCItem[]): string {
   let processed = html;
-  let headingIndex = 0;
 
-  processed = processed.replace(/<(h[23])([^>]*)>(.*?)<\/\1>/gi, (match, tag, attrs, content) => {
+  // Add IDs to all h2, h3, h4 headings based on their text content
+  processed = processed.replace(/<(h[234])([^>]*)>([\s\S]*?)<\/\1>/gi, (match, tag, attrs, content) => {
     const text = content.replace(/<[^>]*>/g, '').trim();
 
-    // Skip TOC headings
+    // Skip TOC and FAQ headings
     if (text.toLowerCase() === 'table of content' ||
         text.toLowerCase() === 'table of contents' ||
         text.toLowerCase() === 'frequently asked questions') {
       return match;
     }
 
-    const heading = headings[headingIndex];
-    if (heading && heading.text === text) {
-      // Check if already has an id
-      if (!/id=/.test(attrs)) {
-        const newAttrs = attrs ? `${attrs} id="${heading.id}"` : ` id="${heading.id}"`;
-        headingIndex++;
-        return `<${tag}${newAttrs}>${content}</${tag}>`;
-      }
-      headingIndex++;
+    // Check if already has an id
+    if (/id=/.test(attrs)) {
+      return match;
     }
+
+    // Generate ID from text content (same logic as TOC link generation)
+    const headingId = text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
+    if (headingId) {
+      const newAttrs = attrs ? `${attrs} id="${headingId}"` : ` id="${headingId}"`;
+      return `<${tag}${newAttrs}>${content}</${tag}>`;
+    }
+
     return match;
   });
 

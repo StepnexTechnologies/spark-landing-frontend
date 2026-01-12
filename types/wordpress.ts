@@ -90,6 +90,9 @@ export interface WordPressFeaturedMedia {
   title: {
     rendered: string;
   };
+  caption?: {
+    rendered: string;
+  };
   alt_text: string;
   media_type: string;
   mime_type: string;

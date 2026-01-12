@@ -1,0 +1,1656 @@
+/* WordPress Content Styles */
+/* Comprehensive styles to match Figma design */
+
+/* Note: WordPress TOC is removed by content processor, so no need for TOC-specific styles */
+
+.wordpress-content {
+  /* Base container */
+  color: #374151;
+  font-size: 1.125rem;
+  line-height: 1.75;
+}
+
+/* ====================
+   SECTION-BASED STYLING
+   Each section type gets consistent styling
+   ==================== */
+
+/* Base section styling */
+.blog-section {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+}
+
+/* Intro Section - First section special styling */
+.blog-section--intro {
+  margin-bottom: 2.5rem;
+}
+
+.blog-section--intro h2 {
+  font-size: 1.75rem;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+.blog-section--intro p {
+  font-size: 1.125rem;
+  line-height: 1.8;
+  color: #4b5563;
+}
+
+/* Heading + Paragraph Section */
+.blog-section--heading-para {
+  margin-bottom: 2rem;
+}
+
+.blog-section--heading-para h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+@media (min-width: 768px) {
+  .blog-section--heading-para h2 {
+    font-size: 1.75rem;
+  }
+}
+
+.blog-section--heading-para p {
+  margin-bottom: 1rem;
+  color: #4b5563;
+}
+
+.blog-section--heading-para p:last-child {
+  margin-bottom: 0;
+}
+
+/* Heading + Paragraph + List Section */
+.blog-section--heading-para-list {
+  margin-bottom: 2rem;
+}
+
+.blog-section--heading-para-list h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+@media (min-width: 768px) {
+  .blog-section--heading-para-list h2 {
+    font-size: 1.75rem;
+  }
+}
+
+.blog-section--heading-para-list p {
+  margin-bottom: 1rem;
+  color: #4b5563;
+}
+
+.blog-section--heading-para-list ul,
+.blog-section--heading-para-list ol {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  padding-left: 1.5rem;
+}
+
+.blog-section--heading-para-list li {
+  margin-bottom: 0.5rem;
+  color: #4b5563;
+}
+
+/* Heading + List Section (no paragraphs) */
+.blog-section--heading-list {
+  margin-bottom: 2rem;
+}
+
+.blog-section--heading-list h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+.blog-section--heading-list ul,
+.blog-section--heading-list ol {
+  padding-left: 1.5rem;
+}
+
+.blog-section--heading-list li {
+  margin-bottom: 0.75rem;
+  color: #4b5563;
+  font-size: 1rem;
+}
+
+/* Table Section */
+.blog-section--table {
+  margin-bottom: 2.5rem;
+  overflow-x: auto;
+}
+
+.blog-section--table h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+.blog-section--table .wp-block-table {
+  margin: 0;
+  width: 100%;
+}
+
+.blog-section--table table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.blog-section--table th {
+  background-color: #f9fafb;
+  font-weight: 600;
+  text-align: left;
+  padding: 0.75rem 1rem;
+  border: 1px solid #e5e7eb;
+  color: #1f2937;
+}
+
+.blog-section--table td {
+  padding: 0.75rem 1rem;
+  border: 1px solid #e5e7eb;
+  color: #4b5563;
+  vertical-align: top;
+}
+
+.blog-section--table tr:nth-child(even) {
+  background-color: #f9fafb;
+}
+
+/* FAQ Section */
+.blog-section--faq {
+  margin-bottom: 2.5rem;
+}
+
+.blog-section--faq h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 1.5rem;
+}
+
+/* FAQ Item (details/summary) */
+.faq-item {
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  margin-bottom: 0.75rem;
+  overflow: hidden;
+  background: #fff;
+  transition: all 0.2s ease;
+}
+
+.faq-item:hover {
+  border-color: #d1d5db;
+}
+
+.faq-item[open] {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.faq-question {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  cursor: pointer;
+  font-weight: 500;
+  color: #1f2937;
+  background: #f9fafb;
+  list-style: none;
+  transition: background 0.2s ease;
+}
+
+.faq-question::-webkit-details-marker {
+  display: none;
+}
+
+.faq-question:hover {
+  background: #f3f4f6;
+}
+
+.faq-question-text {
+  flex: 1;
+  font-size: 0.9375rem;
+}
+
+.faq-icon {
+  font-size: 1.25rem;
+  font-weight: 300;
+  color: #6b7280;
+  transition: transform 0.2s ease;
+  margin-left: 1rem;
+}
+
+.faq-item[open] .faq-icon {
+  transform: rotate(45deg);
+}
+
+.faq-answer {
+  padding: 1rem 1.25rem;
+  color: #4b5563;
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  border-top: 1px solid #e5e7eb;
+  background: #fff;
+}
+
+.faq-answer p {
+  margin: 0;
+}
+
+/* WordPress AAB Accordion Styling */
+.wordpress-content .wp-block-aab-accordion-block {
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+  background: #fff;
+}
+
+.wordpress-content .wp-block-aab-accordion-block:hover {
+  border-color: #d1d5db;
+}
+
+.wordpress-content .aab__accordion_head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  cursor: pointer;
+  background: #f9fafb;
+  transition: background 0.2s ease;
+}
+
+.wordpress-content .aab__accordion_head:hover {
+  background: #f3f4f6;
+}
+
+.wordpress-content .aab__accordion_heading {
+  flex: 1;
+}
+
+.wordpress-content .aab__accordion_title {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: #1f2937;
+  margin: 0;
+}
+
+.wordpress-content .aab__accordion_icon {
+  margin-left: 1rem;
+  color: #6b7280;
+  transition: transform 0.2s ease;
+}
+
+.wordpress-content .aab__accordion_body {
+  padding: 1rem 1.25rem;
+  border-top: 1px solid #e5e7eb;
+  color: #4b5563;
+  font-size: 0.9375rem;
+  line-height: 1.7;
+}
+
+.wordpress-content .aab__accordion_body p {
+  margin: 0;
+}
+
+/* Hide custom-css-block divs */
+.wordpress-content .custom-css-block {
+  display: none;
+}
+
+/* Quote Section */
+.blog-section--quote {
+  margin: 2rem 0;
+}
+
+/* Sources/References Section */
+.blog-section--sources {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 2px solid #e5e7eb;
+}
+
+.blog-section--sources h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+.blog-section--sources ol {
+  padding-left: 1.5rem;
+}
+
+.blog-section--sources li {
+  margin-bottom: 0.75rem;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+/* Standalone List Section */
+.blog-section--list ul,
+.blog-section--list ol {
+  padding-left: 1.5rem;
+  margin: 1rem 0;
+}
+
+.blog-section--list li {
+  margin-bottom: 0.5rem;
+  color: #4b5563;
+}
+
+/* Image Section */
+.blog-section--image {
+  margin: 2rem 0;
+}
+
+.blog-section--image figure {
+  margin: 0;
+}
+
+.blog-section--image img {
+  border-radius: 0.75rem;
+  width: 100%;
+  height: auto;
+}
+
+.blog-section--image figcaption {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: #6b7280;
+  font-style: italic;
+}
+
+/* Other/Generic Section */
+.blog-section--other {
+  margin-bottom: 1.5rem;
+}
+
+/* Hide FAQ section items that are extracted and shown separately */
+.wordpress-content .faq-section-hidden {
+  display: none !important;
+}
+
+/* Preserve WordPress default typography - only set base if not already styled */
+.wordpress-content li:not([class]) {
+  font-size: 1.125rem;
+  line-height: 1.75;
+}
+
+/* Global heading styles for WordPress content */
+.wordpress-content h1 {
+  font-size: 3rem;
+  font-weight: bold;
+  line-height: 1.2;
+  color: #000000;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.wordpress-content h2 {
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.2;
+  color: #6B7280;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+  .wordpress-content h2 {
+    font-size: 22px;
+    font-weight: 500;
+  }
+}
+
+@media (min-width: 1024px) {
+  .wordpress-content h2 {
+    font-size: 24px;
+    font-weight: 600;
+  }
+}
+
+.wordpress-content h2:first-child {
+  margin-top: 0;
+}
+
+.wordpress-content h3 {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: #6B7280;
+  margin-top: 2rem;
+  padding-bottom: 0.75rem;
+}
+
+@media (min-width: 1024px) {
+  .wordpress-content h3 {
+    font-size: 24px;
+    padding-bottom: 1rem;
+  }
+}
+
+.wordpress-content h4 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  line-height: 1.4;
+  color: #000000;
+  margin-top: 1.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.wordpress-content h5 {
+  font-size: 1.25rem;
+  font-weight: bold;
+  line-height: 1.4;
+  color: #000000;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.wordpress-content h6 {
+  font-size: 1.125rem;
+  font-weight: bold;
+  line-height: 1.4;
+  color: #000000;
+  margin-top: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Global paragraph and list styles */
+.wordpress-content p {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #6B7280;
+  margin-bottom: 1rem;
+}
+
+.wordpress-content p:last-child {
+  margin-bottom: 0;
+}
+
+@media (min-width: 768px) {
+  .wordpress-content p {
+    font-size: 16px;
+  }
+}
+
+.wordpress-content ul,
+.wordpress-content ol {
+  list-style-position: outside;
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+  color: #999999;
+}
+
+.wordpress-content ul {
+  list-style-type: disc;
+}
+
+.wordpress-content ol {
+  list-style-type: decimal;
+}
+
+.wordpress-content ul ul {
+  list-style-type: circle;
+}
+
+.wordpress-content ol ol {
+  list-style-type: lower-alpha;
+}
+
+.wordpress-content li {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.75;
+  color: #999999;
+  display: list-item;
+  text-decoration: none;
+}
+
+/* Table of Contents list styling */
+.wordpress-content .toc-list li {
+  text-decoration: none;
+}
+
+.wordpress-content .toc-list .toc-link {
+  text-decoration: underline;
+  color: #999999;
+  transition: color 0.2s ease;
+  cursor: pointer;
+}
+
+.wordpress-content .toc-list .toc-link:hover {
+  color: #6B7280;
+}
+
+@media (min-width: 768px) {
+  .wordpress-content li {
+    font-size: 16px;
+    font-weight: 500;
+  }
+}
+
+/* WordPress list blocks */
+.wordpress-content .wp-block-list {
+  padding-left: 1.5rem;
+  margin: 1rem 0 1.5rem 0;
+  color: #999999;
+}
+
+.wordpress-content ul.wp-block-list {
+  list-style-type: disc;
+}
+
+.wordpress-content ol.wp-block-list {
+  list-style-type: decimal;
+}
+
+.wordpress-content .wp-block-list li {
+  display: list-item;
+  margin-bottom: 0.5rem;
+}
+
+/* Ensure ordered lists show numbers */
+.wordpress-content ol {
+  list-style-type: decimal !important;
+  padding-left: 1.5rem;
+  margin: 1rem 0;
+}
+
+.wordpress-content ol li {
+  display: list-item;
+  list-style-type: decimal;
+}
+
+.wordpress-content strong,
+.wordpress-content b {
+  font-weight: 600;
+}
+
+.wordpress-content em,
+.wordpress-content i {
+  font-style: italic;
+}
+
+/* Ensure all WordPress blocks render at full width */
+.wordpress-content > * {
+}
+
+/* Media & Text blocks (image + text side by side) should be full width and touch screen edges */
+.wordpress-content .wp-block-media-text {
+}
+
+/* Add gap between image and text in media-text blocks */
+.wordpress-content .wp-block-media-text__content {
+}
+
+/* Preserve WordPress typography styles within media-text content */
+.wordpress-content .wp-block-media-text__content h1,
+.wordpress-content .wp-block-media-text__content h2,
+.wordpress-content .wp-block-media-text__content h3,
+.wordpress-content .wp-block-media-text__content h4,
+.wordpress-content .wp-block-media-text__content h5,
+.wordpress-content .wp-block-media-text__content h6 {
+  font-weight: bold;
+}
+
+.wordpress-content .wp-block-media-text__content h2 {
+  font-size: 2.5rem;
+  line-height: 1.2;
+}
+
+.wordpress-content .wp-block-media-text__content h3 {
+  font-size: 2rem;
+  line-height: 1.3;
+}
+
+.wordpress-content .wp-block-media-text__content p {
+  font-size: 1.125rem;
+  line-height: 1.75;
+  color: #1f2937;
+}
+
+.wordpress-content .wp-block-media-text__media {
+}
+
+/* Columns blocks should be full width */
+.wordpress-content .wp-block-columns {
+}
+
+/* Add gap between columns */
+.wordpress-content .wp-block-columns {
+  gap: 3rem;
+}
+
+/* Group blocks that contain media should be full width */
+.wordpress-content .wp-block-group:has(img) {
+}
+
+/* On mobile, adjust for smaller padding */
+@media (max-width: 768px) {
+  .wordpress-content .wp-block-media-text,
+  .wordpress-content .wp-block-columns,
+  .wordpress-content .wp-block-group:has(img) {
+  }
+
+  .wordpress-content .wp-block-media-text__content {
+  }
+
+  .wordpress-content .wp-block-columns {
+    gap: 1.5rem;
+  }
+}
+
+/* Fix video player height */
+.wordpress-content video {
+  min-height: 400px;
+}
+
+.wordpress-content .wp-block-video video {
+  min-height: 400px;
+}
+
+/* Ensure audio players stretch full width */
+.wordpress-content audio {
+  display: block;
+}
+
+.wordpress-content .wp-block-audio audio {
+}
+
+/* Ensure iframes (embeds) are responsive */
+.wordpress-content iframe {
+}
+
+/* Ensure images don't break layout */
+.wordpress-content img {
+  height: auto;
+}
+
+/* Table styles - same appearance on all devices with horizontal scroll */
+.wordpress-content table {
+  border-collapse: collapse;
+  background-color: transparent;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  width: max-content;
+  min-width: 100%;
+}
+
+.wordpress-content table th,
+.wordpress-content table td {
+  border: 1px solid #000000;
+  color: #000000;
+  text-align: left;
+  padding: 0.75rem 1rem;
+  white-space: nowrap; /* Prevent text wrapping to keep desktop layout */
+}
+
+.wordpress-content table th {
+  font-weight: bold;
+  background-color: transparent;
+}
+
+.wordpress-content table tbody tr {
+  background-color: transparent;
+}
+
+/* WordPress table block - scrollable container */
+.wordpress-content .wp-block-table {
+  margin-top: 1.5rem;
+  margin-bottom: 2rem;
+  overflow-x: auto; /* Enable horizontal scroll */
+  -webkit-overflow-scrolling: touch; /* Smooth scroll on iOS */
+  display: block;
+  width: 100%;
+}
+
+.wordpress-content .wp-block-table table {
+  border: 1px solid #000000;
+  width: max-content;
+  min-width: 100%;
+}
+
+.wordpress-content .wp-block-table td,
+.wordpress-content .wp-block-table th {
+  border: 1px solid #000000;
+  color: #000000;
+  padding: 0.75rem 1rem;
+  white-space: nowrap;
+}
+
+/* Scrollbar styling */
+.wordpress-content .wp-block-table::-webkit-scrollbar {
+  height: 8px;
+}
+
+.wordpress-content .wp-block-table::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.wordpress-content .wp-block-table::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+.wordpress-content .wp-block-table::-webkit-scrollbar-thumb:hover {
+  background: #a1a1a1;
+}
+
+/* Pullquote/Quote blocks - Clean centered style */
+.wordpress-content .wp-block-pullquote,
+.wordpress-content .wp-block-quote {
+  border: none;
+  border-radius: 0;
+  padding: 3rem 1rem;
+  background: transparent;
+  margin: 2.5rem 0;
+  text-align: center;
+}
+
+.wordpress-content .wp-block-pullquote p,
+.wordpress-content .wp-block-quote p {
+  font-size: 2rem;
+  font-style: italic;
+  color: #6b7280;
+  line-height: 1.5;
+  margin-bottom: 2rem;
+  font-weight: 500;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Add proper quote marks using CSS - made prominent */
+.wordpress-content .wp-block-pullquote p:first-of-type::before,
+.wordpress-content .wp-block-quote p:first-of-type::before {
+  content: "\201C";
+  font-size: 3rem;
+  color: #8b5cf6;
+  font-weight: 700;
+  line-height: 0;
+  vertical-align: -0.3em;
+  margin-right: 0.1em;
+}
+
+.wordpress-content .wp-block-pullquote p:last-of-type::after,
+.wordpress-content .wp-block-quote p:last-of-type::after {
+  content: "\201D";
+  font-size: 3rem;
+  color: #8b5cf6;
+  font-weight: 700;
+  line-height: 0;
+  vertical-align: -0.3em;
+  margin-left: 0.1em;
+}
+
+.wordpress-content .wp-block-pullquote cite,
+.wordpress-content .wp-block-quote cite {
+  display: block;
+  text-align: center;
+  font-style: italic;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-top: 1rem;
+  color: #999999;
+}
+
+/* Add dash before author name */
+.wordpress-content .wp-block-pullquote cite::before,
+.wordpress-content .wp-block-quote cite::before {
+  content: "-";
+  margin-right: 0.25rem;
+}
+
+/* Author links within cite - same styling */
+.wordpress-content .wp-block-quote cite a,
+.wordpress-content .wp-block-pullquote cite a {
+  color: #999999;
+  text-decoration: none;
+  font-style: italic;
+}
+
+.wordpress-content .wp-block-quote cite a:hover,
+.wordpress-content .wp-block-pullquote cite a:hover {
+  color: #6366f1;
+  text-decoration: underline;
+}
+
+/* Author avatar and info within cite */
+.wordpress-content .wp-block-quote cite img,
+.wordpress-content .wp-block-pullquote cite img {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 0.5rem;
+}
+
+/* Injected quote author info */
+.wordpress-content .quote-author-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.wordpress-content .quote-author-info .author-avatar-wrapper {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.wordpress-content .quote-author-info .author-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.wordpress-content .quote-author-info .author-text-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  text-align: left;
+}
+
+.wordpress-content .quote-author-info .author-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1f2937;
+  line-height: 1.3;
+}
+
+.wordpress-content .quote-author-info .author-role {
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: #6366f1;
+  font-style: normal;
+  line-height: 1.3;
+}
+
+/* Custom paragraph with borders (if using custom classes) */
+.wordpress-content p.has-border,
+.wordpress-content .bordered-text {
+  border-top: 2px solid #000000;
+  border-bottom: 2px solid #000000;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #000000;
+}
+
+/* Clear floats */
+.wordpress-content::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* ====================
+   Enhanced Design Elements from Figma
+   ==================== */
+
+/* Featured Quote Block - Large centered quotes */
+.wordpress-content .wp-block-quote.is-style-large,
+.wordpress-content blockquote.featured-quote {
+  border: none;
+  border-top: 3px solid #1f2937;
+  border-bottom: 3px solid #1f2937;
+  text-align: center;
+}
+
+.wordpress-content .wp-block-quote.is-style-large p,
+.wordpress-content blockquote.featured-quote p {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #1f2937;
+  line-height: 1.4;
+  font-style: italic;
+}
+
+/* Stats Quote Block - "83% of creators..." style */
+.wordpress-content .stats-quote {
+  text-align: center;
+  background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+  border-radius: 1rem;
+}
+
+.wordpress-content .stats-quote p {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.wordpress-content .stats-quote cite {
+  font-size: 0.875rem;
+  color: #6b7280;
+  font-style: italic;
+}
+
+/* Key Takeaway Box */
+.wordpress-content .key-takeaway,
+.wordpress-content .wp-block-group.key-takeaway {
+  background: #f9fafb;
+  border-radius: 1rem;
+  border-left: 4px solid #9333ea;
+}
+
+.wordpress-content .key-takeaway h3,
+.wordpress-content .key-takeaway h4 {
+  color: #6b7280;
+  font-size: 1.125rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.wordpress-content .key-takeaway p {
+  color: #374151;
+}
+
+.wordpress-content .key-takeaway ul {
+}
+
+.wordpress-content .key-takeaway li {
+}
+
+/* CTA Buttons - Purple gradient style */
+.wordpress-content .wp-block-button.is-style-fill .wp-block-button__link,
+.wordpress-content .cta-button {
+  background: linear-gradient(180deg, #dd2a7b -46.92%, #9747ff 80.1%);
+  color: white;
+  border-radius: 9999px;
+  font-weight: 500;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: opacity 0.2s;
+}
+
+.wordpress-content .wp-block-button.is-style-fill .wp-block-button__link:hover,
+.wordpress-content .cta-button:hover {
+  opacity: 0.9;
+}
+
+/* Video Blocks with Play Button Overlay */
+.wordpress-content .wp-block-video,
+.wordpress-content .wp-block-embed {
+  position: relative;
+  border-radius: 1rem;
+  overflow: hidden;
+  margin: 2rem 0 2.5rem 0;
+}
+
+.wordpress-content .wp-block-video video {
+  border-radius: 1rem;
+}
+
+/* Image Captions */
+.wordpress-content figure figcaption,
+.wordpress-content .wp-element-caption {
+  font-size: 0.875rem;
+  color: #6b7280;
+  font-style: italic;
+  text-align: left;
+}
+
+/* Image with Border/Frame */
+.wordpress-content figure.wp-block-image {
+  margin: 2rem 0 2.5rem 0;
+}
+
+.wordpress-content figure.wp-block-image img {
+  border-radius: 1rem;
+  width: 100%;
+  height: auto;
+}
+
+/* WordPress Gallery Block */
+.wordpress-content .wp-block-gallery {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+  margin: 2rem 0 2.5rem 0;
+  padding: 0;
+  list-style: none;
+  width: 100%;
+  align-items: stretch;
+}
+
+.wordpress-content .wp-block-gallery .wp-block-image {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+}
+
+.wordpress-content .wp-block-gallery .wp-block-image figure {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+.wordpress-content .wp-block-gallery .wp-block-image img {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 0.5rem;
+  object-fit: cover;
+  display: block;
+}
+
+.wordpress-content .wp-block-gallery figcaption,
+.wordpress-content .wp-block-gallery .wp-element-caption {
+  font-size: 0.875rem;
+  color: #6b7280;
+  font-style: italic;
+  text-align: center;
+  margin-top: 1rem;
+  padding: 0;
+  grid-column: 1 / -1;
+}
+
+/* Gallery wrapper figure caption */
+.wordpress-content figure.wp-block-gallery figcaption {
+  font-size: 0.875rem;
+  color: #6b7280;
+  font-style: italic;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+/* Side-by-side Columns */
+.wordpress-content .wp-block-columns.has-2-columns {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+/* Newsletter Signup Embed */
+.wordpress-content .newsletter-signup {
+  background: linear-gradient(135deg, #ede9fe 0%, #f3e8ff 100%);
+  border-radius: 1rem;
+  text-align: center;
+}
+
+.wordpress-content .newsletter-signup h3 {
+  color: #9333ea;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.wordpress-content .newsletter-signup p {
+  color: #374151;
+}
+
+.wordpress-content .newsletter-signup form {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.wordpress-content .newsletter-signup input[type="email"] {
+  flex: 1;
+  border: 1px solid #e5e7eb;
+  border-radius: 9999px;
+  font-size: 1rem;
+}
+
+.wordpress-content .newsletter-signup button {
+  background: linear-gradient(180deg, #dd2a7b -46.92%, #9747ff 80.1%);
+  color: white;
+  border: none;
+  border-radius: 9999px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* Related Resources Cards */
+.wordpress-content .related-resources {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.wordpress-content .resource-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 1rem;
+  transition: shadow 0.2s;
+}
+
+.wordpress-content .resource-card:hover {
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+/* Accordion / FAQ Sections */
+.wordpress-content .faq-section,
+.wordpress-content .wp-block-details {
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.wordpress-content .faq-section summary,
+.wordpress-content .wp-block-details summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: #1f2937;
+  background: #f9fafb;
+  transition: background 0.2s;
+}
+
+.wordpress-content .faq-section summary:hover,
+.wordpress-content .wp-block-details summary:hover {
+  background: #f3f4f6;
+}
+
+.wordpress-content .faq-section[open] summary,
+.wordpress-content .wp-block-details[open] summary {
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.wordpress-content .faq-section p,
+.wordpress-content .wp-block-details p {
+}
+
+/* Author Quote Block - Quote with author info and avatar */
+.wordpress-content .wp-block-quote.has-author,
+.wordpress-content .author-quote {
+  border: 2px solid #e5e7eb;
+  border-radius: 1rem;
+  padding: 2rem;
+  background: #f9fafb;
+  margin: 2rem 0;
+}
+
+.wordpress-content .wp-block-quote.has-author p,
+.wordpress-content .author-quote p {
+  font-size: 1.5rem;
+  font-style: italic;
+  color: #1f2937;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+}
+
+.wordpress-content .wp-block-quote.has-author cite,
+.wordpress-content .author-quote cite {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-style: normal;
+  margin-top: 1.5rem;
+}
+
+.wordpress-content .wp-block-quote.has-author .author-avatar,
+.wordpress-content .author-quote .author-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.wordpress-content .wp-block-quote.has-author .author-info,
+.wordpress-content .author-quote .author-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.wordpress-content .wp-block-quote.has-author .author-name,
+.wordpress-content .author-quote .author-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.wordpress-content .wp-block-quote.has-author .author-title,
+.wordpress-content .author-quote .author-title {
+  font-size: 0.875rem;
+  color: #6366f1;
+  font-weight: 400;
+}
+
+/* Mobile Responsive Adjustments */
+@media (max-width: 768px) {
+  .wordpress-content {
+    font-size: 1rem;
+  }
+
+  .wordpress-content h1 {
+    font-size: 2rem;
+  }
+
+  .wordpress-content h2 {
+    font-size: 1.75rem;
+  }
+
+  .wordpress-content h3 {
+    font-size: 1.5rem;
+  }
+
+  .wordpress-content .wp-block-quote.is-style-large p,
+  .wordpress-content blockquote.featured-quote p {
+    font-size: 1.25rem;
+  }
+
+  .wordpress-content .wp-block-pullquote,
+  .wordpress-content .wp-block-quote {
+    padding: 2rem 1rem;
+  }
+
+  .wordpress-content .wp-block-pullquote p,
+  .wordpress-content .wp-block-quote p {
+    font-size: 1.5rem;
+  }
+
+  .wordpress-content .wp-block-quote cite img,
+  .wordpress-content .wp-block-pullquote cite img {
+    width: 48px;
+    height: 48px;
+  }
+
+  .wordpress-content .quote-author-info .author-avatar-wrapper {
+    width: 40px;
+    height: 40px;
+  }
+
+  .wordpress-content .quote-author-info {
+    gap: 0.75rem;
+  }
+
+  .wordpress-content .stats-quote p {
+    font-size: 1.5rem;
+  }
+
+  .wordpress-content .key-takeaway {
+  }
+
+  .wordpress-content .newsletter-signup {
+  }
+
+  .wordpress-content .newsletter-signup form {
+    flex-direction: column;
+  }
+
+  .wordpress-content .related-resources {
+    grid-template-columns: 1fr;
+  }
+
+  .wordpress-content .wp-block-gallery {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .wordpress-content .wp-block-gallery .wp-block-image img {
+    aspect-ratio: 16 / 9;
+  }
+
+  .wordpress-content .wp-block-columns.has-2-columns {
+    grid-template-columns: 1fr;
+  }
+
+  /* Hide social links on mobile, move to bottom */
+  .wordpress-content .author-social-mobile {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .wordpress-content .wp-block-quote.has-author,
+  .wordpress-content .author-quote {
+    padding: 1.5rem;
+  }
+
+  .wordpress-content .wp-block-quote.has-author p,
+  .wordpress-content .author-quote p {
+    font-size: 1.25rem;
+  }
+}
+
+/* ====================
+   FAQ ACCORDION ENHANCER STYLES
+   Styles for in-place FAQ accordion interactivity
+   ==================== */
+
+/* FAQ Section Heading - "People Also Ask" style */
+.wordpress-content .faq-section-heading {
+  font-size: 1.5rem !important;
+  font-weight: 400 !important;
+  color: #6B7280 !important;
+  margin-bottom: 1rem !important;
+  padding-bottom: 0 !important;
+  border: none !important;
+}
+
+@media (min-width: 768px) {
+  .wordpress-content .faq-section-heading {
+    font-size: 1.875rem !important;
+  }
+}
+
+/* FAQ Accordion Wrapper - for WordPress AAB Accordion blocks */
+.wordpress-content .faq-accordion-wrapper {
+  border: none !important;
+  background: transparent !important;
+  margin-bottom: 0 !important;
+}
+
+/* FAQ Item Enhanced - for WordPress AAB accordions */
+.wordpress-content .faq-item-enhanced {
+  border: none !important;
+  border-bottom: 1px solid #e5e7eb !important;
+  border-radius: 0 !important;
+  margin-bottom: 0 !important;
+  background: transparent !important;
+}
+
+.wordpress-content .faq-item-enhanced:last-child {
+  border-bottom: none !important;
+}
+
+/* Clickable head styling */
+.wordpress-content .faq-head-clickable {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+  padding: 1rem 0 !important;
+  background: white !important;
+  cursor: pointer !important;
+  transition: background-color 0.2s ease !important;
+  border: none !important;
+}
+
+.wordpress-content .faq-head-clickable:hover {
+  background: #f9fafb !important;
+}
+
+/* Hide the default +/- icons from WordPress accordion */
+.wordpress-content .faq-item-enhanced .aab__accordion_icon {
+  display: none !important;
+}
+
+/* Question text styling */
+.wordpress-content .faq-item-enhanced .aab__accordion_heading,
+.wordpress-content .faq-item-enhanced .aab__accordion_title {
+  font-size: 1rem !important;
+  font-weight: 400 !important;
+  color: #6B7280 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  text-align: left !important;
+  flex: 1 !important;
+}
+
+@media (min-width: 768px) {
+  .wordpress-content .faq-item-enhanced .aab__accordion_heading,
+  .wordpress-content .faq-item-enhanced .aab__accordion_title {
+    font-size: 1.125rem !important;
+  }
+}
+
+/* Add chevron icon via CSS pseudo-element */
+.wordpress-content .faq-head-clickable::after {
+  content: '';
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  margin-left: 1rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%239CA3AF'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  transition: transform 0.2s ease;
+}
+
+/* Rotate chevron when expanded */
+.wordpress-content .faq-expanded .faq-head-clickable::after {
+  transform: rotate(180deg);
+}
+
+/* Answer body styling */
+.wordpress-content .faq-item-enhanced .aab__accordion_body {
+  padding: 0 0 1rem 0 !important;
+  border-top: none !important;
+  background: white !important;
+}
+
+.wordpress-content .faq-item-enhanced .aab__accordion_body p {
+  font-size: 0.875rem !important;
+  color: #6B7280 !important;
+  line-height: 1.6 !important;
+  margin: 0 !important;
+}
+
+@media (min-width: 768px) {
+  .wordpress-content .faq-item-enhanced .aab__accordion_body p {
+    font-size: 1rem !important;
+  }
+}
+
+/* Hidden state for FAQ body - kept for backwards compatibility */
+.wordpress-content .faq-body-hidden {
+  display: none;
+}
+
+/* ====================
+   TRADITIONAL FAQ (H3/H4) STYLES
+   ==================== */
+
+/* Q&A Wrapper */
+.wordpress-content .faq-qa-wrapper {
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.wordpress-content .faq-qa-wrapper:last-of-type {
+  border-bottom: none;
+}
+
+/* Question Button */
+.wordpress-content .faq-question-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 1rem 0;
+  background: white;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.2s ease;
+}
+
+.wordpress-content .faq-question-button:hover {
+  background: #f9fafb;
+}
+
+.wordpress-content .faq-question-text {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #6B7280;
+  flex: 1;
+  padding-right: 1rem;
+}
+
+@media (min-width: 768px) {
+  .wordpress-content .faq-question-text {
+    font-size: 1.125rem;
+  }
+}
+
+/* Chevron icon */
+.wordpress-content .faq-chevron {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  color: #9CA3AF;
+  transition: transform 0.2s ease;
+}
+
+.wordpress-content .faq-expanded .faq-chevron {
+  transform: rotate(180deg);
+}
+
+/* Answer Container */
+.wordpress-content .faq-answer-container {
+  padding-bottom: 1rem;
+  background: white;
+}
+
+.wordpress-content .faq-answer-text {
+  font-size: 0.875rem !important;
+  color: #6B7280 !important;
+  line-height: 1.6 !important;
+  margin: 0 !important;
+}
+
+@media (min-width: 768px) {
+  .wordpress-content .faq-answer-text {
+    font-size: 1rem !important;
+  }
+}
+
+/* ====================
+   PRO TIP STYLING
+   Light purple highlight for "Pro tip:" paragraphs
+   ==================== */
+
+.wordpress-content .pro-tip-box {
+  background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+  border-left: 4px solid #8b5cf6;
+  border-radius: 0.5rem;
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0;
+  color: #5b21b6;
+}
+
+.wordpress-content .pro-tip-label {
+  font-weight: 700;
+  color: #7c3aed;
+}
+
+/* Hover effect for Pro Tip */
+.wordpress-content .pro-tip-box:hover {
+  box-shadow: 0 4px 12px -2px rgba(139, 92, 246, 0.15);
+  border-left-color: #7c3aed;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .wordpress-content .pro-tip-box {
+    padding: 0.875rem 1rem;
+    margin: 1.25rem 0;
+  }
+}
+
+/* ====================
+   PROMO BANNER STYLING
+   Promotional banner with gradient background and CTA button
+   ==================== */
+
+.promo-banner-wrapper {
+  margin: 2.5rem 0;
+}
+
+.promo-banner {
+  background-color: #F3F4F6;
+  padding: 32px 17px;
+  text-align: center;
+}
+
+.promo-banner-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.promo-banner-text {
+  font-size: 20px !important;
+  font-weight: 600 !important;
+  line-height: 1.5 !important;
+  color: #8134a5 !important;
+  max-width: 700px;
+  margin: 0;
+}
+
+.promo-banner-text strong {
+  color: #7C3AED;
+}
+
+.promo-banner-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(162.34deg, #DD2A7B 4.78%, #9747FF 89.95%);
+  color: white;
+  font-weight: 500;
+  font-size: 0.875rem;
+  padding: 0.625rem 1.5rem;
+  border-radius: 9999px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px -2px rgba(151, 71, 255, 0.4);
+}
+
+.promo-banner-cta:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px -2px rgba(151, 71, 255, 0.5);
+  opacity: 0.9;
+}
+
+.promo-banner-arrow {
+  width: 18px;
+  height: 18px;
+  transition: transform 0.2s ease;
+}
+
+.promo-banner-cta:hover .promo-banner-arrow {
+  transform: translate(2px, -2px);
+}
+
+/* Desktop adjustments */
+@media (min-width: 768px) {
+  .promo-banner-text {
+    font-size: 22px;
+  }
+
+  .promo-banner-cta {
+    font-size: 1rem;
+    padding: 0.75rem 2rem;
+  }
+}
+
+/* Spacing between consecutive banners */
+.promo-banner-wrapper + .promo-banner-wrapper {
+  margin-top: 1.5rem;
+}

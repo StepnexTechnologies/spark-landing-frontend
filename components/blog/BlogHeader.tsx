@@ -2,13 +2,14 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import Button from "../common/button";
 
 export default function  BlogHeader() {
     const pathname = usePathname();
+    const router = useRouter();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     const navItems = [
@@ -17,11 +18,8 @@ export default function  BlogHeader() {
         { name: "Company", href: "/blogs/company" },
     ];
 
-    const scrollToNewsletter = () => {
-        const newsletterSection = document.getElementById('newsletter');
-        if (newsletterSection) {
-            newsletterSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
+    const goToSubscribe = () => {
+        router.push('/blogs/subscribe');
     };
 
     return (
@@ -39,7 +37,7 @@ export default function  BlogHeader() {
                             priority
                         />
                     </Link>
-                    <Button variant="gradient" className="md:hidden !px-7 !py-[14px]" onClick={scrollToNewsletter}>Subscribe Now</Button>
+                    <Button variant="gradient" className="md:hidden !px-7 !py-[14px]" onClick={goToSubscribe}>Subscribe Now</Button>
                 </div>
 
                 {/* Bottom row on mobile, right side on desktop: Nav + Button */}
@@ -81,7 +79,7 @@ export default function  BlogHeader() {
                     </nav>
                     {/* Button - hidden on mobile, visible on desktop */}
                     <div className="hidden md:block">
-                        <Button variant="gradient" className="!px-8 !py-4" onClick={scrollToNewsletter}>Subscribe Now</Button>
+                        <Button variant="gradient" className="!px-8 !py-4" onClick={goToSubscribe}>Subscribe Now</Button>
                     </div>
                 </div>
             </div>
