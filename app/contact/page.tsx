@@ -221,7 +221,7 @@ const ContactPage = () => {
                     SINGAPORE 11852<br /><br />
                     <div className="flex items-center space-x-2 text-purple-400">
                       <Phone className="w-4 h-4" />
-                      <span>+65 91455382 | +91 9910772075</span>
+                      <span>+91 9910772075</span>
                     </div>
                   </address>
                 </motion.div>
