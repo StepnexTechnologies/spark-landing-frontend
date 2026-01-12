@@ -40,18 +40,15 @@ export interface WordPressResponse<T> {
  */
 async function wordpressFetch<T>(
   endpoint: string,
-  options: RequestInit = {},
-  cacheTags: string[] = ['wordpress']
+  options: RequestInit = {}
 ): Promise<T> {
   const url = `${WORDPRESS_URL}${endpoint}`;
 
   try {
     const response = await fetch(url, {
       ...options,
-      next: {
-        revalidate: 3600, // 1 hour cache
-        tags: cacheTags,
-      },
+      cache: 'no-store',
+      next: { revalidate: 0 },
     });
 
     if (!response.ok) {
@@ -77,18 +74,15 @@ async function wordpressFetch<T>(
  */
 async function wordpressFetchWithPagination<T>(
   endpoint: string,
-  options: RequestInit = {},
-  cacheTags: string[] = ['wordpress']
+  options: RequestInit = {}
 ): Promise<WordPressResponse<T>> {
   const url = `${WORDPRESS_URL}${endpoint}`;
 
   try {
     const response = await fetch(url, {
       ...options,
-      next: {
-        revalidate: 3600,
-        tags: cacheTags,
-      },
+      cache: 'no-store',
+      next: { revalidate: 0 },
     });
 
     if (!response.ok) {
@@ -121,9 +115,7 @@ export async function getPosts(
   perPage: number = 10
 ): Promise<WordPressResponse<WordPressPost[]>> {
   return wordpressFetchWithPagination<WordPressPost[]>(
-    `/posts?_embed&page=${page}&per_page=${perPage}`,
-    {},
-    ['wordpress', 'posts']
+    `/posts?_embed&page=${page}&per_page=${perPage}`
   );
 }
 
@@ -133,9 +125,7 @@ export async function getPosts(
 export async function getPostBySlug(slug: string): Promise<WordPressPost | null> {
   try {
     const posts = await wordpressFetch<WordPressPost[]>(
-      `/posts?slug=${slug}&_embed`,
-      {},
-      ['wordpress', 'posts', `post-${slug}`]
+      `/posts?slug=${slug}&_embed`
     );
     return posts[0] || null;
   } catch (error) {
@@ -150,9 +140,7 @@ export async function getPostBySlug(slug: string): Promise<WordPressPost | null>
 export async function getPostById(id: number): Promise<WordPressPost | null> {
   try {
     return await wordpressFetch<WordPressPost>(
-      `/posts/${id}?_embed`,
-      {},
-      ['wordpress', 'posts', `post-${id}`]
+      `/posts/${id}?_embed`
     );
   } catch (error) {
     console.error(`Error fetching post by ID (${id}):`, error);
@@ -166,9 +154,7 @@ export async function getPostById(id: number): Promise<WordPressPost | null> {
 export async function getCategories(): Promise<WordPressCategory[]> {
   try {
     return await wordpressFetch<WordPressCategory[]>(
-      '/categories?per_page=100',
-      {},
-      ['wordpress', 'categories']
+      '/categories?per_page=100'
     );
   } catch (error) {
     console.error('Error fetching categories:', error);
@@ -182,9 +168,7 @@ export async function getCategories(): Promise<WordPressCategory[]> {
 export async function getCategoryBySlug(slug: string): Promise<WordPressCategory | null> {
   try {
     const categories = await wordpressFetch<WordPressCategory[]>(
-      `/categories?slug=${slug}`,
-      {},
-      ['wordpress', 'categories', `category-${slug}`]
+      `/categories?slug=${slug}`
     );
     return categories[0] || null;
   } catch (error) {
@@ -202,9 +186,7 @@ export async function getPostsByCategory(
   perPage: number = 10
 ): Promise<WordPressResponse<WordPressPost[]>> {
   return wordpressFetchWithPagination<WordPressPost[]>(
-    `/posts?categories=${categoryId}&_embed&page=${page}&per_page=${perPage}`,
-    {},
-    ['wordpress', 'posts', `category-${categoryId}`]
+    `/posts?categories=${categoryId}&_embed&page=${page}&per_page=${perPage}`
   );
 }
 
@@ -214,9 +196,7 @@ export async function getPostsByCategory(
 export async function getTags(): Promise<WordPressTag[]> {
   try {
     return await wordpressFetch<WordPressTag[]>(
-      '/tags?per_page=100',
-      {},
-      ['wordpress', 'tags']
+      '/tags?per_page=100'
     );
   } catch (error) {
     console.error('Error fetching tags:', error);
@@ -233,9 +213,7 @@ export async function searchPosts(
   perPage: number = 10
 ): Promise<WordPressResponse<WordPressPost[]>> {
   return wordpressFetchWithPagination<WordPressPost[]>(
-    `/posts?search=${encodeURIComponent(query)}&_embed&page=${page}&per_page=${perPage}`,
-    {},
-    ['wordpress', 'posts', 'search']
+    `/posts?search=${encodeURIComponent(query)}&_embed&page=${page}&per_page=${perPage}`
   );
 }
 
@@ -250,9 +228,7 @@ export async function getAllPostSlugs(): Promise<string[]> {
 
     while (hasMore) {
       const response = await wordpressFetchWithPagination<WordPressPost[]>(
-        `/posts?page=${page}&per_page=100&_fields=slug`,
-        {},
-        ['wordpress', 'posts']
+        `/posts?page=${page}&per_page=100&_fields=slug`
       );
 
       slugs.push(...response.data.map(post => post.slug));
@@ -372,9 +348,7 @@ export function getPostTags(post: WordPressPost): string[] {
 export async function getAuthorById(id: number): Promise<WordPressAuthor | null> {
   try {
     return await wordpressFetch<WordPressAuthor>(
-      `/users/${id}`,
-      {},
-      ['wordpress', 'authors', `author-${id}`]
+      `/users/${id}`
     );
   } catch (error) {
     console.error(`Error fetching author by ID (${id}):`, error);
@@ -388,9 +362,7 @@ export async function getAuthorById(id: number): Promise<WordPressAuthor | null>
 export async function getAuthorBySlug(slug: string): Promise<WordPressAuthor | null> {
   try {
     const authors = await wordpressFetch<WordPressAuthor[]>(
-      `/users?slug=${slug}`,
-      {},
-      ['wordpress', 'authors', `author-${slug}`]
+      `/users?slug=${slug}`
     );
     return authors[0] || null;
   } catch (error) {
@@ -405,9 +377,7 @@ export async function getAuthorBySlug(slug: string): Promise<WordPressAuthor | n
 export async function getAuthors(): Promise<WordPressAuthor[]> {
   try {
     return await wordpressFetch<WordPressAuthor[]>(
-      '/users?per_page=100',
-      {},
-      ['wordpress', 'authors']
+      '/users?per_page=100'
     );
   } catch (error) {
     console.error('Error fetching authors:', error);
@@ -424,9 +394,7 @@ export async function getPostsByAuthor(
   perPage: number = 10
 ): Promise<WordPressResponse<WordPressPost[]>> {
   return wordpressFetchWithPagination<WordPressPost[]>(
-    `/posts?author=${authorId}&_embed&page=${page}&per_page=${perPage}`,
-    {},
-    ['wordpress', 'posts', `author-${authorId}`]
+    `/posts?author=${authorId}&_embed&page=${page}&per_page=${perPage}`
   );
 }
 
@@ -436,13 +404,149 @@ export async function getPostsByAuthor(
 export async function getAllAuthorSlugs(): Promise<string[]> {
   try {
     const authors = await wordpressFetch<WordPressAuthor[]>(
-      '/users?per_page=100&_fields=slug',
-      {},
-      ['wordpress', 'authors']
+      '/users?per_page=100&_fields=slug'
     );
     return authors.map(author => author.slug);
   } catch (error) {
     console.error('Error fetching all author slugs:', error);
     return [];
+  }
+}
+
+// ============================================================================
+// DRAFT POSTS FUNCTIONS (For Preview Page)
+// ============================================================================
+
+/**
+ * Get draft posts (requires authentication)
+ * Note: This requires WordPress application password or JWT token
+ */
+export async function getDraftPosts(
+  page: number = 1,
+  perPage: number = 10
+): Promise<WordPressResponse<WordPressPost[]>> {
+  const username = process.env.WORDPRESS_USERNAME;
+  const appPassword = process.env.WORDPRESS_APP_PASSWORD;
+
+  if (!username || !appPassword) {
+    console.error('WordPress credentials not configured for draft posts');
+    return { data: [], total: 0, totalPages: 0 };
+  }
+
+  const credentials = Buffer.from(`${username}:${appPassword}`).toString('base64');
+  const url = `${WORDPRESS_URL}/posts?_embed&page=${page}&per_page=${perPage}&status=draft`;
+
+  try {
+    const response = await fetch(url, {
+      cache: 'no-store',
+      next: { revalidate: 0 },
+      headers: {
+        'Authorization': `Basic ${credentials}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new WordPressAPIError(
+        `WordPress API error: ${response.statusText}`,
+        response.status,
+        '/posts?status=draft'
+      );
+    }
+
+    const data = await response.json();
+    const total = parseInt(response.headers.get("X-WP-Total") || "0");
+    const totalPages = parseInt(response.headers.get("X-WP-TotalPages") || "1");
+
+    console.log('getDraftPosts response:', { data, total, totalPages, url });
+
+    return { data, total, totalPages };
+  } catch (error) {
+    if (error instanceof WordPressAPIError) {
+      throw error;
+    }
+    console.error('Error fetching draft posts:', error);
+    return { data: [], total: 0, totalPages: 0 };
+  }
+}
+
+/**
+ * Get draft post by slug (requires authentication)
+ */
+export async function getDraftPostBySlug(slug: string): Promise<WordPressPost | null> {
+  const username = process.env.WORDPRESS_USERNAME;
+  const appPassword = process.env.WORDPRESS_APP_PASSWORD;
+
+  if (!username || !appPassword) {
+    console.error('WordPress credentials not configured for draft posts');
+    return null;
+  }
+
+  const credentials = Buffer.from(`${username}:${appPassword}`).toString('base64');
+  const url = `${WORDPRESS_URL}/posts?slug=${slug}&_embed&status=draft`;
+
+  try {
+    const response = await fetch(url, {
+      cache: 'no-store',
+      next: { revalidate: 0 },
+      headers: {
+        'Authorization': `Basic ${credentials}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new WordPressAPIError(
+        `WordPress API error: ${response.statusText}`,
+        response.status,
+        `/posts?slug=${slug}&status=draft`
+      );
+    }
+
+    const posts = await response.json();
+    console.log('getDraftPostBySlug response:', { slug, posts, url });
+    return posts[0] || null;
+  } catch (error) {
+    console.error(`Error fetching draft post by slug (${slug}):`, error);
+    return null;
+  }
+}
+
+/**
+ * Get draft post by ID (requires authentication)
+ */
+export async function getDraftPostById(id: number): Promise<WordPressPost | null> {
+  const username = process.env.WORDPRESS_USERNAME;
+  const appPassword = process.env.WORDPRESS_APP_PASSWORD;
+
+  if (!username || !appPassword) {
+    console.error('WordPress credentials not configured for draft posts');
+    return null;
+  }
+
+  const credentials = Buffer.from(`${username}:${appPassword}`).toString('base64');
+  const url = `${WORDPRESS_URL}/posts/${id}?_embed&status=draft`;
+
+  try {
+    const response = await fetch(url, {
+      cache: 'no-store',
+      next: { revalidate: 0 },
+      headers: {
+        'Authorization': `Basic ${credentials}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new WordPressAPIError(
+        `WordPress API error: ${response.statusText}`,
+        response.status,
+        `/posts/${id}?status=draft`
+      );
+    }
+
+    const post = await response.json();
+    console.log('getDraftPostById response:', { id, post, url });
+    return post;
+  } catch (error) {
+    console.error(`Error fetching draft post by ID (${id}):`, error);
+    return null;
   }
 }

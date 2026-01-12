@@ -58,6 +58,7 @@ export async function getPostBySlug(slug: string): Promise<WordPressPost | null>
     }
 
     const posts: WordPressPost[] = await response.json();
+    console.log("getPostBySlug response:", posts);
     return posts[0] || null;
   } catch (error) {
     console.error("Error fetching WordPress post:", error);
