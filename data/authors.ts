@@ -314,12 +314,12 @@ export const authors: AuthorEntry[] = [
     },
 
     previousCompanies: [
-      { name: "Sprinklr", logo: "/authors/Logos/Sprinklr.png" },
-      { name: "Freshworks", logo: "/authors/Logos/FreshWorks.png" },
-      { name: "SocialPilot", logo: "/authors/Logos/SocialPilot.png" },
-      { name: "Emitrr", logo: "/authors/Logos/Emitrr.png" },
-      { name: "SkinVision", logo: "/authors/Logos/SkinVision.png" },
-      { name: "Masalabox", logo: "/authors/Logos/MasalaBox.png" },
+      { name: "Sprinklr", logo: "/authors/Logos/Sprinklr1.png" },
+      { name: "Freshworks", logo: "/authors/Logos/FreshWorks1.png" },
+      { name: "SocialPilot", logo: "/authors/Logos/SocialPilot1.png" },
+      { name: "Emitrr", logo: "/authors/Logos/Emitrr1.png" },
+      { name: "SkinVision", logo: "/authors/Logos/SkinVision1.png" },
+      { name: "Masalabox", logo: "/authors/Logos/MasalaBox1.png" },
     ],
 
     storyTitle: "About Binny",
