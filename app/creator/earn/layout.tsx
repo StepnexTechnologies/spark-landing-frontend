@@ -10,7 +10,7 @@ const roboto = Roboto({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.sparkonomy.com/"),
-  title: "Grow Your Earnings with Sparkonomy | India's 1st AI exclusively for creators. Free!",
+  title: "Grow Your Earnings with Sparkonomy | World's 1st AI exclusively for creators. Free!",
   description:
     "Earn more, Stress Less. Invoices in a few taps, automatic payment reminders and effortless tax.",
   keywords: [
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
   openGraph: {
     siteName: "Sparkonomy",
     url: "https://sparkonomy.com/creator/earn",
-    title: "Grow Your Earnings with Sparkonomy | India's 1st AI exclusively for creators. Free!",
+    title: "Grow Your Earnings with Sparkonomy | World's 1st AI exclusively for creators. Free!",
     description:
       "Earn more, Stress Less. Invoices in a few taps, automatic payment reminders and effortless tax.",
     images: [
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Grow Your Earnings with Sparkonomy | India's 1st AI exclusively for creators. Free!",
+    title: "Grow Your Earnings with Sparkonomy | World's 1st AI exclusively for creators. Free!",
     description:
       "Earn more, Stress Less. Invoices in a few taps, automatic payment reminders and effortless tax.\n",
     images: ["/sparkonomy-earn.png"],
