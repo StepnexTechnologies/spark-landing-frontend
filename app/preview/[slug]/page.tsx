@@ -131,7 +131,7 @@ export default async function PreviewPostPage({ params }: PreviewPostPageProps) 
           </div>
 
           {/* Meta Information */}
-          <div className="px-4 md:px-[50px] lg:px-[130px]">
+          <div className="px-4 md:px-[30px] xl:px-[130px]">
             <div className="flex items-center gap-2 text-lg md:text-xl lg:text-2xl text-[#6B7280] mb-4">
               <span>{publishDate}</span>
               <span>·</span>
@@ -158,7 +158,7 @@ export default async function PreviewPostPage({ params }: PreviewPostPageProps) 
                       href={`/blogs/author/${authorPageSlug}`}
                       className="text-base font-medium text-[#6B7280] hover:text-purple-600 transition-colors"
                     >
-                      {author}
+                      {localAuthor?.name || author}
                     </Link>
                     <p className="text-xs text-[#999999]">
                       {localAuthor?.role || "Technical Writer | Sparkonomy"}
@@ -195,30 +195,53 @@ export default async function PreviewPostPage({ params }: PreviewPostPageProps) 
                   </div>
                 </div>
 
-                {/* Previous Companies - Desktop */}
+                {/* Previous Companies - Large Desktop */}
                 {localAuthor?.previousCompanies && localAuthor.previousCompanies.length > 0 && (
-                  <div className="hidden md:flex flex-col items-end">
-                    <p className="text-sm text-[#6B7280] mb-2">Previously at</p>
+                  <div className="hidden lg:flex flex-col items-end">
+                    <p className="text-sm text-[#6B7280] mb-2">{localAuthor.previousCompaniesLabel || "Previously at"}</p>
                     <div className="flex items-center gap-4">
-                      {localAuthor.previousCompanies.map((company, index) => (
-                        <span key={index} className="text-lg md:text-xl font-bold text-gray-900">
-                          {company.name}
-                        </span>
+                      {localAuthor.previousCompanies.slice(0, 3).map((company, index) => (
+                        company.logo ? (
+                          <Image
+                            key={index}
+                            src={company.logo}
+                            alt={company.name}
+                            width={100}
+                            height={32}
+                            className="h-6 w-auto object-contain"
+                          />
+                        ) : (
+                          <span key={index} className="text-lg md:text-xl font-bold text-gray-900">
+                            {company.name}
+                          </span>
+                        )
                       ))}
                     </div>
                   </div>
                 )}
               </div>
 
-              {/* Previous Companies - Mobile */}
+              {/* Previous Companies - Mobile & Tablet */}
               {localAuthor?.previousCompanies && localAuthor.previousCompanies.length > 0 && (
-                <div className="md:hidden flex flex-col items-start mt-4">
-                  <p className="text-sm text-[#6B7280] mb-2">Previously at</p>
-                  <div className="flex items-center gap-4">
-                    {localAuthor.previousCompanies.map((company, index) => (
-                      <span key={index} className="text-lg font-bold text-gray-900">
-                        {company.name}
-                      </span>
+                <div className="lg:hidden flex flex-col items-end mt-4 w-full">
+                  <p className="text-sm text-[#6B7280] mb-2">{localAuthor.previousCompaniesLabel || "Previously at"}</p>
+                  <div className="grid grid-cols-3 gap-3 w-full">
+                    {localAuthor.previousCompanies.slice(0, 3).map((company, index) => (
+                      <div key={index} className="flex items-center justify-center">
+                        {company.logo ? (
+                          <Image
+                            src={company.logo}
+                            alt={company.name}
+                            width={80}
+                            height={24}
+                            className="h-4 w-auto object-contain"
+                          />
+                        ) : (
+                          <span className="text-sm font-bold text-gray-900">
+                            {company.name}
+                          </span>
+                        )}
+                      </div>
                     ))}
                   </div>
                 </div>
@@ -238,25 +261,16 @@ export default async function PreviewPostPage({ params }: PreviewPostPageProps) 
                   priority
                 />
               </div>
-              {/* Show caption from featured image, or fall back to excerpt */}
+              {/* Show caption from featured image only */}
               {(() => {
                 const imageCaption = post._embedded?.["wp:featuredmedia"]?.[0]?.caption?.rendered;
                 const hasImageCaption = imageCaption && stripHtml(imageCaption).trim() !== "";
-                const excerpt = post.excerpt?.rendered;
-                const hasExcerpt = excerpt && stripHtml(excerpt).trim() !== "";
 
                 if (hasImageCaption) {
                   return (
                     <div
                       className="text-sm text-gray-500 italic mt-2 [&>p]:m-0"
                       dangerouslySetInnerHTML={{ __html: imageCaption }}
-                    />
-                  );
-                } else if (hasExcerpt) {
-                  return (
-                    <div
-                      className="text-sm text-gray-500 italic mt-2 [&>p]:m-0"
-                      dangerouslySetInnerHTML={{ __html: excerpt }}
                     />
                   );
                 }
