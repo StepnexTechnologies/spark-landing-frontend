@@ -52,14 +52,11 @@ export const metadata: Metadata = {
     canonical: "https://sparkonomy.com/blogs",
   },
   robots: {
-    index: true,
-    follow: true,
+    index: false,
+    follow: false,
     googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
+      index: false,
+      follow: false,
     },
   },
   openGraph: {
@@ -211,17 +208,7 @@ async function HeroSection() {
   const { data: posts } = await getPosts(1, 1);
 
   if (posts.length === 0) {
-    return (
-      <MainSection
-        title="How Creators Are Earning Passive Income in 2025"
-        subtitle=""
-        description="Explore the best ways to make your content work for you, even after you sleep."
-        buttonText="Read More"
-        buttonLink="#posts"
-        imageSrc="/MainImage.svg"
-        hashtags={["MonetizeYourContent", "CreatorEconomy", "PassiveIncome"]}
-      />
-    );
+    return null;
   }
 
   const heroPost = posts[0];
@@ -296,17 +283,7 @@ export default function Home() {
 
       {/* Main Section with Background Image */}
       <div className="relative z-10">
-        <Suspense fallback={
-          <MainSection
-            title="How Creators Are Earning Passive Income in 2025"
-            subtitle=""
-            description="Explore the best ways to make your content work for you, even after you sleep."
-            buttonText="Read More"
-            buttonLink="#posts"
-            imageSrc="/MainImage.svg"
-            hashtags={["MonetizeYourContent", "CreatorEconomy", "PassiveIncome"]}
-          />
-        }>
+        <Suspense fallback={null}>
           <HeroSection />
         </Suspense>
       </div>

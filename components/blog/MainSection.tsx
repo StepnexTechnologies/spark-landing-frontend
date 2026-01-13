@@ -44,7 +44,7 @@ export default function MainSection({
  
           {/* Description */}
           <p className="text-sm  md:text-lg lg:text-xl mb-6 md:mb-8 font-normal text-white leading-relaxed max-w-lg">
-            {description}
+            {description.length > 160 ? `${description.substring(0, 160)}...` : description}
           </p>
 
           {/* Button */}

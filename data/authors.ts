@@ -61,6 +61,7 @@ export interface AuthorEntry {
   shortBio: string; // Quote/tagline shown at top
   socialLinks: AuthorSocialLinks;
   previousCompanies: PreviousCompany[];
+  previousCompaniesLabel?: string; // Label for previous companies section (e.g., "Previously scaling billion-dollar businesses at")
 
   // Story section
   storyTitle: string;
@@ -305,7 +306,7 @@ export const authors: AuthorEntry[] = [
     role: "Content Strategist & Chartered Accountant (CA)",
     avatarUrl: "/authors/BinnyProfilePictue.jpg",
     shortBio:
-      "Binny Agarwal helps creators turn their hobby into a real company. She is a Chartered Accountant (CA) with 12 years of experience. At Sparkonomy, she writes simple guides on how to use AI and smart tools to make more money and work less.",
+      "I help creators stop thinking like content machines and start thinking like founders.With 12 years as a Chartered Accountant, I turn creative work into real, sustainable businesses using AI and smart strategy.",
 
     socialLinks: {
       twitter: "https://twitter.com/BinnyWriter",
@@ -321,14 +322,15 @@ export const authors: AuthorEntry[] = [
       { name: "SkinVision", logo: "/authors/Logos/SkinVision1.png" },
       { name: "Masalabox", logo: "/authors/Logos/MasalaBox1.png" },
     ],
+    previousCompaniesLabel: "Trusted by teams at",
 
-    storyTitle: "About Binny",
+    storyTitle: "About Me",
     storyContent: [
-      "Binny Agarwal is a Chartered Accountant (CA) and a writer. She has been working for 12 years.",
-      "Most creators are great at making videos or art. But they often struggle with the \"boring\" stuff—like taxes, contracts, and planning for the future. Binny fixes this.",
+      "I help creators turn their hobbies into real, revenue-generating companies.",
+      "I’ve been a Chartered Accountant (CA) for 12 years, and I’ve seen too many talented people burn out — not because they lack skill, but because they lack systems. That’s where I come in. At Sparkonomy, I break down complex tools and strategies into simple, actionable guides. I show creators how to use AI and smart thinking to make more money, save more time, and actually build something that lasts.",
     ],
     highlightQuote:
-      "Build Assets: Make things that pay you even when you are sleeping.",
+      "Most creators don’t need more followers — they need a business model.",
     storyConclusion: [
       "Binny uses her experience with money and business to help you think like a \"Founder,\" not just a user. She teaches you how to build assets, work smart so you don't burn out, and understand the rules of business so you keep more of what you earn.",
       "Sparkonomy is building the future for creators. This includes AI Agents (smart digital helpers) and tools to run your entire business. Binny is the voice that explains these tools.",
@@ -337,13 +339,19 @@ export const authors: AuthorEntry[] = [
       "Binny writes simply. She does not use big, confusing words. She gets straight to the point. She wants you to read her advice, understand it fast, and go back to creating.",
     ],
 
-    aboutTitle: "How She Helps You",
+    aboutTitle: "What I Do",
     aboutContent: [
-      "Binny uses her experience with money and business to help you think like a \"Founder,\" not just a user. She teaches you how to:",
-      "Build Assets: Make things that pay you even when you are sleeping.",
-      "Work Smart: Use strategy so you don't burn out.",
-      "Keep Your Money: Understand the rules of business so you keep more of what you earn.",
+      "Most creators are amazing at what they do — art, video, writing, or teaching. But they often hit a wall when it comes to the \"boring\" stuff: taxes, pricing, contracts, planning, and scaling. I help them:",
+      "• Think like Founders, not just freelancers",
+      "• Build Assets that pay them even when they're offline",
+      "• Work Smart with automation and AI",
+      "• Keep More Money by understanding how business really works",
     ],
+
+    // My Role at Sparkonomy section (included in aboutContent)
+    // Sparkonomy is building the future of work for creators — smart AI agents, digital tools, and full-stack creator businesses.
+    // I write the playbooks on how to use them. I connect the dots between tools and results — helping you understand not just what to use, but why and how it helps you earn more and work less.
+    // I keep it simple. No jargon. No MBA speak. Just what works.
 
     careerHighlights: [
       "12 years of professional experience",
@@ -405,8 +413,9 @@ export const authors: AuthorEntry[] = [
       { name: "HSBC", logo: "/authors/Logos/HSBC.png" },
       { name: "Max Life Insurance", logo: "/authors/Logos/MaxLife.png" },
     ],
+    previousCompaniesLabel: "Previously at",
 
-    storyTitle: "About Saurabh",
+    storyTitle: "About Me",
     storyContent: [
       "Saurabh Mongia is a seasoned finance leader with 16+ years of experience across financial reporting, regulatory compliance, and control frameworks. He currently works as Partner at CompliFinix Solutions, a firm with expertise in Financial matters along with Taxation & Compliance matters. He has previously worked as Vice President with Global Shared Service organisations in India, supporting businesses across Asia and EMEA with key focus on Financial Reporting & control, Audit readiness, Tax Compliances and Process improvement.",
       "But here is the part he genuinely enjoys: taking the finance rules that big companies run on and translating them into creator-friendly steps. He is deeply interested in the creator economy because creator work is real work, and payouts should not feel like a guessing game. When he writes for Sparkonomy, he looks at creator payments through a finance lens and asks simple questions like: What will Accounts Payable need to approve this in one go, and what tiny missing detail will send it back.",
