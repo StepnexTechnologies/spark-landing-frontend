@@ -134,7 +134,7 @@ export default function AuthorPageTemplate({
         {author.previousCompanies.length > 0 && (
           <div className="bg-[#F8F8F8] rounded-[12px] p-4">
             <p className="text-base md:text-lg text-gray-500 mb-4 text-center">Previously scaling billion-dollar businesses at</p>
-            <div className="grid grid-cols-3 md:grid-cols-4 gap-4 md:gap-6 justify-items-center">
+            <div className="grid grid-cols-3 gap-4 md:gap-6 justify-items-center">
               {author.previousCompanies.map((company) => (
                 <div key={company.name} className="flex items-center justify-center">
                   {company.logo ? (
