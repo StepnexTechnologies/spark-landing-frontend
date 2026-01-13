@@ -119,7 +119,7 @@
       },
       {
         "question": "Pocket CFO kya hai aur yeh kya kaam karega?",
-        "answer": "Hum jaante hai ki aap apne creator business ke accountant nahi banna chahte, aur phir bhi aap vahi ban jate hai! Excel, Canva ya Word mein banaye hue invoices ko manage karna aur track karna impossible hai. Sparkonomy ka pocket CFO AI agent every week aapke payments aur cash flow ka analysis karta hai. Phir yeh aapko cash flow, overdue payments, aur income growth par quick weekly 5-minute update bhejta hai. Ye aapke saare records ko clean aur aapke business ko tax-ready rakhta hai. Aap pro bano, ham aapki help kareinge.",
+        "answer": "Hum jaante hai ki aap apne creator business ke accountant nahi banna chahte, aur phir bhi aap vahi ban jate hai! Excel, Canva ya Word mein banaye hue invoices ko manage karna aur track karna impossible hai. Sparkonomy ka pocket CFO AI agent every week aapke payments aur cash flow ka analysis karta hai. Phir yeh aapko cash flow, overdue payments, aur income growth par quick weekly 5-minute update bhejta hai. Yeh aapke saare records ko clean aur aapke business ko tax-ready rakhta hai. Aap pro bano, ham aapki help kareinge.",
         "category": "pocket-cfo"
       },
       {
@@ -144,7 +144,7 @@
       },
       {
         "question": "Main Ek brand ko invoice kaise bheju?",
-        "answer": "Jaise aapko pasand hain! Apna invoice complete karne ke baad, Sparkonomy ke through brand ko bhej dein, ya PDF download karke personally email/WhatsApp pe send karein. No chasing, no tension - bas fast cash!",
+        "answer": "Jaise aapko pasand hain! Apna invoice complete karne ke baad, Sparkonomy ke through brand ko bhej dein, ya PDF download karke personally email/WhatsApp par send karein. No chasing, no tension - bas fast cash!",
         "category": "invoice"
       },
       {
@@ -154,12 +154,12 @@
       },
       {
         "question": "Kya ek Purchase Order (PO) use karke jaldi se invoice create kar sakte hain?",
-        "answer": "Bilkul! Hum jaante hain speed sab kuch hai. Saare project details manually enter karne ke bajay, jab aap 'Create Invoice' pe tap karenge, tab aap brand ka Purchase Order (PO) upload kar sakte hain. Humara smart system instantly document ko breakdown karke basic details jaise brand ka naam, contact info, aur kabhi-kabhi rate bhi pre-fill kar dega - taaki aap details verify karke invoice aur bhi fast bhej sakein",
+        "answer": "Bilkul! Hum jaante hain speed sab kuch hai. Saare project details manually enter karne ke bajay, jab aap 'Create Invoice' par tap karenge, tab aap brand ka Purchase Order (PO) upload kar sakte hain. Humara smart system instantly document ko breakdown karke basic details jaise brand ka naam, contact info, aur kabhi-kabhi rate bhi pre-fill kar dega - taaki aap details verify karke invoice aur bhi fast bhej sakein.",
         "category": "invoice"
       },
       {
         "question": "Mujhse invoices bhejne mein aksar delay hota hai, kyunki ye ek chore lagta hai ya phir darr lagta hai ki kahin koi mistake na ho jaaye. Is it a big deal?",
-        "answer": " Haan! Agar aap invoice der se bhejte hain, toh brands aapka payment process late start karte hain, jo aapke payment cycle ko 45 se 180 din tak push kar sakta hai - matlab 6 mahine tak wait karna padh sakta hai. Hum bhi ye delay pasand nahi karte, isliye Sparkonomy ke saath invoicing super simple aur fast bana di hai. Hamara 'Tap-to-Invoice' design aur AI seconds mein 100% accurate, pro invoices bana dete hain. Invoice mistakes aur delays hata kar, hum aapko jaldi payment dilate hain, taaki aap poori tarah se content creation par focus kar sakein!",
+        "answer": " Haan! Agar aap invoice der se bhejte hain, toh brands aapka payment process late start karte hain, jo aapke payment cycle ko 45 se 180 din tak push kar sakta hai - matlab 6 mahine tak wait karna padh sakta hai. Hum bhi yeh delay pasand nahi karte, isliye Sparkonomy ke saath invoicing super simple aur fast bana di hai. Hamara 'Tap-to-Invoice' design aur AI seconds mein 100% accurate, pro invoices bana dete hain. Invoice mistakes aur delays hata kar, hum aapko jaldi payment dilate hain, taaki aap poori tarah se content creation par focus kar sakein!",
         "category": "invoice"
       },
       {
@@ -169,17 +169,17 @@
       },
       {
         "question": "Mujhe lagta hai ki mere invoice mein koi galti hai. Mujhe kya karna chahiye?",
-        "answer": "Agar aapka invoice abhi tak send nahi hua hai, toh tension nahi lein - bas apne dashboard par jaiye aur edit option use karke changes kijiye. Agar invoice bhej diya gaya hai aur aap GST-registered nahi hain, toh aap invoice edit kar sakte hain, lekin best practice ye hai ki purana invoice cancel karke naya invoice bhejein, taaki sab clean rahe. Agar aap GST-registered hain, toh existing invoice ko cancel karke fresh invoice create karna chahiye. Isse aapke invoice serial numbers aur dates correct rahenge. Process ko fast karne ke liye, aap purane invoice ko duplicate karke necessary changes kar sakte hain aur phir send kar sakte hain. Ye approach compliance maintain karne mein help karta hai aur records tidy rakhta hai!",
+        "answer": "Agar aapka invoice abhi tak send nahi hua hai, toh tension nahi lein - bas apne dashboard par jaiye aur edit option use karke changes kijiye. Agar invoice bhej diya gaya hai aur aap GST-registered nahi hain, toh aap invoice edit kar sakte hain, lekin best practice ye hai ki purana invoice cancel karke naya invoice bhejein, taaki sab clean rahe. Agar aap GST-registered hain, toh existing invoice ko cancel karke fresh invoice create karna chahiye. Isse aapke invoice serial numbers aur dates correct rahenge. Process ko fast karne ke liye, aap purane invoice ko duplicate karke necessary changes kar sakte hain aur phir send kar sakte hain. Yeh approach compliance maintain karne mein help karta hai aur records tidy rakhta hai!",
         "category": "invoice"
       },
       {
         "question": "Maine abhi apna Payment Method change kiya. Kya iska effect mere current invoice par padega?",
-        "answer": " Jo invoices aapne payment change se pehle bheje hain, unmein purane payment details hi dikhenge. Aapki updated payout information save hain gayi hai aur ye saare future invoices aur payouts ke liye use hogi. Lekin, ensure karein ki aapke naye bank details fully verified hain next payment date se pehle. Agar purana payment system ab paise accept nahi karta, toh un brands ko jaldi update bhejna hoga jahan payment abhi pending hai, taaki delays avoid hain sakein.",
+        "answer": " Jo invoices aapne payment change se pehle bheje hain, unmein purane payment details hi dikhenge. Aapki updated payout information save ho gayi hai aur yeh saare future invoices aur payouts ke liye use hogi. Lekin, ensure karein ki aapke naye bank details fully verified hain next payment date se pehle. Agar purana payment system ab paise accept nahi karta, toh un brands ko jaldi update bhejna hoga jahan payment abhi pending hai, taaki delays avoid ho sakein.",
         "category": "invoice"
       },
       {
         "question": "Non-paying brands ke final collection aur public disclosure ke liye Sparkonomy ke steps kya hain?",
-        "answer": " Agar koi brand aapka payment ignore kar raha hai, toh ye cool nahi hai. Hum abhi legal support provide nahi karte, lekin kuch smart hacks hai jo aapko payment lene mein help karenge. Hum suggest karenge ki kaise strong follow-up messages draft karein aur pro steps lein taaki payment jaldi aa jaye without kisi drama ke. Aap control mein rahenge, aur hum ensure karenge ki process smooth aur pro rahe.",
+        "answer": " Agar koi brand aapka payment ignore kar raha hai, toh yeh cool nahi hai. Hum abhi legal support provide nahi karte, lekin kuch smart hacks hai jo aapko payment lene mein help karenge. Hum suggest karenge ki kaise strong follow-up messages draft karein aur pro steps lein taaki payment jaldi aa jaye without kisi drama ke. Aap control mein rahenge, aur hum ensure karenge ki process smooth aur pro rahe.",
         "category": "payment-reminders"
       }
     ]
@@ -199,7 +199,7 @@
   },
   "referral": {
     "defaultName": "Chulbuli",
-    "message": "kehti hai ye creators ke liye sabse aasaan app hai — aur chahti hai ki tum bhi try karo.",
+    "message": "ka manna hai ki yeh app creators ke liye sabse easy hai — aap bhi ise try karke dekho. Aaj hi Sign Up karo!",
     "signUp": "Aaj hi Sign Up karo!"
   }
 }
