@@ -1,12 +1,19 @@
 import LegalFooter from "@/components/LegalFooter";
+import Link from "next/link";
+import {Home} from "lucide-react";
 
 export default function PrivacyPolicyPage() {
     return (
         <>
             <div className="max-w-4xl mx-auto px-4 py-10 text-gray-800">
-                <h1 className="text-3xl font-bold mb-2 text-primary">
-                    Sparkonomy Privacy Policy
-                </h1>
+                <div className="flex items-center justify-between mb-2">
+                    <h1 className="text-3xl font-bold text-primary">
+                        Sparkonomy Privacy Policy
+                    </h1>
+                    <Link href="/" className="text-primary hover:text-primary/80 transition-colors mr-8">
+                        <Home className="w-6 h-6" />
+                    </Link>
+                </div>
                 <p className="text-sm text-gray-500 mb-8">
                     Effective Date: 19 August 2025
                 </p>

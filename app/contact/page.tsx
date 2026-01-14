@@ -131,11 +131,9 @@ const ContactPage = () => {
       {/* Home Icon */}
       <Link href="/">
         <motion.div
-          className="fixed top-8 left-1/2 -translate-x-1/2 mb-8 md:left-auto md:right-8 md:translate-x-0 z-50 w-12 h-12 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full flex items-center justify-center cursor-pointer hover:bg-white/20 transition-all duration-100"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.95 }}
+          className="fixed top-8 left-1/2 md:left-auto md:right-8 z-50 w-12 h-12 "
         >
-          <Home className="w-6 h-6 text-white" />
+          <Home className="w-6 h-6 text-white hover:text-white/40" />
         </motion.div>
       </Link>
 
