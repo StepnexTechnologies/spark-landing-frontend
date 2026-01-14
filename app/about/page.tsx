@@ -59,9 +59,9 @@ const AboutPage = () => {
       className="min-h-screen bg-black text-white relative overflow-hidden"
     >
       {/* Home Icon */}
-      <Link href="/">
+      <Link href="/" className={"flex items-center justify-center md:justify-start pt-8 px-4 sm:px-6 lg:px-8"}>
         <motion.div
-          className="fixed top-8 left-1/2 md:left-auto md:right-8 z-50 w-12 h-12"
+          className="flex items-center justify-center z-50 w-12 h-12"
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
         >
@@ -87,14 +87,14 @@ const AboutPage = () => {
         />
       </div>
 
-      <div className="relative z-10 px-4 sm:px-6 lg:px-8 py-20">
+      <div className="relative z-10 px-4 sm:px-6 lg:px-8 pb-20 pt-8">
         <div className="max-w-4xl mx-auto">
           {/* Hero Section */}
           <motion.div
             initial="hidden"
             animate="visible"
             variants={staggerContainer}
-            className="text-center mb-20 mt-8"
+            className="text-center mb-20"
           >
             <motion.h1
               variants={fadeInVariants}
