@@ -1,16 +1,11 @@
 "use client";
 
-import {Suspense} from "react";
 import {motion} from "framer-motion";
 import Image from "next/image";
-import { useTranslation } from "react-i18next";
-import CTAButton from "./CTAButton";
 import Link from "next/link";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 export default function Navigation() {
-  const { t } = useTranslation("creatorEarn");
-
   return (
     <motion.nav
       initial={{ opacity: 0, y: -20 }}
@@ -29,12 +24,7 @@ export default function Navigation() {
             priority
           />
         </Link>
-        <div className="flex items-center gap-3">
-          <LanguageSwitcher />
-          <Suspense fallback={<div className="h-10" />}>
-            <CTAButton buttonText={t("nav.getEarlyAccess")} />
-          </Suspense>
-        </div>
+        <LanguageSwitcher />
       </div>
     </motion.nav>
   );
