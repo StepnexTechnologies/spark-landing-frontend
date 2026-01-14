@@ -2,7 +2,11 @@
 
 import {motion} from "framer-motion";
 import {useEffect, useRef, useState} from "react";
-import {Mail, MapPin, MessageSquare, Phone, Send, Sparkles, User} from "lucide-react";
+import {Home, Mail, MapPin, MessageSquare, Phone, Send, Sparkles, User} from "lucide-react";
+import toast from "react-hot-toast";
+import {useContactForm} from "@/lib/hooks/useContactForm";
+import Link from "next/link";
+import PhoneInput from "@/components/form/PhoneInput";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
 const ContactPage = () => {
@@ -10,12 +14,13 @@ const ContactPage = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    phone: "",
+    mobile_no: "",
+    countryCode: "US",
     message: ""
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const { submitContactForm, loading: isSubmitting } = useContactForm();
 
   useEffect(() => {
     // Trigger fluid simulation if available
@@ -43,13 +48,45 @@ const ContactPage = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    setIsSubmitting(false);
-    setIsSubmitted(true);
+
+    // Show loading toast
+    const loadingToast = toast.loading("Sending your message...");
+
+    try {
+      const result = await submitContactForm(formData);
+
+      // Dismiss loading toast
+      toast.dismiss(loadingToast);
+
+      if (result.success) {
+        // Show success toast
+        toast.success(result.message, {
+          duration: 4000,
+          position: "top-center",
+        });
+        setIsSubmitted(true);
+        // Reset form
+        setFormData({
+          name: "",
+          email: "",
+          mobile_no: "",
+          countryCode: "US",
+          message: ""
+        });
+      } else {
+        // Show error toast
+        toast.error(result.detail || result.message, {
+          duration: 4000,
+          position: "top-center",
+        });
+      }
+    } catch (error) {
+      toast.dismiss(loadingToast);
+      toast.error("Something went wrong. Please try again.", {
+        duration: 4000,
+        position: "top-center",
+      });
+    }
   };
 
   const fadeInVariants = {
@@ -84,11 +121,22 @@ const ContactPage = () => {
   };
 
   return (
-    <div 
+    <div
       ref={containerRef}
       onMouseMove={handleMouseMove}
       className="min-h-screen bg-black text-white relative overflow-hidden"
     >
+      {/* Home Icon */}
+      <Link href="/">
+        <motion.div
+          className="fixed top-8 left-1/2 -translate-x-1/2 mb-8 md:left-auto md:right-8 md:translate-x-0 z-50 w-12 h-12 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full flex items-center justify-center cursor-pointer hover:bg-white/20 transition-all duration-100"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <Home className="w-6 h-6 text-white" />
+        </motion.div>
+      </Link>
+
       {/* Interactive background gradient */}
       <div className="absolute inset-0">
         <motion.div
@@ -114,7 +162,7 @@ const ContactPage = () => {
             initial="hidden"
             animate="visible"
             variants={staggerContainer}
-            className="text-center mb-20"
+            className="text-center mb-20 mt-8"
           >
             <motion.h1
               variants={fadeInVariants}
@@ -287,25 +335,16 @@ const ContactPage = () => {
 
                     {/* Mobile Phone Field */}
                     <div>
-                      <label htmlFor="phone" className="block text-sm font-medium text-gray-300 mb-2">
+                      <label htmlFor="mobile_no" className="block text-sm font-medium text-gray-300 mb-2">
                         Mobile Phone
                       </label>
-                      <motion.div className="relative">
-                        <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-                        <motion.input
-                          id="phone"
-                          name="phone"
-                          type="tel"
-                          required
-                          value={formData.phone}
-                          onChange={handleInputChange}
-                          variants={inputVariants}
-                          initial="initial"
-                          whileFocus="focus"
-                          className="w-full pl-10 pr-4 py-3 bg-black/50 backdrop-blur-sm border-2 border-purple-500/50 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400 transition-all duration-300"
-                          placeholder="+1 (555) 123-4567"
-                        />
-                      </motion.div>
+                      <PhoneInput
+                        value={formData.mobile_no}
+                        onChange={(phone, countryCode) => {
+                          setFormData(prev => ({ ...prev, mobile_no: phone, countryCode }));
+                        }}
+                        required
+                      />
                     </div>
 
                     {/* Message Field */}
