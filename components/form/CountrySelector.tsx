@@ -11,12 +11,14 @@ interface CountrySelectorProps {
   selectedCountry: Country;
   onSelectCountry: (country: Country) => void;
   isValid?: boolean;
+  isFocused?: boolean;
 }
 
 export default function CountrySelector({
   selectedCountry,
   onSelectCountry,
-    isValid,
+  isValid = true,
+  isFocused = false,
 }: CountrySelectorProps) {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -65,11 +67,12 @@ export default function CountrySelector({
         type="button"
         onClick={() => setIsOpen(!isOpen)}
         variants={inputVariants}
+        initial="initial"
+        animate={isFocused ? "focus" : "initial"}
         whileHover={{ borderColor: "rgba(108, 99, 255, 0.8)" }}
-        // className="flex items-center gap-2 px-3 py-2.5 bg-black/50 backdrop-blur-sm border-2 border-purple-500/50 border-r-0 rounded-l-lg text-white hover:border-purple-400 transition-all duration-300 min-w-[100px]"
         className={`flex items-center w-full gap-2 px-3 py-2.5 bg-black/50 backdrop-blur-sm border-2 ${
             isValid ? "border-purple-500/50" : "border-red-500/50"
-        } border-r-0 rounded-r-lg text-white placeholder-gray-400 focus:outline-none ${
+        } border-r-0 rounded-l-lg text-white placeholder-gray-400 focus:outline-none ${
             isValid ? "focus:border-purple-400" : "focus:border-red-400"
         } transition-all duration-300`}
       >

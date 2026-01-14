@@ -16,6 +16,7 @@ const ContactPage = () => {
     email: "",
     mobile_no: "",
     countryCode: "US",
+    dialCode: "+1",
     message: ""
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -71,6 +72,7 @@ const ContactPage = () => {
           email: "",
           mobile_no: "",
           countryCode: "US",
+          dialCode: "+1",
           message: ""
         });
       } else {
@@ -267,9 +269,8 @@ const ContactPage = () => {
                     100D PASIR PANJANG<br />
                     #05-03 MEISSA<br />
                     SINGAPORE 11852<br /><br />
-                    <div className="flex items-center space-x-2 text-purple-400">
-                      <Phone className="w-4 h-4" />
-                      <span>+91 9910772075</span>
+                    <div className="flex items-center space-x-2 text-purple-400 cursor-pointer">
+                      <Phone className="w-4 h-4" /><a href={'https://wa.me/919910772075'} className="text-purple-400 select-text">+91 9910772075</a>
                     </div>
                   </address>
                 </motion.div>
@@ -340,8 +341,8 @@ const ContactPage = () => {
                       </label>
                       <PhoneInput
                         value={formData.mobile_no}
-                        onChange={(phone, countryCode) => {
-                          setFormData(prev => ({ ...prev, mobile_no: phone, countryCode }));
+                        onChange={(phone, countryCode, dialCode) => {
+                          setFormData(prev => ({ ...prev, mobile_no: phone, countryCode, dialCode }));
                         }}
                         required
                       />

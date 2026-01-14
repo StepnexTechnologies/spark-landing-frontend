@@ -18,13 +18,25 @@ export function useContactForm() {
   const [error, setError] = useState<string | null>(null);
 
   const submitContactForm = async (
-    data: ContactFormData
+    data: ContactFormData | any
   ): Promise<{ success: boolean; message: string; detail?: string }> => {
     setLoading(true);
     setError(null);
 
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s timeout
+
+    // Combine dial code and national number, removing all spaces
+    const nationalNumber = data.mobile_no.replace(/\s/g, '').replace(/[()-]/g, '');
+    const internationalNumber = `${data.dialCode}${nationalNumber}`;
+
+    // Only send required fields to API
+    const payload: ContactFormData = {
+      name: data.name,
+      email: data.email,
+      mobile_no: internationalNumber,
+      message: data.message,
+    };
 
     try {
       const res = await fetch(
@@ -34,7 +46,7 @@ export function useContactForm() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(data),
+          body: JSON.stringify(payload),
           signal: controller.signal,
         }
       );

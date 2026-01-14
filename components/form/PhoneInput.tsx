@@ -10,7 +10,7 @@ import CountrySelector from "./CountrySelector";
 
 interface PhoneInputProps {
   value: string;
-  onChange: (phone: string, countryCode: string) => void;
+  onChange: (phone: string, countryCode: string, dialCode: string) => void;
   required?: boolean;
 }
 
@@ -43,11 +43,14 @@ export default function PhoneInput({
       const formatted = formatter.input(input);
 
       setPhoneNumber(formatted);
-      onChange(formatted, selectedCountry.code);
+
+      // Send only the national number (no country code in the value)
+      // The dial code is sent separately
+      onChange(formatted, selectedCountry.code, selectedCountry.dialCode);
     } catch {
       // If formatting fails, just use raw input
       setPhoneNumber(input);
-      onChange(input, selectedCountry.code);
+      onChange(input, selectedCountry.code, selectedCountry.dialCode);
     }
   };
 
@@ -80,7 +83,10 @@ export default function PhoneInput({
         const formatter = new AsYouType(selectedCountry.code as any);
         const formatted = formatter.input(phoneNumber);
         setPhoneNumber(formatted);
-        onChange(formatted, selectedCountry.code);
+
+        // Send only the national number (no country code in the value)
+        // The dial code is sent separately
+        onChange(formatted, selectedCountry.code, selectedCountry.dialCode);
       } catch {
         // Keep existing number if reformatting fails
       }
@@ -114,6 +120,7 @@ export default function PhoneInput({
         selectedCountry={selectedCountry}
         onSelectCountry={setSelectedCountry}
         isValid={isValid}
+        isFocused={isFocused}
       />
 
       {/* Phone Input */}
