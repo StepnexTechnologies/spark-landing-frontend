@@ -62,7 +62,6 @@ export const LanguageSwitcher = ({ className }: LanguageSwitcherProps) => {
               )
             `,
             border: "1px solid rgba(255,255,255,0.12)",
-            boxShadow: "0 2px 12px rgba(0,0,0,0.45)",
             backdropFilter: "blur(14px)",
             WebkitBackdropFilter: "blur(14px)",
           }}
@@ -121,7 +120,7 @@ export const LanguageSwitcher = ({ className }: LanguageSwitcherProps) => {
                 className={`
                   w-full flex items-center justify-between
                   px-3 py-2.5
-                  rounded-lg text-sm
+                  rounded-xl text-sm
                   transition-all duration-150
                   ${
                     currentLang === lang.code
