@@ -4,7 +4,11 @@ import Image from "next/image";
 import {BadgeCheck, Heart, Send} from "lucide-react";
 import AnimatedEmojis from "./AnimatedEmojis";
 
-export default function StoryContent3() {
+interface StoryContent3Props {
+  imageSrc?: string;
+}
+
+export default function StoryContent3({ imageSrc = "/images/creator/earn/story-3.png" }: StoryContent3Props) {
 
     return (
         <div className="relative w-full h-full bg-[#212529]">
@@ -31,8 +35,8 @@ export default function StoryContent3() {
             {/* Main Image */}
             <div className="absolute top-[15%] left-1/2 -translate-x-1/2 w-[90vw] sm:w-[362px] max-w-[362px] max-h-[calc(100%-150px)] aspect-[362/595] rounded-3xl overflow-hidden">
                 <Image
-                    src={"/images/creator/earn/story-3.png"}
-                    alt={"Bunny"}
+                    src={imageSrc}
+                    alt={"Story"}
                     width={362}
                     height={595}
                     priority
