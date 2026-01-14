@@ -6,11 +6,11 @@ export default function RefundPolicyPage() {
     return (
         <>
             <div className="max-w-4xl mx-auto px-4 py-10 text-gray-800">
-                <div className="flex items-center justify-between mb-2">
+                <div className="flex justify-between items-start mb-2">
                     <h1 className="text-3xl font-bold text-primary">
-                        Sparkonomy Refund & Cancellation Policy
+                        <div>Sparkonomy Refund</div><div> & Cancellation Policy</div>
                     </h1>
-                    <Link href="/" className="text-primary hover:text-primary/80 transition-colors mr-8">
+                    <Link href="/" className="text-primary hover:text-primary/80 transition-colors mr-4 mt-1">
                         <Home className="w-6 h-6" />
                     </Link>
                 </div>
