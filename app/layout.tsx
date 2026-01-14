@@ -70,7 +70,7 @@ export default function Layout({
     <html lang="en" className="h-full">
       <head>
         <link rel="icon" href="/favicon.ico" />
-        <link rel="canonical" href="https://www.sparkonomy.com" />
+        {/* Canonical URL is set per-page via Next.js metadata - removed hardcoded global canonical to avoid duplicates */}
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="facebook-domain-verification" content="dq4gtmx7isvdg6evweg50e3rmarkil" />
         <meta name="theme-color" content="#000000" />

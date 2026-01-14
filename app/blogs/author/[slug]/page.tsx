@@ -41,7 +41,9 @@ export async function generateMetadata({ params }: AuthorPageProps): Promise<Met
   }
 
   const title = `${author.name} - Author at Sparkonomy`;
-  const description = author.shortBio || `Read articles by ${author.name} on Sparkonomy. Expert insights on creator economy, content monetization, and digital marketing.`;
+  // Build description with expertise keywords for better SEO keyword consistency
+  const expertiseText = author.areasOfExpertise?.slice(0, 3).join(", ") || "creator economy, content monetization";
+  const description = author.shortBio || `Read articles by ${author.name} on Sparkonomy. Expert insights on ${expertiseText}, and digital marketing.`;
   const url = `https://sparkonomy.com/blogs/author/${author.slug}`;
 
   return {
@@ -164,19 +166,38 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
   if (author.socialLinks?.linkedin) sameAsLinks.push(author.socialLinks.linkedin);
   if (author.socialLinks?.twitter) sameAsLinks.push(author.socialLinks.twitter);
 
+  // Organization structured data (standalone for Identity Schema)
+  const organizationJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": "https://sparkonomy.com/#organization",
+    name: "Sparkonomy",
+    url: "https://sparkonomy.com",
+    logo: {
+      "@type": "ImageObject",
+      url: "https://sparkonomy.com/sparkonomy.png",
+      width: 512,
+      height: 512,
+    },
+    sameAs: [
+      "https://twitter.com/sparkonomy",
+      "https://www.linkedin.com/company/sparkonomy",
+      "https://www.instagram.com/sparkonomy",
+    ],
+  };
+
   // Structured data for the author page
   const authorJsonLd = {
     "@context": "https://schema.org",
     "@type": "Person",
+    "@id": `https://sparkonomy.com/blogs/author/${author.slug}#person`,
     name: author.name,
     url: `https://sparkonomy.com/blogs/author/${author.slug}`,
     image: author.avatarUrl || "",
     description: author.shortBio || `${author.name} is a writer at Sparkonomy`,
     jobTitle: author.role,
     worksFor: {
-      "@type": "Organization",
-      name: "Sparkonomy",
-      url: "https://sparkonomy.com",
+      "@id": "https://sparkonomy.com/#organization",
     },
     sameAs: sameAsLinks,
     knowsAbout: author.areasOfExpertise,
@@ -210,6 +231,12 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
 
   return (
     <>
+      {/* Organization Structured Data (Identity Schema) */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+      />
+
       {/* Author Structured Data */}
       <script
         type="application/ld+json"
