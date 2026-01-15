@@ -2,7 +2,8 @@
 
 import {motion} from "framer-motion";
 import {useEffect, useRef, useState} from "react";
-import {Mail, MapPin, Sparkles, Target, Users} from "lucide-react";
+import {Home, Mail, MapPin, Sparkles, Target, Users} from "lucide-react";
+import Link from "next/link";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
 const AboutPage = () => {
@@ -52,11 +53,22 @@ const AboutPage = () => {
   };
 
   return (
-    <div 
+    <div
       ref={containerRef}
       onMouseMove={handleMouseMove}
       className="min-h-screen bg-black text-white relative overflow-hidden"
     >
+      {/* Home Icon */}
+      <Link href="/" className={"flex items-center justify-center md:justify-start pt-8 px-4 sm:px-6 lg:px-8"}>
+        <motion.div
+          className="flex items-center justify-center z-50 w-12 h-12"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <Home className="w-6 h-6 hover:text-white/40" />
+        </motion.div>
+      </Link>
+
       {/* Interactive background gradient */}
       <div className="absolute inset-0">
         <motion.div
@@ -75,7 +87,7 @@ const AboutPage = () => {
         />
       </div>
 
-      <div className="relative z-10 px-4 sm:px-6 lg:px-8 py-20">
+      <div className="relative z-10 px-4 sm:px-6 lg:px-8 pb-20 pt-8">
         <div className="max-w-4xl mx-auto">
           {/* Hero Section */}
           <motion.div
@@ -187,8 +199,8 @@ const AboutPage = () => {
               >
                 <h3 className="text-xl font-bold text-purple-400 mb-4">For Creators</h3>
                 <p className="text-gray-300 leading-relaxed">
-                  We are designing a suite of AI-powered tools to act as your co-pilotunifying your brand, 
-                  showcasing your impact, and managing your businessso you can focus on your craft.
+                  We are designing a suite of AI-powered tools to act as your co-pilot unifying your brand,
+                  showcasing your impact, and managing your business so you can focus on your craft.
                 </p>
               </motion.div>
               
@@ -262,8 +274,8 @@ const AboutPage = () => {
                 >
                   hello@sparkonomy.com
                 </a>{" "}
-                or call us at{" "}
-                <span className="text-purple-400 select-text">+91 9910772075</span>
+                or Whatsapp us at{" "}
+                <a href={'https://wa.me/919910772075'} className="text-purple-400 select-text">+91 9910772075</a>
               </p>
               
               <div className="flex items-start space-x-3">
