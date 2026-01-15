@@ -6,7 +6,11 @@ import AnimatedEmojis from "./AnimatedEmojis";
 import Image from "next/image";
 import FloatingHearts from "./FloatingHearts";
 
-export default function StoryContent4() {
+interface StoryContent4Props {
+  imageSrc?: string;
+}
+
+export default function StoryContent4({ imageSrc = "/images/creator/earn/story-2.png" }: StoryContent4Props) {
   const [heartTriggerCount, setHeartTriggerCount] = useState(0);
 
   // Auto-trigger hearts at intervals
@@ -44,8 +48,8 @@ export default function StoryContent4() {
       {/* Main Image */}
       <div className="absolute top-[15%] left-1/2 -translate-x-1/2 w-[90vw] sm:w-[362px] max-w-[362px] max-h-[calc(100%-150px)] aspect-[362/595] rounded-3xl overflow-hidden ">
         <Image
-          src={"/images/creator/earn/story-2.png"}
-          alt={"Bunny"}
+          src={imageSrc}
+          alt={"Story"}
           width={362}
           height={595}
           priority
