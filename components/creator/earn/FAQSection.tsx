@@ -1,6 +1,6 @@
 "use client";
 
-import {Suspense} from "react";
+import {Suspense, useState, useEffect} from "react";
 import {motion} from "framer-motion";
 import { useTranslation } from "react-i18next";
 import FAQItem from "./FAQItem";
@@ -12,11 +12,20 @@ interface FAQTranslation {
 }
 
 export default function FAQSection() {
-  const { t } = useTranslation("creatorEarn");
+  const { t, ready } = useTranslation("creatorEarn");
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Get FAQs from translations
   const faqItems = t("faq.items", { returnObjects: true }) as FAQTranslation[];
   const faqs = Array.isArray(faqItems) ? faqItems : [];
+
+  if (!mounted || !ready) {
+    return null;
+  }
 
   return (
     <section className="relative py-4 px-5 md:px-20">

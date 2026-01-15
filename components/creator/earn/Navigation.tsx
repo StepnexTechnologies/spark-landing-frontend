@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense } from "react";
+import { Suspense, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
@@ -9,7 +9,16 @@ import LanguageSwitcher from "@/components/LanguageSwitcher";
 import CTAButton from "./CTAButton";
 
 export default function Navigation() {
-  const { t } = useTranslation("creatorEarn");
+  const { t, ready } = useTranslation("creatorEarn");
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted || !ready) {
+    return null;
+  }
 
   return (
     <motion.nav

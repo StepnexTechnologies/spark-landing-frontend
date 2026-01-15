@@ -1,12 +1,21 @@
 "use client";
 
-import {Suspense} from "react";
+import {Suspense, useState, useEffect} from "react";
 import {motion} from "framer-motion";
 import { useTranslation } from "react-i18next";
 import CTAButton from "./CTAButton";
 
 export default function VideoSection() {
-  const { t } = useTranslation("creatorEarn");
+  const { t, ready } = useTranslation("creatorEarn");
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted || !ready) {
+    return null;
+  }
 
   return (
     <section className="relative py-12 md:py-20 px-5 md:px-20">

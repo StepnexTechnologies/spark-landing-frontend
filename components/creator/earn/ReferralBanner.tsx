@@ -14,13 +14,18 @@ interface ReferrerInfo {
 const DEFAULT_IMAGE = "/images/creator/earn/referal-default.png";
 
 export default function ReferralBanner() {
-  const { t } = useTranslation("creatorEarn");
+  const { t, ready } = useTranslation("creatorEarn");
   const searchParams = useSearchParams();
   const referralCode = searchParams.get("ref");
 
   const [referrerInfo, setReferrerInfo] = useState<ReferrerInfo | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [hasReferral, setHasReferral] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (referralCode) {
@@ -50,8 +55,8 @@ export default function ReferralBanner() {
     }
   };
 
-  // Don't render anything if there's no referral code in URL
-  if (!referralCode) {
+  // Don't render anything if there's no referral code in URL or not mounted
+  if (!referralCode || !mounted || !ready) {
     return null;
   }
 

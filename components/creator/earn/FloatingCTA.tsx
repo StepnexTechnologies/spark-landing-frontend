@@ -6,9 +6,14 @@ import { useTranslation } from "react-i18next";
 import CTAButton from "./CTAButton";
 
 export default function FloatingCTA() {
-  const { t } = useTranslation("creatorEarn");
+  const { t, ready } = useTranslation("creatorEarn");
   const [isVisible, setIsVisible] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -41,6 +46,10 @@ export default function FloatingCTA() {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [lastScrollY]);
+
+  if (!mounted || !ready) {
+    return null;
+  }
 
   return (
     <AnimatePresence>
