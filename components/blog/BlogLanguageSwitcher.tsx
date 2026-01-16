@@ -17,8 +17,8 @@ export const BlogLanguageSwitcher = ({ className }: BlogLanguageSwitcherProps) =
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const languages = [
-    { code: "en", label: "English" },
-    { code: "hi-Latn", label: "Hinglish" },
+    { code: "en", label: "English", disabled: false },
+    { code: "hi-Latn", label: "Hinglish", disabled: true },
   ];
 
   const currentLangParam = searchParams.get("lang");
@@ -97,21 +97,24 @@ export const BlogLanguageSwitcher = ({ className }: BlogLanguageSwitcherProps) =
             {languages.map((lang) => (
               <button
                 key={lang.code}
-                onClick={() => handleLanguageSelect(lang.code)}
+                onClick={() => !lang.disabled && handleLanguageSelect(lang.code)}
+                disabled={lang.disabled}
                 className={`
                   w-full flex items-center justify-between
                   px-3 py-2
                   rounded-xl text-sm
                   transition-all duration-150
                   ${
-                    currentLang === lang.code
-                      ? "bg-gray-100 text-gray-900"
-                      : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                    lang.disabled
+                      ? "text-gray-300 cursor-not-allowed"
+                      : currentLang === lang.code
+                        ? "bg-gray-100 text-gray-900"
+                        : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                   }
                 `}
               >
                 <span>{lang.label}</span>
-                {currentLang === lang.code && (
+                {currentLang === lang.code && !lang.disabled && (
                   <Check className="w-4 h-4 text-gray-900" />
                 )}
               </button>

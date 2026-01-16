@@ -271,7 +271,53 @@ export function formatDate(dateString: string): string {
 }
 
 /**
- * Get featured image URL from post
+ * Get media by ID
+ */
+export async function getMediaById(mediaId: number): Promise<{ source_url: string } | null> {
+  if (!mediaId || mediaId === 0) {
+    return null;
+  }
+
+  try {
+    const media = await wordpressFetch<{ source_url: string }>(
+      `/media/${mediaId}`
+    );
+    return media;
+  } catch (error) {
+    console.error(`Error fetching media by ID (${mediaId}):`, error);
+    return null;
+  }
+}
+
+/**
+ * Get featured image URL from post (with fallback to direct media fetch)
+ */
+export async function getFeaturedImageUrlAsync(
+  post: WordPressPost,
+  size: "thumbnail" | "medium" | "large" | "full" = "full"
+): Promise<string | null> {
+  // First try _embedded (faster, no additional request)
+  const embeddedMedia = post._embedded?.["wp:featuredmedia"]?.[0];
+  if (embeddedMedia?.source_url) {
+    if (size === "full") {
+      return embeddedMedia.source_url;
+    }
+    return embeddedMedia.media_details?.sizes?.[size]?.source_url || embeddedMedia.source_url;
+  }
+
+  // Fallback: fetch media directly using featured_media ID
+  if (post.featured_media && post.featured_media > 0) {
+    const media = await getMediaById(post.featured_media);
+    if (media?.source_url) {
+      return media.source_url;
+    }
+  }
+
+  return null;
+}
+
+/**
+ * Get featured image URL from post (sync version - uses only _embed data)
  */
 export function getFeaturedImageUrl(
   post: WordPressPost,
