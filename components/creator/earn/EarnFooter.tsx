@@ -1,12 +1,22 @@
 "use client";
 
+import {useState, useEffect} from "react";
 import {motion} from "framer-motion";
 import { useTranslation } from "react-i18next";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function EarnFooter() {
-  const { t } = useTranslation("creatorEarn");
+  const { t, ready } = useTranslation("creatorEarn");
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted || !ready) {
+    return null;
+  }
 
   return (
     <footer className="relative py-8 md:py-12 px-5 md:px-20 mb-36">
