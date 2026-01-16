@@ -5,6 +5,7 @@ import {useEffect, useRef, useState} from "react";
 import {motion} from "framer-motion";
 import gsap from "gsap";
 import EmailCapture from "@/components/EmailCapture";
+import Link from "next/link";
 
 const HeroSection = () => {
   const [isTextRevealed, setIsTextRevealed] = useState(false);
@@ -430,14 +431,14 @@ const HeroSection = () => {
             }}
           >
             {showContent && (
-              <a
-                href="https://beta.brand.sparkonomy.com/rtct"
+              <Link
+                href="/creator/earn"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-[16px] text-gray-400 hover:text-white transition-colors duration-300 cursor-pointer select-none italic"
               >
-                Private Beta! Real Time Campaign Tracker
-              </a>
+                  Private Beta! Earn More, Faster!
+              </Link>
             )}
           </div>
         </motion.div>
