@@ -32,9 +32,9 @@ function formatDate(dateString: string): string {
   });
 }
 
-// Get featured image helper
+// Get featured image helper - fallback to Yoast og:image if wp:featuredmedia is not accessible
 function getFeaturedImage(post: any): string | undefined {
-  return post._embedded?.["wp:featuredmedia"]?.[0]?.source_url;
+  return post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || post.yoast_head_json?.og_image?.[0]?.url;
 }
 
 // Posts Grid Component

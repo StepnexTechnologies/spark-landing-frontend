@@ -323,17 +323,22 @@ export function getFeaturedImageUrl(
   post: WordPressPost,
   size: "thumbnail" | "medium" | "large" | "full" = "medium"
 ): string | null {
-  if (!post._embedded?.["wp:featuredmedia"]?.[0]) {
-    return null;
+  const media = post._embedded?.["wp:featuredmedia"]?.[0];
+
+  // If wp:featuredmedia is available and has source_url, use it
+  if (media?.source_url) {
+    if (size === "full") {
+      return media.source_url;
+    }
+    return media.media_details?.sizes?.[size]?.source_url || media.source_url;
   }
 
-  const media = post._embedded["wp:featuredmedia"][0];
-
-  if (size === "full") {
-    return media.source_url;
+  // Fallback to Yoast SEO og:image if wp:featuredmedia is not accessible
+  if (post.yoast_head_json?.og_image?.[0]?.url) {
+    return post.yoast_head_json.og_image[0].url;
   }
 
-  return media.media_details?.sizes?.[size]?.source_url || media.source_url;
+  return null;
 }
 
 /**
