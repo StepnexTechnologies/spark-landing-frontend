@@ -77,6 +77,12 @@ export default function Layout({
       </head>
       <body className={`${inter.className} min-h-[100dvh] w-full relative`}>
       <Script
+          type="text/javascript"
+          src="https://cdn.cookie-script.com/s/b1693d0f866c8a85e471cfbd6dc87cd1.js"
+          strategy="beforeInteractive"
+      />
+
+      <Script
           async
           src="https://www.googletagmanager.com/gtag/js?id=G-87CRRH8FXM"
           strategy="afterInteractive"
