@@ -1,13 +1,20 @@
 import Image from "next/image";
 import Link from "next/link";
 
+interface PreviousCompany {
+  name: string;
+  logo?: string;
+  logoHeight?: number;
+}
+
 interface AuthorCardProps {
   name: string;
   role: string;
   bio: string;
   avatarUrl: string;
   authorSlug?: string;
-  previousCompanies?: string[];
+  previousCompanies?: PreviousCompany[];
+  previousCompaniesLabel?: string;
   socialLinks?: {
     linkedin?: string;
     instagram?: string;
@@ -24,8 +31,11 @@ export default function  AuthorCard({
   avatarUrl,
   authorSlug,
   previousCompanies = [],
+  previousCompaniesLabel = "Previously at",
   socialLinks = {},
 }: AuthorCardProps) {
+  // Show only the last 3 companies
+  const displayCompanies = previousCompanies.slice(-3);
   const hasSocialLinks = Object.values(socialLinks).some((link) => link);
 
   return (
@@ -137,14 +147,25 @@ export default function  AuthorCard({
           </div>
 
           {/* Previous Companies - Right Side on Desktop */}
-          {previousCompanies.length > 0 && (
+          {displayCompanies.length > 0 && (
             <div className="hidden md:flex flex-col items-end">
-              <p className="text-sm text-[#6B7280] mb-2">Previously at</p>
+              <p className="text-sm text-[#6B7280] mb-2">{previousCompaniesLabel}</p>
               <div className="flex items-center gap-4">
-                {previousCompanies.map((company, index) => (
-                  <span key={index} className="text-lg md:text-xl font-bold text-gray-900">
-                    {company}
-                  </span>
+                {displayCompanies.map((company, index) => (
+                  company.logo ? (
+                    <Image
+                      key={index}
+                      src={company.logo}
+                      alt={company.name}
+                      width={100}
+                      height={company.logoHeight || 32}
+                      className="h-6 w-auto object-contain"
+                    />
+                  ) : (
+                    <span key={index} className="text-lg md:text-xl font-bold text-gray-900">
+                      {company.name}
+                    </span>
+                  )
                 ))}
               </div>
             </div>
@@ -152,14 +173,25 @@ export default function  AuthorCard({
         </div>
 
         {/* Previous Companies - Below on Mobile */}
-        {previousCompanies.length > 0 && (
+        {displayCompanies.length > 0 && (
           <div className="md:hidden flex flex-col items-start">
-            <p className="text-sm text-[#6B7280] mb-2">Previously at</p>
+            <p className="text-sm text-[#6B7280] mb-2">{previousCompaniesLabel}</p>
             <div className="flex items-center gap-4">
-              {previousCompanies.map((company, index) => (
-                <span key={index} className="text-lg font-bold text-gray-900">
-                  {company}
-                </span>
+              {displayCompanies.map((company, index) => (
+                company.logo ? (
+                  <Image
+                    key={index}
+                    src={company.logo}
+                    alt={company.name}
+                    width={80}
+                    height={company.logoHeight || 24}
+                    className="h-4 w-auto object-contain"
+                  />
+                ) : (
+                  <span key={index} className="text-lg font-bold text-gray-900">
+                    {company.name}
+                  </span>
+                )
               ))}
             </div>
           </div>

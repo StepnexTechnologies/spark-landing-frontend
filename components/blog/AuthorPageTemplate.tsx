@@ -483,11 +483,6 @@ export default function AuthorPageTemplate({
         </div>
       </section>
 
-      {/* Footer Info */}
-      <section className="max-w-4xl mx-auto px-4 py-[16px] text-center text-sm text-gray-500">
-        <p>Last Update: {author.lastUpdated}</p>
-        <p>Profile ID: {author.profileId}</p>
-      </section>
     </main>
   );
 }

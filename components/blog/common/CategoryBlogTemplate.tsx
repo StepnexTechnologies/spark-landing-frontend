@@ -32,9 +32,9 @@ function formatDate(dateString: string): string {
   });
 }
 
-// Get featured image helper
+// Get featured image helper - fallback to Yoast og:image if wp:featuredmedia is not accessible
 function getFeaturedImage(post: any): string | undefined {
-  return post._embedded?.["wp:featuredmedia"]?.[0]?.source_url;
+  return post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || post.yoast_head_json?.og_image?.[0]?.url;
 }
 
 // Posts Grid Component
@@ -77,9 +77,9 @@ async function CategoryPosts({ config }: { config: CategoryConfig }) {
     );
   }
 
-  const firstRowPosts = posts.slice(1, 3);
-  const secondRowPost = posts.slice(3, 4);
-  const remainingPosts = posts.slice(4);
+  const firstRowPosts = posts.slice(0, 2);
+  const secondRowPost = posts.slice(2, 3);
+  const remainingPosts = posts.slice(3);
 
   return (
     <>
@@ -184,22 +184,19 @@ async function HeroSection({ config }: { config: CategoryConfig }) {
     ? await getPostsByCategory(category.id, 1, 1)
     : { data: [] };
 
+  // Don't show hero section if no posts - the CategoryPosts component will show "No posts" message
   if (posts.length === 0) {
-    return (
-      <MainSection
-        title={config.title}
-        subtitle={config.subtitle}
-        description={config.description}
-        buttonText="Explore"
-        buttonLink="#posts"
-        imageSrc="/CategoriesMainImage.png"
-        hashtags={config.defaultHashtags}
-      />
-    );
+    return null;
   }
 
   const heroPost = posts[0];
   const tags = getPostTags(heroPost);
+  const featuredImage = getFeaturedImage(heroPost);
+
+  // Only show hero if we have a featured image from WordPress
+  if (!featuredImage) {
+    return null;
+  }
 
   return (
     <MainSection
@@ -208,25 +205,15 @@ async function HeroSection({ config }: { config: CategoryConfig }) {
       description={stripHtml(heroPost.excerpt.rendered)}
       buttonText="Read More"
       buttonLink={`/blogs/${heroPost.slug}`}
-      imageSrc={getFeaturedImage(heroPost) || "/CategoriesMainImage.png"}
+      imageSrc={featuredImage}
       hashtags={tags.length > 0 ? tags : config.defaultHashtags}
     />
   );
 }
 
-// Hero Fallback Component
-function HeroFallback({ config }: { config: CategoryConfig }) {
-  return (
-    <MainSection
-      title={config.title}
-      subtitle={config.subtitle}
-      description={config.description}
-      buttonText="Explore"
-      buttonLink="#posts"
-      imageSrc="/CategoriesMainImage.png"
-      hashtags={config.defaultHashtags}
-    />
-  );
+// Hero Fallback Component - returns null while loading, actual content handled by HeroSection
+function HeroFallback() {
+  return null;
 }
 
 // Main Category Blog Page Template
@@ -239,7 +226,7 @@ export default function CategoryBlogTemplate({ config }: CategoryBlogTemplatePro
     <main className="min-h-screen relative overflow-hidden">
       {/* Main Section with Background Image */}
       <div className="relative z-10">
-        <Suspense fallback={<HeroFallback config={config} />}>
+        <Suspense fallback={<HeroFallback />}>
           <HeroSection config={config} />
         </Suspense>
       </div>

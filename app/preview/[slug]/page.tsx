@@ -310,7 +310,7 @@ export default async function PreviewPostPage({ params }: PreviewPostPageProps) 
               bio={localAuthor?.shortBio || "We are building AI agents for the agentic web, and our main goal is to build trust in AI agents for handling business operations. Being able to define precise schemas and trust the output is key to our production systems."}
               avatarUrl={localAuthor?.avatarUrl || post._embedded?.author?.[0]?.avatar_urls?.["96"] || ""}
               authorSlug={authorPageSlug}
-              previousCompanies={localAuthor?.previousCompanies?.map(c => c.name) || []}
+              previousCompanies={localAuthor?.previousCompanies || []}
               socialLinks={localAuthor?.socialLinks || {
                 linkedin: "https://linkedin.com",
                 instagram: "https://instagram.com",

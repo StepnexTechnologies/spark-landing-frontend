@@ -115,7 +115,7 @@ async function BlogPosts() {
               key={p.id}
               title={p.title.rendered}
               description={decodeHtmlEntities(p.excerpt.rendered)}
-              imageSrc={p._embedded?.['wp:featuredmedia']?.[0]?.source_url}
+              imageSrc={p._embedded?.['wp:featuredmedia']?.[0]?.source_url || p.yoast_head_json?.og_image?.[0]?.url}
               href={`/blogs/${p.slug}`}
               layout="vertical"
               descriptionPosition="bottom"
@@ -136,7 +136,7 @@ async function BlogPosts() {
             key={p.id}
             title={p.title.rendered}
             description={decodeHtmlEntities(p.excerpt.rendered)}
-            imageSrc={p._embedded?.['wp:featuredmedia']?.[0]?.source_url}
+            imageSrc={p._embedded?.['wp:featuredmedia']?.[0]?.source_url || p.yoast_head_json?.og_image?.[0]?.url}
             href={`/blogs/${p.slug}`}
             tag="Brand Story"
             imagePriority={true}
@@ -156,7 +156,7 @@ async function BlogPosts() {
               key={p.id}
               title={p.title.rendered}
               description={decodeHtmlEntities(p.excerpt.rendered)}
-              imageSrc={p._embedded?.['wp:featuredmedia']?.[0]?.source_url}
+              imageSrc={p._embedded?.['wp:featuredmedia']?.[0]?.source_url || p.yoast_head_json?.og_image?.[0]?.url}
               href={`/blogs/${p.slug}`}
               layout="vertical"
               descriptionPosition="bottom"
@@ -221,7 +221,7 @@ async function HeroSection() {
       description={decodeHtmlEntities(heroPost.excerpt.rendered)}
       buttonText="Read More"
       buttonLink={`/blogs/${heroPost.slug}`}
-      imageSrc={heroPost._embedded?.['wp:featuredmedia']?.[0]?.source_url || "/MainImage.svg"}
+      imageSrc={heroPost._embedded?.['wp:featuredmedia']?.[0]?.source_url || heroPost.yoast_head_json?.og_image?.[0]?.url || "/MainImage.svg"}
       hashtags={tags.length > 0 ? tags : ["MonetizeYourContent", "CreatorEconomy", "PassiveIncome"]}
     />
   );

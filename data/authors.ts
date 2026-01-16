@@ -322,7 +322,7 @@ export const authors: AuthorEntry[] = [
       { name: "SkinVision", logo: "/authors/Logos/SkinVision1.png" },
       { name: "Masalabox", logo: "/authors/Logos/MasalaBox1.png" },
     ],
-    previousCompaniesLabel: "Trusted by teams at",
+    previousCompaniesLabel: "Worked with",
 
     storyTitle: "About Me",
     storyContent: [

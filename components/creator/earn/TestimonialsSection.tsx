@@ -11,25 +11,7 @@ export default function TestimonialsSection() {
   const { t, ready } = useTranslation("creatorEarn");
   const [windowWidth, setWindowWidth] = useState<number>(0);
   const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  // track window width client-side (SSR-safe)
-  useEffect(() => {
-    const setWidth = () => setWindowWidth(window.innerWidth);
-    setWidth();
-    window.addEventListener("resize", setWidth);
-    return () => window.removeEventListener("resize", setWidth);
-  }, []);
-
-  // only active for tablet and phone
-  const isCarouselActive = windowWidth > 0 && windowWidth < 1024; // Tailwind `lg`
-
-  if (!mounted || !ready) {
-    return null;
-  }
+  const [selectedIndex, setSelectedIndex] = useState<number>(1); // Start with 2nd card
 
   const testimonials = useMemo(
     () => [
@@ -70,11 +52,27 @@ export default function TestimonialsSection() {
   );
 
   const [emblaRef, emblaApi] = useEmblaCarousel(emblaOptions);
-  const [selectedIndex, setSelectedIndex] = useState<number>(1); // Start with 2nd card
 
   const onSelect = useCallback((embla?: UseEmblaCarouselType[1]) => {
     if (!embla) return;
     setSelectedIndex(embla.selectedScrollSnap());
+  }, []);
+
+  const scrollTo = useCallback(
+    (index: number) => emblaApi && emblaApi.scrollTo(index),
+    [emblaApi]
+  );
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // track window width client-side (SSR-safe)
+  useEffect(() => {
+    const setWidth = () => setWindowWidth(window.innerWidth);
+    setWidth();
+    window.addEventListener("resize", setWidth);
+    return () => window.removeEventListener("resize", setWidth);
   }, []);
 
   useEffect(() => {
@@ -86,12 +84,14 @@ export default function TestimonialsSection() {
     emblaApi.scrollTo(1, true); // true = instant, no animation
   }, [emblaApi, onSelect]);
 
-  const scrollTo = useCallback(
-    (index: number) => emblaApi && emblaApi.scrollTo(index),
-    [emblaApi]
-  );
+  // only active for tablet and phone
+  const isCarouselActive = windowWidth > 0 && windowWidth < 1024; // Tailwind `lg`
 
   const snaps = emblaApi ? emblaApi.scrollSnapList() : testimonials.map((_, i) => i);
+
+  if (!mounted || !ready) {
+    return null;
+  }
 
   return (
     <section className="relative py-4 md:px-20">
