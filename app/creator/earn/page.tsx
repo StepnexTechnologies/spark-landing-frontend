@@ -1,7 +1,9 @@
 "use client";
 
 import {Suspense, useEffect, useState} from "react";
+import {useSearchParams} from "next/navigation";
 import {AnimatePresence, motion} from "framer-motion";
+import {useTranslation} from "react-i18next";
 import "@/lib/i18n"; // Initialize i18n
 import Navigation from "@/components/creator/earn/Navigation";
 import HeroSection from "@/components/creator/earn/HeroSection";
@@ -17,12 +19,22 @@ import StoriesContainer from "@/components/creator/earn/stories/StoriesContainer
 import FloatingCTA from "@/components/creator/earn/FloatingCTA";
 import ReferralBanner from "@/components/creator/earn/ReferralBanner";
 
-export default function CreatorEarnPage() {
+function CreatorEarnPageContent() {
+  const {i18n} = useTranslation();
+  const searchParams = useSearchParams();
   const [showStories, setShowStories] = useState(false);
   const [showLandingPage, setShowLandingPage] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    // Set language from URL param, default to English if not present
+    const langParam = searchParams.get("lang");
+    if (langParam && ["en", "hi-Latn"].includes(langParam)) {
+      i18n.changeLanguage(langParam);
+    } else {
+      i18n.changeLanguage("en");
+    }
+
     // Check if user has already viewed stories
     const storiesViewed = sessionStorage.getItem("storiesViewed");
 
@@ -37,7 +49,7 @@ export default function CreatorEarnPage() {
     }
 
     setIsLoading(false);
-  }, []);
+  }, [searchParams, i18n]);
 
   const handleStoriesComplete = () => {
     setShowStories(false);
@@ -99,5 +111,19 @@ export default function CreatorEarnPage() {
         )}
       </AnimatePresence>
     </>
+  );
+}
+
+export default function CreatorEarnPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-black flex items-center justify-center">
+          <div className="text-white">Loading...</div>
+        </div>
+      }
+    >
+      <CreatorEarnPageContent />
+    </Suspense>
   );
 }

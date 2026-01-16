@@ -1,13 +1,20 @@
 "use client";
 
+import { Suspense } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import CTAButton from "./CTAButton";
 
 export default function HeroSection() {
-  const { t } = useTranslation("creatorEarn");
+  const { t, ready } = useTranslation("creatorEarn");
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -20,6 +27,10 @@ export default function HeroSection() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  if (!mounted || !ready) {
+    return null;
+  }
 
   return (
     <section className="relative pt-8 md:pt-16 pb-12 md:pb-20 px-5 md:px-20 overflow-hidden">
@@ -67,6 +78,18 @@ export default function HeroSection() {
               priority
             />
           </div>
+        </motion.div>
+
+        {/* Get Early Access Button */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.6 }}
+          className="flex justify-center mt-8 md:mt-12"
+        >
+          <Suspense fallback={<div className="h-12" />}>
+            <CTAButton buttonText={t("nav.getEarlyAccess")} />
+          </Suspense>
         </motion.div>
       </motion.div>
     </section>

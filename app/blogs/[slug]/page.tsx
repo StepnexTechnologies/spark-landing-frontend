@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { getPostBySlug, getFeaturedImageUrl, getAuthorName, formatDate, stripHtml, getReadingTime, getPosts } from "@/lib/wordpress-improved";
 import { extractHeadings, addHeadingIds, extractFAQs, extractVideos, removeWordPressTOC } from "@/lib/content-processor";
 import ShareButtons from "@/components/blog/ShareButtons";
 import Breadcrumb from "@/components/blog/Breadcrumb";
+import BlogLanguageSwitcher from "@/components/blog/BlogLanguageSwitcher";
 import TOCEnhancer from "@/components/blog/TOCEnhancer";
 import AuthorCard from "@/components/blog/AuthorCard";
 import RelatedPosts from "@/components/blog/RelatedPosts";
@@ -374,6 +376,10 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               <span>{publishDate}</span>
               <span>·</span>
               <span>{readingTime} min read</span>
+              <span>·</span>
+              <Suspense fallback={<span className="text-sm">Loading...</span>}>
+                <BlogLanguageSwitcher />
+              </Suspense>
             </div>
 
             {/* Author Section - Matching bottom AuthorCard style */}

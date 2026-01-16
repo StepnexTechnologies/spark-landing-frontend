@@ -43,7 +43,7 @@
       },
       {
         "title": "Tax‑Compliant",
-        "description": "GSTIN, HSN, Barters managed."
+        "description": "GST Barters and other taxes managed."
       },
       {
         "title": "WhatsApp Alerts",
@@ -132,8 +132,8 @@
         "category": "taxation"
       },
       {
-        "question": "Does the AI help calculate GST in India?",
-        "answer": "Yes! Sparkonomy's AI knows the Indian GST system inside out. It automatically picks the right service codes, calculates CGST/SGST/IGST splits and best of all - our invoice template follows the GST requirements to the tee! Let Sparkonomy do the hard work while you sparkle!",
+        "question": "Does the AI help calculate GST?",
+        "answer": "Yes! Sparkonomy's AI knows the GST system inside out. It automatically picks the right service codes and best of all - our invoice template follows the GST requirements to the tee! Let Sparkonomy do the hard work while you sparkle!",
         "category": "taxation"
       },
       {
@@ -162,8 +162,8 @@
         "category": "invoice"
       },
       {
-        "question": "Do your invoices support HSN or SAC codes?",
-        "answer": "Yes, absolutely! Sparkonomy's AI automatically fills in all the mandatory details, including the correct HSN/SAC codes (Services Accounting Code), for your service. This ensures every invoice is fully compliant, correctly classified, and meets all legal requirements for both your filing and your client's Input Tax Credit. With Sparkonomy, you don't have to worry about errors—our AI handles it all seamlessly!",
+        "question": "Do your invoices support tax and service codes for my country?",
+        "answer": "Yes, absolutely! Sparkonomy's AI automatically fills in all the mandatory details, including the correct tax and service codes, for your service according to your country. This ensures every invoice is fully compliant, correctly classified, and meets all legal requirements for both your filing and your client's Input Tax Credit. With Sparkonomy, you don't have to worry about errors - our AI handles it all seamlessly!",
         "category": "invoice"
       },
       {
@@ -180,6 +180,21 @@
         "question": "What are the Sparkonomy steps for final collection and public disclosure of non-paying brands?",
         "answer": "A brand ghosting your payment is not cool. We don't provide legal support for collections yet, but we've got some smart hacks to help you get paid. We'll suggest ways to draft strong follow-up messages and professional steps to encourage payment—without any drama. You stay in control, and we help you keep it smooth and professional.",
         "category": "payment-reminders"
+      },
+      {
+        "question": " Do I need to pay taxes on free products and sponsored trips I receive from brands?",
+        "answer": "Yes, The law considers any payment in exchange for your services as taxable income, whether it is cash, products, or experiences. If a brand sends you gifts worth more than a particular amount as part of a sponsored collaboration, you must declare the full value as income. Only small one-off tokens are exempt. This means you need to keep records of all products and perks you receive, noting their retail value, so you can report them accurately during tax filing.",
+        "category": "taxation"
+      },
+      {
+        "question": "How do I track and manage multiple brand deals at the same time?",
+        "answer": "When your deals are scattered across WhatsApp, email, and Instagram DMs, chaos is inevitable. The simple rule is: track everything in one place. For every deal, always note these 4 things: Brand name, Payment amount, Due date, and Payment status. With Sparkonomy's AI tools, all of this becomes effortless. From vendor registration to invoicing, payment tracking, and income management - we handle it all, so you can focus on creating.",
+        "category": "invoice"
+      },
+      {
+        "question": "Can I claim expenses like camera equipment and software as tax deductions?",
+        "answer": "Yes, if you are operating as a self-employed creator or registered business, you can deduct legitimate business expenses from your income to reduce your taxable profit. This includes camera gear, editing software subscriptions, props, studio rental, and even a portion of your home internet if you work from home. Keep receipts and records for all your expenses, and only claim items that are genuinely used for your content creation work.",
+        "category": "taxation"
       }
     ]
   },

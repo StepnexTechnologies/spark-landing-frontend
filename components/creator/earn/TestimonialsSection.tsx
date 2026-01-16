@@ -8,8 +8,13 @@ import styles from "./carousel.module.css";
 import { motion } from "framer-motion";
 
 export default function TestimonialsSection() {
-  const { t } = useTranslation("creatorEarn");
+  const { t, ready } = useTranslation("creatorEarn");
   const [windowWidth, setWindowWidth] = useState<number>(0);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // track window width client-side (SSR-safe)
   useEffect(() => {
@@ -21,6 +26,10 @@ export default function TestimonialsSection() {
 
   // only active for tablet and phone
   const isCarouselActive = windowWidth > 0 && windowWidth < 1024; // Tailwind `lg`
+
+  if (!mounted || !ready) {
+    return null;
+  }
 
   const testimonials = useMemo(
     () => [
