@@ -18,11 +18,6 @@ export default function BlogFooter() {
             />
           </Link>
 
-          {/* Tagline */}
-          <p className="text-gray-500 text-sm md:text-base lg:text-lg font-normal">
-            sparking the creator economy
-          </p>
-
           {/* Links */}
           <div className="flex flex-col items-center gap-1">
             <div className="flex flex-wrap justify-center items-center gap-2 md:gap-3 text-xs md:text-sm lg:text-base font-normal text-gray-600">

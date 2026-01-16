@@ -77,6 +77,11 @@ export default function TestimonialsSection() {
     setSelectedIndex(embla.selectedScrollSnap());
   }, []);
 
+  const scrollTo = useCallback(
+    (index: number) => emblaApi && emblaApi.scrollTo(index),
+    [emblaApi]
+  );
+
   useEffect(() => {
     if (!emblaApi) return;
     onSelect(emblaApi);
@@ -85,11 +90,6 @@ export default function TestimonialsSection() {
     // Scroll to 2nd card (index 1) on init
     emblaApi.scrollTo(1, true); // true = instant, no animation
   }, [emblaApi, onSelect]);
-
-  const scrollTo = useCallback(
-    (index: number) => emblaApi && emblaApi.scrollTo(index),
-    [emblaApi]
-  );
 
   const snaps = emblaApi ? emblaApi.scrollSnapList() : testimonials.map((_, i) => i);
 

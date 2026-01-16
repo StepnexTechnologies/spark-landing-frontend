@@ -27,13 +27,12 @@ function CreatorEarnPageContent() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Set language from URL param, default to English if not present
+    // Set language from URL param only if present
     const langParam = searchParams.get("lang");
     if (langParam && ["en", "hi-Latn"].includes(langParam)) {
       i18n.changeLanguage(langParam);
-    } else {
-      i18n.changeLanguage("en");
     }
+    // Don't force English - let the user's selection persist
 
     // Check if user has already viewed stories
     const storiesViewed = sessionStorage.getItem("storiesViewed");

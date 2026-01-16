@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Globe, Check, ChevronDown } from "lucide-react";
 
@@ -11,6 +12,9 @@ interface LanguageSwitcherProps {
 
 export const LanguageSwitcher = ({ className }: LanguageSwitcherProps) => {
   const { i18n } = useTranslation();
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -35,6 +39,14 @@ export const LanguageSwitcher = ({ className }: LanguageSwitcherProps) => {
 
   const handleLanguageSelect = (langCode: string) => {
     i18n.changeLanguage(langCode);
+
+    // Update URL if lang param exists in current URL
+    if (searchParams.has("lang")) {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set("lang", langCode);
+      router.replace(`${pathname}?${params.toString()}`);
+    }
+
     setIsOpen(false);
   };
 
