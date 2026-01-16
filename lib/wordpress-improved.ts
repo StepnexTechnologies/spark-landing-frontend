@@ -342,10 +342,28 @@ export function getFeaturedImageUrl(
 }
 
 /**
- * Get author name from post
+ * Get author name from post (returns first author for backward compatibility)
  */
 export function getAuthorName(post: WordPressPost): string {
   return post._embedded?.author?.[0]?.name || "Unknown";
+}
+
+/**
+ * Get all author names from post as a formatted string
+ */
+export function getAuthorNames(post: WordPressPost): string {
+  const authors = post._embedded?.author;
+  if (!authors || authors.length === 0) return "Unknown";
+  if (authors.length === 1) return authors[0].name;
+  if (authors.length === 2) return `${authors[0].name} and ${authors[1].name}`;
+  return authors.slice(0, -1).map(a => a.name).join(", ") + ", and " + authors[authors.length - 1].name;
+}
+
+/**
+ * Get all authors from post
+ */
+export function getPostAuthors(post: WordPressPost): WordPressAuthor[] {
+  return post._embedded?.author || [];
 }
 
 /**
