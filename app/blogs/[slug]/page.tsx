@@ -405,11 +405,10 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
           {/* Meta Information */}
           <div className="px-4 md:px-[30px] xl:px-[130px]">
-            <div className="flex items-center gap-2 text-lg md:text-xl lg:text-2xl text-[#6B7280] mb-4">
+            <div className="flex items-center gap-2 text-[14px] md:text-[20px] lg:text-[24px] text-[#6B7280] mb-4">
               <span>{publishDate}</span>
               <span>·</span>
               <span>{readingTime} min read</span>
-              <span>·</span>
               <Suspense fallback={<span className="text-sm">Loading...</span>}>
                 <BlogLanguageSwitcher />
               </Suspense>

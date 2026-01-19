@@ -3,7 +3,9 @@ import { getCategoryBySlug, getPostsByCategory, getPostTags } from "@/lib/wordpr
 import BlogCard from "@/components/blog/BlogCard";
 import FeaturedBlogCard from "@/components/blog/FeaturedBlogCard";
 import BlogCardSkeleton from "@/components/blog/BlogCardSkeleton";
+import FeaturedBlogCardSkeleton from "@/components/blog/FeaturedBlogCardSkeleton";
 import MainSection from "@/components/blog/MainSection";
+import MainSectionSkeleton from "@/components/blog/MainSectionSkeleton";
 import NewsletterSection from "@/components/blog/NewsletterSection";
 import NoPostsPlaceholder from "./NoPostsPlaceholder";
 
@@ -150,18 +152,17 @@ async function CategoryPosts({ config }: { config: CategoryConfig }) {
 function BlogPostsSkeleton() {
   return (
     <>
-      {/* Container for First Row */}
+      {/* Container for First Row - 2 vertical skeletons */}
       <div className="max-w-7xl mx-auto px-4">
-        {/* First Row - 2 vertical skeletons */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:mb-12">
           <BlogCardSkeleton layout="vertical" />
           <BlogCardSkeleton layout="vertical" />
         </div>
       </div>
 
-      {/* Second Row - 1 horizontal skeleton (full width) */}
+      {/* Second Row - 1 featured horizontal skeleton (full width) */}
       <div className="w-full md:mb-12">
-        <BlogCardSkeleton layout="horizontal" />
+        <FeaturedBlogCardSkeleton />
       </div>
 
       {/* Container for Remaining Rows */}
@@ -211,10 +212,6 @@ async function HeroSection({ config }: { config: CategoryConfig }) {
   );
 }
 
-// Hero Fallback Component - returns null while loading, actual content handled by HeroSection
-function HeroFallback() {
-  return null;
-}
 
 // Main Category Blog Page Template
 interface CategoryBlogTemplateProps {
@@ -226,7 +223,7 @@ export default function CategoryBlogTemplate({ config }: CategoryBlogTemplatePro
     <main className="min-h-screen relative overflow-hidden">
       {/* Main Section with Background Image */}
       <div className="relative z-10">
-        <Suspense fallback={<HeroFallback />}>
+        <Suspense fallback={<MainSectionSkeleton />}>
           <HeroSection config={config} />
         </Suspense>
       </div>

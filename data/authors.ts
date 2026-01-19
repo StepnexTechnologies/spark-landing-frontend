@@ -400,7 +400,7 @@ export const authors: AuthorEntry[] = [
 
     name: "Saurabh Mongia",
     role: "Chartered Accountant | Tax & Compliance Expert",
-    avatarUrl: "/authors/ProfilePicture_saurabh.png",
+    avatarUrl: "/authors/ProfilePictureSaurabh.jpg",
     shortBio:
       "Saurabh Mongia is a finance leader and Chartered Accountant with 16+ years of experience in financial reporting, regulatory compliance, taxation and control frameworks. He currently serves as Vice President at one of the leading multi national firms. On Sparkonomy, he shares practical guidance that helps creators and teams reduce payment friction with clean invoicing, clear documentation, and audit-ready workflows.",
 
