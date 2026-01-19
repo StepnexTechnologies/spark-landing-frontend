@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import ReadMoreButton from "./ReadMoreButton";
 
 type Layout = "vertical" | "horizontal";
 type DescriptionPosition = "bottom" | "right";
@@ -98,12 +99,23 @@ export default function Card({
         {/* Title */}
         <div className="flex items-start gap-3">
           <div className="flex-1 min-w-0">
-            <h3
-              className="font-semibold leading-tight text-2xl text-[#212529]"
-              title={title}
-            >
-              {title}
-            </h3>
+            {href ? (
+              <Link href={href}>
+                <h3
+                  className="font-semibold leading-tight text-2xl text-[#212529] cursor-pointer"
+                  title={title}
+                >
+                  {title}
+                </h3>
+              </Link>
+            ) : (
+              <h3
+                className="font-semibold leading-tight text-2xl text-[#212529]"
+                title={title}
+              >
+                {title}
+              </h3>
+            )}
 
             {/* {tag && <div className="mt-2 text-xs text-slate-500">{tag}</div>} */}
           </div>
@@ -134,28 +146,7 @@ export default function Card({
         <div className="flex justify-end pt-4">
           {showReadMore && href && (
             <div>
-              <Link
-                href={href}
-                className="inline-flex items-center gap-2 px-4 py-3 text-sm font-medium text-white rounded-full hover:opacity-90 transition-opacity"
-                style={{
-                  background: 'linear-gradient(180.27deg, #DD2A7B -46.92%, #9747FF 80.1%)'
-                }}
-              >
-                Read More
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M7 17L17 7M17 7H7M17 7V17"
-                  />
-                </svg>
-              </Link>
+              <ReadMoreButton href={href} />
             </div>
           )}
         </div>

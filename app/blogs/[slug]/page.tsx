@@ -17,6 +17,7 @@ import ProTipEnhancer from "@/components/blog/ProTipEnhancer";
 import QuoteCleanerEnhancer from "@/components/blog/QuoteCleanerEnhancer";
 import ListMergerEnhancer from "@/components/blog/ListMergerEnhancer";
 import PromoBannerInjector from "@/components/blog/PromoBannerInjector";
+import SourcesListEnhancer from "@/components/blog/SourcesListEnhancer";
 import NewsletterSection from "@/components/blog/NewsletterSection";
 import { getAuthorPageSlug, getAuthorByWordPressSlug } from "@/data/authors";
 import "../wordpress-content.css";
@@ -405,11 +406,10 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
           {/* Meta Information */}
           <div className="px-4 md:px-[30px] xl:px-[130px]">
-            <div className="flex items-center gap-2 text-lg md:text-xl lg:text-2xl text-[#6B7280] mb-4">
+            <div className="flex items-center gap-2 text-[14px] md:text-[20px] lg:text-[24px] text-[#6B7280] mb-4">
               <span>{publishDate}</span>
               <span>·</span>
               <span>{readingTime} min read</span>
-              <span>·</span>
               <Suspense fallback={<span className="text-sm">Loading...</span>}>
                 <BlogLanguageSwitcher />
               </Suspense>
@@ -550,6 +550,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             <ListMergerEnhancer />
             {/* Inject promotional banners around FAQ sections */}
             <PromoBannerInjector />
+            {/* Style sources and references list */}
+            <SourcesListEnhancer />
             <div
               className="wordpress-content"
               dangerouslySetInnerHTML={{ __html: processedContent }}

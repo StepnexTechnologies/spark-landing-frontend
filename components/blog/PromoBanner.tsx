@@ -17,7 +17,9 @@ export default function PromoBanner({
     <div className="promo-banner">
       <div className="promo-banner-content">
         <p className="promo-banner-text">
-          {title} {subtitle}
+          {title}
+          <br />
+          {subtitle}
         </p>
         <Link href={ctaLink} target="_blank" rel="noopener noreferrer" className="promo-banner-cta">
           {ctaText}

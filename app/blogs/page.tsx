@@ -3,7 +3,9 @@ import type { Metadata } from "next";
 import Card from "@/components/blog/BlogCard";
 import FeaturedBlogCard from "@/components/blog/FeaturedBlogCard";
 import BlogCardSkeleton from "@/components/blog/BlogCardSkeleton";
+import FeaturedBlogCardSkeleton from "@/components/blog/FeaturedBlogCardSkeleton";
 import MainSection from "@/components/blog/MainSection";
+import MainSectionSkeleton from "@/components/blog/MainSectionSkeleton";
 import NewsletterSection from "@/components/blog/NewsletterSection";
 import { getPosts, getPostTags } from "@/lib/wordpress-improved";
 
@@ -185,12 +187,16 @@ function BlogPostsSkeleton() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4">
-        {/* First Row - 3 vertical skeletons */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:mb-12">
           <BlogCardSkeleton layout="vertical" />
           <BlogCardSkeleton layout="vertical" />
           <BlogCardSkeleton layout="vertical" />
         </div>
+      </div>
+
+      {/* Second Row - 1 featured horizontal skeleton (full width, no container) */}
+      <div className="w-full md:mb-12">
+        <FeaturedBlogCardSkeleton />
       </div>
 
       {/* Container for Remaining Rows */}
@@ -285,7 +291,7 @@ export default function Home() {
 
       {/* Main Section with Background Image */}
       <div className="relative z-10">
-        <Suspense fallback={null}>
+        <Suspense fallback={<MainSectionSkeleton />}>
           <HeroSection />
         </Suspense>
       </div>
