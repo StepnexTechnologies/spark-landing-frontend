@@ -20,8 +20,8 @@ const BANNER_VARIATIONS: PromoBannerConfig[] = [
     ctaLink: "https://sparkonomy.com",
   },
   {
-    title: "You're not \"just an influencer.\"",
-    subtitle: "You're a one-person media company. Start acting like it →",
+    title: "You're Not \"Just An Influencer.\"",
+    subtitle: "You're a one-person media company. Start acting like it.",
     ctaText: "Build Your Invoice",
     ctaLink: "https://sparkonomy.com",
   },
