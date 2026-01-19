@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import ReadMoreButton from "./ReadMoreButton";
 
 export interface FeaturedBlogCardProps {
@@ -57,11 +58,21 @@ export default function FeaturedBlogCard({
         )}
 
         {/* Title */}
-        <h2
-          className="font-bold text-3xl md:text-4xl lg:text-[40px] text-[#212529] leading-tight mb-6"
-        >
-          {title}
-        </h2>
+        {href ? (
+          <Link href={href}>
+            <h2
+              className="font-bold text-3xl md:text-4xl lg:text-[40px] text-[#212529] leading-tight mb-6 cursor-pointer"
+            >
+              {title}
+            </h2>
+          </Link>
+        ) : (
+          <h2
+            className="font-bold text-3xl md:text-4xl lg:text-[40px] text-[#212529] leading-tight mb-6"
+          >
+            {title}
+          </h2>
+        )}
 
         {/* Description */}
         {description && (

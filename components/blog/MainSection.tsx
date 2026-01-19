@@ -38,9 +38,11 @@ export default function MainSection({
       <div className="relative h-full max-w-7xl  px-[24px] lg:px-[84px] flex items-end pb-10 lg:pb-20">
         <div className="max-w-80 md:max-w-lg lg:max-w-2xl text-white">
 
-          <h1 className="text-2xl md:text-4xl lg:text-[52px] xl:text-6xl font-semibold  md:font-bold mb-4 md:mb-6 leading-tight">
-            {title}
-          </h1>
+          <Link href={buttonLink}>
+            <h1 className="text-2xl md:text-4xl lg:text-[52px] xl:text-6xl font-semibold md:font-bold mb-4 md:mb-6 leading-tight cursor-pointer">
+              {title}
+            </h1>
+          </Link>
  
           {/* Description */}
           <p className="text-sm  md:text-lg lg:text-xl mb-6 md:mb-8 font-normal text-white leading-relaxed max-w-lg">

@@ -99,12 +99,23 @@ export default function Card({
         {/* Title */}
         <div className="flex items-start gap-3">
           <div className="flex-1 min-w-0">
-            <h3
-              className="font-semibold leading-tight text-2xl text-[#212529]"
-              title={title}
-            >
-              {title}
-            </h3>
+            {href ? (
+              <Link href={href}>
+                <h3
+                  className="font-semibold leading-tight text-2xl text-[#212529] cursor-pointer"
+                  title={title}
+                >
+                  {title}
+                </h3>
+              </Link>
+            ) : (
+              <h3
+                className="font-semibold leading-tight text-2xl text-[#212529]"
+                title={title}
+              >
+                {title}
+              </h3>
+            )}
 
             {/* {tag && <div className="mt-2 text-xs text-slate-500">{tag}</div>} */}
           </div>
