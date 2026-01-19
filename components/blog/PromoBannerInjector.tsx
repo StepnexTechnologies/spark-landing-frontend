@@ -11,18 +11,36 @@ interface PromoBannerConfig {
   ctaLink?: string;
 }
 
-interface PromoBannerInjectorProps {
-  config?: PromoBannerConfig;
-}
+// Banner variations to show randomly
+const BANNER_VARIATIONS: PromoBannerConfig[] = [
+  {
+    title: "While you're chasing payments, other creators are getting paid on autopilot.",
+    subtitle: "Join 10,000+ creators who stopped begging and started billing.",
+    ctaText: "Try Free",
+    ctaLink: "https://sparkonomy.com",
+  },
+  {
+    title: "You're not \"just an influencer.\"",
+    subtitle: "You're a one-person media company. Start acting like it →",
+    ctaText: "Build Your Invoice",
+    ctaLink: "https://sparkonomy.com",
+  },
+  {
+    title: "Free invoicing. Auto-reminders. GST sorted. TDS tracked.",
+    subtitle: "And yes, it's actually free.",
+    ctaText: "See For Yourself",
+    ctaLink: "https://sparkonomy.com",
+  },
+];
 
 /**
  * PromoBannerInjector
  *
  * Injects promotional banners into blog content:
- * - If FAQ section exists: 1 banner before FAQ, 2 banners after FAQ
+ * - If FAQ section exists: 1 banner before FAQ, 1 banner after FAQ (2 different variations)
  * - If no FAQ section: 1 banner at the end of the content
  */
-export default function PromoBannerInjector({ config }: PromoBannerInjectorProps) {
+export default function PromoBannerInjector() {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -34,33 +52,49 @@ export default function PromoBannerInjector({ config }: PromoBannerInjectorProps
 
     // Delay to ensure WordPress content and FAQ enhancement is complete
     const timer = setTimeout(() => {
-      injectPromoBanners(config);
+      injectPromoBanners();
     }, 500);
 
     return () => clearTimeout(timer);
-  }, [isMounted, config]);
+  }, [isMounted]);
 
   return null;
 }
 
-function createBannerElement(config?: PromoBannerConfig): HTMLDivElement {
+/**
+ * Get two random unique banner configs
+ */
+function getRandomBannerConfigs(): [PromoBannerConfig, PromoBannerConfig] {
+  const shuffled = [...BANNER_VARIATIONS].sort(() => Math.random() - 0.5);
+  return [shuffled[0], shuffled[1]];
+}
+
+/**
+ * Get a single random banner config
+ */
+function getRandomBannerConfig(): PromoBannerConfig {
+  const randomIndex = Math.floor(Math.random() * BANNER_VARIATIONS.length);
+  return BANNER_VARIATIONS[randomIndex];
+}
+
+function createBannerElement(config: PromoBannerConfig): HTMLDivElement {
   const bannerContainer = document.createElement("div");
   bannerContainer.className = "promo-banner-wrapper";
 
   const root = createRoot(bannerContainer);
   root.render(
     <PromoBanner
-      title={config?.title}
-      subtitle={config?.subtitle}
-      ctaText={config?.ctaText}
-      ctaLink={config?.ctaLink}
+      title={config.title}
+      subtitle={config.subtitle}
+      ctaText={config.ctaText}
+      ctaLink={config.ctaLink}
     />
   );
 
   return bannerContainer;
 }
 
-function injectPromoBanners(config?: PromoBannerConfig) {
+function injectPromoBanners() {
   const wordpressContent = document.querySelector(".wordpress-content");
   if (!wordpressContent) return;
 
@@ -90,7 +124,8 @@ function injectPromoBanners(config?: PromoBannerConfig) {
   faqSection = accordionBlock || faqWrapper || faqHeading;
 
   if (faqSection) {
-    // FAQ section found - inject 1 before, 2 after
+    // FAQ section found - inject 1 before, 1 after (with different variations)
+    const [firstConfig, secondConfig] = getRandomBannerConfigs();
 
     // Find the parent container of the FAQ section for proper insertion
     let faqContainer = faqSection;
@@ -101,7 +136,7 @@ function injectPromoBanners(config?: PromoBannerConfig) {
     }
 
     // Insert banner BEFORE FAQ section
-    const beforeBanner = createBannerElement(config);
+    const beforeBanner = createBannerElement(firstConfig);
     faqContainer.parentNode?.insertBefore(beforeBanner, faqContainer);
 
     // Find the end of FAQ section
@@ -130,9 +165,9 @@ function injectPromoBanners(config?: PromoBannerConfig) {
       faqEndElement = faqWrapper;
     }
 
-    // Insert 1 banner AFTER FAQ section
+    // Insert banner AFTER FAQ section (different variation)
     if (faqEndElement) {
-      const afterBanner = createBannerElement(config);
+      const afterBanner = createBannerElement(secondConfig);
 
       // Insert after the FAQ end element
       if (faqEndElement.nextSibling) {
@@ -143,7 +178,7 @@ function injectPromoBanners(config?: PromoBannerConfig) {
     }
   } else {
     // No FAQ section - inject 1 banner at the end
-    const endBanner = createBannerElement(config);
+    const endBanner = createBannerElement(getRandomBannerConfig());
     wordpressContent.appendChild(endBanner);
   }
 }
