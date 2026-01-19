@@ -303,7 +303,7 @@ export default function NewsletterSection() {
               </button>
 
               {/* Heading */}
-              <h2 className="text-lg font-bold bg-gradient-to-b from-[#DD2A7B] via-[#9747FF] to-[#334CCA] text-transparent bg-clip-text mb-3">
+              <h2 className="text-[20px] font-bold bg-gradient-to-b from-[#DD2A7B] via-[#9747FF] to-[#334CCA] text-transparent bg-clip-text mb-3">
                 Sign Up, Stay Updated
               </h2>
 
