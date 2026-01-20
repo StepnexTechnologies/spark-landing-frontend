@@ -7,7 +7,8 @@
   /* Base container */
   color: #374151;
   font-size: 1.125rem;
-  line-height: 1.75;
+  line-height: 150%;
+  letter-spacing: 0.25px;
 }
 
 /* ====================
@@ -23,7 +24,7 @@
 
 /* Intro Section - First section special styling */
 .blog-section--intro {
-  margin-bottom: 2.5rem;
+  margin-bottom: 2.25rem;
 }
 
 .blog-section--intro h2 {
@@ -129,7 +130,7 @@
 
 /* Table Section */
 .blog-section--table {
-  margin-bottom: 2.5rem;
+  margin-bottom: 2.25rem;
   overflow-x: auto;
 }
 
@@ -173,7 +174,7 @@
 
 /* FAQ Section */
 .blog-section--faq {
-  margin-bottom: 2.5rem;
+  margin-bottom: 2.25rem;
 }
 
 .blog-section--faq h2 {
@@ -390,7 +391,9 @@
 /* Preserve WordPress default typography - only set base if not already styled */
 .wordpress-content li:not([class]) {
   font-size: 14px;
-  line-height: 1.75;
+  line-height: 150%;
+  letter-spacing: 0.25px;
+  margin-bottom: 0;
 }
 
 /* Global heading styles for WordPress content */
@@ -399,7 +402,7 @@
   font-weight: bold;
   line-height: 1.2;
   color: #000000;
-  margin-top: 2.5rem;
+  margin-top: 2.25rem;
   margin-bottom: 1rem;
 }
 
@@ -408,7 +411,7 @@
   font-weight: 400;
   line-height: 1.2;
   color: #6B7280;
-  margin-top: 2.5rem;
+  margin-top: 2.25rem;
   margin-bottom: 1rem;
 }
 
@@ -440,7 +443,7 @@
   font-weight: 600;
   line-height: 1.3;
   color: #1f2937;
-  margin-top: 2.5rem;
+  margin-top: 2.25rem;
   margin-bottom: 1.25rem;
   padding: 0;
   background: #F2F2F2;
@@ -592,7 +595,8 @@
 .wordpress-content p {
   font-size: 14px;
   font-weight: 400;
-  line-height: 1.5;
+  line-height: 150%;
+  letter-spacing: 0.25px;
   color: #6B7280;
   margin-bottom: 1rem;
 }
@@ -634,20 +638,23 @@
 .wordpress-content li {
   font-size: 14px;
   font-weight: 400;
-  line-height: 1.75;
+  line-height: 150%;
+  letter-spacing: 0.25px;
   color: #999999;
   display: list-item;
   text-decoration: none;
+  margin-bottom: 0;
 }
 
 .wordpress-content li strong,
 .wordpress-content li b {
-  font-size: 16px;
+  font-size: 14px;
 }
 
 /* Table of Contents list styling */
 .wordpress-content .toc-list li {
   text-decoration: none;
+  margin-bottom: 0.5rem;
 }
 
 .wordpress-content .toc-list .toc-link {
@@ -674,6 +681,7 @@
 .wordpress-content .sources-list li {
   list-style: none !important;
   list-style-type: none !important;
+  margin-bottom: 0.5rem;
 }
 
 .wordpress-content .sources-list li a {
@@ -703,7 +711,7 @@
 
 .wordpress-content .wp-block-list li {
   display: list-item;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0;
 }
 
 /* Ensure ordered lists show numbers */
@@ -914,7 +922,7 @@
   border-radius: 0;
   padding: 3rem 1rem;
   background: transparent;
-  margin: 2.5rem 0;
+  margin: 2.25rem 0;
   text-align: center;
 }
 
@@ -1155,7 +1163,7 @@
   position: relative;
   border-radius: 1rem;
   overflow: hidden;
-  margin: 2rem 0 2.5rem 0;
+  margin: 2.25rem 0;
 }
 
 .wordpress-content .wp-block-video video {
@@ -1173,7 +1181,7 @@
 
 /* Image with Border/Frame */
 .wordpress-content figure.wp-block-image {
-  margin: 2rem 0 2.5rem 0;
+  margin: 2.25rem 0;
 }
 
 .wordpress-content figure.wp-block-image img {
@@ -1187,7 +1195,7 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 0.5rem;
-  margin: 2rem 0 2.5rem 0;
+  margin: 2.25rem 0;
   padding: 0;
   list-style: none;
   width: 100%;
@@ -1743,7 +1751,7 @@
    ==================== */
 
 .promo-banner-wrapper {
-  margin: 2.5rem 0;
+  margin: 2.25rem 0;
 }
 
 .promo-banner {
