@@ -4,9 +4,14 @@ import { useForm } from "@tanstack/react-form";
 import { useEffect, useState, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
+// Helper to detect if input is email or phone
+const isEmail = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+
 export default function NewsletterSection() {
   const [isVisible, setIsVisible] = useState(false);
   const [isDismissed, setIsDismissed] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState<{ text: string; type: "success" | "error" } | null>(null);
   const originalPositionRef = useRef<number | null>(null);
   const lastScrollYRef = useRef<number>(0);
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -16,8 +21,43 @@ export default function NewsletterSection() {
       email: "",
     },
     onSubmit: async ({ value }) => {
-      // Handle newsletter subscription
-      console.log("Subscribe:", value.email);
+      if (!value.email.trim()) {
+        setMessage({ text: "Please enter an email or WhatsApp number", type: "error" });
+        return;
+      }
+
+      setLoading(true);
+      setMessage(null);
+
+      try {
+        const payload = isEmail(value.email)
+          ? { email: value.email, phone_number: null }
+          : { email: null, phone_number: value.email };
+
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/blogs/subscribe`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+          }
+        );
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data.message || "Failed to subscribe");
+        }
+
+        setMessage({ text: data.message || "Successfully subscribed!", type: "success" });
+        form.reset();
+      } catch (err) {
+        setMessage({ text: (err as Error).message, type: "error" });
+      } finally {
+        setLoading(false);
+      }
     },
   });
 
@@ -94,66 +134,77 @@ export default function NewsletterSection() {
       {/* Static section for natural page flow - measures position */}
       <div ref={sectionRef} id="newsletter" className="w-full">
         {/* Desktop Layout */}
-        <div className="hidden md:flex items-center justify-center gap-10 lg:gap-[120px] py-4 bg-[#F2F2F2] px-4">
-          <h2 className="text-2xl lg:text-[32px] py-2 font-bold bg-gradient-to-b from-[#DD2A7B] via-[#9747FF] to-[#334CCA] text-transparent bg-clip-text whitespace-nowrap">
-            Sign Up, Stay Updated
-          </h2>
+        <div className="hidden md:flex flex-col items-center justify-center py-4 bg-[#F2F2F2] px-4">
+          <div className="flex items-center justify-center gap-10 lg:gap-[120px] w-full">
+            <h2 className="text-2xl lg:text-[32px] py-2 font-bold bg-gradient-to-b from-[#DD2A7B] via-[#9747FF] to-[#334CCA] text-transparent bg-clip-text whitespace-nowrap">
+              Sign Up, Stay Updated
+            </h2>
 
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              form.handleSubmit();
-            }}
-            className="flex-1 flex items-center gap-4 max-w-2xl"
-          >
-            <div className="flex w-full px-1 py-1 rounded-full border-2 border-primary relative">
-              <form.Field name="email">
-                {(field) => (
-                  <input
-                    type="email"
-                    value={field.state.value}
-                    onChange={(e) => field.handleChange(e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") {
-                        e.preventDefault();
-                        form.handleSubmit();
-                      }
-                    }}
-                    placeholder="Enter email or WhatsApp "
-                    className="w-full px-3 rounded-full bg-transparent text-[#999999] placeholder:text-[#999999]/90 focus:outline-none"
-                  />
-                )}
-              </form.Field>
-              <button
-                type="submit"
-                style={{
-                  background:
-                    "linear-gradient(309.99deg, #DD2A7B 3.31%, #9747FF 39.79%, #334CCA 91.72%)",
-                }}
-                className="flex items-center text-sm gap-2 px-4 py-3 rounded-full text-white font-medium hover:opacity-90 transition-opacity whitespace-nowrap"
-              >
-                Stay Updated
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                form.handleSubmit();
+              }}
+              className="flex-1 flex flex-col items-center gap-2 max-w-2xl"
+            >
+              <div className="flex w-full px-1 py-1 rounded-full border-2 border-primary relative">
+                <form.Field name="email">
+                  {(field) => (
+                    <input
+                      type="text"
+                      value={field.state.value}
+                      onChange={(e) => field.handleChange(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          e.preventDefault();
+                          form.handleSubmit();
+                        }
+                      }}
+                      placeholder="Enter email or WhatsApp "
+                      className="w-full px-3 rounded-full bg-transparent text-[#999999] placeholder:text-[#999999]/90 focus:outline-none"
+                    />
+                  )}
+                </form.Field>
+                <button
+                  type="submit"
+                  disabled={loading}
+                  style={{
+                    background:
+                      "linear-gradient(309.99deg, #DD2A7B 3.31%, #9747FF 39.79%, #334CCA 91.72%)",
+                  }}
+                  className="flex items-center text-sm gap-2 px-4 py-3 rounded-full text-white font-medium hover:opacity-90 transition-opacity whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M7 17L17 7M17 7H7M17 7V17"
-                  />
-                </svg>
-              </button>
-            </div>
-          </form>
+                  {loading ? "..." : "Stay Updated"}
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M7 17L17 7M17 7H7M17 7V17"
+                    />
+                  </svg>
+                </button>
+              </div>
+              {message && (
+                <span className={`text-sm ${message.type === "success" ? "text-green-600" : "text-red-600"}`}>
+                  {message.text}
+                </span>
+              )}
+            </form>
+          </div>
         </div>
 
         {/* Mobile Layout */}
         <div className="md:hidden flex flex-col items-center text-center py-4 bg-[#F2F2F2] px-4">
+          <h2 className="text-[20px] font-bold bg-gradient-to-b from-[#DD2A7B] via-[#9747FF] to-[#334CCA] text-transparent bg-clip-text mb-3">
+            Sign Up, Stay Updated
+          </h2>
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -166,7 +217,7 @@ export default function NewsletterSection() {
               <form.Field name="email">
                 {(field) => (
                   <input
-                    type="email"
+                    type="text"
                     value={field.state.value}
                     onChange={(e) => field.handleChange(e.target.value)}
                     onKeyDown={(e) => {
@@ -182,11 +233,12 @@ export default function NewsletterSection() {
               </form.Field>
               <button
                 type="submit"
+                disabled={loading}
                 style={{
                   background:
                     "linear-gradient(309.99deg, #DD2A7B 3.31%, #9747FF 39.79%, #334CCA 91.72%)",
                 }}
-                className="flex items-center gap-2  p-3 text-white font-medium hover:opacity-90 transition-opacity whitespace-nowrap text-sm rounded-full"
+                className="flex items-center gap-2 p-3 text-white font-medium hover:opacity-90 transition-opacity whitespace-nowrap text-sm rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <svg
                   className="w-4 h-4"
@@ -203,6 +255,11 @@ export default function NewsletterSection() {
                 </svg>
               </button>
             </div>
+            {message && (
+              <span className={`text-sm mt-2 ${message.type === "success" ? "text-green-600" : "text-red-600"}`}>
+                {message.text}
+              </span>
+            )}
           </form>
         </div>
       </div>
@@ -238,7 +295,7 @@ export default function NewsletterSection() {
                   <form.Field name="email">
                     {(field) => (
                       <input
-                        type="email"
+                        type="text"
                         value={field.state.value}
                         onChange={(e) => field.handleChange(e.target.value)}
                         onKeyDown={(e) => {
@@ -254,13 +311,14 @@ export default function NewsletterSection() {
                   </form.Field>
                   <button
                     type="submit"
+                    disabled={loading}
                     style={{
                       background:
                         "linear-gradient(309.99deg, #DD2A7B 3.31%, #9747FF 39.79%, #334CCA 91.72%)",
                     }}
-                    className="flex items-center text-sm gap-2 px-4 py-3 rounded-full text-white font-medium hover:opacity-90 transition-opacity whitespace-nowrap"
+                    className="flex items-center text-sm gap-2 px-4 py-3 rounded-full text-white font-medium hover:opacity-90 transition-opacity whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    Stay Updated
+                    {loading ? "..." : "Stay Updated"}
                     <svg
                       className="w-5 h-5"
                       fill="none"
@@ -276,6 +334,11 @@ export default function NewsletterSection() {
                     </svg>
                   </button>
                 </div>
+                {message && (
+                  <span className={`text-sm ${message.type === "success" ? "text-green-600" : "text-red-600"}`}>
+                    {message.text}
+                  </span>
+                )}
               </form>
             </div>
 
@@ -319,7 +382,7 @@ export default function NewsletterSection() {
                   <form.Field name="email">
                     {(field) => (
                       <input
-                        type="email"
+                        type="text"
                         value={field.state.value}
                         onChange={(e) => field.handleChange(e.target.value)}
                         onKeyDown={(e) => {
@@ -335,11 +398,12 @@ export default function NewsletterSection() {
                   </form.Field>
                   <button
                     type="submit"
+                    disabled={loading}
                     style={{
                       background:
                         "linear-gradient(309.99deg, #DD2A7B 3.31%, #9747FF 39.79%, #334CCA 91.72%)",
                     }}
-                    className="flex items-center gap-2  p-3 text-white font-medium hover:opacity-90 transition-opacity whitespace-nowrap text-sm rounded-full"
+                    className="flex items-center gap-2 p-3 text-white font-medium hover:opacity-90 transition-opacity whitespace-nowrap text-sm rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <svg
                       className="w-4 h-4"
@@ -356,6 +420,11 @@ export default function NewsletterSection() {
                     </svg>
                   </button>
                 </div>
+                {message && (
+                  <span className={`text-sm mt-2 ${message.type === "success" ? "text-green-600" : "text-red-600"}`}>
+                    {message.text}
+                  </span>
+                )}
               </form>
             </div>
           </motion.div>
