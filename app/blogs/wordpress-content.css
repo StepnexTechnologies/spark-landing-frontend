@@ -430,6 +430,121 @@
   margin-top: 0;
 }
 
+/* ====================
+   KEY TAKEAWAYS H2 STYLING
+   Special styling for h2 headings containing "takeaway"
+   ==================== */
+
+.wordpress-content h2.key-takeaways-heading {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: #1f2937;
+  margin-top: 2.5rem;
+  margin-bottom: 1.25rem;
+  padding: 0;
+  background: #F2F2F2;
+  border-left: 4px solid #8b5cf6;
+  border-radius: 0 0.5rem 0.5rem 0;
+  padding: 1rem 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .wordpress-content h2.key-takeaways-heading {
+    font-size: 22px;
+    font-weight: 600;
+  }
+}
+
+@media (min-width: 1024px) {
+  .wordpress-content h2.key-takeaways-heading {
+    font-size: 24px;
+    font-weight: 700;
+  }
+}
+
+/* Key Takeaways Section Wrapper - wraps heading and content */
+.wordpress-content .key-takeaways-section {
+  background: #F2F2F2;
+  border-left: 4px solid #8b5cf6;
+  border-radius: 0 0.75rem 0.75rem 0;
+  padding: 16px;
+  margin: 2rem 0;
+}
+
+.wordpress-content .key-takeaways-section h2 {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: #1f2937;
+  margin: 0 0 1rem 0;
+  padding: 0;
+  background: transparent;
+  border: none;
+}
+
+@media (min-width: 768px) {
+  .wordpress-content .key-takeaways-section h2 {
+    font-size: 22px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .wordpress-content .key-takeaways-section h2 {
+    font-size: 24px;
+    font-weight: 700;
+  }
+}
+
+.wordpress-content .key-takeaways-section ul,
+.wordpress-content .key-takeaways-section ol {
+  margin: 0;
+  padding-left: 10px;
+  list-style: none !important;
+  list-style-type: none !important;
+}
+
+.wordpress-content .key-takeaways-section li {
+  color: #374151;
+  margin-bottom: 0.625rem;
+  font-size: 14px;
+  position: relative;
+  padding-left: 1rem;
+  list-style: none !important;
+  list-style-type: none !important;
+}
+
+/* Primary color bullet points */
+.wordpress-content .key-takeaways-section li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.5em;
+  width: 6px;
+  height: 6px;
+  background: #9747FF;
+  border-radius: 50%;
+}
+
+@media (min-width: 768px) {
+  .wordpress-content .key-takeaways-section li {
+    font-size: 15px;
+  }
+}
+
+.wordpress-content .key-takeaways-section li:last-child {
+  margin-bottom: 0;
+}
+
+.wordpress-content .key-takeaways-section p {
+  color: #374151;
+  margin-bottom: 0.75rem;
+}
+
+.wordpress-content .key-takeaways-section p:last-child {
+  margin-bottom: 0;
+}
+
 .wordpress-content h3 {
   font-size: 18px !important;
   font-weight: 600;
@@ -565,7 +680,7 @@
   color: #415CE7;
   text-decoration: underline;
   font-style: italic;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 400;
   cursor: pointer;
   display: block;
@@ -1301,12 +1416,26 @@
 
   .wordpress-content .wp-block-pullquote,
   .wordpress-content .wp-block-quote {
-    padding: 2rem 1rem;
+    padding: 1rem 1rem;
+    margin: 0;
   }
 
   .wordpress-content .wp-block-pullquote p,
   .wordpress-content .wp-block-quote p {
-    font-size: 1.5rem;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .wordpress-content .wp-block-pullquote p:first-of-type::before,
+  .wordpress-content .wp-block-quote p:first-of-type::before,
+  .wordpress-content .wp-block-pullquote p:last-of-type::after,
+  .wordpress-content .wp-block-quote p:last-of-type::after {
+    font-size: 2rem;
+  }
+
+  .wordpress-content .wp-block-pullquote cite,
+  .wordpress-content .wp-block-quote cite {
+    font-size: 12px;
   }
 
   .wordpress-content .wp-block-quote cite img,

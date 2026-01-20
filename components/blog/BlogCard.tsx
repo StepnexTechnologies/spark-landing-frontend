@@ -102,7 +102,7 @@ export default function Card({
             {href ? (
               <Link href={href}>
                 <h3
-                  className="font-semibold leading-tight text-2xl text-[#212529] cursor-pointer"
+                  className="font-semibold leading-tight text-2xl text-[#212529] cursor-pointer line-clamp-2"
                   title={title}
                 >
                   {title}
@@ -110,7 +110,7 @@ export default function Card({
               </Link>
             ) : (
               <h3
-                className="font-semibold leading-tight text-2xl text-[#212529]"
+                className="font-semibold leading-tight text-2xl text-[#212529] line-clamp-2"
                 title={title}
               >
                 {title}
