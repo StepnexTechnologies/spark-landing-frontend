@@ -1,12 +1,12 @@
 import "./globals.css";
-import {Montserrat} from "next/font/google";
+import {Roboto} from "next/font/google";
 import {Analytics} from "@vercel/analytics/react";
 import {SpeedInsights} from "@vercel/speed-insights/next";
 import type React from "react";
 import {RootLayoutClient} from "./root-layout-client";
 import Script from "next/script";
 
-const inter = Montserrat({ subsets: ["latin"] });
+const roboto = Roboto({ subsets: ["latin"], weight: ["300", "400", "500", "700"] });
 
 // export const metadata: Metadata = {
 //   metadataBase: new URL('https://www.sparkonomy.com'),
@@ -75,7 +75,7 @@ export default function Layout({
         <meta name="facebook-domain-verification" content="dq4gtmx7isvdg6evweg50e3rmarkil" />
         <meta name="theme-color" content="#000000" />
       </head>
-      <body className={`${inter.className} min-h-[100dvh] w-full relative`}>
+      <body className={`${roboto.className} min-h-[100dvh] w-full relative`}>
       {/*<Script*/}
       {/*    type="text/javascript"*/}
       {/*    src="https://cdn.cookie-script.com/s/b1693d0f866c8a85e471cfbd6dc87cd1.js"*/}
