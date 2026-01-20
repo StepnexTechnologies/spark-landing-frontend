@@ -1,6 +1,7 @@
 "use client";
 
 import {useCallback, useEffect, useState} from "react";
+import {useSearchParams} from "next/navigation";
 import {AnimatePresence, motion} from "framer-motion";
 // import { StoriesContainerProps } from "./types";
 import StoryPanel from "./StoryPanel";
@@ -12,22 +13,46 @@ import StoryContent4 from "./StoryContent4";
 
 const STORY_DURATION = 6000; // 6 seconds per story
 
-const stories = [
-  { id: 1, component: StoryContent1, duration: STORY_DURATION },
-  { id: 2, component: StoryContent2, duration: STORY_DURATION },
-  { id: 3, component: StoryContent3, duration: STORY_DURATION },
-  { id: 4, component: StoryContent4, duration: STORY_DURATION },
-];
+// Image paths for each language
+const storyImages = {
+  en: [
+    "/images/creator/earn/story-1.png",
+    "/images/creator/earn/story-4.png",
+    "/images/creator/earn/story-3.png",
+    "/images/creator/earn/story-2.png",
+  ],
+  "hi-Latn": [
+    "/images/creator/earn/story-1-hi-Latn.png",
+    "/images/creator/earn/story-2-hi-Latn.png",
+    "/images/creator/earn/story-3-hi-Latn.png",
+    "/images/creator/earn/story-4-hi-Latn.png",
+  ],
+};
+
+const storyComponents = [StoryContent1, StoryContent2, StoryContent3, StoryContent4];
 
 export default function StoriesContainer({
   onComplete,
 }: {
   onComplete: () => void;
 }) {
+  const searchParams = useSearchParams();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [progress, setProgress] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
+
+  // Get language from URL params, default to 'en'
+  const langParam = searchParams.get("lang");
+  const lang = langParam === "hi-Latn" ? "hi-Latn" : "en";
+  const images = storyImages[lang];
+
+  const stories = storyComponents.map((component, index) => ({
+    id: index + 1,
+    component,
+    duration: STORY_DURATION,
+    imageSrc: images[index],
+  }));
 
   const currentStory = stories[currentIndex];
   const previousStory = stories[currentIndex >= 0 ? currentIndex - 1 : 0];
@@ -119,7 +144,7 @@ export default function StoriesContainer({
                           isPaused={isPaused}
                           onPauseChange={setIsPaused}
                       >
-                          <PreviousStoryComponent />
+                          <PreviousStoryComponent imageSrc={previousStory?.imageSrc} />
                       </StoryPanel>
                   </div>
               )}
@@ -141,7 +166,7 @@ export default function StoriesContainer({
                 isPaused={isPaused}
                 onPauseChange={setIsPaused}
               >
-                <CurrentStoryComponent />
+                <CurrentStoryComponent imageSrc={currentStory?.imageSrc} />
               </StoryPanel>
             </div>
 
@@ -166,7 +191,7 @@ export default function StoriesContainer({
                               isPaused={isPaused}
                               onPauseChange={setIsPaused}
                           >
-                              <NextStoryComponent />
+                              <NextStoryComponent imageSrc={nextStory?.imageSrc} />
                           </StoryPanel>
                       </div>
                   )}
@@ -189,9 +214,8 @@ export default function StoriesContainer({
               isPaused={isPaused}
               onPauseChange={setIsPaused}
             >
-              <CurrentStoryComponent />
+              <CurrentStoryComponent imageSrc={currentStory?.imageSrc} />
             </StoryPanel>
-
           </div>
         </motion.div>
       )}

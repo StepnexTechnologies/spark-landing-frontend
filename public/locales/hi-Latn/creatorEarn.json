@@ -3,7 +3,7 @@
     "getEarlyAccess": "Early Access Paayein"
   },
   "hero": {
-    "title": "Duniya ka pehla AI — jo sirf creators ke liye banaya gaya hai.\nAb Private Beta mein ⚡️"
+    "title": "Duniya ka pehla AI — jo sirf creators ke liye banaya gaya hai.\nAb Private Beta mein.⚡️"
   },
   "valueProposition": {
     "heading1": "Zyada kamaayein. Stress kam Lein.",
@@ -133,8 +133,8 @@
         "category": "taxation"
       },
       {
-        "question": "Kya AI India mein GST calculate karne mein help karta hai?",
-        "answer": "Yes! Sparkonomy ka AI Indian GST system ko achchi tarah se jaanta hai. Yeh automatically right service code select karke, CGST/SGST/IGST splits calculate karta hai, aur sabse achhi baat - hamara invoice template GST ki requirements ko perfectly follow karta hai. Sparkonomy ko saara hard work karne dijiy aur aap shine kijiye! ",
+        "question": "Kya AI GST calculate karne mein help karta hai?",
+        "answer": "Yes! Sparkonomy ka AI GST system ko achchi tarah se jaanta hai. Yeh automatically right service code select karta hai, aur sabse achhi baat - hamara invoice template GST ki requirements ko perfectly follow karta hai. Sparkonomy ko saara hard work karne dijiy aur aap shine kijiye!",
         "category": "taxation"
       },
       {
@@ -163,8 +163,8 @@
         "category": "invoice"
       },
       {
-        "question": "Kya aapke invoices HSN ya SAC codes ko support karte hain?",
-        "answer": " Haan, bilkul! Sparkonomy ka AI automatically sabhi mandatory details fill kar deta hai, including sahi HSN/SAC codes (Services Accounting Code) aapki service ke liye. Isse har invoice fully compliant, correctly classified aur legal requirements ke hisaab se ready hota hai, chahe aap filing kar rahe hain ya aapke client ke liye Input Tax Credit. Sparkonomy ke saath aapko errors ki chinta karne ki zaroorat nahi - hamara AI sab kuch seamlessly handle karta hai!",
+        "question": "Kya aapke invoices meri country ke tax aur service codes ko support karte hain?",
+        "answer": "Haan, bilkul! Sparkonomy ka AI automatically aapki country ke hisaab se aapki service ke liye sabhi mandatory details fill kar deta hai including sahi tax aur service codes. Isse har invoice fully compliant, correctly classified aur legal requirements ke hisaab se ready hota hai, chahe aap filing kar rahe ho ya aapke client ke Input Tax Credit ke liye. Sparkonomy ke saath aapko errors ki chinta karne ki zaroorat nahi - hamara AI sab kuch seamlessly handle karta hai!",
         "category": "invoice"
       },
       {
@@ -181,6 +181,21 @@
         "question": "Non-paying brands ke final collection aur public disclosure ke liye Sparkonomy ke steps kya hain?",
         "answer": " Agar koi brand aapka payment ignore kar raha hai, toh yeh cool nahi hai. Hum abhi legal support provide nahi karte, lekin kuch smart hacks hai jo aapko payment lene mein help karenge. Hum suggest karenge ki kaise strong follow-up messages draft karein aur pro steps lein taaki payment jaldi aa jaye without kisi drama ke. Aap control mein rahenge, aur hum ensure karenge ki process smooth aur pro rahe.",
         "category": "payment-reminders"
+      },
+      {
+        "question": "Kya mujhe brands se milne wale free products aur sponsored trips par tax dena hoga?",
+        "answer": "Haan. Law aapki services ke liye milne wali kisi bhi form ki payment ko taxable income maanta hai - chahe woh cash ho, products ho ya experiences. Agar koi brand aapko sponsored collaboration ke under ek particular amount se zyada value ka gift deta hai, toh aapko uski poori retail value income ke taur par declare karni hoti hai. Isliye jo bhi products ya benefits aapko milte hain, unka record rakhein aur retail value note karein, taaki tax filing ke time sahi reporting ho sake.",
+        "category": "taxation"
+      },
+      {
+        "question": "Main ek hi time par multiple brand deals kaise manage karun?",
+        "answer": "Jab deals WhatsApp, email aur Instagram DMs mein scattered hoti hain, tab chaos hota hai. Iska simple rule hai: sab kuch ek jagah track karein. Har deal ke liye yeh 4 cheezein zaroor note karo: Brand name, Payment amount, Due date, aur Payment status. Sparkonomy ke AI tool se yeh sab bahut easy ho jata hai. Aapke vendor registration se lekar, invoices, payment status aur income management - sab hum sambhalte hain.",
+        "category": "invoice"
+      },
+      {
+        "question": "Kya camera equipment aur software ke kharche tax deduction ke liye claim kiye ja sakte hain?",
+        "answer": "Haan, agar aap self-employed creator ya registered business hain, toh aap genuine business expenses ko income se deduct kar sakte hain. Isme camera gear, editing software, props, studio rent, aur ghar se kaam karte hain toh internet ka ek portion shaamil hain. Rule simple hain: Sirf wahi kharche karein jo actually content creation ke liye use hote hain, aur receipts sambhaal ke rakhein.",
+        "category": "taxation"
       }
     ]
   },

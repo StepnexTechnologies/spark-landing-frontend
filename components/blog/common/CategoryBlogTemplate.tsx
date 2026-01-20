@@ -3,7 +3,9 @@ import { getCategoryBySlug, getPostsByCategory, getPostTags } from "@/lib/wordpr
 import BlogCard from "@/components/blog/BlogCard";
 import FeaturedBlogCard from "@/components/blog/FeaturedBlogCard";
 import BlogCardSkeleton from "@/components/blog/BlogCardSkeleton";
+import FeaturedBlogCardSkeleton from "@/components/blog/FeaturedBlogCardSkeleton";
 import MainSection from "@/components/blog/MainSection";
+import MainSectionSkeleton from "@/components/blog/MainSectionSkeleton";
 import NewsletterSection from "@/components/blog/NewsletterSection";
 import NoPostsPlaceholder from "./NoPostsPlaceholder";
 
@@ -32,16 +34,16 @@ function formatDate(dateString: string): string {
   });
 }
 
-// Get featured image helper
+// Get featured image helper - fallback to Yoast og:image if wp:featuredmedia is not accessible
 function getFeaturedImage(post: any): string | undefined {
-  return post._embedded?.["wp:featuredmedia"]?.[0]?.source_url;
+  return post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || post.yoast_head_json?.og_image?.[0]?.url;
 }
 
 // Posts Grid Component
 async function CategoryPosts({ config }: { config: CategoryConfig }) {
   const category = await getCategoryBySlug(config.slug);
   const { data: posts } = category
-    ? await getPostsByCategory(category.id, 1, 13)
+    ? await getPostsByCategory(category.id, 1, 14)
     : { data: [] };
 
   if (posts.length === 0) {
@@ -77,16 +79,17 @@ async function CategoryPosts({ config }: { config: CategoryConfig }) {
     );
   }
 
-  const firstRowPosts = posts.slice(1, 3);
-  const secondRowPost = posts.slice(3, 4);
-  const remainingPosts = posts.slice(4);
+  // Skip first post (shown in hero), same structure as blogs page
+  const firstRowPosts = posts.slice(1, 4); // 3 vertical cards
+  const secondRowPost = posts.slice(4, 5); // 1 featured horizontal card
+  const remainingPosts = posts.slice(5);   // Remaining cards
 
   return (
     <>
       {/* Container for First Row */}
       <div className="max-w-7xl mx-auto px-4">
-        {/* First Row - 2 vertical cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:mb-12">
+        {/* First Row - 3 vertical cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:mb-12">
           {firstRowPosts.map((p) => (
             <BlogCard
               key={p.id}
@@ -150,23 +153,23 @@ async function CategoryPosts({ config }: { config: CategoryConfig }) {
 function BlogPostsSkeleton() {
   return (
     <>
-      {/* Container for First Row */}
+      {/* Container for First Row - 3 vertical skeletons */}
       <div className="max-w-7xl mx-auto px-4">
-        {/* First Row - 2 vertical skeletons */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:mb-12">
+          <BlogCardSkeleton layout="vertical" />
           <BlogCardSkeleton layout="vertical" />
           <BlogCardSkeleton layout="vertical" />
         </div>
       </div>
 
-      {/* Second Row - 1 horizontal skeleton (full width) */}
+      {/* Second Row - 1 featured horizontal skeleton (full width) */}
       <div className="w-full md:mb-12">
-        <BlogCardSkeleton layout="horizontal" />
+        <FeaturedBlogCardSkeleton />
       </div>
 
       {/* Container for Remaining Rows */}
       <div className="max-w-7xl mx-auto px-4">
-        {/* Remaining Rows - 3 vertical skeletons per row */}
+        {/* Remaining Rows - 6 vertical skeletons (showing 2 rows of 3) */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {[...Array(6)].map((_, i) => (
             <BlogCardSkeleton key={i} layout="vertical" />
@@ -184,22 +187,19 @@ async function HeroSection({ config }: { config: CategoryConfig }) {
     ? await getPostsByCategory(category.id, 1, 1)
     : { data: [] };
 
+  // Don't show hero section if no posts - the CategoryPosts component will show "No posts" message
   if (posts.length === 0) {
-    return (
-      <MainSection
-        title={config.title}
-        subtitle={config.subtitle}
-        description={config.description}
-        buttonText="Explore"
-        buttonLink="#posts"
-        imageSrc="/CategoriesMainImage.png"
-        hashtags={config.defaultHashtags}
-      />
-    );
+    return null;
   }
 
   const heroPost = posts[0];
   const tags = getPostTags(heroPost);
+  const featuredImage = getFeaturedImage(heroPost);
+
+  // Only show hero if we have a featured image from WordPress
+  if (!featuredImage) {
+    return null;
+  }
 
   return (
     <MainSection
@@ -208,26 +208,12 @@ async function HeroSection({ config }: { config: CategoryConfig }) {
       description={stripHtml(heroPost.excerpt.rendered)}
       buttonText="Read More"
       buttonLink={`/blogs/${heroPost.slug}`}
-      imageSrc={getFeaturedImage(heroPost) || "/CategoriesMainImage.png"}
+      imageSrc={featuredImage}
       hashtags={tags.length > 0 ? tags : config.defaultHashtags}
     />
   );
 }
 
-// Hero Fallback Component
-function HeroFallback({ config }: { config: CategoryConfig }) {
-  return (
-    <MainSection
-      title={config.title}
-      subtitle={config.subtitle}
-      description={config.description}
-      buttonText="Explore"
-      buttonLink="#posts"
-      imageSrc="/CategoriesMainImage.png"
-      hashtags={config.defaultHashtags}
-    />
-  );
-}
 
 // Main Category Blog Page Template
 interface CategoryBlogTemplateProps {
@@ -239,7 +225,7 @@ export default function CategoryBlogTemplate({ config }: CategoryBlogTemplatePro
     <main className="min-h-screen relative overflow-hidden">
       {/* Main Section with Background Image */}
       <div className="relative z-10">
-        <Suspense fallback={<HeroFallback config={config} />}>
+        <Suspense fallback={<MainSectionSkeleton />}>
           <HeroSection config={config} />
         </Suspense>
       </div>

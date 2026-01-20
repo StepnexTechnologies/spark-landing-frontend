@@ -59,6 +59,22 @@ export function removeWordPressTOC(html: string): string {
     return heading + newUlOpen + processedListContent + ulClose;
   });
 
+  // Find the Sources and references section and add class to the list
+  // Matches: "Sources and references", "Sources & References", "Sources & references", etc.
+  const sourcesRegex = /(<h2[^>]*>(?:<[^>]*>)*\s*Sources\s*(?:and|&amp;|&)\s*References?\s*(?:<[^>]*>)*<\/h2>[\s\S]*?)(<[ou]l[^>]*>)([\s\S]*?)(<\/[ou]l>)/gi;
+
+  cleaned = cleaned.replace(sourcesRegex, (match, beforeList, listOpen, listContent, listClose) => {
+    // Add sources-list class to ul/ol
+    let newListOpen = listOpen;
+    if (listOpen.includes('class="')) {
+      newListOpen = listOpen.replace('class="', 'class="sources-list ');
+    } else {
+      newListOpen = listOpen.replace(/<([ou]l)/, '<$1 class="sources-list"');
+    }
+
+    return beforeList + newListOpen + listContent + listClose;
+  });
+
   // Remove AAAAAA paragraphs and extra br tags
   cleaned = cleaned.replace(/<p[^>]*>A{5,}[^<]*<\/p>/gi, '');
   cleaned = cleaned.replace(/(<br\s*\/?>\s*){2,}/gi, '');

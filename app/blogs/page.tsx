@@ -3,7 +3,9 @@ import type { Metadata } from "next";
 import Card from "@/components/blog/BlogCard";
 import FeaturedBlogCard from "@/components/blog/FeaturedBlogCard";
 import BlogCardSkeleton from "@/components/blog/BlogCardSkeleton";
+import FeaturedBlogCardSkeleton from "@/components/blog/FeaturedBlogCardSkeleton";
 import MainSection from "@/components/blog/MainSection";
+import MainSectionSkeleton from "@/components/blog/MainSectionSkeleton";
 import NewsletterSection from "@/components/blog/NewsletterSection";
 import { getPosts, getPostTags } from "@/lib/wordpress-improved";
 
@@ -115,7 +117,7 @@ async function BlogPosts() {
               key={p.id}
               title={p.title.rendered}
               description={decodeHtmlEntities(p.excerpt.rendered)}
-              imageSrc={p._embedded?.['wp:featuredmedia']?.[0]?.source_url}
+              imageSrc={p._embedded?.['wp:featuredmedia']?.[0]?.source_url || p.yoast_head_json?.og_image?.[0]?.url}
               href={`/blogs/${p.slug}`}
               layout="vertical"
               descriptionPosition="bottom"
@@ -136,7 +138,7 @@ async function BlogPosts() {
             key={p.id}
             title={p.title.rendered}
             description={decodeHtmlEntities(p.excerpt.rendered)}
-            imageSrc={p._embedded?.['wp:featuredmedia']?.[0]?.source_url}
+            imageSrc={p._embedded?.['wp:featuredmedia']?.[0]?.source_url || p.yoast_head_json?.og_image?.[0]?.url}
             href={`/blogs/${p.slug}`}
             tag="Brand Story"
             imagePriority={true}
@@ -156,7 +158,7 @@ async function BlogPosts() {
               key={p.id}
               title={p.title.rendered}
               description={decodeHtmlEntities(p.excerpt.rendered)}
-              imageSrc={p._embedded?.['wp:featuredmedia']?.[0]?.source_url}
+              imageSrc={p._embedded?.['wp:featuredmedia']?.[0]?.source_url || p.yoast_head_json?.og_image?.[0]?.url}
               href={`/blogs/${p.slug}`}
               layout="vertical"
               descriptionPosition="bottom"
@@ -177,8 +179,14 @@ function BlogPostsSkeleton() {
   return (
     <>
       {/* Container for First Row */}
+
+
+      {/* Second Row - 1 horizontal skeleton (full width, no container) */}
+      <div className="w-full md:mb-12">
+        <BlogCardSkeleton layout="horizontal" />
+      </div>
+
       <div className="max-w-7xl mx-auto px-4">
-        {/* First Row - 3 vertical skeletons */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:mb-12">
           <BlogCardSkeleton layout="vertical" />
           <BlogCardSkeleton layout="vertical" />
@@ -186,9 +194,9 @@ function BlogPostsSkeleton() {
         </div>
       </div>
 
-      {/* Second Row - 1 horizontal skeleton (full width, no container) */}
+      {/* Second Row - 1 featured horizontal skeleton (full width, no container) */}
       <div className="w-full md:mb-12">
-        <BlogCardSkeleton layout="horizontal" />
+        <FeaturedBlogCardSkeleton />
       </div>
 
       {/* Container for Remaining Rows */}
@@ -221,7 +229,7 @@ async function HeroSection() {
       description={decodeHtmlEntities(heroPost.excerpt.rendered)}
       buttonText="Read More"
       buttonLink={`/blogs/${heroPost.slug}`}
-      imageSrc={heroPost._embedded?.['wp:featuredmedia']?.[0]?.source_url || "/MainImage.svg"}
+      imageSrc={heroPost._embedded?.['wp:featuredmedia']?.[0]?.source_url || heroPost.yoast_head_json?.og_image?.[0]?.url || "/MainImage.svg"}
       hashtags={tags.length > 0 ? tags : ["MonetizeYourContent", "CreatorEconomy", "PassiveIncome"]}
     />
   );
@@ -283,7 +291,7 @@ export default function Home() {
 
       {/* Main Section with Background Image */}
       <div className="relative z-10">
-        <Suspense fallback={null}>
+        <Suspense fallback={<MainSectionSkeleton />}>
           <HeroSection />
         </Suspense>
       </div>

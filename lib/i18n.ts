@@ -27,7 +27,8 @@ const initI18n = () => {
           },
         },
         detection: {
-          order: ['localStorage', 'navigator'],
+          order: ['querystring', 'localStorage', 'navigator'],
+          lookupQuerystring: 'lang',
           caches: ['localStorage'],
         },
         interpolation: {

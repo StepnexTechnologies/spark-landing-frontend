@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import ReadMoreButton from "./ReadMoreButton";
 
 export interface FeaturedBlogCardProps {
   title: string;
@@ -57,11 +58,21 @@ export default function FeaturedBlogCard({
         )}
 
         {/* Title */}
-        <h2
-          className="font-bold text-3xl md:text-4xl lg:text-[40px] text-[#212529] leading-tight mb-6"
-        >
-          {title}
-        </h2>
+        {href ? (
+          <Link href={href}>
+            <h2
+              className="font-bold text-3xl md:text-4xl lg:text-[40px] text-[#212529] leading-tight mb-6 cursor-pointer"
+            >
+              {title}
+            </h2>
+          </Link>
+        ) : (
+          <h2
+            className="font-bold text-3xl md:text-4xl lg:text-[40px] text-[#212529] leading-tight mb-6"
+          >
+            {title}
+          </h2>
+        )}
 
         {/* Description */}
         {description && (
@@ -73,28 +84,7 @@ export default function FeaturedBlogCard({
         {/* Button */}
         {href && (
           <div className="flex justify-center">
-            <Link
-              href={href}
-              className="inline-flex items-center gap-2 px-6 py-3 text-sm font-medium text-white rounded-full hover:opacity-90 transition-opacity"
-              style={{
-                background: 'linear-gradient(180.27deg, #DD2A7B -46.92%, #9747FF 80.1%)'
-              }}
-            >
-              Read More
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M7 17L17 7M17 7H7M17 7V17"
-                />
-              </svg>
-            </Link>
+            <ReadMoreButton href={href} className="px-6" />
           </div>
         )}
       </div>

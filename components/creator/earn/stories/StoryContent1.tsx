@@ -4,7 +4,11 @@ import Image from "next/image";
 import {BadgeCheck, Heart, Send} from "lucide-react";
 import AnimatedEmojis from "./AnimatedEmojis";
 
-export default function StoryContent1() {
+interface StoryContent1Props {
+  imageSrc?: string;
+}
+
+export default function StoryContent1({ imageSrc = "/images/creator/earn/story-1.png" }: StoryContent1Props) {
   return (
     <div className="relative w-full h-full">
       {/* Header */}
@@ -30,8 +34,8 @@ export default function StoryContent1() {
       {/* Main Image */}
       <div className="absolute top-[15%] left-1/2 -translate-x-1/2 w-[90vw] sm:w-[362px] max-w-[362px] max-h-[calc(100%-150px)] aspect-[362/595] rounded-3xl overflow-hidden ">
         <Image
-          src={"/images/creator/earn/story-1.png"}
-          alt={"Bunny"}
+          src={imageSrc}
+          alt={"Story"}
           width={362}
           height={595}
           priority
