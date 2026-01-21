@@ -2,20 +2,19 @@
 
 import { useEffect, useState, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import toast from "react-hot-toast";
 import ToggleInput from "@/components/form/ToggleInput";
 
 export default function NewsletterSection() {
   const [isVisible, setIsVisible] = useState(false);
   const [isDismissed, setIsDismissed] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState<{ text: string; type: 'success' | 'error' } | null>(null);
   const originalPositionRef = useRef<number | null>(null);
   const lastScrollYRef = useRef<number>(0);
   const sectionRef = useRef<HTMLDivElement>(null);
 
   const handleSubmit = async (value: string, type: 'email' | 'phone') => {
     setLoading(true);
-    setMessage(null);
 
     try {
       const payload = type === 'email'
@@ -39,9 +38,9 @@ export default function NewsletterSection() {
         throw new Error(data.message || "Failed to subscribe");
       }
 
-      setMessage({ text: data.message || "Successfully subscribed!", type: "success" });
+      toast.success(data.message || "Successfully subscribed!");
     } catch (err) {
-      setMessage({ text: (err as Error).message, type: "error" });
+      toast.error((err as Error).message);
     } finally {
       setLoading(false);
     }
@@ -116,8 +115,8 @@ export default function NewsletterSection() {
               onSubmit={handleSubmit}
               loading={loading}
               placeholder={{
-                email: "Enter email or WhatsApp",
-                phone: "Enter phone number",
+                email: "Enter your email",
+                phone: "Enter your phone number",
               }}
               buttonText="Stay Updated"
               variant="light"
@@ -141,11 +140,6 @@ export default function NewsletterSection() {
           </div>
         </div>
 
-        {message && (
-          <p className={`text-center text-sm py-2 ${message.type === 'success' ? 'text-green-600' : 'text-red-600'}`}>
-            {message.text}
-          </p>
-        )}
       </div>
 
       {/* Floating/Fixed version with animation */}
@@ -172,8 +166,8 @@ export default function NewsletterSection() {
                   onSubmit={handleSubmit}
                   loading={loading}
                   placeholder={{
-                    email: "Enter email or WhatsApp",
-                    phone: "Enter phone number",
+                    email: "Enter your email",
+                    phone: "Enter your phone number",
                   }}
                   buttonText="Stay Updated"
                   variant="light"
