@@ -29,10 +29,10 @@ interface PlanComparisonProps {
 
 export const defaultComparisonData: ComparisonRow[] = [
   { feature: 'Monthly Invoices', free: '4 Free Forever', pro: 'Unlimited' },
-  { feature: 'Automated AI Payment Reminders', free: '1 (+300% limited period)', pro: '10' },
+  { feature: 'Automated AI Payment Reminders', free: '1(+300% limited period)', pro: '10' },
   { feature: 'Manual Payment Reminders', free: 'Unlimited', pro: 'Unlimited' },
   { feature: 'Client Address Book', free: '12 Clients', pro: '100 Clients' },
-  { feature: 'Automated Proof of Work', free: false, pro: true },
+  { feature: 'Automated Proof Of Work', free: false, pro: true },
   { feature: 'Pocket CFO', free: 'Essential', pro: 'Advanced' },
   { feature: 'Income Statement', free: 'Upto 6 months', pro: 'Upto 12 months' },
   { feature: 'CA Ready Record Exports', free: 'Basic CSV', pro: 'Tax/ GST Compliant CSV' },
@@ -56,7 +56,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       primary:
         'text-white bg-[#8B5CF6] hover:brightness-110 disabled:opacity-50 disabled:cursor-not-allowed',
       outlined:
-        'border border-[#8B5CF6] text-[#8B5CF6] bg-white hover:bg-purple-50 disabled:opacity-50 disabled:cursor-not-allowed',
+        'border border-white/50 text-white bg-transparent hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed',
     };
 
     return (
@@ -82,9 +82,9 @@ Button.displayName = 'Button';
 const CellValue = ({ value }: { value: string | boolean }) => {
   if (typeof value === 'boolean') {
     return value ? (
-      <Check className="w-5 h-5 text-[#34C759]" />
+      <Check className="w-5 h-5 text-white" />
     ) : (
-      <X className="w-5 h-5 text-red-400" />
+      <X className="w-5 h-5 text-white/60" />
     );
   }
   return <>{value}</>;
@@ -107,114 +107,112 @@ const PlanComparison = forwardRef<HTMLDivElement, PlanComparisonProps>(
     const isYearlyCurrentPlan = currentBillingCycle === 'yearly';
 
     return (
-      <div ref={ref} className={`flex flex-col gap-6 ${className}`}>
-        {/* Title */}
+      // Main container: bg-white 10% opacity, p-5
+      <div
+        ref={ref}
+        className={`bg-[#FFFFFF1A] rounded-[20px] p-5 ${className}`}
+      >
+        {/* Title with p-[10px] */}
         {showTitle && (
-          <h2 className="text-xl md:text-[22px] font-semibold text-[#999999] text-center md:text-left">
+          <h2 className="text-xl md:text-[18px] font-semibold text-white text-center md:text-left pb-[10px]">
             Plan Comparison
           </h2>
         )}
 
         {/* Mobile Layout - Vertical (Free/Pro as columns) */}
         <div className="md:hidden">
-          {/* Column Headers */}
-          <div className="grid grid-cols-2 px-2 mb-4">
-            <span className="text-base font-semibold text-[#6B7280] text-center">
-              Free
-            </span>
-            <span className="text-base font-semibold text-[#6B7280] text-center">
-              Pro
-            </span>
-          </div>
+          {/* Table container with rounded-[4px] and bg-[#F2F2F2] 20% */}
+          <div className="bg-[#F2F2F233] rounded-[4px] overflow-hidden">
+            {/* Column Headers */}
+            <div className="grid grid-cols-2 bg-[#F2F2F233] px-2 py-3">
+              <span className="text-base font-semibold text-white text-center">
+                Free
+              </span>
+              <span className="text-base font-semibold text-white text-center">
+                Pro
+              </span>
+            </div>
 
-          {/* Comparison Rows */}
-          <div className="flex flex-col gap-1.5 px-2">
-            {comparisonData.map((row, index) => (
-              <div key={index} className="flex flex-col gap-1.5">
-                {/* Feature Name Row */}
-                <div className="bg-[#F2F2F2] rounded-lg px-3 py-2.5 text-center">
-                  <span className="text-sm text-[#999999] font-medium">
-                    {row.feature}
-                  </span>
-                </div>
+            {/* Comparison Rows */}
+            <div className="flex flex-col">
+              {comparisonData.map((row, index) => (
+                <div key={index} className="flex flex-col">
+                  {/* Feature Name Row - bg-[#F2F2F2] 20% */}
+                  <div className="bg-[#F2F2F233] px-3 py-2.5 text-center">
+                    <span className="text-sm text-white font-medium">
+                      {row.feature}
+                    </span>
+                  </div>
 
-                {/* Values Row */}
-                <div className="grid grid-cols-2 bg-white rounded-lg px-3">
-                  <span className="text-sm text-[#999999] font-normal text-center flex items-center justify-center py-2">
-                    <CellValue value={row.free} />
-                  </span>
-                  <span className="text-sm text-[#999999] font-normal text-center flex items-center justify-center py-2">
-                    <CellValue value={row.pro} />
-                  </span>
+                  {/* Values Row - bg-[#F2F2F2] 20% */}
+                  <div className="grid grid-cols-2 bg-[#F2F2F233] px-3">
+                    <span className="text-sm text-white font-normal text-center flex items-center justify-center py-2">
+                      <CellValue value={row.free} />
+                    </span>
+                    <span className="text-sm text-white font-normal text-center flex items-center justify-center py-2">
+                      <CellValue value={row.pro} />
+                    </span>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
 
         {/* Desktop Layout - Horizontal table (Free/Pro as rows, features as columns) */}
         <div className="hidden md:block overflow-x-auto">
-          <table className="w-full border-collapse">
-            {/* Header row with features */}
-            <thead>
-              <tr>
-                <th className="p-3 text-left text-base font-semibold text-[#6B7280] bg-[#F2F2F2] rounded-tl-lg min-w-[80px]">
-                  Plan
-                </th>
-                {comparisonData.map((row, index) => (
-                  <th
-                    key={index}
-                    className={`p-3 text-center text-sm font-medium text-[#999999] bg-[#F2F2F2] min-w-[120px] ${
-                      index === comparisonData.length - 1 ? 'rounded-tr-lg' : ''
-                    }`}
-                  >
-                    {row.feature}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {/* Free row */}
-              <tr className="border-b border-[#F2F2F2]">
-                <td className="p-3 text-left text-base font-semibold text-[#6B7280] bg-[#F9F9F9]">
-                  Free
-                </td>
-                {comparisonData.map((row, index) => (
-                  <td
-                    key={index}
-                    className="p-3 text-center text-sm text-[#999999]"
-                  >
-                    <span className="flex items-center justify-center">
-                      <CellValue value={row.free} />
-                    </span>
-                  </td>
-                ))}
-              </tr>
-              {/* Pro row */}
-              <tr>
-                <td className="p-3 text-left text-base font-semibold text-[#6B7280] bg-[#F9F9F9] rounded-bl-lg">
-                  Pro
-                </td>
-                {comparisonData.map((row, index) => (
-                  <td
-                    key={index}
-                    className={`p-3 text-center text-sm text-[#999999] ${
-                      index === comparisonData.length - 1 ? 'rounded-br-lg' : ''
-                    }`}
-                  >
-                    <span className="flex items-center justify-center">
-                      <CellValue value={row.pro} />
-                    </span>
-                  </td>
-                ))}
-              </tr>
-            </tbody>
-          </table>
+          {/* Table with rounded-[14px] and gap between rows */}
+          <div className="relative flex flex-col gap-[2px] rounded-[14px] overflow-hidden z-10">
+
+            <div className="absolute left-0 top-0 bottom-0 w-[70px] bg-[#F2F2F210] rounded-2xl z-0" />
+            {/* Header row - bg-[#F2F2F2] 20% */}
+            <div className="flex bg-[#F2F2F220] max-h-[50px]">
+              <div className="p-[10px] text-left text-[16px] font-semibold text-white min-w-[70px] bg-[#F2F2F233]">
+                Plan
+              </div>
+              {comparisonData.map((row, index) => (
+                <div
+                  key={index}
+                  className="text-center text-[10px] font-semibold text-white min-w-[120px] flex-1 flex items-center justify-center bg-[#F2F2F233]"
+                >
+                  {row.feature}
+                </div>
+              ))}
+            </div>
+            {/* Free row - bg-[#F2F2F2] 20% */}
+            <div className="flex bg-[#F2F2F203] max-h-[50px]">
+              <div className="p-[10px] text-left text-[14px] font-semibold text-white min-w-[70px] bg-[#F2F2F233]">
+                Free
+              </div>
+              {comparisonData.map((row, index) => (
+                <div
+                  key={index}
+                  className="text-center text-[10px] text-white min-w-[120px] flex-1 flex items-center justify-center bg-[#F2F2F233]"
+                >
+                  <CellValue value={row.free} />
+                </div>
+              ))}
+            </div>
+            {/* Pro row - bg-[#F2F2F2] 20% */}
+            <div className="flex bg-[#F2F2F203] max-h-[50px]">
+              <div className="p-[10px] text-left text-[14px] font-semibold text-white min-w-[70px] bg-[#F2F2F233]">
+                Pro
+              </div>
+              {comparisonData.map((row, index) => (
+                <div
+                  key={index}
+                  className="text-center text-[10px] text-white min-w-[120px] flex-1 flex items-center justify-center bg-[#F2F2F233]"
+                >
+                  <CellValue value={row.pro} />
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
         {/* Action Buttons */}
         {showActionButtons && (
-          <div className="flex items-center gap-1.5 p-2">
+          <div className="flex items-center gap-1.5 p-2 mt-4">
             <Button
               variant="outlined"
               onClick={isMonthlyCurrentPlan ? undefined : onGetProMonthly}

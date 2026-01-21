@@ -149,7 +149,7 @@ export default function FAQPageContent() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
-                className="mt-8 bg-white rounded-2xl p-6 max-w-md md:max-w-none"
+                className="mt-8 max-w-md md:max-w-none"
               >
                 <PlanComparison showTitle={true} showActionButtons={false} />
               </motion.div>
