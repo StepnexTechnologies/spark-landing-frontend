@@ -18,6 +18,7 @@ import QuoteCleanerEnhancer from "@/components/blog/QuoteCleanerEnhancer";
 import ListMergerEnhancer from "@/components/blog/ListMergerEnhancer";
 import PromoBannerInjector from "@/components/blog/PromoBannerInjector";
 import SourcesListEnhancer from "@/components/blog/SourcesListEnhancer";
+import KeyTakeawaysEnhancer from "@/components/blog/KeyTakeawaysEnhancer";
 import NewsletterSection from "@/components/blog/NewsletterSection";
 import { getAuthorPageSlug, getAuthorByWordPressSlug } from "@/data/authors";
 import "../wordpress-content.css";
@@ -552,6 +553,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             <PromoBannerInjector />
             {/* Style sources and references list */}
             <SourcesListEnhancer />
+            {/* Key takeaways section styling */}
+            <KeyTakeawaysEnhancer />
             <div
               className="wordpress-content"
               dangerouslySetInnerHTML={{ __html: processedContent }}
