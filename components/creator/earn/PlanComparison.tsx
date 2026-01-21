@@ -78,6 +78,18 @@ Button.displayName = 'Button';
 // MAIN COMPONENT
 // ============================================
 
+// Helper to render cell value
+const CellValue = ({ value }: { value: string | boolean }) => {
+  if (typeof value === 'boolean') {
+    return value ? (
+      <Check className="w-5 h-5 text-[#34C759]" />
+    ) : (
+      <X className="w-5 h-5 text-red-400" />
+    );
+  }
+  return <>{value}</>;
+};
+
 const PlanComparison = forwardRef<HTMLDivElement, PlanComparisonProps>(
   (
     {
@@ -95,65 +107,109 @@ const PlanComparison = forwardRef<HTMLDivElement, PlanComparisonProps>(
     const isYearlyCurrentPlan = currentBillingCycle === 'yearly';
 
     return (
-      <div className={`flex flex-col gap-6 ${className}`}>
+      <div ref={ref} className={`flex flex-col gap-6 ${className}`}>
         {/* Title */}
         {showTitle && (
-          <h2 className="text-xl md:text-[22px] font-semibold text-[#999999] text-center">
+          <h2 className="text-xl md:text-[22px] font-semibold text-[#999999] text-center md:text-left">
             Plan Comparison
           </h2>
         )}
 
-        {/* Column Headers */}
-        <div ref={ref} className="grid grid-cols-2 px-2">
-          <span className="text-base md:text-lg font-semibold text-[#6B7280] text-center">
-            Free
-          </span>
-          <span className="text-base md:text-lg font-semibold text-[#6B7280] text-center">
-            Pro
-          </span>
+        {/* Mobile Layout - Vertical (Free/Pro as columns) */}
+        <div className="md:hidden">
+          {/* Column Headers */}
+          <div className="grid grid-cols-2 px-2 mb-4">
+            <span className="text-base font-semibold text-[#6B7280] text-center">
+              Free
+            </span>
+            <span className="text-base font-semibold text-[#6B7280] text-center">
+              Pro
+            </span>
+          </div>
+
+          {/* Comparison Rows */}
+          <div className="flex flex-col gap-1.5 px-2">
+            {comparisonData.map((row, index) => (
+              <div key={index} className="flex flex-col gap-1.5">
+                {/* Feature Name Row */}
+                <div className="bg-[#F2F2F2] rounded-lg px-3 py-2.5 text-center">
+                  <span className="text-sm text-[#999999] font-medium">
+                    {row.feature}
+                  </span>
+                </div>
+
+                {/* Values Row */}
+                <div className="grid grid-cols-2 bg-white rounded-lg px-3">
+                  <span className="text-sm text-[#999999] font-normal text-center flex items-center justify-center py-2">
+                    <CellValue value={row.free} />
+                  </span>
+                  <span className="text-sm text-[#999999] font-normal text-center flex items-center justify-center py-2">
+                    <CellValue value={row.pro} />
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
-        {/* Comparison Rows */}
-        <div className="flex flex-col gap-1.5 px-2">
-          {comparisonData.map((row, index) => (
-            <div key={index} className="flex flex-col gap-1.5">
-              {/* Feature Name Row */}
-              <div className="bg-[#F2F2F2] rounded-lg px-3 py-2.5">
-                <span className="text-sm md:text-base text-[#999999] font-medium">
-                  {row.feature}
-                </span>
-              </div>
-
-              {/* Values Row */}
-              <div className="grid grid-cols-2 bg-white rounded-lg px-3">
-                {/* Free Value */}
-                <span className="text-sm md:text-base text-[#999999] font-normal text-center flex items-center justify-center py-2">
-                  {typeof row.free === 'boolean' ? (
-                    row.free ? (
-                      <Check className="w-5 h-5 text-[#34C759]" />
-                    ) : (
-                      <X className="w-5 h-5 text-red-400" />
-                    )
-                  ) : (
-                    row.free
-                  )}
-                </span>
-
-                {/* Pro Value */}
-                <span className="text-sm md:text-base text-[#999999] font-normal text-center flex items-center justify-center py-2">
-                  {typeof row.pro === 'boolean' ? (
-                    row.pro ? (
-                      <Check className="w-5 h-5 text-[#34C759]" />
-                    ) : (
-                      <X className="w-5 h-5 text-red-400" />
-                    )
-                  ) : (
-                    row.pro
-                  )}
-                </span>
-              </div>
-            </div>
-          ))}
+        {/* Desktop Layout - Horizontal table (Free/Pro as rows, features as columns) */}
+        <div className="hidden md:block overflow-x-auto">
+          <table className="w-full border-collapse">
+            {/* Header row with features */}
+            <thead>
+              <tr>
+                <th className="p-3 text-left text-base font-semibold text-[#6B7280] bg-[#F2F2F2] rounded-tl-lg min-w-[80px]">
+                  Plan
+                </th>
+                {comparisonData.map((row, index) => (
+                  <th
+                    key={index}
+                    className={`p-3 text-center text-sm font-medium text-[#999999] bg-[#F2F2F2] min-w-[120px] ${
+                      index === comparisonData.length - 1 ? 'rounded-tr-lg' : ''
+                    }`}
+                  >
+                    {row.feature}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {/* Free row */}
+              <tr className="border-b border-[#F2F2F2]">
+                <td className="p-3 text-left text-base font-semibold text-[#6B7280] bg-[#F9F9F9]">
+                  Free
+                </td>
+                {comparisonData.map((row, index) => (
+                  <td
+                    key={index}
+                    className="p-3 text-center text-sm text-[#999999]"
+                  >
+                    <span className="flex items-center justify-center">
+                      <CellValue value={row.free} />
+                    </span>
+                  </td>
+                ))}
+              </tr>
+              {/* Pro row */}
+              <tr>
+                <td className="p-3 text-left text-base font-semibold text-[#6B7280] bg-[#F9F9F9] rounded-bl-lg">
+                  Pro
+                </td>
+                {comparisonData.map((row, index) => (
+                  <td
+                    key={index}
+                    className={`p-3 text-center text-sm text-[#999999] ${
+                      index === comparisonData.length - 1 ? 'rounded-br-lg' : ''
+                    }`}
+                  >
+                    <span className="flex items-center justify-center">
+                      <CellValue value={row.pro} />
+                    </span>
+                  </td>
+                ))}
+              </tr>
+            </tbody>
+          </table>
         </div>
 
         {/* Action Buttons */}
