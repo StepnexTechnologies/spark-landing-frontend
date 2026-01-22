@@ -400,7 +400,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           {/* Title */}
           <div className="px-4 md:px-[50px] lg:px-[130px]">
             <h1
-              className="text-2xl md:text-3xl lg:text-[40px] font-bold text-[#6B7280] leading-tight"
+              className="text-[32px] md:text-[36px] lg:text-[40px] font-bold text-[#6B7280] leading-tight"
               dangerouslySetInnerHTML={{ __html: post.title.rendered }}
             />
           </div>
