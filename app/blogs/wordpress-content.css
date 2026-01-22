@@ -553,14 +553,14 @@
   font-weight: 600;
   line-height: 1.3;
   color: #6B7280;
-  margin-top: 2rem;
-  padding-bottom: 0.75rem;
+  margin-top: 1rem;
+  padding-bottom: 0.25rem;
 }
 
 @media (min-width: 1024px) {
   .wordpress-content h3 {
     font-size: 20px;
-    padding-bottom: 1rem;
+    padding-bottom: 0.5rem;
   }
 }
 
@@ -1826,4 +1826,42 @@
 /* Spacing between consecutive banners */
 .promo-banner-wrapper + .promo-banner-wrapper {
   margin-top: 1.5rem;
+}
+
+/* ====================
+   CHECKMARK EMOJI STYLING
+   Replace green ✅ emoji with primary purple checkmark
+   ==================== */
+
+/* Style for paragraphs that start with checkmark emoji */
+.wordpress-content .check-highlight {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 1rem;
+}
+
+.wordpress-content .check-highlight-icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+@media (min-width: 768px) {
+  .wordpress-content .check-highlight-icon {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .wordpress-content .check-highlight-icon {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+.wordpress-content .check-highlight strong {
+  color: #1f2937;
 }
