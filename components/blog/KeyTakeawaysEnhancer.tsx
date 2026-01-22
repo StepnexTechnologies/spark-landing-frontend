@@ -47,13 +47,22 @@ function enhanceKeyTakeaways() {
       // Skip if already enhanced
       if (h2.closest(".key-takeaways-section")) return;
 
-      // Collect all siblings until the next h2
+      // Collect h2 and only immediately following list elements (ul/ol)
+      // Stop at any other element type to avoid wrapping unrelated content
       const elementsToWrap: Element[] = [h2];
       let sibling = h2.nextElementSibling;
 
-      while (sibling && sibling.tagName !== "H2") {
-        elementsToWrap.push(sibling);
-        sibling = sibling.nextElementSibling;
+      while (sibling) {
+        const tagName = sibling.tagName.toUpperCase();
+
+        // Only include lists (ul, ol) as part of key takeaways
+        if (tagName === "UL" || tagName === "OL") {
+          elementsToWrap.push(sibling);
+          sibling = sibling.nextElementSibling;
+        } else {
+          // Stop at any other element type
+          break;
+        }
       }
 
       // Create wrapper div
