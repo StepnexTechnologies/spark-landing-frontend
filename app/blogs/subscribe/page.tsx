@@ -2,16 +2,55 @@
 
 import { useForm } from "@tanstack/react-form";
 import Image from "next/image";
+import { useState } from "react";
 
 export default function SubscribePage() {
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState<{ text: string; type: "success" | "error" } | null>(null);
+
   const form = useForm({
     defaultValues: {
       email: "",
       whatsapp: "",
     },
     onSubmit: async ({ value }) => {
-      // Handle newsletter subscription
-      console.log("Subscribe:", value);
+      // Validate at least one field is provided
+      if (!value.email && !value.whatsapp) {
+        setMessage({ text: "Please enter either an email or WhatsApp number", type: "error" });
+        return;
+      }
+
+      setLoading(true);
+      setMessage(null);
+
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/blogs/subscribe`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email: value.email || null,
+              phone_number: value.whatsapp || null,
+            }),
+          }
+        );
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data.message || "Failed to subscribe");
+        }
+
+        setMessage({ text: data.message || "Successfully subscribed!", type: "success" });
+        form.reset();
+      } catch (err) {
+        setMessage({ text: (err as Error).message, type: "error" });
+      } finally {
+        setLoading(false);
+      }
     },
   });
 
@@ -115,16 +154,28 @@ export default function SubscribePage() {
                 Your information will be used in accordance with Sparkonomy Privacy policy. You may opt at any time.
               </p>
 
+              {/* Message */}
+              {message && (
+                <p
+                  className={`text-[14px] font-medium text-center ${
+                    message.type === "success" ? "text-green-600" : "text-red-600"
+                  }`}
+                >
+                  {message.text}
+                </p>
+              )}
+
               {/* Submit Button */}
               <div className="flex justify-center pt-2">
                 <button
                   type="submit"
+                  disabled={loading}
                   style={{
                     background: 'linear-gradient(309.99deg, #DD2A7B 3.31%, #9747FF 39.79%, #334CCA 91.72%)',
                   }}
-                  className="px-8 md:px-10 py-3 rounded-full text-white font-medium hover:opacity-90 transition-opacity text-sm md:text-base"
+                  className="px-8 md:px-10 py-3 rounded-full text-white font-medium hover:opacity-90 transition-opacity text-sm md:text-base disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Subscribe Now
+                  {loading ? "Subscribing..." : "Subscribe Now"}
                 </button>
               </div>
             </form>
