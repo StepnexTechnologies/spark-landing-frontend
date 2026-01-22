@@ -3,6 +3,7 @@
 import {motion} from "framer-motion";
 import {useState, useEffect} from "react";
 import FAQItem from "./FAQItem";
+import PlanComparison from "./PlanComparison";
 import {ChevronDown} from "lucide-react";
 import {useTranslation} from "react-i18next";
 
@@ -141,6 +142,18 @@ export default function FAQPageContent() {
                 index={index}
               />
             ))}
+
+            {/* Plan Comparison - shown under Pricing category */}
+            {selectedCategory === "pricing" && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="mt-8 max-w-md md:max-w-none"
+              >
+                <PlanComparison showTitle={true} showActionButtons={false} />
+              </motion.div>
+            )}
           </motion.div>
         </div>
       </div>
