@@ -156,10 +156,15 @@ function injectPromoBanners() {
     // Find the end element (last of FAQ or Sources & References)
     let endElement: Element | null = null;
 
-    if (sourcesHeading && (!faqSection || sourcesHeading.compareDocumentPosition(faqSection) & Node.DOCUMENT_POSITION_PRECEDING)) {
+    // Use local constants with explicit types to reset TypeScript narrowing
+    // (needed because sourcesHeading is assigned in a forEach callback)
+    const sourcesEl = sourcesHeading as Element | null;
+    const faqEl = faqSection as Element | null;
+
+    if (sourcesEl && (!faqEl || sourcesEl.compareDocumentPosition(faqEl) & Node.DOCUMENT_POSITION_PRECEDING)) {
       // Sources & References is the last section
-      let current = sourcesHeading.nextElementSibling;
-      let lastElement: Element = sourcesHeading;
+      let current = sourcesEl.nextElementSibling;
+      let lastElement: Element = sourcesEl;
 
       while (current) {
         if (current.tagName === "H2" && !current.textContent?.toLowerCase().includes("sources") && !current.textContent?.toLowerCase().includes("references")) {
