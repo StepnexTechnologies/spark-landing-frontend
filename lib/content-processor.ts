@@ -3,6 +3,30 @@
  * Removes WordPress TOC and extracts headings for custom TOC
  */
 
+/**
+ * Extract and remove the first paragraph from content (typically the excerpt/description)
+ * since it's displayed separately before the featured image
+ * Returns both the first paragraph and the remaining content
+ */
+export function extractFirstParagraph(html: string): { firstParagraph: string; remainingContent: string } {
+  const match = html.match(/^\s*<p[^>]*>([\s\S]*?)<\/p>/);
+  if (match) {
+    const firstParagraph = match[1]; // Content inside <p> tags
+    const remainingContent = html.replace(/^\s*<p[^>]*>[\s\S]*?<\/p>\s*/, '');
+    return { firstParagraph, remainingContent };
+  }
+  return { firstParagraph: '', remainingContent: html };
+}
+
+/**
+ * Remove the first paragraph from content (typically the excerpt/description)
+ * since it's displayed separately before the featured image
+ */
+export function removeFirstParagraph(html: string): string {
+  // Remove the first <p> tag and its content
+  return html.replace(/^\s*<p[^>]*>[\s\S]*?<\/p>\s*/, '');
+}
+
 export interface TOCItem {
   id: string;
   text: string;

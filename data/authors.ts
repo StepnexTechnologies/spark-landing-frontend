@@ -298,8 +298,8 @@ export const authors: AuthorEntry[] = [
     id: "binny_agarwal",
     slug: "binny-agarwal",
 
-    // WordPress matching
-    wordpressSlug: "binny",
+    // WordPress matching (Co-Authors Plus uses "cap-" prefix)
+    wordpressSlug: "cap-binny",
     wordpressAuthorId: 7,
 
     name: "Binny Agarwal",
@@ -394,9 +394,9 @@ export const authors: AuthorEntry[] = [
     id: "saurabh_mongia",
     slug: "saurabh-mongia",
 
-    // WordPress matching - not yet on WordPress
-    wordpressSlug: undefined,
-    wordpressAuthorId: undefined,
+    // WordPress matching (Co-Authors Plus uses "cap-" prefix)
+    wordpressSlug: "cap-saurabh",
+    wordpressAuthorId: 8,
 
     name: "Saurabh Mongia",
     role: "Chartered Accountant | Tax & Compliance Expert",

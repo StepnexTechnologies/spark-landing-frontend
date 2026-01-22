@@ -553,14 +553,14 @@
   font-weight: 600;
   line-height: 1.3;
   color: #6B7280;
-  margin-top: 2rem;
-  padding-bottom: 0.75rem;
+  margin-top: 1rem;
+  padding-bottom: 0.25rem;
 }
 
 @media (min-width: 1024px) {
   .wordpress-content h3 {
     font-size: 20px;
-    padding-bottom: 1rem;
+    padding-bottom: 0.5rem;
   }
 }
 
@@ -644,6 +644,11 @@
   display: list-item;
   text-decoration: none;
   margin-bottom: 0;
+}
+
+/* Primary color for list bullets/markers */
+.wordpress-content ul li::marker {
+  color: #9747FF;
 }
 
 .wordpress-content li strong,
@@ -1008,12 +1013,11 @@
 
 /* Injected quote author info */
 .wordpress-content .quote-author-info {
-  display: flex;
+  display: inline-flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
   gap: 1rem;
-  margin-top: 1.5rem;
+  max-width: 230px;
 }
 
 .wordpress-content .quote-author-info .author-avatar-wrapper {
@@ -1022,6 +1026,20 @@
   border-radius: 50%;
   overflow: hidden;
   flex-shrink: 0;
+}
+
+@media (min-width: 768px) {
+  .wordpress-content .quote-author-info .author-avatar-wrapper {
+    width: 52px;
+    height: 52px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .wordpress-content .quote-author-info .author-avatar-wrapper {
+    width: 56px;
+    height: 56px;
+  }
 }
 
 .wordpress-content .quote-author-info .author-avatar-img {
@@ -1045,11 +1063,17 @@
 }
 
 .wordpress-content .quote-author-info .author-role {
-  font-size: 0.875rem;
+  font-size: 12px;
   font-weight: 400;
   color: #6366f1;
   font-style: normal;
   line-height: 1.3;
+}
+
+@media (min-width: 768px) {
+  .wordpress-content .quote-author-info .author-role {
+    font-size: 14px;
+  }
 }
 
 /* Custom paragraph with borders (if using custom classes) */
@@ -1430,7 +1454,7 @@
 
   .wordpress-content .wp-block-pullquote p,
   .wordpress-content .wp-block-quote p {
-    font-size: 1rem;
+    font-size: 24px;
     margin-bottom: 1rem;
   }
 
@@ -1438,23 +1462,18 @@
   .wordpress-content .wp-block-quote p:first-of-type::before,
   .wordpress-content .wp-block-pullquote p:last-of-type::after,
   .wordpress-content .wp-block-quote p:last-of-type::after {
-    font-size: 2rem;
+    font-size: 36px;
   }
 
   .wordpress-content .wp-block-pullquote cite,
   .wordpress-content .wp-block-quote cite {
-    font-size: 12px;
+    font-size: 16px;
   }
 
   .wordpress-content .wp-block-quote cite img,
   .wordpress-content .wp-block-pullquote cite img {
     width: 48px;
     height: 48px;
-  }
-
-  .wordpress-content .quote-author-info .author-avatar-wrapper {
-    width: 40px;
-    height: 40px;
   }
 
   .wordpress-content .quote-author-info {
@@ -1826,4 +1845,42 @@
 /* Spacing between consecutive banners */
 .promo-banner-wrapper + .promo-banner-wrapper {
   margin-top: 1.5rem;
+}
+
+/* ====================
+   CHECKMARK EMOJI STYLING
+   Replace green ✅ emoji with primary purple checkmark
+   ==================== */
+
+/* Style for paragraphs that start with checkmark emoji */
+.wordpress-content .check-highlight {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 1rem;
+}
+
+.wordpress-content .check-highlight-icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+@media (min-width: 768px) {
+  .wordpress-content .check-highlight-icon {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .wordpress-content .check-highlight-icon {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+.wordpress-content .check-highlight strong {
+  color: #1f2937;
 }

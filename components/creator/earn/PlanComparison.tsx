@@ -121,10 +121,10 @@ const PlanComparison = forwardRef<HTMLDivElement, PlanComparisonProps>(
 
         {/* Mobile Layout - Vertical (Free/Pro as columns) */}
         <div className="md:hidden">
-          {/* Table container with rounded-[4px] and bg-[#F2F2F2] 20% */}
-          <div className="bg-[#F2F2F233] rounded-[4px] overflow-hidden">
+          {/* Table container with rounded-[4px] and light pink background */}
+          <div className="bg-[#F5E8F566] rounded-[14px] overflow-hidden">
             {/* Column Headers */}
-            <div className="grid grid-cols-2 bg-[#F2F2F233] px-2 py-3">
+            <div className="grid grid-cols-2 bg-[#EDD9ED4D] px-2 py-3">
               <span className="text-base font-semibold text-white text-center">
                 Free
               </span>
@@ -137,15 +137,15 @@ const PlanComparison = forwardRef<HTMLDivElement, PlanComparisonProps>(
             <div className="flex flex-col">
               {comparisonData.map((row, index) => (
                 <div key={index} className="flex flex-col">
-                  {/* Feature Name Row - bg-[#F2F2F2] 20% */}
-                  <div className="bg-[#F2F2F233] px-3 py-2.5 text-center">
+                  {/* Feature Name Row - lighter pink background */}
+                  <div className="bg-[#EDD9ED33] px-3 py-2.5 text-center">
                     <span className="text-sm text-white font-medium">
                       {row.feature}
                     </span>
                   </div>
 
-                  {/* Values Row - bg-[#F2F2F2] 20% */}
-                  <div className="grid grid-cols-2 bg-[#F2F2F233] px-3">
+                  {/* Values Row - light pink background */}
+                  <div className="grid grid-cols-2 bg-[#F5E8F50D] px-3">
                     <span className="text-sm text-white font-normal text-center flex items-center justify-center py-2">
                       <CellValue value={row.free} />
                     </span>
