@@ -387,6 +387,7 @@ export async function getCoAuthorById(id: number): Promise<WordPressAuthor | nul
     return {
       id: coauthor.id,
       name: coauthor.name || coauthor.display_name || coauthor.title?.rendered || 'Unknown',
+      url: coauthor.url || '',
       slug: coauthor.slug || '',
       description: coauthor.description || '',
       link: coauthor.link || '',
