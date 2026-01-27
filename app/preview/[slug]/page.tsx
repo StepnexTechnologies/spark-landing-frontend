@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { getDraftPostById, getFeaturedImageUrl, getAuthorName, formatDate, stripHtml, getReadingTime, getDraftPosts } from "@/lib/wordpress-improved";
-import { extractHeadings, addHeadingIds, removeWordPressTOC } from "@/lib/content-processor";
+import { getDraftPostById, getFeaturedImageUrl, getAuthorName, getAuthorNames, getPostAuthors, getPostAuthorsAsync, formatDate, stripHtml, getReadingTime, getDraftPosts } from "@/lib/wordpress-improved";
+import { extractHeadings, addHeadingIds, removeWordPressTOC, extractFirstParagraph } from "@/lib/content-processor";
 import Breadcrumb from "@/components/blog/Breadcrumb";
+import BlogLanguageSwitcher from "@/components/blog/BlogLanguageSwitcher";
 import TOCEnhancer from "@/components/blog/TOCEnhancer";
 import AuthorCard from "@/components/blog/AuthorCard";
 import RelatedPosts from "@/components/blog/RelatedPosts";
@@ -13,6 +15,11 @@ import FAQAccordionEnhancer from "@/components/blog/FAQAccordionEnhancer";
 import ProTipEnhancer from "@/components/blog/ProTipEnhancer";
 import QuoteCleanerEnhancer from "@/components/blog/QuoteCleanerEnhancer";
 import ListMergerEnhancer from "@/components/blog/ListMergerEnhancer";
+import PromoBannerInjector from "@/components/blog/PromoBannerInjector";
+import SourcesListEnhancer from "@/components/blog/SourcesListEnhancer";
+import KeyTakeawaysEnhancer from "@/components/blog/KeyTakeawaysEnhancer";
+import CheckmarkEnhancer from "@/components/blog/CheckmarkEnhancer";
+import NewsletterSection from "@/components/blog/NewsletterSection";
 import { getAuthorPageSlug, getAuthorByWordPressSlug } from "@/data/authors";
 import "../../blogs/wordpress-content.css";
 
@@ -65,20 +72,40 @@ export default async function PreviewPostPage({ params }: PreviewPostPageProps) 
   }
 
   const featuredImage = getFeaturedImageUrl(post, "large");
-  const author = getAuthorName(post);
+  // Use async version to fetch Co-Authors Plus guest authors
+  const postAuthors = await getPostAuthorsAsync(post);
+  const authorNames = postAuthors.map(a => a.name).join(postAuthors.length === 2 ? ' and ' : ', ');
   const publishDate = formatDate(post.date);
   const readingTime = getReadingTime(post);
 
-  // Get WordPress author slug and find matching local author
-  const wpAuthorSlug = post._embedded?.author?.[0]?.slug || "";
-  const authorPageSlug = getAuthorPageSlug(wpAuthorSlug);
-  const localAuthor = getAuthorByWordPressSlug(wpAuthorSlug);
+  // Get local author data for each WordPress author
+  const authorsWithLocalData = postAuthors.map(wpAuthor => {
+    const localAuthor = getAuthorByWordPressSlug(wpAuthor.slug);
+    const authorPageSlug = getAuthorPageSlug(wpAuthor.slug);
+    return {
+      wpAuthor,
+      localAuthor,
+      authorPageSlug,
+      name: localAuthor?.name || wpAuthor.name,
+      role: localAuthor?.role || "Technical Writer | Sparkonomy",
+      avatarUrl: localAuthor?.avatarUrl || wpAuthor.avatar_urls?.["96"] || "",
+      shortBio: localAuthor?.shortBio || "",
+      socialLinks: localAuthor?.socialLinks || {},
+      previousCompanies: localAuthor?.previousCompanies || [],
+      previousCompaniesLabel: localAuthor?.previousCompaniesLabel || "Previously at",
+    };
+  });
+
+  // For backward compatibility, get first author data
+  const primaryAuthor = authorsWithLocalData[0];
+  const author = primaryAuthor?.name || "Unknown";
 
   // Process content: extract headings for IDs, add toc-list class to TOC
   const headings = extractHeadings(post.content.rendered);
   const contentWithTocClass = removeWordPressTOC(post.content.rendered);
   const contentWithIds = addHeadingIds(contentWithTocClass, headings);
-  const processedContent = contentWithIds;
+  // Extract first paragraph for display before image, and get remaining content
+  const { firstParagraph: blogDescription, remainingContent: processedContent } = extractFirstParagraph(contentWithIds);
 
   // Get category for breadcrumb
   const categoryName = post._embedded?.["wp:term"]?.[0]?.[0]?.name || "";
@@ -97,7 +124,7 @@ export default async function PreviewPostPage({ params }: PreviewPostPageProps) 
     }));
 
   return (
-    <div className="min-h-screen bg-white">
+    <>
       <link
         rel="stylesheet"
         href="https://blog.sparkonomy.com/wp-includes/css/dist/block-library/style.min.css"
@@ -107,7 +134,7 @@ export default async function PreviewPostPage({ params }: PreviewPostPageProps) 
         href="https://blog.sparkonomy.com/wp-includes/css/dist/block-library/theme.min.css"
       />
 
-      <main className="px-0 md:px-10 lg:px-[90px] py-5 lg:py-6">
+      <main className="min-h-screen px-0 md:px-10 lg:px-[90px] py-5 lg:py-6 bg-white">
         <article className="flex flex-col gap-4 md:gap-6 lg:gap-10">
           {/* Breadcrumb Navigation */}
           <div className="px-4 md:px-0 ">
@@ -125,129 +152,122 @@ export default async function PreviewPostPage({ params }: PreviewPostPageProps) 
           {/* Title */}
           <div className="px-4 md:px-[50px] lg:px-[130px]">
             <h1
-              className="text-2xl md:text-3xl lg:text-[40px] font-bold text-[#6B7280] leading-tight"
+              className="text-[32px] md:text-[36px] lg:text-[40px] font-bold text-[#6B7280] leading-tight"
               dangerouslySetInnerHTML={{ __html: post.title.rendered }}
             />
           </div>
 
           {/* Meta Information */}
           <div className="px-4 md:px-[30px] xl:px-[130px]">
-            <div className="flex items-center gap-2 text-lg md:text-xl lg:text-2xl text-[#6B7280] mb-4">
+            <div className="flex items-center gap-2 text-[14px] md:text-[20px] lg:text-[24px] text-[#6B7280] mb-4">
               <span>{publishDate}</span>
               <span>·</span>
               <span>{readingTime} min read</span>
+              <Suspense fallback={<span className="text-sm">Loading...</span>}>
+                <BlogLanguageSwitcher />
+              </Suspense>
             </div>
 
-            {/* Author Section - Matching bottom AuthorCard style */}
-            <div className="bg-[#F2F2F2] rounded-lg p-4 md:p-6">
-              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 md:gap-6">
-                {/* Author Info */}
-                <div className="flex items-center gap-4">
-                  {(localAuthor?.avatarUrl || post._embedded?.author?.[0]?.avatar_urls?.["96"]) && (
-                    <div className="relative w-14 h-14 md:w-16 md:h-16 rounded-full overflow-hidden flex-shrink-0">
-                      <Image
-                        src={localAuthor?.avatarUrl || post._embedded?.author?.[0]?.avatar_urls?.["96"] || ""}
-                        alt={author}
-                        fill
-                        className="object-cover"
-                      />
+            {/* Author Section - Multiple Authors Support */}
+            <div className="border-t border-b border-gray-200 py-2 md:py-5">
+              <div className="flex flex-col gap-4">
+                {authorsWithLocalData.map((authorData, index) => (
+                  <div key={index} className={`flex items-center justify-between ${index > 0 ? 'pt-4 border-t border-gray-100' : ''}`}>
+                    {/* Author Info */}
+                    <div className="flex items-center gap-4">
+                      {authorData.avatarUrl && (
+                        <div className="relative w-12 h-12 md:w-16 md:h-16 rounded-full overflow-hidden flex-shrink-0">
+                          <Image
+                            src={authorData.avatarUrl}
+                            alt={authorData.name}
+                            fill
+                            className="object-cover"
+                          />
+                        </div>
+                      )}
+                      <div>
+                        <Link
+                          href={`/blogs/author/${authorData.authorPageSlug}`}
+                          className="text-base md:text-2xl font-semibold text-[#6B7280] hover:text-purple-600 transition-colors"
+                        >
+                          {authorData.name}
+                        </Link>
+                        <p className="text-xs md:text-sm font-normal text-[#999999]">
+                          {authorData.role}
+                        </p>
+                      </div>
                     </div>
-                  )}
-                  <div>
-                    <Link
-                      href={`/blogs/author/${authorPageSlug}`}
-                      className="text-base font-medium text-[#6B7280] hover:text-purple-600 transition-colors"
-                    >
-                      {localAuthor?.name || author}
-                    </Link>
-                    <p className="text-xs text-[#999999]">
-                      {localAuthor?.role || "Technical Writer | Sparkonomy"}
-                    </p>
+
                     {/* Social Links */}
-                    <div className="flex items-center gap-3 mt-2">
-                      {(localAuthor?.socialLinks?.linkedin) && (
+                    <div className="flex items-center gap-4">
+                      {authorData.socialLinks?.facebook && (
                         <a
-                          href={localAuthor.socialLinks.linkedin}
+                          href={authorData.socialLinks.facebook}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-gray-400 hover:text-gray-600 transition-colors"
+                          className="text-gray-500 hover:text-gray-700 transition-colors"
+                          aria-label="Facebook"
+                        >
+                          <svg className="w-[18px] h-[18px] md:w-6 md:h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path fillRule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clipRule="evenodd"/>
+                          </svg>
+                        </a>
+                      )}
+                      {authorData.socialLinks?.instagram && (
+                        <a
+                          href={authorData.socialLinks.instagram}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-gray-500 hover:text-gray-700 transition-colors"
+                          aria-label="Instagram"
+                        >
+                          <svg className="w-[18px] h-[18px] md:w-6 md:h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path fillRule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clipRule="evenodd"/>
+                          </svg>
+                        </a>
+                      )}
+                      {authorData.socialLinks?.linkedin && (
+                        <a
+                          href={authorData.socialLinks.linkedin}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-gray-500 hover:text-gray-700 transition-colors"
                           aria-label="LinkedIn"
                         >
-                          <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                          <svg className="w-[18px] h-[18px] md:w-6 md:h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
                           </svg>
                         </a>
                       )}
-                      {(localAuthor?.socialLinks?.twitter) && (
+                      {authorData.socialLinks?.twitter && (
                         <a
-                          href={localAuthor.socialLinks.twitter}
+                          href={authorData.socialLinks.twitter}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-gray-400 hover:text-gray-600 transition-colors"
+                          className="text-gray-500 hover:text-gray-700 transition-colors"
                           aria-label="Twitter"
                         >
-                          <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                          <svg className="w-[18px] h-[18px] md:w-6 md:h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
                           </svg>
                         </a>
                       )}
                     </div>
                   </div>
-                </div>
-
-                {/* Previous Companies - Large Desktop */}
-                {localAuthor?.previousCompanies && localAuthor.previousCompanies.length > 0 && (
-                  <div className="hidden lg:flex flex-col items-end">
-                    <p className="text-sm text-[#6B7280] mb-2">{localAuthor.previousCompaniesLabel || "Previously at"}</p>
-                    <div className="flex items-center gap-4">
-                      {localAuthor.previousCompanies.slice(0, 3).map((company, index) => (
-                        company.logo ? (
-                          <Image
-                            key={index}
-                            src={company.logo}
-                            alt={company.name}
-                            width={100}
-                            height={32}
-                            className="h-6 w-auto object-contain"
-                          />
-                        ) : (
-                          <span key={index} className="text-lg md:text-xl font-bold text-gray-900">
-                            {company.name}
-                          </span>
-                        )
-                      ))}
-                    </div>
-                  </div>
-                )}
+                ))}
               </div>
-
-              {/* Previous Companies - Mobile & Tablet */}
-              {localAuthor?.previousCompanies && localAuthor.previousCompanies.length > 0 && (
-                <div className="lg:hidden flex flex-col items-end mt-4 w-full">
-                  <p className="text-sm text-[#6B7280] mb-2">{localAuthor.previousCompaniesLabel || "Previously at"}</p>
-                  <div className="grid grid-cols-3 gap-3 w-full">
-                    {localAuthor.previousCompanies.slice(0, 3).map((company, index) => (
-                      <div key={index} className="flex items-center justify-center">
-                        {company.logo ? (
-                          <Image
-                            src={company.logo}
-                            alt={company.name}
-                            width={80}
-                            height={24}
-                            className="h-4 w-auto object-contain"
-                          />
-                        ) : (
-                          <span className="text-sm font-bold text-gray-900">
-                            {company.name}
-                          </span>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
             </div>
           </div>
+
+          {/* Blog Description/Excerpt */}
+          {blogDescription && (
+            <div className="px-4 md:px-[50px] lg:px-[130px]">
+              <p
+                className="text-base md:text-[22px] text-[#999999] font-light leading-[150%] tracking-[0.25px]"
+                dangerouslySetInnerHTML={{ __html: blogDescription }}
+              />
+            </div>
+          )}
 
           {/* Featured Image */}
           {featuredImage && (
@@ -291,43 +311,56 @@ export default async function PreviewPostPage({ params }: PreviewPostPageProps) 
             <QuoteCleanerEnhancer />
             {/* Merge consecutive lists that WordPress split */}
             <ListMergerEnhancer />
+            {/* Inject promotional banners around FAQ sections */}
+            <PromoBannerInjector />
+            {/* Style sources and references list */}
+            <SourcesListEnhancer />
+            {/* Key takeaways section styling */}
+            <KeyTakeawaysEnhancer />
+            {/* Replace green checkmark emoji with purple styled checkmark */}
+            <CheckmarkEnhancer />
             <div
               className="wordpress-content"
               dangerouslySetInnerHTML={{ __html: processedContent }}
             />
             <QuoteAuthorInjector
-              authorName={author}
-              authorRole="Technical Writer | Sparkonomy"
-              authorAvatar={post._embedded?.author?.[0]?.avatar_urls?.["96"] || ""}
+              authorName={authorNames}
+              authorRole={primaryAuthor?.role || "Technical Writer | Sparkonomy"}
+              authorAvatar={primaryAuthor?.avatarUrl || ""}
             />
           </div>
 
-          {/* Author Bio */}
-          <div className="px-4 md:px-[50px] lg:px-[130px] relative z-10">
-            <AuthorCard
-              name={author}
-              role={localAuthor?.role || "Technical Writer | Sparkonomy"}
-              bio={localAuthor?.shortBio || "We are building AI agents for the agentic web, and our main goal is to build trust in AI agents for handling business operations. Being able to define precise schemas and trust the output is key to our production systems."}
-              avatarUrl={localAuthor?.avatarUrl || post._embedded?.author?.[0]?.avatar_urls?.["96"] || ""}
-              authorSlug={authorPageSlug}
-              previousCompanies={localAuthor?.previousCompanies || []}
-              socialLinks={localAuthor?.socialLinks || {
-                linkedin: "https://linkedin.com",
-                instagram: "https://instagram.com",
-                youtube: "https://youtube.com",
-              }}
-            />
+          {/* Author Bio - Multiple Authors Support */}
+          <div className="px-4 md:px-[50px] lg:px-[130px] relative z-10 flex flex-col gap-6">
+            {authorsWithLocalData.map((authorData, index) => (
+              <AuthorCard
+                key={index}
+                name={authorData.name}
+                role={authorData.role}
+                bio={authorData.shortBio || "We are building AI agents for the agentic web, and our main goal is to build trust in AI agents for handling business operations. Being able to define precise schemas and trust the output is key to our production systems."}
+                avatarUrl={authorData.avatarUrl}
+                authorSlug={authorData.authorPageSlug}
+                previousCompanies={authorData.previousCompanies}
+                previousCompaniesLabel={authorData.previousCompaniesLabel}
+                socialLinks={authorData.socialLinks || {
+                  linkedin: "https://linkedin.com",
+                  instagram: "https://instagram.com",
+                  youtube: "https://youtube.com",
+                }}
+              />
+            ))}
           </div>
 
           {/* Related Posts */}
-          {relatedPosts.length > 0 && (
-            <div className="relative z-0">
-              <RelatedPosts posts={relatedPosts} />
-            </div>
-          )}
+          <div className="relative z-0">
+            <RelatedPosts posts={relatedPosts} />
+          </div>
 
         </article>
       </main>
-    </div>
+
+      {/* Newsletter Section */}
+      <NewsletterSection />
+    </>
   );
 }

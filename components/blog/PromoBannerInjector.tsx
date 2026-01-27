@@ -11,18 +11,36 @@ interface PromoBannerConfig {
   ctaLink?: string;
 }
 
-interface PromoBannerInjectorProps {
-  config?: PromoBannerConfig;
-}
+// Banner variations to show randomly
+const BANNER_VARIATIONS: PromoBannerConfig[] = [
+  {
+    title: "While you're chasing payments, other creators are getting paid on autopilot.",
+    subtitle: "Join 10,000+ creators who stopped begging and started billing.",
+    ctaText: "Try Free",
+    ctaLink: "https://sparkonomy.com",
+  },
+  {
+    title: "You're Not \"Just An Influencer.\"",
+    subtitle: "You're a one-person media company. Start acting like it.",
+    ctaText: "Build Your Invoice",
+    ctaLink: "https://sparkonomy.com",
+  },
+  {
+    title: "Free invoicing. Auto-reminders. GST sorted. TDS tracked.",
+    subtitle: "And yes, it's actually free.",
+    ctaText: "See For Yourself",
+    ctaLink: "https://sparkonomy.com",
+  },
+];
 
 /**
  * PromoBannerInjector
  *
  * Injects promotional banners into blog content:
- * - If FAQ section exists: 1 banner before FAQ, 2 banners after FAQ
+ * - If FAQ section exists: 1 banner before FAQ, 1 banner after FAQ (2 different variations)
  * - If no FAQ section: 1 banner at the end of the content
  */
-export default function PromoBannerInjector({ config }: PromoBannerInjectorProps) {
+export default function PromoBannerInjector() {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -34,33 +52,49 @@ export default function PromoBannerInjector({ config }: PromoBannerInjectorProps
 
     // Delay to ensure WordPress content and FAQ enhancement is complete
     const timer = setTimeout(() => {
-      injectPromoBanners(config);
+      injectPromoBanners();
     }, 500);
 
     return () => clearTimeout(timer);
-  }, [isMounted, config]);
+  }, [isMounted]);
 
   return null;
 }
 
-function createBannerElement(config?: PromoBannerConfig): HTMLDivElement {
+/**
+ * Get two random unique banner configs
+ */
+function getRandomBannerConfigs(): [PromoBannerConfig, PromoBannerConfig] {
+  const shuffled = [...BANNER_VARIATIONS].sort(() => Math.random() - 0.5);
+  return [shuffled[0], shuffled[1]];
+}
+
+/**
+ * Get a single random banner config
+ */
+function getRandomBannerConfig(): PromoBannerConfig {
+  const randomIndex = Math.floor(Math.random() * BANNER_VARIATIONS.length);
+  return BANNER_VARIATIONS[randomIndex];
+}
+
+function createBannerElement(config: PromoBannerConfig): HTMLDivElement {
   const bannerContainer = document.createElement("div");
   bannerContainer.className = "promo-banner-wrapper";
 
   const root = createRoot(bannerContainer);
   root.render(
     <PromoBanner
-      title={config?.title}
-      subtitle={config?.subtitle}
-      ctaText={config?.ctaText}
-      ctaLink={config?.ctaLink}
+      title={config.title}
+      subtitle={config.subtitle}
+      ctaText={config.ctaText}
+      ctaLink={config.ctaLink}
     />
   );
 
   return bannerContainer;
 }
 
-function injectPromoBanners(config?: PromoBannerConfig) {
+function injectPromoBanners() {
   const wordpressContent = document.querySelector(".wordpress-content");
   if (!wordpressContent) return;
 
@@ -76,10 +110,15 @@ function injectPromoBanners(config?: PromoBannerConfig) {
   // Pattern 2: Traditional FAQ heading (H2 or H3 containing "Frequently Asked Questions")
   const allHeadings = wordpressContent.querySelectorAll("h2, h3");
   let faqHeading: Element | null = null;
+  let sourcesHeading: Element | null = null;
 
   allHeadings.forEach((heading) => {
-    if (heading.textContent?.toLowerCase().includes("frequently asked questions")) {
+    const headingText = heading.textContent?.toLowerCase() || "";
+    if (headingText.includes("frequently asked questions")) {
       faqHeading = heading;
+    }
+    if (headingText.includes("sources") || headingText.includes("references")) {
+      sourcesHeading = heading;
     }
   });
 
@@ -89,28 +128,56 @@ function injectPromoBanners(config?: PromoBannerConfig) {
   // Determine the FAQ section element
   faqSection = accordionBlock || faqWrapper || faqHeading;
 
-  if (faqSection) {
-    // FAQ section found - inject 1 before, 2 after
+  // Determine the first special section (FAQ or Sources & References)
+  const firstSection = faqSection || sourcesHeading;
 
-    // Find the parent container of the FAQ section for proper insertion
-    let faqContainer = faqSection;
+  if (firstSection) {
+    // FAQ or Sources & References section found - inject 1 before, 1 after (with different variations)
+    const [firstConfig, secondConfig] = getRandomBannerConfigs();
 
-    // If it's a heading, we need to find the FAQ section boundary
-    if (faqHeading && faqSection === faqHeading) {
-      faqContainer = faqHeading;
+    // Determine which section comes first in the DOM
+    let insertBeforeElement = firstSection;
+    if (faqSection && sourcesHeading) {
+      // Both exist - find which comes first
+      const faqPosition = faqSection.compareDocumentPosition(sourcesHeading);
+      if (faqPosition & Node.DOCUMENT_POSITION_FOLLOWING) {
+        // FAQ comes before Sources
+        insertBeforeElement = faqSection;
+      } else {
+        // Sources comes before FAQ
+        insertBeforeElement = sourcesHeading;
+      }
     }
 
-    // Insert banner BEFORE FAQ section
-    const beforeBanner = createBannerElement(config);
-    faqContainer.parentNode?.insertBefore(beforeBanner, faqContainer);
+    // Insert banner BEFORE the first special section
+    const beforeBanner = createBannerElement(firstConfig);
+    insertBeforeElement.parentNode?.insertBefore(beforeBanner, insertBeforeElement);
 
-    // Find the end of FAQ section
-    let faqEndElement: Element | null = null;
+    // Find the end element (last of FAQ or Sources & References)
+    let endElement: Element | null = null;
 
-    if (accordionBlock) {
+    // Use local constants with explicit types to reset TypeScript narrowing
+    // (needed because sourcesHeading is assigned in a forEach callback)
+    const sourcesEl = sourcesHeading as Element | null;
+    const faqEl = faqSection as Element | null;
+
+    if (sourcesEl && (!faqEl || sourcesEl.compareDocumentPosition(faqEl) & Node.DOCUMENT_POSITION_PRECEDING)) {
+      // Sources & References is the last section
+      let current = sourcesEl.nextElementSibling;
+      let lastElement: Element = sourcesEl;
+
+      while (current) {
+        if (current.tagName === "H2" && !current.textContent?.toLowerCase().includes("sources") && !current.textContent?.toLowerCase().includes("references")) {
+          break;
+        }
+        lastElement = current;
+        current = current.nextElementSibling;
+      }
+      endElement = lastElement;
+    } else if (accordionBlock) {
       // For accordion blocks, insert after the last accordion block
       const allAccordionBlocks = wordpressContent.querySelectorAll(".wp-block-aab-accordion-block");
-      faqEndElement = allAccordionBlocks[allAccordionBlocks.length - 1];
+      endElement = allAccordionBlocks[allAccordionBlocks.length - 1];
     } else if (faqHeading) {
       // For traditional FAQ, find the next major heading or end of content
       const heading = faqHeading as Element;
@@ -125,25 +192,25 @@ function injectPromoBanners(config?: PromoBannerConfig) {
         lastFaqElement = current;
         current = current.nextElementSibling;
       }
-      faqEndElement = lastFaqElement;
+      endElement = lastFaqElement;
     } else if (faqWrapper) {
-      faqEndElement = faqWrapper;
+      endElement = faqWrapper;
     }
 
-    // Insert 1 banner AFTER FAQ section
-    if (faqEndElement) {
-      const afterBanner = createBannerElement(config);
+    // Insert banner AFTER the last special section (different variation)
+    if (endElement) {
+      const afterBanner = createBannerElement(secondConfig);
 
-      // Insert after the FAQ end element
-      if (faqEndElement.nextSibling) {
-        faqEndElement.parentNode?.insertBefore(afterBanner, faqEndElement.nextSibling);
+      // Insert after the end element
+      if (endElement.nextSibling) {
+        endElement.parentNode?.insertBefore(afterBanner, endElement.nextSibling);
       } else {
-        faqEndElement.parentNode?.appendChild(afterBanner);
+        endElement.parentNode?.appendChild(afterBanner);
       }
     }
   } else {
-    // No FAQ section - inject 1 banner at the end
-    const endBanner = createBannerElement(config);
+    // No FAQ or Sources & References section - inject 1 banner at the end
+    const endBanner = createBannerElement(getRandomBannerConfig());
     wordpressContent.appendChild(endBanner);
   }
 }

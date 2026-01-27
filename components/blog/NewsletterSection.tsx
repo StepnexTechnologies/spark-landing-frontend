@@ -1,23 +1,50 @@
 "use client";
 
-import { useForm } from "@tanstack/react-form";
 import { useEffect, useState, useRef } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import toast from "react-hot-toast";
+import ToggleInput from "@/components/form/ToggleInput";
 
 export default function NewsletterSection() {
-  const [isFixed, setIsFixed] = useState(false);
-  const [placeholderHeight, setPlaceholderHeight] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
+  const [isDismissed, setIsDismissed] = useState(false);
+  const [loading, setLoading] = useState(false);
   const originalPositionRef = useRef<number | null>(null);
-  const sectionRef = useRef<HTMLElement>(null);
+  const lastScrollYRef = useRef<number>(0);
+  const sectionRef = useRef<HTMLDivElement>(null);
 
-  const form = useForm({
-    defaultValues: {
-      email: "",
-    },
-    onSubmit: async ({ value }) => {
-      // Handle newsletter subscription
-      console.log("Subscribe:", value.email);
-    },
-  });
+  const handleSubmit = async (value: string, type: 'email' | 'phone') => {
+    setLoading(true);
+
+    try {
+      const payload = type === 'email'
+        ? { email: value, phone_number: null }
+        : { email: null, phone_number: value };
+
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/blogs/subscribe`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        }
+      );
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || "Failed to subscribe");
+      }
+
+      toast.success(data.message || "Successfully subscribed!");
+    } catch (err) {
+      toast.error((err as Error).message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     let ticking = false;
@@ -25,36 +52,40 @@ export default function NewsletterSection() {
     const handleScroll = () => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
-          const scrollThreshold = window.innerHeight; // 1 viewport
+          const scrollThreshold = window.innerHeight;
           const currentScrollY = window.scrollY;
+          const lastScrollY = lastScrollYRef.current;
           const newsletterSection = sectionRef.current;
 
           if (newsletterSection) {
-            // Store original position only once on first load (without any fixed positioning)
             if (originalPositionRef.current === null) {
               const rect = newsletterSection.getBoundingClientRect();
               originalPositionRef.current = currentScrollY + rect.top;
-              setPlaceholderHeight(newsletterSection.offsetHeight);
             }
 
             const originalPos = originalPositionRef.current;
-
-            // Get distance from bottom of viewport to check if we reached the original position
             const windowBottom = currentScrollY + window.innerHeight;
             const distanceToOriginal = originalPos - windowBottom;
+            const isScrollingUp = currentScrollY < lastScrollY;
 
-            // Calculate when to show/hide fixed position
-            // Show fixed: after 1 viewport AND haven't scrolled to within view of original position
-            const shouldBeFixed =
-              currentScrollY > scrollThreshold &&
-              originalPos !== null &&
-              distanceToOriginal > 0; // Still above the original position
+            let shouldBeVisible = isVisible;
 
-            if (shouldBeFixed !== isFixed) {
-              setIsFixed(shouldBeFixed);
+            if (currentScrollY <= scrollThreshold) {
+              shouldBeVisible = false;
+            } else if (distanceToOriginal <= 0) {
+              shouldBeVisible = false;
+            } else if (isScrollingUp) {
+              shouldBeVisible = true;
+            } else {
+              shouldBeVisible = false;
+            }
+
+            if (shouldBeVisible !== isVisible) {
+              setIsVisible(shouldBeVisible);
             }
           }
 
+          lastScrollYRef.current = currentScrollY;
           ticking = false;
         });
         ticking = true;
@@ -62,142 +93,132 @@ export default function NewsletterSection() {
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    // Small delay for initial calculation
     setTimeout(handleScroll, 100);
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [isFixed]);
+  }, [isVisible]);
 
   return (
     <>
-      {/* Placeholder to prevent layout shift when fixed */}
-      {isFixed && <div style={{ height: `${placeholderHeight}px` }} className="w-full" />}
+      {/* Static section for natural page flow */}
+      <div ref={sectionRef} id="newsletter" className="w-full">
+        {/* Desktop Layout */}
+        <div className="hidden md:flex items-center justify-center gap-10 lg:gap-[120px] py-4 bg-[#F2F2F2] px-4">
+          <h2 className="text-2xl lg:text-[32px] py-2 font-bold bg-gradient-to-b from-[#DD2A7B] via-[#9747FF] to-[#334CCA] text-transparent bg-clip-text whitespace-nowrap">
+            Sign Up, Stay Updated
+          </h2>
 
-      <section
-        ref={sectionRef}
-        id="newsletter"
-        className={`w-full transition-all duration-300 ease-in-out ${
-          isFixed
-            ? 'fixed bottom-0 left-0 right-0 z-40'
-            : 'relative'
-        }`}
-      >
-      {/* Desktop Layout */}
-      <div className={`hidden md:flex items-center justify-center gap-10 lg:gap-[120px] py-4 bg-[#F2F2F2] px-4 transition-shadow duration-300 ${isFixed ? 'shadow-[0_-4px_16px_rgba(0,0,0,0.1)]' : ''}`}>
-        <h2 className="text-2xl lg:text-[32px] py-2 font-bold bg-gradient-to-b from-[#DD2A7B] via-[#9747FF] to-[#334CCA] text-transparent bg-clip-text whitespace-nowrap">
-          Sign Up, Stay Updated
-        </h2>
-
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            form.handleSubmit();
-          }}
-          className="flex-1 flex items-center gap-4 max-w-2xl"
-        >
-          <div className="flex w-full px-1 py-1 rounded-full border-2 border-primary relative">
-            <form.Field name="email">
-              {(field) => (
-                <input
-                  type="email"
-                  value={field.state.value}
-                  onChange={(e) => field.handleChange(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      e.preventDefault();
-                      form.handleSubmit();
-                    }
-                  }}
-                  placeholder="Enter email or WhatsApp "
-                  className="w-full px-3 rounded-full bg-transparent text-[#999999] placeholder:text-[#999999]/90 focus:outline-none"
-                />
-              )}
-            </form.Field>
-            <button
-              type="submit"
-              style={{
-                background:
-                  "linear-gradient(309.99deg, #DD2A7B 3.31%, #9747FF 39.79%, #334CCA 91.72%)",
+          <div className="flex-1 max-w-2xl">
+            <ToggleInput
+              onSubmit={handleSubmit}
+              loading={loading}
+              placeholder={{
+                email: "Enter your email",
+                phone: "Enter your phone number",
               }}
-              className="flex items-center text-sm gap-2 px-4 py-3 rounded-full text-white font-medium hover:opacity-90 transition-opacity whitespace-nowrap"
-            >
-              Stay Updated
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M7 17L17 7M17 7H7M17 7V17"
-                />
-              </svg>
-            </button>
+              buttonText="Stay Updated"
+              variant="light"
+            />
           </div>
-        </form>
+        </div>
+
+        {/* Mobile Layout */}
+        <div className="md:hidden flex flex-col items-center text-center py-4 bg-[#F2F2F2] px-4">
+          <div className="w-full max-w-md">
+            <ToggleInput
+              onSubmit={handleSubmit}
+              loading={loading}
+              placeholder={{
+                email: "Enter Your Email",
+                phone: "Enter Your Phone Number",
+              }}
+              buttonText=""
+              variant="light"
+            />
+          </div>
+        </div>
+
       </div>
 
-      {/* Mobile Layout */}
-      <div className={`md:hidden flex flex-col items-center text-center py-4 bg-[#F2F2F2] px-4 transition-shadow duration-300 ${isFixed ? 'shadow-[0_-4px_16px_rgba(0,0,0,0.1)]' : ''}`}>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            form.handleSubmit();
-          }}
-          className="w-full max-w-md"
-        >
-          <div className="flex items-center border-2 border-primary rounded-full px-1 py-1">
-            <form.Field name="email">
-              {(field) => (
-                <input
-                  type="email"
-                  value={field.state.value}
-                  onChange={(e) => field.handleChange(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      e.preventDefault();
-                      form.handleSubmit();
-                    }
+      {/* Floating/Fixed version with animation */}
+      <AnimatePresence>
+        {isVisible && !isDismissed && (
+          <motion.div
+            initial={{ y: 100, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 100, opacity: 0 }}
+            transition={{
+              duration: 0.3,
+              ease: [0.4, 0, 0.2, 1],
+            }}
+            className="fixed bottom-0 left-0 right-0 z-40"
+          >
+            {/* Desktop Layout */}
+            <div className="hidden md:flex items-center justify-center gap-10 lg:gap-[120px] py-4 bg-[#F2F2F2] px-4 shadow-[0_-4px_16px_rgba(0,0,0,0.1)]">
+              <h2 className="text-2xl lg:text-[32px] py-2 font-bold bg-gradient-to-b from-[#DD2A7B] via-[#9747FF] to-[#334CCA] text-transparent bg-clip-text whitespace-nowrap">
+                Sign Up, Stay Updated
+              </h2>
+
+              <div className="flex-1 max-w-2xl">
+                <ToggleInput
+                  onSubmit={handleSubmit}
+                  loading={loading}
+                  placeholder={{
+                    email: "Enter your email",
+                    phone: "Enter your phone number",
                   }}
-                  placeholder="Enter Your Email/ WhatsApp Number"
-                  className="flex-1  px-3 py-2 focus:outline-none bg-transparent text-[#999999] placeholder:text-[#999999]/90 text-sm rounded-full"
+                  buttonText="Stay Updated"
+                  variant="light"
                 />
-              )}
-            </form.Field>
-            <button
-              type="submit"
-              style={{
-                background:
-                  "linear-gradient(309.99deg, #DD2A7B 3.31%, #9747FF 39.79%, #334CCA 91.72%)",
-              }}
-              className="flex items-center gap-2  p-3 text-white font-medium hover:opacity-90 transition-opacity whitespace-nowrap text-sm rounded-full"
-            >
-             
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+              </div>
+            </div>
+
+            {/* Mobile Layout */}
+            <div className="md:hidden flex flex-col items-center text-center py-4 bg-[#F2F2F2] px-4 shadow-[0_-4px_16px_rgba(0,0,0,0.1)] relative">
+              {/* Close button */}
+              <button
+                onClick={() => setIsDismissed(true)}
+                className="absolute top-2 right-2 p-1 text-gray-500 hover:text-gray-700 transition-colors"
+                aria-label="Close newsletter banner"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M7 17L17 7M17 7H7M17 7V17"
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+
+              {/* Heading */}
+              <h2 className="text-[20px] font-bold bg-gradient-to-b from-[#DD2A7B] via-[#9747FF] to-[#334CCA] text-transparent bg-clip-text mb-3">
+                Sign Up, Stay Updated
+              </h2>
+
+              <div className="w-full max-w-md">
+                <ToggleInput
+                  onSubmit={handleSubmit}
+                  loading={loading}
+                  placeholder={{
+                    email: "Enter Your Email",
+                    phone: "Enter Your Phone Number",
+                  }}
+                  buttonText=""
+                  variant="light"
                 />
-              </svg>
-            </button>
-          </div>
-        </form>
-      </div>
-    </section>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }

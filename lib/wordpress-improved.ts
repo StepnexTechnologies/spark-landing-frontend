@@ -360,9 +360,67 @@ export function getAuthorNames(post: WordPressPost): string {
 }
 
 /**
- * Get all authors from post
+ * Get all authors from post (sync - only returns _embedded authors)
  */
 export function getPostAuthors(post: WordPressPost): WordPressAuthor[] {
+  return post._embedded?.author || [];
+}
+
+/**
+ * Fetch a Co-Authors Plus guest author by ID
+ */
+export async function getCoAuthorById(id: number): Promise<WordPressAuthor | null> {
+  try {
+    const response = await fetch(
+      `${WORDPRESS_URL}/coauthors/${id}`,
+      { cache: 'no-store' }
+    );
+
+    if (!response.ok) {
+      console.error(`Failed to fetch coauthor ${id}: ${response.status}`);
+      return null;
+    }
+
+    const coauthor = await response.json();
+
+    // Map Co-Authors Plus guest author to WordPressAuthor format
+    return {
+      id: coauthor.id,
+      name: coauthor.name || coauthor.display_name || coauthor.title?.rendered || 'Unknown',
+      url: coauthor.url || '',
+      slug: coauthor.slug || '',
+      description: coauthor.description || '',
+      link: coauthor.link || '',
+      avatar_urls: coauthor.avatar_urls || {},
+    };
+  } catch (error) {
+    console.error(`Error fetching coauthor ${id}:`, error);
+    return null;
+  }
+}
+
+/**
+ * Get all authors from post including Co-Authors Plus guest authors (async)
+ * This fetches the full author data for all co-authors
+ */
+export async function getPostAuthorsAsync(post: WordPressPost): Promise<WordPressAuthor[]> {
+  // Check if post has coauthors array (Co-Authors Plus)
+  const coauthorIds = (post as any).coauthors as number[] | undefined;
+
+  if (coauthorIds && coauthorIds.length > 0) {
+    // Fetch all co-authors in parallel
+    const coauthorPromises = coauthorIds.map(id => getCoAuthorById(id));
+    const coauthors = await Promise.all(coauthorPromises);
+
+    // Filter out any null results and return
+    const validCoauthors = coauthors.filter((a): a is WordPressAuthor => a !== null);
+
+    if (validCoauthors.length > 0) {
+      return validCoauthors;
+    }
+  }
+
+  // Fallback to _embedded authors
   return post._embedded?.author || [];
 }
 
@@ -612,7 +670,6 @@ export async function getDraftPostById(id: number): Promise<WordPressPost | null
     }
 
     const post = await response.json();
-    console.log('getDraftPostById response:', { id, post, url });
     return post;
   } catch (error) {
     console.error(`Error fetching draft post by ID (${id}):`, error);

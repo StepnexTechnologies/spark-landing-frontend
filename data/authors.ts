@@ -298,8 +298,8 @@ export const authors: AuthorEntry[] = [
     id: "binny_agarwal",
     slug: "binny-agarwal",
 
-    // WordPress matching
-    wordpressSlug: "binny",
+    // WordPress matching (Co-Authors Plus uses "cap-" prefix)
+    wordpressSlug: "cap-binny",
     wordpressAuthorId: 7,
 
     name: "Binny Agarwal",
@@ -394,13 +394,13 @@ export const authors: AuthorEntry[] = [
     id: "saurabh_mongia",
     slug: "saurabh-mongia",
 
-    // WordPress matching - not yet on WordPress
-    wordpressSlug: undefined,
-    wordpressAuthorId: undefined,
+    // WordPress matching (Co-Authors Plus uses "cap-" prefix)
+    wordpressSlug: "cap-saurabh",
+    wordpressAuthorId: 8,
 
     name: "Saurabh Mongia",
     role: "Chartered Accountant | Tax & Compliance Expert",
-    avatarUrl: "/authors/ProfilePicture_saurabh.png",
+    avatarUrl: "/authors/ProfilePictureSaurabh.jpg",
     shortBio:
       "Saurabh Mongia is a finance leader and Chartered Accountant with 16+ years of experience in financial reporting, regulatory compliance, taxation and control frameworks. He currently serves as Vice President at one of the leading multi national firms. On Sparkonomy, he shares practical guidance that helps creators and teams reduce payment friction with clean invoicing, clear documentation, and audit-ready workflows.",
 

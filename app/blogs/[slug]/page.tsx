@@ -3,8 +3,8 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { getPostBySlug, getFeaturedImageUrl, getAuthorName, getAuthorNames, getPostAuthors, formatDate, stripHtml, getReadingTime, getPosts } from "@/lib/wordpress-improved";
-import { extractHeadings, addHeadingIds, extractFAQs, extractVideos, removeWordPressTOC } from "@/lib/content-processor";
+import { getPostBySlug, getFeaturedImageUrl, getAuthorName, getAuthorNames, getPostAuthors, getPostAuthorsAsync, formatDate, stripHtml, getReadingTime, getPosts } from "@/lib/wordpress-improved";
+import { extractHeadings, addHeadingIds, extractFAQs, extractVideos, removeWordPressTOC, extractFirstParagraph } from "@/lib/content-processor";
 import ShareButtons from "@/components/blog/ShareButtons";
 import Breadcrumb from "@/components/blog/Breadcrumb";
 import BlogLanguageSwitcher from "@/components/blog/BlogLanguageSwitcher";
@@ -17,6 +17,9 @@ import ProTipEnhancer from "@/components/blog/ProTipEnhancer";
 import QuoteCleanerEnhancer from "@/components/blog/QuoteCleanerEnhancer";
 import ListMergerEnhancer from "@/components/blog/ListMergerEnhancer";
 import PromoBannerInjector from "@/components/blog/PromoBannerInjector";
+import SourcesListEnhancer from "@/components/blog/SourcesListEnhancer";
+import KeyTakeawaysEnhancer from "@/components/blog/KeyTakeawaysEnhancer";
+import CheckmarkEnhancer from "@/components/blog/CheckmarkEnhancer";
 import NewsletterSection from "@/components/blog/NewsletterSection";
 import { getAuthorPageSlug, getAuthorByWordPressSlug } from "@/data/authors";
 import "../wordpress-content.css";
@@ -126,8 +129,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   }
 
   const featuredImage = getFeaturedImageUrl(post, "large");
-  const postAuthors = getPostAuthors(post);
-  const authorNames = getAuthorNames(post);
+  // Use async version to fetch Co-Authors Plus guest authors
+  const postAuthors = await getPostAuthorsAsync(post);
+  const authorNames = postAuthors.map(a => a.name).join(postAuthors.length === 2 ? ' and ' : ', ');
   const publishDate = formatDate(post.date);
   const readingTime = getReadingTime(post);
 
@@ -157,7 +161,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const headings = extractHeadings(post.content.rendered);
   const contentWithTocClass = removeWordPressTOC(post.content.rendered);
   const contentWithIds = addHeadingIds(contentWithTocClass, headings);
-  const processedContent = contentWithIds;
+  // Extract first paragraph for display before image, and get remaining content
+  const { firstParagraph: blogDescription, remainingContent: processedContent } = extractFirstParagraph(contentWithIds);
 
   // Get category for breadcrumb
   const categoryName = post._embedded?.["wp:term"]?.[0]?.[0]?.name || "";
@@ -398,18 +403,17 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           {/* Title */}
           <div className="px-4 md:px-[50px] lg:px-[130px]">
             <h1
-              className="text-2xl md:text-3xl lg:text-[40px] font-bold text-[#6B7280] leading-tight"
+              className="text-[32px] md:text-[36px] lg:text-[40px] font-bold text-[#6B7280] leading-tight"
               dangerouslySetInnerHTML={{ __html: post.title.rendered }}
             />
           </div>
 
           {/* Meta Information */}
           <div className="px-4 md:px-[30px] xl:px-[130px]">
-            <div className="flex items-center gap-2 text-lg md:text-xl lg:text-2xl text-[#6B7280] mb-4">
+            <div className="flex items-center gap-2 text-[14px] md:text-[20px] lg:text-[24px] text-[#6B7280] mb-4">
               <span>{publishDate}</span>
               <span>·</span>
               <span>{readingTime} min read</span>
-              <span>·</span>
               <Suspense fallback={<span className="text-sm">Loading...</span>}>
                 <BlogLanguageSwitcher />
               </Suspense>
@@ -506,6 +510,16 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             </div>
           </div>
 
+          {/* Blog Description/Excerpt */}
+          {blogDescription && (
+            <div className="px-4 md:px-[50px] lg:px-[130px]">
+              <p
+                className="text-base md:text-[22px] text-[#999999] font-light leading-[150%] tracking-[0.25px]"
+                dangerouslySetInnerHTML={{ __html: blogDescription }}
+              />
+            </div>
+          )}
+
           {/* Featured Image */}
           {featuredImage && (
             <div className="px-4 md:px-0">
@@ -550,6 +564,12 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             <ListMergerEnhancer />
             {/* Inject promotional banners around FAQ sections */}
             <PromoBannerInjector />
+            {/* Style sources and references list */}
+            <SourcesListEnhancer />
+            {/* Key takeaways section styling */}
+            <KeyTakeawaysEnhancer />
+            {/* Replace green checkmark emoji with purple styled checkmark */}
+            <CheckmarkEnhancer />
             <div
               className="wordpress-content"
               dangerouslySetInnerHTML={{ __html: processedContent }}

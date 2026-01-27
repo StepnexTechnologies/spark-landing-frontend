@@ -7,7 +7,8 @@
   /* Base container */
   color: #374151;
   font-size: 1.125rem;
-  line-height: 1.75;
+  line-height: 150%;
+  letter-spacing: 0.25px;
 }
 
 /* ====================
@@ -23,7 +24,7 @@
 
 /* Intro Section - First section special styling */
 .blog-section--intro {
-  margin-bottom: 2.5rem;
+  margin-bottom: 2.25rem;
 }
 
 .blog-section--intro h2 {
@@ -129,7 +130,7 @@
 
 /* Table Section */
 .blog-section--table {
-  margin-bottom: 2.5rem;
+  margin-bottom: 2.25rem;
   overflow-x: auto;
 }
 
@@ -173,7 +174,7 @@
 
 /* FAQ Section */
 .blog-section--faq {
-  margin-bottom: 2.5rem;
+  margin-bottom: 2.25rem;
 }
 
 .blog-section--faq h2 {
@@ -389,8 +390,10 @@
 
 /* Preserve WordPress default typography - only set base if not already styled */
 .wordpress-content li:not([class]) {
-  font-size: 1.125rem;
-  line-height: 1.75;
+  font-size: 14px;
+  line-height: 150%;
+  letter-spacing: 0.25px;
+  margin-bottom: 0;
 }
 
 /* Global heading styles for WordPress content */
@@ -399,7 +402,7 @@
   font-weight: bold;
   line-height: 1.2;
   color: #000000;
-  margin-top: 2.5rem;
+  margin-top: 2.25rem;
   margin-bottom: 1rem;
 }
 
@@ -408,7 +411,7 @@
   font-weight: 400;
   line-height: 1.2;
   color: #6B7280;
-  margin-top: 2.5rem;
+  margin-top: 2.25rem;
   margin-bottom: 1rem;
 }
 
@@ -430,19 +433,134 @@
   margin-top: 0;
 }
 
-.wordpress-content h3 {
+/* ====================
+   KEY TAKEAWAYS H2 STYLING
+   Special styling for h2 headings containing "takeaway"
+   ==================== */
+
+.wordpress-content h2.key-takeaways-heading {
   font-size: 20px;
   font-weight: 600;
   line-height: 1.3;
+  color: #1f2937;
+  margin-top: 2.25rem;
+  margin-bottom: 1.25rem;
+  padding: 0;
+  background: #F2F2F2;
+  border-left: 4px solid #8b5cf6;
+  border-radius: 0 0.5rem 0.5rem 0;
+  padding: 1rem 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .wordpress-content h2.key-takeaways-heading {
+    font-size: 22px;
+    font-weight: 600;
+  }
+}
+
+@media (min-width: 1024px) {
+  .wordpress-content h2.key-takeaways-heading {
+    font-size: 24px;
+    font-weight: 700;
+  }
+}
+
+/* Key Takeaways Section Wrapper - wraps heading and content */
+.wordpress-content .key-takeaways-section {
+  background: #F2F2F2;
+  border-left: 4px solid #8b5cf6;
+  border-radius: 0 0.75rem 0.75rem 0;
+  padding: 16px;
+  margin: 2rem 0;
+}
+
+.wordpress-content .key-takeaways-section h2 {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: #1f2937;
+  margin: 0 0 1rem 0;
+  padding: 0;
+  background: transparent;
+  border: none;
+}
+
+@media (min-width: 768px) {
+  .wordpress-content .key-takeaways-section h2 {
+    font-size: 22px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .wordpress-content .key-takeaways-section h2 {
+    font-size: 24px;
+    font-weight: 700;
+  }
+}
+
+.wordpress-content .key-takeaways-section ul,
+.wordpress-content .key-takeaways-section ol {
+  margin: 0;
+  padding-left: 10px;
+  list-style: none !important;
+  list-style-type: none !important;
+}
+
+.wordpress-content .key-takeaways-section li {
+  color: #374151;
+  margin-bottom: 0.625rem;
+  font-size: 14px;
+  position: relative;
+  padding-left: 1rem;
+  list-style: none !important;
+  list-style-type: none !important;
+}
+
+/* Primary color bullet points */
+.wordpress-content .key-takeaways-section li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.5em;
+  width: 6px;
+  height: 6px;
+  background: #9747FF;
+  border-radius: 50%;
+}
+
+@media (min-width: 768px) {
+  .wordpress-content .key-takeaways-section li {
+    font-size: 15px;
+  }
+}
+
+.wordpress-content .key-takeaways-section li:last-child {
+  margin-bottom: 0;
+}
+
+.wordpress-content .key-takeaways-section p {
+  color: #374151;
+  margin-bottom: 0.75rem;
+}
+
+.wordpress-content .key-takeaways-section p:last-child {
+  margin-bottom: 0;
+}
+
+.wordpress-content h3 {
+  font-size: 18px !important;
+  font-weight: 600;
+  line-height: 1.3;
   color: #6B7280;
-  margin-top: 2rem;
-  padding-bottom: 0.75rem;
+  margin-top: 1rem;
+  padding-bottom: 0.25rem;
 }
 
 @media (min-width: 1024px) {
   .wordpress-content h3 {
-    font-size: 24px;
-    padding-bottom: 1rem;
+    font-size: 20px;
+    padding-bottom: 0.5rem;
   }
 }
 
@@ -477,7 +595,8 @@
 .wordpress-content p {
   font-size: 14px;
   font-weight: 400;
-  line-height: 1.5;
+  line-height: 150%;
+  letter-spacing: 0.25px;
   color: #6B7280;
   margin-bottom: 1rem;
 }
@@ -519,15 +638,28 @@
 .wordpress-content li {
   font-size: 14px;
   font-weight: 400;
-  line-height: 1.75;
+  line-height: 150%;
+  letter-spacing: 0.25px;
   color: #999999;
   display: list-item;
   text-decoration: none;
+  margin-bottom: 0;
+}
+
+/* Primary color for list bullets/markers */
+.wordpress-content ul li::marker {
+  color: #9747FF;
+}
+
+.wordpress-content li strong,
+.wordpress-content li b {
+  font-size: 14px;
 }
 
 /* Table of Contents list styling */
 .wordpress-content .toc-list li {
   text-decoration: none;
+  margin-bottom: 0.5rem;
 }
 
 .wordpress-content .toc-list .toc-link {
@@ -541,11 +673,36 @@
   color: #6B7280;
 }
 
+/* Sources and references list styling */
+.wordpress-content ol.sources-list,
+.wordpress-content ul.sources-list,
+.wordpress-content ol.sources-list.wp-block-list,
+.wordpress-content ul.sources-list.wp-block-list {
+  list-style: none !important;
+  list-style-type: none !important;
+  padding-left: 0 !important;
+}
+
+.wordpress-content .sources-list li {
+  list-style: none !important;
+  list-style-type: none !important;
+  margin-bottom: 20px !important;
+}
+
 @media (min-width: 768px) {
-  .wordpress-content li {
-    font-size: 16px;
-    font-weight: 500;
+  .wordpress-content .sources-list li {
+    margin-bottom: 12px !important;
   }
+}
+
+.wordpress-content .sources-list li a {
+  color: #415CE7;
+  text-decoration: underline;
+  font-style: italic;
+  font-size: 12px;
+  font-weight: 400;
+  cursor: pointer;
+  display: block;
 }
 
 /* WordPress list blocks */
@@ -565,7 +722,7 @@
 
 .wordpress-content .wp-block-list li {
   display: list-item;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0;
 }
 
 /* Ensure ordered lists show numbers */
@@ -697,8 +854,8 @@
 
 .wordpress-content table th,
 .wordpress-content table td {
-  border: 1px solid #000000;
-  color: #000000;
+  border: 1px solid #6B7280;
+  color: #6B7280;
   text-align: left;
   padding: 0.75rem 1rem;
   white-space: nowrap; /* Prevent text wrapping to keep desktop layout */
@@ -706,7 +863,12 @@
 
 .wordpress-content table th {
   font-weight: bold;
+  font-size: 16px;
   background-color: transparent;
+}
+
+.wordpress-content table td {
+  font-size: 14px;
 }
 
 .wordpress-content table tbody tr {
@@ -724,17 +886,25 @@
 }
 
 .wordpress-content .wp-block-table table {
-  border: 1px solid #000000;
+  border: 1px solid #6B7280;
   width: max-content;
   min-width: 100%;
 }
 
 .wordpress-content .wp-block-table td,
 .wordpress-content .wp-block-table th {
-  border: 1px solid #000000;
-  color: #000000;
+  border: 1px solid #6B7280;
+  color: #6B7280;
   padding: 0.75rem 1rem;
   white-space: nowrap;
+}
+
+.wordpress-content .wp-block-table th {
+  font-size: 16px;
+}
+
+.wordpress-content .wp-block-table td {
+  font-size: 14px;
 }
 
 /* Scrollbar styling */
@@ -763,7 +933,7 @@
   border-radius: 0;
   padding: 3rem 1rem;
   background: transparent;
-  margin: 2.5rem 0;
+  margin: 2.25rem 0;
   text-align: center;
 }
 
@@ -849,12 +1019,18 @@
 
 /* Injected quote author info */
 .wordpress-content .quote-author-info {
-  display: flex;
+  display: inline-flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
   gap: 1rem;
-  margin-top: 1.5rem;
+  max-width: 230px;
+}
+
+@media (min-width: 768px) {
+  .wordpress-content .quote-author-info {
+    max-width: none;
+    width: 100%;
+  }
 }
 
 .wordpress-content .quote-author-info .author-avatar-wrapper {
@@ -863,6 +1039,20 @@
   border-radius: 50%;
   overflow: hidden;
   flex-shrink: 0;
+}
+
+@media (min-width: 768px) {
+  .wordpress-content .quote-author-info .author-avatar-wrapper {
+    width: 52px;
+    height: 52px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .wordpress-content .quote-author-info .author-avatar-wrapper {
+    width: 56px;
+    height: 56px;
+  }
 }
 
 .wordpress-content .quote-author-info .author-avatar-img {
@@ -886,11 +1076,17 @@
 }
 
 .wordpress-content .quote-author-info .author-role {
-  font-size: 0.875rem;
+  font-size: 12px;
   font-weight: 400;
   color: #6366f1;
   font-style: normal;
   line-height: 1.3;
+}
+
+@media (min-width: 768px) {
+  .wordpress-content .quote-author-info .author-role {
+    font-size: 14px;
+  }
 }
 
 /* Custom paragraph with borders (if using custom classes) */
@@ -1004,7 +1200,7 @@
   position: relative;
   border-radius: 1rem;
   overflow: hidden;
-  margin: 2rem 0 2.5rem 0;
+  margin: 2.25rem 0;
 }
 
 .wordpress-content .wp-block-video video {
@@ -1022,7 +1218,7 @@
 
 /* Image with Border/Frame */
 .wordpress-content figure.wp-block-image {
-  margin: 2rem 0 2.5rem 0;
+  margin: 2.25rem 0;
 }
 
 .wordpress-content figure.wp-block-image img {
@@ -1036,7 +1232,7 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 0.5rem;
-  margin: 2rem 0 2.5rem 0;
+  margin: 2.25rem 0;
   padding: 0;
   list-style: none;
   width: 100%;
@@ -1265,23 +1461,32 @@
 
   .wordpress-content .wp-block-pullquote,
   .wordpress-content .wp-block-quote {
-    padding: 2rem 1rem;
+    padding: 1rem 1rem;
+    margin: 0;
   }
 
   .wordpress-content .wp-block-pullquote p,
   .wordpress-content .wp-block-quote p {
-    font-size: 1.5rem;
+    font-size: 24px;
+    margin-bottom: 1rem;
+  }
+
+  .wordpress-content .wp-block-pullquote p:first-of-type::before,
+  .wordpress-content .wp-block-quote p:first-of-type::before,
+  .wordpress-content .wp-block-pullquote p:last-of-type::after,
+  .wordpress-content .wp-block-quote p:last-of-type::after {
+    font-size: 36px;
+  }
+
+  .wordpress-content .wp-block-pullquote cite,
+  .wordpress-content .wp-block-quote cite {
+    font-size: 16px;
   }
 
   .wordpress-content .wp-block-quote cite img,
   .wordpress-content .wp-block-pullquote cite img {
     width: 48px;
     height: 48px;
-  }
-
-  .wordpress-content .quote-author-info .author-avatar-wrapper {
-    width: 40px;
-    height: 40px;
   }
 
   .wordpress-content .quote-author-info {
@@ -1578,7 +1783,7 @@
    ==================== */
 
 .promo-banner-wrapper {
-  margin: 2.5rem 0;
+  margin: 2.25rem 0;
 }
 
 .promo-banner {
@@ -1653,4 +1858,42 @@
 /* Spacing between consecutive banners */
 .promo-banner-wrapper + .promo-banner-wrapper {
   margin-top: 1.5rem;
+}
+
+/* ====================
+   CHECKMARK EMOJI STYLING
+   Replace green ✅ emoji with primary purple checkmark
+   ==================== */
+
+/* Style for paragraphs that start with checkmark emoji */
+.wordpress-content .check-highlight {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 1rem;
+}
+
+.wordpress-content .check-highlight-icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+@media (min-width: 768px) {
+  .wordpress-content .check-highlight-icon {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .wordpress-content .check-highlight-icon {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+.wordpress-content .check-highlight strong {
+  color: #1f2937;
 }

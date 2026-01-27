@@ -3,7 +3,9 @@ import { getCategoryBySlug, getPostsByCategory, getPostTags } from "@/lib/wordpr
 import BlogCard from "@/components/blog/BlogCard";
 import FeaturedBlogCard from "@/components/blog/FeaturedBlogCard";
 import BlogCardSkeleton from "@/components/blog/BlogCardSkeleton";
+import FeaturedBlogCardSkeleton from "@/components/blog/FeaturedBlogCardSkeleton";
 import MainSection from "@/components/blog/MainSection";
+import MainSectionSkeleton from "@/components/blog/MainSectionSkeleton";
 import NewsletterSection from "@/components/blog/NewsletterSection";
 import NoPostsPlaceholder from "./NoPostsPlaceholder";
 
@@ -41,7 +43,7 @@ function getFeaturedImage(post: any): string | undefined {
 async function CategoryPosts({ config }: { config: CategoryConfig }) {
   const category = await getCategoryBySlug(config.slug);
   const { data: posts } = category
-    ? await getPostsByCategory(category.id, 1, 13)
+    ? await getPostsByCategory(category.id, 1, 14)
     : { data: [] };
 
   if (posts.length === 0) {
@@ -77,16 +79,17 @@ async function CategoryPosts({ config }: { config: CategoryConfig }) {
     );
   }
 
-  const firstRowPosts = posts.slice(0, 2);
-  const secondRowPost = posts.slice(2, 3);
-  const remainingPosts = posts.slice(3);
+  // Skip first post (shown in hero), same structure as blogs page
+  const firstRowPosts = posts.slice(1, 4); // 3 vertical cards
+  const secondRowPost = posts.slice(4, 5); // 1 featured horizontal card
+  const remainingPosts = posts.slice(5);   // Remaining cards
 
   return (
     <>
       {/* Container for First Row */}
       <div className="max-w-7xl mx-auto px-4">
-        {/* First Row - 2 vertical cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:mb-12">
+        {/* First Row - 3 vertical cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:mb-12">
           {firstRowPosts.map((p) => (
             <BlogCard
               key={p.id}
@@ -150,23 +153,23 @@ async function CategoryPosts({ config }: { config: CategoryConfig }) {
 function BlogPostsSkeleton() {
   return (
     <>
-      {/* Container for First Row */}
+      {/* Container for First Row - 3 vertical skeletons */}
       <div className="max-w-7xl mx-auto px-4">
-        {/* First Row - 2 vertical skeletons */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:mb-12">
+          <BlogCardSkeleton layout="vertical" />
           <BlogCardSkeleton layout="vertical" />
           <BlogCardSkeleton layout="vertical" />
         </div>
       </div>
 
-      {/* Second Row - 1 horizontal skeleton (full width) */}
+      {/* Second Row - 1 featured horizontal skeleton (full width) */}
       <div className="w-full md:mb-12">
-        <BlogCardSkeleton layout="horizontal" />
+        <FeaturedBlogCardSkeleton />
       </div>
 
       {/* Container for Remaining Rows */}
       <div className="max-w-7xl mx-auto px-4">
-        {/* Remaining Rows - 3 vertical skeletons per row */}
+        {/* Remaining Rows - 6 vertical skeletons (showing 2 rows of 3) */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {[...Array(6)].map((_, i) => (
             <BlogCardSkeleton key={i} layout="vertical" />
@@ -211,10 +214,6 @@ async function HeroSection({ config }: { config: CategoryConfig }) {
   );
 }
 
-// Hero Fallback Component - returns null while loading, actual content handled by HeroSection
-function HeroFallback() {
-  return null;
-}
 
 // Main Category Blog Page Template
 interface CategoryBlogTemplateProps {
@@ -226,7 +225,7 @@ export default function CategoryBlogTemplate({ config }: CategoryBlogTemplatePro
     <main className="min-h-screen relative overflow-hidden">
       {/* Main Section with Background Image */}
       <div className="relative z-10">
-        <Suspense fallback={<HeroFallback />}>
+        <Suspense fallback={<MainSectionSkeleton />}>
           <HeroSection config={config} />
         </Suspense>
       </div>
