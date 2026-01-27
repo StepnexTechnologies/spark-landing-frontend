@@ -6,6 +6,7 @@ import {WebGLFluidBackground} from "@/components/webgl-fluid-background";
 import Footer from "@/components/Footer";
 import I18nProvider from "@/components/I18nProvider";
 import {Toaster} from "react-hot-toast";
+import ReferralClickTracker from "@/components/ReferralClickTracker";
 
 export function RootLayoutClient({
   children,
@@ -22,6 +23,7 @@ export function RootLayoutClient({
     // For legal, creator, and blog pages, render children without WebGL background or Footer
     return (
       <I18nProvider>
+        <ReferralClickTracker />
         <Toaster
           position="top-center"
           toastOptions={{
@@ -52,6 +54,7 @@ export function RootLayoutClient({
   // For non-legal pages, render with WebGL background and Footer
   return (
     <I18nProvider>
+      <ReferralClickTracker />
       <Toaster
         position="top-center"
         toastOptions={{
