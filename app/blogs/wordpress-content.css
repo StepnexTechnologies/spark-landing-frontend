@@ -1897,3 +1897,91 @@
 .wordpress-content .check-highlight strong {
   color: #1f2937;
 }
+
+/* ====================
+   CTA BANNER SECTIONS
+   Style WordPress CTA-1/CTA-2 sections as promo banners
+   ==================== */
+
+/* Hide the CTA identifier heading (CTA-1, CTA-2) */
+.wordpress-content .cta-banner-hidden {
+  display: none !important;
+}
+
+/* Banner wrapper - matches promo-banner style */
+.wordpress-content .cta-banner-section {
+  background-color: #F3F4F6;
+  padding: 32px 17px;
+  text-align: center;
+  margin: 2.25rem 0;
+  border-radius: 8px;
+}
+
+/* Title styling */
+.wordpress-content .cta-banner-title {
+  font-size: 20px !important;
+  font-weight: 600 !important;
+  line-height: 1.5 !important;
+  color: #8134a5 !important;
+  max-width: 700px;
+  margin: 0 auto 8px auto !important;
+}
+
+/* Subtitle styling */
+.wordpress-content .cta-banner-subtitle {
+  font-size: 18px !important;
+  font-weight: 500 !important;
+  line-height: 1.5 !important;
+  color: #8134a5 !important;
+  max-width: 700px;
+  margin: 0 auto 24px auto !important;
+}
+
+/* Remove link underline in subtitle */
+.wordpress-content .cta-banner-subtitle a {
+  color: #8134a5 !important;
+  text-decoration: none !important;
+}
+
+/* Button paragraph wrapper */
+.wordpress-content .cta-banner-button {
+  margin: 0 !important;
+}
+
+/* CTA link/button styling */
+.wordpress-content .cta-banner-link {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  background: linear-gradient(162.34deg, #DD2A7B 4.78%, #9747FF 89.95%) !important;
+  color: white !important;
+  font-weight: 500 !important;
+  font-size: 0.875rem !important;
+  padding: 0.625rem 1.5rem !important;
+  border-radius: 9999px !important;
+  text-decoration: none !important;
+  transition: all 0.2s ease !important;
+  box-shadow: 0 4px 14px -2px rgba(151, 71, 255, 0.4) !important;
+}
+
+.wordpress-content .cta-banner-link:hover {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 20px -2px rgba(151, 71, 255, 0.5) !important;
+  opacity: 0.9 !important;
+}
+
+/* Desktop adjustments */
+@media (min-width: 768px) {
+  .wordpress-content .cta-banner-title {
+    font-size: 22px !important;
+  }
+
+  .wordpress-content .cta-banner-subtitle {
+    font-size: 20px !important;
+  }
+
+  .wordpress-content .cta-banner-link {
+    font-size: 1rem !important;
+    padding: 0.75rem 2rem !important;
+  }
+}
