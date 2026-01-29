@@ -14,9 +14,10 @@ interface RelatedPost {
 
 interface RelatedPostsProps {
   posts: RelatedPost[];
+  basePath?: "/blogs" | "/preview";
 }
 
-export default function RelatedPosts({ posts }: RelatedPostsProps) {
+export default function RelatedPosts({ posts, basePath = "/blogs" }: RelatedPostsProps) {
   const [windowWidth, setWindowWidth] = useState<number>(0);
   const [isMounted, setIsMounted] = useState(false);
 
@@ -93,7 +94,7 @@ export default function RelatedPosts({ posts }: RelatedPostsProps) {
                     description={post.excerpt}
                     imageSrc={post.featuredImage}
                     imageAlt={post.title}
-                    href={`/blogs/${post.slug}`}
+                    href={`${basePath}/${post.slug}`}
                     layout="vertical"
                     descriptionPosition="bottom"
                     showReadMore={true}
@@ -130,7 +131,7 @@ export default function RelatedPosts({ posts }: RelatedPostsProps) {
               description={post.excerpt}
               imageSrc={post.featuredImage}
               imageAlt={post.title}
-              href={`/blogs/${post.slug}`}
+              href={`${basePath}/${post.slug}`}
               layout="vertical"
               descriptionPosition="bottom"
               showReadMore={true}
