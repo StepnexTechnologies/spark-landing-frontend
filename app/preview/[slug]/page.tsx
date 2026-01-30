@@ -116,7 +116,7 @@ export default async function PreviewPostPage({ params }: PreviewPostPageProps) 
     .filter((p) => p.id !== postId)
     .slice(0, 3)
     .map((p) => ({
-      slug: `/preview/${p.id}`,
+      slug: String(p.id),
       title: stripHtml(p.title.rendered),
       excerpt: stripHtml(p.excerpt.rendered).substring(0, 150),
       featuredImage: getFeaturedImageUrl(p) || "/sparkonomy.png",
@@ -353,7 +353,7 @@ export default async function PreviewPostPage({ params }: PreviewPostPageProps) 
 
           {/* Related Posts */}
           <div className="relative z-0">
-            <RelatedPosts posts={relatedPosts} />
+            <RelatedPosts posts={relatedPosts} basePath="/preview" />
           </div>
 
         </article>
