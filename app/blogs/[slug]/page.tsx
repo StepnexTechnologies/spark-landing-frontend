@@ -532,7 +532,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           {blogDescription && (
             <div className="px-4 md:px-[50px] lg:px-[130px]">
               <p
-                className="text-base md:text-[22px] text-[#999999] font-light leading-[150%] tracking-[0.25px]"
+                className="text-base md:text-[22px] text-[#6B7280] font-semibold leading-[150%] tracking-[0.25px]"
                 dangerouslySetInnerHTML={{ __html: blogDescription }}
               />
             </div>

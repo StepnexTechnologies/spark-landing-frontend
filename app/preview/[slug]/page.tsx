@@ -161,7 +161,7 @@ export default async function PreviewPostPage({ params }: PreviewPostPageProps) 
       />
 
       <main className="min-h-screen px-0 md:px-10 lg:px-[90px] py-5 lg:py-6 bg-white">
-        <article className="flex flex-col gap-4 md:gap-6 lg:gap-10">
+        <article className="flex flex-col gap-2 md:gap-6 lg:gap-10">
           {/* Breadcrumb Navigation */}
           <div className="px-4 md:px-0 ">
             <Breadcrumb
@@ -289,7 +289,7 @@ export default async function PreviewPostPage({ params }: PreviewPostPageProps) 
           {blogDescription && (
             <div className="px-4 md:px-[50px] lg:px-[130px]">
               <p
-                className="text-base md:text-[22px] text-[#999999] font-light leading-[150%] tracking-[0.25px]"
+                className="text-base md:text-[22px] text-[#6B7280] font-semibold leading-[150%] tracking-[0.25px]"
                 dangerouslySetInnerHTML={{ __html: blogDescription }}
               />
             </div>

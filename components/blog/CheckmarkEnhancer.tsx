@@ -16,12 +16,12 @@ export default function CheckmarkEnhancer() {
 
     paragraphs.forEach((p) => {
       const text = p.innerHTML;
-      // Check if paragraph starts with ✅ emoji (with or without whitespace)
-      if (text.match(/^\s*✅/)) {
+      // Check if paragraph starts with ✅ emoji (with or without whitespace, possibly inside em/strong/span tags)
+      if (text.match(/^(\s*<(em|strong|span|i|b)[^>]*>\s*)*✅/)) {
         // Add the check-highlight class
         p.classList.add("check-highlight");
-        // Remove the ✅ emoji from the content
-        const newContent = text.replace(/^\s*✅\s*/, "");
+        // Remove the ✅ emoji from the content (handles ✅ inside em/strong/span tags)
+        const newContent = text.replace(/✅\s*/, "");
         // Create image element
         const img = document.createElement("img");
         img.src = "/authors/Logos/BlogTick.png";
