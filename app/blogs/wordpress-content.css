@@ -1119,6 +1119,105 @@
   }
 }
 
+/* ====================
+   Quote Author from Media-Text Block
+   (wp-block-media-text.is-stacked-on-mobile after quotes)
+   ==================== */
+
+/* Hide the group wrapper padding/margin when it contains quote author */
+.wordpress-content .wp-block-group.quote-author-group-wrapper {
+  padding: 0 !important;
+  margin: 0 !important;
+  background: transparent !important;
+}
+
+/* Remove padding-bottom from quote when author display follows */
+.wordpress-content .wp-block-pullquote.has-author-below,
+.wordpress-content .wp-block-quote.has-author-below {
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.wordpress-content .wp-block-media-text.is-stacked-on-mobile.quote-author-display {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin: 0 auto 32px;
+  background: transparent;
+  border: none;
+  max-width: 100%;
+  grid-template-columns: none !important;
+}
+
+.wordpress-content .quote-author-container {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.75rem;
+  text-align: center;
+}
+
+/* Author avatar - circular */
+.wordpress-content .quote-author-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.wordpress-content .quote-author-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Author name wrapper */
+.wordpress-content .quote-author-name-wrapper {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+/* Author name styling */
+.wordpress-content .quote-author-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #6B7280;
+  line-height: 1.4;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+/* Author link styling */
+.wordpress-content .quote-author-link {
+  color: #6B7280;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.wordpress-content .quote-author-link:hover {
+  color: #6366f1;
+  text-decoration: underline;
+}
+
+/* Responsive adjustments */
+@media (min-width: 768px) {
+  .wordpress-content .quote-author-avatar {
+    width: 50px;
+    height: 50px;
+  }
+
+  .wordpress-content .quote-author-container {
+    gap: 1rem;
+  }
+
+  .wordpress-content .quote-author-name {
+    font-size: 18px;
+  }
+}
+
 /* Custom paragraph with borders (if using custom classes) */
 .wordpress-content p.has-border,
 .wordpress-content .bordered-text {
@@ -1981,7 +2080,7 @@
 
 /* Subtitle styling */
 .wordpress-content .cta-banner-subtitle {
-  font-size: 18px !important;
+  font-size: 16px !important;
   font-weight: 500 !important;
   line-height: 1.5 !important;
   color: #8134a5 !important;

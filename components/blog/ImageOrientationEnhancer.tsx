@@ -14,7 +14,7 @@ export default function ImageOrientationEnhancer() {
       const container = document.querySelector(".wordpress-content");
       if (!container) return;
 
-      const images = container.querySelectorAll("figure.wp-block-image img, img:not([class*='avatar'])");
+      const images = container.querySelectorAll("figure.wp-block-image img, img:not([class*='avatar']):not(.check-highlight-icon)");
 
       images.forEach((img) => {
         const imgElement = img as HTMLImageElement;
