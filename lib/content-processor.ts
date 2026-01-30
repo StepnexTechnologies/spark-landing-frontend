@@ -48,11 +48,42 @@ export interface VideoItem {
 }
 
 /**
+ * Helper function to extract only H2 headings from HTML (main sections for TOC)
+ */
+function extractH2Headings(html: string): Array<{ id: string; text: string }> {
+  const headings: Array<{ id: string; text: string }> = [];
+  const headingRegex = /<h2[^>]*>([\s\S]*?)<\/h2>/gi;
+  let match;
+
+  while ((match = headingRegex.exec(html)) !== null) {
+    const text = match[1].replace(/<[^>]*>/g, '').trim();
+    // Skip TOC and FAQ headings
+    const textLower = text.toLowerCase();
+    if (textLower === 'table of content' ||
+        textLower === 'table of contents' ||
+        textLower === 'frequently asked questions' ||
+        textLower.includes('sources') ||
+        textLower.includes('references')) {
+      continue;
+    }
+    const id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    if (id) {
+      headings.push({ id, text });
+    }
+  }
+
+  return headings;
+}
+
+/**
  * Remove WordPress built-in Table of Contents from HTML
  * Or add toc-list class to the TOC list for styling and add anchor links
  */
 export function removeWordPressTOC(html: string): string {
   let cleaned = html;
+
+  // Extract H2 headings first for sequential matching
+  const h2Headings = extractH2Headings(html);
 
   // Find the TOC section and process it
   const tocRegex = /(<h2[^>]*>(?:<[^>]*>)*\s*Table of Contents?\s*(?:<[^>]*>)*<\/h2>\s*)(<ul[^>]*>)([\s\S]*?)(<\/ul>)/gi;
@@ -66,21 +97,32 @@ export function removeWordPressTOC(html: string): string {
       newUlOpen = ulOpen.replace('<ul', '<ul class="toc-list"');
     }
 
-    // Convert list items to anchor links
-    const processedListContent = listContent.replace(
-      /<li[^>]*>([\s\S]*?)<\/li>/gi,
-      (liMatch: string, liContent: string) => {
-        // Extract text content for generating the ID
-        const text = liContent.replace(/<br\s*\/?>/gi, '').replace(/<[^>]*>/g, '').trim();
-        if (text) {
-          const headingId = text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-          return `<li><a href="#${headingId}" class="toc-link">${text}</a></li>`;
-        }
-        return liMatch;
+    // Extract all TOC items first to match them sequentially with headings
+    const tocItems: string[] = [];
+    const liRegex = /<li[^>]*>([\s\S]*?)<\/li>/gi;
+    let liMatch;
+    while ((liMatch = liRegex.exec(listContent)) !== null) {
+      const text = liMatch[1].replace(/<br\s*\/?>/gi, '').replace(/<[^>]*>/g, '').trim();
+      if (text) {
+        tocItems.push(text);
       }
-    );
+    }
 
-    return heading + newUlOpen + processedListContent + ulClose;
+    // Build new list content with sequential heading matching
+    let newListContent = '';
+    tocItems.forEach((text, index) => {
+      // Match TOC item to H2 heading by position (index)
+      const matchedHeading = h2Headings[index];
+      if (matchedHeading) {
+        newListContent += `<li><a href="#${matchedHeading.id}" class="toc-link">${text}</a></li>`;
+      } else {
+        // Fallback to generating ID from text if no heading at this index
+        const headingId = text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+        newListContent += `<li><a href="#${headingId}" class="toc-link">${text}</a></li>`;
+      }
+    });
+
+    return heading + newUlOpen + newListContent + ulClose;
   });
 
   // Find the Sources and references section and add class to the list

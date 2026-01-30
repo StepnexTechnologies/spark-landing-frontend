@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { getDraftPostById, getFeaturedImageUrl, getAuthorName, getAuthorNames, getPostAuthors, getPostAuthorsAsync, formatDate, stripHtml, getReadingTime, getDraftPosts } from "@/lib/wordpress-improved";
+import { getDraftPostById, getFeaturedImageUrl, getAuthorName, getAuthorNames, getPostAuthors, getPostAuthorsAsync, formatDate, stripHtml, getReadingTime, getDraftPosts, getPostsByCategory } from "@/lib/wordpress-improved";
 import { extractHeadings, addHeadingIds, removeWordPressTOC, extractFirstParagraph } from "@/lib/content-processor";
 import Breadcrumb from "@/components/blog/Breadcrumb";
 import BlogLanguageSwitcher from "@/components/blog/BlogLanguageSwitcher";
@@ -20,6 +20,7 @@ import SourcesListEnhancer from "@/components/blog/SourcesListEnhancer";
 import KeyTakeawaysEnhancer from "@/components/blog/KeyTakeawaysEnhancer";
 import CheckmarkEnhancer from "@/components/blog/CheckmarkEnhancer";
 import NewsletterSection from "@/components/blog/NewsletterSection";
+import RelatedResourcesInjector from "@/components/blog/RelatedResourcesInjector";
 import { getAuthorPageSlug, getAuthorByWordPressSlug } from "@/data/authors";
 import "../../blogs/wordpress-content.css";
 
@@ -107,12 +108,15 @@ export default async function PreviewPostPage({ params }: PreviewPostPageProps) 
   // Extract first paragraph for display before image, and get remaining content
   const { firstParagraph: blogDescription, remainingContent: processedContent } = extractFirstParagraph(contentWithIds);
 
-  // Get category for breadcrumb
+  // Get category for breadcrumb and related resources
   const categoryName = post._embedded?.["wp:term"]?.[0]?.[0]?.name || "";
+  const categoryId = post._embedded?.["wp:term"]?.[0]?.[0]?.id;
 
-  // Fetch related draft posts
-  const { data: allPosts } = await getDraftPosts(1, 4);
-  const relatedPosts = allPosts
+  // Fetch related draft posts (more posts to have enough for both sections)
+  const { data: allDraftPosts } = await getDraftPosts(1, 10);
+
+  // Related posts at bottom of page
+  const relatedPosts = allDraftPosts
     .filter((p) => p.id !== postId)
     .slice(0, 3)
     .map((p) => ({
@@ -121,6 +125,27 @@ export default async function PreviewPostPage({ params }: PreviewPostPageProps) 
       excerpt: stripHtml(p.excerpt.rendered).substring(0, 150),
       featuredImage: getFeaturedImageUrl(p) || "/sparkonomy.png",
       date: formatDate(p.date),
+    }));
+
+  // Related Resources - filter draft posts by same category
+  let relatedResources: { slug: string; title: string; excerpt: string; featuredImage: string }[] = [];
+
+  // Filter draft posts that belong to the same category
+  const sameCategoryDrafts = categoryId
+    ? allDraftPosts.filter((p) => {
+        if (p.id === postId) return false;
+        const postCategories = p._embedded?.["wp:term"]?.[0] || [];
+        return postCategories.some((cat: { id: number }) => cat.id === categoryId);
+      })
+    : allDraftPosts.filter((p) => p.id !== postId);
+
+  relatedResources = sameCategoryDrafts
+    .slice(0, 3)
+    .map((p) => ({
+      slug: String(p.id), // Use ID for preview pages
+      title: stripHtml(p.title.rendered),
+      excerpt: stripHtml(p.excerpt.rendered).substring(0, 100),
+      featuredImage: getFeaturedImageUrl(p) || "/sparkonomy.png",
     }));
 
   return (
@@ -319,6 +344,8 @@ export default async function PreviewPostPage({ params }: PreviewPostPageProps) 
             <KeyTakeawaysEnhancer />
             {/* Replace green checkmark emoji with purple styled checkmark */}
             <CheckmarkEnhancer />
+            {/* Inject Related Resources after first CTA, before FAQ */}
+            <RelatedResourcesInjector posts={relatedResources} basePath="/preview" />
             <div
               className="wordpress-content"
               dangerouslySetInnerHTML={{ __html: processedContent }}

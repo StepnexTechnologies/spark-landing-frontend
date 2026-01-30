@@ -356,19 +356,23 @@
   color: #4b5563;
 }
 
-/* Image Section */
+/* Image Section - Center aligned */
 .blog-section--image {
   margin: 2rem 0;
+  text-align: center;
 }
 
 .blog-section--image figure {
-  margin: 0;
+  margin: 0 auto;
+  display: inline-block;
 }
 
 .blog-section--image img {
   border-radius: 0.75rem;
-  width: 100%;
+  max-width: 100%;
+  width: auto;
   height: auto;
+  margin: 0 auto;
 }
 
 .blog-section--image figcaption {
@@ -376,6 +380,7 @@
   font-size: 0.875rem;
   color: #6b7280;
   font-style: italic;
+  text-align: center;
 }
 
 /* Other/Generic Section */
@@ -933,7 +938,7 @@
   border-radius: 0;
   padding: 3rem 1rem;
   background: transparent;
-  margin: 2.25rem 0;
+  margin: 0;
   text-align: center;
 }
 
@@ -1216,15 +1221,37 @@
   text-align: left;
 }
 
-/* Image with Border/Frame */
+/* Image with Border/Frame - Center aligned */
 .wordpress-content figure.wp-block-image {
-  margin: 2.25rem 0;
+  margin: 2.25rem auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
 .wordpress-content figure.wp-block-image img {
   border-radius: 1rem;
-  width: 100%;
+  max-width: 100%;
+  width: auto;
   height: auto;
+  margin: 0 auto;
+}
+
+/* Center align all images in WordPress content */
+.wordpress-content img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  height: auto;
+}
+
+/* Center standalone images not in figures */
+.wordpress-content > img,
+.wordpress-content p > img {
+  display: block;
+  margin: 2rem auto;
+  max-width: 100%;
 }
 
 /* WordPress Gallery Block */
@@ -1968,6 +1995,40 @@
   transform: translateY(-1px) !important;
   box-shadow: 0 6px 20px -2px rgba(151, 71, 255, 0.5) !important;
   opacity: 0.9 !important;
+}
+
+/* ====================
+   RELATED RESOURCES SECTION OVERRIDES
+   Override WordPress default styles for injected Related Resources
+   ==================== */
+
+.wordpress-content .related-resources-section {
+  margin-top: 0 !important;
+  margin-bottom: 2rem !important;
+}
+
+.wordpress-content .related-resources-section h3 {
+  margin: 0 0 1rem 0 !important;
+  padding: 0 !important;
+}
+
+.wordpress-content .related-resources-section h4 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  color: #6B7280 !important;
+  line-height: 1.4 !important;
+}
+
+@media (min-width: 768px) {
+  .wordpress-content .related-resources-section h4 {
+    font-size: 18px !important;
+  }
+}
+
+.wordpress-content .related-resources-section h4:hover {
+  color: #5B21B6 !important;
 }
 
 /* Desktop adjustments */

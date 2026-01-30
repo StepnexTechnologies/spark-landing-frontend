@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { getPostBySlug, getFeaturedImageUrl, getAuthorName, getAuthorNames, getPostAuthors, getPostAuthorsAsync, formatDate, stripHtml, getReadingTime, getPosts } from "@/lib/wordpress-improved";
+import { getPostBySlug, getFeaturedImageUrl, getAuthorName, getAuthorNames, getPostAuthors, getPostAuthorsAsync, formatDate, stripHtml, getReadingTime, getPosts, getPostsByCategory } from "@/lib/wordpress-improved";
 import { extractHeadings, addHeadingIds, extractFAQs, extractVideos, removeWordPressTOC, extractFirstParagraph } from "@/lib/content-processor";
 import ShareButtons from "@/components/blog/ShareButtons";
 import Breadcrumb from "@/components/blog/Breadcrumb";
@@ -21,6 +21,7 @@ import SourcesListEnhancer from "@/components/blog/SourcesListEnhancer";
 import KeyTakeawaysEnhancer from "@/components/blog/KeyTakeawaysEnhancer";
 import CheckmarkEnhancer from "@/components/blog/CheckmarkEnhancer";
 import NewsletterSection from "@/components/blog/NewsletterSection";
+import RelatedResourcesInjector from "@/components/blog/RelatedResourcesInjector";
 import { getAuthorPageSlug, getAuthorByWordPressSlug } from "@/data/authors";
 import "../wordpress-content.css";
 
@@ -164,9 +165,10 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   // Extract first paragraph for display before image, and get remaining content
   const { firstParagraph: blogDescription, remainingContent: processedContent } = extractFirstParagraph(contentWithIds);
 
-  // Get category for breadcrumb
+  // Get category for breadcrumb and related resources
   const categoryName = post._embedded?.["wp:term"]?.[0]?.[0]?.name || "";
   const categorySlug = post._embedded?.["wp:term"]?.[0]?.[0]?.slug || "";
+  const categoryId = post._embedded?.["wp:term"]?.[0]?.[0]?.id;
 
   // Fetch related posts (3 most recent posts from same category or general)
   const { data: allPosts } = await getPosts(1, 4);
@@ -180,6 +182,21 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       featuredImage: getFeaturedImageUrl(p) || "/sparkonomy.png",
       date: formatDate(p.date),
     }));
+
+  // Fetch same-category posts for Related Resources section
+  let relatedResources: { slug: string; title: string; excerpt: string; featuredImage: string }[] = [];
+  if (categoryId) {
+    const { data: categoryPosts } = await getPostsByCategory(categoryId, 1, 4);
+    relatedResources = categoryPosts
+      .filter((p) => p.slug !== slug)
+      .slice(0, 3)
+      .map((p) => ({
+        slug: p.slug,
+        title: stripHtml(p.title.rendered),
+        excerpt: stripHtml(p.excerpt.rendered).substring(0, 100),
+        featuredImage: getFeaturedImageUrl(p) || "/sparkonomy.png",
+      }));
+  }
 
   // Extract categories and tags for JSON-LD
   const categories = post._embedded?.["wp:term"]?.[0]?.map((cat) => cat.name) || [];
@@ -570,6 +587,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             <KeyTakeawaysEnhancer />
             {/* Replace green checkmark emoji with purple styled checkmark */}
             <CheckmarkEnhancer />
+            {/* Inject Related Resources after first CTA, before FAQ */}
+            <RelatedResourcesInjector posts={relatedResources} basePath="/blogs" />
             <div
               className="wordpress-content"
               dangerouslySetInnerHTML={{ __html: processedContent }}
