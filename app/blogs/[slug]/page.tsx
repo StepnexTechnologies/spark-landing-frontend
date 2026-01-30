@@ -15,6 +15,7 @@ import QuoteAuthorInjector from "@/components/blog/QuoteAuthorInjector";
 import FAQAccordionEnhancer from "@/components/blog/FAQAccordionEnhancer";
 import ProTipEnhancer from "@/components/blog/ProTipEnhancer";
 import QuoteCleanerEnhancer from "@/components/blog/QuoteCleanerEnhancer";
+import QuoteMediaTextAuthorEnhancer from "@/components/blog/QuoteMediaTextAuthorEnhancer";
 import ListMergerEnhancer from "@/components/blog/ListMergerEnhancer";
 import PromoBannerInjector from "@/components/blog/PromoBannerInjector";
 import SourcesListEnhancer from "@/components/blog/SourcesListEnhancer";
@@ -578,6 +579,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             <ProTipEnhancer />
             {/* Quote cleaner - removes broken quote marks */}
             <QuoteCleanerEnhancer />
+            {/* Transform media-text blocks after quotes into author displays */}
+            <QuoteMediaTextAuthorEnhancer />
             {/* Merge consecutive lists that WordPress split */}
             <ListMergerEnhancer />
             {/* Inject promotional banners around FAQ sections */}
