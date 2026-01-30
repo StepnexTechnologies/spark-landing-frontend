@@ -20,6 +20,7 @@ import PromoBannerInjector from "@/components/blog/PromoBannerInjector";
 import SourcesListEnhancer from "@/components/blog/SourcesListEnhancer";
 import KeyTakeawaysEnhancer from "@/components/blog/KeyTakeawaysEnhancer";
 import CheckmarkEnhancer from "@/components/blog/CheckmarkEnhancer";
+import ImageOrientationEnhancer from "@/components/blog/ImageOrientationEnhancer";
 import NewsletterSection from "@/components/blog/NewsletterSection";
 import RelatedResourcesInjector from "@/components/blog/RelatedResourcesInjector";
 import { getAuthorPageSlug, getAuthorByWordPressSlug } from "@/data/authors";
@@ -587,6 +588,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             <KeyTakeawaysEnhancer />
             {/* Replace green checkmark emoji with purple styled checkmark */}
             <CheckmarkEnhancer />
+            {/* Apply orientation-based styles to images */}
+            <ImageOrientationEnhancer />
             {/* Inject Related Resources after first CTA, before FAQ */}
             <RelatedResourcesInjector posts={relatedResources} basePath="/blogs" />
             <div

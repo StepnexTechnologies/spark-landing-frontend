@@ -847,6 +847,31 @@
   height: auto;
 }
 
+/* ====================
+   IMAGE ORIENTATION STYLES
+   Applied by ImageOrientationEnhancer
+   ==================== */
+
+/* Landscape images: full width, height auto */
+.wordpress-content img.img-landscape {
+  width: 100% !important;
+  height: auto !important;
+  max-height: none !important;
+}
+
+/* Portrait images: give them good width so they don't look small */
+.wordpress-content img.img-portrait {
+  width: 70% !important;
+  height: auto !important;
+  max-width: 100% !important;
+}
+
+@media (max-width: 768px) {
+  .wordpress-content img.img-portrait {
+    width: 85% !important;
+  }
+}
+
 /* Table styles - same appearance on all devices with horizontal scroll */
 .wordpress-content table {
   border-collapse: collapse;
