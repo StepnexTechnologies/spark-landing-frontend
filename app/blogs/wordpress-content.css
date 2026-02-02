@@ -398,7 +398,7 @@
   font-size: 14px;
   line-height: 150%;
   letter-spacing: 0.25px;
-  margin-bottom: 0;
+  margin-bottom: 4px;
 }
 
 /* Global heading styles for WordPress content */
@@ -514,7 +514,7 @@
 
 .wordpress-content .key-takeaways-section li {
   color: #374151;
-  margin-bottom: 0.625rem;
+  margin-bottom: 4px;
   font-size: 14px;
   position: relative;
   padding-left: 1rem;
@@ -648,7 +648,7 @@
   color: #999999;
   display: list-item;
   text-decoration: none;
-  margin-bottom: 0;
+  margin-bottom: 4px;
 }
 
 /* Primary color for list bullets/markers */
@@ -664,7 +664,7 @@
 /* Table of Contents list styling */
 .wordpress-content .toc-list li {
   text-decoration: none;
-  margin-bottom: 0.5rem;
+  margin-bottom: 4px;
 }
 
 .wordpress-content .toc-list .toc-link {
@@ -727,7 +727,7 @@
 
 .wordpress-content .wp-block-list li {
   display: list-item;
-  margin-bottom: 0;
+  margin-bottom: 4px;
 }
 
 /* Ensure ordered lists show numbers */
