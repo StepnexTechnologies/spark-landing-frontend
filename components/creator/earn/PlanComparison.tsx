@@ -17,6 +17,7 @@ interface PlanComparisonProps {
   comparisonData?: ComparisonRow[];
   showTitle?: boolean;
   showActionButtons?: boolean;
+  showPricing?: boolean;
   onGetProMonthly?: () => void;
   onGetProAnnually?: () => void;
   className?: string;
@@ -36,6 +37,12 @@ export const defaultComparisonData: ComparisonRow[] = [
   { feature: 'Pocket CFO', free: 'Essential', pro: 'Advanced' },
   { feature: 'Income Statement', free: 'Upto 6 months', pro: 'Upto 12 months' },
   { feature: 'CA Ready Record Exports', free: 'Basic CSV', pro: 'Tax/ GST Compliant CSV' },
+];
+
+// Indian pricing data (INR)
+export const indianPricingData: ComparisonRow[] = [
+  { feature: 'Price (Monthly)', free: '₹0/month (First Year)', pro: '₹199/month' },
+  { feature: 'Price (Annual)', free: 'N/A', pro: '₹1,199/year (50% off)' },
 ];
 
 // ============================================
@@ -96,6 +103,7 @@ const PlanComparison = forwardRef<HTMLDivElement, PlanComparisonProps>(
       comparisonData = defaultComparisonData,
       showTitle = true,
       showActionButtons = false,
+      showPricing = false,
       onGetProMonthly,
       onGetProAnnually,
       className = '',
@@ -105,6 +113,11 @@ const PlanComparison = forwardRef<HTMLDivElement, PlanComparisonProps>(
   ) => {
     const isMonthlyCurrentPlan = currentBillingCycle === 'monthly';
     const isYearlyCurrentPlan = currentBillingCycle === 'yearly';
+
+    // Combine comparison data with pricing if showPricing is true
+    const displayData = showPricing
+      ? [...indianPricingData, ...comparisonData]
+      : comparisonData;
 
     return (
       // Main container: bg-white 10% opacity, p-5
@@ -135,7 +148,7 @@ const PlanComparison = forwardRef<HTMLDivElement, PlanComparisonProps>(
 
             {/* Comparison Rows */}
             <div className="flex flex-col">
-              {comparisonData.map((row, index) => (
+              {displayData.map((row, index) => (
                 <div key={index} className="flex flex-col">
                   {/* Feature Name Row - lighter pink background */}
                   <div className="bg-[#EDD9ED33] px-3 py-2.5 text-center">
@@ -160,48 +173,46 @@ const PlanComparison = forwardRef<HTMLDivElement, PlanComparisonProps>(
         </div>
 
         {/* Desktop Layout - Horizontal table (Free/Pro as rows, features as columns) */}
-        <div className="hidden md:block overflow-x-auto">
+        <div className="hidden md:block w-full max-w-full overflow-x-auto pb-2 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
           {/* Table with rounded-[14px] and gap between rows */}
-          <div className="relative flex flex-col gap-[2px] rounded-[14px] overflow-hidden z-10">
-
-            <div className="absolute left-0 top-0 bottom-0 w-[70px] bg-[#F2F2F210] rounded-2xl z-0" />
+          <div className="inline-flex flex-col gap-[2px] rounded-[14px] overflow-hidden z-10 min-w-full">
             {/* Header row - bg-[#F2F2F2] 20% */}
-            <div className="flex bg-[#F2F2F220] max-h-[50px]">
-              <div className="p-[10px] text-left text-[16px] font-semibold text-white min-w-[70px] bg-[#F2F2F233]">
+            <div className="flex bg-[#F2F2F220] w-max min-w-full">
+              <div className="p-3 text-left text-[16px] font-semibold text-white w-[80px] shrink-0 bg-[#F2F2F233]">
                 Plan
               </div>
-              {comparisonData.map((row, index) => (
+              {displayData.map((row, index) => (
                 <div
                   key={index}
-                  className="text-center text-[10px] font-semibold text-white min-w-[120px] flex-1 flex items-center justify-center bg-[#F2F2F233]"
+                  className="text-center text-[13px] font-semibold text-white w-[140px] shrink-0 flex items-center justify-center bg-[#F2F2F233] p-3"
                 >
                   {row.feature}
                 </div>
               ))}
             </div>
             {/* Free row - bg-[#F2F2F2] 20% */}
-            <div className="flex bg-[#F2F2F203] max-h-[50px]">
-              <div className="p-[10px] text-left text-[14px] font-semibold text-white min-w-[70px] bg-[#F2F2F233]">
+            <div className="flex bg-[#F2F2F203] w-max min-w-full">
+              <div className="p-3 text-left text-[15px] font-semibold text-white w-[80px] shrink-0 bg-[#F2F2F233]">
                 Free
               </div>
-              {comparisonData.map((row, index) => (
+              {displayData.map((row, index) => (
                 <div
                   key={index}
-                  className="text-center text-[10px] text-white min-w-[120px] flex-1 flex items-center justify-center bg-[#F2F2F233]"
+                  className="text-center text-[13px] text-white w-[140px] shrink-0 flex items-center justify-center bg-[#F2F2F233] p-3"
                 >
                   <CellValue value={row.free} />
                 </div>
               ))}
             </div>
             {/* Pro row - bg-[#F2F2F2] 20% */}
-            <div className="flex bg-[#F2F2F203] max-h-[50px]">
-              <div className="p-[10px] text-left text-[14px] font-semibold text-white min-w-[70px] bg-[#F2F2F233]">
+            <div className="flex bg-[#F2F2F203] w-max min-w-full">
+              <div className="p-3 text-left text-[15px] font-semibold text-white w-[80px] shrink-0 bg-[#F2F2F233]">
                 Pro
               </div>
-              {comparisonData.map((row, index) => (
+              {displayData.map((row, index) => (
                 <div
                   key={index}
-                  className="text-center text-[10px] text-white min-w-[120px] flex-1 flex items-center justify-center bg-[#F2F2F233]"
+                  className="text-center text-[13px] text-white w-[140px] shrink-0 flex items-center justify-center bg-[#F2F2F233] p-3"
                 >
                   <CellValue value={row.pro} />
                 </div>

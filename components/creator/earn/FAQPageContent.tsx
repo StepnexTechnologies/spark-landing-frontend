@@ -3,8 +3,9 @@
 import {motion} from "framer-motion";
 import {useState, useEffect} from "react";
 import FAQItem from "./FAQItem";
-// import PlanComparison from "./PlanComparison";
+import PlanComparison from "./PlanComparison";
 import {ChevronDown} from "lucide-react";
+import {useIsIndianUser} from "@/hooks/useGeolocation";
 import {useTranslation} from "react-i18next";
 
 interface FAQTranslation {
@@ -24,6 +25,7 @@ export default function FAQPageContent() {
   const [expandedFAQ, setExpandedFAQ] = useState<number | null>(0);
   const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const {isIndian, isLoading: isGeoLoading} = useIsIndianUser();
 
   useEffect(() => {
     setMounted(true);
@@ -58,7 +60,7 @@ export default function FAQPageContent() {
           {t("faq.title")}
         </motion.h1>
 
-        <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 min-w-0">
           {/* Mobile Category Dropdown */}
           <div className="lg:hidden relative">
             <button
@@ -128,7 +130,7 @@ export default function FAQPageContent() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="flex-1 space-y-6"
+            className="flex-1 space-y-6 min-w-0"
           >
             {filteredFAQs.map((faq, index) => (
               <FAQItem
@@ -143,17 +145,17 @@ export default function FAQPageContent() {
               />
             ))}
 
-            {/* Plan Comparison - shown under Pricing category */}
-            {/* {selectedCategory === "pricing" && (
+            {/* Plan Comparison - shown under Pricing category for Indian users */}
+            {selectedCategory === "pricing" && isIndian && !isGeoLoading && (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
-                className="mt-8 max-w-md md:max-w-none"
+                className="mt-8 w-full overflow-x-auto"
               >
-                <PlanComparison showTitle={true} showActionButtons={false} />
+                <PlanComparison showTitle={true} showActionButtons={false} showPricing={true} />
               </motion.div>
-            )} */}
+            )}
           </motion.div>
         </div>
       </div>

@@ -10,6 +10,7 @@ interface MainSectionProps {
   buttonLink: string;
   imageSrc: string;
   hashtags?: string[];
+  textAlign?: "left" | "right";
 }
 
 export default function MainSection({
@@ -20,7 +21,10 @@ export default function MainSection({
   buttonLink,
   imageSrc,
   hashtags = ["MonetizeYourContent", "CreatorEconomy", "PassiveIncome"],
+  textAlign = "left",
 }: MainSectionProps) {
+  const isRight = textAlign === "right";
+
   return (
     <section className="relative w-full h-[460px] md:h-[500px] lg:h-[690px] overflow-hidden rounded-b-[40px] md:rounded-b-[60px]">
 
@@ -35,8 +39,8 @@ export default function MainSection({
         />
 
       </div>
-      <div className="relative h-full max-w-7xl  px-[24px] lg:px-[84px] flex items-end pb-10 lg:pb-20">
-        <div className="max-w-80 md:max-w-lg lg:max-w-2xl text-white">
+      <div className={`relative h-full max-w-7xl px-[24px] lg:px-[84px] flex items-end pb-10 lg:pb-20 ${isRight ? "ml-auto" : ""}`}>
+        <div className={`max-w-80 md:max-w-lg lg:max-w-2xl text-white ${isRight ? "ml-auto text-right" : ""}`}>
 
           <Link href={buttonLink}>
             <h1 className="text-2xl md:text-4xl lg:text-[52px] xl:text-6xl font-semibold md:font-bold mb-4 md:mb-6 leading-tight cursor-pointer">

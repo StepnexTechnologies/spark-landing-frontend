@@ -220,7 +220,20 @@ async function HeroSection() {
   }
 
   const heroPost = posts[0];
-  const tags = getPostTags(heroPost);
+  const allTags = getPostTags(heroPost);
+
+  // Check for alignment tag (#left/#right or left/right), default to left
+  const alignmentTag = allTags.find(tag => {
+    const normalized = tag.toLowerCase().replace("#", "");
+    return normalized === "left" || normalized === "right";
+  });
+  const textAlign: "left" | "right" = alignmentTag?.toLowerCase().replace("#", "") === "right" ? "right" : "left";
+
+  // Filter out alignment tags from display tags
+  const displayTags = allTags.filter(tag => {
+    const normalized = tag.toLowerCase().replace("#", "");
+    return normalized !== "left" && normalized !== "right";
+  });
 
   return (
     <MainSection
@@ -230,7 +243,8 @@ async function HeroSection() {
       buttonText="Read More"
       buttonLink={`/blogs/${heroPost.slug}`}
       imageSrc={heroPost._embedded?.['wp:featuredmedia']?.[0]?.source_url || heroPost.yoast_head_json?.og_image?.[0]?.url || "/MainImage.svg"}
-      hashtags={tags.length > 0 ? tags : ["MonetizeYourContent", "CreatorEconomy", "PassiveIncome"]}
+      hashtags={displayTags.length > 0 ? displayTags : ["MonetizeYourContent", "CreatorEconomy", "PassiveIncome"]}
+      textAlign={textAlign}
     />
   );
 }
