@@ -77,11 +77,11 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
       canonical: canonical,
     },
     robots: {
-      index: false,
-      follow: false,
+      index: true,
+      follow: true,
       googleBot: {
-        index: false,
-        follow: false,
+        index: true,
+        follow: true,
       },
     },
     openGraph: {
