@@ -66,11 +66,11 @@ export async function generateMetadata({ params }: AuthorPageProps): Promise<Met
       canonical: url,
     },
     robots: {
-      index: false,
-      follow: false,
+      index: true,
+      follow: true,
       googleBot: {
-        index: false,
-        follow: false,
+        index: true,
+        follow: true,
       },
     },
     openGraph: {
