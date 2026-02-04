@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
-import { useTranslation } from "react-i18next";
+import {useEffect, useState} from "react";
+import {useSearchParams} from "next/navigation";
+import {useTranslation} from "react-i18next";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import {motion} from "framer-motion";
 
 interface ReferrerInfo {
   first_name: string;
@@ -37,7 +37,7 @@ export default function ReferralBanner() {
   const fetchReferrerInfo = async (code: string) => {
     setIsLoading(true);
     try {
-      const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "https://dev.api.sparkonomy.com";
+      const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE;
       const response = await fetch(`${apiBaseUrl}/api/v1/creator/referrals/info/${code}`);
 
       if (response.ok) {
