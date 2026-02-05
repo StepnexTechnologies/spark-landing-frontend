@@ -1,62 +1,62 @@
 {
   "nav": {
-    "getEarlyAccess": "Early Access Paayein"
+    "getEarlyAccess": "Early access paayein"
   },
   "hero": {
-    "title": "Duniya ka pehla AI — jo sirf creators ke liye banaya gaya hai.\nAb Private Beta mein.⚡️"
+    "title": "Duniya ka pehla AI — sirf creators ke liye.\nAb private beta mein. ⚡️"
   },
   "valueProposition": {
-    "heading1": "Zyada kamaayein. Stress kam Lein.",
-    "heading2": "Jaldi Payment Paayein!",
-    "description": "Late payments, baar-baar yaad dilaana, tax ka jhanjhat — sab khatam! Creators ke liye bana pehla AI — smart payments se shuru, jo aapko zyada aur faster earn karne mein help karta hai. Aap content banao, follow ups hum sambhal lenge.",
-    "cta": "Free mein invoice bhejna shuru karein"
+    "heading1": "Zyada kamaayein. Stress kam lein.",
+    "heading2": "Jaldi payment paayein!",
+    "description": "Late payments, baar-baar follow-ups aur tax ka jhanjhat — ab khatam! Creators ke liye banaya pehla AI — jo smart payments se shuru hota hai. Aap content  banayein, Follow ups hum sambhal lenge.",
+    "cta": "Bilkul free invoice bhejna shuru karein"
   },
   "benefits": {
     "title": "Fayde",
-    "cta": "Bilkul Free. Start Now.",
+    "cta": "Bilkul free. Abhi start karein.",
     "items": [
       {
-        "title": "Chat bheje. Invoice paayein.",
-        "description": "WhatsApp message, email ya brand chat ka screenshot upload karein — ya bas likhein: “Iska invoice bana do.” Baaki ka kaam hamara AI karega. Aapka invoice proper format mein banega, koi typo nahi, GST/pan ki details apne app aa jaegi aur approval ka bhi jhanjhat nahi. ",
+        "title": "Chat bhejein. Invoice paayein.",
+        "description": "WhatsApp message, email ya brand chat ka screenshot upload karein — ya bas likhein: “Iska invoice bana do.” Fir jaadu dekhiye, humara AI invoice ko proper format mein banata hai, typo-free.GST/PAN details apne aap add ho jayengi. Aap bas content banayein, payments ka process hum simple banayenge.",
         "highlight": "Aap bas content banao, Cashflow hum banayenge!"
       },
       {
-        "title": "Aap content banao. Follow ups hum sambhal lenge.",
-        "description": "Ab “Hey, just checking on the payment?” bhejne ki zarurat nahi. Sparkonomy ka AI polite aur pro payment reminders bhejta hai — WhatsApp aur email par. Aap control mein rehto hain, hum sirf process easy banate hain.",
-        "highlight": "Aap rishte banao. Follow-ups hum sambhal lenge."
+        "title": "Aap content  banayein. Follow ups hum sambhal lenge.",
+        "description": "Ab “Hey, just checking on the payment?” bhejne ki zarurat nahi. Sparkonomy ka AI WhatsApp aur email par polite, professional reminders bhejta hai. Aap reminders ko control kar sakte hain, Hum bas process easy banate hain.",
+        "highlight": "Aap rishte banayein. Follow-ups hum sambhal lenge."
       },
       {
-        "title": "Humare pocket CFO k saath banein pro",
-        "description": "Apne cash flow, overdue payments aur income growth ka update pao har hafte sirf 5 minute mein. Hum aapke records organize rakhte hain aur aapke business ko tax-compliant rahne mein help karte hain. ",
-        "highlight": "Aap pro bano, ham aapki help kareinge."
+        "title": "Pocket CFO ke saath pro banein",
+        "description": "Apne cash flow, overdue payments aur income growth ka weekly update paayein, sirf 5 minute mein. Hum aapke records organize rakhte hain aur aapke business ko tax-compliant rehne mein help karte hain. ",
+        "highlight": "Aap pro banein, ham aapki help karenge."
       }
     ]
   },
   "advantage": {
     "title": "Aapka Advantage",
-    "subtitle": "Aise invoices jo aapko jaldi payment dilayein aur aapki pro image banayein!",
+    "subtitle": "Aise invoices jo jaldi payment dilayein aur aapki professional image banayein!",
     "cta": "Jaldi Payment paayein",
     "items": [
       {
         "title": "Payment Ready",
-        "description": "GST auto calculate hoga aur payment process integrated rahegi"
+        "description": "GST auto calculate ho jayga aur payment process integrated rahega"
       },
       {
         "title": "Tax-Compliant",
-        "description": "GSTIN, HSN, aur barters manage kiye jaate hain."
+        "description": "GSTIN, HSN, aur barter deals manage karna easy ho jayga."
       },
       {
         "title": "WhatsApp Alerts",
-        "description": " Aapki payment track hoti rahegi"
+        "description": "WhatsApp par payment status aur reminders milte rahenge"
       },
       {
         "title": "Proof Of Work",
-        "description": "Aapka work auto-fetch hain jaega. Screenshots ki koi zarurat nahi."
+        "description": "Aapka work auto-fetch ho jayega. Screenshots ki zarurat nahi."
       }
     ]
   },
   "testimonials": {
-    "title": "What People Say",
+    "title": "Creators kya bol rahe hain",
     "items": [
       {
         "quote": "And I have to reach out so many times to get paid in 3 months, and still it hasn't happened 15-20 times! I want you to do my payment reminders",
@@ -76,134 +76,134 @@
     ]
   },
   "cta": {
-    "title": "Kya aap fast payments ke liye ready hain?",
+    "title": "Kya aap fast payments ke liye ready ho?",
     "button": "Apna pehla invoice banayein"
   },
   "faq": {
     "title": "Frequently Asked Questions",
-    "viewAll": "Sab Dekho",
+    "viewAll": "Poora Dekhein",
     "categories": [
       { "key": "all", "label": "Sab" },
-      { "key": "getting-started", "label": "Shuru Karna" },
+      { "key": "getting-started", "label": "Shuru karna" },
       { "key": "invoice", "label": "Invoice" },
-      { "key": "payment-reminders", "label": "Payment Reminders" },
+      { "key": "payment-reminders", "label": "Payment reminders" },
       { "key": "pocket-cfo", "label": "Pocket CFO" },
-      { "key": "pricing", "label": "Pricing" },
-      { "key": "taxation", "label": "Taxation" }
+      { "key": "pricing", "label": "Plans & pricing" },
+      { "key": "taxation", "label": "Tax & GST" }
     ],
     "items": [
       {
         "question": "Main sign up kaise karu?",
-        "answer": "Apna phone number dein - bas! Uske baad apne social handles share karein, apni billing information se related 2-3 easy questions answer karein, aur aap Sparkonomy ke AI ka use karke collaboration DM ka reply dene se bhi zyada fast invoices send kar payeinge! ",
+        "answer": "Apna phone number dein - bas! Uske baad apne social handles share karein, apni billing information se related 2-3 easy questions answer karein, aur aap Sparkonomy ke AI ka use karke collaboration DM ka reply dene se bhi zyada fast invoices send kar payeeinge! ",
         "category": "getting-started"
       },
       {
-        "question": "Creators ke liye yeh AI aur iska smart payment mere liye kaise useful hain?",
-        "answer": "Sparkonomy Ka AI creators ko apna business, ek pro ki tarah manage karne ke liye design kiya gaya hai. Smart payments feature ki help se aap invoices fast aur easily bhejh sakte hain. Bas apni chat ya brand collab details share karein, aur hum bina kisi calculation ya brands ke peeche bhaage GST-ready invoice bana denge. Humara pocket CFO aapke payments aur cash flow track kar ke, har week aapko 5 minute ka update bhejta hai. Aur sabse best part- Sparkonomy aapke payments ko automatically track karta hain aur WhatsApp/email par friendly reminders bhejhta hai. Aap hamesha control mein rehte hain kisko reminder milega, with 1-tap quick actions jaise: STOP, DELAY, ya PAYMENT DONE. Zyada kamay. Stress kam lein.",
+        "question": "Creators ke liye yeh AI aur smart payment kaise useful hain?",
+        "answer": "Sparkonomy ka AI creators ko apna business pro tarah manage karne mein help karta hai. Aap chat ya collab details share karein, aur system GST-ready invoice proper format mein bana dega. Pocket CFO aapke payments aur cash flow track karta hai aur har week 5 minutes ka update bhejta hai. Aur WhatsApp/email reminders se follow-ups easy ho jaate hain. Aap decide karte hain kisko reminder bhejna hai, with 1-tap actions: Stop, Delay, ya Payment Done.",
         "category": "getting-started"
       },
       {
-        "question": "Invoicing start karne ke liye mujhe meri profile mein kya information add Karni padegi?",
-        "answer": "Bas apna name, address, PAN aur Payment details (UPI ya Bank account) share karein. Agar aapka separate billing organization hai, toh uska PAN aur registration jaise CIN ya GSTIN add karein. Aur, hum jaante hain aap busy hain, isliyee typing ki zarurat nahi hai, bas document ki ek photo lein aur upload karein. Isme 5 minutes se bhi kam time lagta hai, aur aapko ye sirf ek baar hi karna padega!",
+        "question": "Invoicing start karne ke liye mujhe profile mein kya information add Karni pardegi?",
+        "answer": "Apna naam, address, PAN, aur payment details (UPI ya bank account) add karein. Agar aapka separate billing organisation hai, toh uska PAN aur registration details (CIN/GSTIN) bhi add karein. Typing ki zarurat nahi—document ki photo upload karein. Ye 5 minutes se kam time leta hai, aur sirf ek baar karna hota hai.",
         "category": "invoice"
       },
       {
         "question": "Main apna pehla invoice kaise banau?",
-        "answer": "Sparkonomy ka Creator AI aapko kuch tap se 3 minutes se bhi kam time mein invoice banane mein help karta hai - wo bhi aapke phone se. Hamara smart payment feature aapko fast shuruat karne mein help karta hai. Purana invoice duplicate karna hain, WhatsApp ya email ka screenshot upload karna hain with billing instructions, ya bas 'Mujhe iske liye invoice chahiye...' type karein aur dekhein aapke liye ek invoice ban jata hai. Apne invoice mein change lana itna easy hai. Chat bhejein - invoice payein. Ab, aapko invoice bhejne mein kabhi delay nahi hoga!",
+        "answer": "Sparkonomy ka Creator AI aapko kuch taps mein 3 minutes se kam time mein invoice banane mein help karta hai—seedha aapke phone se. Aap purana invoice duplicate kar sakte hain, WhatsApp/email ka screenshot upload kar sakte hain, ya bas likhein: “Mujhe iske liye invoice chahiye.” Phir invoice ready ho jayega, aur aap edits bhi easily kar sakte hain.",
         "category": "invoice"
       },
       {
         "question": "Sparkonomy meri taraf se payment reminders kaise bhejhega?",
-        "answer": "Humein pata hai apne haq ke paiso ke liye baar-baar follow-up karna kitna frustrating hota hai. Jab aap apna invoice banate hain, Sparkonomy aapse poochta hain ki kitne reminders bhejne hain aur kitni baar. Hum unhe aapke client ko WhatsApp aur email par bhejenge. Reminder wale din subah 10 AM par hum aapko ping karte hain aur poochte hain ki kya aap abhi bhi reminder bhejna chahte hain aur agar aap yes bolte hain, toh reminder 3 PM par chala jaata hai. Hum sirf 4 friendly reminder bhejte hain: ek check-in, ek soft poke, ek late fees alert, aur ek final notice. Aap STOP, DELAY, ya PAYMENT DONE jese quick replies ke saath control banaye rakh sakte hain. Aap content banao, follow up hum sambhal lenge.",
+        "answer": "Humein pata hai apne haq ke paiso ke liye baar-baar follow-up karna kitna frustrating hota hai. Jab aap apna invoice banate hain, Sparkonomy aapse poochta hain ki kitne reminders bhejne hain aur kitni baar. Hum unhe aapke client ko WhatsApp aur email par bhejenge. Reminder wale din subah 10 AM par hum aapko ping karte hain aur poochte hain ki kya aap abhi bhi reminder bhejna chahte hain aur agar aap yes bolte hain, toh reminder 3 PM par chala jaata hai. Hum sirf 4 friendly reminder bhejte hain: ek check-in, ek soft poke, ek late fees alert, aur ek final notice. Aap STOP, DELAY, ya PAYMENT DONE jese quick replies ke saath control banaye rakh sakte hain. Aap content   banayein, Follow up hum sambhal lenge.",
         "category": "payment-reminders"
       },
       {
         "question": "Pocket CFO kya hai aur yeh kya kaam karega?",
-        "answer": "Hum jaante hai ki aap apne creator business ke accountant nahi banna chahte, aur phir bhi aap vahi ban jate hai! Excel, Canva ya Word mein banaye hue invoices ko manage karna aur track karna impossible hai. Sparkonomy ka pocket CFO AI agent every week aapke payments aur cash flow ka analysis karta hai. Phir yeh aapko cash flow, overdue payments, aur income growth par quick weekly 5-minute update bhejta hai. Yeh aapke saare records ko clean aur aapke business ko tax-ready rakhta hai. Aap pro bano, ham aapki help kareinge.",
+        "answer": "Hum jaante hain ki aap apne creator business ke accountant nahi banna chahte. Phir bhi invoices, payments, aur follow-ups manage karna time le leta hai. Sparkonomy ka Pocket CFO AI agent har week aapke payments aur cash flow ka summary banata hai. Phir yeh aapko 5-minute ka weekly update bhejta hai—cash flow, overdue payments, aur income growth par. Isse aapke records clean rehte hain aur aapka business tax-ready rehne mein help milti hai. Aap pro banein. Hum aapki help karenge.",
         "category": "pocket-cfo"
       },
       {
         "question": "Mujhe kitna payment karna hoga?",
-        "answer": "Aap har month maximum 4 new invoices bana sakte hain, unlimited reminders bhej sakte hain, aur apna khud ka Pocket CFO pa sakte hain - jo most creators ke liye perfect hai. Jaise-jaise aapki needs badhti hain, aap kuch friends ko refer karke, ya phir ek cup coffee ke price se bhi kam mein Pro plan par switch kar sakte hain. ",
+        "answer": "Basic plan mein aap har month maximum 4 naye invoices bana sakte hain, unlimited reminders bhej sakte hain, aur Pocket CFO updates pa sakte hain. Agar aapko zyada invoices ya extra features chahiye, toh aap Pro plan par upgrade kar sakte hain. Aap referrals ke through benefits bhi unlock kar sakte hain.",
         "category": "pricing"
       },
       {
         "question": "Mere invoices par tax calculate kaise hoga?",
-        "answer": "Ab aapko Tax errors ke liye brands ko chase nahi karna padega. Tax-man se meetings nahi.  GST registered creators ke liye, Sparkonomy AI automatically sahi GST code lagata hai, CGST/SGST/IGST split karta hai, aur invoice ko GST-ready banata hai. Tax compliance hum sambhalte hain. Creation aap.",
+        "answer": " GST-registered creators ke liye, Sparkonomy aapki invoice details ke basis par GST fields fill karne mein help karta hai. System relevant tax details add karta hai aur CGST/SGST/IGST breakup generate karta hai, taaki invoice GST-ready format mein rahe. Aap final invoice send karne se pehle details review kar sakte hain.",
         "category": "taxation"
       },
       {
         "question": "Kya AI GST calculate karne mein help karta hai?",
-        "answer": "Yes! Sparkonomy ka AI GST system ko achchi tarah se jaanta hai. Yeh automatically right service code select karta hai, aur sabse achhi baat - hamara invoice template GST ki requirements ko perfectly follow karta hai. Sparkonomy ko saara hard work karne dijiy aur aap shine kijiye!",
+        "answer": " Haan. Sparkonomy ka AI GST-related invoice fields fill karne mein help karta hai. Yeh service category ke hisaab se relevant details add karta hai aur GST-ready invoice template follow karta hai. Aap send karne se pehle sab details verify kar sakte hain.",
         "category": "taxation"
       },
       {
         "question": "Mujhe meri brand services par kitna GST charge karna chahiye?",
-        "answer": "Aapko GST rate ki tension lene ki zarurat nahi hai - Sparkonomy ka AI aapke liye GST ka dhyaan rakhta hai! Yeh automatically aapki service ko sahi HSN code se match karta hai, GST ko IGST, SGST ya CGST mein split karta hai, aur ensure karta hai ki har invoice correct hain. Agar aap GST-registered nahi hain, toh Sparkonomy aapko GST add karne nahi dega, matlab galtiyon ka koi scope nahi. Aapka banaya aur bhejha gya har invoice error-free aur compliant hota hai, jisse aapka time aur stress bachta hai.",
+        "answer": " Agar aap GST-registered hain, toh invoice par applicable GST charge karna hota hai. Sparkonomy aapke invoice setup ke basis par GST fields aur CGST/SGST/IGST breakup set karne mein help karta hai. Agar aap GST-registered nahi hain, toh aap GST add nahi kar sakte. Final rate aur classification ke liye aap apni GST registration details ke hisaab se confirm karein.",
         "category": "taxation"
       },
       {
         "question": "Main Ek brand ko invoice kaise bheju?",
-        "answer": "Jaise aapko pasand hain! Apna invoice complete karne ke baad, Sparkonomy ke through brand ko bhej dein, ya PDF download karke personally email/WhatsApp par send karein. No chasing, no tension - bas fast cash!",
+        "answer": "Invoice complete karne ke baad, aap Sparkonomy ke through brand ko direct bhej sakte hain. Ya phir PDF download karke email/WhatsApp par send karein. Aap chahein toh send history bhi maintain rahegi, taaki follow-ups easy ho jaayein.",
         "category": "invoice"
       },
       {
         "question": "Kya invoice mein apna logo add kar sakte hain?",
-        "answer": "Haan! Hum jaante hain ki aapke invoices aapke unique brand ko reflect karne chahiye. Apna business logo, profile picture upload karein ya bas apne social accounts share karein, aur hum aapki profile photo leke aapke invoices ko personalize kar denge - taaki woh bilkul aapke jaise lage! Bas 1-tap mein har invoice ko ek shiny, pro look dein.",
+        "answer": "Haan. Aap apna business logo upload kar sakte hain aur invoices ko apne brand ke hisaab se personalise kar sakte hain. Aap chahein toh profile picture bhi use ho sakti hai. Isse har invoice ko clean, professional look milta hai—without extra effort.",
         "category": "invoice"
       },
       {
-        "question": "Kya ek Purchase Order (PO) use karke jaldi se invoice create kar sakte hain?",
-        "answer": "Bilkul! Hum jaante hain speed sab kuch hai. Saare project details manually enter karne ke bajay, jab aap 'Create Invoice' par tap karenge, tab aap brand ka Purchase Order (PO) upload kar sakte hain. Humara smart system instantly document ko breakdown karke basic details jaise brand ka naam, contact info, aur kabhi-kabhi rate bhi pre-fill kar dega - taaki aap details verify karke invoice aur bhi fast bhej sakein.",
+        "question": "Kya Purchase Order (PO) use karke jaldi invoice create kar sakte hain?",
+        "answer": "Haan. “Create Invoice” par tap karke aap brand ka Purchase Order (PO) upload kar sakte hain. System document se key details (brand name, contact info, line items) extract karke pre-fill kar deta hai. Aap bas details verify karein aur invoice jaldi bhej dein.",
         "category": "invoice"
       },
       {
-        "question": "Mujhse invoices bhejne mein aksar delay hota hai, kyunki ye ek chore lagta hai ya phir darr lagta hai ki kahin koi mistake na ho jaaye. Is it a big deal?",
-        "answer": " Haan! Agar aap invoice der se bhejte hain, toh brands aapka payment process late start karte hain, jo aapke payment cycle ko 45 se 180 din tak push kar sakta hai - matlab 6 mahine tak wait karna padh sakta hai. Hum bhi yeh delay pasand nahi karte, isliye Sparkonomy ke saath invoicing super simple aur fast bana di hai. Hamara 'Tap-to-Invoice' design aur AI seconds mein 100% accurate, pro invoices bana dete hain. Invoice mistakes aur delays hata kar, hum aapko jaldi payment dilate hain, taaki aap poori tarah se content creation par focus kar sakein!",
+        "question": "Mujhse invoices bhejne mein delay hota hai... Is it a big deal?",
+        "answer": "Haan, iska impact hota hai. Invoice late bhejne se brand ka payment process late start hota hai, aur payment aur delay ho sakta hai. Sparkonomy ke saath invoicing simple ho jaati hai—AI aapko invoice fast create karne, review karne, aur time par bhejne mein help karta hai, taaki aap content creation par focus kar sakein.",
         "category": "invoice"
       },
       {
         "question": "Kya aapke invoices meri country ke tax aur service codes ko support karte hain?",
-        "answer": "Haan, bilkul! Sparkonomy ka AI automatically aapki country ke hisaab se aapki service ke liye sabhi mandatory details fill kar deta hai including sahi tax aur service codes. Isse har invoice fully compliant, correctly classified aur legal requirements ke hisaab se ready hota hai, chahe aap filing kar rahe ho ya aapke client ke Input Tax Credit ke liye. Sparkonomy ke saath aapko errors ki chinta karne ki zaroorat nahi - hamara AI sab kuch seamlessly handle karta hai!",
+        "answer": "Haan. Sparkonomy aapki country aur profile settings ke hisaab se relevant tax fields aur service details add karne mein help karta hai. Aap final invoice send karne se pehle sab details review kar sakte hain, taaki classification aur compliance clear rahe.",
         "category": "invoice"
       },
       {
-        "question": "Mujhe lagta hai ki mere invoice mein koi galti hai. Mujhe kya karna chahiye?",
-        "answer": "Agar aapka invoice abhi tak send nahi hua hai, toh tension nahi lein - bas apne dashboard par jaiye aur edit option use karke changes kijiye. Agar invoice bhej diya gaya hai aur aap GST-registered nahi hain, toh aap invoice edit kar sakte hain, lekin best practice ye hai ki purana invoice cancel karke naya invoice bhejein, taaki sab clean rahe. Agar aap GST-registered hain, toh existing invoice ko cancel karke fresh invoice create karna chahiye. Isse aapke invoice serial numbers aur dates correct rahenge. Process ko fast karne ke liye, aap purane invoice ko duplicate karke necessary changes kar sakte hain aur phir send kar sakte hain. Yeh approach compliance maintain karne mein help karta hai aur records tidy rakhta hai!",
+        "question": "Mujhe lagta hai ki mere invoice mein galti hai. Mujhe kya karna chahiye?",
+        "answer": "Agar invoice abhi tak send nahi hua hai, toh dashboard se “Edit” karke changes karein. Agar invoice send ho chuka hai, toh best practice yeh hai ki purana invoice cancel karke naya invoice create karein, taaki records clean rahein. Agar aap GST-registered hain, toh cancel karke fresh invoice banana zyada safe hota hai. Aap time bachane ke liye purane invoice ko duplicate karke changes kar sakte hain.",
         "category": "invoice"
       },
       {
         "question": "Maine abhi apna Payment Method change kiya. Kya iska effect mere current invoice par padega?",
-        "answer": " Jo invoices aapne payment change se pehle bheje hain, unmein purane payment details hi dikhenge. Aapki updated payout information save ho gayi hai aur yeh saare future invoices aur payouts ke liye use hogi. Lekin, ensure karein ki aapke naye bank details fully verified hain next payment date se pehle. Agar purana payment system ab paise accept nahi karta, toh un brands ko jaldi update bhejna hoga jahan payment abhi pending hai, taaki delays avoid ho sakein.",
+        "answer": "Jo invoices aapne payment method change karne se pehle bheje hain, unmein purane payment details dikhenge. Updated payout details save ho jaati hain aur future invoices ke liye use hoti hain. Agar kisi brand ka payment pending hai, toh unko updated details share karein, taaki delay na ho.",
         "category": "invoice"
       },
       {
         "question": "Non-paying brands ke final collection aur public disclosure ke liye Sparkonomy ke steps kya hain?",
-        "answer": " Agar koi brand aapka payment ignore kar raha hai, toh yeh cool nahi hai. Hum abhi legal support provide nahi karte, lekin kuch smart hacks hai jo aapko payment lene mein help karenge. Hum suggest karenge ki kaise strong follow-up messages draft karein aur pro steps lein taaki payment jaldi aa jaye without kisi drama ke. Aap control mein rahenge, aur hum ensure karenge ki process smooth aur pro rahe.",
+        "answer": "Agar koi brand payment ignore kar raha hai, toh Sparkonomy aapko professional escalation follow karne mein help karta hai—reminder sequence, strong follow-up templates, aur proof-of-work/invoice details ek saath ready rakhna. Hum legal support provide nahi karte, aur public shaming/disclosure recommend nahi karte. Agar payment phir bhi pending rahe, toh aap formal written communication karein aur zarurat ho toh legal professional se advice lein.",
         "category": "payment-reminders"
       },
       {
         "question": "Kya mujhe brands se milne wale free products aur sponsored trips par tax dena hoga?",
-        "answer": "Haan. Law aapki services ke liye milne wali kisi bhi form ki payment ko taxable income maanta hai - chahe woh cash ho, products ho ya experiences. Agar koi brand aapko sponsored collaboration ke under ek particular amount se zyada value ka gift deta hai, toh aapko uski poori retail value income ke taur par declare karni hoti hai. Isliye jo bhi products ya benefits aapko milte hain, unka record rakhein aur retail value note karein, taaki tax filing ke time sahi reporting ho sake.",
+        "answer": "Haan, kai cases mein non-cash benefits bhi taxable ho sakte hain. Agar aapko products, gifts, ya sponsored trips collaboration ke under milte hain, toh unki value ko income/benefit ke taur par report karna pad sakta hai. Best practice: har benefit ka record rakhein aur approximate market value note karein, taaki filing ke time sahi reporting ho sake.",
         "category": "taxation"
       },
       {
         "question": "Main ek hi time par multiple brand deals kaise manage karun?",
-        "answer": "Jab deals WhatsApp, email aur Instagram DMs mein scattered hoti hain, tab chaos hota hai. Iska simple rule hai: sab kuch ek jagah track karein. Har deal ke liye yeh 4 cheezein zaroor note karo: Brand name, Payment amount, Due date, aur Payment status. Sparkonomy ke AI tool se yeh sab bahut easy ho jata hai. Aapke vendor registration se lekar, invoices, payment status aur income management - sab hum sambhalte hain.",
+        "answer": " Agar deals WhatsApp, email, aur Instagram DMs mein scattered hain, toh tracking tough ho jaati hai. Simple rule: sab kuch ek jagah track karein. Har deal ke liye 4 cheezein note karein—brand name, amount, due date, aur payment status. Sparkonomy aapko invoices, payment status, aur income tracking ek dashboard mein manage karne mein help karta hai.",
         "category": "invoice"
       },
       {
         "question": "Kya camera equipment aur software ke kharche tax deduction ke liye claim kiye ja sakte hain?",
-        "answer": "Haan, agar aap self-employed creator ya registered business hain, toh aap genuine business expenses ko income se deduct kar sakte hain. Isme camera gear, editing software, props, studio rent, aur ghar se kaam karte hain toh internet ka ek portion shaamil hain. Rule simple hain: Sirf wahi kharche karein jo actually content creation ke liye use hote hain, aur receipts sambhaal ke rakhein.",
+        "answer": "Haan. Agar aap self-employed creator ya registered business hain, toh aap genuine business expenses ko income se deduct kar sakte hain, subject to rules. Isme camera gear, editing software, props, studio rent, aur work-related internet ka portion include ho sakta hai. Sirf wahi expenses claim karein jo actual work ke liye use hote hain, aur invoices/receipts save rakhein.",
         "category": "taxation"
       }
     ]
   },
   "video": {
-    "cta": "Bilkul Free, Start now!"
+    "cta": "Bilkul free, Abhi start karein!"
   },
   "floatingCta": {
-    "button": "Free Mein Try Karein"
+    "button": "Free mein try karein"
   },
   "footer": {
     "tagline": "sparking the creator economy",
