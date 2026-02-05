@@ -94,6 +94,13 @@ export default function Layout({
           src="https://www.googletagmanager.com/gtag/js?id=G-87CRRH8FXM"
           strategy="afterInteractive"
       />
+      <Script
+          async
+          src="https://cdn-cookieyes.com/client_data/373b191ed956d51fb9a13f028b26a8d6/script.js"
+          id={'cookieyes'}
+          type={'text/javascript'}
+          strategy="afterInteractive"
+      />
 
       <Script id="gtag-init" strategy="afterInteractive">
           {`
