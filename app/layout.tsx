@@ -74,13 +74,27 @@ export default function Layout({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="facebook-domain-verification" content="dq4gtmx7isvdg6evweg50e3rmarkil" />
         <meta name="theme-color" content="#000000" />
+          <Script id="gtm-head" strategy="afterInteractive">
+            {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+              new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+              j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+              'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','GTM-K66374CX');`}
+          </Script>
+          <Script
+              async
+              src="https://cdn-cookieyes.com/client_data/373b191ed956d51fb9a13f028b26a8d6/script.js"
+              id={'cookieyes'}
+              type={'text/javascript'}
+              strategy="afterInteractive"
+          />
       </head>
       <body className={`${roboto.className} min-h-[100dvh] w-full relative`}>
-      {/*<Script*/}
-      {/*    type="text/javascript"*/}
-      {/*    src="https://cdn.cookie-script.com/s/b1693d0f866c8a85e471cfbd6dc87cd1.js"*/}
-      {/*    strategy="beforeInteractive"*/}
-      {/*/>*/}
+
+      {/* Google Tag Manager (noscript) */}
+      <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K66374CX"
+                        height="0" width="0" style={{display: "none", visibility: "hidden"}}></iframe></noscript>
+      {/* End Google Tag Manager (noscript) */}
 
       <Script
           async
