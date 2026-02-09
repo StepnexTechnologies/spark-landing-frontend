@@ -18,7 +18,7 @@ export default function FloatingCTA() {
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      const scrollThreshold = window.innerHeight * 2; // 2 viewports
+      const scrollThreshold = window.innerHeight * 1; // 1 viewport
 
       // Show button if scrolled down past threshold
       if (currentScrollY > scrollThreshold) {
@@ -68,6 +68,7 @@ export default function FloatingCTA() {
             <CTAButton
               buttonText={t("floatingCta.button")}
               className="shadow-[0_8px_32px_rgba(221,42,123,0.3)]"
+              hideBorderAnimation
             />
           </Suspense>
         </motion.div>
