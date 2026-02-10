@@ -21,7 +21,8 @@
       "Bash(findstr:*)",
       "Bash(powershell -Command \"\\(Invoke-WebRequest -Uri ''https://blog.sparkonomy.com/wp-json/wp/v2/posts/79?_embed''\\).Content | Select-String -Pattern ''wp:featuredmedia'' -Context 0,5\")",
       "Bash(powershell:*)",
-      "Bash(node -e:*)"
+      "Bash(node -e:*)",
+      "Bash(ls -la \"c:\\\\Users\\\\HP\\\\Desktop\\\\client\\\\spark-landing-frontend\\\\components\"\" | grep -E \"^d \")"
     ],
     "deny": [],
     "ask": []

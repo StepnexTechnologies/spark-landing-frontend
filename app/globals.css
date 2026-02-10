@@ -89,6 +89,24 @@ body {
     border: 1px solid var(--pink-to-purple, #DD2A7B);
 }
 
+/* Logo carousel infinite scroll */
+@keyframes logo-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.logo-carousel-track {
+  animation: logo-scroll 12s linear infinite;
+}
+
+.logo-carousel-track:hover {
+  animation-play-state: paused;
+}
+
 /* Prevent all images from being draggable */
 img {
     pointer-events: none;

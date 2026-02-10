@@ -5,6 +5,7 @@ import {useEffect, useRef, useState} from "react";
 import {motion} from "framer-motion";
 import gsap from "gsap";
 import EmailCapture from "@/components/EmailCapture";
+import Image from "next/image";
 import Link from "next/link";
 
 const HeroSection = () => {
@@ -441,7 +442,43 @@ const HeroSection = () => {
               </Link>
             )}
           </div>
+
         </motion.div>
+      </div>
+
+      {/* Partner Logos & Compliance Badges */}
+      <div
+        className="pointer-events-auto transition-all duration-700 mt-auto pb-24"
+        style={{
+          opacity: emailCaptureVisible ? 1 : 0,
+          transform: emailCaptureVisible
+            ? "translateY(0)"
+            : "translateY(20px)",
+        }}
+      >
+        {showContent && (
+          <div
+            className="overflow-hidden max-w-[350px] md:max-w-[500px] mx-auto"
+            style={{
+              maskImage: "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
+              WebkitMaskImage: "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
+            }}
+          >
+            <div className="logo-carousel-track flex items-center gap-[32px] w-max">
+              {[...Array(2)].map((_, setIndex) => (
+                <div key={setIndex} className="flex items-center gap-[32px] shrink-0">
+                  <Image src="/logos/Meta_White.png" alt="Built with Meta" height={40} width={120} className="h-[40px] w-auto object-contain shrink-0" />
+                  <Image src="/logos/Yt_White.png" alt="Developed with YouTube" height={40} width={120} className="h-[40px] w-auto object-contain shrink-0" />
+                  <Image src="/logos/Google_White.png" alt="Google for Startups" height={40} width={120} className="h-[40px] w-auto object-contain shrink-0" />
+                  <Image src="/logos/Gemini_White.png" alt="Gemini Early Access Program" height={40} width={120} className="h-[40px] w-auto object-contain shrink-0" />
+                  <Image src="/logos/CCPA_White.png" alt="CCPA" height={40} width={40} className="h-[40px] w-auto object-contain shrink-0" />
+                  <Image src="/logos/GDPR_White.png" alt="GDPR" height={40} width={40} className="h-[40px] w-auto object-contain shrink-0" />
+                  <Image src="/logos/DPDP-White.png" alt="DPDP" height={40} width={40} className="h-[40px] w-auto object-contain shrink-0" />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </motion.section>
   );
