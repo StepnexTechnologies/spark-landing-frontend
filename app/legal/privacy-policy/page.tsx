@@ -41,7 +41,7 @@ export default function PrivacyPolicyPage() {
                     </div>
                     <div className="w-20 h-20 md:w-24 md:h-24">
                         <Image
-                            src="/logos/DPDP_Purple.png"
+                            src="/logos/DPDP-Purple.png"
                             alt="DPDP Compliant - Personal Data Protection"
                             width={96}
                             height={96}

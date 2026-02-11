@@ -1,8 +1,8 @@
 "use client";
 import type React from "react";
-import {useEffect, useRef, useState} from "react";
+import { useEffect, useRef, useState } from "react";
 
-import {motion} from "framer-motion";
+import { motion } from "framer-motion";
 import gsap from "gsap";
 import EmailCapture from "@/components/EmailCapture";
 import Image from "next/image";
@@ -18,7 +18,7 @@ const HeroSection = () => {
   // States for sequential lazy loading
   const [titleVisible, setTitleVisible] = useState(false);
   const [subtextVisible, setSubtextVisible] = useState(false);
-  const [,setCtaVisible] = useState(false);
+  const [, setCtaVisible] = useState(false);
   // console.log(ctaVisible)
   const [emailCaptureVisible, setEmailCaptureVisible] = useState(false);
 
@@ -64,10 +64,10 @@ const HeroSection = () => {
     });
 
     // Animate "IGNITING" letter by letter with chained timing
-    [..."Igniting"].forEach((letter,index) => {
+    [..."Igniting"].forEach((letter, index) => {
       tl.fromTo(
         `#letter-igniting-${index}`,
-        { opacity: 0},
+        { opacity: 0 },
         {
           opacity: 1,
           duration: 0.11,
@@ -80,10 +80,10 @@ const HeroSection = () => {
     tl.to({}, { duration: 0.2 });
 
     // Animate "NOW..." letter by letter with chained timing
-    [..."Now..."].forEach(( letter,index) => {
+    [..."Now..."].forEach((letter, index) => {
       tl.fromTo(
         `#letter-now-${index}`,
-        { opacity: 0},
+        { opacity: 0 },
         {
           opacity: 1,
           duration: 0.11,
@@ -283,19 +283,16 @@ const HeroSection = () => {
       ref={containerRef}
       onMouseMove={handleUserInteraction}
       onClick={handleUserInteraction}
-      className={`flex flex-col items-center justify-center min-h-screen p-4 relative overflow-hidden bg-none pointer-events-none`}
+      className={`flex flex-col items-center min-h-screen p-4 relative overflow-hidden bg-none pointer-events-none`}
     >
       <div className="absolute inset-0-none">
         <motion.div
           animate={{
-            background: `radial-gradient(circle at ${mousePosition.x * 100}% ${
-              mousePosition.y * 100
-            }%, rgba(108,99,255,0.2), transparent 50%),
-                        radial-gradient(circle at ${
-                          100 - mousePosition.x * 100
-                        }% ${
-              100 - mousePosition.y * 100
-            }%, rgba(108,99,255,0.1), transparent 30%)`,
+            background: `radial-gradient(circle at ${mousePosition.x * 100}% ${mousePosition.y * 100
+              }%, rgba(108,99,255,0.2), transparent 50%),
+                        radial-gradient(circle at ${100 - mousePosition.x * 100
+              }% ${100 - mousePosition.y * 100
+              }%, rgba(108,99,255,0.1), transparent 30%)`,
           }}
           transition={{ type: "tween", duration: 0.2 }}
         />
@@ -319,136 +316,138 @@ const HeroSection = () => {
         />
       </div>
 
-      <div className="text-center relative z-10">
-        <motion.div
-          className={`absolute inset-0 flex flex-col space-y-8 items-center justify-center mb-12 ${showContent && 'hidden'}`}
-          initial={{ opacity: 1 }}
-          animate={{ opacity: showContent ? 0 : 1 }}
-          transition={{ duration: 0.5, ease: "easeInOut" }}
-        >
-          <h1 className="text-5xl md:text-6xl font-bold text-white flex items-center justify-center gap-4 select-none">
-            <span className="flex justify-center items-center w-min">
-              {[..."Igniting"].map((letter, index) => (
-                <motion.span
-                  key={`igniting-${index}`}
-                  id={`letter-igniting-${index}`}
-                  className="flex w-min justify-center items-center"
-                  style={{
-                    textShadow: "0 0 10px rgba(108,99,255,0.5)",
-                  }}
-                >
-                  {letter}
-                </motion.span>
-              ))}
-            </span>
-            <span className="flex justify-center items-center w-min">
-              {[..."Now..."].map((letter, index) => (
-                <motion.span
-                  key={`now-${index}`}
-                  id={`letter-now-${index}`}
-                  className="flex w-min justify-center items-center"
-                  style={{
-                    textShadow: "0 0 10px rgba(108,99,255,0.5)",
-                  }}
-                >
-                  {letter}
-                </motion.span>
-              ))}
-            </span>
-          </h1>
-          <motion.h3
-            id="promptLine"
-            initial={{ opacity: 0 }}
-            animate={{
-              opacity: (isInitialAnimationComplete && !showContent) ? 1 : 0 ,
-            }}
-            transition={{ delay: 2, duration: 1, ease: "easeInOut" }}
+      <div className="flex-1 flex flex-col items-center justify-center">
+        <div className="text-center relative z-10">
+          <motion.div
+            className={`absolute inset-0 flex flex-col space-y-8 items-center justify-center mb-12 ${showContent && 'hidden'}`}
+            initial={{ opacity: 1 }}
+            animate={{ opacity: showContent ? 0 : 1 }}
+            transition={{ duration: 0.5, ease: "easeInOut" }}
           >
-            <p className={`tagline text-md sm:text-lg md:text-xl mb-12 relative text-zinc-300 select-none ${showContent && 'hidden'}`}>
-              It begins with you—
-              <span id="moveText">
-                {isDesktopDevice ? "move to ignite" : "touch to ignite"}.
+            <h1 className="text-5xl md:text-6xl font-bold text-white flex items-center justify-center gap-4 select-none">
+              <span className="flex justify-center items-center w-min">
+                {[..."Igniting"].map((letter, index) => (
+                  <motion.span
+                    key={`igniting-${index}`}
+                    id={`letter-igniting-${index}`}
+                    className="flex w-min justify-center items-center"
+                    style={{
+                      textShadow: "0 0 10px rgba(108,99,255,0.5)",
+                    }}
+                  >
+                    {letter}
+                  </motion.span>
+                ))}
               </span>
-            </p>
-          </motion.h3>
-        </motion.div>
+              <span className="flex justify-center items-center w-min">
+                {[..."Now..."].map((letter, index) => (
+                  <motion.span
+                    key={`now-${index}`}
+                    id={`letter-now-${index}`}
+                    className="flex w-min justify-center items-center"
+                    style={{
+                      textShadow: "0 0 10px rgba(108,99,255,0.5)",
+                    }}
+                  >
+                    {letter}
+                  </motion.span>
+                ))}
+              </span>
+            </h1>
+            <motion.h3
+              id="promptLine"
+              initial={{ opacity: 0 }}
+              animate={{
+                opacity: (isInitialAnimationComplete && !showContent) ? 1 : 0,
+              }}
+              transition={{ delay: 2, duration: 1, ease: "easeInOut" }}
+            >
+              <p className={`tagline text-md sm:text-lg md:text-xl mb-12 relative text-zinc-300 select-none ${showContent && 'hidden'}`}>
+                It begins with you—
+                <span id="moveText">
+                  {isDesktopDevice ? "move to ignite" : "touch to ignite"}.
+                </span>
+              </p>
+            </motion.h3>
+          </motion.div>
 
-        <motion.div
-          ref={contentRef}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{
-            opacity: showContent ? 1 : 0,
-            y: showContent ? 0 : 20,
-          }}
-          transition={{ duration: 1, ease: "easeInOut" }}
-        >
-          <div
-            className="relative px-4 w-full flex justify-center transition-opacity duration-700"
-            style={{ opacity: titleVisible ? 1 : 0 }}
+          <motion.div
+            ref={contentRef}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{
+              opacity: showContent ? 1 : 0,
+              y: showContent ? 0 : 20,
+            }}
+            transition={{ duration: 1, ease: "easeInOut" }}
           >
-            <h2
-              ref={sparkonomyRef}
-              className="text-5xl xs:text-5xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-6 tracking-normal text-white select-none whitespace-nowrap"
+            <div
+              className="relative px-4 w-full flex justify-center transition-opacity duration-700"
+              style={{ opacity: titleVisible ? 1 : 0 }}
+            >
+              <h2
+                ref={sparkonomyRef}
+                className="text-5xl xs:text-5xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-6 tracking-normal text-white select-none whitespace-nowrap"
+                style={{
+                  textShadow: "0 0 20px rgba(108,99,255,0.3)",
+                }}
+              >
+                Sparkonomy
+              </h2>
+            </div>
+
+            <p
+              ref={taglineRef}
+              className="tagline text-lg sm:text-xl md:text-2xl mb-8 relative text-white select-none px-4 transition-opacity duration-700"
               style={{
-                textShadow: "0 0 20px rgba(108,99,255,0.3)",
+                opacity: subtextVisible ? 1 : 0,
+                transform: subtextVisible ? "translateY(0)" : "translateY(20px)",
               }}
             >
-              Sparkonomy
-            </h2>
-          </div>
+              Developing AI to spark creator livelihoods globally
+            </p>
 
-          <p
-            ref={taglineRef}
-            className="tagline text-lg sm:text-xl md:text-2xl mb-8 relative text-white select-none px-4 transition-opacity duration-700"
-            style={{
-              opacity: subtextVisible ? 1 : 0,
-              transform: subtextVisible ? "translateY(0)" : "translateY(20px)",
-            }}
-          >
-            Developing AI to spark creator livelihoods globally
-          </p>
+            {/*{showContent && <CampaignTrackerCTA isVisible={ctaVisible} />}*/}
 
-          {/*{showContent && <CampaignTrackerCTA isVisible={ctaVisible} />}*/}
+            <div
+              className="relative pointer-events-auto transition-all duration-700 email-container"
+              style={{
+                opacity: emailCaptureVisible ? 1 : 0,
+                transform: emailCaptureVisible
+                  ? "translateY(0)"
+                  : "translateY(20px)",
+              }}
+            >
+              {showContent && <EmailCapture />}
+            </div>
 
-          <div
-            className="relative pointer-events-auto transition-all duration-700 email-container"
-            style={{
-              opacity: emailCaptureVisible ? 1 : 0,
-              transform: emailCaptureVisible
-                ? "translateY(0)"
-                : "translateY(20px)",
-            }}
-          >
-            {showContent && <EmailCapture />}
-          </div>
-
-          <div
-            className="relative pointer-events-auto transition-all duration-700 mt-4"
-            style={{
-              opacity: emailCaptureVisible ? 1 : 0,
-              transform: emailCaptureVisible
-                ? "translateY(0)"
-                : "translateY(20px)",
-            }}
-          >
-            {showContent && (
-              <Link
-                href="/creator/earn"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[16px] text-gray-400 hover:text-white transition-colors duration-300 cursor-pointer select-none italic"
-              >
+            <div
+              className="relative pointer-events-auto transition-all duration-700 mt-4"
+              style={{
+                opacity: emailCaptureVisible ? 1 : 0,
+                transform: emailCaptureVisible
+                  ? "translateY(0)"
+                  : "translateY(20px)",
+              }}
+            >
+              {showContent && (
+                <Link
+                  href="/creator/earn"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[16px] text-gray-400 hover:text-white transition-colors duration-300 cursor-pointer select-none italic"
+                >
                   Private Beta! Earn More, Faster!
-              </Link>
-            )}
-          </div>
+                </Link>
+              )}
+            </div>
 
-        </motion.div>
+          </motion.div>
+        </div>
       </div>
 
-      {/* Partner Logos & Compliance Badges */}
+      {/* Partner Logos & Compliance Badges - pinned to bottom */}
       <div
-        className="pointer-events-auto transition-all duration-700 mt-auto pb-24"
+        className="pointer-events-auto transition-all duration-700 mb-40 md:mb-28"
         style={{
           opacity: emailCaptureVisible ? 1 : 0,
           transform: emailCaptureVisible
@@ -473,7 +472,7 @@ const HeroSection = () => {
                   <Image src="/logos/Gemini_White.png" alt="Gemini Early Access Program" height={40} width={120} className="h-[40px] w-auto object-contain shrink-0" />
                   <Image src="/logos/CCPA_White.png" alt="CCPA" height={40} width={40} className="h-[40px] w-auto object-contain shrink-0" />
                   <Image src="/logos/GDPR_White.png" alt="GDPR" height={40} width={40} className="h-[40px] w-auto object-contain shrink-0" />
-                  <Image src="/logos/DPDP-White.png" alt="DPDP" height={40} width={40} className="h-[40px] w-auto object-contain shrink-0" />
+                  <Image src="/logos/DPDP_White.png" alt="DPDP" height={40} width={40} className="h-[40px] w-auto object-contain shrink-0" />
                 </div>
               ))}
             </div>
