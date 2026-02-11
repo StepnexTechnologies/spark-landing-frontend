@@ -15,7 +15,9 @@ function ReferralClickTrackerInner() {
 
     sessionStorage.setItem(storageKey, "true");
 
-    const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000";
+    const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE;
+    if (!apiBaseUrl) return;
+
     fetch(`${apiBaseUrl}/api/v1/creator/referrals/track-click/${referralCode}`, {
       method: "POST",
     }).catch(() => {}); // Fire-and-forget

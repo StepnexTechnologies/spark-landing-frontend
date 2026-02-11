@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import {useEffect, useRef, useState} from "react";
+import {AnimatePresence, motion} from "framer-motion";
 import toast from "react-hot-toast";
 import ToggleInput from "@/components/form/ToggleInput";
 
@@ -22,7 +22,7 @@ export default function NewsletterSection() {
         : { email: null, phone_number: value };
 
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/blogs/subscribe`,
+        `${process.env.NEXT_PUBLIC_API_BASE}/api/v1/blogs/subscribe`,
         {
           method: "POST",
           headers: {
