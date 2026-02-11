@@ -57,7 +57,7 @@ export default function FAQSection() {
           {/* View All Button */}
           <div className="flex justify-center">
               <Suspense fallback={null}>
-                <CTAButton buttonText={t("faq.viewAll")} navigateTo={"/creator/earn/faqs"}/>
+                <CTAButton buttonText={t("faq.viewAll")} navigateTo={"/creator/earn/faqs"} hideBorderAnimation/>
               </Suspense>
           </div>
         </div>

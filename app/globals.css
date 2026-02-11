@@ -116,3 +116,54 @@ img {
     -moz-user-select: none;
     -ms-user-select: none;
 }
+
+/* react-phone-number-input overrides */
+.PhoneInput .PhoneInputInput {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    padding: 0 !important;
+}
+
+.PhoneInputCountry {
+    padding-right: 7px !important;
+}
+
+.PhoneInputCountrySelectArrow {
+    margin-left: 8px !important;
+}
+
+.validated-phone-input {
+    width: 100%;
+    background: transparent;
+    border: none;
+}
+
+.validated-phone-input .PhoneInputCountry {
+    padding: 0 !important;
+    margin-right: 8px;
+    background: transparent;
+    border: none;
+}
+
+.validated-phone-input .PhoneInputInput {
+    padding: 0 !important;
+    padding-left: 8px !important;
+    background: transparent;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    font-size: 16px;
+    color: white;
+}
+
+.validated-phone-input .PhoneInputCountrySelect {
+    background: #1a1a2e;
+    color: white;
+}
+
+.validated-phone-input .PhoneInputCountrySelectArrow {
+    color: white;
+    opacity: 0.7;
+}
