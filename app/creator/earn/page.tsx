@@ -36,9 +36,10 @@ function CreatorEarnPageContent() {
 
     // Check if user has already viewed stories
     const storiesViewed = sessionStorage.getItem("storiesViewed");
+    const referralCode = searchParams.get("ref");
 
-    if (storiesViewed === "true") {
-      // Skip stories, show landing page directly
+    if (storiesViewed === "true" || referralCode) {
+      // Skip stories for returning visitors OR referral visitors
       setShowLandingPage(true);
       setShowStories(false);
     } else {
