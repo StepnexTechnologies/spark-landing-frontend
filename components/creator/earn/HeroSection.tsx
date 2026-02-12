@@ -91,6 +91,29 @@ export default function HeroSection() {
             <CTAButton buttonText={t("nav.getEarlyAccess")} />
           </Suspense>
         </motion.div>
+
+        {/* Partner Logos */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.8 }}
+          className="flex items-center justify-center mt-12"
+        >
+          <Image
+            src="/logos/Meta_White.png"
+            alt="Meta"
+            height={40}
+            width={120}
+            className="h-[40px] w-auto object-contain pr-4 border-r border-white"
+          />
+          <Image
+            src="/logos/Yt_White.png"
+            alt="YouTube"
+            height={40}
+            width={120}
+            className="h-[40px] w-auto object-contain pl-4"
+          />
+        </motion.div>
       </motion.div>
     </section>
   );

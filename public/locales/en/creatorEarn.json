@@ -202,7 +202,9 @@
     "cta": "Completely Free, Start Now"
   },
   "floatingCta": {
-    "button": "Try For Free"
+    "button": "Try For Free",
+    "placeholder": "Your mobile number",
+    "signup": "Sign Up"
   },
   "footer": {
     "tagline": "sparking the creator economy",

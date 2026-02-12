@@ -2,6 +2,7 @@
 
 import {Suspense, useState, useEffect} from "react";
 import {motion} from "framer-motion";
+import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import FAQItem from "./FAQItem";
 import CTAButton from "./CTAButton";
@@ -37,6 +38,31 @@ export default function FAQSection() {
         className="max-w-[1440px] mx-auto"
       >
         <div className="w-full mx-auto">
+          {/* Compliance Badges */}
+          <div className="flex items-center justify-center gap-6 mb-12">
+            <Image
+              src="/logos/GDPR_White.png"
+              alt="GDPR"
+              height={64}
+              width={64}
+              className="h-[64px] w-[64px] object-contain"
+            />
+            <Image
+              src="/logos/CCPA_White.png"
+              alt="CCPA"
+              height={64}
+              width={64}
+              className="h-[64px] w-[64px] object-contain"
+            />
+            <Image
+              src="/logos/DPDP_White.png"
+              alt="DPDP"
+              height={64}
+              width={64}
+              className="h-[64px] w-[64px] object-contain"
+            />
+          </div>
+
           {/* Section Header */}
           <h2 className="text-[40px] md:text-[40px] font-bold text-white mb-6 md:mb-12">
             {t("faq.title")}
@@ -57,7 +83,7 @@ export default function FAQSection() {
           {/* View All Button */}
           <div className="flex justify-center">
               <Suspense fallback={null}>
-                <CTAButton buttonText={t("faq.viewAll")} navigateTo={"/creator/earn/faqs"}/>
+                <CTAButton buttonText={t("faq.viewAll")} navigateTo={"/creator/earn/faqs"} hideBorderAnimation/>
               </Suspense>
           </div>
         </div>

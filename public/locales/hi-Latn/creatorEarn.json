@@ -203,7 +203,9 @@
     "cta": "Bilkul free, Abhi start karein!"
   },
   "floatingCta": {
-    "button": "Free mein try karein"
+    "button": "Free mein try karein",
+    "placeholder": "Apna mobile number",
+    "signup": "Sign Up"
   },
   "footer": {
     "tagline": "sparking the creator economy",
@@ -214,7 +216,7 @@
   },
   "referral": {
     "defaultName": "Chulbuli",
-    "message": "ka manna hai ki yeh app creators ke liye sabse easy hai — aap bhi ise try karke dekho.",
+    "message": "ka maan na hai ki yeh app creators ke liye sabse easy hai — aap bhi ise try karke dekho.",
     "signUp": "Aaj hi Sign Up karo!"
   }
 }
