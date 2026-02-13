@@ -382,7 +382,7 @@ export default function TermsOfServicePage() {
                     </li>
                     <li>
                         <strong>Mandatory Arbitration:</strong> If we cannot resolve the
-                        dispute within 30 days, we both agree to resolve any claim through
+                        dispute within 30 days, we both agree to resolve any claim through{" "}
                         <strong>mandatory binding arbitration</strong> in Singapore, not in
                         a court of law. You also{" "}
                         <strong>
