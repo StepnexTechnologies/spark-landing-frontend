@@ -10,7 +10,7 @@ export default function FloatingCTA() {
   const { t, i18n, ready } = useTranslation("creatorEarn");
   const searchParams = useSearchParams();
   const [isVisible, setIsVisible] = useState(false);
-  const [lastScrollY, setLastScrollY] = useState(0);
+
   const [mounted, setMounted] = useState(false);
   const [phone, setPhone] = useState("");
 
@@ -23,38 +23,17 @@ export default function FloatingCTA() {
 
   useEffect(() => {
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      const scrollThreshold = window.innerHeight * 1; // 1 viewport
-
-      // Show button if scrolled down past threshold
-      if (currentScrollY > scrollThreshold) {
+      if (window.scrollY > 0) {
         setIsVisible(true);
       }
-      // Also show if scrolling up (reverse scroll) and past threshold
-      else if (
-        currentScrollY < lastScrollY &&
-        currentScrollY > scrollThreshold * 0.5
-      ) {
-        setIsVisible(true);
-      }
-      // Hide if near the top
-      else if (currentScrollY < scrollThreshold * 0.3) {
-        setIsVisible(false);
-      }
-
-      setLastScrollY(currentScrollY);
     };
 
-    // Add scroll event listener
     window.addEventListener("scroll", handleScroll, { passive: true });
-
-    // Initial check
-    handleScroll();
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [lastScrollY]);
+  }, []);
 
   const handleSignup = () => {
     const url = new URL(
