@@ -49,6 +49,20 @@ export default function FloatingCTA() {
     window.location.href = url.toString();
   };
 
+  const handleSignup = () => {
+    const url = new URL(
+      "https://beta.creator.sparkonomy.com/auth?service=earn"
+    );
+    url.searchParams.set("lang", currentLang);
+    if (referralCode) {
+      url.searchParams.set("ref", referralCode);
+    }
+    if (phone) {
+      url.searchParams.set("phone", phone);
+    }
+    window.location.href = url.toString();
+  };
+
   if (!mounted || !ready) {
     return null;
   }
