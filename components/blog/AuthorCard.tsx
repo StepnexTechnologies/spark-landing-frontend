@@ -42,9 +42,8 @@ export default function  AuthorCard({
     <div className="bg-[#F2F2F2] rounded-lg p-6 md:p-8">
       <h3 className="text-lg md:text-2xl font-semibold text-[#6B7280] mb-4">About the author</h3>
 
-      <div className="border-l-4 border-purple-600 pl-4 md:pl-6 mb-6">
-        <p className="text-sm md:text-base font-normal text-[#6B7280] leading-relaxed">{bio}</p>
-      </div>
+      <div className="border-l-4 border-purple-600 pl-4 md:pl-6">
+        <p className="text-sm md:text-base font-normal text-[#6B7280] leading-relaxed mb-6">{bio}</p>
 
       <div className="flex flex-col gap-6">
         <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6 md:gap-20">
@@ -159,7 +158,7 @@ export default function  AuthorCard({
                       alt={company.name}
                       width={100}
                       height={company.logoHeight || 32}
-                      className="h-6 w-auto object-contain"
+                      className="h-[24px] w-auto object-contain grayscale"
                     />
                   ) : (
                     <span key={index} className="text-lg md:text-xl font-bold text-gray-900">
@@ -185,7 +184,7 @@ export default function  AuthorCard({
                     alt={company.name}
                     width={80}
                     height={company.logoHeight || 24}
-                    className="h-4 w-auto object-contain"
+                    className="h-[24px] w-auto object-contain grayscale"
                   />
                 ) : (
                   <span key={index} className="text-lg font-bold text-gray-900">
@@ -196,6 +195,7 @@ export default function  AuthorCard({
             </div>
           </div>
         )}
+      </div>
       </div>
     </div>
   );
