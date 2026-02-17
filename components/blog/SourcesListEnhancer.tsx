@@ -25,7 +25,7 @@ export default function SourcesListEnhancer() {
         const text = heading.textContent?.toLowerCase().trim() || '';
 
         // Check if this is the Sources & References heading
-        if (text.includes('sources') && (text.includes('references') || text.includes('reference'))) {
+        if (text.includes('sources') || text.includes('references') || text.includes('reference')) {
           // Find the next sibling that is a list (ol or ul)
           let nextElement = heading.nextElementSibling;
 

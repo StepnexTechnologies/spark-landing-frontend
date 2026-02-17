@@ -22,6 +22,7 @@ export default function FAQAccordionEnhancer() {
 
     // Small delay to ensure WordPress content is rendered
     const timer = setTimeout(() => {
+      enhanceGutenbergAccordions();
       enhanceWordPressAccordions();
       enhanceTraditionalFAQs();
     }, 300);
@@ -30,6 +31,93 @@ export default function FAQAccordionEnhancer() {
   }, [isMounted]);
 
   return null;
+}
+
+/**
+ * Enhance native Gutenberg core/accordion blocks
+ * These use data-wp-interactive="core/accordion" which doesn't run in Next.js
+ */
+function enhanceGutenbergAccordions() {
+  const accordionItems = document.querySelectorAll(
+    ".wordpress-content .wp-block-accordion-item"
+  );
+
+  if (accordionItems.length === 0) return;
+
+  accordionItems.forEach((item) => {
+    if (item.classList.contains("gutenberg-accordion-enhanced")) return;
+    item.classList.add("gutenberg-accordion-enhanced");
+
+    const button = item.querySelector(
+      ".wp-block-accordion-heading__toggle"
+    ) as HTMLButtonElement;
+    if (!button) return;
+
+    // Find the content panel via aria-controls
+    const panelId = button.getAttribute("aria-controls");
+    const panel = panelId
+      ? item.querySelector(`#${panelId}`) as HTMLElement
+      : (item.querySelector('[role="region"]') as HTMLElement);
+
+    if (!panel) return;
+
+    // Hide duplicate heading inside the content panel
+    // The panel often contains an h3 that duplicates the button title text
+    const buttonText = button.textContent?.trim().toLowerCase() || "";
+    const panelHeadings = panel.querySelectorAll("h2, h3, h4");
+    panelHeadings.forEach((heading) => {
+      const headingText = heading.textContent?.trim().toLowerCase() || "";
+      if (headingText && buttonText.includes(headingText)) {
+        (heading as HTMLElement).style.display = "none";
+      }
+    });
+
+    // Check if it should be open by default from WP context
+    const wpContext = item.getAttribute("data-wp-context");
+    let openByDefault = false;
+    if (wpContext) {
+      try {
+        const ctx = JSON.parse(wpContext);
+        openByDefault = ctx.openByDefault === true;
+      } catch { /* ignore parse errors */ }
+    }
+
+    // Set initial state
+    if (!openByDefault) {
+      panel.style.display = "none";
+      button.setAttribute("aria-expanded", "false");
+      item.classList.remove("is-open");
+    } else {
+      panel.style.display = "block";
+      button.setAttribute("aria-expanded", "true");
+      item.classList.add("is-open");
+    }
+
+    const handleClick = (e: Event) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const isHidden = panel.style.display === "none";
+
+      if (isHidden) {
+        panel.style.display = "block";
+        button.setAttribute("aria-expanded", "true");
+        item.classList.add("is-open");
+      } else {
+        panel.style.display = "none";
+        button.setAttribute("aria-expanded", "false");
+        item.classList.remove("is-open");
+      }
+    };
+
+    button.addEventListener("click", handleClick);
+    button.addEventListener("keydown", (e: KeyboardEvent) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        handleClick(e);
+      }
+    });
+  });
 }
 
 /**

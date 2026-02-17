@@ -126,8 +126,8 @@ export function removeWordPressTOC(html: string): string {
   });
 
   // Find the Sources and references section and add class to the list
-  // Matches: "Sources and references", "Sources & References", "Sources & references", etc.
-  const sourcesRegex = /(<h2[^>]*>(?:<[^>]*>)*\s*Sources\s*(?:and|&amp;|&)\s*References?\s*(?:<[^>]*>)*<\/h2>[\s\S]*?)(<[ou]l[^>]*>)([\s\S]*?)(<\/[ou]l>)/gi;
+  // Matches: "Sources", "References", "Sources and references", "Sources & References", etc.
+  const sourcesRegex = /(<h2[^>]*>(?:<[^>]*>)*\s*(?:Sources(?:\s*(?:and|&amp;|&)\s*References?)?|References?)\s*(?:<[^>]*>)*<\/h2>[\s\S]*?)(<[ou]l[^>]*>)([\s\S]*?)(<\/[ou]l>)/gi;
 
   cleaned = cleaned.replace(sourcesRegex, (match, beforeList, listOpen, listContent, listClose) => {
     // Add sources-list class to ul/ol
@@ -246,6 +246,12 @@ export function addHeadingIds(html: string, headings: TOCItem[]): string {
 export function extractFAQs(html: string): FAQItem[] {
   const faqs: FAQItem[] = [];
 
+  // Try extracting from Gutenberg core/accordion blocks first
+  const gutenbergFaqs = extractGutenbergAccordionFAQs(html);
+  if (gutenbergFaqs.length > 0) {
+    return gutenbergFaqs;
+  }
+
   // Find FAQ section heading
   const faqHeadingRegex = /<(h[23])[^>]*>(?:<[^>]*>)*\s*Frequently Asked Questions?\s*(?:<[^>]*>)*<\/\1>/gi;
   const faqMatch = faqHeadingRegex.exec(html);
@@ -298,6 +304,28 @@ export function extractFAQs(html: string): FAQItem[] {
     }
 
     const answer = answerParts.join(' ');
+
+    if (question && answer) {
+      faqs.push({ question, answer });
+    }
+  }
+
+  return faqs;
+}
+
+/**
+ * Extract FAQ items from Gutenberg core/accordion blocks
+ */
+function extractGutenbergAccordionFAQs(html: string): FAQItem[] {
+  const faqs: FAQItem[] = [];
+
+  // Match accordion items: extract toggle title and content panel
+  const itemRegex = /<div[^>]*class="[^"]*wp-block-accordion-item[^"]*"[^>]*>[\s\S]*?<span[^>]*class="[^"]*wp-block-accordion-heading__toggle-title[^"]*"[^>]*>([\s\S]*?)<\/span>[\s\S]*?<div[^>]*(?:role="region"|class="[^"]*wp-block-accordion-item__content[^"]*")[^>]*>([\s\S]*?)<\/div>\s*<\/div>/gi;
+
+  let match;
+  while ((match = itemRegex.exec(html)) !== null) {
+    const question = match[1].replace(/<[^>]*>/g, '').trim();
+    const answer = match[2].replace(/<[^>]*>/g, '').trim();
 
     if (question && answer) {
       faqs.push({ question, answer });
