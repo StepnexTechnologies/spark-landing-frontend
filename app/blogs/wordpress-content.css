@@ -1580,7 +1580,7 @@
 /* Answer content area */
 .wordpress-content .faq-section > p,
 .wordpress-content .wp-block-details > p {
-  padding: 1rem 1.25rem;
+  padding: 0.25rem 1rem;
   color: #4b5563;
   font-size: 0.9375rem;
   line-height: 1.75;
@@ -1590,7 +1590,7 @@
 
 .wordpress-content .faq-section > p:last-child,
 .wordpress-content .wp-block-details > p:last-child {
-  padding-bottom: 1.25rem;
+  padding-bottom: 1rem;
 }
 
 /* Adjacent details blocks — remove double borders */
