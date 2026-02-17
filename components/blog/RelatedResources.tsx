@@ -38,7 +38,7 @@ export default function RelatedResources({ posts, basePath = "/blogs" }: Related
                 src={post.featuredImage}
                 alt={post.title}
                 fill
-                className="object-cover"
+                className="object-contain"
               />
             </div>
 
@@ -64,7 +64,7 @@ export default function RelatedResources({ posts, basePath = "/blogs" }: Related
                 src={post.featuredImage}
                 alt={post.title}
                 fill
-                className="object-cover"
+                className="object-contain"
               />
             </div>
 

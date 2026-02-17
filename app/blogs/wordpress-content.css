@@ -101,8 +101,8 @@
 }
 
 .blog-section--heading-para-list li {
-  margin-bottom: 0.5rem;
-  color: #4b5563;
+  margin-bottom: 16px;
+  color: #6B7280;
 }
 
 /* Heading + List Section (no paragraphs) */
@@ -123,8 +123,8 @@
 }
 
 .blog-section--heading-list li {
-  margin-bottom: 0.75rem;
-  color: #4b5563;
+  margin-bottom: 16px;
+  color: #6B7280;
   font-size: 1rem;
 }
 
@@ -352,8 +352,8 @@
 }
 
 .blog-section--list li {
-  margin-bottom: 0.5rem;
-  color: #4b5563;
+  margin-bottom: 16px;
+  color: #6B7280;
 }
 
 /* Image Section - Center aligned */
@@ -398,7 +398,7 @@
   font-size: 14px;
   line-height: 150%;
   letter-spacing: 0.25px;
-  margin-bottom: 4px;
+  margin-bottom: 16px;
 }
 
 /* Global heading styles for WordPress content */
@@ -621,7 +621,7 @@
   list-style-position: outside;
   margin-top: 1rem;
   margin-bottom: 1.5rem;
-  color: #999999;
+  color: #6B7280;
 }
 
 .wordpress-content ul {
@@ -645,10 +645,10 @@
   font-weight: 400;
   line-height: 150%;
   letter-spacing: 0.25px;
-  color: #999999;
+  color: #6B7280;
   display: list-item;
   text-decoration: none;
-  margin-bottom: 4px;
+  margin-bottom: 16px;
 }
 
 /* Primary color for list bullets/markers */
@@ -692,6 +692,11 @@
   list-style: none !important;
   list-style-type: none !important;
   margin-bottom: 20px !important;
+  color: #415CE7 !important;
+  text-decoration: underline;
+  font-style: italic;
+  font-size: 12px;
+  font-weight: 400;
 }
 
 @media (min-width: 768px) {
@@ -714,7 +719,7 @@
 .wordpress-content .wp-block-list {
   padding-left: 1.5rem;
   margin: 1rem 0 1.5rem 0;
-  color: #999999;
+  color: #6B7280;
 }
 
 .wordpress-content ul.wp-block-list {
@@ -727,7 +732,7 @@
 
 .wordpress-content .wp-block-list li {
   display: list-item;
-  margin-bottom: 4px;
+  margin-bottom: 16px;
 }
 
 /* Ensure ordered lists show numbers */
@@ -1502,31 +1507,95 @@
 .wordpress-content .faq-section,
 .wordpress-content .wp-block-details {
   border: 1px solid #e5e7eb;
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
   overflow: hidden;
+  margin-bottom: 0.75rem;
+  background: #fff;
+  transition: all 0.25s ease;
+}
+
+.wordpress-content .faq-section:hover,
+.wordpress-content .wp-block-details:hover {
+  border-color: #c4b5fd;
+}
+
+.wordpress-content .faq-section[open],
+.wordpress-content .wp-block-details[open] {
+  border-color: #c4b5fd;
+  box-shadow: 0 4px 12px -2px rgba(151, 71, 255, 0.08);
 }
 
 .wordpress-content .faq-section summary,
 .wordpress-content .wp-block-details summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   cursor: pointer;
   font-weight: 600;
-  color: #1f2937;
-  background: #f9fafb;
-  transition: background 0.2s;
+  font-size: 1rem;
+  color: #8134a5;
+  background: #faf8ff;
+  padding: 1rem 1.25rem;
+  list-style: none;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.wordpress-content .faq-section summary::-webkit-details-marker,
+.wordpress-content .wp-block-details summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Custom chevron indicator */
+.wordpress-content .faq-section summary::after,
+.wordpress-content .wp-block-details summary::after {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid #8134a5;
+  border-bottom: 2px solid #8134a5;
+  transform: rotate(-45deg);
+  transition: transform 0.25s ease;
+  flex-shrink: 0;
+  margin-left: 1rem;
 }
 
 .wordpress-content .faq-section summary:hover,
 .wordpress-content .wp-block-details summary:hover {
-  background: #f3f4f6;
+  background: #f3f0ff;
+  color: #8134a5;
 }
 
 .wordpress-content .faq-section[open] summary,
 .wordpress-content .wp-block-details[open] summary {
   border-bottom: 1px solid #e5e7eb;
+  color: #8134a5;
+  background: #f3f0ff;
 }
 
-.wordpress-content .faq-section p,
-.wordpress-content .wp-block-details p {
+.wordpress-content .faq-section[open] summary::after,
+.wordpress-content .wp-block-details[open] summary::after {
+  transform: rotate(45deg);
+}
+
+/* Answer content area */
+.wordpress-content .faq-section > p,
+.wordpress-content .wp-block-details > p {
+  padding: 1rem 1.25rem;
+  color: #4b5563;
+  font-size: 0.9375rem;
+  line-height: 1.75;
+  margin: 0;
+  background: #fff;
+}
+
+.wordpress-content .faq-section > p:last-child,
+.wordpress-content .wp-block-details > p:last-child {
+  padding-bottom: 1.25rem;
+}
+
+/* Adjacent details blocks — remove double borders */
+.wordpress-content .wp-block-details + .wp-block-details {
+  margin-top: -1px;
 }
 
 /* Author Quote Block - Quote with author info and avatar */
@@ -1816,6 +1885,115 @@
 /* Hidden state for FAQ body - kept for backwards compatibility */
 .wordpress-content .faq-body-hidden {
   display: none;
+}
+
+/* ====================
+   GUTENBERG CORE/ACCORDION BLOCK STYLES
+   Native WordPress accordion (data-wp-interactive="core/accordion")
+   ==================== */
+
+/* Accordion container */
+.wordpress-content .wp-block-accordion {
+  border: none !important;
+  background: transparent !important;
+  margin-bottom: 0 !important;
+}
+
+/* Each accordion item */
+.wordpress-content .wp-block-accordion-item {
+  border: none !important;
+  border-bottom: 1px solid #e5e7eb !important;
+  border-radius: 0 !important;
+  margin-bottom: 0 !important;
+  background: transparent !important;
+}
+
+.wordpress-content .wp-block-accordion-item:last-child {
+  border-bottom: none !important;
+}
+
+/* Heading wrapper */
+.wordpress-content .wp-block-accordion-heading {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: inherit !important;
+}
+
+/* Toggle button */
+.wordpress-content .wp-block-accordion-heading__toggle {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+  padding: 1rem 0 !important;
+  background: white !important;
+  border: none !important;
+  cursor: pointer !important;
+  text-align: left !important;
+  transition: background-color 0.2s ease !important;
+  font-family: inherit !important;
+}
+
+.wordpress-content .wp-block-accordion-heading__toggle:hover {
+  background: #f9fafb !important;
+}
+
+/* Question title text */
+.wordpress-content .wp-block-accordion-heading__toggle-title {
+  font-size: 1rem !important;
+  font-weight: 400 !important;
+  color: #6B7280 !important;
+  flex: 1 !important;
+  text-align: left !important;
+}
+
+@media (min-width: 768px) {
+  .wordpress-content .wp-block-accordion-heading__toggle-title {
+    font-size: 1.125rem !important;
+  }
+}
+
+/* Toggle icon - chevron */
+.wordpress-content .wp-block-accordion-heading__toggle-icon {
+  width: 20px !important;
+  height: 20px !important;
+  flex-shrink: 0 !important;
+  margin-left: 1rem !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: transform 0.2s ease !important;
+  color: #9CA3AF !important;
+}
+
+.wordpress-content .wp-block-accordion-heading__toggle-icon svg {
+  width: 20px !important;
+  height: 20px !important;
+  color: #9CA3AF !important;
+}
+
+/* Rotate icon when expanded */
+.wordpress-content .wp-block-accordion-item.is-open .wp-block-accordion-heading__toggle-icon {
+  transform: rotate(180deg) !important;
+}
+
+/* Content panel */
+.wordpress-content .wp-block-accordion-item__content {
+  padding: 0 0 1rem 0 !important;
+  background: white !important;
+}
+
+.wordpress-content .wp-block-accordion-item__content p {
+  font-size: 0.875rem !important;
+  color: #6B7280 !important;
+  line-height: 1.6 !important;
+  margin: 0 !important;
+}
+
+@media (min-width: 768px) {
+  .wordpress-content .wp-block-accordion-item__content p {
+    font-size: 1rem !important;
+  }
 }
 
 /* ====================

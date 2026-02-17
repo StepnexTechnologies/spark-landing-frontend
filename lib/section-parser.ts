@@ -83,7 +83,8 @@ function categorizeSection(html: string, heading: string, isFirst: boolean): Par
   // Check for FAQ section
   if (lowerHeading.includes('frequently asked') ||
       lowerHeading.includes('faq') ||
-      /wp-block-aab-accordion-block/i.test(html)) {
+      /wp-block-aab-accordion-block/i.test(html) ||
+      /wp-block-accordion/i.test(html)) {
     return { type: 'faq', html, heading };
   }
 
