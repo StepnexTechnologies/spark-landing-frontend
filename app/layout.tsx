@@ -5,61 +5,18 @@ import {SpeedInsights} from "@vercel/speed-insights/next";
 import type React from "react";
 import {RootLayoutClient} from "./root-layout-client";
 import Script from "next/script";
+import type {Metadata} from "next";
 
 const roboto = Roboto({ subsets: ["latin"], weight: ["300", "400", "500", "700"] });
 
-// export const metadata: Metadata = {
-//   metadataBase: new URL('https://www.sparkonomy.com'),
-//   title: {
-//     default: "Sparkonomy",
-//     template: "%s | Sparkonomy"
-//   },
-//   description: "Welcome to Sparkonomy - your gateway to innovation and excellence.",
-//   keywords: ["sparkonomy", "landing page", "innovation", "technology", "creator", "social media", "influencer", "community", "platform"],
-//   authors: [{ name: "Sparkonomy Team" }],
-//   creator: "Sparkonomy",
-//   publisher: "Sparkonomy",
-//   robots: {
-//     index: true,
-//     follow: true,
-//     googleBot: {
-//       index: true,
-//       follow: true,
-//       'max-video-preview': -1,
-//       'max-image-preview': 'large',
-//       'max-snippet': -1,
-//     },
-//   },
-//   openGraph: {
-//     type: "website",
-//     locale: "en_US",
-//     url: "https://www.sparkonomy.com/",
-//     title: "Spark - Landing Page",
-//     description: "Welcome to Sparkonomy - your gateway to innovation and excellence.",
-//     siteName: "Spark",
-//     images: [
-//       {
-//         url: "/sparkonomy.png",
-//         width: 1200,
-//         height: 630,
-//         alt: "Spark Logo",
-//       },
-//     ],
-//   },
-//   twitter: {
-//     card: "summary_large_image",
-//     title: "Sparkonomy - Landing Page",
-//     description: "Welcome to Sparkonomy - your gateway to innovation and excellence.",
-//     images: ["/sparkonomy.png"],
-//   },
-//   alternates: {
-//     canonical: "https://www.sparkonomy.com/",
-//   },
-//   verification: {
-//     google: "ptQwDw_lS9CEO3U7kNf5elzz79R6I4dXVLGyP1dfJY0",
-//   },
-//
-// };
+export const metadata: Metadata = {
+  icons: {
+    icon: [
+      { url: "/home-16x16Px.png", sizes: "16x16", type: "image/png" },
+      { url: "/home-44x44Px.png", sizes: "44x44", type: "image/png" },
+    ],
+  },
+};
 
 export default function Layout({
   children,
@@ -69,7 +26,6 @@ export default function Layout({
   return (
     <html lang="en" className="h-full">
       <head>
-        <link rel="icon" href="/favicon.ico" />
         {/* Canonical URL is set per-page via Next.js metadata - removed hardcoded global canonical to avoid duplicates */}
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="facebook-domain-verification" content="dq4gtmx7isvdg6evweg50e3rmarkil" />

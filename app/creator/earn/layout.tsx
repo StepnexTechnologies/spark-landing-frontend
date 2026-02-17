@@ -28,6 +28,12 @@ export const metadata: Metadata = {
   authors: [{ name: "Team Sparkonomy" }],
   creator: "Sparkonomy",
   publisher: "Sparkonomy",
+  icons: {
+    icon: [
+      { url: "/earn-16x16Px.png", sizes: "16x16", type: "image/png" },
+      { url: "/earn-44x44Px.png", sizes: "44x44", type: "image/png" },
+    ],
+  },
   robots: {
     index: true,
     follow: true,
@@ -45,14 +51,6 @@ export const metadata: Metadata = {
     title: "Grow Your Earnings with Sparkonomy | World's 1st AI exclusively for creators. Free!",
     description:
       "Earn more, Stress Less. Invoices in a few taps, automatic payment reminders and effortless tax.",
-    images: [
-      {
-        url: "/sparkonomy.png",
-        width: 1200,
-        height: 630,
-        alt: "Sparkonomy AI",
-      },
-    ],
     locale: "en_IN",
     type: "website",
   },
@@ -60,8 +58,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Grow Your Earnings with Sparkonomy | World's 1st AI exclusively for creators. Free!",
     description:
-      "Earn more, Stress Less. Invoices in a few taps, automatic payment reminders and effortless tax.\n",
-    images: ["/sparkonomy-earn.png"],
+      "Earn more, Stress Less. Invoices in a few taps, automatic payment reminders and effortless tax.",
   },
 };
 
