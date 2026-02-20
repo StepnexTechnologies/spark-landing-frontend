@@ -464,17 +464,43 @@ const HeroSection = () => {
             }}
           >
             <div className="logo-carousel-track flex items-center gap-[32px] w-max">
-              {[...Array(2)].map((_, setIndex) => (
-                <div key={setIndex} className="flex items-center gap-[32px] shrink-0">
-                  <Image src="/logos/Meta_White.png" alt="Built with Meta" height={40} width={120} className="h-[40px] w-auto object-contain shrink-0" />
-                  <Image src="/logos/Yt_White.png" alt="Developed with YouTube" height={40} width={120} className="h-[40px] w-auto object-contain shrink-0" />
-                  <Image src="/logos/Google_White.png" alt="Google for Startups" height={40} width={120} className="h-[40px] w-auto object-contain shrink-0" />
-                  <Image src="/logos/Gemini_White.png" alt="Gemini Early Access Program" height={40} width={120} className="h-[40px] w-auto object-contain shrink-0" />
-                  <Image src="/logos/CCPA_White.png" alt="CCPA" height={40} width={40} className="h-[40px] w-auto object-contain shrink-0" />
-                  <Image src="/logos/GDPR_White.png" alt="GDPR" height={40} width={40} className="h-[40px] w-auto object-contain shrink-0" />
-                  <Image src="/logos/DPDP_White.png" alt="DPDP" height={40} width={40} className="h-[40px] w-auto object-contain shrink-0" />
-                </div>
-              ))}
+              {[...Array(2)].map((_, setIndex) => {
+                const logos = [
+                  { src: "/logos/Meta_White.png", alt: "Built with Meta", width: 120 },
+                  { src: "/logos/Yt_White.png", alt: "Developed with YouTube", width: 120 },
+                  { src: "/logos/Google_White.png", alt: "Google for Startups", width: 120 },
+                  { src: "/logos/Gemini_White.png", alt: "Gemini Early Access Program", width: 120 },
+                  { src: "/logos/CCPA_White.png", alt: "CCPA", width: 40 },
+                  { src: "/logos/GDPR_White.png", alt: "GDPR", width: 40 },
+                  { src: "/logos/DPDP_White.png", alt: "DPDP", width: 40 },
+                ];
+                return (
+                  <div key={setIndex} className="flex items-center gap-[32px] shrink-0">
+                    {logos.map((logo, i) => (
+                      <motion.div
+                        key={`${setIndex}-${i}`}
+                        initial={{ opacity: 0, x: 30 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true, amount: 0.5 }}
+                        transition={{
+                          duration: 0.5,
+                          delay: i * 0.1,
+                          ease: "easeOut",
+                        }}
+                        className="shrink-0"
+                      >
+                        <Image
+                          src={logo.src}
+                          alt={logo.alt}
+                          height={50}
+                          width={logo.width}
+                          className="h-[50px] w-auto object-contain"
+                        />
+                      </motion.div>
+                    ))}
+                  </div>
+                );
+              })}
             </div>
           </div>
         )}
