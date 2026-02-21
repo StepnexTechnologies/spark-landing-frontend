@@ -23,7 +23,8 @@
       "Bash(powershell:*)",
       "Bash(node -e:*)",
       "Bash(ls -la \"c:\\\\Users\\\\HP\\\\Desktop\\\\client\\\\spark-landing-frontend\\\\components\"\" | grep -E \"^d \")",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(taskkill:*)"
     ],
     "deny": [],
     "ask": []
