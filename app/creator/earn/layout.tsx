@@ -10,9 +10,9 @@ const roboto = Roboto({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.sparkonomy.com/"),
-  title: "Grow Your Earnings with Sparkonomy | World's 1st AI exclusively for creators. Free!",
+  title: "Get paid faster — like your friend! Join them for FREE on Sparkonomy, the 1st AI for creators.",
   description:
-    "Earn more, Stress Less. Invoices in a few taps, automatic payment reminders and effortless tax.",
+    "Say NO to messy spreadsheets and manual invoices. Run your creator business like a pro. Join 100% free before early access ends!",
   keywords: [
     "creator invoicing",
     "AI invoicing",
@@ -48,17 +48,17 @@ export const metadata: Metadata = {
   openGraph: {
     siteName: "Sparkonomy",
     url: "https://sparkonomy.com/creator/earn",
-    title: "Grow Your Earnings with Sparkonomy | World's 1st AI exclusively for creators. Free!",
+    title: "Get paid faster — like your friend! Join them for FREE on Sparkonomy, the 1st AI for creators.",
     description:
-      "Earn more, Stress Less. Invoices in a few taps, automatic payment reminders and effortless tax.",
+      "Say NO to messy spreadsheets and manual invoices. Run your creator business like a pro. Join 100% free before early access ends!",
     locale: "en_IN",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Grow Your Earnings with Sparkonomy | World's 1st AI exclusively for creators. Free!",
+    title: "Get paid faster — like your friend! Join them for FREE on Sparkonomy, the 1st AI for creators.",
     description:
-      "Earn more, Stress Less. Invoices in a few taps, automatic payment reminders and effortless tax.",
+      "Say NO to messy spreadsheets and manual invoices. Run your creator business like a pro. Join 100% free before early access ends!",
   },
 };
 
