@@ -477,16 +477,8 @@ const HeroSection = () => {
                 return (
                   <div key={setIndex} className="flex items-center gap-[32px] shrink-0">
                     {logos.map((logo, i) => (
-                      <motion.div
+                      <div
                         key={`${setIndex}-${i}`}
-                        initial={{ opacity: 0, x: 30 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true, amount: 0.5 }}
-                        transition={{
-                          duration: 0.5,
-                          delay: i * 0.1,
-                          ease: "easeOut",
-                        }}
                         className="shrink-0"
                       >
                         <Image
@@ -496,7 +488,7 @@ const HeroSection = () => {
                           width={logo.width}
                           className="h-[50px] w-auto object-contain"
                         />
-                      </motion.div>
+                      </div>
                     ))}
                   </div>
                 );
