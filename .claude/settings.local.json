@@ -24,7 +24,8 @@
       "Bash(node -e:*)",
       "Bash(ls -la \"c:\\\\Users\\\\HP\\\\Desktop\\\\client\\\\spark-landing-frontend\\\\components\"\" | grep -E \"^d \")",
       "Bash(ls:*)",
-      "Bash(taskkill:*)"
+      "Bash(taskkill:*)",
+      "Bash(git log:*)"
     ],
     "deny": [],
     "ask": []
