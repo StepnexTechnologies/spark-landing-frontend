@@ -439,7 +439,7 @@ const ContactPage = () => {
               variants={fadeInVariants}
               className="mb-20"
           >
-            <LogoCarousel />
+            <LogoCarousel showCompliance={false} />
           </motion.section>
         </div>
       </div>

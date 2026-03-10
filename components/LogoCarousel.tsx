@@ -2,17 +2,21 @@
 
 import Image from "next/image";
 
-const logos = [
+const platformLogos = [
   { src: "/logos/Meta_White.png", alt: "Built with Meta", width: 120 },
   { src: "/logos/Yt_White.png", alt: "Developed with YouTube", width: 120 },
   { src: "/logos/Google_White.png", alt: "Google for Startups", width: 120 },
   { src: "/logos/Gemini_White.png", alt: "Gemini Early Access Program", width: 120 },
+];
+
+const complianceLogos = [
   { src: "/logos/CCPA_White.png", alt: "CCPA", width: 40 },
   { src: "/logos/GDPR_White.png", alt: "GDPR", width: 40 },
   { src: "/logos/DPDP_White.png", alt: "DPDP", width: 40 },
 ];
 
-const LogoCarousel = () => {
+const LogoCarousel = ({ showCompliance = true }: { showCompliance?: boolean }) => {
+  const logos = showCompliance ? [...platformLogos, ...complianceLogos] : platformLogos;
   return (
     <div
       className="overflow-hidden max-w-[350px] md:max-w-[500px] mx-auto"
