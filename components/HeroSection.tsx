@@ -1,6 +1,7 @@
 "use client";
 import type React from "react";
 import {useEffect, useRef, useState} from "react";
+import {useSearchParams} from "next/navigation";
 
 import {motion} from "framer-motion";
 import gsap from "gsap";
@@ -8,18 +9,21 @@ import EmailCapture from "@/components/EmailCapture";
 import LogoCarousel from "@/components/LogoCarousel";
 
 const HeroSection = () => {
-  const [isTextRevealed, setIsTextRevealed] = useState(false);
-  const [showContent, setShowContent] = useState(false);
+  const searchParams = useSearchParams();
+  const skipIntro = searchParams.get("skipIntro") === "true";
+
+  const [isTextRevealed, setIsTextRevealed] = useState(skipIntro);
+  const [showContent, setShowContent] = useState(skipIntro);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isInitialAnimationComplete, setIsInitialAnimationComplete] = useState(false);
+  const [isInitialAnimationComplete, setIsInitialAnimationComplete] = useState(skipIntro);
   const [isDesktopDevice, setIsDesktopDevice] = useState(true); // Default to desktop
 
   // States for sequential lazy loading
-  const [titleVisible, setTitleVisible] = useState(false);
-  const [subtextVisible, setSubtextVisible] = useState(false);
-  const [, setCtaVisible] = useState(false);
+  const [titleVisible, setTitleVisible] = useState(skipIntro);
+  const [subtextVisible, setSubtextVisible] = useState(skipIntro);
+  const [, setCtaVisible] = useState(skipIntro);
   // console.log(ctaVisible)
-  const [emailCaptureVisible, setEmailCaptureVisible] = useState(false);
+  const [emailCaptureVisible, setEmailCaptureVisible] = useState(skipIntro);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const sparkRef = useRef<HTMLDivElement>(null);
@@ -55,6 +59,8 @@ const HeroSection = () => {
   }, []);
 
   useEffect(() => {
+    if (skipIntro) return;
+
     const tl = gsap.timeline({
       onComplete: () => {
         // "Igniting Now..." animation is complete
@@ -94,7 +100,7 @@ const HeroSection = () => {
     return () => {
       tl.kill();
     };
-  }, []);
+  }, [skipIntro]);
 
   // Decide what to show after initial animation completes
   useEffect(() => {

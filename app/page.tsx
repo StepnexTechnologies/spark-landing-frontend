@@ -1,4 +1,5 @@
 import type React from "react";
+import {Suspense} from "react";
 import HeroSection from "@/components/HeroSection";
 import {Metadata} from "next";
 
@@ -58,7 +59,9 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <main className="h-[100dvh] overflow-hidden">
-      <HeroSection />
+      <Suspense>
+        <HeroSection />
+      </Suspense>
     </main>
   );
 }
