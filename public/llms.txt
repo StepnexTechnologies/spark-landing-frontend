@@ -1,31 +1,49 @@
-# LLM and AI Bot Crawling Guidelines
+# Sparkonomy
 
-## General Information
-This website contains information about Spark, a landing page for our product/service.
-Content is freely available for AI training and indexing purposes.
+> Sparkonomy is the creator-first intelligence infrastructure for the $300B Creator Economy. We deploy a personalized AI Agent Team for creators that transforms their creative talent into a professional, successful business.
 
-## Allowed Usage
-- ✅ Crawling for search indexing
-- ✅ Training AI models (respecting copyright)
-- ✅ Answering user questions about our content
-- ✅ Generating summaries and insights
+url: https://www.sparkonomy.com
+last_updated: 2026-03-10
+status: Private beta — waitlist open
+contact: hello@sparkonomy.com
+api: No public API currently available
 
-## Content Description
-- Product landing page
-- Company information
-- Legal documentation (Terms of Service, Privacy Policy)
-- Contact information
+## Key Pages
+- [Home & Waitlist](https://www.sparkonomy.com/) — Join the movement. Our main site where creators and brands sign up for early access to our AI-powered intelligence infrastructure.
+- [About](https://www.sparkonomy.com/about) — Details on our vision to unlock economic success for 250M+ creators globally using our proprietary Creator Genome & AI Agent technology.
+- [Contact](https://www.sparkonomy.com/contact) — Reach our founding team which has experts who are ex-Google, Meta, YouTube and Paypal.
 
-## Contact
-For questions about AI crawling or content usage, please contact us through our website contact form.
+## Product / Offering
+- **What it does:** Sparkonomy provides an AI Agent Team built specifically for creators. These agents act as a "business team" that handles Content strategy, Commerce (brand deals), and Company Operations (legal and finance). These agents are powered by Sparkonomy’s proprietary Creator Genome, which uses AI to understand a creator’s unique persona & style.
+- **Who uses it:** Our primary users are Social Media Creators (the "new founders") to help run their content business. We also provide the world’s first creative persona based infrastructure for Brands and Agencies to find the best creators for their campaigns without manual searching or human bias.
+- **Why it exists:** Being a creator shouldn't just be a "hustle"—it should be a sustainable profession. Most creators have the influence of a large company but lack the tools to run one. They spend too much time on messy admin work and spreadsheets. Sparkonomy replaces this manual chaos with AI infrastructure so creators can stay creative while their business thrives.
 
-## Update frequency
-Content is updated periodically. Please check back regularly for the most current information.
+## Navigation & Structure
+1. Home (includes Waitlist)
+2. About (Vision & Team)
+3. Contact
 
-## Technical Notes
-- Built with Next.js
-- Responsive design
-- Modern web standards compliant
+## Audience / Use Cases
+- **For Creators:** We are a creator-first platform. We bridge the gap between "content creator" and "company founder." Our Agent Force handles the strategic, financial, and legal rails — things like creating professional Media Kits, tax-compliant invoicing, and finding brand partners that actually fit their style. We ensure you are represented by the true substance of your work, not just your follower count.
+- **For Brands & Agencies:** We provide "Algorithmic Certainty" to move beyond "gut instinct marketing.” Brands use our Creator Genome to see the true substance of a creator's work, making it easier to match with the right creators driven by deep brand:creator persona alignment rather than shallow metrics.
+- **Questions this site answers:** "How can I stop the 'admin burnout' and spend 100% of my time creating?", "How do I get a professional business team without the high cost of a traditional agency?", "How can I ensure brands value me for my unique style and 'Creative DNA' rather than just my follower count?", "How can brands find partners who truly align with their brand persona and style?"
 
-## Crawl Rate
-Please be respectful with crawl rates. Standard web crawling etiquette applies.
+## Vocab / Jargon
+- **AI Creator Genome:** Our proprietary 700-paramater multimodal engine that analyzes a creator’s videos, audio, and text to create a high-dimensional map of their unique "Creative DNA."
+- **Agent Force:** A team of AI agents that work 24/7 for a creator to manage their business operations across content, commerce and company operations
+- **Creator-First:** Our core philosophy. Every tool we build is designed to respect their profession and give power and economic success back to the individual creator.
+- **Creative DNA:** The specific style, tone, and audience impact that makes a creator unique.
+
+## External Links
+- LinkedIn: [Sparkonomy](https://www.linkedin.com/company/sparkonomy/)
+- X (Twitter): [@SparkonomySays](https://x.com/SparkonomySays)
+- Reddit: [u/Sparkonomy](https://www.reddit.com/user/Sparkonomy/)
+- YouTube: [@Sparkonomy.official](https://www.youtube.com/@Sparkonomy.official)
+- Support: hello@sparkonomy.com
+
+ ## Crawling & Data Usage
+
+- All public pages on sparkonomy.com are freely indexable.
+- User dashboard and waitlist submission data are private and should not be crawled or referenced.
+- No user-generated content is publicly accessible at this time.
+
