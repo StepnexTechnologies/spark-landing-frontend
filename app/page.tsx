@@ -57,12 +57,8 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <main className="overflow-hidden">
-      <div className="">
-        <div className="flex-grow">
-          <HeroSection />
-        </div>
-      </div>
+    <main className="h-[100dvh] overflow-hidden">
+      <HeroSection />
     </main>
   );
 }

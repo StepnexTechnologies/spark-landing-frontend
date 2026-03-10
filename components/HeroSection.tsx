@@ -1,12 +1,11 @@
 "use client";
 import type React from "react";
-import { useEffect, useRef, useState } from "react";
+import {useEffect, useRef, useState} from "react";
 
-import { motion } from "framer-motion";
+import {motion} from "framer-motion";
 import gsap from "gsap";
 import EmailCapture from "@/components/EmailCapture";
 import Image from "next/image";
-import Link from "next/link";
 
 const HeroSection = () => {
   const [isTextRevealed, setIsTextRevealed] = useState(false);
@@ -283,7 +282,7 @@ const HeroSection = () => {
       ref={containerRef}
       onMouseMove={handleUserInteraction}
       onClick={handleUserInteraction}
-      className={`flex flex-col items-center min-h-screen p-4 relative overflow-hidden bg-none pointer-events-none`}
+      className={`flex flex-col items-center h-full p-4 relative overflow-hidden bg-none pointer-events-none`}
     >
       <div className="absolute inset-0-none">
         <motion.div
