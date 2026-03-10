@@ -4,6 +4,7 @@ import {motion} from "framer-motion";
 import {useEffect, useRef, useState} from "react";
 import {Home, Mail, MapPin, Sparkles, Target, Users} from "lucide-react";
 import Link from "next/link";
+import LogoCarousel from "@/components/LogoCarousel";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
 const AboutPage = () => {
@@ -94,7 +95,7 @@ const AboutPage = () => {
             initial="hidden"
             animate="visible"
             variants={staggerContainer}
-            className="text-center mb-20"
+            className="text-center mb-8"
           >
             <motion.h1
               variants={fadeInVariants}
@@ -106,16 +107,8 @@ const AboutPage = () => {
                 textShadow: "0 0 30px rgba(108,99,255,0.3)",
               }}
             >
-              About Sparkonomy
+              About Us
             </motion.h1>
-            <motion.div
-              variants={fadeInVariants}
-              className="flex justify-center items-center space-x-2 text-purple-400"
-            >
-              <Sparkles className="w-5 h-5" />
-              <span className="text-lg">Building the future of creator economy</span>
-              <Sparkles className="w-5 h-5" />
-            </motion.div>
           </motion.div>
 
           {/* Our Story Section */}
@@ -124,7 +117,7 @@ const AboutPage = () => {
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={staggerContainer}
-            className="mb-20"
+            className="mb-8"
           >
             <motion.div
               variants={fadeInVariants}
@@ -134,19 +127,16 @@ const AboutPage = () => {
                 <div className="w-8 h-8 bg-purple-500/20 rounded-full flex items-center justify-center">
                   <Sparkles className="w-4 h-4 text-purple-400" />
                 </div>
-                <h2 className="text-2xl sm:text-3xl font-bold text-white">Sparkonomy&#39;s Story</h2>
+                <h2 className="text-2xl sm:text-3xl font-bold text-white">Why Sparkonomy exists</h2>
               </div>
               <p className="text-gray-300 leading-relaxed text-lg">
-                In today&apos;s creator economy, greatness is everywhere. But the path to success is a maze.
-                Creators, the ultimate solo-preneurs, navigate this complex digital world alone, trying to 
-                turn their passion into a profession. On the other side, marketers search for authentic 
-                partners in a sea of noise. The entire ecosystem runs on friction.
-              </p>
-              <br />
-              <p className="text-gray-300 leading-relaxed text-lg">
-                We believe the future of this economy will be built on intelligent connection, not friction. 
-                That&apos;s why we are building Sparkonomy to be the AI-powered bridge. We&apos;re creating a world
-                where the best creators and the right brands find each other, not by chance, but by design.
+                Creators are the most significant founders of this generation. They are building the brands,
+                communities, and cultures that the world follows. Yet, while their influence has become
+                institutional, the world they navigate remains fragmented. For too long, the path to success
+                has been a maze of trial, error, and invisible friction—a landscape where brilliant passion
+                often co-exists with quiet exhaustion. It is a profession with massive promise, but fragile
+                foundations. Sparkonomy exists to change that - by building the intelligence infrastructure
+                Creators need to succeed.
               </p>
             </motion.div>
           </motion.section>
@@ -157,7 +147,7 @@ const AboutPage = () => {
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={staggerContainer}
-            className="mb-20"
+            className="mb-8"
           >
             <motion.div
               variants={fadeInVariants}
@@ -167,55 +157,57 @@ const AboutPage = () => {
                 <div className="w-8 h-8 bg-purple-500/20 rounded-full flex items-center justify-center">
                   <Target className="w-4 h-4 text-purple-400" />
                 </div>
-                <h2 className="text-2xl sm:text-3xl font-bold text-white">Sparkonomy&#39;s Mission</h2>
+                <h2 className="text-2xl sm:text-3xl font-bold text-white">Unlocking economic success for Creators</h2>
               </div>
+              <p className="text-gray-300 leading-relaxed text-lg mb-4">
+                Our vision is to elevate Creator livelihoods and success globally, transforming creative
+                passion into thriving businesses.
+              </p>
               <p className="text-gray-300 leading-relaxed text-lg">
-                Sparkonomy&#39;s mission is to be the AI thinking partner for every creator, helping them build thriving
-                livelihoods. This clarity and professionalism, in turn, will allow brands to discover and 
-                collaborate with the right partners, seamlessly and with confidence.
+                As we build the foundational infrastructure for the $300B creator economy, we are also
+                bringing to life the &apos;economic equality engine&apos; for the entire ecosystem. This is a system
+                that ensures every creator is represented by the true substance of their craft—unlocking a
+                fair and flourishing future for 250 million creators and the brands that partner with them
+                worldwide.
               </p>
             </motion.div>
           </motion.section>
 
-          {/* What We Do Section */}
+          {/* Intelligence Infrastructure Section */}
           <motion.section
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={staggerContainer}
-            className="mb-20"
+            className="mb-8"
           >
-            <motion.h2
+            <motion.div
               variants={fadeInVariants}
-              className="text-3xl sm:text-4xl font-bold text-center mb-12 text-white"
+              className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/8 transition-all duration-300"
             >
-              What We Do
-            </motion.h2>
-            
-            <div className="grid md:grid-cols-2 gap-8">
-              <motion.div
-                variants={fadeInVariants}
-                className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/8 transition-all duration-300"
-              >
-                <h3 className="text-xl font-bold text-purple-400 mb-4">For Creators</h3>
-                <p className="text-gray-300 leading-relaxed">
-                  We are designing a suite of AI-powered tools to act as your co-pilot unifying your brand,
-                  showcasing your impact, and managing your business so you can focus on your craft.
-                </p>
-              </motion.div>
-              
-              <motion.div
-                variants={fadeInVariants}
-                className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/8 transition-all duration-300"
-              >
-                <h3 className="text-xl font-bold text-purple-400 mb-4">For Brands & Marketers</h3>
-                <p className="text-gray-300 leading-relaxed">
-                  We are leveraging AI to build a data-rich platform that moves beyond vanity metrics, 
-                  helping you discover authentic creators that work for your unique brand style and measure 
-                  the true impact of your campaigns.
-                </p>
-              </motion.div>
-            </div>
+              <div className="flex items-center space-x-3 mb-6">
+                <div className="w-8 h-8 bg-purple-500/20 rounded-full flex items-center justify-center">
+                  <Sparkles className="w-4 h-4 text-purple-400" />
+                </div>
+                <h2 className="text-2xl sm:text-3xl font-bold text-white">The intelligence infrastructure for the Creator economy</h2>
+              </div>
+              <p className="text-gray-300 leading-relaxed text-lg mb-4">
+                At Sparkonomy, we believe that being a Creator shouldn&apos;t just be a hustle - it should be a
+                thriving, sustainable business. We are building the &quot;engine room&quot; for this new economy,
+                replacing manual chaos with purpose-built AI that acts as a true thinking partner.
+              </p>
+              <p className="text-gray-300 leading-relaxed text-lg mb-4">
+                Our proprietary Creator Genome leverages native multi-modality (powered by Google&apos;s Gemini
+                Models) to analyze the &quot;Creative DNA&quot; of a creator&apos;s work across video, audio, image, and
+                text—powering a personalized AI Agent Force that turns a creator&apos;s raw talent into a
+                structured venture.
+              </p>
+              <p className="text-gray-300 leading-relaxed text-lg">
+                We bridge the gap between being a &apos;content creator&apos; and a &apos;company founder&apos; by building the
+                essential business rails - strategic, financial, and legal - that allow passion to become a
+                profession and influence to become an institution.
+              </p>
+            </motion.div>
           </motion.section>
 
           {/* Team Section */}
@@ -224,7 +216,7 @@ const AboutPage = () => {
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={staggerContainer}
-            className="mb-20"
+            className="mb-8"
           >
             <motion.div
               variants={fadeInVariants}
@@ -234,14 +226,31 @@ const AboutPage = () => {
                 <div className="w-8 h-8 bg-purple-500/20 rounded-full flex items-center justify-center">
                   <Users className="w-4 h-4 text-purple-400" />
                 </div>
-                <h2 className="text-2xl sm:text-3xl font-bold text-white">Sparkonomy&#39;s Team</h2>
+                <h2 className="text-2xl sm:text-3xl font-bold text-white">The team building the future of the Creator economy</h2>
               </div>
+              <p className="text-gray-300 leading-relaxed text-lg mb-4">
+                Sparkonomy is built by creators, brand leaders, and AI technologists who have sat on every
+                side of the table.
+              </p>
+              <p className="text-gray-300 leading-relaxed text-lg mb-4">
+                Our team has spent decades building and scaling platforms like YouTube, Google, Meta, and
+                Paypal that power the modern internet. We&apos;ve managed billion-dollar brand budgets,
+                engineered global AI creative tools, and led growth for the world&apos;s largest creator
+                platforms.
+              </p>
+              <p className="text-gray-300 leading-relaxed text-lg mb-4">
+                But we&apos;ve also lived the Creator hustle.
+              </p>
+              <p className="text-gray-300 leading-relaxed text-lg mb-4">
+                This unique vantage point - combining institutional rigor with first-hand creator empathy -
+                is why Sparkonomy exists. We aren&apos;t just building another tool; we are applying the same
+                zero-to-one operating discipline and technical excellence used by the world&apos;s tech giants to
+                solve the most human challenges for the individual Creator-founder.
+              </p>
               <p className="text-gray-300 leading-relaxed text-lg">
-                We&apos;re a team of creators, brand experts, and AI technologists who have sat on both sides
-                of the table. We&apos;ve managed brand budgets, lived the creator hustle, and helped build the
-                very tools that shape the creator economy at companies like Google, YouTube, and Meta. 
-                This firsthand experience from every angle drives our commitment to building a platform 
-                that is finally fair, transparent, and powerful for everyone.
+                Our team has advised governments on AI adoption and helped thousands of Creators turn
+                influence into enterprise. We&apos;ve seen where the systems are broken, and we have the
+                blueprint to fix them.
               </p>
             </motion.div>
           </motion.section>
@@ -252,7 +261,7 @@ const AboutPage = () => {
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={staggerContainer}
-            className="mb-20"
+            className="mb-8"
           >
             <motion.div
               variants={fadeInVariants}
@@ -290,6 +299,17 @@ const AboutPage = () => {
                 </div>
               </div>
             </motion.div>
+          </motion.section>
+
+          {/* Logo Carousel */}
+          <motion.section
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+              variants={fadeInVariants}
+              className="mb-20"
+          >
+            <LogoCarousel />
           </motion.section>
         </div>
       </div>
