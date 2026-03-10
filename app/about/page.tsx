@@ -269,7 +269,7 @@ const AboutPage = () => {
             >
               <Link
                 href="/?skipIntro=true"
-                className="inline-block px-8 py-4 bg-purple-600 hover:bg-purple-500 text-white font-semibold text-lg rounded-full transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/25"
+                className="inline-block px-8 py-4 bg-purple-600 hover:bg-purple-500 text-white font-normal hover:font-semibold focus:font-semibold text-lg rounded-full transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/25"
               >
                 Join the waitlist!
               </Link>
