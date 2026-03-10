@@ -2,7 +2,7 @@
 
 import {motion} from "framer-motion";
 import {useEffect, useRef, useState} from "react";
-import {Home, Mail, MapPin, Sparkles, Target, Users} from "lucide-react";
+import {Home, Sparkles, Target, Users} from "lucide-react";
 import Link from "next/link";
 import LogoCarousel from "@/components/LogoCarousel";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -123,8 +123,8 @@ const AboutPage = () => {
               variants={fadeInVariants}
               className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/8 transition-all duration-300"
             >
-              <div className="flex items-center space-x-3 mb-6">
-                <div className="w-8 h-8 bg-purple-500/20 rounded-full flex items-center justify-center">
+              <div className="flex items-start space-x-3 mb-6">
+                <div className="w-8 h-8 mt-1 flex-shrink-0 bg-purple-500/20 rounded-full flex items-center justify-center">
                   <Sparkles className="w-4 h-4 text-purple-400" />
                 </div>
                 <h2 className="text-2xl sm:text-3xl font-bold text-white">Why Sparkonomy exists</h2>
@@ -153,21 +153,21 @@ const AboutPage = () => {
               variants={fadeInVariants}
               className="bg-gradient-to-r from-purple-500/10 to-blue-500/10 backdrop-blur-sm border border-purple-400/20 rounded-2xl p-8 hover:from-purple-500/15 hover:to-blue-500/15 transition-all duration-300"
             >
-              <div className="flex items-center space-x-3 mb-6">
-                <div className="w-8 h-8 bg-purple-500/20 rounded-full flex items-center justify-center">
+              <div className="flex items-start space-x-3 mb-6">
+                <div className="w-8 h-8 mt-1 flex-shrink-0 bg-purple-500/20 rounded-full flex items-center justify-center">
                   <Target className="w-4 h-4 text-purple-400" />
                 </div>
                 <h2 className="text-2xl sm:text-3xl font-bold text-white">Unlocking economic success for Creators</h2>
               </div>
               <p className="text-gray-300 leading-relaxed text-lg mb-4">
-                Our vision is to elevate Creator livelihoods and success globally, transforming creative
-                passion into thriving businesses.
+                <strong>Our vision is to elevate Creator livelihoods and success globally, transforming creative
+                passion into thriving businesses.</strong>
               </p>
               <p className="text-gray-300 leading-relaxed text-lg">
                 As we build the foundational infrastructure for the $300B creator economy, we are also
                 bringing to life the &apos;economic equality engine&apos; for the entire ecosystem. This is a system
                 that ensures every creator is represented by the true substance of their craft—unlocking a
-                fair and flourishing future for 250 million creators and the brands that partner with them
+                fair and flourishing future for 250M creators and the brands that partner with them
                 worldwide.
               </p>
             </motion.div>
@@ -185,8 +185,8 @@ const AboutPage = () => {
               variants={fadeInVariants}
               className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/8 transition-all duration-300"
             >
-              <div className="flex items-center space-x-3 mb-6">
-                <div className="w-8 h-8 bg-purple-500/20 rounded-full flex items-center justify-center">
+              <div className="flex items-start space-x-3 mb-6">
+                <div className="w-8 h-8 mt-1 flex-shrink-0 bg-purple-500/20 rounded-full flex items-center justify-center">
                   <Sparkles className="w-4 h-4 text-purple-400" />
                 </div>
                 <h2 className="text-2xl sm:text-3xl font-bold text-white">The intelligence infrastructure for the Creator economy</h2>
@@ -197,7 +197,7 @@ const AboutPage = () => {
                 replacing manual chaos with purpose-built AI that acts as a true thinking partner.
               </p>
               <p className="text-gray-300 leading-relaxed text-lg mb-4">
-                Our proprietary Creator Genome leverages native multi-modality (powered by Google&apos;s Gemini
+                Our proprietary <strong>Creator Genome</strong> leverages native multi-modality (powered by Google&apos;s Gemini
                 Models) to analyze the &quot;Creative DNA&quot; of a creator&apos;s work across video, audio, image, and
                 text—powering a personalized AI Agent Force that turns a creator&apos;s raw talent into a
                 structured venture.
@@ -222,8 +222,8 @@ const AboutPage = () => {
               variants={fadeInVariants}
               className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/8 transition-all duration-300"
             >
-              <div className="flex items-center space-x-3 mb-6">
-                <div className="w-8 h-8 bg-purple-500/20 rounded-full flex items-center justify-center">
+              <div className="flex items-start space-x-3 mb-6">
+                <div className="w-8 h-8 mt-1 flex-shrink-0 bg-purple-500/20 rounded-full flex items-center justify-center">
                   <Users className="w-4 h-4 text-purple-400" />
                 </div>
                 <h2 className="text-2xl sm:text-3xl font-bold text-white">The team building the future of the Creator economy</h2>
@@ -255,7 +255,7 @@ const AboutPage = () => {
             </motion.div>
           </motion.section>
 
-          {/* Contact Section */}
+          {/* CTA Section */}
           <motion.section
             initial="hidden"
             whileInView="visible"
@@ -265,39 +265,14 @@ const AboutPage = () => {
           >
             <motion.div
               variants={fadeInVariants}
-              className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 backdrop-blur-sm border border-purple-400/20 rounded-2xl p-8"
+              className="text-center"
             >
-              <div className="flex items-center space-x-3 mb-6">
-                <div className="w-8 h-8 bg-purple-500/20 rounded-full flex items-center justify-center">
-                  <Mail className="w-4 h-4 text-purple-400" />
-                </div>
-                <h2 className="text-2xl sm:text-3xl font-bold text-white">Get in Touch</h2>
-              </div>
-              
-              <p className="text-gray-300 leading-relaxed text-lg mb-6">
-                We&apos;re building Sparkonomy in close collaboration with the community. For any inquiries,
-                please reach out to us at{" "}
-                <a 
-                  href="mailto:hello@sparkonomy.com"
-                  className="text-purple-400 hover:text-purple-300 transition-colors duration-300 underline"
-                >
-                  hello@sparkonomy.com
-                </a>{" "}
-                or Whatsapp us at{" "}
-                <a href={'https://wa.me/919910772075'} className="text-purple-400 select-text">+91 9910772075</a>
-              </p>
-              
-              <div className="flex items-start space-x-3">
-                <MapPin className="w-5 h-5 text-purple-400 mt-1 flex-shrink-0" />
-                <div>
-                  <h3 className="text-white font-semibold mb-2">Sparkonomy Pte. Ltd.</h3>
-                  <address className="text-gray-300 not-italic leading-relaxed">
-                    100D PASIR PANJANG<br />
-                    #05-03 MEISSA<br />
-                    SINGAPORE 118523
-                  </address>
-                </div>
-              </div>
+              <Link
+                href="/"
+                className="inline-block px-8 py-4 bg-purple-600 hover:bg-purple-500 text-white font-semibold text-lg rounded-full transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/25"
+              >
+                Join the waitlist!
+              </Link>
             </motion.div>
           </motion.section>
 
