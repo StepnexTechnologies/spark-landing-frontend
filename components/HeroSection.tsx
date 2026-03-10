@@ -420,26 +420,6 @@ const HeroSection = () => {
               {showContent && <EmailCapture />}
             </div>
 
-            <div
-              className="relative pointer-events-auto transition-all duration-700 mt-4"
-              style={{
-                opacity: emailCaptureVisible ? 1 : 0,
-                transform: emailCaptureVisible
-                  ? "translateY(0)"
-                  : "translateY(20px)",
-              }}
-            >
-              {showContent && (
-                <Link
-                  href="/creator/earn"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[16px] text-gray-400 hover:text-white transition-colors duration-300 cursor-pointer select-none italic"
-                >
-                  Private Beta! Earn More, Faster!
-                </Link>
-              )}
-            </div>
 
           </motion.div>
         </div>
