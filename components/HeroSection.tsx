@@ -420,26 +420,6 @@ const HeroSection = () => {
               {showContent && <EmailCapture />}
             </div>
 
-            <div
-              className="relative pointer-events-auto transition-all duration-700 mt-4"
-              style={{
-                opacity: emailCaptureVisible ? 1 : 0,
-                transform: emailCaptureVisible
-                  ? "translateY(0)"
-                  : "translateY(20px)",
-              }}
-            >
-              {showContent && (
-                <Link
-                  href="/creator/earn"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[16px] text-gray-400 hover:text-white transition-colors duration-300 cursor-pointer select-none italic"
-                >
-                  Private Beta! Earn More, Faster!
-                </Link>
-              )}
-            </div>
 
           </motion.div>
         </div>
@@ -477,16 +457,8 @@ const HeroSection = () => {
                 return (
                   <div key={setIndex} className="flex items-center gap-[32px] shrink-0">
                     {logos.map((logo, i) => (
-                      <motion.div
+                      <div
                         key={`${setIndex}-${i}`}
-                        initial={{ opacity: 0, x: 30 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true, amount: 0.5 }}
-                        transition={{
-                          duration: 0.5,
-                          delay: i * 0.1,
-                          ease: "easeOut",
-                        }}
                         className="shrink-0"
                       >
                         <Image
@@ -496,7 +468,7 @@ const HeroSection = () => {
                           width={logo.width}
                           className="h-[50px] w-auto object-contain"
                         />
-                      </motion.div>
+                      </div>
                     ))}
                   </div>
                 );
