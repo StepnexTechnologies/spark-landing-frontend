@@ -12,6 +12,8 @@ interface CountrySelectorProps {
   onSelectCountry: (country: Country) => void;
   isValid?: boolean;
   isFocused?: boolean;
+  rounded?: string;
+  borderClassName?: string;
 }
 
 export default function CountrySelector({
@@ -19,6 +21,8 @@ export default function CountrySelector({
   onSelectCountry,
   isValid = true,
   isFocused = false,
+  rounded = "rounded-l-lg",
+  borderClassName,
 }: CountrySelectorProps) {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -62,19 +66,23 @@ export default function CountrySelector({
     };
 
   return (
-    <div ref={containerRef} className="relative">
+    <div ref={containerRef} className="relative h-full">
       <motion.button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        variants={inputVariants}
-        initial="initial"
-        animate={isFocused ? "focus" : "initial"}
-        whileHover={{ borderColor: "rgba(108, 99, 255, 0.8)" }}
-        className={`flex items-center w-full gap-2 px-3 py-2.5 bg-black/50 backdrop-blur-sm border-2 ${
-            isValid ? "border-purple-500/50" : "border-red-500/50"
-        } border-r-0 rounded-l-lg text-white placeholder-gray-400 focus:outline-none ${
-            isValid ? "focus:border-purple-400" : "focus:border-red-400"
-        } transition-all duration-300`}
+        {...(borderClassName ? {} : {
+          variants: inputVariants,
+          initial: "initial",
+          animate: isFocused ? "focus" : "initial",
+          whileHover: { borderColor: "rgba(108, 99, 255, 0.8)" },
+        })}
+        className={`flex items-center w-full gap-2 px-3 ${borderClassName ? "h-full" : "py-2.5"} bg-black/50 backdrop-blur-sm border-2 ${
+            borderClassName
+              ? borderClassName
+              : isValid ? "border-purple-500/50" : "border-red-500/50"
+        } border-r-0 ${rounded} text-white placeholder-gray-400 focus:outline-none ${
+            borderClassName ? "" : isValid ? "focus:border-purple-400" : "focus:border-red-400"
+        } ${borderClassName ? "transition-colors" : "transition-all"} duration-300`}
       >
         <span className="text-lg">{selectedCountry.flag}</span>
         <span className="text-sm font-mono">{selectedCountry.dialCode}</span>

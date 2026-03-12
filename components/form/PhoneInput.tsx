@@ -114,7 +114,7 @@ export default function PhoneInput({
   };
 
   return (
-    <div className="relative flex items-center">
+    <div className="relative z-[60] flex items-center">
       {/* Country Selector */}
       <CountrySelector
         selectedCountry={selectedCountry}

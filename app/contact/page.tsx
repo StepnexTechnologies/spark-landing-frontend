@@ -129,7 +129,7 @@ const ContactPage = () => {
       onMouseMove={handleMouseMove}
       className="min-h-screen bg-black text-white relative overflow-hidden"
     >
-    <Link href="/" className={"flex items-center justify-center md:justify-start pt-8 px-4 sm:px-6 lg:px-8"}>
+    <Link href="/?skipIntro=true" className={"flex items-center justify-center md:justify-start pt-8 px-4 sm:px-6 lg:px-8"}>
         <motion.div
             className="flex items-center justify-center z-50 w-12 h-12"
             whileHover={{ scale: 1.1 }}
@@ -194,7 +194,7 @@ const ContactPage = () => {
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={staggerContainer}
-            className="mb-8"
+            className="relative z-[60] mb-8"
           >
             <motion.p
               variants={fadeInVariants}

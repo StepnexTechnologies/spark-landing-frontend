@@ -322,7 +322,7 @@ const HeroSection = () => {
       </div>
 
       <div className="flex-1 flex flex-col items-center justify-center">
-        <div className="text-center relative z-10">
+        <div className="text-center relative">
           <motion.div
             className={`absolute inset-0 flex flex-col space-y-8 items-center justify-center mb-12 ${showContent && 'hidden'}`}
             initial={{ opacity: 1 }}
@@ -414,7 +414,7 @@ const HeroSection = () => {
             {/*{showContent && <CampaignTrackerCTA isVisible={ctaVisible} />}*/}
 
             <div
-              className="relative pointer-events-auto transition-all duration-700 email-container"
+              className="relative z-[60] pointer-events-auto transition-all duration-700 email-container"
               style={{
                 opacity: emailCaptureVisible ? 1 : 0,
                 transform: emailCaptureVisible

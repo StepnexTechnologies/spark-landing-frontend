@@ -11,7 +11,7 @@ export default function PrivacyPolicyPage() {
                     <h1 className="text-3xl font-bold text-primary">
                         Sparkonomy Privacy Policy
                     </h1>
-                    <Link href="/" className="text-primary hover:text-primary/80 transition-colors mr-8 mt-2">
+                    <Link href="/?skipIntro=true" className="text-primary hover:text-primary/80 transition-colors mr-8 mt-2">
                         <Home className="w-6 h-6" />
                     </Link>
                 </div>

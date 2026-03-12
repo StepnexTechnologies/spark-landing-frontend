@@ -4,6 +4,9 @@ import {useRef, useState} from "react";
 import {AnimatePresence, motion} from "framer-motion";
 import {ArrowRight, Mail, Phone, Sparkles} from "lucide-react";
 import {useSubmitEmail} from "@/lib/hooks/useSubmitEmail";
+import type {Country} from "@/lib/data/countries";
+import {countries} from "@/lib/data/countries";
+import CountrySelector from "@/components/form/CountrySelector";
 
 export default function EmailCapture() {
   const [email, setEmail] = useState("");
@@ -11,6 +14,8 @@ export default function EmailCapture() {
   const [isFocused, setIsFocused] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [inputType, setInputType] = useState<'email' | 'phone'>('email');
+  const [selectedCountry, setSelectedCountry] = useState<Country>(countries[0]);
+  const [isPhoneFocused, setIsPhoneFocused] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const { submitEmail, loading, error, responseNumber } = useSubmitEmail();
@@ -19,7 +24,10 @@ export default function EmailCapture() {
     e.preventDefault();
     setIsSubmitted(true);
 
-    const { number, message } = await submitEmail(email, inputType);
+    const submitValue = inputType === 'phone'
+      ? `${selectedCountry.dialCode}${email.replace(/\s/g, '')}`
+      : email;
+    const { number, message } = await submitEmail(submitValue, inputType);
     // console.log("Received number from server:", number);
     // console.log("Received message from server:", message);
 
@@ -38,7 +46,7 @@ export default function EmailCapture() {
   const getPlaceholder = () => {
     return inputType === 'email'
       ? "By Invitation, Leave Your Email"
-      : "By Invitation, Leave Your Phone";
+      : "Your Phone Number";
   };
 
   const isValidInput = () => {
@@ -109,23 +117,40 @@ export default function EmailCapture() {
                 initial="initial"
                 animate={[
                   isHovered ? "focus" : "initial",
-                  isFocused ? "focus" : "",
+                  isFocused || isPhoneFocused ? "focus" : "",
                 ].filter(Boolean)}
                 variants={glowVariants}
                 className="absolute inset-0 rounded-full transition-all duration-300"
               />
+
+              {inputType === 'phone' && (
+                <div className="relative z-[60] self-stretch">
+                  <CountrySelector
+                    selectedCountry={selectedCountry}
+                    onSelectCountry={setSelectedCountry}
+                    isValid={true}
+                    isFocused={isPhoneFocused}
+                    rounded="rounded-l-full"
+                    borderClassName="border-[#6C63FF]"
+                  />
+                </div>
+              )}
 
               <input
                 ref={inputRef}
                 type={inputType === 'email' ? 'email' : 'tel'}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                onFocus={() => setIsFocused(true)}
-                onBlur={() => setIsFocused(false)}
+                onFocus={() => { setIsFocused(true); setIsPhoneFocused(true); }}
+                onBlur={() => { setIsFocused(false); setIsPhoneFocused(false); }}
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
                 placeholder={getPlaceholder()}
-                className="w-full px-4 pr-16 py-3 bg-black/50 backdrop-blur-sm border-2 border-[#6C63FF] rounded-full text-white placeholder-gray-400 focus:outline-none focus:border-white transition-all duration-300 text-[16px]"
+                className={`w-full pr-16 py-3 bg-black/50 backdrop-blur-sm border-2 border-[#6C63FF] text-white placeholder-gray-400 focus:outline-none transition-colors duration-300 text-[16px] ${
+                  inputType === 'phone'
+                    ? 'pl-2 rounded-r-full border-l-0'
+                    : 'px-4 rounded-full'
+                }`}
                 required
                 autoComplete="on"
               />
