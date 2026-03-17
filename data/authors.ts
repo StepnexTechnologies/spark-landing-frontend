@@ -6,6 +6,7 @@ export interface AuthorSocialLinks {
   instagram?: string;
   youtube?: string;
   facebook?: string;
+  website?: string;
 }
 
 export interface PreviousCompany {
@@ -50,6 +51,11 @@ export interface RecentArticle {
 export interface AuthorEntry {
   id: string;
   slug: string; // URL slug for our author page (e.g., "guneet-singh")
+
+  // SEO metadata
+  metaTitle?: string;
+  metaDescription?: string;
+  canonicalPath?: string;
 
   // WordPress matching - use ONE of these to match WordPress author to our data
   wordpressSlug?: string; // WordPress author slug (e.g., "dev-sparkonomy") - PREFERRED
@@ -104,199 +110,247 @@ export interface AuthorEntry {
 
 // Centralized authors data
 export const authors: AuthorEntry[] = [
-  // {
-  //   id: "guneet_singh",
-  //   slug: "guneet-singh",
+  {
+    id: "guneet_singh",
+    slug: "guneet-singh",
 
-  //   // WordPress matching
-  //   wordpressSlug: "guneet",
-  //   wordpressAuthorId: 5,
+    // SEO metadata
+    metaTitle: "Guneet Singh: Product, Tech Leader and Mentor at Sparkonomy",
+    metaDescription: "Guneet Singh worked at Google and Microsoft. Now, he helps creators use technology to build real businesses. Read his guides on growth and AI.",
+    canonicalPath: "/authors/guneet-singh",
 
-  //   name: "Guneet Singh",
-  //   role: "Founder & Chief Hustler, Sparkonomy",
-  //   avatarUrl: "/authors/ProfilePicture_gunnet.png",
-  //   shortBio: "I am a tech veteran and strategist based in Singapore. After 20 years leading consumer tech businesses at Google and Microsoft, I am now building the AI infrastructure to protect and empower the next generation of entrepreneurs: the creators.",
+    // WordPress matching
+    wordpressSlug: "guneet",
+    wordpressAuthorId: 5,
 
-  //   socialLinks: {
-  //     twitter: "https://twitter.com/guneetsingh",
-  //     linkedin: "https://www.linkedin.com/in/guneetsingh",
-  //     email: "guneet@sparkonomy.com",
-  //   },
+    name: "Guneet Singh",
+    role: "Global Tech Leader | Startup Mentor | Venture Builder",
+    avatarUrl: "/authors/ProfilePicture_gunnet.png",
+    shortBio: "I am a tech leader and strategist based in Singapore. After 20 years working across Google, Microsoft, Samsung, and ABN AMRO, I now build and mentor at the edge of technology and new work. At Sparkonomy, I write about how smart systems and AI can complement creators by handling the friction so you can spend more time creating and still build a sustainable career.",
 
-  //   previousCompanies: [
-  //     { name: "Google", logo: "/authors/logos/Google.png" },
-  //     { name: "Microsoft", logo: "/authors/logos/Microsoft.png" },
-  //     { name: "Samsung", logo: "/authors/logos/Samsung.png" },
-  //   ],
+    socialLinks: {
+      twitter: "https://twitter.com/guneetsingh",
+      linkedin: "https://www.linkedin.com/in/guneets",
+      email: "guneet@sparkonomy.com",
+    },
 
-  //   storyTitle: "From Big Tech to the Creator Economy",
-  //   storyContent: [
-  //     "I spent the last two decades in corporate boardrooms, but the most exciting shift I ever witnessed didn't happen in a meeting—it happened on a screen.",
-  //     "Over 15 years ago, working with YouTube, I had a front-row seat to a quiet revolution. I saw the platform open doors for people the traditional economy had overlooked. I watched housewives, farmers, truck drivers, and people in low-development geographies pick up a camera and build businesses from nothing. They weren't just making videos; they were democratizing entrepreneurship. Conventional literacy didn't matter—human connection did.",
-  //   ],
-  //   highlightQuote: "I realized the future of work isn't just in corporate contracts, but in human expression.",
-  //   storyConclusion: [
-  //     "Today, we are at another turning point. As AI begins to automate conventional white-collar jobs, human authenticity is becoming the most valuable asset in the world. The \"Creator\" isn't just a hobbyist anymore; they are the future workforce.",
-  //     "But there is a problem. While we cheer for their entrepreneurship, the industry is saddled with exploitation. Creators are building empires on shaky foundations, often without the tools or protections traditional businesses take for granted.",
-  //     "That is why I built Sparkonomy.",
-  //     "I wanted to tilt my knowledge of the platform ecosystems and the \"big business\" playbook to help the little guy. We are using AI not to replace the creator, but to handle the friction—the contracts, the payments, the operations—so this profession can thrive without the burnout.",
-  //   ],
-  //   signatureImage: "/authors/Gunnet_singh_signature.png",
+    previousCompanies: [
+      { name: "Google", logo: "/authors/logos/Google.png" },
+      { name: "Microsoft", logo: "/authors/logos/Microsoft.png" },
+      { name: "Samsung", logo: "/authors/logos/Samsung.png" },
+    ],
+    previousCompaniesLabel: "Previously scaling billion-dollar businesses at:",
 
-  //   aboutTitle: "About Gunnet",
-  //   aboutContent: [
-  //     "Gunnet is the Founder and CEO of Sparkonomy, a startup dedicated to building financial and operational infrastructure for the creator economy. Based in Singapore, he combines deep industry expertise with a passion for AI productivity to solve the systemic challenges creators face—from payment friction to sustainable scaling.",
-  //     "Prior to founding Sparkonomy, Gunnet spent over 20 years leading billion-dollar portfolios in the Consumer Tech and Media sectors. He held key leadership positions at Google, Microsoft, and Samsung, driving navigating the intersection of consumer behavior and emerging technology.",
-  //     "A firm believer in the \"democratization of entrepreneurship,\" Gunnet advocates for a future where human creativity is the ultimate economic engine. He actively mentors early-stage startups and writes about the impact of AI on human productivity and the shifting landscape of work.",
-  //   ],
+    storyTitle: "From Big Tech to the Creator Economy",
+    storyContent: [
+      "I spent the last two decades in corporate corridors, but the most exciting shift I ever witnessed didn't happen in a meeting—it happened on a screen.",
+      "Over 15 years ago, working with YouTube, I had a front-row seat to a quiet revolution. I saw the platform open doors for people the traditional economy had overlooked. I watched housewives, farmers, truck drivers, and people in low-development geographies pick up a camera and build businesses from nothing. They weren't just making videos; they were democratizing entrepreneurship. Conventional literacy didn't matter—human connection did.",
+    ],
+    highlightQuote: "I realized the future of work isn't just in corporate contracts, but in human expression.",
+    storyConclusion: [
+      "Today, we are at another turning point. As AI begins to automate conventional white-collar jobs, human authenticity is becoming the most valuable asset in the world. The \"Creator\" isn't just a hobbyist anymore; they are the future workforce.",
+      "But there is a problem. While we cheer for their entrepreneurship, the industry is saddled with exploitation. Creators are building empires on shaky foundations, often without the tools or protections traditional businesses take for granted.",
+      "That is why I built Sparkonomy.",
+      "I wanted to tilt my knowledge of the platform ecosystems and the \"big business\" playbook to help the little guy. We are using AI not to replace the creator, but to handle the friction—the contracts, the payments, the operations—so this profession can thrive without the burnout.",
+    ],
+    signatureImage: "/authors/Gunnet_singh_signature.png",
 
-  //   careerHighlights: [
-  //     "Led content strategy for Google Pay across 12 APAC markets",
-  //     "Scaled Grab's editorial operations from 3 to 8 markets in 2 years",
-  //     "Featured expert in TechCrunch, AdWeek, and Channel NewsAsia",
-  //     "Speaker at VidCon 2025, Social Media Week, APAC Creator Summit",
-  //     "Specialist in APAC payment regulations and creator taxation",
-  //     "Mentor to 30+ creator economy startups through Antler and SOSV",
-  //     "MBA from Singapore Management University; Certified Content Strategist",
-  //   ],
+    aboutTitle: "About Guneet",
+    aboutContent: [
+      "Sparkonomy is building the \"AI infrastructure\" (the roads and bridges) for the creator economy, and Guneet is helping design the map.",
+      "A global tech leader and venture builder based in Singapore, he founded Sparkonomy to help the fastest growing GenZ profession - independent creators, build sustainable careers in the AI-era. He wants to help independent creators become resilient \"Creator Founders.\"",
+      "Today, his standout achievement is leveraging his deep insider knowledge of how major platforms operate to connect the dots between complex, tedious business operations and exciting creative freedom. By utilizing AI as a thinking partner, he ensures creators are protected from opaque pricing and delayed payments while scaling their influence.",
+      "Before Sparkonomy, Guneet's journey began in the corporate corridors of Google, Microsoft, and Samsung, where he led billion-dollar portfolios. In 2011, he had a front-row seat to the first wave of creators while driving YouTube's growth across APAC.",
+      "He famously launched YouTube Live in India by fusing early creator content with the country's cricket obsession through the #IPLHangover campaign. He also founded Google's Ignition Labs, where his team used multi-modal analysis to pioneer AI-driven creative solutions years before it became an industry buzzword.",
+      "Now, he is taking that exact \"big business\" playbook and putting it directly into the hands of independent creators.",
+      "Guneet believes technology should empower the many and simplify daily life. He approaches AI not as a replacement for human ingenuity, but as a supportive teammate. By bridging enterprise-grade rigor with creator-first empathy, he helps independent creators achieve sustainable growth and build calm, profitable businesses doing exactly what they love.",
+    ],
 
-  //   trustItems: [
-  //     { icon: "experience", label: "Experience", value: "18+ Years" },
-  //     { icon: "expertise", label: "Expertise", value: "Certified" },
-  //     { icon: "verified", label: "Verified", value: "Sparkonomy" },
-  //     { icon: "awards", label: "Awards", value: "Winner" },
-  //     { icon: "following", label: "Following", value: "10K LinkedIn" },
-  //     { icon: "featured", label: "Featured", value: "Tech Crunch" },
-  //   ],
+    careerHighlights: [
+      "Driven growth for Google products across a mobile-first market of 300+ million Indians, pushing Chrome to the #1 market share starting in 2011.",
+      "Served as Global Head of Marketing & Creative Solutions at Google, and held leadership roles at Microsoft and ABN AMRO Bank.",
+      "Serves as a Startup Mentor & Venture Architect for Singapore's NUS GRIP program, actively working to commercialize deep tech.",
+      "Pioneered the intersection of creative strategy and AI-driven execution years before GPT, by founding Google's Ignition Labs.",
+      "Co-founded and scaled the social e-commerce startup DealsAndYou, growing the team from 0 to 40 employees in just 5 months.",
+      "Recognized with 30+ international awards, including Cannes and Spikes, and named APAC Digital Marketer of the Year.",
+    ],
 
-  //   mediaMentions: [
-  //     {
-  //       publication: "TechCrunch",
-  //       logo: "/logos/techcrunch.svg",
-  //       title: "The Future of Creator Payments",
-  //       author: "Guneet",
-  //       date: "March 2025",
-  //       url: "https://techcrunch.com/article",
-  //     },
-  //     {
-  //       publication: "AdWeek",
-  //       logo: "/logos/adweek.svg",
-  //       title: "The Future of Creator Payments",
-  //       author: "Guneet",
-  //       date: "March 2025",
-  //       url: "https://adweek.com/article",
-  //     },
-  //     {
-  //       publication: "What The Finance",
-  //       logo: "/logos/wtf.svg",
-  //       title: "The Future of Creator Payments",
-  //       author: "Guneet",
-  //       date: "March 2025",
-  //       url: "https://wtf.com/article",
-  //     },
-  //   ],
+    trustItems: [
+      { icon: "experience", label: "Experience", value: "20+ Years" },
+      { icon: "expertise", label: "Expertise", value: "Tech Platform Growth" },
+      { icon: "awards", label: "Awards", value: "Hall of Fame" },
+      { icon: "verified", label: "Verified", value: "Sparkonomy" },
+      { icon: "featured", label: "Focus", value: "Creator Systems" },
+      { icon: "following", label: "Impact", value: "Work Smarter" },
+    ],
 
-  //   // Articles fetched from WordPress - no hardcoded articles
-  //   featuredArticles: [],
-  //   recentArticles: [],
+    mediaMentions: [
+      {
+        publication: "AI Marketers Guild",
+        logo: "/logos/aimg.svg",
+        title: "Using Google's NotebookLM",
+        author: "Guneet Singh",
+        date: "October 2024",
+        url: "#",
+      },
+      {
+        publication: "ACV Academy & Google",
+        logo: "/logos/acv-academy.svg",
+        title: "New Playbook on OKRs",
+        author: "Guneet Singh",
+        date: "2024",
+        url: "#",
+      },
+      {
+        publication: "HR Talk with Non HR Folk",
+        logo: "/logos/hr-talk.svg",
+        title: "Marketing & Creative Services at Google APAC",
+        author: "Guneet Singh",
+        date: "November 2021",
+        url: "#",
+      },
+      {
+        publication: "India International Brand Summit",
+        logo: "/logos/iibs.svg",
+        title: "Panel Speaker",
+        author: "Guneet Singh",
+        date: "2020",
+        url: "#",
+      },
+      {
+        publication: "CIO Tech Outlook",
+        logo: "/logos/cio-tech-outlook.svg",
+        title: "3 Essentials of Digital Video",
+        author: "Guneet Singh",
+        date: "2019",
+        url: "#",
+      },
+      {
+        publication: "Zee MELT",
+        logo: "/logos/zee-melt.svg",
+        title: "India's Biggest Conference for Disruptive Marketing Practices",
+        author: "Guneet Singh",
+        date: "2019",
+        url: "#",
+      },
+      {
+        publication: "Melt",
+        logo: "/logos/melt.svg",
+        title: "Do's and Don'ts of Digital Marketing",
+        author: "Guneet Singh",
+        date: "2018",
+        url: "#",
+      },
+    ],
 
-  //   areasOfExpertise: [
-  //     "Creator Economy",
-  //     "MarTech Strategy",
-  //     "APAC Strategy",
-  //     "AI Productivity",
-  //     "Future of Work",
-  //     "Digital Marketing",
-  //     "Startup Leadership",
-  //     "Consumer Technology",
-  //   ],
+    // Articles fetched from WordPress - no hardcoded articles
+    featuredArticles: [],
+    recentArticles: [],
 
-  //   contactEmail: "guneet@sparkonomy.com",
-  //   mediaEmail: "press@sparkonomy.com",
-  //   speakingEmail: "events@sparkonomy.com",
-  //   responseTime: "I typically respond within 24 hours",
-  //   linkedinSubscribe: "https://www.linkedin.com/in/guneetsingh",
+    areasOfExpertise: [
+      "Creator Economy",
+      "AI Productivity",
+      "Future of Work",
+      "Platform Ecosystems",
+      "Business Growth",
+      "Leadership",
+      "Building Systems",
+      "Brand Strategy",
+      "Startup Mentoring",
+      "Creator Operations",
+    ],
 
-  //   lastUpdated: "November 18, 2025",
-  //   profileId: "authors/Guneet",
-  // },
-  // {
-  //   id: "dev_sparkonomy",
-  //   slug: "dev-sparkonomy", // Our URL: /blogs/author/dev-sparkonomy
+    contactEmail: "guneet@sparkonomy.com",
+    mediaEmail: "press@sparkonomy.com",
+    speakingEmail: "events@sparkonomy.com",
+    responseTime: "I typically respond within 24 hours",
+    linkedinSubscribe: "https://www.linkedin.com/in/guneets",
 
-  //   // WordPress matching - this matches the WordPress author's slug
-  //   wordpressSlug: "devsparkonomy-com", // Must match WordPress author slug exactly
-  //   wordpressAuthorId: 1, // WordPress author ID (backup matching)
+    lastUpdated: "December 23, 2025",
+    profileId: "authors/Guneet",
+  },
+  {
+    id: "dev_sparkonomy",
+    slug: "dev-sparkonomy", // Our URL: /blogs/author/dev-sparkonomy
 
-  //   name: "Dev Sparkonomy",
-  //   role: "Content Team, Sparkonomy",
-  //   avatarUrl: "/authors/dev-sparkonomy.jpg",
-  //   shortBio: "The Sparkonomy content team is dedicated to empowering creators with insights, guides, and resources to help them thrive in the creator economy. We cover everything from payment solutions to growth strategies.",
+    // WordPress matching - this matches the WordPress author's slug
+    wordpressSlug: "devsparkonomy-com", // Must match WordPress author slug exactly
+    wordpressAuthorId: 1, // WordPress author ID (backup matching)
 
-  //   socialLinks: {
-  //     twitter: "https://twitter.com/sparkonomy",
-  //     linkedin: "https://www.linkedin.com/company/sparkonomy",
-  //     email: "content@sparkonomy.com",
-  //   },
+    name: "Dev Sparkonomy",
+    role: "Content Team, Sparkonomy",
+    avatarUrl: "/authors/dev-sparkonomy.jpg",
+    shortBio: "The Sparkonomy content team is dedicated to empowering creators with insights, guides, and resources to help them thrive in the creator economy. We cover everything from payment solutions to growth strategies.",
 
-  //   previousCompanies: [],
+    socialLinks: {
+      twitter: "https://twitter.com/sparkonomy",
+      linkedin: "https://www.linkedin.com/company/sparkonomy",
+      email: "content@sparkonomy.com",
+    },
 
-  //   storyTitle: "Empowering the Creator Economy",
-  //   storyContent: [
-  //     "At Sparkonomy, we believe that creators are the future workforce. Our content team is dedicated to providing valuable insights, practical guides, and up-to-date resources to help creators navigate the evolving landscape of content monetization.",
-  //     "From understanding payment terms to mastering brand collaborations, we cover the topics that matter most to creators at every stage of their journey.",
-  //   ],
-  //   highlightQuote: "Every creator deserves the tools and knowledge to turn their passion into a sustainable business.",
-  //   storyConclusion: [
-  //     "Our mission is to democratize access to information that was once reserved for traditional businesses. We want every creator—whether you have 100 followers or 1 million—to have the resources they need to succeed.",
-  //     "Through our blog, we share insights from industry experts, practical tips from successful creators, and the latest trends shaping the creator economy.",
-  //   ],
+    previousCompanies: [],
 
-  //   aboutTitle: "About Sparkonomy Content",
-  //   aboutContent: [
-  //     "The Sparkonomy content team consists of writers, researchers, and creator economy enthusiasts who are passionate about helping creators succeed. We work closely with industry experts and successful creators to bring you the most relevant and actionable content.",
-  //     "Our articles cover a wide range of topics including creator payments, tax guidance, brand partnerships, content strategy, and platform-specific tips for YouTube, Instagram, TikTok, and more.",
-  //   ],
+    storyTitle: "Empowering the Creator Economy",
+    storyContent: [
+      "At Sparkonomy, we believe that creators are the future workforce. Our content team is dedicated to providing valuable insights, practical guides, and up-to-date resources to help creators navigate the evolving landscape of content monetization.",
+      "From understanding payment terms to mastering brand collaborations, we cover the topics that matter most to creators at every stage of their journey.",
+    ],
+    highlightQuote: "Every creator deserves the tools and knowledge to turn their passion into a sustainable business.",
+    storyConclusion: [
+      "Our mission is to democratize access to information that was once reserved for traditional businesses. We want every creator—whether you have 100 followers or 1 million—to have the resources they need to succeed.",
+      "Through our blog, we share insights from industry experts, practical tips from successful creators, and the latest trends shaping the creator economy.",
+    ],
 
-  //   careerHighlights: [
-  //     "Published 100+ articles on creator economy topics",
-  //     "Featured insights from top creators and industry experts",
-  //     "Comprehensive guides on creator payments and taxation",
-  //     "Platform-specific strategies for major social networks",
-  //     "Regular coverage of industry trends and updates",
-  //   ],
+    aboutTitle: "About Sparkonomy Content",
+    aboutContent: [
+      "The Sparkonomy content team consists of writers, researchers, and creator economy enthusiasts who are passionate about helping creators succeed. We work closely with industry experts and successful creators to bring you the most relevant and actionable content.",
+      "Our articles cover a wide range of topics including creator payments, tax guidance, brand partnerships, content strategy, and platform-specific tips for YouTube, Instagram, TikTok, and more.",
+    ],
 
-  //   trustItems: [
-  //     { icon: "expertise", label: "Expertise", value: "Creator Economy" },
-  //     { icon: "verified", label: "Verified", value: "Sparkonomy" },
-  //     { icon: "featured", label: "Content", value: "100+ Articles" },
-  //   ],
+    careerHighlights: [
+      "Published 100+ articles on creator economy topics",
+      "Featured insights from top creators and industry experts",
+      "Comprehensive guides on creator payments and taxation",
+      "Platform-specific strategies for major social networks",
+      "Regular coverage of industry trends and updates",
+    ],
 
-  //   mediaMentions: [],
+    trustItems: [
+      { icon: "expertise", label: "Expertise", value: "Creator Economy" },
+      { icon: "verified", label: "Verified", value: "Sparkonomy" },
+      { icon: "featured", label: "Content", value: "100+ Articles" },
+    ],
 
-  //   // Articles fetched from WordPress - no hardcoded articles needed
-  //   featuredArticles: [],
-  //   recentArticles: [],
+    mediaMentions: [],
 
-  //   areasOfExpertise: [
-  //     "Creator Payments",
-  //     "Content Monetization",
-  //     "Brand Partnerships",
-  //     "Platform Strategies",
-  //     "Creator Taxation",
-  //     "Growth Tips",
-  //   ],
+    // Articles fetched from WordPress - no hardcoded articles needed
+    featuredArticles: [],
+    recentArticles: [],
 
-  //   contactEmail: "content@sparkonomy.com",
-  //   mediaEmail: "press@sparkonomy.com",
-  //   responseTime: "We typically respond within 48 hours",
+    areasOfExpertise: [
+      "Creator Payments",
+      "Content Monetization",
+      "Brand Partnerships",
+      "Platform Strategies",
+      "Creator Taxation",
+      "Growth Tips",
+    ],
 
-  //   lastUpdated: "December 2, 2025",
-  //   profileId: "authors/dev-sparkonomy",
-  // },
+    contactEmail: "content@sparkonomy.com",
+    mediaEmail: "press@sparkonomy.com",
+    responseTime: "We typically respond within 48 hours",
+
+    lastUpdated: "December 2, 2025",
+    profileId: "authors/dev-sparkonomy",
+  },
   {
     id: "binny_agarwal",
     slug: "binny-agarwal",
+
+    // SEO metadata
+    metaTitle: "Binny Agarwal: CA and Business Guide at Sparkonomy",
+    metaDescription: "Binny Agarwal is a Chartered Accountant and writer. She helps creators use AI and smart tools to build real businesses.",
+    canonicalPath: "/authors/binny-agarwal",
 
     // WordPress matching (Co-Authors Plus uses "cap-" prefix)
     wordpressSlug: "cap-binny",
@@ -306,12 +360,13 @@ export const authors: AuthorEntry[] = [
     role: "Content Strategist & Chartered Accountant (CA)",
     avatarUrl: "/authors/BinnyProfilePictue.jpg",
     shortBio:
-      "I help creators stop thinking like content machines and start thinking like founders.With 12 years as a Chartered Accountant, I turn creative work into real, sustainable businesses using AI and smart strategy.",
+      "I help creators turn their hobby into a real business. I am a Chartered Accountant (CA) with 12 years of experience, and at Sparkonomy I write simple guides on money, systems, and how AI can complement your work by taking care of boring admin, so you can create more while building a career that lasts.",
 
     socialLinks: {
-      twitter: "https://twitter.com/BinnyWriter",
+      twitter: "https://x.com/BinnyWriter",
       linkedin: "https://www.linkedin.com/in/binny-agarwal",
       email: "contentwriter3851@gmail.com",
+      website: "https://binnycontentwriter.com",
     },
 
     previousCompanies: [
@@ -322,50 +377,44 @@ export const authors: AuthorEntry[] = [
       { name: "SkinVision", logo: "/authors/Logos/SkinVision1.png" },
       { name: "Masalabox", logo: "/authors/Logos/MasalaBox1.png" },
     ],
-    previousCompaniesLabel: "Worked with",
+    previousCompaniesLabel: "Trusted by teams at:",
 
-    storyTitle: "About Me",
+    storyTitle: "From CA Work to Creator Work",
     storyContent: [
-      "I help creators turn their hobbies into real, revenue-generating companies.",
-      "I’ve been a Chartered Accountant (CA) for 12 years, and I’ve seen too many talented people burn out — not because they lack skill, but because they lack systems. That’s where I come in. At Sparkonomy, I break down complex tools and strategies into simple, actionable guides. I show creators how to use AI and smart thinking to make more money, save more time, and actually build something that lasts.",
+      "I love creators because you build something from nothing. But I also know what happens behind the scenes. You end up doing the boring business work too. Pricing, invoices, taxes, contracts, and planning. That stuff is not hard because you are not smart. It is hard because nobody teaches it in a creator journey.",
+      "I came from finance and I have spent 12 years working with money, systems, and business rules. Over time, I realised creators were doing real business, but without the same support that other businesses get. That is why I started writing for creators.",
     ],
     highlightQuote:
-      "Most creators don’t need more followers — they need a business model.",
+      "You should not have to choose between creativity and stability.",
     storyConclusion: [
-      "Binny uses her experience with money and business to help you think like a \"Founder,\" not just a user. She teaches you how to build assets, work smart so you don't burn out, and understand the rules of business so you keep more of what you earn.",
-      "Sparkonomy is building the future for creators. This includes AI Agents (smart digital helpers) and tools to run your entire business. Binny is the voice that explains these tools.",
-      "Sparkonomy builds smart AI. Binny writes the playbook on how to use it.",
-      "She connects the dots. She explains how a new AI tool can help you save time. She explains how to price your work. She is here to make sure you use Sparkonomy to build a business that lasts a long time.",
-      "Binny writes simply. She does not use big, confusing words. She gets straight to the point. She wants you to read her advice, understand it fast, and go back to creating.",
+      "That is why I work with Sparkonomy. We are building tools and AI agents that handle the admin and reduce the back-and-forth. I see AI as a teammate for creators. It does the repeat work, so you can keep your energy for the work only you can do: create, connect, and build a brand that lasts.",
     ],
 
-    aboutTitle: "What I Do",
+    aboutTitle: "About Binny",
     aboutContent: [
-      "Most creators are amazing at what they do — art, video, writing, or teaching. But they often hit a wall when it comes to the \"boring\" stuff: taxes, pricing, contracts, planning, and scaling. I help them:",
-      "• Think like Founders, not just freelancers",
-      "• Build Assets that pay them even when they're offline",
-      "• Work Smart with automation and AI",
-      "• Keep More Money by understanding how business really works",
+      "Binny is a Chartered Accountant (CA) and content strategist with 12 years of experience in money, systems, and business thinking. At Sparkonomy, she writes simple, creator-friendly guides that help creators work less and earn better. Her focus is practical: getting paid on time, pricing with confidence, keeping more of what you earn, and building a business that does not burn you out. She also writes about how technology and AI can support creators, not replace them. In her work, AI is most useful when it takes care of repeatable admin tasks like drafting, checks, reminders, and workflows. When the business side becomes lighter, creators get more time and headspace to create.",
+      "Binny has worked with teams across SaaS and content-led brands, including Sprinklr, Freshworks, SocialPilot, Emitrr, SkinVision, and Masalabox. Her work sits at the intersection of finance and communication. She takes complex topics like taxes, documentation, compliance, and business planning, then translates them into simple steps creators can follow without stress. Across projects, she has seen one pattern clearly: creators grow faster when they build small systems early, like clean invoicing, clear pricing, and routines that protect cash flow. At Sparkonomy, she connects the dots between smart tools and real outcomes, so creators can use AI with confidence and build a creator business that lasts.",
+      "Binny writes the way she would want a finance partner to speak to her: simple, direct, and useful. She avoids jargon and focuses on clarity that helps creators act fast and stay in control. Her goal is to make money and systems feel manageable, not intimidating. She believes AI should work like a teammate, handling repeatable admin so creators can protect their energy and creativity. More clarity, more confidence, and more time back for the work that matters.",
     ],
-
-    // My Role at Sparkonomy section (included in aboutContent)
-    // Sparkonomy is building the future of work for creators — smart AI agents, digital tools, and full-stack creator businesses.
-    // I write the playbooks on how to use them. I connect the dots between tools and results — helping you understand not just what to use, but why and how it helps you earn more and work less.
-    // I keep it simple. No jargon. No MBA speak. Just what works.
 
     careerHighlights: [
-      "12 years of professional experience",
-      "Chartered Accountant (CA) – Expert in numbers and finance",
-      "Focus on turning Creators into Founders",
-      "Specialist in Business Strategy and AI for Creators",
-      "Trusted by teams at Sprinklr, Freshworks, SocialPilot, Emitrr, SkinVision, and Masalabox",
+      "Chartered Accountant (CA)",
+      "12 years in finance and business systems",
+      "Trusted by teams at Sprinklr and Freshworks",
+      "Creator-first guides on pricing and getting paid",
+      "Clear, simple writing style for fast learning",
+      "AI-for-creators workflows and use cases",
+      "Focus on sustainable creator careers",
+      "Strategy that prevents burnout",
     ],
 
     trustItems: [
       { icon: "experience", label: "Experience", value: "12 Years" },
-      { icon: "expertise", label: "Degree", value: "Chartered Accountant" },
-      { icon: "verified", label: "Focus", value: "Creator to Founder" },
-      { icon: "awards", label: "Skills", value: "Business & AI" },
+      { icon: "expertise", label: "Expertise", value: "CA Finance" },
+      { icon: "verified", label: "Verified", value: "Sparkonomy" },
+      { icon: "featured", label: "Focus", value: "Creator Systems" },
+      { icon: "awards", label: "Approach", value: "Clear Steps" },
+      { icon: "following", label: "Impact", value: "Save Time" },
     ],
 
     mediaMentions: [],
@@ -377,77 +426,88 @@ export const authors: AuthorEntry[] = [
       "Business for Creators",
       "AI Tools",
       "Money Tips",
-      "Smart Strategy",
+      "Pricing Strategy",
+      "Getting Paid",
+      "Building Systems",
       "Building Trust",
       "Saving Time",
       "Future of Work",
+      "Creator Workflows",
+      "Founder Mindset",
     ],
 
     contactEmail: "contentwriter3851@gmail.com",
     linkedinSubscribe: "https://www.linkedin.com/in/binny-agarwal",
-    responseTime: "Do you want to build a business, not just a social media page? Binny can help.",
+    responseTime: "Do you want to build a business, not just a social media page? The fastest way is to email me or connect on LinkedIn.",
 
-    lastUpdated: "January 9, 2026",
+    lastUpdated: "January 8, 2026",
     profileId: "authors/binny-agarwal",
   },
   {
     id: "saurabh_mongia",
     slug: "saurabh-mongia",
 
+    // SEO metadata
+    metaTitle: "Saurabh Mongia, CA | VP Finance & Creator Payment Expert at Sparkonomy",
+    metaDescription: "Saurabh Mongia bridges institutional finance and creator payouts. CA, VP at Morgan Stanley. Read invoicing & payment workflow guides.",
+    canonicalPath: "/authors/saurabh-mongia",
+
     // WordPress matching (Co-Authors Plus uses "cap-" prefix)
     wordpressSlug: "cap-saurabh",
     wordpressAuthorId: 8,
 
     name: "Saurabh Mongia",
-    role: "Chartered Accountant | Tax & Compliance Expert",
+    role: "VP (Legal Entity Control) | Chartered Accountant | Finance Controls & Compliance",
     avatarUrl: "/authors/ProfilePictureSaurabh.jpg",
     shortBio:
-      "Saurabh Mongia is a finance leader and Chartered Accountant with 16+ years of experience in financial reporting, regulatory compliance, taxation and control frameworks. He currently serves as Vice President at one of the leading multi national firms. On Sparkonomy, he shares practical guidance that helps creators and teams reduce payment friction with clean invoicing, clear documentation, and audit-ready workflows.",
+      "I am a Chartered Accountant and finance leader with 16+ years of experience in reporting, regulatory compliance, and control frameworks. I currently work as Vice President (Legal Entity Control) at Morgan Stanley, and at Sparkonomy I share practical, creator-friendly guidance to help you manage money better, from raising the perfect invoice to navigating complex cross-border taxation.",
 
     socialLinks: {
       linkedin: "https://www.linkedin.com/in/CompliFinixSolutions/",
     },
 
     previousCompanies: [
+      { name: "Morgan Stanley", logo: "/authors/Logos/MorganStanley.png" },
       { name: "NatWest Group", logo: "/authors/Logos/NatWest.png" },
       { name: "HSBC", logo: "/authors/Logos/HSBC.png" },
       { name: "Max Life Insurance", logo: "/authors/Logos/MaxLife.png" },
     ],
-    previousCompaniesLabel: "Previously at",
+    previousCompaniesLabel: "Previously scaling businesses at:",
 
-    storyTitle: "About Me",
+    storyTitle: "From Institutional Finance to Creator Payouts",
     storyContent: [
-      "Saurabh Mongia is a seasoned finance leader with 16+ years of experience across financial reporting, regulatory compliance, and control frameworks. He currently works as Partner at CompliFinix Solutions, a firm with expertise in Financial matters along with Taxation & Compliance matters. He has previously worked as Vice President with Global Shared Service organisations in India, supporting businesses across Asia and EMEA with key focus on Financial Reporting & control, Audit readiness, Tax Compliances and Process improvement.",
-      "But here is the part he genuinely enjoys: taking the finance rules that big companies run on and translating them into creator-friendly steps. He is deeply interested in the creator economy because creator work is real work, and payouts should not feel like a guessing game. When he writes for Sparkonomy, he looks at creator payments through a finance lens and asks simple questions like: What will Accounts Payable need to approve this in one go, and what tiny missing detail will send it back.",
+      "I have spent most of my career in finance teams where details matter. If one field is missing, a payment can pause. If a tax detail is wrong, the invoice can be rejected. If the documentation is unclear, it can go back and forth for days. That is not because someone enjoys delays. It is because the process is designed to protect the business and stay compliant.",
+      "The reason I care about the creator economy is simple. Creator work is real work, but creators are often forced to run a business without the systems of a business. You deliver the work, then you chase payments, explain terms, fix invoices, figure out GST or TDS, and worry about cross-border payouts. Many times, the issue is not the creator or the brand. It is the lack of a simple CFO-like setup.",
     ],
     highlightQuote:
-      "Creator work is real work, and payouts should not feel like a guessing game.",
+      "Most money stress is not personal. It is a process.",
     storyConclusion: [
-      "Saurabh spent over a decade at NatWest Group in roles spanning Associate through Vice President, working on reporting, controls, and finance transformation across teams. Earlier in his career, he held finance operations roles at HSBC and Max Life Insurance, and trained as an article trainee at a chartered accountancy firm. That range gives him a practical view of what finance teams check, what slows processing down, and how to keep invoices clean so creators get paid faster with less back-and-forth.",
+      "That is why I write for Sparkonomy. I enjoy translating big-company finance rules into creator-friendly steps. My aim is to help you send invoices and proof that get approved in one go. Less resubmission. Less chasing. More time back for your real work.",
     ],
 
-    aboutTitle: "How He Writes",
+    aboutTitle: "About Saurabh",
     aboutContent: [
-      "Saurabh writes like a finance partner you can actually work with: direct, practical, and detail-first. His goal is to help creators send invoices that a finance team can approve in one pass—so you spend less time chasing and more time creating.",
-      "He focuses on clarity, proof, and process (what to include, why it matters, and how to avoid the common resubmission loop).",
+      "Saurabh Mongia is a Chartered Accountant with 16+ years of experience across financial reporting, regulatory compliance, and control frameworks. Today, he works as Vice President (Legal Entity Control) at Morgan Stanley, supporting entities across EMEA and Asia with financial control, audit readiness, and process improvement. On Sparkonomy, he focuses on one practical goal: helping creators run money like a business, not a guessing game. He writes guidance that covers everything from getting invoices and documentation right to pricing, taxes, and cross-border basics, so creators can get paid smoothly and stay compliant. If an invoice has ever been sent back for one missing detail, or if GST, TDS, or audit worries have felt confusing, his writing is built to prevent problems before they start.",
+      "Before Morgan Stanley, Saurabh spent over a decade at NatWest Group, progressing from Associate to Vice President and working across reporting, controls, and finance transformation. Earlier in his career, he worked in finance operations roles at HSBC and Max Life Insurance, and trained as an article trainee at a chartered accountancy firm. This mix gives him a clear view of what finance teams check, what slows processing down, and what helps an invoice move faster. In his writing, he stays practical: what to include, why it matters, and how to avoid the common \"please resend\" loop. The standard is simple: make it easy to approve.",
+      "He writes like a finance partner you can actually work with: direct, detail-first, and focused on outcomes. His goal is to help creators and teams build repeatable money systems, not one-off fixes. When invoices are clean and proof is clear, delays reduce and cash flow stays protected. That is how creators stop chasing and start operating like a real business. If there is a topic to cover, he invites readers to share what keeps getting stuck in their process, and he will break it down step by step.",
     ],
 
     careerHighlights: [
       "16+ years in finance, reporting, and compliance",
-      "Finance Leader with expertise in Financial control & Reporting",
-      "Focus areas: Process automation, Income Tax & Corporate Compliances",
+      "VP (Legal Entity Control), Morgan Stanley (Apr 2024–Present)",
+      "10+ years at NatWest Group across finance leadership roles",
+      "Focus: financial controls, audit readiness, process improvement",
       "Chartered Accountant (ICAI)",
-      "Top skills: Financial Reporting & Control, Corporate Income tax, Personal tax planning & ITR filing",
-      "Partner at CompliFinix Solutions",
-      "Former Vice President at NatWest Group",
-      "B.Com (Hons.), ARSD College",
+      "Internal audits, corporate tax, income tax returns",
+      "Strong lens on AP requirements and approvals",
+      "Process automation and documentation clarity",
     ],
 
     trustItems: [
       { icon: "experience", label: "Experience", value: "16+ Years" },
-      { icon: "expertise", label: "Degree", value: "Chartered Accountant" },
-      { icon: "verified", label: "Focus", value: "Tax & Compliance" },
-      { icon: "awards", label: "Role", value: "Finance Leader" },
+      { icon: "expertise", label: "Expertise", value: "Controls & Reporting" },
+      { icon: "verified", label: "Verified", value: "Sparkonomy" },
+      { icon: "featured", label: "Focus", value: "Clean Invoicing" },
     ],
 
     mediaMentions: [],
@@ -458,23 +518,23 @@ export const authors: AuthorEntry[] = [
     areasOfExpertise: [
       "Creator Invoicing",
       "Payment Workflows",
-      "Accounts Payable",
+      "Accounts Payable Basics",
       "Audit Readiness",
-      "Book Keeping",
       "Financial Controls",
       "Regulatory Compliance",
       "Financial Reporting",
       "Process Automation",
-      "TDS/GST (India)",
-      "Income Tax & Corporate Compliance",
+      "TDS/GST Basics (India)",
+      "Section 194J Compliance",
       "Professional Fee Invoicing",
+      "Cross-Border Payment Documentation",
     ],
 
     contactEmail: "contact@sparkonomy.com",
     linkedinSubscribe: "https://www.linkedin.com/in/saurabh-mongia",
-    responseTime: "If you want to collaborate or suggest a topic, the fastest way is to connect on LinkedIn.",
+    responseTime: "If you want to collaborate or suggest a topic, the fastest way is to connect with me on LinkedIn.",
 
-    lastUpdated: "January 12, 2026",
+    lastUpdated: "December 23, 2025",
     profileId: "authors/saurabh-mongia",
   },
 ];
