@@ -27,6 +27,40 @@ export function removeFirstParagraph(html: string): string {
   return html.replace(/^\s*<p[^>]*>[\s\S]*?<\/p>\s*/, '');
 }
 
+/**
+ * Remove the first image/figure block from content if it matches the featured image.
+ * WordPress often embeds the featured image inside the content body as well,
+ * causing it to appear twice when the featured image is also shown separately above.
+ */
+export function removeLeadingFeaturedImageBlock(html: string, featuredImageUrl: string): string {
+  if (!featuredImageUrl) return html;
+
+  // Normalize URL for comparison (strip query params and size suffixes like -1920x1080)
+  const normalizeUrl = (url: string) => url.split('?')[0].replace(/-\d+x\d+(\.[a-z]+)$/, '$1');
+  const normalizedFeatured = normalizeUrl(featuredImageUrl);
+
+  // Match a leading <figure> or <div> WordPress image block
+  const figureRegex = /^\s*(<figure[^>]*>[\s\S]*?<\/figure>|<div[^>]*wp-block-image[^>]*>[\s\S]*?<\/div>)\s*/i;
+  const match = html.match(figureRegex);
+
+  if (match) {
+    const blockHtml = match[1];
+    // Check if this block contains a src that matches the featured image
+    const srcMatch = blockHtml.match(/src=["']([^"']+)["']/i);
+    if (srcMatch) {
+      const normalizedSrc = normalizeUrl(srcMatch[1]);
+      // Compare base filenames (without size suffixes)
+      const featuredBase = normalizedFeatured.split('/').pop();
+      const srcBase = normalizedSrc.split('/').pop();
+      if (featuredBase && srcBase && featuredBase === srcBase) {
+        return html.replace(figureRegex, '');
+      }
+    }
+  }
+
+  return html;
+}
+
 export interface TOCItem {
   id: string;
   text: string;

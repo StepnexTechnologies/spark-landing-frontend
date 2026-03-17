@@ -4,7 +4,7 @@ import { Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { getDraftPostById, getFeaturedImageUrl, getAuthorName, getAuthorNames, getPostAuthors, getPostAuthorsAsync, formatDate, stripHtml, getReadingTime, getDraftPosts, getPostsByCategory } from "@/lib/wordpress-improved";
-import { extractHeadings, addHeadingIds, removeWordPressTOC, extractFirstParagraph } from "@/lib/content-processor";
+import { extractHeadings, addHeadingIds, removeWordPressTOC, extractFirstParagraph, removeLeadingFeaturedImageBlock } from "@/lib/content-processor";
 import Breadcrumb from "@/components/blog/Breadcrumb";
 import BlogLanguageSwitcher from "@/components/blog/BlogLanguageSwitcher";
 import TOCEnhancer from "@/components/blog/TOCEnhancer";
@@ -108,7 +108,11 @@ export default async function PreviewPostPage({ params }: PreviewPostPageProps) 
   const contentWithTocClass = removeWordPressTOC(post.content.rendered);
   const contentWithIds = addHeadingIds(contentWithTocClass, headings);
   // Extract first paragraph for display before image, and get remaining content
-  const { firstParagraph: blogDescription, remainingContent: processedContent } = extractFirstParagraph(contentWithIds);
+  const { firstParagraph: blogDescription, remainingContent: contentAfterParagraph } = extractFirstParagraph(contentWithIds);
+  // Remove leading image block from content if it matches the featured image (prevents duplicate display)
+  const processedContent = featuredImage
+    ? removeLeadingFeaturedImageBlock(contentAfterParagraph, featuredImage)
+    : contentAfterParagraph;
 
   // Get category for breadcrumb and related resources
   const categoryName = post._embedded?.["wp:term"]?.[0]?.[0]?.name || "";
