@@ -19,17 +19,27 @@ const TrustIconPaths: Record<string, string> = {
 const SocialIcons = {
   twitter: (
     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
     </svg>
   ),
   linkedin: (
     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
     </svg>
   ),
   email: (
-    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+    <svg
+      className="w-5 h-5"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      strokeWidth="2"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+      />
     </svg>
   ),
 };
@@ -47,7 +57,8 @@ export default function AuthorPageTemplate({
   recentArticles,
 }: AuthorPageTemplateProps) {
   // Use passed articles or fall back to author's hardcoded articles
-  const displayFeaturedArticles = featuredArticles ?? author.featuredArticles ?? [];
+  const displayFeaturedArticles =
+    featuredArticles ?? author.featuredArticles ?? [];
   const displayRecentArticles = recentArticles ?? author.recentArticles ?? [];
 
   return (
@@ -86,7 +97,9 @@ export default function AuthorPageTemplate({
             <h1 className="text-[24px] md:text-[26px] lg:text-[28px] font-semibold text-primary">
               {author.name.toUpperCase()}
             </h1>
-            <p className="text-sm md:text-base font-normal text-gray-600">{author.role}</p>
+            <p className="text-sm md:text-base font-normal text-gray-600">
+              {author.role}
+            </p>
           </div>
 
           {/* Short Bio Quote */}
@@ -133,10 +146,15 @@ export default function AuthorPageTemplate({
         {/* Previous Companies */}
         {author.previousCompanies.length > 0 && (
           <div className="bg-[#F8F8F8] rounded-[12px] p-4">
-            <p className="text-base md:text-lg text-gray-500 mb-4 text-center">{author.previousCompaniesLabel || "Previously at"}</p>
+            <p className="text-base md:text-lg text-gray-500 mb-4 text-center">
+              {author.previousCompaniesLabel || "Previously at"}
+            </p>
             <div className="grid grid-cols-3 gap-4 md:gap-6 justify-items-center">
               {author.previousCompanies.map((company) => (
-                <div key={company.name} className="flex items-center justify-center">
+                <div
+                  key={company.name}
+                  className="flex items-center justify-center"
+                >
                   {company.logo ? (
                     <Image
                       src={company.logo}
@@ -146,7 +164,9 @@ export default function AuthorPageTemplate({
                       className="h-[16px] md:h-7 w-auto object-contain grayscale opacity-60"
                     />
                   ) : (
-                    <span className="text-gray-500 font-semibold text-sm md:text-lg">{company.name}</span>
+                    <span className="text-gray-500 font-semibold text-sm md:text-lg">
+                      {company.name}
+                    </span>
                   )}
                 </div>
               ))}
@@ -163,7 +183,10 @@ export default function AuthorPageTemplate({
           </h2>
 
           {author.storyContent.map((paragraph, index) => (
-            <p key={index} className="text-sm md:text-base font-normal text-[#999999] leading-relaxed mb-4">
+            <p
+              key={index}
+              className="text-sm md:text-base font-normal text-[#999999] leading-relaxed mb-4"
+            >
               {paragraph}
             </p>
           ))}
@@ -174,7 +197,10 @@ export default function AuthorPageTemplate({
           </blockquote>
 
           {author.storyConclusion.map((paragraph, index) => (
-            <p key={index} className="text-sm md:text-base font-normal text-[#999999] leading-relaxed mb-4">
+            <p
+              key={index}
+              className="text-sm md:text-base font-normal text-[#999999] leading-relaxed mb-4"
+            >
               {paragraph.includes("Sparkonomy") ? (
                 <>
                   {paragraph.split("Sparkonomy")[0]}
@@ -220,23 +246,34 @@ export default function AuthorPageTemplate({
             content = (
               <>
                 {parts[0]}
-                <span className="text-primary">Founder and CEO of Sparkonomy</span>
+                <span className="text-primary">
+                  Founder and CEO of Sparkonomy
+                </span>
                 {parts[1]}
               </>
             );
-          } else if (paragraph.includes("\"democratization of entrepreneurship,\"")) {
-            const parts = paragraph.split("\"democratization of entrepreneurship,\"");
+          } else if (
+            paragraph.includes('"democratization of entrepreneurship,"')
+          ) {
+            const parts = paragraph.split(
+              '"democratization of entrepreneurship,"',
+            );
             content = (
               <>
                 {parts[0]}
-                <span className="text-primary">&quot;democratization of entrepreneurship,&quot;</span>
+                <span className="text-primary">
+                  &quot;democratization of entrepreneurship,&quot;
+                </span>
                 {parts[1]}
               </>
             );
           }
 
           return (
-            <p key={index} className="text-[14px] md:text-base font-normal text-[#999999] leading-relaxed mb-4">
+            <p
+              key={index}
+              className="text-[14px] md:text-base font-normal text-[#999999] leading-relaxed mb-4"
+            >
               {content}
             </p>
           );
@@ -252,7 +289,10 @@ export default function AuthorPageTemplate({
 
           <ul className="space-y-3">
             {author.careerHighlights.map((highlight, index) => (
-              <li key={index} className="flex items-start gap-2 text-[14px] md:text-[16px] font-normal text-[#999999]">
+              <li
+                key={index}
+                className="flex items-start gap-2 text-[14px] md:text-[16px] font-normal text-[#999999]"
+              >
                 <span className="text-[#999999] mt-1">✓</span>
                 <span>{highlight}</span>
               </li>
@@ -264,7 +304,9 @@ export default function AuthorPageTemplate({
       {/* Trust & Authority */}
       {author.trustItems.length > 0 && (
         <section className="max-w-4xl mx-auto px-[29px] md:px-4 pt-[12px]">
-          <h2 className="text-[20px] md:text-[22px] lg:text-[24px] font-semibold text-[#999999] mb-4">Trust & Authority</h2>
+          <h2 className="text-[20px] md:text-[22px] lg:text-[24px] font-semibold text-[#999999] mb-4">
+            Trust & Authority
+          </h2>
 
           <div className="grid grid-cols-3 gap-[12px] md:gap-[14px]">
             {author.trustItems.map((item, index) => (
@@ -281,8 +323,12 @@ export default function AuthorPageTemplate({
                     className="w-[30px] h-[30px] md:w-[32px] md:h-[32px]"
                   />
                 </div>
-                <p className="text-[12px] md:text-[14px] font-normal text-primary">{item.label}</p>
-                <p className="text-base md:text-lg font-medium text-[#999999]">{item.value}</p>
+                <p className="text-[12px] md:text-[14px] font-normal text-primary">
+                  {item.label}
+                </p>
+                <p className="text-base md:text-lg font-medium text-[#999999]">
+                  {item.value}
+                </p>
               </div>
             ))}
           </div>
@@ -305,7 +351,9 @@ export default function AuthorPageTemplate({
                   target="_blank"
                   rel="noopener noreferrer"
                   className={`flex items-center justify-between py-[12px] hover:opacity-80 transition-opacity ${
-                    index > 0 && index < author.mediaMentions.length - 1 ? 'border-y border-white' : ''
+                    index > 0 && index < author.mediaMentions.length - 1
+                      ? "border-y border-white"
+                      : ""
                   }`}
                 >
                   <div className="flex items-center gap-3">
@@ -327,8 +375,18 @@ export default function AuthorPageTemplate({
                       </p>
                     </div>
                   </div>
-                  <svg className="w-5 h-5 text-[#6B7280]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 17L17 7M17 7H7M17 7V17" />
+                  <svg
+                    className="w-5 h-5 text-[#6B7280]"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M7 17L17 7M17 7H7M17 7V17"
+                    />
                   </svg>
                 </a>
               ))}
@@ -382,7 +440,9 @@ export default function AuthorPageTemplate({
                       {article.title}
                     </h3>
                   </Link>
-                  <p className="text-[12px] md:text-sm font-normal text-[#999999]">{article.date}</p>
+                  <p className="text-[12px] md:text-sm font-normal text-[#999999]">
+                    {article.date}
+                  </p>
                 </div>
               </div>
             ))}
@@ -393,8 +453,18 @@ export default function AuthorPageTemplate({
             className="inline-flex items-center gap-2 text-primary text-[16px] font-medium mt-6 hover:underline"
           >
             View All Articles
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M17 8l4 4m0 0l-4 4m4-4H3"
+              />
             </svg>
           </Link>
         </section>
@@ -427,15 +497,18 @@ export default function AuthorPageTemplate({
             Let&apos;s Connect!
           </h2>
           <p className="text-[20px] md:text-[22px] font-semibold text-[#999999] mb-6 max-w-md mx-auto">
-            Have questions about the creator economy or collaboration opportunities?
-            I&apos;d love to hear from you.
+            Have questions about the creator economy or collaboration
+            opportunities? I&apos;d love to hear from you.
           </p>
 
           <div className="flex flex-col gap-1 max-w-xs mx-auto">
             <a
               href={`mailto:${author.contactEmail}`}
               className="flex items-center justify-center gap-2 text-[14px] md:text-base font-medium text-white px-6 py-3 rounded-full hover:opacity-90 transition-opacity"
-              style={{ background: 'linear-gradient(180.27deg, #DD2A7B -46.92%, #9747FF 80.1%)' }}
+              style={{
+                background:
+                  "linear-gradient(180.27deg, #DD2A7B -46.92%, #9747FF 80.1%)",
+              }}
             >
               {SocialIcons.email}
               Email Me
@@ -443,7 +516,10 @@ export default function AuthorPageTemplate({
             {author.linkedinSubscribe && (
               <div
                 className="rounded-full p-[2px] hover:opacity-90 transition-opacity"
-                style={{ background: 'linear-gradient(180.27deg, #DD2A7B -46.92%, #9747FF 80.1%)' }}
+                style={{
+                  background:
+                    "linear-gradient(180.27deg, #DD2A7B -46.92%, #9747FF 80.1%)",
+                }}
               >
                 <a
                   href={author.linkedinSubscribe}
@@ -482,7 +558,6 @@ export default function AuthorPageTemplate({
           )}
         </div>
       </section>
-
     </main>
   );
 }

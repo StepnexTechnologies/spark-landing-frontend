@@ -35,16 +35,23 @@ export async function generateMetadata({ params }: AuthorPageProps): Promise<Met
 
   if (!author) {
     return {
+      metadataBase: new URL("https://www.sparkonomy.com/"),
       title: "Author Not Found",
       description: "The requested author could not be found.",
     };
   }
 
-  const title = `${author.name} - Author at Sparkonomy`;
+  const title = author.metaTitle || `${author.name} - Author at Sparkonomy`;
   // Build description with expertise keywords for better SEO keyword consistency
-  const expertiseText = author.areasOfExpertise?.slice(0, 3).join(", ") || "creator economy, content monetization";
-  const description = author.shortBio || `Read articles by ${author.name} on Sparkonomy. Expert insights on ${expertiseText}, and digital marketing.`;
-  const url = `https://sparkonomy.com/blogs/author/${author.slug}`;
+  const expertiseText =
+    author.areasOfExpertise?.slice(0, 3).join(", ") || "creator economy, content monetization";
+  const description =
+    author.metaDescription ||
+    author.shortBio ||
+    `Read articles by ${author.name} on Sparkonomy. Expert insights on ${expertiseText}, and digital marketing.`;
+
+  const canonicalPath = author.canonicalPath || `/blogs/author/${author.slug}`;
+  const canonicalUrl = `https://www.sparkonomy.com${canonicalPath}`;
 
   return {
     metadataBase: new URL("https://www.sparkonomy.com/"),
@@ -63,7 +70,7 @@ export async function generateMetadata({ params }: AuthorPageProps): Promise<Met
     creator: author.name,
     publisher: "Sparkonomy",
     alternates: {
-      canonical: url,
+      canonical: canonicalUrl,
     },
     robots: {
       index: true,
@@ -75,25 +82,25 @@ export async function generateMetadata({ params }: AuthorPageProps): Promise<Met
     },
     openGraph: {
       siteName: "Sparkonomy",
-      url: url,
+      url: canonicalUrl,
       title,
       description,
       type: "profile",
       images: [
         {
-          url: author.avatarUrl || "https://sparkonomy.com/sparkonomy.png",
+          url: author.avatarUrl || "https://www.sparkonomy.com/sparkonomy.png",
           width: 400,
           height: 400,
           alt: author.name,
         },
       ],
-      locale: "en_US",
+      locale: "en_IND",
     },
     twitter: {
       card: "summary",
       title,
       description,
-      images: [author.avatarUrl || "https://sparkonomy.com/sparkonomy.png"],
+      images: [author.avatarUrl || "https://www.sparkonomy.com/sparkonomy.png"],
       creator: "@sparkonomy",
       site: "@sparkonomy",
     },
@@ -165,17 +172,22 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
   const sameAsLinks: string[] = [];
   if (author.socialLinks?.linkedin) sameAsLinks.push(author.socialLinks.linkedin);
   if (author.socialLinks?.twitter) sameAsLinks.push(author.socialLinks.twitter);
+  if (author.socialLinks?.website) sameAsLinks.push(author.socialLinks.website);
+
+  const canonicalPath = author.canonicalPath || `/blogs/author/${author.slug}`;
+  const canonicalUrl = `https://www.sparkonomy.com${canonicalPath}`;
+  const blogUrl = "https://www.sparkonomy.com/blogs";
 
   // Organization structured data (standalone for Identity Schema)
   const organizationJsonLd = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "@id": "https://sparkonomy.com/#organization",
+    "@id": "https://www.sparkonomy.com/#organization",
     name: "Sparkonomy",
-    url: "https://sparkonomy.com",
+    url: "https://www.sparkonomy.com",
     logo: {
       "@type": "ImageObject",
-      url: "https://sparkonomy.com/sparkonomy.png",
+      url: "https://www.sparkonomy.com/sparkonomy.png",
       width: 512,
       height: 512,
     },
@@ -190,43 +202,43 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
   const authorJsonLd = {
     "@context": "https://schema.org",
     "@type": "Person",
-    "@id": `https://sparkonomy.com/blogs/author/${author.slug}#person`,
+    "@id": `${canonicalUrl}#person`,
     name: author.name,
-    url: `https://sparkonomy.com/blogs/author/${author.slug}`,
+    url: canonicalUrl,
     image: author.avatarUrl || "",
-    description: author.shortBio || `${author.name} is a writer at Sparkonomy`,
+    description: author.metaDescription || author.shortBio || `${author.name} is a writer at Sparkonomy`,
     jobTitle: author.role,
     worksFor: {
-      "@id": "https://sparkonomy.com/#organization",
+      "@id": "https://www.sparkonomy.com/#organization",
     },
     sameAs: sameAsLinks,
     knowsAbout: author.areasOfExpertise,
   };
 
   // Breadcrumb structured data
+  const breadcrumbItems =
+    author.canonicalPath && author.canonicalPath.startsWith("/authors/")
+      ? [
+          { name: "Home", item: "https://www.sparkonomy.com" },
+          { name: "Blog", item: blogUrl },
+          { name: "Authors", item: `${blogUrl}` },
+          { name: author.name, item: canonicalUrl },
+        ]
+      : [
+          { name: "Home", item: "https://www.sparkonomy.com" },
+          { name: "Blog", item: blogUrl },
+          { name: author.name, item: canonicalUrl },
+        ];
+
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: "Home",
-        item: "https://sparkonomy.com",
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: "Blog",
-        item: "https://sparkonomy.com/blogs",
-      },
-      {
-        "@type": "ListItem",
-        position: 3,
-        name: author.name,
-        item: `https://sparkonomy.com/blogs/author/${author.slug}`,
-      },
-    ],
+    itemListElement: breadcrumbItems.map((b, idx) => ({
+      "@type": "ListItem",
+      position: idx + 1,
+      name: b.name,
+      item: b.item,
+    })),
   };
 
   return (

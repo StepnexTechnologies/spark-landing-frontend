@@ -40,6 +40,7 @@ export async function generateMetadata({ params }: PreviewPostPageProps): Promis
 
   if (!post) {
     return {
+      metadataBase: new URL("https://www.sparkonomy.com/"),
       title: "Draft Not Found",
       description: "The requested draft post could not be found.",
       robots: {
@@ -50,10 +51,28 @@ export async function generateMetadata({ params }: PreviewPostPageProps): Promis
   }
 
   const title = `[DRAFT] ${stripHtml(post.title.rendered)}`;
+  const featuredImage = getFeaturedImageUrl(post, "large") || "/sparkonomy.png";
+  const urlPath = `/preview/${slug}`;
+
+  const excerpt =
+    (post.excerpt?.rendered ? stripHtml(post.excerpt.rendered) : "").trim();
+  const descriptionFromExcerpt = excerpt.length > 0 ? excerpt : "";
+
+  const firstParagraphHtml = extractFirstParagraph(post.content?.rendered || "").firstParagraph || "";
+  const descriptionFromFirstParagraph = stripHtml(firstParagraphHtml).trim();
+
+  const description =
+    (descriptionFromExcerpt || descriptionFromFirstParagraph || "Draft preview - not for public viewing")
+      .replace(/\s+/g, " ")
+      .slice(0, 200);
+
+  const postAuthors = await getPostAuthorsAsync(post);
+  const authorNames = postAuthors.map((a) => a.name).filter(Boolean);
 
   return {
+    metadataBase: new URL("https://www.sparkonomy.com/"),
     title: title,
-    description: "Draft preview - not for public viewing",
+    description,
     robots: {
       index: false,
       follow: false,
@@ -61,6 +80,31 @@ export async function generateMetadata({ params }: PreviewPostPageProps): Promis
         index: false,
         follow: false,
       },
+    },
+    openGraph: {
+      siteName: "Sparkonomy",
+      url: urlPath,
+      title,
+      description,
+      images: [
+        {
+          url: featuredImage,
+          width: 1200,
+          height: 630,
+          alt: stripHtml(post.title.rendered),
+        },
+      ],
+      locale: "en_IND",
+      type: "article",
+      publishedTime: post.date,
+      modifiedTime: post.modified,
+      authors: authorNames,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [featuredImage],
     },
   };
 }
