@@ -125,7 +125,7 @@ export const authors: AuthorEntry[] = [
 
     name: "Guneet Singh",
     role: "Global Tech Leader | Startup Mentor | Venture Builder",
-    avatarUrl: "/authors/ProfilePicture_gunnet.png",
+    avatarUrl: "https://www.sparkonomy.com/authors/ProfilePicture_gunnet.png",
     shortBio: "I am a tech leader and strategist based in Singapore. After 20 years working across Google, Microsoft, Samsung, and ABN AMRO, I now build and mentor at the edge of technology and new work. At Sparkonomy, I write about how smart systems and AI can complement creators by handling the friction so you can spend more time creating and still build a sustainable career.",
 
     socialLinks: {
@@ -279,7 +279,7 @@ export const authors: AuthorEntry[] = [
 
     name: "Dev Sparkonomy",
     role: "Content Team, Sparkonomy",
-    avatarUrl: "/authors/dev-sparkonomy.jpg",
+    avatarUrl: "https://www.sparkonomy.com/authors/dev-sparkonomy.jpg",
     shortBio: "The Sparkonomy content team is dedicated to empowering creators with insights, guides, and resources to help them thrive in the creator economy. We cover everything from payment solutions to growth strategies.",
 
     socialLinks: {
@@ -358,7 +358,7 @@ export const authors: AuthorEntry[] = [
 
     name: "Binny Agarwal",
     role: "Content Strategist & Chartered Accountant (CA)",
-    avatarUrl: "/authors/BinnyProfilePictue.jpg",
+    avatarUrl: "https://www.sparkonomy.com/authors/BinnyProfilePictue.jpg",
     shortBio:
       "I help creators turn their hobby into a real business. I am a Chartered Accountant (CA) with 12 years of experience, and at Sparkonomy I write simple guides on money, systems, and how AI can complement your work by taking care of boring admin, so you can create more while building a career that lasts.",
 
@@ -458,7 +458,7 @@ export const authors: AuthorEntry[] = [
 
     name: "Saurabh Mongia",
     role: "VP (Legal Entity Control) | Chartered Accountant | Finance Controls & Compliance",
-    avatarUrl: "/authors/ProfilePictureSaurabh.jpg",
+    avatarUrl: "https://www.sparkonomy.com/authors/ProfilePictureSaurabh.jpg",
     shortBio:
       "I am a Chartered Accountant and finance leader with 16+ years of experience in reporting, regulatory compliance, and control frameworks. I currently work as Vice President (Legal Entity Control) at Morgan Stanley, and at Sparkonomy I share practical, creator-friendly guidance to help you manage money better, from raising the perfect invoice to navigating complex cross-border taxation.",
 
@@ -489,7 +489,7 @@ export const authors: AuthorEntry[] = [
     aboutContent: [
       "Saurabh Mongia is a Chartered Accountant with 16+ years of experience across financial reporting, regulatory compliance, and control frameworks. Today, he works as Vice President (Legal Entity Control) at Morgan Stanley, supporting entities across EMEA and Asia with financial control, audit readiness, and process improvement. On Sparkonomy, he focuses on one practical goal: helping creators run money like a business, not a guessing game. He writes guidance that covers everything from getting invoices and documentation right to pricing, taxes, and cross-border basics, so creators can get paid smoothly and stay compliant. If an invoice has ever been sent back for one missing detail, or if GST, TDS, or audit worries have felt confusing, his writing is built to prevent problems before they start.",
       "Before Morgan Stanley, Saurabh spent over a decade at NatWest Group, progressing from Associate to Vice President and working across reporting, controls, and finance transformation. Earlier in his career, he worked in finance operations roles at HSBC and Max Life Insurance, and trained as an article trainee at a chartered accountancy firm. This mix gives him a clear view of what finance teams check, what slows processing down, and what helps an invoice move faster. In his writing, he stays practical: what to include, why it matters, and how to avoid the common \"please resend\" loop. The standard is simple: make it easy to approve.",
-      "He writes like a finance partner you can actually work with: direct, detail-first, and focused on outcomes. His goal is to help creators and teams build repeatable money systems, not one-off fixes. When invoices are clean and proof is clear, delays reduce and cash flow stays protected. That is how creators stop chasing and start operating like a real business. If there is a topic to cover, he invites readers to share what keeps getting stuck in their process, and he will break it down step by step.",
+      
     ],
 
     careerHighlights: [
