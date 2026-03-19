@@ -120,7 +120,7 @@ export const authors: AuthorEntry[] = [
     canonicalPath: "/authors/guneet-singh",
 
     // WordPress matching
-    wordpressSlug: "guneet",
+    wordpressSlug: "cap-guneet",
     wordpressAuthorId: 5,
 
     name: "Guneet Singh",
