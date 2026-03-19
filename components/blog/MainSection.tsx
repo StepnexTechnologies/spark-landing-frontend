@@ -49,7 +49,7 @@ export default function MainSection({
           </Link>
  
           {/* Description */}
-          <p className="text-sm  md:text-lg lg:text-xl mb-6 md:mb-8 font-normal text-white leading-relaxed max-w-lg">
+          <p className="text-sm  md:text-lg lg:text-xl mb-6 md:mb-8 font-normal text-white leading-relaxed max-w-lg lg:max-w-2xl">
             {description.length > 160 ? `${description.substring(0, 160)}...` : description}
           </p>
 
