@@ -51,7 +51,7 @@ export async function generateMetadata({ params }: PreviewPostPageProps): Promis
   }
 
   const title = `[DRAFT] ${stripHtml(post.title.rendered)}`;
-  const featuredImage = getFeaturedImageUrl(post, "large") || "/sparkonomy.png";
+  const featuredImage = post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || getFeaturedImageUrl(post, "full") || "/sparkonomy.png";
   const urlPath = `/preview/${slug}`;
 
   const excerpt =
@@ -118,7 +118,7 @@ export default async function PreviewPostPage({ params }: PreviewPostPageProps) 
     notFound();
   }
 
-  const featuredImage = getFeaturedImageUrl(post, "large");
+  const featuredImage = post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || getFeaturedImageUrl(post, "full");
   // Use async version to fetch Co-Authors Plus guest authors
   const postAuthors = await getPostAuthorsAsync(post);
   const authorNames = postAuthors.map(a => a.name).join(postAuthors.length === 2 ? ' and ' : ', ');

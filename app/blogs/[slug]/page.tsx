@@ -47,7 +47,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
 
   const title = stripHtml(post.title.rendered);
   const description = stripHtml(post.excerpt.rendered).substring(0, 160);
-  const featuredImage = getFeaturedImageUrl(post, "large");
+  const featuredImage = post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || getFeaturedImageUrl(post, "full");
   const authors = getPostAuthors(post);
   const authorNames = getAuthorNames(post);
   const publishedTime = post.date;
@@ -131,7 +131,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     notFound();
   }
 
-  const featuredImage = getFeaturedImageUrl(post, "large");
+  const featuredImage = post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || getFeaturedImageUrl(post, "full");
   // Use async version to fetch Co-Authors Plus guest authors
   const postAuthors = await getPostAuthorsAsync(post);
   const authorNames = postAuthors.map(a => a.name).join(postAuthors.length === 2 ? ' and ' : ', ');
