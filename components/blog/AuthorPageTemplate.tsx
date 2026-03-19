@@ -149,7 +149,7 @@ export default function AuthorPageTemplate({
             <p className="text-base md:text-lg text-gray-500 mb-4 text-center">
               {author.previousCompaniesLabel || "Previously at"}
             </p>
-            <div className="grid grid-cols-3 gap-4 md:gap-6 justify-items-center">
+            <div className="flex flex-wrap gap-4 md:gap-6 justify-center items-center">
               {author.previousCompanies.map((company) => (
                 <div
                   key={company.name}
@@ -308,11 +308,11 @@ export default function AuthorPageTemplate({
             Trust & Authority
           </h2>
 
-          <div className="grid grid-cols-3 gap-[12px] md:gap-[14px]">
+          <div className="flex flex-wrap gap-[12px] md:gap-[14px] justify-center">
             {author.trustItems.map((item, index) => (
               <div
                 key={index}
-                className="flex flex-col items-center text-center p-4 rounded-[12px] border border-[#F2F2F2]"
+                className="flex flex-col items-center text-center p-4 rounded-[12px] border border-[#F2F2F2] w-[calc(33.333%-8px)] md:w-[calc(33.333%-10px)]"
               >
                 <div className="mb-2">
                   <Image
@@ -503,7 +503,9 @@ export default function AuthorPageTemplate({
 
           <div className="flex flex-col gap-1 max-w-xs mx-auto">
             <a
-              href={`mailto:${author.contactEmail}`}
+              href={`https://mail.google.com/mail/?to=${encodeURIComponent(author.contactEmail)}&cc=hello%40sparkonomy.com&su=${encodeURIComponent(`Loved your piece on Sparkonomy`)}&body=${encodeURIComponent(`Hi ${author.name},\n\nI came across your article on the Sparkonomy blog and wanted to reach out. Would love to connect!`)}&view=cm&fs=1`}
+              target="_blank"
+              rel="noopener noreferrer"
               className="flex items-center justify-center gap-2 text-[14px] md:text-base font-medium text-white px-6 py-3 rounded-full hover:opacity-90 transition-opacity"
               style={{
                 background:
