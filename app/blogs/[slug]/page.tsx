@@ -4,7 +4,7 @@ import { Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { getPostBySlug, getFeaturedImageUrl, getAuthorName, getAuthorNames, getPostAuthors, getPostAuthorsAsync, formatDate, stripHtml, getReadingTime, getPosts, getPostsByCategory } from "@/lib/wordpress-improved";
-import { extractHeadings, addHeadingIds, extractFAQs, extractVideos, removeWordPressTOC, extractFirstParagraph, removeLeadingFeaturedImageBlock, processH6Markers } from "@/lib/content-processor";
+import { extractHeadings, addHeadingIds, extractFAQs, extractVideos, removeWordPressTOC, extractFirstParagraph, removeLeadingFeaturedImageBlock } from "@/lib/content-processor";
 import ShareButtons from "@/components/blog/ShareButtons";
 import Breadcrumb from "@/components/blog/Breadcrumb";
 import BlogLanguageSwitcher from "@/components/blog/BlogLanguageSwitcher";
@@ -13,7 +13,7 @@ import AuthorCard from "@/components/blog/AuthorCard";
 import RelatedPosts from "@/components/blog/RelatedPosts";
 import QuoteAuthorInjector from "@/components/blog/QuoteAuthorInjector";
 import FAQAccordionEnhancer from "@/components/blog/FAQAccordionEnhancer";
-import HighlightBoxEnhancer from "@/components/blog/HighlightBoxEnhancer";
+import ProTipEnhancer from "@/components/blog/ProTipEnhancer";
 import QuoteCleanerEnhancer from "@/components/blog/QuoteCleanerEnhancer";
 import QuoteMediaTextAuthorEnhancer from "@/components/blog/QuoteMediaTextAuthorEnhancer";
 import ListMergerEnhancer from "@/components/blog/ListMergerEnhancer";
@@ -21,7 +21,6 @@ import PromoBannerInjector from "@/components/blog/PromoBannerInjector";
 import SourcesListEnhancer from "@/components/blog/SourcesListEnhancer";
 import KeyTakeawaysEnhancer from "@/components/blog/KeyTakeawaysEnhancer";
 import CheckmarkEnhancer from "@/components/blog/CheckmarkEnhancer";
-import H6SectionParser from "@/components/blog/H6SectionParser";
 import ImageOrientationEnhancer from "@/components/blog/ImageOrientationEnhancer";
 import NewsletterSection from "@/components/blog/NewsletterSection";
 import RelatedResourcesInjector from "@/components/blog/RelatedResourcesInjector";
@@ -161,10 +160,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const primaryAuthor = authorsWithLocalData[0];
   const author = primaryAuthor?.name || "Unknown";
 
-  // Process content: pre-process H6 markers, extract headings, add toc-list class
-  const contentWithH6Markers = processH6Markers(post.content.rendered);
-  const headings = extractHeadings(contentWithH6Markers);
-  const contentWithTocClass = removeWordPressTOC(contentWithH6Markers);
+  // Process content: extract headings for IDs, add toc-list class to TOC
+  const headings = extractHeadings(post.content.rendered);
+  const contentWithTocClass = removeWordPressTOC(post.content.rendered);
   const contentWithIds = addHeadingIds(contentWithTocClass, headings);
   // Extract first paragraph for display before image, and get remaining content
   const { firstParagraph: blogDescription, remainingContent: contentAfterParagraph } = extractFirstParagraph(contentWithIds);
@@ -577,14 +575,12 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
           {/* Article Content */}
           <div className="px-4 md:px-[50px] lg:px-[130px]">
-            {/* H6 Section Parser — runs first, wraps all H6-marked sections */}
-            <H6SectionParser />
             {/* TOC smooth scroll enhancement */}
             <TOCEnhancer />
             {/* FAQ accordion interactivity enhancement */}
             <FAQAccordionEnhancer />
-            {/* Highlight box enhancement (pro tip, disclaimer, note, etc.) */}
-            <HighlightBoxEnhancer />
+            {/* Pro tip highlight enhancement */}
+            <ProTipEnhancer />
             {/* Quote cleaner - removes broken quote marks */}
             <QuoteCleanerEnhancer />
             {/* Transform media-text blocks after quotes into author displays */}
