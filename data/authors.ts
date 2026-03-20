@@ -135,9 +135,9 @@ export const authors: AuthorEntry[] = [
     },
 
     previousCompanies: [
-      { name: "Google", logo: "/authors/logos/Google.png" },
-      { name: "Microsoft", logo: "/authors/logos/Microsoft.png" },
-      { name: "Samsung", logo: "/authors/logos/Samsung.png" },
+      { name: "Google", logo: "/authors/Logos/Google.png" },
+      { name: "Microsoft", logo: "/authors/Logos/Microsoft.png" },
+      { name: "Samsung", logo: "/authors/Logos/Samsung.png" },
     ],
     previousCompaniesLabel: "Previously scaling billion-dollar businesses at:",
 

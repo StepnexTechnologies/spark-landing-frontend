@@ -41,7 +41,7 @@ export default function  BlogHeader() {
                 </div>
 
                 {/* Bottom row on mobile, right side on desktop: Nav + Button */}
-                <div className="flex items-center justify-end md:justify-end gap-5 lg:gap-12 w-full md:w-auto border-t md:border-t-0 pt-1 md:pt-0">
+                <div className="flex items-center justify-center md:justify-end gap-5 lg:gap-12 w-full md:w-auto border-t md:border-t-0 pt-1 md:pt-0">
                     {/* Navigation - visible on mobile and desktop */}
                     <nav className="flex items-center gap-6 md:gap-12 list-none">
                         {/* Blog Home link - show on all pages */}

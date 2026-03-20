@@ -290,7 +290,7 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen relative overflow-hidden">
+    <main className="relative overflow-hidden">
       {/* Blog Structured Data */}
       <script
         type="application/ld+json"
