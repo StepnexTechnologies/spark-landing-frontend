@@ -15,7 +15,7 @@ export default function BlogCardSkeleton({ layout = "vertical" }: BlogCardSkelet
       }}
     >
       <div
-        className={`flex ${isHorizontal ? "flex-row" : "flex-col"}`}
+        className={`flex ${isHorizontal ? "flex-col md:flex-row" : "flex-col"}`}
         style={{
           gap: '10px',
           paddingTop: '8px',
@@ -25,7 +25,7 @@ export default function BlogCardSkeleton({ layout = "vertical" }: BlogCardSkelet
         }}
       >
         {/* Image Skeleton */}
-        <div className={`flex-shrink-0 ${isHorizontal ? "w-1/3 md:w-2/5" : "w-full"}`}>
+        <div className={`flex-shrink-0 ${isHorizontal ? "w-full md:w-2/5" : "w-full"}`}>
           <div
             className="relative overflow-hidden w-full bg-slate-200 animate-shimmer bg-gradient-to-r from-slate-200 via-slate-100 to-slate-200 bg-[length:200%_100%]"
             style={{
@@ -36,7 +36,7 @@ export default function BlogCardSkeleton({ layout = "vertical" }: BlogCardSkelet
         </div>
 
         {/* Content Skeleton */}
-        <div className={`flex flex-col px-4 py-4 ${isHorizontal ? "w-2/3 md:w-3/5" : "w-full"}`}>
+        <div className={`flex flex-col px-4 py-4 ${isHorizontal ? "w-full md:w-3/5" : "w-full"}`}>
           {/* Date Skeleton */}
           <div className="mb-3">
             <div className="h-4 bg-slate-200 rounded w-36 animate-shimmer bg-gradient-to-r from-slate-200 via-slate-100 to-slate-200 bg-[length:200%_100%]" />
