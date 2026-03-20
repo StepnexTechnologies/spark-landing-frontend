@@ -480,10 +480,7 @@
   margin: 2rem 0;
 }
 
-.wordpress-content .key-takeaways-section h2,
-.wordpress-content .key-takeaways-section h3,
-.wordpress-content .key-takeaways-section h4,
-.wordpress-content .key-takeaways-section h5 {
+.wordpress-content .key-takeaways-section h2 {
   font-size: 20px;
   font-weight: 600;
   line-height: 1.3;
@@ -495,19 +492,13 @@
 }
 
 @media (min-width: 768px) {
-  .wordpress-content .key-takeaways-section h2,
-  .wordpress-content .key-takeaways-section h3,
-  .wordpress-content .key-takeaways-section h4,
-  .wordpress-content .key-takeaways-section h5 {
+  .wordpress-content .key-takeaways-section h2 {
     font-size: 22px;
   }
 }
 
 @media (min-width: 1024px) {
-  .wordpress-content .key-takeaways-section h2,
-  .wordpress-content .key-takeaways-section h3,
-  .wordpress-content .key-takeaways-section h4,
-  .wordpress-content .key-takeaways-section h5 {
+  .wordpress-content .key-takeaways-section h2 {
     font-size: 24px;
     font-weight: 700;
   }
@@ -687,52 +678,7 @@
   color: #6B7280;
 }
 
-/* Sources and references section — H6-based wrapper styling */
-.wordpress-content .sources-section ol,
-.wordpress-content .sources-section ul {
-  list-style: none !important;
-  list-style-type: none !important;
-  padding-left: 0 !important;
-}
-
-.wordpress-content .sources-section li {
-  list-style: none !important;
-  list-style-type: none !important;
-  margin: 0 !important;
-  padding: 2px 0 !important;
-  color: #415CE7 !important;
-  text-decoration: underline;
-  font-style: italic;
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 1.4;
-}
-
-/* Override wp-block-list spacing inside sources */
-.wordpress-content .sources-section .wp-block-list li {
-  margin: 0 !important;
-  padding: 2px 0 !important;
-}
-
-/* Hide empty list items (may contain whitespace) */
-.wordpress-content .sources-section li:empty,
-.wordpress-content .sources-list li:empty {
-  display: none !important;
-  height: 0 !important;
-  padding: 0 !important;
-}
-
-.wordpress-content .sources-section li a {
-  color: #415CE7;
-  text-decoration: underline;
-  font-style: italic;
-  font-size: 12px;
-  font-weight: 400;
-  cursor: pointer;
-  display: block;
-}
-
-/* Legacy sources-list class support */
+/* Sources and references list styling */
 .wordpress-content ol.sources-list,
 .wordpress-content ul.sources-list,
 .wordpress-content ol.sources-list.wp-block-list,
@@ -745,14 +691,18 @@
 .wordpress-content .sources-list li {
   list-style: none !important;
   list-style-type: none !important;
-  margin: 0 !important;
-  padding: 2px 0 !important;
+  margin-bottom: 20px !important;
   color: #415CE7 !important;
   text-decoration: underline;
   font-style: italic;
   font-size: 12px;
   font-weight: 400;
-  line-height: 1.4;
+}
+
+@media (min-width: 768px) {
+  .wordpress-content .sources-list li {
+    margin-bottom: 12px !important;
+  }
 }
 
 .wordpress-content .sources-list li a {
@@ -1595,7 +1545,7 @@
   display: none;
 }
 
-/* Custom chevron indicator — down arrow when closed, up arrow when open */
+/* Custom chevron indicator */
 .wordpress-content .faq-section summary::after,
 .wordpress-content .wp-block-details summary::after {
   content: "";
@@ -1603,7 +1553,7 @@
   height: 10px;
   border-right: 2px solid #8134a5;
   border-bottom: 2px solid #8134a5;
-  transform: rotate(45deg);
+  transform: rotate(-45deg);
   transition: transform 0.25s ease;
   flex-shrink: 0;
   margin-left: 1rem;
@@ -1624,7 +1574,7 @@
 
 .wordpress-content .faq-section[open] summary::after,
 .wordpress-content .wp-block-details[open] summary::after {
-  transform: rotate(-135deg);
+  transform: rotate(45deg);
 }
 
 /* Answer content area */
@@ -1641,29 +1591,6 @@
 .wordpress-content .faq-section > p:last-child,
 .wordpress-content .wp-block-details > p:last-child {
   padding-bottom: 1rem;
-}
-
-/* Copy button inside details summary */
-.wordpress-content .wp-block-details .details-copy-btn,
-.wordpress-content .faq-section .details-copy-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #8134a5;
-  opacity: 0.6;
-  padding: 4px;
-  margin-left: auto;
-  margin-right: 8px;
-  flex-shrink: 0;
-  transition: opacity 0.2s ease;
-}
-
-.wordpress-content .wp-block-details .details-copy-btn:hover,
-.wordpress-content .faq-section .details-copy-btn:hover {
-  opacity: 1;
 }
 
 /* Adjacent details blocks — remove double borders */
@@ -2147,49 +2074,10 @@
 }
 
 /* ====================
-   H6 SECTION MARKERS
-   Hide H6 tags used as section markers (matched by data attribute from server-side processing)
+   PRO TIP STYLING
+   Light purple highlight for "Pro tip:" paragraphs
    ==================== */
 
-.wordpress-content h6[data-section-marker],
-.wordpress-content .h6-section-marker-hidden {
-  display: none !important;
-}
-
-/* ====================
-   HIGHLIGHT BOX STYLING
-   Purple highlight for callout boxes (pro tip, disclaimer, note, etc.)
-   ==================== */
-
-.wordpress-content .highlight-box-section p {
-  background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
-  border-left: 4px solid #8b5cf6;
-  border-radius: 0.5rem;
-  padding: 1rem 1.25rem;
-  margin: 1.5rem 0;
-  color: #5b21b6;
-}
-
-.wordpress-content .highlight-box-label {
-  font-weight: 700;
-  color: #7c3aed;
-}
-
-/* Hover effect for Highlight Box */
-.wordpress-content .highlight-box-section p:hover {
-  box-shadow: 0 4px 12px -2px rgba(139, 92, 246, 0.15);
-  border-left-color: #7c3aed;
-}
-
-/* Mobile adjustments */
-@media (max-width: 768px) {
-  .wordpress-content .highlight-box-section p {
-    padding: 0.875rem 1rem;
-    margin: 1.25rem 0;
-  }
-}
-
-/* Legacy pro-tip-box support */
 .wordpress-content .pro-tip-box {
   background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
   border-left: 4px solid #8b5cf6;
@@ -2204,11 +2092,13 @@
   color: #7c3aed;
 }
 
+/* Hover effect for Pro Tip */
 .wordpress-content .pro-tip-box:hover {
   box-shadow: 0 4px 12px -2px rgba(139, 92, 246, 0.15);
   border-left-color: #7c3aed;
 }
 
+/* Mobile adjustments */
 @media (max-width: 768px) {
   .wordpress-content .pro-tip-box {
     padding: 0.875rem 1rem;
@@ -2339,10 +2229,15 @@
 
 /* ====================
    CTA BANNER SECTIONS
-   H6 marker identifies the section, JS adds classes for title/subtitle/button.
+   Style WordPress CTA-1/CTA-2 sections as promo banners
    ==================== */
 
-/* Banner wrapper */
+/* Hide the CTA identifier heading (CTA-1, CTA-2) */
+.wordpress-content .cta-banner-hidden {
+  display: none !important;
+}
+
+/* Banner wrapper - matches promo-banner style */
 .wordpress-content .cta-banner-section {
   background-color: #F3F4F6;
   padding: 32px 17px;
