@@ -221,9 +221,9 @@ export default function AuthorPageTemplate({
               <Image
                 src={author.signatureImage}
                 alt={`${author.name} signature`}
-                width={200}
-                height={60}
-                className="h-12 w-auto"
+                width={300}
+                height={90}
+                className="h-20 w-auto"
               />
               <p className="text-gray-600 mt-2">{author.name}</p>
             </div>
@@ -356,8 +356,8 @@ export default function AuthorPageTemplate({
                       : ""
                   }`}
                 >
-                  <div className="flex items-center gap-3">
-                    <div className="w-[40px] h-[40px] rounded-full bg-white flex items-center justify-center overflow-hidden">
+                  <div className="flex items-center gap-3 mr-4">
+                    <div className="w-[40px] h-[40px] min-w-[40px] min-h-[40px] rounded-full bg-white flex items-center justify-center overflow-hidden flex-shrink-0">
                       <ImageWithFallback
                         src={mention.logo}
                         alt={mention.publication}
@@ -376,7 +376,7 @@ export default function AuthorPageTemplate({
                     </div>
                   </div>
                   <svg
-                    className="w-5 h-5 text-[#6B7280]"
+                    className="w-5 h-5 min-w-[20px] min-h-[20px] flex-shrink-0 text-[#6B7280]"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -536,22 +536,6 @@ export default function AuthorPageTemplate({
             )}
           </div>
 
-          {(author.mediaEmail || author.speakingEmail) && (
-            <div className="mt-6 space-y-1">
-              {author.mediaEmail && (
-                <p className="text-[14px] md:text-base font-normal">
-                  <span className="text-[#6B7280]">Media Enquiry:</span>{" "}
-                  <span className="text-[#999999]">{author.mediaEmail}</span>
-                </p>
-              )}
-              {author.speakingEmail && (
-                <p className="text-[14px] md:text-base font-normal">
-                  <span className="text-[#6B7280]">Speaking Requests:</span>{" "}
-                  <span className="text-[#999999]">{author.speakingEmail}</span>
-                </p>
-              )}
-            </div>
-          )}
 
           {author.responseTime && (
             <p className="text-[14px] md:text-base font-normal text-[#999999] italic mt-4">
