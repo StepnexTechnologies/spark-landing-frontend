@@ -23,8 +23,8 @@ export default function  BlogHeader() {
     };
 
     return (
-        <header className="sticky top-0 z-50 w-full bg-white px-6 md:px-10 lg:px-20 py-[14px]">
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <header className="sticky top-0 z-50 w-full bg-white px-6 md:px-10 lg:px-20 py-[8px] ">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 md:gap-4">
                 {/* Top row: Logo and Button */}
                 <div className="flex items-center justify-between">
                     <Link href="/" className="flex items-center">
@@ -41,7 +41,7 @@ export default function  BlogHeader() {
                 </div>
 
                 {/* Bottom row on mobile, right side on desktop: Nav + Button */}
-                <div className="flex items-center justify-center md:justify-end gap-5 lg:gap-12 w-full md:w-auto border-t md:border-t-0 pt-4 md:pt-0">
+                <div className="flex items-center justify-end md:justify-end gap-5 lg:gap-12 w-full md:w-auto border-t md:border-t-0 pt-1 md:pt-0">
                     {/* Navigation - visible on mobile and desktop */}
                     <nav className="flex items-center gap-6 md:gap-12 list-none">
                         {/* Blog Home link - show on all pages */}
