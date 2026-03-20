@@ -1595,7 +1595,7 @@
   display: none;
 }
 
-/* Custom chevron indicator */
+/* Custom chevron indicator — down arrow when closed, up arrow when open */
 .wordpress-content .faq-section summary::after,
 .wordpress-content .wp-block-details summary::after {
   content: "";
@@ -1603,7 +1603,7 @@
   height: 10px;
   border-right: 2px solid #8134a5;
   border-bottom: 2px solid #8134a5;
-  transform: rotate(-45deg);
+  transform: rotate(45deg);
   transition: transform 0.25s ease;
   flex-shrink: 0;
   margin-left: 1rem;
@@ -1624,7 +1624,7 @@
 
 .wordpress-content .faq-section[open] summary::after,
 .wordpress-content .wp-block-details[open] summary::after {
-  transform: rotate(45deg);
+  transform: rotate(-135deg);
 }
 
 /* Answer content area */
@@ -1641,6 +1641,29 @@
 .wordpress-content .faq-section > p:last-child,
 .wordpress-content .wp-block-details > p:last-child {
   padding-bottom: 1rem;
+}
+
+/* Copy button inside details summary */
+.wordpress-content .wp-block-details .details-copy-btn,
+.wordpress-content .faq-section .details-copy-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #8134a5;
+  opacity: 0.6;
+  padding: 4px;
+  margin-left: auto;
+  margin-right: 8px;
+  flex-shrink: 0;
+  transition: opacity 0.2s ease;
+}
+
+.wordpress-content .wp-block-details .details-copy-btn:hover,
+.wordpress-content .faq-section .details-copy-btn:hover {
+  opacity: 1;
 }
 
 /* Adjacent details blocks — remove double borders */
