@@ -174,17 +174,17 @@ export default function  AuthorCard({
         {/* Previous Companies - Below on Mobile */}
         {displayCompanies.length > 0 && (
           <div className="md:hidden flex flex-col items-start">
-            <p className="text-sm text-[#6B7280] mb-2">{previousCompaniesLabel}</p>
-            <div className="flex items-center gap-4">
+            <p className="text-xs text-[#6B7280] mb-2">{previousCompaniesLabel}</p>
+            <div className="flex items-center gap-3">
               {displayCompanies.map((company, index) => (
                 company.logo ? (
                   <Image
                     key={index}
                     src={company.logo}
                     alt={company.name}
-                    width={80}
-                    height={company.logoHeight || 24}
-                    className="h-[24px] w-auto object-contain grayscale"
+                    width={60}
+                    height={company.logoHeight || 18}
+                    className="h-[18px] w-auto object-contain grayscale"
                   />
                 ) : (
                   <span key={index} className="text-lg font-bold text-gray-900">

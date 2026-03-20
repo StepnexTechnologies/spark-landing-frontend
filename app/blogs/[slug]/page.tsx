@@ -446,7 +446,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             <div className="border-t border-b border-gray-200 py-2 md:py-5">
               <div className="flex flex-col gap-4">
                 {authorsWithLocalData.map((authorData, index) => (
-                  <div key={index} className={`flex items-center justify-between ${index > 0 ? 'pt-4 border-t border-gray-100' : ''}`}>
+                  <div key={index} className={`flex items-center justify-between gap-1 ${index > 0 ? 'pt-4 border-t border-gray-100' : ''}`}>
                     {/* Author Info */}
                     <div className="flex items-center gap-4">
                       {authorData.avatarUrl && (
