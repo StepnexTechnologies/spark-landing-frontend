@@ -13,6 +13,23 @@ interface MainSectionProps {
   textAlign?: "left" | "right";
 }
 
+function CtaButton({ href, children }: { href: string; children: React.ReactNode }) {
+  return (
+    <Link
+      href={href}
+      className="inline-flex items-center gap-2 px-6 py-3 text-sm font-medium text-white rounded-full hover:opacity-90 transition-opacity"
+      style={{
+        background: 'linear-gradient(180.27deg, #DD2A7B -46.92%, #9747FF 80.1%)'
+      }}
+    >
+      {children}
+      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 17L17 7M17 7H7M17 7V17" />
+      </svg>
+    </Link>
+  );
+}
+
 export default function MainSection({
   title,
   subtitle,
@@ -24,10 +41,13 @@ export default function MainSection({
   textAlign = "left",
 }: MainSectionProps) {
   const isRight = textAlign === "right";
+  const truncatedDescription = description.length > 160
+    ? `${description.substring(0, 160)}...`
+    : description;
 
   return (
     <section className="w-full overflow-hidden rounded-b-[40px] md:rounded-b-[60px]">
-      {/* Desktop: original overlay layout */}
+      {/* Desktop: overlay layout */}
       <div className="hidden md:block relative w-full md:h-[500px] lg:h-[690px]">
         <div className="absolute inset-0">
           <Image
@@ -47,20 +67,9 @@ export default function MainSection({
               </h1>
             </Link>
             <p className="md:text-lg lg:text-xl mb-8 font-normal text-white leading-relaxed max-w-lg lg:max-w-2xl">
-              {description.length > 160 ? `${description.substring(0, 160)}...` : description}
+              {truncatedDescription}
             </p>
-            <Link
-              href={buttonLink}
-              className="inline-flex items-center gap-2 px-6 py-3 text-sm font-medium text-white rounded-full hover:opacity-90 transition-opacity"
-              style={{
-                background: 'linear-gradient(180.27deg, #DD2A7B -46.92%, #9747FF 80.1%)'
-              }}
-            >
-              {buttonText}
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 17L17 7M17 7H7M17 7V17" />
-              </svg>
-            </Link>
+            <CtaButton href={buttonLink}>{buttonText}</CtaButton>
           </div>
         </div>
       </div>
@@ -84,20 +93,9 @@ export default function MainSection({
             </h1>
           </Link>
           <p className="text-sm mb-6 font-normal text-[#999999] leading-relaxed">
-            {description.length > 160 ? `${description.substring(0, 160)}...` : description}
+            {truncatedDescription}
           </p>
-          <Link
-            href={buttonLink}
-            className="inline-flex items-center gap-2 px-6 py-3 text-sm font-medium text-white rounded-full hover:opacity-90 transition-opacity"
-            style={{
-              background: 'linear-gradient(180.27deg, #DD2A7B -46.92%, #9747FF 80.1%)'
-            }}
-          >
-            {buttonText}
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 17L17 7M17 7H7M17 7V17" />
-            </svg>
-          </Link>
+          <CtaButton href={buttonLink}>{buttonText}</CtaButton>
         </div>
       </div>
     </section>
