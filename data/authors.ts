@@ -124,14 +124,14 @@ export const authors: AuthorEntry[] = [
     wordpressAuthorId: 5,
 
     name: "Guneet Singh",
-    role: "Global Tech Leader | Startup Mentor | Venture Builder",
+    role: "Igniting Sparkonomy | Global Tech Leader | Startup Mentor & Venture Builder",
     avatarUrl: "https://www.sparkonomy.com/authors/ProfilePicture_gunnet.png",
     shortBio: "I am a tech leader and strategist based in Singapore. After 20 years working across Google, Microsoft, Samsung, and ABN AMRO, I now build and mentor at the edge of technology and new work. At Sparkonomy, I write about how smart systems and AI can complement creators by handling the friction so you can spend more time creating and still build a sustainable career.",
 
     socialLinks: {
       twitter: "https://twitter.com/guneetsingh",
       linkedin: "https://www.linkedin.com/in/guneets",
-      email: "guneet@sparkonomy.com",
+      email: "guneets@sparkonomy.com",
     },
 
     previousCompanies: [
@@ -150,7 +150,7 @@ export const authors: AuthorEntry[] = [
     storyConclusion: [
       "Today, we are at another turning point. As AI begins to automate conventional white-collar jobs, human authenticity is becoming the most valuable asset in the world. The \"Creator\" isn't just a hobbyist anymore; they are the future workforce.",
       "But there is a problem. While we cheer for their entrepreneurship, the industry is saddled with exploitation. Creators are building empires on shaky foundations, often without the tools or protections traditional businesses take for granted.",
-      "That is why I built Sparkonomy.",
+      "That is why I am building Sparkonomy.",
       "I wanted to tilt my knowledge of the platform ecosystems and the \"big business\" playbook to help the little guy. We are using AI not to replace the creator, but to handle the friction—the contracts, the payments, the operations—so this profession can thrive without the burnout.",
     ],
     signatureImage: "/authors/Gunnet_singh_signature.png",
@@ -168,9 +168,9 @@ export const authors: AuthorEntry[] = [
 
     careerHighlights: [
       "Driven growth for Google products across a mobile-first market of 300+ million Indians, pushing Chrome to the #1 market share starting in 2011.",
-      "Served as Global Head of Marketing & Creative Solutions at Google, and held leadership roles at Microsoft and ABN AMRO Bank.",
-      "Serves as a Startup Mentor & Venture Architect for Singapore's NUS GRIP program, actively working to commercialize deep tech.",
-      "Pioneered the intersection of creative strategy and AI-driven execution years before GPT, by founding Google's Ignition Labs.",
+      "Served as Global Head of Marketing & Creative Solutions at Google, and held leadership roles at Microsoft and Samsung.",
+      "Serves as a Startup Mentor & Venture Architect for Singapore NGRIP program, actively working to commercialize deep tech.",
+      "Pioneered the intersection of creative strategy and computer-vision driven intelligent workflows before multi-modal AI, by founding Google's Ignition Labs.",
       "Co-founded and scaled the social e-commerce startup DealsAndYou, growing the team from 0 to 40 employees in just 5 months.",
       "Recognized with 30+ international awards, including Cannes and Spikes, and named APAC Digital Marketer of the Year.",
     ],
@@ -188,34 +188,34 @@ export const authors: AuthorEntry[] = [
       {
         publication: "AI Marketers Guild",
         logo: "/logos/aimg.svg",
-        title: "Using Google's NotebookLM",
+        title: "AIMG APAC Webinar — Using Google's NotebookLM",
         author: "Guneet Singh",
         date: "October 2024",
-        url: "#",
+        url: "https://www.youtube.com/watch?v=f0DgFjIp4rM",
       },
       {
         publication: "ACV Academy & Google",
         logo: "/logos/acv-academy.svg",
-        title: "New Playbook on OKRs",
+        title: "ACV Academy and Google launch new playbook on OKRs",
         author: "Guneet Singh",
         date: "2024",
-        url: "#",
+        url: "https://acv.vc/insights/acv-portfolio-news/acv-academy-google-okrs/",
       },
       {
         publication: "HR Talk with Non HR Folk",
         logo: "/logos/hr-talk.svg",
-        title: "Marketing & Creative Services at Google APAC",
+        title: "HR Talk with Non HR Folk — Marketing & Creative Services at Google APAC",
         author: "Guneet Singh",
         date: "November 2021",
-        url: "#",
+        url: "https://www.youtube.com/watch?v=U9v3VoDM2RI",
       },
       {
         publication: "India International Brand Summit",
         logo: "/logos/iibs.svg",
-        title: "Panel Speaker",
+        title: "India International Brand Summit 2020 — Panel Speaker",
         author: "Guneet Singh",
         date: "2020",
-        url: "#",
+        url: "https://brandequity.economictimes.indiatimes.com/news/industry/india-international-brand-summit-2020-confluence-of-the-best-marketing-minds-in-india/80247314",
       },
       {
         publication: "CIO Tech Outlook",
@@ -223,15 +223,15 @@ export const authors: AuthorEntry[] = [
         title: "3 Essentials of Digital Video",
         author: "Guneet Singh",
         date: "2019",
-        url: "#",
+        url: "https://www.ciotechoutlook.com/cxoinsight/3-essentials-of-digital-video-or-the-long-short-and-silent-off-it-nid-1933-cid-78.html",
       },
       {
         publication: "Zee MELT",
         logo: "/logos/zee-melt.svg",
-        title: "India's Biggest Conference for Disruptive Marketing Practices",
+        title: "Zee MELT 2019 — India's Biggest Conference for Disruptive Marketing Practices",
         author: "Guneet Singh",
         date: "2019",
-        url: "#",
+        url: "https://youtu.be/WVoNG7hX8lM?si=TCPXORtoRkVM1seW",
       },
       {
         publication: "Melt",
@@ -239,7 +239,7 @@ export const authors: AuthorEntry[] = [
         title: "Do's and Don'ts of Digital Marketing",
         author: "Guneet Singh",
         date: "2018",
-        url: "#",
+        url: "https://youtu.be/JyHRiMZ_LmA?si=MBAoWUZaIUqFmdvG",
       },
     ],
 
@@ -260,7 +260,7 @@ export const authors: AuthorEntry[] = [
       "Creator Operations",
     ],
 
-    contactEmail: "guneet@sparkonomy.com",
+    contactEmail: "guneets@sparkonomy.com",
     mediaEmail: "press@sparkonomy.com",
     speakingEmail: "events@sparkonomy.com",
     responseTime: "I typically respond within 24 hours",
@@ -358,7 +358,7 @@ export const authors: AuthorEntry[] = [
 
     name: "Binny Agarwal",
     role: "Content Strategist & Chartered Accountant (CA)",
-    avatarUrl: "https://www.sparkonomy.com/authors/BinnyProfilePictue.jpg",
+    avatarUrl: "https://www.sparkonomy.com/authors/BinnyProfilePictue.png",
     shortBio:
       "I help creators turn their hobby into a real business. I am a Chartered Accountant (CA) with 12 years of experience, and at Sparkonomy I write simple guides on money, systems, and how AI can complement your work by taking care of boring admin, so you can create more while building a career that lasts.",
 
