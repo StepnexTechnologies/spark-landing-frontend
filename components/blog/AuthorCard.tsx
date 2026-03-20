@@ -5,6 +5,14 @@ interface PreviousCompany {
   name: string;
   logo?: string;
   logoHeight?: number;
+  darkBg?: boolean;
+  darkFg?: boolean;
+}
+
+function getLogoFilter(company: PreviousCompany): string {
+  if (company.darkBg) return 'grayscale(100%) invert(1) brightness(0.7)';
+  if (company.darkFg) return 'grayscale(100%) opacity(0.4)';
+  return 'grayscale(100%)';
 }
 
 interface AuthorCardProps {
@@ -158,7 +166,8 @@ export default function  AuthorCard({
                       alt={company.name}
                       width={100}
                       height={company.logoHeight || 32}
-                      className="h-[24px] w-auto object-contain grayscale"
+                      className="h-[24px] w-auto object-contain"
+                      style={{ filter: getLogoFilter(company) }}
                     />
                   ) : (
                     <span key={index} className="text-lg md:text-xl font-bold text-gray-900">
@@ -184,7 +193,8 @@ export default function  AuthorCard({
                     alt={company.name}
                     width={60}
                     height={company.logoHeight || 18}
-                    className="h-[18px] w-auto object-contain grayscale"
+                    className="h-[18px] w-auto object-contain"
+                    style={{ filter: getLogoFilter(company) }}
                   />
                 ) : (
                   <span key={index} className="text-lg font-bold text-gray-900">
