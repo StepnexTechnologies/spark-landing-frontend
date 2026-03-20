@@ -25,6 +25,7 @@ export default function FAQAccordionEnhancer() {
       enhanceGutenbergAccordions();
       enhanceWordPressAccordions();
       enhanceTraditionalFAQs();
+      enhanceDetailsWithCopyButton();
     }, 300);
 
     return () => clearTimeout(timer);
@@ -307,4 +308,46 @@ function enhanceTraditionalFAQs() {
       });
     }
   }
+}
+
+/**
+ * Add a copy-to-clipboard button inside wp-block-details / faq-section summaries.
+ * The button copies all text content inside the details element (excluding the summary).
+ */
+function enhanceDetailsWithCopyButton() {
+  const detailsBlocks = document.querySelectorAll(
+    ".wordpress-content .wp-block-details, .wordpress-content .faq-section"
+  );
+
+  detailsBlocks.forEach((details) => {
+    const summary = details.querySelector("summary");
+    if (!summary || summary.querySelector(".details-copy-btn")) return;
+
+    const copyBtn = document.createElement("button");
+    copyBtn.type = "button";
+    copyBtn.className = "details-copy-btn";
+    copyBtn.title = "Copy to clipboard";
+    copyBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>`;
+
+    // Prevent click from toggling the details open/close
+    copyBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      // Get text content from everything inside details except the summary
+      const children = Array.from(details.children);
+      const textParts: string[] = [];
+      children.forEach((child) => {
+        if (child.tagName !== "SUMMARY") {
+          textParts.push((child as HTMLElement).innerText || child.textContent || "");
+        }
+      });
+
+      const textToCopy = textParts.join("\n").trim();
+      navigator.clipboard.writeText(textToCopy);
+    });
+
+    // Insert copy button before the ::after pseudo-element (append to summary)
+    summary.appendChild(copyBtn);
+  });
 }
