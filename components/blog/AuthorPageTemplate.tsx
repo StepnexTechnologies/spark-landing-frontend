@@ -230,7 +230,7 @@ export default function AuthorPageTemplate({
                 alt={`${author.name} signature`}
                 width={200}
                 height={60}
-                className="h-12 w-auto"
+                className="h-14 w-auto"
               />
               <p className="text-gray-600 mt-2">{author.name}</p>
             </div>
