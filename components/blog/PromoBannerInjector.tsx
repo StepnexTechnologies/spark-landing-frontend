@@ -49,7 +49,13 @@ function styleCTASections() {
       if (tagName === "H6") continue;
 
       // First heading of any type → title
-      if (!foundTitle && (tagName === "H2" || tagName === "H3" || tagName === "H4" || tagName === "H5")) {
+      if (
+        !foundTitle &&
+        (tagName === "H2" ||
+          tagName === "H3" ||
+          tagName === "H4" ||
+          tagName === "H5")
+      ) {
         child.classList.add("cta-banner-title");
         foundTitle = true;
       } else if (tagName === "P") {
@@ -64,37 +70,18 @@ function styleCTASections() {
             paragraphText.toLowerCase().includes("try free") ||
             paragraphText.toLowerCase().includes("talk to"));
 
-          if (isCTAButton && !foundLink) {
-            currentElement.classList.add("cta-banner-button");
-            if (link) {
-              link.classList.add("cta-banner-link");
-              // Replace → text with Arrow_navigate.png image
-              replaceArrowWithImage(link);
-            }
-            elementsToWrap.push(currentElement);
-            foundLink = true;
-          } else if (!foundSubtitle && foundH3) {
-            currentElement.classList.add("cta-banner-subtitle");
-            elementsToWrap.push(currentElement);
-            foundSubtitle = true;
+        if (isCTAButton && !foundLink) {
+          child.classList.add("cta-banner-button");
+          if (link) {
+            link.classList.add("cta-banner-link");
+            // Replace → text with Arrow_navigate.png image
+            replaceArrowWithImage(link as HTMLAnchorElement);
           }
+          foundLink = true;
+        } else if (!foundSubtitle && foundTitle) {
+          child.classList.add("cta-banner-subtitle");
+          foundSubtitle = true;
         }
-
-        currentElement = currentElement.nextElementSibling;
-      }
-
-      // Only wrap if we found at least H3
-      if (foundH3 && elementsToWrap.length > 1) {
-        // Insert wrapper before the first element
-        h6.parentNode?.insertBefore(wrapper, h6);
-
-        // Move all elements into wrapper
-        elementsToWrap.forEach((el) => {
-          wrapper.appendChild(el);
-        });
-
-        // Hide the H6 identifier
-        h6.classList.add("cta-banner-hidden");
       }
     }
   });
