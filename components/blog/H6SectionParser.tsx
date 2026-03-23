@@ -75,21 +75,23 @@ function parseH6Sections() {
     typeCounts.set(config.type, count + 1);
 
     // Collect following sibling elements.
-    // The first H2/H3 after the H6 is the section title — include it.
-    // Stop at the NEXT H2/H3/H6 after that.
+    // The first heading (H1-H5) after the H6 is the section title — include it.
+    // Stop at any subsequent heading (H1-H6) or block-level div (WordPress block container).
     const elementsToWrap: Element[] = [h6];
     let currentElement = h6.nextElementSibling;
     let includedSectionTitle = false;
+    const isCTASection = config.type.startsWith("cta-");
 
     while (currentElement) {
       const tagName = currentElement.tagName.toUpperCase();
+      const isHeading = /^H[1-6]$/.test(tagName);
 
       if (tagName === "H6") {
         // Always stop at another H6 marker
         break;
       }
 
-      if (tagName === "H2" || tagName === "H3") {
+      if (isHeading) {
         if (!includedSectionTitle) {
           // First heading after H6 is the section title — include it
           includedSectionTitle = true;
@@ -97,7 +99,13 @@ function parseH6Sections() {
           currentElement = currentElement.nextElementSibling;
           continue;
         }
-        // Second heading — stop here
+        // Any subsequent heading — stop here
+        break;
+      }
+
+      // For CTA sections, only collect <p> elements after the title.
+      // Stop at any div/block container to avoid swallowing following sections.
+      if (isCTASection && includedSectionTitle && tagName !== "P") {
         break;
       }
 
