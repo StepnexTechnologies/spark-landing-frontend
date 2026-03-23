@@ -161,7 +161,14 @@ export default function AuthorPageTemplate({
                       alt={company.name}
                       width={120}
                       height={36}
-                      className="h-[16px] md:h-7 w-auto object-contain grayscale opacity-60"
+                      className="h-[16px] md:h-7 w-auto object-contain opacity-60"
+                      style={{
+                        filter: company.darkBg
+                          ? 'grayscale(100%) invert(1) brightness(0.7)'
+                          : company.darkFg
+                            ? 'grayscale(100%) opacity(0.4)'
+                            : 'grayscale(100%)'
+                      }}
                     />
                   ) : (
                     <span className="text-gray-500 font-semibold text-sm md:text-lg">
@@ -221,9 +228,9 @@ export default function AuthorPageTemplate({
               <Image
                 src={author.signatureImage}
                 alt={`${author.name} signature`}
-                width={300}
-                height={90}
-                className="h-20 w-auto"
+                width={200}
+                height={60}
+                className="h-14 w-auto"
               />
               <p className="text-gray-600 mt-2">{author.name}</p>
             </div>

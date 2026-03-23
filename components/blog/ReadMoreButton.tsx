@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 interface ReadMoreButtonProps {
   href: string;
@@ -16,19 +17,12 @@ export default function ReadMoreButton({ href, className = "" }: ReadMoreButtonP
       }}
     >
       Read More
-      <svg
-        className="w-4 h-4"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M7 17L17 7M17 7H7M17 7V17"
-        />
-      </svg>
+      <Image
+        src="/Arrow_navigate.png"
+        alt="arrow"
+        width={16}
+        height={16}
+      />
     </Link>
   );
 }
