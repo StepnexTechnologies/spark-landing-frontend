@@ -80,7 +80,7 @@ function parseH6Sections() {
     const elementsToWrap: Element[] = [h6];
     let currentElement = h6.nextElementSibling;
     let includedSectionTitle = false;
-    const isCTASection = config.type.startsWith("cta-");
+    const allowedChildren = config.allowedChildren;
 
     while (currentElement) {
       const tagName = currentElement.tagName.toUpperCase();
@@ -103,9 +103,14 @@ function parseH6Sections() {
         break;
       }
 
-      // For CTA sections, only collect <p> elements after the title.
-      // Stop at any div/block container to avoid swallowing following sections.
-      if (isCTASection && includedSectionTitle && tagName !== "P") {
+      // Always stop at image elements (FIGURE, IMG) — they belong to surrounding content
+      if (tagName === "FIGURE" || tagName === "IMG") {
+        break;
+      }
+
+      // If allowedChildren is defined, only collect those tag types after the title.
+      // Stop at anything else to avoid swallowing following sections.
+      if (allowedChildren && includedSectionTitle && !allowedChildren.includes(tagName)) {
         break;
       }
 
