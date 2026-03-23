@@ -75,21 +75,23 @@ function parseH6Sections() {
     typeCounts.set(config.type, count + 1);
 
     // Collect following sibling elements.
-    // The first H2/H3 after the H6 is the section title — include it.
-    // Stop at the NEXT H2/H3/H6 after that.
+    // The first heading (H1-H5) after the H6 is the section title — include it.
+    // Stop at any subsequent heading (H1-H6) or block-level div (WordPress block container).
     const elementsToWrap: Element[] = [h6];
     let currentElement = h6.nextElementSibling;
     let includedSectionTitle = false;
+    const allowedChildren = config.allowedChildren;
 
     while (currentElement) {
       const tagName = currentElement.tagName.toUpperCase();
+      const isHeading = /^H[1-6]$/.test(tagName);
 
       if (tagName === "H6") {
         // Always stop at another H6 marker
         break;
       }
 
-      if (tagName === "H2" || tagName === "H3") {
+      if (isHeading) {
         if (!includedSectionTitle) {
           // First heading after H6 is the section title — include it
           includedSectionTitle = true;
@@ -97,7 +99,18 @@ function parseH6Sections() {
           currentElement = currentElement.nextElementSibling;
           continue;
         }
-        // Second heading — stop here
+        // Any subsequent heading — stop here
+        break;
+      }
+
+      // Always stop at image elements (FIGURE, IMG) — they belong to surrounding content
+      if (tagName === "FIGURE" || tagName === "IMG") {
+        break;
+      }
+
+      // If allowedChildren is defined, only collect those tag types after the title.
+      // Stop at anything else to avoid swallowing following sections.
+      if (allowedChildren && includedSectionTitle && !allowedChildren.includes(tagName)) {
         break;
       }
 

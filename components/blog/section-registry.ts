@@ -15,6 +15,8 @@ export interface SectionConfig {
   wrapperClass: string;
   /** Whether this section can appear multiple times in one post */
   allowMultiple: boolean;
+  /** Allowed child tag names (after the section title). If set, parser stops at any element not in this list. */
+  allowedChildren?: string[];
 }
 
 export const SECTION_REGISTRY: SectionConfig[] = [
@@ -23,12 +25,14 @@ export const SECTION_REGISTRY: SectionConfig[] = [
     type: "cta-1",
     wrapperClass: "cta-banner-section",
     allowMultiple: false,
+    allowedChildren: ["P"],
   },
   {
     markers: ["CTA-2", "CTA2", "CTA 2"],
     type: "cta-2",
     wrapperClass: "cta-banner-section",
     allowMultiple: false,
+    allowedChildren: ["P"],
   },
   {
     markers: ["Table of Content", "Table of Contents", "TOC"],
@@ -41,6 +45,7 @@ export const SECTION_REGISTRY: SectionConfig[] = [
     type: "key-takeaways",
     wrapperClass: "key-takeaways-section",
     allowMultiple: false,
+    allowedChildren: ["UL", "OL"],
   },
   {
     markers: ["Highlight Box"],
