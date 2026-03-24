@@ -81,6 +81,8 @@ function parseH6Sections() {
     let currentElement = h6.nextElementSibling;
     let includedSectionTitle = false;
     const allowedChildren = config.allowedChildren;
+    const maxElements = config.maxElements;
+    let contentCount = 0;
 
     while (currentElement) {
       const tagName = currentElement.tagName.toUpperCase();
@@ -114,7 +116,13 @@ function parseH6Sections() {
         break;
       }
 
+      // Stop if we've reached the max content elements
+      if (maxElements !== undefined && contentCount >= maxElements) {
+        break;
+      }
+
       elementsToWrap.push(currentElement);
+      contentCount++;
       currentElement = currentElement.nextElementSibling;
     }
 
