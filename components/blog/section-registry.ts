@@ -17,6 +17,8 @@ export interface SectionConfig {
   allowMultiple: boolean;
   /** Allowed child tag names (after the section title). If set, parser stops at any element not in this list. */
   allowedChildren?: string[];
+  /** Max number of content elements to collect (excluding the H6 marker and section title heading). */
+  maxElements?: number;
 }
 
 export const SECTION_REGISTRY: SectionConfig[] = [
@@ -52,6 +54,7 @@ export const SECTION_REGISTRY: SectionConfig[] = [
     type: "highlight-box",
     wrapperClass: "highlight-box-section",
     allowMultiple: true,
+    maxElements: 1,
   },
   {
     markers: ["Trust Para", "Trust Paragraph"],
