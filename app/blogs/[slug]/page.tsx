@@ -58,7 +58,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
   // Use Yoast SEO data if available, otherwise fall back to defaults
   const seoTitle = post.yoast_head_json?.title || title;
   const seoDescription = post.yoast_head_json?.description || description;
-  const canonical = post.yoast_head_json?.canonical || url;
+  const canonical = url;
   const ogImage = post.yoast_head_json?.og_image?.[0]?.url || featuredImage || "https://sparkonomy.com/sparkonomy.png";
 
   // Extract categories and tags for better SEO
