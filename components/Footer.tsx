@@ -53,7 +53,7 @@ export default function Footer() {
           {/* Center Column - Copyright (always centered) */}
           <div className="flex items-center justify-center space-x-1 md:justify-self-center">
             {/*<Info className="w-3 h-3" />*/}
-            <span className="text-center">© 2025 Sparkonomy Pte. Ltd. All rights reserved</span>
+            <span className="text-center">© 2025-2026 Sparkonomy Pte. Ltd. All rights reserved</span>
           </div>
 
           {/* Right Column */}
