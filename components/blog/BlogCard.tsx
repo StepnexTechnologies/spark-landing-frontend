@@ -124,23 +124,30 @@ export default function Card({
         </div>
 
         {/* Description */}
-        {showDescription && description && (
-          <div
-            className={`text-sm font-normal text-[#999999] mt-3 ${
-              isHorizontal && descriptionPosition === "right" ? "md:block" : ""
-            }`}
-            style={
-              {
-                display: "-webkit-box",
-                WebkitLineClamp: 3,
-                WebkitBoxOrient: "vertical",
-                overflow: "hidden",
-              } as React.CSSProperties
-            }
-          >
-            {description}
-          </div>
-        )}
+        {showDescription && description && (() => {
+          const firstDot = description.indexOf(". ");
+          const hasSplit = firstDot !== -1;
+          const firstSentence = hasSplit ? description.slice(0, firstDot + 1) : description;
+          const rest = hasSplit ? description.slice(firstDot + 1) : "";
+          return (
+            <div
+              className={`text-sm font-normal text-[#999999] mt-3 ${
+                isHorizontal && descriptionPosition === "right" ? "md:block" : ""
+              }`}
+              style={
+                {
+                  display: "-webkit-box",
+                  WebkitLineClamp: 3,
+                  WebkitBoxOrient: "vertical",
+                  overflow: "hidden",
+                } as React.CSSProperties
+              }
+            >
+              <span className="font-semibold">{firstSentence}</span>
+              {rest}
+            </div>
+          );
+        })()}
 
         {/* Button */}
         <div className="flex justify-end pt-4">
