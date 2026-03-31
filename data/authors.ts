@@ -179,7 +179,7 @@ export const authors: AuthorEntry[] = [
 
     trustItems: [
       { icon: "experience", label: "Experience", value: "20+ Years" },
-      { icon: "expertise", label: "Expertise", value: "Tech Platform Growth" },
+      { icon: "expertise", label: "Expertise", value: "Tech Platform" },
       { icon: "awards", label: "Awards", value: "Hall of Fame" },
       { icon: "verified", label: "Verified", value: "Sparkonomy" },
       { icon: "featured", label: "Focus", value: "Creator Systems" },
