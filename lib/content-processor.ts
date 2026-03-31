@@ -4,6 +4,39 @@
  */
 
 /**
+ * H6 marker keywords recognized server-side.
+ * Must stay in sync with components/blog/section-registry.ts
+ */
+const H6_MARKER_MAP: Record<string, string> = {
+  'cta-1': 'cta-1', 'cta1': 'cta-1', 'cta 1': 'cta-1',
+  'cta-2': 'cta-2', 'cta2': 'cta-2', 'cta 2': 'cta-2',
+  'table of content': 'toc', 'table of contents': 'toc', 'toc': 'toc',
+  'key takeaways': 'key-takeaways', 'key takeaway': 'key-takeaways',
+  'highlight box': 'highlight-box',
+  'trust para': 'trust-para', 'trust paragraph': 'trust-para',
+  'sources and references': 'sources', 'sources & references': 'sources',
+  'sources': 'sources', 'references': 'sources',
+};
+
+/**
+ * Pre-process H6 markers server-side: adds data-section-marker attribute
+ * to recognized H6 tags. CSS hides them via attribute selector.
+ * Should run BEFORE other content processing functions.
+ */
+export function processH6Markers(html: string): string {
+  // Match <h6> tags and check if their text content is a recognized marker
+  return html.replace(/<h6([^>]*)>([\s\S]*?)<\/h6>/gi, (match, attrs, content) => {
+    const text = content.replace(/<[^>]*>/g, '').trim().toLowerCase().replace(/-/g, ' ').replace(/\s+/g, ' ');
+    const sectionType = H6_MARKER_MAP[text];
+    if (sectionType) {
+      // Only add data attribute — CSS hides via h6[data-section-marker]
+      return `<h6${attrs} data-section-marker="${sectionType}">${content}</h6>`;
+    }
+    return match;
+  });
+}
+
+/**
  * Extract and remove the first paragraph from content (typically the excerpt/description)
  * since it's displayed separately before the featured image
  * Returns both the first paragraph and the remaining content
@@ -25,6 +58,40 @@ export function extractFirstParagraph(html: string): { firstParagraph: string; r
 export function removeFirstParagraph(html: string): string {
   // Remove the first <p> tag and its content
   return html.replace(/^\s*<p[^>]*>[\s\S]*?<\/p>\s*/, '');
+}
+
+/**
+ * Remove the first image/figure block from content if it matches the featured image.
+ * WordPress often embeds the featured image inside the content body as well,
+ * causing it to appear twice when the featured image is also shown separately above.
+ */
+export function removeLeadingFeaturedImageBlock(html: string, featuredImageUrl: string): string {
+  if (!featuredImageUrl) return html;
+
+  // Normalize URL for comparison (strip query params and size suffixes like -1920x1080)
+  const normalizeUrl = (url: string) => url.split('?')[0].replace(/-\d+x\d+(\.[a-z]+)$/, '$1');
+  const normalizedFeatured = normalizeUrl(featuredImageUrl);
+
+  // Match a leading <figure> or <div> WordPress image block
+  const figureRegex = /^\s*(<figure[^>]*>[\s\S]*?<\/figure>|<div[^>]*wp-block-image[^>]*>[\s\S]*?<\/div>)\s*/i;
+  const match = html.match(figureRegex);
+
+  if (match) {
+    const blockHtml = match[1];
+    // Check if this block contains a src that matches the featured image
+    const srcMatch = blockHtml.match(/src=["']([^"']+)["']/i);
+    if (srcMatch) {
+      const normalizedSrc = normalizeUrl(srcMatch[1]);
+      // Compare base filenames (without size suffixes)
+      const featuredBase = normalizedFeatured.split('/').pop();
+      const srcBase = normalizedSrc.split('/').pop();
+      if (featuredBase && srcBase && featuredBase === srcBase) {
+        return html.replace(figureRegex, '');
+      }
+    }
+  }
+
+  return html;
 }
 
 export interface TOCItem {

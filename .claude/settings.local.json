@@ -26,7 +26,9 @@
       "Bash(ls:*)",
       "Bash(taskkill:*)",
       "Bash(git log:*)",
-      "Bash(npx next:*)"
+      "Bash(npx next:*)",
+      "Bash(git push:*)",
+      "Bash(find /c/Users/HP/Desktop/client/spark-landing-frontend/components -type f -name *footer* -o -name *cta* -o -name *email*)"
     ],
     "deny": [],
     "ask": []

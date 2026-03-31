@@ -46,7 +46,7 @@ export default function Card({
 
   const content = (
     <div
-      className={`flex ${isHorizontal ? "flex-row" : "flex-col"}`}
+      className={`flex ${isHorizontal ? "flex-col md:flex-row" : "flex-col"}`}
       style={{
         gap: '10px',
         paddingTop: '8px',
@@ -58,7 +58,7 @@ export default function Card({
       {imageSrc && (
         <div
           className={`flex-shrink-0 ${
-            isHorizontal ? "w-1/3 md:w-2/5" : "w-full"
+            isHorizontal ? "w-full md:w-2/5" : "w-full"
           }`}
         >
           {/* Image wrapper: 398px × 284px with 30px border radius */}
@@ -87,7 +87,7 @@ export default function Card({
 
       <div
         className={`flex flex-col px-4 py-4 ${
-          isHorizontal ? "w-2/3 md:w-3/5" : "w-full"
+          isHorizontal ? "w-full md:w-3/5" : "w-full"
         }`}
       >
         

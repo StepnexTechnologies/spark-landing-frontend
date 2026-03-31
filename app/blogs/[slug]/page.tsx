@@ -4,7 +4,7 @@ import { Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { getPostBySlug, getFeaturedImageUrl, getAuthorName, getAuthorNames, getPostAuthors, getPostAuthorsAsync, formatDate, stripHtml, getReadingTime, getPosts, getPostsByCategory } from "@/lib/wordpress-improved";
-import { extractHeadings, addHeadingIds, extractFAQs, extractVideos, removeWordPressTOC, extractFirstParagraph } from "@/lib/content-processor";
+import { extractHeadings, addHeadingIds, extractFAQs, extractVideos, removeWordPressTOC, extractFirstParagraph, removeLeadingFeaturedImageBlock, processH6Markers } from "@/lib/content-processor";
 import ShareButtons from "@/components/blog/ShareButtons";
 import Breadcrumb from "@/components/blog/Breadcrumb";
 import BlogLanguageSwitcher from "@/components/blog/BlogLanguageSwitcher";
@@ -13,7 +13,7 @@ import AuthorCard from "@/components/blog/AuthorCard";
 import RelatedPosts from "@/components/blog/RelatedPosts";
 import QuoteAuthorInjector from "@/components/blog/QuoteAuthorInjector";
 import FAQAccordionEnhancer from "@/components/blog/FAQAccordionEnhancer";
-import ProTipEnhancer from "@/components/blog/ProTipEnhancer";
+import HighlightBoxEnhancer from "@/components/blog/HighlightBoxEnhancer";
 import QuoteCleanerEnhancer from "@/components/blog/QuoteCleanerEnhancer";
 import QuoteMediaTextAuthorEnhancer from "@/components/blog/QuoteMediaTextAuthorEnhancer";
 import ListMergerEnhancer from "@/components/blog/ListMergerEnhancer";
@@ -21,6 +21,7 @@ import PromoBannerInjector from "@/components/blog/PromoBannerInjector";
 import SourcesListEnhancer from "@/components/blog/SourcesListEnhancer";
 import KeyTakeawaysEnhancer from "@/components/blog/KeyTakeawaysEnhancer";
 import CheckmarkEnhancer from "@/components/blog/CheckmarkEnhancer";
+import H6SectionParser from "@/components/blog/H6SectionParser";
 import ImageOrientationEnhancer from "@/components/blog/ImageOrientationEnhancer";
 import NewsletterSection from "@/components/blog/NewsletterSection";
 import RelatedResourcesInjector from "@/components/blog/RelatedResourcesInjector";
@@ -47,7 +48,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
 
   const title = stripHtml(post.title.rendered);
   const description = stripHtml(post.excerpt.rendered).substring(0, 160);
-  const featuredImage = getFeaturedImageUrl(post, "large");
+  const featuredImage = post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || getFeaturedImageUrl(post, "full");
   const authors = getPostAuthors(post);
   const authorNames = getAuthorNames(post);
   const publishedTime = post.date;
@@ -57,7 +58,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
   // Use Yoast SEO data if available, otherwise fall back to defaults
   const seoTitle = post.yoast_head_json?.title || title;
   const seoDescription = post.yoast_head_json?.description || description;
-  const canonical = post.yoast_head_json?.canonical || url;
+  const canonical = url;
   const ogImage = post.yoast_head_json?.og_image?.[0]?.url || featuredImage || "https://sparkonomy.com/sparkonomy.png";
 
   // Extract categories and tags for better SEO
@@ -131,7 +132,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     notFound();
   }
 
-  const featuredImage = getFeaturedImageUrl(post, "large");
+  const featuredImage = post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || getFeaturedImageUrl(post, "full");
   // Use async version to fetch Co-Authors Plus guest authors
   const postAuthors = await getPostAuthorsAsync(post);
   const authorNames = postAuthors.map(a => a.name).join(postAuthors.length === 2 ? ' and ' : ', ');
@@ -160,12 +161,17 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const primaryAuthor = authorsWithLocalData[0];
   const author = primaryAuthor?.name || "Unknown";
 
-  // Process content: extract headings for IDs, add toc-list class to TOC
-  const headings = extractHeadings(post.content.rendered);
-  const contentWithTocClass = removeWordPressTOC(post.content.rendered);
+  // Process content: pre-process H6 markers, extract headings, add toc-list class
+  const contentWithH6Markers = processH6Markers(post.content.rendered);
+  const headings = extractHeadings(contentWithH6Markers);
+  const contentWithTocClass = removeWordPressTOC(contentWithH6Markers);
   const contentWithIds = addHeadingIds(contentWithTocClass, headings);
   // Extract first paragraph for display before image, and get remaining content
-  const { firstParagraph: blogDescription, remainingContent: processedContent } = extractFirstParagraph(contentWithIds);
+  const { firstParagraph: blogDescription, remainingContent: contentAfterParagraph } = extractFirstParagraph(contentWithIds);
+  // Remove leading image block from content if it matches the featured image (prevents duplicate display)
+  const processedContent = featuredImage
+    ? removeLeadingFeaturedImageBlock(contentAfterParagraph, featuredImage)
+    : contentAfterParagraph;
 
   // Get category for breadcrumb and related resources
   const categoryName = post._embedded?.["wp:term"]?.[0]?.[0]?.name || "";
@@ -442,7 +448,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             <div className="border-t border-b border-gray-200 py-2 md:py-5">
               <div className="flex flex-col gap-4">
                 {authorsWithLocalData.map((authorData, index) => (
-                  <div key={index} className={`flex items-center justify-between ${index > 0 ? 'pt-4 border-t border-gray-100' : ''}`}>
+                  <div key={index} className={`flex items-center justify-between gap-1 ${index > 0 ? 'pt-4 border-t border-gray-100' : ''}`}>
                     {/* Author Info */}
                     <div className="flex items-center gap-4">
                       {authorData.avatarUrl && (
@@ -571,12 +577,14 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
           {/* Article Content */}
           <div className="px-4 md:px-[50px] lg:px-[130px]">
+            {/* H6 Section Parser — runs first, wraps all H6-marked sections */}
+            <H6SectionParser />
             {/* TOC smooth scroll enhancement */}
             <TOCEnhancer />
             {/* FAQ accordion interactivity enhancement */}
             <FAQAccordionEnhancer />
-            {/* Pro tip highlight enhancement */}
-            <ProTipEnhancer />
+            {/* Highlight box enhancement (pro tip, disclaimer, note, etc.) */}
+            <HighlightBoxEnhancer />
             {/* Quote cleaner - removes broken quote marks */}
             <QuoteCleanerEnhancer />
             {/* Transform media-text blocks after quotes into author displays */}

@@ -4,7 +4,7 @@ import { Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { getDraftPostById, getFeaturedImageUrl, getAuthorName, getAuthorNames, getPostAuthors, getPostAuthorsAsync, formatDate, stripHtml, getReadingTime, getDraftPosts, getPostsByCategory } from "@/lib/wordpress-improved";
-import { extractHeadings, addHeadingIds, removeWordPressTOC, extractFirstParagraph } from "@/lib/content-processor";
+import { extractHeadings, addHeadingIds, removeWordPressTOC, extractFirstParagraph, removeLeadingFeaturedImageBlock, processH6Markers } from "@/lib/content-processor";
 import Breadcrumb from "@/components/blog/Breadcrumb";
 import BlogLanguageSwitcher from "@/components/blog/BlogLanguageSwitcher";
 import TOCEnhancer from "@/components/blog/TOCEnhancer";
@@ -12,7 +12,7 @@ import AuthorCard from "@/components/blog/AuthorCard";
 import RelatedPosts from "@/components/blog/RelatedPosts";
 import QuoteAuthorInjector from "@/components/blog/QuoteAuthorInjector";
 import FAQAccordionEnhancer from "@/components/blog/FAQAccordionEnhancer";
-import ProTipEnhancer from "@/components/blog/ProTipEnhancer";
+import HighlightBoxEnhancer from "@/components/blog/HighlightBoxEnhancer";
 import QuoteCleanerEnhancer from "@/components/blog/QuoteCleanerEnhancer";
 import QuoteMediaTextAuthorEnhancer from "@/components/blog/QuoteMediaTextAuthorEnhancer";
 import ListMergerEnhancer from "@/components/blog/ListMergerEnhancer";
@@ -20,6 +20,7 @@ import PromoBannerInjector from "@/components/blog/PromoBannerInjector";
 import SourcesListEnhancer from "@/components/blog/SourcesListEnhancer";
 import KeyTakeawaysEnhancer from "@/components/blog/KeyTakeawaysEnhancer";
 import CheckmarkEnhancer from "@/components/blog/CheckmarkEnhancer";
+import H6SectionParser from "@/components/blog/H6SectionParser";
 import ImageOrientationEnhancer from "@/components/blog/ImageOrientationEnhancer";
 import NewsletterSection from "@/components/blog/NewsletterSection";
 import RelatedResourcesInjector from "@/components/blog/RelatedResourcesInjector";
@@ -40,6 +41,7 @@ export async function generateMetadata({ params }: PreviewPostPageProps): Promis
 
   if (!post) {
     return {
+      metadataBase: new URL("https://www.sparkonomy.com/"),
       title: "Draft Not Found",
       description: "The requested draft post could not be found.",
       robots: {
@@ -50,10 +52,28 @@ export async function generateMetadata({ params }: PreviewPostPageProps): Promis
   }
 
   const title = `[DRAFT] ${stripHtml(post.title.rendered)}`;
+  const featuredImage = post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || getFeaturedImageUrl(post, "full") || "/sparkonomy.png";
+  const urlPath = `/preview/${slug}`;
+
+  const excerpt =
+    (post.excerpt?.rendered ? stripHtml(post.excerpt.rendered) : "").trim();
+  const descriptionFromExcerpt = excerpt.length > 0 ? excerpt : "";
+
+  const firstParagraphHtml = extractFirstParagraph(post.content?.rendered || "").firstParagraph || "";
+  const descriptionFromFirstParagraph = stripHtml(firstParagraphHtml).trim();
+
+  const description =
+    (descriptionFromExcerpt || descriptionFromFirstParagraph || "Draft preview - not for public viewing")
+      .replace(/\s+/g, " ")
+      .slice(0, 200);
+
+  const postAuthors = await getPostAuthorsAsync(post);
+  const authorNames = postAuthors.map((a) => a.name).filter(Boolean);
 
   return {
+    metadataBase: new URL("https://www.sparkonomy.com/"),
     title: title,
-    description: "Draft preview - not for public viewing",
+    description,
     robots: {
       index: false,
       follow: false,
@@ -61,6 +81,31 @@ export async function generateMetadata({ params }: PreviewPostPageProps): Promis
         index: false,
         follow: false,
       },
+    },
+    openGraph: {
+      siteName: "Sparkonomy",
+      url: urlPath,
+      title,
+      description,
+      images: [
+        {
+          url: featuredImage,
+          width: 1200,
+          height: 630,
+          alt: stripHtml(post.title.rendered),
+        },
+      ],
+      locale: "en_IND",
+      type: "article",
+      publishedTime: post.date,
+      modifiedTime: post.modified,
+      authors: authorNames,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [featuredImage],
     },
   };
 }
@@ -74,7 +119,7 @@ export default async function PreviewPostPage({ params }: PreviewPostPageProps) 
     notFound();
   }
 
-  const featuredImage = getFeaturedImageUrl(post, "large");
+  const featuredImage = post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || getFeaturedImageUrl(post, "full");
   // Use async version to fetch Co-Authors Plus guest authors
   const postAuthors = await getPostAuthorsAsync(post);
   const authorNames = postAuthors.map(a => a.name).join(postAuthors.length === 2 ? ' and ' : ', ');
@@ -103,12 +148,17 @@ export default async function PreviewPostPage({ params }: PreviewPostPageProps) 
   const primaryAuthor = authorsWithLocalData[0];
   const author = primaryAuthor?.name || "Unknown";
 
-  // Process content: extract headings for IDs, add toc-list class to TOC
-  const headings = extractHeadings(post.content.rendered);
-  const contentWithTocClass = removeWordPressTOC(post.content.rendered);
+  // Process content: pre-process H6 markers, extract headings, add toc-list class
+  const contentWithH6Markers = processH6Markers(post.content.rendered);
+  const headings = extractHeadings(contentWithH6Markers);
+  const contentWithTocClass = removeWordPressTOC(contentWithH6Markers);
   const contentWithIds = addHeadingIds(contentWithTocClass, headings);
   // Extract first paragraph for display before image, and get remaining content
-  const { firstParagraph: blogDescription, remainingContent: processedContent } = extractFirstParagraph(contentWithIds);
+  const { firstParagraph: blogDescription, remainingContent: contentAfterParagraph } = extractFirstParagraph(contentWithIds);
+  // Remove leading image block from content if it matches the featured image (prevents duplicate display)
+  const processedContent = featuredImage
+    ? removeLeadingFeaturedImageBlock(contentAfterParagraph, featuredImage)
+    : contentAfterParagraph;
 
   // Get category for breadcrumb and related resources
   const categoryName = post._embedded?.["wp:term"]?.[0]?.[0]?.name || "";
@@ -328,12 +378,14 @@ export default async function PreviewPostPage({ params }: PreviewPostPageProps) 
 
           {/* Article Content */}
           <div className="px-4 md:px-[50px] lg:px-[130px]">
+            {/* H6 Section Parser — runs first, wraps all H6-marked sections */}
+            <H6SectionParser />
             {/* TOC smooth scroll enhancement */}
             <TOCEnhancer />
             {/* FAQ accordion interactivity enhancement */}
             <FAQAccordionEnhancer />
-            {/* Pro tip highlight enhancement */}
-            <ProTipEnhancer />
+            {/* Highlight box enhancement (pro tip, disclaimer, note, etc.) */}
+            <HighlightBoxEnhancer />
             {/* Quote cleaner - removes broken quote marks */}
             <QuoteCleanerEnhancer />
             {/* Transform media-text blocks after quotes into author displays */}

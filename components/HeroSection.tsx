@@ -445,7 +445,7 @@ const HeroSection = () => {
 
       {/* Partner Logos & Compliance Badges - pinned to bottom */}
       <div
-        className="pointer-events-auto transition-all duration-700 mb-40 md:mb-28"
+        className="pointer-events-auto transition-all duration-700 mb-8 md:mb-28"
         style={{
           opacity: emailCaptureVisible ? 1 : 0,
           transform: emailCaptureVisible

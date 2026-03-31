@@ -224,7 +224,7 @@ async function HeroSection() {
 
 export default function PreviewPage() {
   return (
-    <main className="min-h-screen relative overflow-hidden">
+    <main className="relative overflow-hidden">
       {/* Main Section with Background Image */}
       <div className="relative z-10">
         <Suspense fallback={<MainSectionSkeleton />}>

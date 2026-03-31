@@ -5,6 +5,14 @@ interface PreviousCompany {
   name: string;
   logo?: string;
   logoHeight?: number;
+  darkBg?: boolean;
+  darkFg?: boolean;
+}
+
+function getLogoFilter(company: PreviousCompany): string {
+  if (company.darkBg) return 'grayscale(100%) invert(1) brightness(0.7)';
+  if (company.darkFg) return 'grayscale(100%) opacity(0.4)';
+  return 'grayscale(100%)';
 }
 
 interface AuthorCardProps {
@@ -158,7 +166,8 @@ export default function  AuthorCard({
                       alt={company.name}
                       width={100}
                       height={company.logoHeight || 32}
-                      className="h-[24px] w-auto object-contain grayscale"
+                      className="h-[24px] w-auto object-contain"
+                      style={{ filter: getLogoFilter(company) }}
                     />
                   ) : (
                     <span key={index} className="text-lg md:text-xl font-bold text-gray-900">
@@ -174,17 +183,18 @@ export default function  AuthorCard({
         {/* Previous Companies - Below on Mobile */}
         {displayCompanies.length > 0 && (
           <div className="md:hidden flex flex-col items-start">
-            <p className="text-sm text-[#6B7280] mb-2">{previousCompaniesLabel}</p>
-            <div className="flex items-center gap-4">
+            <p className="text-xs text-[#6B7280] mb-2">{previousCompaniesLabel}</p>
+            <div className="flex items-center gap-3">
               {displayCompanies.map((company, index) => (
                 company.logo ? (
                   <Image
                     key={index}
                     src={company.logo}
                     alt={company.name}
-                    width={80}
-                    height={company.logoHeight || 24}
-                    className="h-[24px] w-auto object-contain grayscale"
+                    width={60}
+                    height={company.logoHeight || 18}
+                    className="h-[18px] w-auto object-contain"
+                    style={{ filter: getLogoFilter(company) }}
                   />
                 ) : (
                   <span key={index} className="text-lg font-bold text-gray-900">
