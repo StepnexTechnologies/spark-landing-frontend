@@ -109,7 +109,7 @@ async function BlogPosts() {
   return (
     <>
       {/* Container for First Row */}
-      <div className="max-w-7xl mx-auto px-4">
+      <div className="max-w-7xl mx-auto px-4 ">
         {/* First Row - 3 vertical cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:mb-12">
           {firstRowPosts.map((p) => (
