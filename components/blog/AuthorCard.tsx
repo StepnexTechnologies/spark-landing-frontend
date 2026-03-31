@@ -166,7 +166,7 @@ export default function  AuthorCard({
                       alt={company.name}
                       width={100}
                       height={company.logoHeight || 32}
-                      className="h-[24px] w-auto object-contain"
+                      className="h-[24px] w-auto object-contain opacity-60"
                       style={{ filter: getLogoFilter(company) }}
                     />
                   ) : (
@@ -193,7 +193,7 @@ export default function  AuthorCard({
                     alt={company.name}
                     width={60}
                     height={company.logoHeight || 18}
-                    className="h-[18px] w-auto object-contain"
+                    className="h-[18px] w-auto object-contain opacity-60"
                     style={{ filter: getLogoFilter(company) }}
                   />
                 ) : (
