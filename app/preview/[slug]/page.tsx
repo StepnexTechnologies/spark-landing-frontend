@@ -337,14 +337,54 @@ export default async function PreviewPostPage({ params }: PreviewPostPageProps) 
           </div>
 
           {/* Blog Description/Excerpt */}
-          {blogDescription && (
-            <div className="px-4 md:px-[50px] lg:px-[130px]">
-              <p
-                className="text-base md:text-[22px] text-[#6B7280] font-semibold leading-[150%] tracking-[0.25px]"
-                dangerouslySetInnerHTML={{ __html: blogDescription }}
-              />
-            </div>
-          )}
+          {blogDescription && (() => {
+            const splitFirstSentence = (html: string): [string, string] => {
+              const SELF_CLOSING = new Set(['br','img','hr','input','meta','link','area','base','col','embed','param','source','track','wbr']);
+              const openTags: string[] = [];
+              let i = 0;
+              while (i < html.length) {
+                if (html[i] === '<') {
+                  const closeAngle = html.indexOf('>', i);
+                  if (closeAngle === -1) break;
+                  const tagContent = html.slice(i + 1, closeAngle).trim();
+                  if (tagContent.startsWith('/')) {
+                    const tagName = tagContent.slice(1).trim().toLowerCase();
+                    const idx = openTags.lastIndexOf(tagName);
+                    if (idx !== -1) openTags.splice(idx, 1);
+                  } else {
+                    const tagName = tagContent.split(/[\s/>]/)[0].toLowerCase();
+                    if (!SELF_CLOSING.has(tagName) && !tagContent.endsWith('/')) {
+                      openTags.push(tagName);
+                    }
+                  }
+                  i = closeAngle + 1;
+                  continue;
+                }
+                if (html[i] === '.') {
+                  let j = i + 1;
+                  while (j < html.length && html[j] === '<') {
+                    const end = html.indexOf('>', j);
+                    if (end === -1) break;
+                    j = end + 1;
+                  }
+                  if (j >= html.length || /\s/.test(html[j])) {
+                    const closers = openTags.slice().reverse().map(t => `</${t}>`).join('');
+                    const openers = openTags.map(t => `<${t}>`).join('');
+                    return [html.slice(0, i + 1) + closers, openers + html.slice(i + 1)];
+                  }
+                }
+                i++;
+              }
+              return [html, ''];
+            };
+            const [firstSentence, rest] = splitFirstSentence(blogDescription);
+            return (
+              <div className="px-4 md:px-[50px] lg:px-[130px] text-base md:text-[22px] text-[#6B7280] leading-[150%] tracking-[0.25px]">
+                <span className="font-semibold" dangerouslySetInnerHTML={{ __html: firstSentence }} />
+                {rest && <span dangerouslySetInnerHTML={{ __html: rest }} />}
+              </div>
+            );
+          })()}
 
           {/* Featured Image */}
           {featuredImage && (

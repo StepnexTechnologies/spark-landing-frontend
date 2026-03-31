@@ -567,8 +567,8 @@
   font-weight: 600;
   line-height: 1.3;
   color: #6B7280;
-  margin-top: 1rem;
-  margin-bottom: 8px;
+  margin-top: 12px;
+  margin-bottom: 12px;
 }
 
 @media (min-width: 1024px) {
@@ -618,14 +618,14 @@
   margin-bottom: 0;
 }
 
-/* Last p before any heading gets 16px gap */
+/* Last p before any heading gets 12px gap */
 .wordpress-content p:has(+ h1),
 .wordpress-content p:has(+ h2),
 .wordpress-content p:has(+ h3),
 .wordpress-content p:has(+ h4),
 .wordpress-content p:has(+ h5),
 .wordpress-content p:has(+ h6) {
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
 @media (min-width: 768px) {
@@ -680,9 +680,11 @@
 }
 
 /* Table of Contents list styling */
-.wordpress-content .toc-list li {
+.wordpress-content .toc-list li,
+.wordpress-content .toc-section li,
+.wordpress-content ul:has(> li > a[href^="#"]) li {
   text-decoration: none;
-  margin-bottom: 4px;
+  margin-bottom: 8px;
 }
 
 .wordpress-content .toc-list .toc-link {
