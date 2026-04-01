@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { getPostBySlug, getFeaturedImageUrl, getAuthorName, getAuthorNames, getPostAuthors, getPostAuthorsAsync, formatDate, stripHtml, getReadingTime, getPosts, getPostsByCategory } from "@/lib/wordpress-improved";
+import { getPostBySlug, getFeaturedImageUrl, getAuthorName, getAuthorNames, getPostAuthors, getPostAuthorsAsync, formatDate, stripHtml, decodeHtmlEntities, getReadingTime, getPosts, getPostsByCategory } from "@/lib/wordpress-improved";
 import { extractHeadings, addHeadingIds, extractFAQs, extractVideos, removeWordPressTOC, extractFirstParagraph, removeLeadingFeaturedImageBlock, processH6Markers } from "@/lib/content-processor";
 import ShareButtons from "@/components/blog/ShareButtons";
 import Breadcrumb from "@/components/blog/Breadcrumb";
@@ -185,9 +185,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     .slice(0, 3)
     .map((p) => ({
       slug: p.slug,
-      title: stripHtml(p.title.rendered),
-      excerpt: stripHtml(p.excerpt.rendered).substring(0, 150),
-      featuredImage: getFeaturedImageUrl(p) || "/sparkonomy.png",
+      title: decodeHtmlEntities(p.title.rendered),
+      excerpt: decodeHtmlEntities(p.excerpt.rendered).substring(0, 150),
+      featuredImage: getFeaturedImageUrl(p, "full") || "/sparkonomy.png",
       date: formatDate(p.date),
     }));
 
@@ -200,9 +200,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       .slice(0, 3)
       .map((p) => ({
         slug: p.slug,
-        title: stripHtml(p.title.rendered),
-        excerpt: stripHtml(p.excerpt.rendered).substring(0, 100),
-        featuredImage: getFeaturedImageUrl(p) || "/sparkonomy.png",
+        title: decodeHtmlEntities(p.title.rendered),
+        excerpt: decodeHtmlEntities(p.excerpt.rendered).substring(0, 100),
+        featuredImage: getFeaturedImageUrl(p, "full") || "/sparkonomy.png",
       }));
   }
 

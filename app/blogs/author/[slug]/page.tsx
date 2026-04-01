@@ -13,6 +13,7 @@ import {
   getFeaturedImageUrl,
   formatDate,
   stripHtml,
+  decodeHtmlEntities,
   getReadingTime,
 } from "@/lib/wordpress-improved";
 
@@ -127,9 +128,9 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
         // First 2-3 posts as featured articles
         featuredArticles = posts.slice(0, 3).map((post) => ({
           id: String(post.id),
-          title: stripHtml(post.title.rendered),
-          description: stripHtml(post.excerpt.rendered).slice(0, 100) + "...",
-          imageSrc: getFeaturedImageUrl(post) || "/blog/default-thumbnail.jpg",
+          title: decodeHtmlEntities(post.title.rendered),
+          description: decodeHtmlEntities(post.excerpt.rendered).slice(0, 100) + "...",
+          imageSrc: getFeaturedImageUrl(post, "full") || "/blog/default-thumbnail.jpg",
           date: formatDate(post.date),
           readingTime: `${getReadingTime(post)} min read`,
           href: `/blogs/${post.slug}`,
@@ -138,9 +139,9 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
         // Remaining posts as recent articles
         recentArticles = posts.slice(3).map((post) => ({
           id: String(post.id),
-          title: stripHtml(post.title.rendered),
+          title: decodeHtmlEntities(post.title.rendered),
           date: formatDate(post.date),
-          imageSrc: getFeaturedImageUrl(post) || "/blog/default-thumbnail.jpg",
+          imageSrc: getFeaturedImageUrl(post, "full") || "/blog/default-thumbnail.jpg",
           href: `/blogs/${post.slug}`,
         }));
       }
@@ -157,9 +158,9 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
     if (latestPosts.length > 0) {
       recentArticles = latestPosts.map((post) => ({
         id: String(post.id),
-        title: stripHtml(post.title.rendered),
+        title: decodeHtmlEntities(post.title.rendered),
         date: formatDate(post.date),
-        imageSrc: getFeaturedImageUrl(post) || "/blog/default-thumbnail.jpg",
+        imageSrc: getFeaturedImageUrl(post, "full") || "/blog/default-thumbnail.jpg",
         href: `/blogs/${post.slug}`,
       }));
     }

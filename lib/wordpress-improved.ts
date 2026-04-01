@@ -259,6 +259,38 @@ export function stripHtml(html: string): string {
 }
 
 /**
+ * Strip HTML tags and decode HTML entities from text.
+ * Handles all numeric/hex entities generically, plus common named entities.
+ */
+export function decodeHtmlEntities(text: string): string {
+  return text
+    .replace(/<[^>]*>/g, '')
+    // Generic numeric & hex entities (catches ALL numeric codes)
+    .replace(/&#x([0-9a-fA-F]+);/g, (_, hex) => String.fromCodePoint(parseInt(hex, 16)))
+    .replace(/&#(\d+);/g, (_, dec) => String.fromCodePoint(parseInt(dec, 10)))
+    // Named entities
+    .replace(/&hellip;/g, '…')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&copy;/g, '©')
+    .replace(/&reg;/g, '®')
+    .replace(/&euro;/g, '€')
+    .replace(/&deg;/g, '°')
+    .replace(/&rsquo;/g, '\u2019')
+    .replace(/&lsquo;/g, '\u2018')
+    .replace(/&rdquo;/g, '\u201D')
+    .replace(/&ldquo;/g, '\u201C')
+    .replace(/&ndash;/g, '–')
+    .replace(/&mdash;/g, '—')
+    .replace(/\[…\]/g, '…')
+    .replace(/\[\.\.\.\]/g, '…')
+    .trim();
+}
+
+/**
  * Format date to readable format
  */
 export function formatDate(dateString: string): string {

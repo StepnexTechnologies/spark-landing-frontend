@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { getDraftPostById, getFeaturedImageUrl, getAuthorName, getAuthorNames, getPostAuthors, getPostAuthorsAsync, formatDate, stripHtml, getReadingTime, getDraftPosts, getPostsByCategory } from "@/lib/wordpress-improved";
+import { getDraftPostById, getFeaturedImageUrl, getAuthorName, getAuthorNames, getPostAuthors, getPostAuthorsAsync, formatDate, stripHtml, decodeHtmlEntities, getReadingTime, getDraftPosts, getPostsByCategory } from "@/lib/wordpress-improved";
 import { extractHeadings, addHeadingIds, removeWordPressTOC, extractFirstParagraph, removeLeadingFeaturedImageBlock, processH6Markers } from "@/lib/content-processor";
 import Breadcrumb from "@/components/blog/Breadcrumb";
 import BlogLanguageSwitcher from "@/components/blog/BlogLanguageSwitcher";
@@ -173,9 +173,9 @@ export default async function PreviewPostPage({ params }: PreviewPostPageProps) 
     .slice(0, 3)
     .map((p) => ({
       slug: String(p.id),
-      title: stripHtml(p.title.rendered),
-      excerpt: stripHtml(p.excerpt.rendered).substring(0, 150),
-      featuredImage: getFeaturedImageUrl(p) || "/sparkonomy.png",
+      title: decodeHtmlEntities(p.title.rendered),
+      excerpt: decodeHtmlEntities(p.excerpt.rendered).substring(0, 150),
+      featuredImage: getFeaturedImageUrl(p, "full") || "/sparkonomy.png",
       date: formatDate(p.date),
     }));
 
@@ -195,9 +195,9 @@ export default async function PreviewPostPage({ params }: PreviewPostPageProps) 
     .slice(0, 3)
     .map((p) => ({
       slug: String(p.id), // Use ID for preview pages
-      title: stripHtml(p.title.rendered),
-      excerpt: stripHtml(p.excerpt.rendered).substring(0, 100),
-      featuredImage: getFeaturedImageUrl(p) || "/sparkonomy.png",
+      title: decodeHtmlEntities(p.title.rendered),
+      excerpt: decodeHtmlEntities(p.excerpt.rendered).substring(0, 100),
+      featuredImage: getFeaturedImageUrl(p, "full") || "/sparkonomy.png",
     }));
 
   return (
