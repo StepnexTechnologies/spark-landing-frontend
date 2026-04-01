@@ -15,6 +15,7 @@ export interface PreviousCompany {
   logoHeight?: number; // custom height in pixels (default: 32)
   darkBg?: boolean; // icon has dark background — needs inverted greyscale
   darkFg?: boolean; // icon has very dark foreground — needs lighter greyscale
+  noFilter?: boolean; // skip grayscale/opacity — show original logo
 }
 
 export interface TrustItem {
@@ -377,7 +378,7 @@ export const authors: AuthorEntry[] = [
       { name: "SocialPilot", logo: "/authors/Logos/SocialPilot1.png" },
       { name: "Emitrr", logo: "/authors/Logos/Emitrr1.png", darkFg: true },
       { name: "SkinVision", logo: "/authors/Logos/SkinVision1.png" },
-      { name: "Masalabox", logo: "/authors/Logos/MasalaBox1.png", darkBg: true },
+      { name: "Masalabox", logo: "/authors/Logos/MasalaBox1.png", noFilter: true },
     ],
     previousCompaniesLabel: "Trusted by teams at:",
 
