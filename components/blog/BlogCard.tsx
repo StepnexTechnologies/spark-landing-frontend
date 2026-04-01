@@ -104,17 +104,15 @@ export default function Card({
                 <h3
                   className="font-semibold leading-tight text-2xl text-[#212529] cursor-pointer line-clamp-2"
                   title={title}
-                >
-                  {title}
-                </h3>
+                  dangerouslySetInnerHTML={{ __html: title }}
+                />
               </Link>
             ) : (
               <h3
                 className="font-semibold leading-tight text-2xl text-[#212529] line-clamp-2"
                 title={title}
-              >
-                {title}
-              </h3>
+                dangerouslySetInnerHTML={{ __html: title }}
+              />
             )}
 
             {/* {tag && <div className="mt-2 text-xs text-slate-500">{tag}</div>} */}
