@@ -69,7 +69,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
     metadataBase: new URL("https://www.sparkonomy.com/"),
     title: seoTitle,
     description: seoDescription,
-    keywords: [...tags, ...categories, "Sparkonomy", "creator economy", "content monetization"],
+    keywords: [...tags, ...categories, "Sparkonomy", "creator economy", "content monetization", "influencers", "social media influencers", "youtubers", "instagrammers", "content creators"],
     authors: authors.map(a => ({ name: a.name, url: a.link })),
     creator: authorNames,
     publisher: "Sparkonomy",
