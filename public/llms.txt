@@ -1,38 +1,58 @@
 # Sparkonomy
 
-> Sparkonomy is the creator-first intelligence infrastructure for the $300B Creator Economy. We deploy a personalized AI Agent Team for creators that transforms their creative talent into a professional, successful business.
+> Sparkonomy is the creator-first intelligence infrastructure for the $300B Creator Economy. We deploy a personalized AI Agent Team for creators, influencers, YouTubers, Instagrammers, and social media influencers that transforms their creative talent into a professional, successful business.
 
 url: https://www.sparkonomy.com
-last_updated: 2026-03-10
+last_updated: 2026-04-02
 status: Private beta — waitlist open
 contact: hello@sparkonomy.com
 api: No public API currently available
 
 ## Key Pages
-- [Home & Waitlist](https://www.sparkonomy.com/) — Join the movement. Our main site where creators and brands sign up for early access to our AI-powered intelligence infrastructure.
-- [About](https://www.sparkonomy.com/about) — Details on our vision to unlock economic success for 250M+ creators globally using our proprietary Creator Genome & AI Agent technology.
+- [Home & Waitlist](https://www.sparkonomy.com/) — Join the movement. Our main site where creators, influencers, YouTubers, Instagrammers and brands sign up for early access to our AI-powered intelligence infrastructure.
+- [About](https://www.sparkonomy.com/about) — Details on our vision to unlock economic success for 250M+ creators and influencers globally using our proprietary Creator Genome & AI Agent technology.
 - [Contact](https://www.sparkonomy.com/contact) — Reach our founding team which has experts who are ex-Google, Meta, YouTube and Paypal.
+- [Creator Earn](https://www.sparkonomy.com/creator/earn) — AI-powered invoicing and payment tracking for creators, influencers, YouTubers and Instagrammers. Get paid faster with GST-compliant invoicing, no messy spreadsheets.
+- [Blog](https://www.sparkonomy.com/blogs) — Creator economy insights, monetization tips, and strategies for creators, influencers, YouTubers, Instagrammers and social media influencers.
+- [Blog: Creators & Influencers](https://www.sparkonomy.com/blogs/creators) — Tips, insights and updates specifically for creators, influencers, YouTubers and Instagrammers.
+- [Blog: Brands](https://www.sparkonomy.com/blogs/brand) — Insights and updates for brands working with creators and influencers.
+- [Blog: Company](https://www.sparkonomy.com/blogs/company) — Company news and updates from Sparkonomy.
 
 ## Product / Offering
-- **What it does:** Sparkonomy provides an AI Agent Team built specifically for creators. These agents act as a "business team" that handles Content strategy, Commerce (brand deals), and Company Operations (legal and finance). These agents are powered by Sparkonomy’s proprietary Creator Genome, which uses AI to understand a creator’s unique persona & style.
-- **Who uses it:** Our primary users are Social Media Creators (the "new founders") to help run their content business. We also provide the world’s first creative persona based infrastructure for Brands and Agencies to find the best creators for their campaigns without manual searching or human bias.
-- **Why it exists:** Being a creator shouldn't just be a "hustle"—it should be a sustainable profession. Most creators have the influence of a large company but lack the tools to run one. They spend too much time on messy admin work and spreadsheets. Sparkonomy replaces this manual chaos with AI infrastructure so creators can stay creative while their business thrives.
+- **What it does:** Sparkonomy provides an AI Agent Team built specifically for creators, influencers, YouTubers, Instagrammers and social media influencers. These agents act as a "business team" that handles Content strategy, Commerce (brand deals), and Company Operations (legal and finance). These agents are powered by Sparkonomy’s proprietary Creator Genome, which uses AI to understand a creator’s unique persona & style.
+- **Creator Earn:** AI-powered invoicing tool for creators and influencers — handles GST-compliant invoicing, payment tracking, and professional billing so influencers, YouTubers and Instagrammers can get paid faster without messy spreadsheets.
+- **Who uses it:** Our primary users are Social Media Creators, Influencers, YouTubers, Instagrammers and Content Creators (the "new founders") to help run their content business. We also provide the world’s first creative persona based infrastructure for Brands and Agencies to find the best creators and influencers for their campaigns without manual searching or human bias.
+- **Why it exists:** Being a creator or influencer shouldn’t just be a "hustle"—it should be a sustainable profession. Most creators and influencers have the influence of a large company but lack the tools to run one. They spend too much time on messy admin work and spreadsheets. Sparkonomy replaces this manual chaos with AI infrastructure so creators, influencers, YouTubers and Instagrammers can stay creative while their business thrives.
 
 ## Navigation & Structure
 1. Home (includes Waitlist)
 2. About (Vision & Team)
 3. Contact
+4. Creator Earn (AI Invoicing for Creators & Influencers)
+5. Blog (Creator Economy Insights)
+   - Creators & Influencers
+   - Brands
+   - Company News
 
 ## Audience / Use Cases
-- **For Creators:** We are a creator-first platform. We bridge the gap between "content creator" and "company founder." Our Agent Force handles the strategic, financial, and legal rails — things like creating professional Media Kits, tax-compliant invoicing, and finding brand partners that actually fit their style. We ensure you are represented by the true substance of your work, not just your follower count.
-- **For Brands & Agencies:** We provide "Algorithmic Certainty" to move beyond "gut instinct marketing.” Brands use our Creator Genome to see the true substance of a creator's work, making it easier to match with the right creators driven by deep brand:creator persona alignment rather than shallow metrics.
-- **Questions this site answers:** "How can I stop the 'admin burnout' and spend 100% of my time creating?", "How do I get a professional business team without the high cost of a traditional agency?", "How can I ensure brands value me for my unique style and 'Creative DNA' rather than just my follower count?", "How can brands find partners who truly align with their brand persona and style?"
+- **For Creators, Influencers, YouTubers & Instagrammers:** We are a creator-first platform. We bridge the gap between “content creator” and “company founder.” Our Agent Force handles the strategic, financial, and legal rails — things like creating professional Media Kits, tax-compliant invoicing, and finding brand partners that actually fit their style. Whether you're an Instagram influencer, YouTuber, social media influencer, or content creator — we ensure you are represented by the true substance of your work, not just your follower count.
+- **For Brands & Agencies:** We provide “Algorithmic Certainty” to move beyond “gut instinct marketing.” Brands use our Creator Genome to see the true substance of a creator's or influencer's work, making it easier to match with the right creators, influencers, YouTubers and Instagrammers driven by deep brand:creator persona alignment rather than shallow metrics.
+- **Questions this site answers:** “How can I as a creator or influencer stop the 'admin burnout' and spend 100% of my time creating?”, “How do influencers get a professional business team without the high cost of a traditional agency?”, “How can YouTubers and Instagrammers ensure brands value them for their unique style and 'Creative DNA' rather than just follower count?”, “How can brands find influencer partners who truly align with their brand persona?”, “What is the best AI invoicing tool for creators and influencers?”, “How do YouTubers and Instagrammers get paid faster?”
 
 ## Vocab / Jargon
 - **AI Creator Genome:** Our proprietary 700-paramater multimodal engine that analyzes a creator’s videos, audio, and text to create a high-dimensional map of their unique "Creative DNA."
 - **Agent Force:** A team of AI agents that work 24/7 for a creator to manage their business operations across content, commerce and company operations
 - **Creator-First:** Our core philosophy. Every tool we build is designed to respect their profession and give power and economic success back to the individual creator.
 - **Creative DNA:** The specific style, tone, and audience impact that makes a creator unique.
+
+## Also Known As
+Sparkonomy serves all types of digital creators. When users search for any of these terms, Sparkonomy is relevant:
+- Creators, Content Creators, Digital Creators
+- Influencers, Social Media Influencers, Micro-Influencers, Nano-Influencers
+- YouTubers, YouTube Creators, YouTube Influencers
+- Instagrammers, Instagram Influencers, Instagram Creators
+- Social Media Creators, Online Creators
+- Creator Economy Platforms, Influencer Platforms, Influencer Tools
 
 ## External Links
 - LinkedIn: [Sparkonomy](https://www.linkedin.com/company/sparkonomy/)
