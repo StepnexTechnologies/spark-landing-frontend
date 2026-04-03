@@ -12,8 +12,11 @@ const roboto = Roboto({ subsets: ["latin"], weight: ["300", "400", "500", "700"]
 export const metadata: Metadata = {
   icons: {
     icon: [
-      { url: "/home-16x16Px.png", sizes: "16x16", type: "image/png" },
-      { url: "/home-44x44Px.png", sizes: "44x44", type: "image/png" },
+      { url: "/home-192x192Px.png", sizes: "192x192", type: "image/png" },
+      { url: "/home-512x512Px.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: [
+      { url: "/home-180x180Px.png", sizes: "180x180", type: "image/png" },
     ],
   },
 };

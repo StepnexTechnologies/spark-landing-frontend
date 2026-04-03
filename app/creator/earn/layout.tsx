@@ -35,8 +35,12 @@ export const metadata: Metadata = {
   publisher: "Sparkonomy",
   icons: {
     icon: [
-      { url: "/earn-16x16Px.png", sizes: "16x16", type: "image/png" },
-      { url: "/earn-44x44Px.png", sizes: "44x44", type: "image/png" },
+      { url: "/earn-48x48Px.png", sizes: "48x48", type: "image/png" },
+      { url: "/earn-192x192Px.png", sizes: "192x192", type: "image/png" },
+      { url: "/earn-512x512Px.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: [
+      { url: "/earn-180x180Px.png", sizes: "180x180", type: "image/png" },
     ],
   },
   robots: {
