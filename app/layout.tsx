@@ -6,6 +6,7 @@ import type React from "react";
 import {RootLayoutClient} from "./root-layout-client";
 import Script from "next/script";
 import type {Metadata} from "next";
+import CookieConsentScript from "@/components/CookieConsentScript";
 
 const roboto = Roboto({ subsets: ["latin"], weight: ["300", "400", "500", "700"] });
 
@@ -40,13 +41,6 @@ export default function Layout({
               'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
             })(window,document,'script','dataLayer','GTM-K66374CX');`}
           </Script>
-          <Script
-              async
-              src="https://cdn-cookieyes.com/client_data/373b191ed956d51fb9a13f028b26a8d6/script.js"
-              id={'cookieyes'}
-              type={'text/javascript'}
-              strategy="afterInteractive"
-          />
       </head>
       <body className={`${roboto.className} min-h-[100dvh] w-full relative`}>
 
@@ -54,6 +48,8 @@ export default function Layout({
       <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K66374CX"
                         height="0" width="0" style={{display: "none", visibility: "hidden"}}></iframe></noscript>
       {/* End Google Tag Manager (noscript) */}
+
+      <CookieConsentScript />
 
       <Script
           async

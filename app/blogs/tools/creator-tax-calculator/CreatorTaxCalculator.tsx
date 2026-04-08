@@ -506,10 +506,14 @@ const CreatorTaxCalculator = ({ embed = false }: { embed?: boolean } = {}) => {
   //  STYLES (blog theme — white, Roboto, #212529 / #999999 / #F2F2F2)
   // ──────────────────────────────────────────
   const inputCls =
-    "w-full rounded-xl border border-[#F2F2F2] bg-white px-4 py-3 text-gray-600 placeholder:text-gray-400 outline-none transition focus:border-[#9747FF]";
+    `w-full rounded-xl border border-[#F2F2F2] bg-white px-4 text-gray-600 placeholder:text-gray-400 outline-none transition focus:border-[#9747FF] ${
+      embed ? "py-2.5 text-sm" : "py-3"
+    }`;
   const inputWithPrefixCls = inputCls + " pl-8";
   const labelCls =
-    "flex items-center gap-2 text-sm font-medium text-[#212529] mb-2";
+    `flex items-center gap-2 text-sm font-medium text-[#212529] ${
+      embed ? "mb-1.5" : "mb-2"
+    }`;
 
   const Tip = ({ text }: { text: string }) => (
     <span className="group relative inline-flex h-4 w-4 cursor-help items-center justify-center rounded-full bg-[#F2F2F2] text-[10px] font-bold text-[#9747FF]">
@@ -521,8 +525,12 @@ const CreatorTaxCalculator = ({ embed = false }: { embed?: boolean } = {}) => {
   );
 
   return (
-    <div className="bg-white text-[#212529]">
-      <div className="mx-auto max-w-3xl px-4 pb-20 pt-10 sm:px-6 lg:px-8">
+    <div className="bg-white text-[#212529] w-full max-w-full overflow-x-hidden">
+      <div
+        className={`mx-auto max-w-3xl sm:px-6 lg:px-8 ${
+          embed ? "px-3 pb-6 pt-4" : "px-4 pb-20 pt-10"
+        }`}
+      >
         {!embed && (
           <>
             {/* HERO */}
@@ -573,12 +581,17 @@ const CreatorTaxCalculator = ({ embed = false }: { embed?: boolean } = {}) => {
         )}
 
         {/* INPUT CARD */}
-        <div className="border border-[#F2F2F2] bg-white p-6 sm:p-8" style={{ borderRadius: "34px" }}>
-          <h2 className="mb-6 text-[11px] font-bold uppercase tracking-widest text-[#9747FF]">
+        <div
+          className={`border border-[#F2F2F2] bg-white sm:p-8 ${
+            embed ? "p-4" : "p-6"
+          }`}
+          style={{ borderRadius: embed ? "24px" : "34px" }}
+        >
+          <h2 className={`text-[11px] font-bold uppercase tracking-widest text-[#9747FF] ${embed ? "mb-4" : "mb-6"}`}>
             Your Numbers
           </h2>
 
-          <div className="grid gap-5">
+          <div className={`grid ${embed ? "gap-3.5" : "gap-5"}`}>
             {/* Route + Age */}
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
@@ -837,7 +850,9 @@ const CreatorTaxCalculator = ({ embed = false }: { embed?: boolean } = {}) => {
           <button
             type="button"
             onClick={calculate}
-            className="mt-7 flex w-full items-center justify-center gap-2 rounded-full px-6 py-4 text-base font-semibold text-white transition hover:opacity-90"
+            className={`flex w-full items-center justify-center gap-2 rounded-full px-6 font-semibold text-white transition hover:opacity-90 ${
+              embed ? "mt-5 py-3 text-sm" : "mt-7 py-4 text-base"
+            }`}
             style={{
               background:
                 "linear-gradient(135deg, #DD2A7B 0%, #9747FF 50%, #334CCA 100%)",
@@ -853,11 +868,11 @@ const CreatorTaxCalculator = ({ embed = false }: { embed?: boolean } = {}) => {
           <div ref={resultsRef} className="mt-6 animate-[fadeIn_.4s_ease]">
             {/* Quick Answer */}
             <div
-              className="p-6 text-white sm:p-8"
+              className={`text-white sm:p-8 ${embed ? "p-4" : "p-6"}`}
               style={{
                 background:
                   "linear-gradient(135deg, #DD2A7B 0%, #9747FF 50%, #334CCA 100%)",
-                borderRadius: "34px",
+                borderRadius: embed ? "24px" : "34px",
               }}
             >
               <div>
@@ -1117,7 +1132,9 @@ const CreatorTaxCalculator = ({ embed = false }: { embed?: boolean } = {}) => {
         )}
 
         {/* Footer note */}
-        <div className="mt-10 border-t border-[#F2F2F2] pt-6 text-center text-xs text-[#999999]">
+        <div className={`border-t border-[#F2F2F2] text-center text-xs text-[#999999] ${
+          embed ? "hidden" : "mt-10 pt-6"
+        }`}>
           <p>
             Built by{" "}
             <Link href="/" className="text-[#9747FF] hover:underline">
