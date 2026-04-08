@@ -200,7 +200,7 @@ type Result = {
   elig: Elig;
 };
 
-const CreatorTaxCalculator = () => {
+const CreatorTaxCalculator = ({ embed = false }: { embed?: boolean } = {}) => {
   const [form, setForm] = useState<Form>(initialForm);
   const [result, setResult] = useState<Result | null>(null);
   const [splitWarn, setSplitWarn] = useState<string>("");
@@ -523,50 +523,54 @@ const CreatorTaxCalculator = () => {
   return (
     <div className="bg-white text-[#212529]">
       <div className="mx-auto max-w-3xl px-4 pb-20 pt-10 sm:px-6 lg:px-8">
-        {/* HERO */}
-        <div className="text-center pb-8">
-          <span className="inline-block rounded-full border border-[#F2F2F2] bg-white px-4 py-1 text-[11px] font-bold uppercase tracking-wider text-[#9747FF]">
-            FY 2025–26 · AY 2026–27
-          </span>
-          <h1
-            className="mt-5 text-3xl sm:text-4xl md:text-5xl font-semibold leading-tight tracking-tight"
-            style={{
-              background:
-                "linear-gradient(135deg, #DD2A7B 0%, #9747FF 50%, #334CCA 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-            }}
-          >
-            Which tax route <em className="not-italic">actually</em>
-            <br /> saves you money?
-          </h1>
-          <p className="mt-4 text-[#999999] max-w-xl mx-auto">
-            Presumptive (44AD / 44ADA) or normal books — put in your numbers
-            and find out in 30 seconds. No CA required.
-          </p>
-        </div>
+        {!embed && (
+          <>
+            {/* HERO */}
+            <div className="text-center pb-8 ">
+              <span className="inline-block rounded-full border border-[#F2F2F2] bg-white px-4 py-1 text-[11px] font-bold uppercase tracking-wider text-[#9747FF]">
+                FY 2025–26 · AY 2026–27
+              </span>
+              <h1
+                className="mt-5 pb-2 text-3xl sm:text-4xl md:text-5xl font-semibold leading-tight tracking-tight"
+                style={{
+                  background:
+                    "linear-gradient(135deg, #DD2A7B 0%, #9747FF 50%, #334CCA 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
+                Which tax route <em className="not-italic">actually</em>
+                <br /> saves you money?
+              </h1>
+              <p className="mt-4 text-[#999999] max-w-xl mx-auto">
+                Presumptive (44AD / 44ADA) or normal books — put in your numbers
+                and find out in 30 seconds. No CA required.
+              </p>
+            </div>
 
-        {/* INTRO */}
-        <div className="mb-8 border border-[#F2F2F2] bg-white p-5 text-sm leading-relaxed text-[#999999]" style={{ borderRadius: "34px" }}>
-          <p>
-            Indian content creators can file taxes in two broad ways:{" "}
-            <strong className="text-[#212529] font-semibold">presumptive taxation</strong>{" "}
-            (Sections 44AD or 44ADA), which taxes a fixed percentage of your
-            receipts without requiring detailed expense records, or{" "}
-            <strong className="text-[#212529] font-semibold">normal books</strong>, which taxes
-            your actual net profit after deducting real business expenses. This
-            free calculator runs both options — across both the old and new tax
-            regimes — and tells you which one gives you the lowest tax bill for
-            FY 2025–26.
-          </p>
-          <p className="mt-2 text-xs text-[#999999]">
-            Built by{" "}
-            <Link href="/" className="text-[#9747FF] hover:underline">
-              Sparkonomy
-            </Link>{" "}
-            — free for all Indian creators. Not a substitute for a CA.
-          </p>
-        </div>
+            {/* INTRO */}
+            <div className="mb-8 border border-[#F2F2F2] bg-white p-5 text-sm leading-relaxed text-[#999999]" style={{ borderRadius: "34px" }}>
+              <p>
+                Indian content creators can file taxes in two broad ways:{" "}
+                <strong className="text-[#212529] font-semibold">presumptive taxation</strong>{" "}
+                (Sections 44AD or 44ADA), which taxes a fixed percentage of your
+                receipts without requiring detailed expense records, or{" "}
+                <strong className="text-[#212529] font-semibold">normal books</strong>, which taxes
+                your actual net profit after deducting real business expenses. This
+                free calculator runs both options — across both the old and new tax
+                regimes — and tells you which one gives you the lowest tax bill for
+                FY 2025–26.
+              </p>
+              <p className="mt-2 text-xs text-[#999999]">
+                Built by{" "}
+                <Link href="/" className="text-[#9747FF] hover:underline">
+                  Sparkonomy
+                </Link>{" "}
+                — free for all Indian creators. Not a substitute for a CA.
+              </p>
+            </div>
+          </>
+        )}
 
         {/* INPUT CARD */}
         <div className="border border-[#F2F2F2] bg-white p-6 sm:p-8" style={{ borderRadius: "34px" }}>

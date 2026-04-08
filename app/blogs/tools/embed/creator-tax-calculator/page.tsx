@@ -17,5 +17,5 @@ export const metadata: Metadata = {
 };
 
 export default function CreatorTaxCalculatorEmbedPage() {
-  return <CreatorTaxCalculator />;
+  return <CreatorTaxCalculator embed />;
 }
