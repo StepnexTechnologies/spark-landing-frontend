@@ -200,7 +200,7 @@ type Result = {
   elig: Elig;
 };
 
-const CreatorTaxCalculator = () => {
+const CreatorTaxCalculator = ({ embed = false }: { embed?: boolean } = {}) => {
   const [form, setForm] = useState<Form>(initialForm);
   const [result, setResult] = useState<Result | null>(null);
   const [splitWarn, setSplitWarn] = useState<string>("");
@@ -503,97 +503,80 @@ const CreatorTaxCalculator = () => {
   };
 
   // ──────────────────────────────────────────
-  //  STYLES (blog theme — light, Roboto, brand purple/pink)
+  //  STYLES (blog theme — white, Roboto, #212529 / #999999 / #F2F2F2)
   // ──────────────────────────────────────────
   const inputCls =
-    "w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-gray-900 placeholder-gray-400 outline-none transition focus:border-[#9747FF] focus:ring-2 focus:ring-[#9747FF]/20";
+    "w-full rounded-xl border border-[#F2F2F2] bg-white px-4 py-3 text-gray-600 placeholder:text-gray-400 outline-none transition focus:border-[#9747FF]";
   const inputWithPrefixCls = inputCls + " pl-8";
   const labelCls =
-    "flex items-center gap-2 text-sm font-medium text-gray-700 mb-2";
+    "flex items-center gap-2 text-sm font-medium text-[#212529] mb-2";
 
   const Tip = ({ text }: { text: string }) => (
-    <span className="group relative inline-flex h-4 w-4 cursor-help items-center justify-center rounded-full bg-[#9747FF]/15 text-[10px] font-bold text-[#9747FF]">
+    <span className="group relative inline-flex h-4 w-4 cursor-help items-center justify-center rounded-full bg-[#F2F2F2] text-[10px] font-bold text-[#9747FF]">
       i
-      <span className="pointer-events-none absolute bottom-full left-1/2 z-50 mb-2 w-52 -translate-x-1/2 rounded-lg bg-gray-900 px-3 py-2 text-[11px] font-normal leading-snug text-white opacity-0 shadow-xl transition-opacity group-hover:opacity-100">
+      <span className="pointer-events-none absolute bottom-full left-1/2 z-50 mb-2 w-52 -translate-x-1/2 rounded-lg bg-[#212529] px-3 py-2 text-[11px] font-normal leading-snug text-white opacity-0 transition-opacity group-hover:opacity-100">
         {text}
       </span>
     </span>
   );
 
   return (
-    <div className="relative overflow-hidden bg-white text-gray-900">
-      {/* Soft brand gradient background — matches blog listing */}
-      <div
-        className="pointer-events-none absolute inset-0 opacity-20"
-        style={{
-          background:
-            "linear-gradient(169.7deg, #DD2A7B 1.49%, #9747FF 42.07%, #334CCA 99.84%)",
-          filter: "blur(300px)",
-        }}
-      />
+    <div className="bg-white text-[#212529]">
+      <div className="mx-auto max-w-3xl px-4 pb-20 pt-10 sm:px-6 lg:px-8">
+        {!embed && (
+          <>
+            {/* HERO */}
+            <div className="text-center pb-8 ">
+              <span className="inline-block rounded-full border border-[#F2F2F2] bg-white px-4 py-1 text-[11px] font-bold uppercase tracking-wider text-[#9747FF]">
+                FY 2025–26 · AY 2026–27
+              </span>
+              <h1
+                className="mt-5 pb-2 text-3xl sm:text-4xl md:text-5xl font-semibold leading-tight tracking-tight"
+                style={{
+                  background:
+                    "linear-gradient(135deg, #DD2A7B 0%, #9747FF 50%, #334CCA 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
+                Which tax route <em className="not-italic">actually</em>
+                <br /> saves you money?
+              </h1>
+              <p className="mt-4 text-[#999999] max-w-xl mx-auto">
+                Presumptive (44AD / 44ADA) or normal books — put in your numbers
+                and find out in 30 seconds. No CA required.
+              </p>
+            </div>
 
-      <div className="relative z-10 mx-auto max-w-3xl px-4 pb-20 pt-10 sm:px-6 lg:px-8">
-        {/* HERO */}
-        <div className="text-center pb-8">
-          <span className="inline-block rounded-full border border-[#9747FF]/30 bg-[#9747FF]/10 px-4 py-1 text-[11px] font-bold uppercase tracking-wider text-[#9747FF]">
-            FY 2025–26 · AY 2026–27
-          </span>
-          <h1
-            className="mt-5 text-3xl sm:text-4xl md:text-5xl font-bold leading-tight tracking-tight"
-            style={{
-              background:
-                "linear-gradient(135deg, #DD2A7B 0%, #9747FF 50%, #334CCA 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-            }}
-          >
-            Which tax route <em className="not-italic">actually</em>
-            <br /> saves you money?
-          </h1>
-          <p className="mt-4 text-gray-600 max-w-xl mx-auto">
-            Presumptive (44AD / 44ADA) or normal books — put in your numbers
-            and find out in 30 seconds. No CA required.
-          </p>
-        </div>
-
-        {/* GEO INTRO — plain language for AI search engines + human context */}
-        <div className="mb-8 rounded-2xl border border-gray-200 bg-white/80 p-5 text-sm leading-relaxed text-gray-700 shadow-sm backdrop-blur-sm">
-          <p>
-            Indian content creators can file taxes in two broad ways:{" "}
-            <strong className="text-gray-900">presumptive taxation</strong>{" "}
-            (Sections 44AD or 44ADA), which taxes a fixed percentage of your
-            receipts without requiring detailed expense records, or{" "}
-            <strong className="text-gray-900">normal books</strong>, which taxes
-            your actual net profit after deducting real business expenses. This
-            free calculator runs both options — across both the old and new tax
-            regimes — and tells you which one gives you the lowest tax bill for
-            FY 2025–26. It covers all four combinations in one go, flags
-            eligibility issues, and uses the latest Budget 2025 slab rates
-            including the ₹12 lakh zero-tax benefit under the new regime.
-          </p>
-          <p className="mt-2 text-xs text-gray-500">
-            Built by{" "}
-            <Link href="/" className="text-[#9747FF] hover:underline">
-              Sparkonomy
-            </Link>{" "}
-            — free for all Indian creators. Not a substitute for a CA.
-          </p>
-        </div>
+            {/* INTRO */}
+            <div className="mb-8 border border-[#F2F2F2] bg-white p-5 text-sm leading-relaxed text-[#999999]" style={{ borderRadius: "34px" }}>
+              <p>
+                Indian content creators can file taxes in two broad ways:{" "}
+                <strong className="text-[#212529] font-semibold">presumptive taxation</strong>{" "}
+                (Sections 44AD or 44ADA), which taxes a fixed percentage of your
+                receipts without requiring detailed expense records, or{" "}
+                <strong className="text-[#212529] font-semibold">normal books</strong>, which taxes
+                your actual net profit after deducting real business expenses. This
+                free calculator runs both options — across both the old and new tax
+                regimes — and tells you which one gives you the lowest tax bill for
+                FY 2025–26.
+              </p>
+              <p className="mt-2 text-xs text-[#999999]">
+                Built by{" "}
+                <Link href="/" className="text-[#9747FF] hover:underline">
+                  Sparkonomy
+                </Link>{" "}
+                — free for all Indian creators. Not a substitute for a CA.
+              </p>
+            </div>
+          </>
+        )}
 
         {/* INPUT CARD */}
-        <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm sm:p-8">
-          <div className="mb-6 flex items-center gap-3">
-            <span
-              className="block h-5 w-1 rounded"
-              style={{
-                background:
-                  "linear-gradient(180deg, #DD2A7B 0%, #9747FF 100%)",
-              }}
-            />
-            <h2 className="text-[11px] font-bold uppercase tracking-widest text-[#9747FF]">
-              Your Numbers
-            </h2>
-          </div>
+        <div className="border border-[#F2F2F2] bg-white p-6 sm:p-8" style={{ borderRadius: "34px" }}>
+          <h2 className="mb-6 text-[11px] font-bold uppercase tracking-widest text-[#9747FF]">
+            Your Numbers
+          </h2>
 
           <div className="grid gap-5">
             {/* Route + Age */}
@@ -639,7 +622,7 @@ const CreatorTaxCalculator = () => {
                 <Tip text="Everything you earned from creator work this year — brand deals, AdSense, YouTube payouts, platform fees, consulting. Your total gross income before any deductions." />
               </label>
               <div className="relative">
-                <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-gray-500">
+                <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-[#999999]">
                   ₹
                 </span>
                 <input
@@ -665,7 +648,7 @@ const CreatorTaxCalculator = () => {
                   <Tip text="Payments via bank transfer, UPI, NEFT, cheque. Most creator income is digital. This + cash should add up to your total receipts above." />
                 </label>
                 <div className="relative">
-                  <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-gray-500">
+                  <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-[#999999]">
                     ₹
                   </span>
                   <input
@@ -691,7 +674,7 @@ const CreatorTaxCalculator = () => {
                   <Tip text="Physical cash payments. Most creators: ₹0. Cash receipts are taxed at a slightly higher presumptive rate under 44AD (8% vs 6% for digital)." />
                 </label>
                 <div className="relative">
-                  <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-gray-500">
+                  <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-[#999999]">
                     ₹
                   </span>
                   <input
@@ -714,7 +697,7 @@ const CreatorTaxCalculator = () => {
                 <Tip text="Camera gear, editing software, studio rent, travel for shoots, freelancer payments — money you actually spent to do your work. Only used in the 'normal books' comparison." />
               </label>
               <div className="relative">
-                <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-gray-500">
+                <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-[#999999]">
                   ₹
                 </span>
                 <input
@@ -737,7 +720,7 @@ const CreatorTaxCalculator = () => {
                   <Tip text="Salary, rent, FD interest — income outside your creator work. Put ₹0 if creator income is your only income source." />
                 </label>
                 <div className="relative">
-                  <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-gray-500">
+                  <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-[#999999]">
                     ₹
                   </span>
                   <input
@@ -758,7 +741,7 @@ const CreatorTaxCalculator = () => {
                   <Tip text="PPF, ELSS, LIC (80C), health insurance (80D), home loan interest — these only reduce your tax under the old regime. Leave ₹0 if you don't use the old regime." />
                 </label>
                 <div className="relative">
-                  <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-gray-500">
+                  <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-[#999999]">
                     ₹
                   </span>
                   <input
@@ -789,8 +772,8 @@ const CreatorTaxCalculator = () => {
                       onClick={() => update("affiliate", v)}
                       className={`rounded-xl border px-3 py-2.5 text-sm font-semibold capitalize transition ${
                         form.affiliate === v
-                          ? "border-[#9747FF] bg-[#9747FF]/10 text-[#9747FF]"
-                          : "border-gray-200 bg-white text-gray-500 hover:text-gray-800"
+                          ? "border-[#9747FF] bg-white text-[#9747FF]"
+                          : "border-[#F2F2F2] bg-white text-[#999999] hover:text-[#212529]"
                       }`}
                     >
                       {v}
@@ -812,8 +795,8 @@ const CreatorTaxCalculator = () => {
                       onClick={() => update("profession", v)}
                       className={`rounded-xl border px-3 py-2.5 text-sm font-semibold capitalize transition ${
                         form.profession === v
-                          ? "border-[#9747FF] bg-[#9747FF]/10 text-[#9747FF]"
-                          : "border-gray-200 bg-white text-gray-500 hover:text-gray-800"
+                          ? "border-[#9747FF] bg-white text-[#9747FF]"
+                          : "border-[#F2F2F2] bg-white text-[#999999] hover:text-[#212529]"
                       }`}
                     >
                       {v}
@@ -825,17 +808,17 @@ const CreatorTaxCalculator = () => {
 
             {/* Optional override */}
             <div>
-              <div className="my-2 flex items-center gap-3 text-[11px] font-bold uppercase tracking-wider text-gray-400">
-                <span className="h-px flex-1 bg-gray-200" />
+              <div className="my-2 flex items-center gap-3 text-[11px] font-bold uppercase tracking-wider text-[#999999]">
+                <span className="h-px flex-1 bg-[#F2F2F2]" />
                 Optional
-                <span className="h-px flex-1 bg-gray-200" />
+                <span className="h-px flex-1 bg-[#F2F2F2]" />
               </div>
               <label className={labelCls} htmlFor="override">
                 Declare a higher presumptive profit
                 <Tip text="By default we use the legal minimum (6%/8% for 44AD, 50% for 44ADA). If you want to test a custom declared profit amount, enter it here. Must be ≥ the minimum." />
               </label>
               <div className="relative">
-                <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-gray-500">
+                <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-[#999999]">
                   ₹
                 </span>
                 <input
@@ -854,11 +837,10 @@ const CreatorTaxCalculator = () => {
           <button
             type="button"
             onClick={calculate}
-            className="mt-7 flex w-full items-center justify-center gap-2 rounded-2xl px-6 py-4 text-base font-bold text-white shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl"
+            className="mt-7 flex w-full items-center justify-center gap-2 rounded-full px-6 py-4 text-base font-semibold text-white transition hover:opacity-90"
             style={{
               background:
                 "linear-gradient(135deg, #DD2A7B 0%, #9747FF 50%, #334CCA 100%)",
-              boxShadow: "0 10px 30px -10px rgba(151, 71, 255, 0.4)",
             }}
           >
             <Calculator className="h-5 w-5" />
@@ -871,22 +853,21 @@ const CreatorTaxCalculator = () => {
           <div ref={resultsRef} className="mt-6 animate-[fadeIn_.4s_ease]">
             {/* Quick Answer */}
             <div
-              className="relative overflow-hidden rounded-2xl p-6 text-white shadow-xl sm:p-8"
+              className="p-6 text-white sm:p-8"
               style={{
                 background:
                   "linear-gradient(135deg, #DD2A7B 0%, #9747FF 50%, #334CCA 100%)",
+                borderRadius: "34px",
               }}
             >
-              <div className="pointer-events-none absolute -right-12 -top-12 h-44 w-44 rounded-full bg-white/10" />
-              <div className="pointer-events-none absolute -bottom-16 left-4 h-52 w-52 rounded-full bg-white/5" />
-              <div className="relative">
+              <div>
                 {result.bestRow ? (
                   <>
                     <div
                       className={`mb-3 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold ${
                         result.elig.ok
-                          ? "bg-emerald-400/25 text-emerald-100"
-                          : "bg-amber-400/25 text-amber-100"
+                          ? "bg-white/20 text-white"
+                          : "bg-white/20 text-white"
                       }`}
                     >
                       {result.elig.ok ? "✓" : "⚠"} {result.elig.msg}
@@ -970,10 +951,10 @@ const CreatorTaxCalculator = () => {
               <button
                 type="button"
                 onClick={copyResults}
-                className={`flex min-w-[140px] flex-1 items-center justify-center gap-2 rounded-xl border px-4 py-3 text-sm font-semibold transition ${
+                className={`flex min-w-[140px] flex-1 items-center justify-center gap-2 rounded-full border px-4 py-3 text-sm font-semibold transition ${
                   copyState === "ok"
-                    ? "border-emerald-400 bg-emerald-50 text-emerald-700"
-                    : "border-gray-200 bg-white text-[#9747FF] hover:bg-[#9747FF]/5"
+                    ? "border-emerald-400 bg-white text-emerald-700"
+                    : "border-[#F2F2F2] bg-white text-[#9747FF] hover:border-[#9747FF]"
                 }`}
               >
                 {copyState === "ok" ? (
@@ -989,7 +970,7 @@ const CreatorTaxCalculator = () => {
               <button
                 type="button"
                 onClick={shareCalculator}
-                className={`flex min-w-[140px] flex-1 items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 ${
+                className={`flex min-w-[140px] flex-1 items-center justify-center gap-2 rounded-full px-4 py-3 text-sm font-semibold text-white transition hover:opacity-90 ${
                   shareState === "ok" ? "bg-emerald-500" : ""
                 }`}
                 style={
@@ -998,8 +979,6 @@ const CreatorTaxCalculator = () => {
                     : {
                         background:
                           "linear-gradient(135deg, #DD2A7B 0%, #9747FF 50%, #334CCA 100%)",
-                        boxShadow:
-                          "0 10px 30px -10px rgba(151, 71, 255, 0.4)",
                       }
                 }
               >
@@ -1016,27 +995,18 @@ const CreatorTaxCalculator = () => {
             </div>
 
             {/* Comparison table */}
-            <div className="mt-4 overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
-              <div className="border-b border-gray-200 px-5 py-4">
-                <div className="flex items-center gap-3">
-                  <span
-                    className="block h-5 w-1 rounded"
-                    style={{
-                      background:
-                        "linear-gradient(180deg, #DD2A7B 0%, #9747FF 100%)",
-                    }}
-                  />
-                  <h3 className="text-[11px] font-bold uppercase tracking-widest text-[#9747FF]">
-                    All 4 Routes Compared
-                  </h3>
-                </div>
-                <div className="mt-1 text-[11px] text-gray-400 sm:hidden">
+            <div className="mt-4 overflow-hidden border border-[#F2F2F2] bg-white" style={{ borderRadius: "34px" }}>
+              <div className="border-b border-[#F2F2F2] px-5 py-4">
+                <h3 className="text-[11px] font-bold uppercase tracking-widest text-[#9747FF]">
+                  All 4 Routes Compared
+                </h3>
+                <div className="mt-1 text-[11px] text-[#999999] sm:hidden">
                   ← Swipe to see all columns
                 </div>
               </div>
               <div className="overflow-x-auto">
                 <table className="w-full min-w-[520px] border-collapse text-left">
-                  <thead className="bg-[#9747FF]/5">
+                  <thead className="bg-[#FAFAFA]">
                     <tr>
                       {[
                         "Route",
@@ -1059,50 +1029,56 @@ const CreatorTaxCalculator = () => {
                     {result.rows.map((r, i) => (
                       <tr
                         key={i}
-                        className={`border-b border-gray-100 last:border-b-0 ${
+                        className={`border-b border-[#F2F2F2] last:border-b-0 ${
                           r.isBest
-                            ? "bg-emerald-50"
+                            ? "bg-[#FAFAFA]"
                             : !r.eligible
                               ? "opacity-50"
                               : ""
                         }`}
                       >
-                        <td className="px-4 py-4 text-sm font-bold text-gray-900">
+                        <td className="px-4 py-4 text-sm font-semibold text-[#212529]">
                           {r.label}
                         </td>
                         <td className="px-4 py-4 text-sm">
                           <span
-                            className={`inline-block rounded-md px-2 py-0.5 text-[11px] font-bold ${
+                            className={`inline-block rounded-md border px-2 py-0.5 text-[11px] font-bold ${
                               r.regime === "new"
-                                ? "bg-[#9747FF]/15 text-[#9747FF]"
-                                : "bg-amber-100 text-amber-700"
+                                ? "border-[#F2F2F2] text-[#9747FF]"
+                                : "border-[#F2F2F2] text-[#999999]"
                             }`}
                           >
                             {r.regime === "new" ? "New" : "Old"}
                           </span>
                         </td>
-                        <td className="px-4 py-4 text-sm font-semibold text-gray-700 tabular-nums">
+                        <td className="px-4 py-4 text-sm font-normal text-[#999999] tabular-nums">
                           {inr(r.profit)}
                         </td>
-                        <td className="px-4 py-4 text-sm font-semibold text-gray-700 tabular-nums">
+                        <td className="px-4 py-4 text-sm font-normal text-[#999999] tabular-nums">
                           {inr(r.taxable)}
                         </td>
                         <td className="px-4 py-4 text-sm">
                           {!r.eligible ? (
-                            <span className="text-gray-400">Not eligible</span>
+                            <span className="text-[#999999]">Not eligible</span>
                           ) : r.tax === 0 ? (
-                            <span className="font-bold text-emerald-600">
+                            <span className="font-semibold text-[#9747FF]">
                               ₹0
                             </span>
                           ) : (
-                            <span className="font-semibold text-gray-900 tabular-nums">
+                            <span className="font-semibold text-[#212529] tabular-nums">
                               {inr(r.tax)}
                             </span>
                           )}
                         </td>
                         <td className="px-4 py-4 text-sm">
                           {r.isBest && (
-                            <span className="inline-flex items-center gap-1 whitespace-nowrap rounded-full bg-emerald-500 px-2.5 py-1 text-[11px] font-bold text-white">
+                            <span
+                              className="inline-flex items-center gap-1 whitespace-nowrap rounded-full px-2.5 py-1 text-[11px] font-bold text-white"
+                              style={{
+                                background:
+                                  "linear-gradient(135deg, #DD2A7B 0%, #9747FF 50%, #334CCA 100%)",
+                              }}
+                            >
                               ✓ Lowest tax
                             </span>
                           )}
@@ -1115,8 +1091,8 @@ const CreatorTaxCalculator = () => {
             </div>
 
             {/* Notes */}
-            <div className="mt-4 rounded-2xl border border-[#9747FF]/20 bg-[#9747FF]/5 p-5 text-sm text-gray-700">
-              <strong className="mb-2 block text-gray-900">
+            <div className="mt-4 border border-[#F2F2F2] bg-white p-5 text-sm text-[#999999]" style={{ borderRadius: "34px" }}>
+              <strong className="mb-2 block text-[#212529] font-semibold">
                 A few things to keep in mind
               </strong>
               <ul className="space-y-1.5">
@@ -1141,7 +1117,7 @@ const CreatorTaxCalculator = () => {
         )}
 
         {/* Footer note */}
-        <div className="mt-10 border-t border-gray-200 pt-6 text-center text-xs text-gray-500">
+        <div className="mt-10 border-t border-[#F2F2F2] pt-6 text-center text-xs text-[#999999]">
           <p>
             Built by{" "}
             <Link href="/" className="text-[#9747FF] hover:underline">
@@ -1149,7 +1125,7 @@ const CreatorTaxCalculator = () => {
             </Link>{" "}
             · For Indian content creators · FY 2025–26
           </p>
-          <p className="mt-1.5 opacity-80">
+          <p className="mt-1.5">
             Estimate only. Tax laws are complex. Consult a qualified CA before
             filing.
           </p>
