@@ -1030,7 +1030,7 @@ const CreatorTaxCalculator = ({ embed = false }: { embed?: boolean } = {}) => {
                       ].map((h) => (
                         <th
                           key={h}
-                          className="whitespace-nowrap px-4 py-3 text-[10.5px] font-bold uppercase tracking-wider text-[#9747FF]"
+                          className="whitespace-nowrap px-4 py-3 text-base font-bold text-[#6B7280]"
                         >
                           {h}
                         </th>
@@ -1049,7 +1049,7 @@ const CreatorTaxCalculator = ({ embed = false }: { embed?: boolean } = {}) => {
                               : ""
                         }`}
                       >
-                        <td className="px-4 py-4 text-sm">
+                        <td className="px-4 py-3 text-sm text-[#6B7280]">
                           <div className="flex flex-col items-start gap-1">
                             <span className="font-semibold text-[#212529]">
                               {r.label}
@@ -1065,13 +1065,13 @@ const CreatorTaxCalculator = ({ embed = false }: { embed?: boolean } = {}) => {
                             </span>
                           </div>
                         </td>
-                        <td className="px-4 py-4 text-sm font-normal text-[#999999] tabular-nums">
+                        <td className="px-4 py-3 text-sm font-normal text-[#6B7280] tabular-nums">
                           {inr(r.profit)}
                         </td>
-                        <td className="px-4 py-4 text-sm font-normal text-[#999999] tabular-nums">
+                        <td className="px-4 py-3 text-sm font-normal text-[#6B7280] tabular-nums">
                           {inr(r.taxable)}
                         </td>
-                        <td className="px-4 py-4 text-sm">
+                        <td className="px-4 py-3 text-sm text-[#6B7280]">
                           {!r.eligible ? (
                             <span className="text-[#999999]">Not eligible</span>
                           ) : r.tax === 0 ? (
@@ -1084,7 +1084,7 @@ const CreatorTaxCalculator = ({ embed = false }: { embed?: boolean } = {}) => {
                             </span>
                           )}
                         </td>
-                        <td className="px-4 py-4 text-sm">
+                        <td className="px-4 py-3 text-sm text-[#6B7280]">
                           {r.isBest && (
                             <span
                               className="inline-flex items-center gap-1 whitespace-nowrap rounded-full px-2.5 py-1 text-[11px] font-bold text-white"
