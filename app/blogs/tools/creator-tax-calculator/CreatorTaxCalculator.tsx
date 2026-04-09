@@ -588,7 +588,7 @@ const CreatorTaxCalculator = ({ embed = false }: { embed?: boolean } = {}) => {
           style={{ borderRadius: embed ? "24px" : "34px" }}
         >
           <h2 className={`text-[11px] font-bold uppercase tracking-widest text-[#9747FF] ${embed ? "mb-4" : "mb-6"}`}>
-            Your Numbers
+           Calculate your Tax Now
           </h2>
 
           <div className={`grid ${embed ? "gap-3.5" : "gap-5"}`}>
