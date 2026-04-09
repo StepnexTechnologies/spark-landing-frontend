@@ -21,6 +21,17 @@ const numOr0 = (s: string): number => {
   return isNaN(v) || v < 0 ? 0 : v;
 };
 
+// Format raw digit string with Indian comma grouping for display in inputs
+const formatWithCommas = (s: string): string => {
+  if (!s) return "";
+  const n = parseFloat(s);
+  if (isNaN(n)) return "";
+  return new Intl.NumberFormat("en-IN").format(n);
+};
+
+// Strip everything except digits — used when reading user typed input
+const parseDigits = (s: string): string => s.replace(/[^\d]/g, "");
+
 // ──────────────────────────────────────────
 //  TAX CALCULATIONS  (FY 2025-26)
 // ──────────────────────────────────────────
@@ -582,7 +593,7 @@ const CreatorTaxCalculator = ({ embed = false }: { embed?: boolean } = {}) => {
 
         {/* INPUT CARD */}
         <div
-          className={`border border-[#F2F2F2] bg-white sm:p-8 ${
+          className={`border-2 border-[#9747FF]/40 bg-white sm:p-8 ${
             embed ? "p-4" : "p-6"
           }`}
           style={{ borderRadius: embed ? "24px" : "34px" }}
@@ -640,15 +651,15 @@ const CreatorTaxCalculator = ({ embed = false }: { embed?: boolean } = {}) => {
                 </span>
                 <input
                   id="receipts"
-                  type="number"
-                  min="0"
-                  placeholder="e.g. 2400000"
+                  type="text"
+                  inputMode="numeric"
+                  placeholder="e.g. 24,00,000"
                   className={
                     inputWithPrefixCls +
                     (receiptsError ? " border-red-500 ring-2 ring-red-500/30" : "")
                   }
-                  value={form.receipts}
-                  onChange={(e) => update("receipts", e.target.value)}
+                  value={formatWithCommas(form.receipts)}
+                  onChange={(e) => update("receipts", parseDigits(e.target.value))}
                 />
               </div>
             </div>
@@ -666,12 +677,12 @@ const CreatorTaxCalculator = ({ embed = false }: { embed?: boolean } = {}) => {
                   </span>
                   <input
                     id="digital"
-                    type="number"
-                    min="0"
-                    placeholder="e.g. 2200000"
+                    type="text"
+                    inputMode="numeric"
+                    placeholder="e.g. 22,00,000"
                     className={inputWithPrefixCls}
-                    value={form.digital}
-                    onChange={(e) => update("digital", e.target.value)}
+                    value={formatWithCommas(form.digital)}
+                    onChange={(e) => update("digital", parseDigits(e.target.value))}
                   />
                 </div>
                 {splitWarn && (
@@ -692,12 +703,12 @@ const CreatorTaxCalculator = ({ embed = false }: { embed?: boolean } = {}) => {
                   </span>
                   <input
                     id="cash"
-                    type="number"
-                    min="0"
+                    type="text"
+                    inputMode="numeric"
                     placeholder="0"
                     className={inputWithPrefixCls}
-                    value={form.cash}
-                    onChange={(e) => update("cash", e.target.value)}
+                    value={formatWithCommas(form.cash)}
+                    onChange={(e) => update("cash", parseDigits(e.target.value))}
                   />
                 </div>
               </div>
@@ -715,12 +726,12 @@ const CreatorTaxCalculator = ({ embed = false }: { embed?: boolean } = {}) => {
                 </span>
                 <input
                   id="costs"
-                  type="number"
-                  min="0"
-                  placeholder="e.g. 900000"
+                  type="text"
+                  inputMode="numeric"
+                  placeholder="e.g. 9,00,000"
                   className={inputWithPrefixCls}
-                  value={form.costs}
-                  onChange={(e) => update("costs", e.target.value)}
+                  value={formatWithCommas(form.costs)}
+                  onChange={(e) => update("costs", parseDigits(e.target.value))}
                 />
               </div>
             </div>
@@ -738,12 +749,12 @@ const CreatorTaxCalculator = ({ embed = false }: { embed?: boolean } = {}) => {
                   </span>
                   <input
                     id="otherincome"
-                    type="number"
-                    min="0"
+                    type="text"
+                    inputMode="numeric"
                     placeholder="0"
                     className={inputWithPrefixCls}
-                    value={form.otherincome}
-                    onChange={(e) => update("otherincome", e.target.value)}
+                    value={formatWithCommas(form.otherincome)}
+                    onChange={(e) => update("otherincome", parseDigits(e.target.value))}
                   />
                 </div>
               </div>
@@ -759,12 +770,12 @@ const CreatorTaxCalculator = ({ embed = false }: { embed?: boolean } = {}) => {
                   </span>
                   <input
                     id="deductions"
-                    type="number"
-                    min="0"
+                    type="text"
+                    inputMode="numeric"
                     placeholder="0"
                     className={inputWithPrefixCls}
-                    value={form.deductions}
-                    onChange={(e) => update("deductions", e.target.value)}
+                    value={formatWithCommas(form.deductions)}
+                    onChange={(e) => update("deductions", parseDigits(e.target.value))}
                   />
                 </div>
               </div>
@@ -836,12 +847,12 @@ const CreatorTaxCalculator = ({ embed = false }: { embed?: boolean } = {}) => {
                 </span>
                 <input
                   id="override"
-                  type="number"
-                  min="0"
+                  type="text"
+                  inputMode="numeric"
                   placeholder="Leave blank to use minimum"
                   className={inputWithPrefixCls}
-                  value={form.override}
-                  onChange={(e) => update("override", e.target.value)}
+                  value={formatWithCommas(form.override)}
+                  onChange={(e) => update("override", parseDigits(e.target.value))}
                 />
               </div>
             </div>
@@ -868,35 +879,27 @@ const CreatorTaxCalculator = ({ embed = false }: { embed?: boolean } = {}) => {
           <div ref={resultsRef} className="mt-6 animate-[fadeIn_.4s_ease]">
             {/* Quick Answer */}
             <div
-              className={`text-white sm:p-8 ${embed ? "p-4" : "p-6"}`}
+              className={`border border-[#F2F2F2] bg-white text-[#212529] sm:p-8 ${embed ? "p-4" : "p-6"}`}
               style={{
-                background:
-                  "linear-gradient(135deg, #DD2A7B 0%, #9747FF 50%, #334CCA 100%)",
                 borderRadius: embed ? "24px" : "34px",
               }}
             >
               <div>
                 {result.bestRow ? (
                   <>
-                    <div
-                      className={`mb-3 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold ${
-                        result.elig.ok
-                          ? "bg-white/20 text-white"
-                          : "bg-white/20 text-white"
-                      }`}
-                    >
+                    <div className="mb-3 inline-flex items-center gap-1.5 rounded-full border border-[#F2F2F2] bg-[#FAFAFA] px-3 py-1 text-xs font-semibold text-[#9747FF]">
                       {result.elig.ok ? "✓" : "⚠"} {result.elig.msg}
                     </div>
-                    <div className="text-[11px] font-semibold uppercase tracking-wider opacity-80">
+                    <div className="text-[11px] font-semibold uppercase tracking-wider text-[#9747FF]">
                       Your best option
                     </div>
-                    <div className="mt-1 text-2xl sm:text-3xl font-bold tracking-tight">
+                    <div className="mt-1 text-2xl sm:text-3xl font-bold tracking-tight text-[#212529]">
                       {result.bestRow.label} +{" "}
                       {result.bestRow.regime === "new"
                         ? "New Regime"
                         : "Old Regime"}
                     </div>
-                    <div className="mt-2 text-sm opacity-90">
+                    <div className="mt-2 text-sm text-[#999999]">
                       {explain(
                         result.bestRow,
                         result.presMinTax,
@@ -904,55 +907,53 @@ const CreatorTaxCalculator = ({ embed = false }: { embed?: boolean } = {}) => {
                         result.elig.ok,
                       )}
                     </div>
-                    <div className="mt-5 flex flex-wrap gap-2.5">
-                      <div className="min-w-[110px] flex-1 rounded-xl bg-white/15 px-4 py-3">
-                        <div className="text-[11px] font-medium opacity-80">
+                    <div className="mt-5 flex flex-wrap items-stretch gap-2.5">
+                      <div className="flex min-w-[120px] flex-1 flex-col justify-between rounded-xl border border-[#F2F2F2] bg-[#FAFAFA] px-4 py-3">
+                        <div className="text-[11px] font-medium leading-snug text-[#999999]">
                           Presumptive profit
                         </div>
-                        <div className="text-base font-bold">
+                        <div className="mt-1 text-base font-bold text-[#212529]">
                           {inr(result.presProfit)}
                         </div>
                       </div>
-                      <div className="min-w-[110px] flex-1 rounded-xl bg-white/15 px-4 py-3">
-                        <div className="text-[11px] font-medium opacity-80">
+                      <div className="flex min-w-[120px] flex-1 flex-col justify-between rounded-xl border border-[#F2F2F2] bg-[#FAFAFA] px-4 py-3">
+                        <div className="text-[11px] font-medium leading-snug text-[#999999]">
                           Normal profit
                         </div>
-                        <div className="text-base font-bold">
+                        <div className="mt-1 text-base font-bold text-[#212529]">
                           {inr(result.normalProfit)}
                         </div>
                       </div>
-                      <div className="min-w-[110px] flex-1 rounded-xl bg-white/15 px-4 py-3">
-                        <div className="text-[11px] font-medium opacity-80">
+                      <div className="flex min-w-[120px] flex-1 flex-col justify-between rounded-xl border border-[#F2F2F2] bg-[#FAFAFA] px-4 py-3">
+                        <div className="text-[11px] font-medium leading-snug text-[#999999]">
                           Estimated tax
                         </div>
-                        <div className="text-base font-bold">
+                        <div className="mt-1 text-base font-bold text-[#212529]">
                           {result.bestTax === 0 ? "₹0 🎉" : inr(result.bestTax)}
                         </div>
                       </div>
-                      {result.savings > 1 && (
-                        <div className="min-w-[110px] flex-1 rounded-xl bg-white/15 px-4 py-3">
-                          <div className="text-[11px] font-medium opacity-80">
-                            You save vs worst option
-                          </div>
-                          <div className="text-base font-bold">
-                            {inr(result.savings)}
-                          </div>
+                      <div className="flex min-w-[140px] flex-1 flex-col justify-between rounded-xl border border-[#F2F2F2] bg-[#FAFAFA] px-4 py-3">
+                        <div className="text-[11px] font-medium leading-snug text-[#999999]">
+                          You save vs<br />worst option
                         </div>
-                      )}
+                        <div className="mt-1 text-base font-bold text-[#212529]">
+                          {result.savings > 0 ? inr(result.savings) : "₹0"}
+                        </div>
+                      </div>
                     </div>
                   </>
                 ) : (
                   <>
-                    <div className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-amber-400/25 px-3 py-1 text-xs font-semibold text-amber-100">
+                    <div className="mb-3 inline-flex items-center gap-1.5 rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700">
                       ⚠ {result.elig.msg}
                     </div>
-                    <div className="text-[11px] font-semibold uppercase tracking-wider opacity-80">
+                    <div className="text-[11px] font-semibold uppercase tracking-wider text-[#9747FF]">
                       Review needed
                     </div>
-                    <div className="mt-1 text-2xl sm:text-3xl font-bold tracking-tight">
+                    <div className="mt-1 text-2xl sm:text-3xl font-bold tracking-tight text-[#212529]">
                       Check your eligibility
                     </div>
-                    <div className="mt-2 text-sm opacity-90">
+                    <div className="mt-2 text-sm text-[#999999]">
                       Based on these inputs, the presumptive route may not
                       apply. Normal books results are shown below for reference.
                     </div>
@@ -1015,17 +1016,13 @@ const CreatorTaxCalculator = ({ embed = false }: { embed?: boolean } = {}) => {
                 <h3 className="text-[11px] font-bold uppercase tracking-widest text-[#9747FF]">
                   All 4 Routes Compared
                 </h3>
-                <div className="mt-1 text-[11px] text-[#999999] sm:hidden">
-                  ← Swipe to see all columns
-                </div>
               </div>
               <div className="overflow-x-auto">
-                <table className="w-full min-w-[520px] border-collapse text-left">
+                <table className="w-full border-collapse text-left">
                   <thead className="bg-[#FAFAFA]">
                     <tr>
                       {[
                         "Route",
-                        "Regime",
                         "Profit used",
                         "Taxable income",
                         "Tax incl. cess",
@@ -1052,19 +1049,21 @@ const CreatorTaxCalculator = ({ embed = false }: { embed?: boolean } = {}) => {
                               : ""
                         }`}
                       >
-                        <td className="px-4 py-4 text-sm font-semibold text-[#212529]">
-                          {r.label}
-                        </td>
                         <td className="px-4 py-4 text-sm">
-                          <span
-                            className={`inline-block rounded-md border px-2 py-0.5 text-[11px] font-bold ${
-                              r.regime === "new"
-                                ? "border-[#F2F2F2] text-[#9747FF]"
-                                : "border-[#F2F2F2] text-[#999999]"
-                            }`}
-                          >
-                            {r.regime === "new" ? "New" : "Old"}
-                          </span>
+                          <div className="flex flex-col items-start gap-1">
+                            <span className="font-semibold text-[#212529]">
+                              {r.label}
+                            </span>
+                            <span
+                              className={`inline-block rounded-md border px-2 py-0.5 text-[11px] font-bold ${
+                                r.regime === "new"
+                                  ? "border-[#F2F2F2] text-[#9747FF]"
+                                  : "border-[#F2F2F2] text-[#999999]"
+                              }`}
+                            >
+                              {r.regime === "new" ? "New" : "Old"}
+                            </span>
+                          </div>
                         </td>
                         <td className="px-4 py-4 text-sm font-normal text-[#999999] tabular-nums">
                           {inr(r.profit)}
@@ -1120,9 +1119,7 @@ const CreatorTaxCalculator = ({ embed = false }: { embed?: boolean } = {}) => {
                   "Take the numbers to a CA before you file — this tool helps you walk in informed.",
                 ].map((t, i) => (
                   <li key={i} className="relative pl-4">
-                    <span className="absolute left-0 font-bold text-[#9747FF]">
-                      ·
-                    </span>
+                   
                     {t}
                   </li>
                 ))}
