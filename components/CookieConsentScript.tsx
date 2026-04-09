@@ -1,12 +1,8 @@
 "use client";
 
 import Script from "next/script";
-import { usePathname } from "next/navigation";
 
 export default function CookieConsentScript() {
-  const pathname = usePathname();
-  if (pathname?.startsWith("/blogs/tools/embed")) return null;
-
   return (
     <Script
       async

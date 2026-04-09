@@ -16,6 +16,8 @@ const H6_MARKER_MAP: Record<string, string> = {
   'trust para': 'trust-para', 'trust paragraph': 'trust-para',
   'sources and references': 'sources', 'sources & references': 'sources',
   'sources': 'sources', 'references': 'sources',
+  'tax calc': 'tax-calc', 'tax calculator': 'tax-calc',
+  'creator tax calc': 'tax-calc', 'creator tax calculator': 'tax-calc',
 };
 
 /**
