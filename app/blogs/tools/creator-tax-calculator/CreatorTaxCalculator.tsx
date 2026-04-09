@@ -525,7 +525,7 @@ const CreatorTaxCalculator = ({ embed = false }: { embed?: boolean } = {}) => {
   );
 
   return (
-    <div className="bg-white text-[#212529] w-full max-w-full overflow-x-hidden">
+    <div className="bg-white text-[#212529] w-full max-w-full">
       <div
         className={`mx-auto max-w-3xl sm:px-6 lg:px-8 ${
           embed ? "px-3 pb-6 pt-4" : "px-4 pb-20 pt-10"
