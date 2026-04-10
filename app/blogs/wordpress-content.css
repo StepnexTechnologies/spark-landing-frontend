@@ -1027,9 +1027,9 @@
 .wordpress-content .wp-block-quote {
   border: none;
   border-radius: 0;
-  padding: 3rem 1rem;
+  padding: 1rem 1rem;
   background: transparent;
-  margin: 0;
+  margin-bottom: 0;
   text-align: center;
 }
 
@@ -1079,6 +1079,7 @@
   letter-spacing: 0.05em;
   text-transform: uppercase;
   margin-top: 1rem;
+  margin-bottom: 1rem;
   color: #999999;
 }
 
