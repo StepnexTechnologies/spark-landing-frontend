@@ -2,7 +2,7 @@
 import type React from "react";
 import {useEffect, useRef, useState} from "react";
 import {useSearchParams} from "next/navigation";
-
+// import Link from "next/link";
 import {motion} from "framer-motion";
 import gsap from "gsap";
 import EmailCapture from "@/components/EmailCapture";
@@ -290,6 +290,17 @@ const HeroSection = () => {
       onClick={handleUserInteraction}
       className={`flex flex-col items-center h-full p-4 relative overflow-hidden bg-none pointer-events-none`}
     >
+      {/* Blog link - top right */}
+      {/*<Link*/}
+      {/*  href="/blogs"*/}
+      {/*  className="absolute top-4 right-4 z-50 pointer-events-auto text-sm text-zinc-400 hover:text-white transition-colors duration-300 select-none"*/}
+      {/*  style={{*/}
+      {/*    opacity: emailCaptureVisible ? 1 : 0,*/}
+      {/*    transition: "opacity 0.7s",*/}
+      {/*  }}*/}
+      {/*>*/}
+      {/*  Blog*/}
+      {/*</Link>*/}
       <div className="absolute inset-0-none">
         <motion.div
           animate={{
