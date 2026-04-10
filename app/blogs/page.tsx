@@ -1,5 +1,5 @@
-import React, { Suspense } from "react";
-import type { Metadata } from "next";
+import React, {Suspense} from "react";
+import type {Metadata} from "next";
 import Card from "@/components/blog/BlogCard";
 import FeaturedBlogCard from "@/components/blog/FeaturedBlogCard";
 import BlogCardSkeleton from "@/components/blog/BlogCardSkeleton";
@@ -7,7 +7,7 @@ import FeaturedBlogCardSkeleton from "@/components/blog/FeaturedBlogCardSkeleton
 import MainSection from "@/components/blog/MainSection";
 import MainSectionSkeleton from "@/components/blog/MainSectionSkeleton";
 import NewsletterSection from "@/components/blog/NewsletterSection";
-import { getPosts, getPostTags } from "@/lib/wordpress-improved";
+import {getPosts, getPostTags} from "@/lib/wordpress-improved";
 
 // Helper function to decode HTML entities and strip tags
 function decodeHtmlEntities(text: string): string {
@@ -33,59 +33,84 @@ function decodeHtmlEntities(text: string): string {
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
-export const metadata: Metadata = {
-  metadataBase: new URL("https://www.sparkonomy.com/"),
-  title: "Blog | Sparkonomy - Creator Economy Insights & Monetization Tips",
-  description: "Discover the latest insights, tips, and strategies for creators to monetize content, grow their audience, and succeed in the creator economy. Expert guides and resources from Sparkonomy.",
-  keywords: [
-    "creator economy",
-    "content monetization",
-    "creator tips",
-    "passive income",
-    "influencer marketing",
-    "content creation",
-    "digital creators",
-    "Sparkonomy blog",
-  ],
-  authors: [{ name: "Sparkonomy Team" }],
-  creator: "Sparkonomy",
-  publisher: "Sparkonomy",
-  alternates: {
-    canonical: "https://sparkonomy.com/blogs",
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
+type Props = {
+  searchParams: Promise<{ lang?: string }>;
+};
+
+export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
+  const { lang } = await searchParams;
+
+  const isHindi = lang === "hi-Latn";
+  const ogImage = isHindi ? "/og-blogs-hi-v2.png" : "/og-blogs-en-v2.png";
+  const ogAlt = isHindi ? "Sparkonomy Blog - Hindi" : "Sparkonomy Blog";
+
+  const title = isHindi
+    ? "Blog | Sparkonomy - Creator Economy ke Insights aur Monetization Tips"
+    : "Blog | Sparkonomy - Creator Economy Insights & Monetization Tips";
+
+  const description = isHindi
+    ? "Latest insights, tips, aur strategies paayein — apna content monetize karne, audience badhane, aur creator economy mein success paane ke liye. Sparkonomy se expert guides aur resources."
+    : "Discover the latest insights, tips, and strategies for creators to monetize content, grow their audience, and succeed in the creator economy. Expert guides and resources from Sparkonomy.";
+
+  const ogTitle = isHindi
+    ? "Blog | Sparkonomy - Creator Economy ke Insights"
+    : "Blog | Sparkonomy - Creator Economy Insights";
+
+  const ogDescription = isHindi
+    ? "Latest insights, tips, aur strategies paayein — content monetize karne aur creator economy mein success paane ke liye."
+    : "Discover the latest insights, tips, and strategies for creators to monetize content and succeed in the creator economy.";
+
+  return {
+    metadataBase: new URL("https://www.sparkonomy.com/"),
+    title,
+    description,
+    keywords: [
+      "creator economy",
+      "content monetization",
+      "creator tips",
+      "passive income",
+      "influencer marketing",
+      "content creation",
+      "digital creators",
+      "Sparkonomy blog",
+    ],
+    authors: [{ name: "Sparkonomy Team" }],
+    creator: "Sparkonomy",
+    publisher: "Sparkonomy",
+    alternates: {
+      canonical: "https://sparkonomy.com/blogs",
+    },
+    robots: {
       index: true,
       follow: true,
+      googleBot: { index: true, follow: true },
     },
-  },
-  openGraph: {
-    siteName: "Sparkonomy",
-    title: "Blog | Sparkonomy - Creator Economy Insights",
-    description: "Discover the latest insights, tips, and strategies for creators to monetize content and succeed in the creator economy.",
-    url: "https://sparkonomy.com/blogs",
-    type: "website",
-    locale: "en_US",
-    images: [
-      {
-        url: "https://sparkonomy.com/sparkonomy.png",
-        width: 1200,
-        height: 630,
-        alt: "Sparkonomy Blog",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Blog | Sparkonomy - Creator Economy Insights",
-    description: "Discover the latest insights, tips, and strategies for creators to monetize content and succeed in the creator economy.",
-    images: ["https://sparkonomy.com/sparkonomy.png"],
-    creator: "@sparkonomy",
-    site: "@sparkonomy",
-  },
-};
+    openGraph: {
+      siteName: "Sparkonomy",
+      title: ogTitle,
+      description: ogDescription,
+      url: "https://sparkonomy.com/blogs",
+      type: "website",
+      locale: isHindi ? "hi_IN" : "en_US",
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: ogAlt,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: ogTitle,
+      description: ogDescription,
+      images: [ogImage],
+      creator: "@sparkonomy",
+      site: "@sparkonomy",
+    },
+  };
+}
 
 async function BlogPosts() {
   const { data: posts } = await getPosts(1, 13);
