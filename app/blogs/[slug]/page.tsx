@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { getPostBySlug, getFeaturedImageUrl, getAuthorName, getAuthorNames, getPostAuthors, getPostAuthorsAsync, formatDate, stripHtml, getReadingTime, getPosts, getPostsByCategory } from "@/lib/wordpress-improved";
+import { getPostBySlug, getFeaturedImageUrl, getAuthorName, getAuthorNames, getPostAuthors, getPostAuthorsAsync, formatDate, stripHtml, decodeHtmlEntities, getReadingTime, getPosts, getPostsByCategory } from "@/lib/wordpress-improved";
 import { extractHeadings, addHeadingIds, extractFAQs, extractVideos, removeWordPressTOC, extractFirstParagraph, removeLeadingFeaturedImageBlock, processH6Markers } from "@/lib/content-processor";
 import ShareButtons from "@/components/blog/ShareButtons";
 import Breadcrumb from "@/components/blog/Breadcrumb";
@@ -22,6 +22,7 @@ import SourcesListEnhancer from "@/components/blog/SourcesListEnhancer";
 import KeyTakeawaysEnhancer from "@/components/blog/KeyTakeawaysEnhancer";
 import CheckmarkEnhancer from "@/components/blog/CheckmarkEnhancer";
 import H6SectionParser from "@/components/blog/H6SectionParser";
+import TaxCalculatorInjector from "@/components/blog/TaxCalculatorInjector";
 import ImageOrientationEnhancer from "@/components/blog/ImageOrientationEnhancer";
 import NewsletterSection from "@/components/blog/NewsletterSection";
 import RelatedResourcesInjector from "@/components/blog/RelatedResourcesInjector";
@@ -69,7 +70,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
     metadataBase: new URL("https://www.sparkonomy.com/"),
     title: seoTitle,
     description: seoDescription,
-    keywords: [...tags, ...categories, "Sparkonomy", "creator economy", "content monetization"],
+    keywords: [...tags, ...categories, "Sparkonomy", "creator economy", "content monetization", "influencers", "social media influencers", "youtubers", "instagrammers", "content creators"],
     authors: authors.map(a => ({ name: a.name, url: a.link })),
     creator: authorNames,
     publisher: "Sparkonomy",
@@ -185,9 +186,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     .slice(0, 3)
     .map((p) => ({
       slug: p.slug,
-      title: stripHtml(p.title.rendered),
-      excerpt: stripHtml(p.excerpt.rendered).substring(0, 150),
-      featuredImage: getFeaturedImageUrl(p) || "/sparkonomy.png",
+      title: decodeHtmlEntities(p.title.rendered),
+      excerpt: decodeHtmlEntities(p.excerpt.rendered).substring(0, 150),
+      featuredImage: getFeaturedImageUrl(p, "full") || "/sparkonomy.png",
       date: formatDate(p.date),
     }));
 
@@ -200,9 +201,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       .slice(0, 3)
       .map((p) => ({
         slug: p.slug,
-        title: stripHtml(p.title.rendered),
-        excerpt: stripHtml(p.excerpt.rendered).substring(0, 100),
-        featuredImage: getFeaturedImageUrl(p) || "/sparkonomy.png",
+        title: decodeHtmlEntities(p.title.rendered),
+        excerpt: decodeHtmlEntities(p.excerpt.rendered).substring(0, 100),
+        featuredImage: getFeaturedImageUrl(p, "full") || "/sparkonomy.png",
       }));
   }
 
@@ -536,14 +537,54 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           </div>
 
           {/* Blog Description/Excerpt */}
-          {blogDescription && (
-            <div className="px-4 md:px-[50px] lg:px-[130px]">
-              <p
-                className="text-base md:text-[22px] text-[#6B7280] font-semibold leading-[150%] tracking-[0.25px]"
-                dangerouslySetInnerHTML={{ __html: blogDescription }}
-              />
-            </div>
-          )}
+          {blogDescription && (() => {
+            const splitFirstSentence = (html: string): [string, string] => {
+              const SELF_CLOSING = new Set(['br','img','hr','input','meta','link','area','base','col','embed','param','source','track','wbr']);
+              const openTags: string[] = [];
+              let i = 0;
+              while (i < html.length) {
+                if (html[i] === '<') {
+                  const closeAngle = html.indexOf('>', i);
+                  if (closeAngle === -1) break;
+                  const tagContent = html.slice(i + 1, closeAngle).trim();
+                  if (tagContent.startsWith('/')) {
+                    const tagName = tagContent.slice(1).trim().toLowerCase();
+                    const idx = openTags.lastIndexOf(tagName);
+                    if (idx !== -1) openTags.splice(idx, 1);
+                  } else {
+                    const tagName = tagContent.split(/[\s/>]/)[0].toLowerCase();
+                    if (!SELF_CLOSING.has(tagName) && !tagContent.endsWith('/')) {
+                      openTags.push(tagName);
+                    }
+                  }
+                  i = closeAngle + 1;
+                  continue;
+                }
+                if (html[i] === '.') {
+                  let j = i + 1;
+                  while (j < html.length && html[j] === '<') {
+                    const end = html.indexOf('>', j);
+                    if (end === -1) break;
+                    j = end + 1;
+                  }
+                  if (j >= html.length || /\s/.test(html[j])) {
+                    const closers = openTags.slice().reverse().map(t => `</${t}>`).join('');
+                    const openers = openTags.map(t => `<${t}>`).join('');
+                    return [html.slice(0, i + 1) + closers, openers + html.slice(i + 1)];
+                  }
+                }
+                i++;
+              }
+              return [html, ''];
+            };
+            const [firstSentence, rest] = splitFirstSentence(blogDescription);
+            return (
+              <div className="px-4 md:px-[50px] lg:px-[130px] text-base md:text-[22px] text-[#6B7280] leading-[150%] tracking-[0.25px]">
+                <span className="font-semibold" dangerouslySetInnerHTML={{ __html: firstSentence }} />
+                {rest && <span dangerouslySetInnerHTML={{ __html: rest }} />}
+              </div>
+            );
+          })()}
 
           {/* Featured Image */}
           {featuredImage && (
@@ -577,6 +618,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
           {/* Article Content */}
           <div className="px-4 md:px-[50px] lg:px-[130px]">
+            {/* Tax Calculator injector — replaces <h6>tax-calc</h6> markers with the calculator */}
+            <TaxCalculatorInjector />
             {/* H6 Section Parser — runs first, wraps all H6-marked sections */}
             <H6SectionParser />
             {/* TOC smooth scroll enhancement */}

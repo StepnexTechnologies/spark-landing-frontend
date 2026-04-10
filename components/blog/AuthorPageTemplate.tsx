@@ -161,13 +161,15 @@ export default function AuthorPageTemplate({
                       alt={company.name}
                       width={120}
                       height={36}
-                      className="h-[16px] md:h-7 w-auto object-contain opacity-60"
+                      className={`h-[16px] md:h-7 w-auto object-contain ${company.noFilter ? '' : 'opacity-60'}`}
                       style={{
-                        filter: company.darkBg
-                          ? 'grayscale(100%) invert(1) brightness(0.7)'
-                          : company.darkFg
-                            ? 'grayscale(100%) opacity(0.4)'
-                            : 'grayscale(100%)'
+                        filter: company.noFilter
+                          ? 'none'
+                          : company.darkBg
+                            ? 'grayscale(100%) invert(1) brightness(0.7)'
+                            : company.darkFg
+                              ? 'grayscale(100%) opacity(0.4)'
+                              : 'grayscale(100%)'
                       }}
                     />
                   ) : (

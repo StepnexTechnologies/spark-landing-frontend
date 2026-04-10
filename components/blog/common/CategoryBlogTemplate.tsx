@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { getCategoryBySlug, getPostsByCategory, getPostTags } from "@/lib/wordpress-improved";
+import { getCategoryBySlug, getPostsByCategory, getPostTags, decodeHtmlEntities } from "@/lib/wordpress-improved";
 import BlogCard from "@/components/blog/BlogCard";
 import FeaturedBlogCard from "@/components/blog/FeaturedBlogCard";
 import BlogCardSkeleton from "@/components/blog/BlogCardSkeleton";
@@ -93,8 +93,8 @@ async function CategoryPosts({ config }: { config: CategoryConfig }) {
           {firstRowPosts.map((p) => (
             <BlogCard
               key={p.id}
-              title={p.title.rendered}
-              description={stripHtml(p.excerpt.rendered)}
+              title={decodeHtmlEntities(p.title.rendered)}
+              description={decodeHtmlEntities(p.excerpt.rendered)}
               imageSrc={getFeaturedImage(p)}
               href={`/blogs/${p.slug}`}
               layout="vertical"
@@ -112,8 +112,8 @@ async function CategoryPosts({ config }: { config: CategoryConfig }) {
           {secondRowPost.map((p) => (
             <FeaturedBlogCard
               key={p.id}
-              title={p.title.rendered}
-              description={stripHtml(p.excerpt.rendered)}
+              title={decodeHtmlEntities(p.title.rendered)}
+              description={decodeHtmlEntities(p.excerpt.rendered)}
               imageSrc={getFeaturedImage(p)}
               href={`/blogs/${p.slug}`}
               tag="Featured"
@@ -132,8 +132,8 @@ async function CategoryPosts({ config }: { config: CategoryConfig }) {
             {remainingPosts.map((p) => (
               <BlogCard
                 key={p.id}
-                title={p.title.rendered}
-                description={stripHtml(p.excerpt.rendered)}
+                title={decodeHtmlEntities(p.title.rendered)}
+                description={decodeHtmlEntities(p.excerpt.rendered)}
                 imageSrc={getFeaturedImage(p)}
                 href={`/blogs/${p.slug}`}
                 layout="vertical"
@@ -203,9 +203,9 @@ async function HeroSection({ config }: { config: CategoryConfig }) {
 
   return (
     <MainSection
-      title={heroPost.title.rendered}
+      title={decodeHtmlEntities(heroPost.title.rendered)}
       subtitle=""
-      description={stripHtml(heroPost.excerpt.rendered)}
+      description={decodeHtmlEntities(heroPost.excerpt.rendered)}
       buttonText="Read More"
       buttonLink={`/blogs/${heroPost.slug}`}
       imageSrc={featuredImage}

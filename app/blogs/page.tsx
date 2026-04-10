@@ -1,116 +1,77 @@
-import React, {Suspense} from "react";
-import type {Metadata} from "next";
+import React, { Suspense } from "react";
+import type { Metadata } from "next";
 import Card from "@/components/blog/BlogCard";
 import FeaturedBlogCard from "@/components/blog/FeaturedBlogCard";
-import BlogCardSkeleton from "@/components/blog/BlogCardSkeleton";
-import FeaturedBlogCardSkeleton from "@/components/blog/FeaturedBlogCardSkeleton";
+import BlogPostsSkeleton from "@/components/blog/BlogPostsSkeleton";
 import MainSection from "@/components/blog/MainSection";
 import MainSectionSkeleton from "@/components/blog/MainSectionSkeleton";
 import NewsletterSection from "@/components/blog/NewsletterSection";
-import {getPosts, getPostTags} from "@/lib/wordpress-improved";
-
-// Helper function to decode HTML entities and strip tags
-function decodeHtmlEntities(text: string): string {
-  return text
-    .replace(/<[^>]*>/g, '') // Strip HTML tags
-    .replace(/&hellip;/g, '…')
-    .replace(/&amp;/g, '&')
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/&quot;/g, '"')
-    .replace(/&#039;/g, "'")
-    .replace(/&nbsp;/g, ' ')
-    .replace(/&#8217;/g, "'")
-    .replace(/&#8220;/g, '"')
-    .replace(/&#8221;/g, '"')
-    .replace(/&#8211;/g, '–')
-    .replace(/&#8212;/g, '—')
-    .replace(/\[…\]/g, '…') // Replace […] with just ellipsis
-    .replace(/\[\.\.\.\]/g, '…') // Replace [...] with ellipsis
-    .trim();
-}
+import { getPosts, getPostTags, decodeHtmlEntities } from "@/lib/wordpress-improved";
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
-type Props = {
-  searchParams: Promise<{ lang?: string }>;
-};
-
-export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
-  const { lang } = await searchParams;
-
-  const isHindi = lang === "hi-Latn";
-  const ogImage = isHindi ? "/og-blogs-hi-v2.png" : "/og-blogs-en-v2.png";
-  const ogAlt = isHindi ? "Sparkonomy Blog - Hindi" : "Sparkonomy Blog";
-
-  const title = isHindi
-    ? "Blog | Sparkonomy - Creator Economy ke Insights aur Monetization Tips"
-    : "Blog | Sparkonomy - Creator Economy Insights & Monetization Tips";
-
-  const description = isHindi
-    ? "Latest insights, tips, aur strategies paayein — apna content monetize karne, audience badhane, aur creator economy mein success paane ke liye. Sparkonomy se expert guides aur resources."
-    : "Discover the latest insights, tips, and strategies for creators to monetize content, grow their audience, and succeed in the creator economy. Expert guides and resources from Sparkonomy.";
-
-  const ogTitle = isHindi
-    ? "Blog | Sparkonomy - Creator Economy ke Insights"
-    : "Blog | Sparkonomy - Creator Economy Insights";
-
-  const ogDescription = isHindi
-    ? "Latest insights, tips, aur strategies paayein — content monetize karne aur creator economy mein success paane ke liye."
-    : "Discover the latest insights, tips, and strategies for creators to monetize content and succeed in the creator economy.";
-
-  return {
-    metadataBase: new URL("https://www.sparkonomy.com/"),
-    title,
-    description,
-    keywords: [
-      "creator economy",
-      "content monetization",
-      "creator tips",
-      "passive income",
-      "influencer marketing",
-      "content creation",
-      "digital creators",
-      "Sparkonomy blog",
-    ],
-    authors: [{ name: "Sparkonomy Team" }],
-    creator: "Sparkonomy",
-    publisher: "Sparkonomy",
-    alternates: {
-      canonical: "https://sparkonomy.com/blogs",
-    },
-    robots: {
+export const metadata: Metadata = {
+  metadataBase: new URL("https://www.sparkonomy.com/"),
+  title: "Blog | Sparkonomy - Tips for Creators, Influencers, YouTubers & Instagrammers",
+  description: "Discover the latest insights, tips, and strategies for creators, influencers, YouTubers & Instagrammers to monetize content, grow their audience, and succeed in the creator economy. Expert guides from Sparkonomy.",
+  keywords: [
+    "creator economy",
+    "content monetization",
+    "creator tips",
+    "influencer tips",
+    "passive income",
+    "influencer marketing",
+    "content creation",
+    "digital creators",
+    "social media influencers",
+    "instagrammers",
+    "youtubers",
+    "instagram influencer tips",
+    "youtube creator tips",
+    "content creator monetization",
+    "influencer platform",
+    "Sparkonomy blog",
+  ],
+  authors: [{ name: "Sparkonomy Team" }],
+  creator: "Sparkonomy",
+  publisher: "Sparkonomy",
+  alternates: {
+    canonical: "https://sparkonomy.com/blogs",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
       index: true,
       follow: true,
-      googleBot: { index: true, follow: true },
     },
-    openGraph: {
-      siteName: "Sparkonomy",
-      title: ogTitle,
-      description: ogDescription,
-      url: "https://sparkonomy.com/blogs",
-      type: "website",
-      locale: isHindi ? "hi_IN" : "en_US",
-      images: [
-        {
-          url: ogImage,
-          width: 1200,
-          height: 630,
-          alt: ogAlt,
-        },
-      ],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: ogTitle,
-      description: ogDescription,
-      images: [ogImage],
-      creator: "@sparkonomy",
-      site: "@sparkonomy",
-    },
-  };
-}
+  },
+  openGraph: {
+    siteName: "Sparkonomy",
+    title: "Blog | Sparkonomy - Tips for Creators, Influencers & YouTubers",
+    description: "Insights, tips & strategies for creators, influencers, YouTubers & Instagrammers to monetize content and succeed in the creator economy.",
+    url: "https://sparkonomy.com/blogs",
+    type: "website",
+    locale: "en_US",
+    images: [
+      {
+        url: "https://sparkonomy.com/sparkonomy.png",
+        width: 1200,
+        height: 630,
+        alt: "Sparkonomy Blog",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Blog | Sparkonomy - Tips for Creators, Influencers & YouTubers",
+    description: "Insights, tips & strategies for creators, influencers, YouTubers & Instagrammers to monetize content and succeed in the creator economy.",
+    images: ["https://sparkonomy.com/sparkonomy.png"],
+    creator: "@sparkonomy",
+    site: "@sparkonomy",
+  },
+};
 
 async function BlogPosts() {
   const { data: posts } = await getPosts(1, 13);
@@ -134,13 +95,13 @@ async function BlogPosts() {
   return (
     <>
       {/* Container for First Row */}
-      <div className="max-w-7xl mx-auto px-4">
+      <div className="max-w-7xl mx-auto px-4 ">
         {/* First Row - 3 vertical cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:mb-12">
           {firstRowPosts.map((p) => (
             <Card
               key={p.id}
-              title={p.title.rendered}
+              title={decodeHtmlEntities(p.title.rendered)}
               description={decodeHtmlEntities(p.excerpt.rendered)}
               imageSrc={p._embedded?.['wp:featuredmedia']?.[0]?.source_url || p.yoast_head_json?.og_image?.[0]?.url}
               href={`/blogs/${p.slug}`}
@@ -161,7 +122,7 @@ async function BlogPosts() {
         {secondRowPost.map((p) => (
           <FeaturedBlogCard
             key={p.id}
-            title={p.title.rendered}
+            title={decodeHtmlEntities(p.title.rendered)}
             description={decodeHtmlEntities(p.excerpt.rendered)}
             imageSrc={p._embedded?.['wp:featuredmedia']?.[0]?.source_url || p.yoast_head_json?.og_image?.[0]?.url}
             href={`/blogs/${p.slug}`}
@@ -181,7 +142,7 @@ async function BlogPosts() {
           {remainingPosts.map((p) => (
             <Card
               key={p.id}
-              title={p.title.rendered}
+              title={decodeHtmlEntities(p.title.rendered)}
               description={decodeHtmlEntities(p.excerpt.rendered)}
               imageSrc={p._embedded?.['wp:featuredmedia']?.[0]?.source_url || p.yoast_head_json?.og_image?.[0]?.url}
               href={`/blogs/${p.slug}`}
@@ -200,42 +161,6 @@ async function BlogPosts() {
   );
 }
 
-function BlogPostsSkeleton() {
-  return (
-    <>
-      {/* Container for First Row */}
-
-
-      {/* Second Row - 1 horizontal skeleton (full width, no container) */}
-      <div className="w-full md:mb-12">
-        <BlogCardSkeleton layout="horizontal" />
-      </div>
-
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:mb-12">
-          <BlogCardSkeleton layout="vertical" />
-          <BlogCardSkeleton layout="vertical" />
-          <BlogCardSkeleton layout="vertical" />
-        </div>
-      </div>
-
-      {/* Second Row - 1 featured horizontal skeleton (full width, no container) */}
-      <div className="w-full md:mb-12">
-        <FeaturedBlogCardSkeleton />
-      </div>
-
-      {/* Container for Remaining Rows */}
-      <div className="max-w-7xl mx-auto px-4">
-        {/* Remaining Rows - 6 vertical skeletons (showing 2 rows of 3) */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {[...Array(6)].map((_, i) => (
-            <BlogCardSkeleton key={i} layout="vertical" />
-          ))}
-        </div>
-      </div>
-    </>
-  );
-}
 
 async function HeroSection() {
   const { data: posts } = await getPosts(1, 1);
@@ -262,7 +187,7 @@ async function HeroSection() {
 
   return (
     <MainSection
-      title={heroPost.title.rendered}
+      title={decodeHtmlEntities(heroPost.title.rendered)}
       subtitle=""
       description={decodeHtmlEntities(heroPost.excerpt.rendered)}
       buttonText="Read More"
@@ -279,8 +204,8 @@ export default function Home() {
   const blogJsonLd = {
     "@context": "https://schema.org",
     "@type": "Blog",
-    name: "Sparkonomy Blog",
-    description: "Insights, tips, and strategies for creators to monetize content and succeed in the creator economy.",
+    name: "Sparkonomy Blog - For Creators, Influencers, YouTubers & Instagrammers",
+    description: "Insights, tips, and strategies for creators, influencers, YouTubers, Instagrammers and social media influencers to monetize content and succeed in the creator economy.",
     url: "https://sparkonomy.com/blogs",
     publisher: {
       "@type": "Organization",

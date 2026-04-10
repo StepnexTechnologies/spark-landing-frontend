@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { getDraftPostById, getFeaturedImageUrl, getAuthorName, getAuthorNames, getPostAuthors, getPostAuthorsAsync, formatDate, stripHtml, getReadingTime, getDraftPosts, getPostsByCategory } from "@/lib/wordpress-improved";
+import { getDraftPostById, getFeaturedImageUrl, getAuthorName, getAuthorNames, getPostAuthors, getPostAuthorsAsync, formatDate, stripHtml, decodeHtmlEntities, getReadingTime, getDraftPosts, getPostsByCategory } from "@/lib/wordpress-improved";
 import { extractHeadings, addHeadingIds, removeWordPressTOC, extractFirstParagraph, removeLeadingFeaturedImageBlock, processH6Markers } from "@/lib/content-processor";
 import Breadcrumb from "@/components/blog/Breadcrumb";
 import BlogLanguageSwitcher from "@/components/blog/BlogLanguageSwitcher";
@@ -21,6 +21,7 @@ import SourcesListEnhancer from "@/components/blog/SourcesListEnhancer";
 import KeyTakeawaysEnhancer from "@/components/blog/KeyTakeawaysEnhancer";
 import CheckmarkEnhancer from "@/components/blog/CheckmarkEnhancer";
 import H6SectionParser from "@/components/blog/H6SectionParser";
+import TaxCalculatorInjector from "@/components/blog/TaxCalculatorInjector";
 import ImageOrientationEnhancer from "@/components/blog/ImageOrientationEnhancer";
 import NewsletterSection from "@/components/blog/NewsletterSection";
 import RelatedResourcesInjector from "@/components/blog/RelatedResourcesInjector";
@@ -173,9 +174,9 @@ export default async function PreviewPostPage({ params }: PreviewPostPageProps) 
     .slice(0, 3)
     .map((p) => ({
       slug: String(p.id),
-      title: stripHtml(p.title.rendered),
-      excerpt: stripHtml(p.excerpt.rendered).substring(0, 150),
-      featuredImage: getFeaturedImageUrl(p) || "/sparkonomy.png",
+      title: decodeHtmlEntities(p.title.rendered),
+      excerpt: decodeHtmlEntities(p.excerpt.rendered).substring(0, 150),
+      featuredImage: getFeaturedImageUrl(p, "full") || "/sparkonomy.png",
       date: formatDate(p.date),
     }));
 
@@ -195,9 +196,9 @@ export default async function PreviewPostPage({ params }: PreviewPostPageProps) 
     .slice(0, 3)
     .map((p) => ({
       slug: String(p.id), // Use ID for preview pages
-      title: stripHtml(p.title.rendered),
-      excerpt: stripHtml(p.excerpt.rendered).substring(0, 100),
-      featuredImage: getFeaturedImageUrl(p) || "/sparkonomy.png",
+      title: decodeHtmlEntities(p.title.rendered),
+      excerpt: decodeHtmlEntities(p.excerpt.rendered).substring(0, 100),
+      featuredImage: getFeaturedImageUrl(p, "full") || "/sparkonomy.png",
     }));
 
   return (
@@ -337,14 +338,54 @@ export default async function PreviewPostPage({ params }: PreviewPostPageProps) 
           </div>
 
           {/* Blog Description/Excerpt */}
-          {blogDescription && (
-            <div className="px-4 md:px-[50px] lg:px-[130px]">
-              <p
-                className="text-base md:text-[22px] text-[#6B7280] font-semibold leading-[150%] tracking-[0.25px]"
-                dangerouslySetInnerHTML={{ __html: blogDescription }}
-              />
-            </div>
-          )}
+          {blogDescription && (() => {
+            const splitFirstSentence = (html: string): [string, string] => {
+              const SELF_CLOSING = new Set(['br','img','hr','input','meta','link','area','base','col','embed','param','source','track','wbr']);
+              const openTags: string[] = [];
+              let i = 0;
+              while (i < html.length) {
+                if (html[i] === '<') {
+                  const closeAngle = html.indexOf('>', i);
+                  if (closeAngle === -1) break;
+                  const tagContent = html.slice(i + 1, closeAngle).trim();
+                  if (tagContent.startsWith('/')) {
+                    const tagName = tagContent.slice(1).trim().toLowerCase();
+                    const idx = openTags.lastIndexOf(tagName);
+                    if (idx !== -1) openTags.splice(idx, 1);
+                  } else {
+                    const tagName = tagContent.split(/[\s/>]/)[0].toLowerCase();
+                    if (!SELF_CLOSING.has(tagName) && !tagContent.endsWith('/')) {
+                      openTags.push(tagName);
+                    }
+                  }
+                  i = closeAngle + 1;
+                  continue;
+                }
+                if (html[i] === '.') {
+                  let j = i + 1;
+                  while (j < html.length && html[j] === '<') {
+                    const end = html.indexOf('>', j);
+                    if (end === -1) break;
+                    j = end + 1;
+                  }
+                  if (j >= html.length || /\s/.test(html[j])) {
+                    const closers = openTags.slice().reverse().map(t => `</${t}>`).join('');
+                    const openers = openTags.map(t => `<${t}>`).join('');
+                    return [html.slice(0, i + 1) + closers, openers + html.slice(i + 1)];
+                  }
+                }
+                i++;
+              }
+              return [html, ''];
+            };
+            const [firstSentence, rest] = splitFirstSentence(blogDescription);
+            return (
+              <div className="px-4 md:px-[50px] lg:px-[130px] text-base md:text-[22px] text-[#6B7280] leading-[150%] tracking-[0.25px]">
+                <span className="font-semibold" dangerouslySetInnerHTML={{ __html: firstSentence }} />
+                {rest && <span dangerouslySetInnerHTML={{ __html: rest }} />}
+              </div>
+            );
+          })()}
 
           {/* Featured Image */}
           {featuredImage && (
@@ -378,6 +419,8 @@ export default async function PreviewPostPage({ params }: PreviewPostPageProps) 
 
           {/* Article Content */}
           <div className="px-4 md:px-[50px] lg:px-[130px]">
+            {/* Tax Calculator injector — replaces <h6>tax-calc</h6> markers with the calculator */}
+            <TaxCalculatorInjector />
             {/* H6 Section Parser — runs first, wraps all H6-marked sections */}
             <H6SectionParser />
             {/* TOC smooth scroll enhancement */}
