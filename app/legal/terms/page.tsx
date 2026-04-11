@@ -295,10 +295,10 @@ export default function TermsOfServicePage() {
                     (&#34;DMCA&#34;). If you believe your copyrighted work has been infringed
                     upon, please send a compliant notice to{" "}
                     <a
-                        href="mailto:legal@sparkonomy.com"
+                        href="mailto:hello@sparkonomy.com"
                         className={"text-primary font-bold hover:underline"}
                     >
-                        legal@sparkonomy.com
+                        hello@sparkonomy.com
                     </a>
                     .
                 </p>
