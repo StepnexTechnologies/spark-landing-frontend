@@ -6,7 +6,9 @@
       "Bash(mv \"Sparkonomy App Icon- 180x180Px.png\" \"home-180x180Px.png\")",
       "Bash(mv \"Sparkonomy App Icon- 192x192Px.png\" \"home-192x192Px.png\")",
       "Bash(mv \"Sparkonomy App Icon- 512x512Px.png\" \"home-512x512Px.png\")",
-      "Bash(mv \"Sparkonomy App Icon- 1024x1024Px.png\" \"home-1024x1024Px.png\")"
+      "Bash(mv \"Sparkonomy App Icon- 1024x1024Px.png\" \"home-1024x1024Px.png\")",
+      "Bash(wc -l /c/Users/HP/Desktop/client/spark-landing-frontend/components/blog/*.tsx)",
+      "WebFetch(domain:chenglou.me)"
     ]
   }
 }
