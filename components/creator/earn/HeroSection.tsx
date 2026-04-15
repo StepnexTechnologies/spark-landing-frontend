@@ -71,7 +71,7 @@ export default function HeroSection() {
           {/* Image with Margin */}
           <div className="relative w-full h-full z-10 m-3 md:m-6">
             <Image
-              src="/images/creator/earn/hero-illustration-1.png"
+              src="/images/creator/earn/hero-illustration-2.png"
               alt="Happy woman pointing at phone showing invoice"
               fill
               className="object-contain"
