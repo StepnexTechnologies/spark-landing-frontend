@@ -202,15 +202,18 @@ export default function CreatorsWeekCelebration() {
     return () => timers.forEach(clearTimeout);
   }, []);
 
-  // Play on mount
+  // Play on mount — only show on or after April 19, 2026 (Creators Day)
   useEffect(() => {
+    const now = new Date();
+    const startDate = new Date(2026, 3, 19); // April 19, 2026 (month is 0-indexed)
+    if (now < startDate) return;
+
     const timers: NodeJS.Timeout[] = [];
 
     timers.push(setTimeout(() => setPhase("box-enter"), 1000));
     timers.push(setTimeout(() => setPhase("shaking"), 1500));
     timers.push(setTimeout(() => setPhase("burst"), 2300));
     timers.push(setTimeout(() => setPhase("text"), 2500));
-    // Allow dismiss after balloon text animation completes (~2.5s + 0.8s entry + 20 letters * 0.05s = ~4.3s)
     timers.push(setTimeout(() => setCanDismiss(true), 4500));
 
     return () => timers.forEach(clearTimeout);
