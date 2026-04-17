@@ -10,7 +10,11 @@
       "Bash(wc -l /c/Users/HP/Desktop/client/spark-landing-frontend/components/blog/*.tsx)",
       "WebFetch(domain:chenglou.me)",
       "Bash(yarn dev *)",
-      "WebSearch"
+      "WebSearch",
+      "Bash(git ls-tree *)",
+      "PowerShell(yarn lint 2>&1)",
+      "PowerShell(npx next lint 2>&1)",
+      "PowerShell(npx eslint app/creators-week-2026 2>&1)"
     ]
   }
 }
