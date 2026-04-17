@@ -8,7 +8,9 @@
       "Bash(mv \"Sparkonomy App Icon- 512x512Px.png\" \"home-512x512Px.png\")",
       "Bash(mv \"Sparkonomy App Icon- 1024x1024Px.png\" \"home-1024x1024Px.png\")",
       "Bash(wc -l /c/Users/HP/Desktop/client/spark-landing-frontend/components/blog/*.tsx)",
-      "WebFetch(domain:chenglou.me)"
+      "WebFetch(domain:chenglou.me)",
+      "Bash(yarn dev *)",
+      "WebSearch"
     ]
   }
 }

@@ -18,6 +18,7 @@ import EarnFooter from "@/components/creator/earn/EarnFooter";
 import StoriesContainer from "@/components/creator/earn/stories/StoriesContainer";
 import FloatingCTA from "@/components/creator/earn/FloatingCTA";
 import ReferralBanner from "@/components/creator/earn/ReferralBanner";
+import CreatorsWeekCelebration from "@/components/creator/earn/CreatorsWeekCelebration";
 
 function CreatorEarnPageContent() {
   const {i18n} = useTranslation();
@@ -107,6 +108,9 @@ function CreatorEarnPageContent() {
 
             {/* Floating CTA Button */}
             <FloatingCTA />
+
+            {/* Creators Week Celebration — only in promo mode */}
+            {process.env.NEXT_PUBLIC_MODE === "promo" && <CreatorsWeekCelebration />}
           </motion.main>
         )}
       </AnimatePresence>
