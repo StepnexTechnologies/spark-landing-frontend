@@ -5,6 +5,15 @@
   "hero": {
     "title": "Duniya ka pehla AI — sirf creators ke liye.\nAb private beta mein. ⚡️"
   },
+  "creatorWeek": {
+    "heading": "Freelancer se Founder bano—hamare saath!",
+    "descriptionBefore": "Pehla invoice behjo aur",
+    "descriptionAmount": "₹3600",
+    "descriptionPlan": "ka Pro Plan",
+    "descriptionFree": "FREE pao.",
+    "special": "🎁 Sirf Creator Week mey: Apr 20-26",
+    "cta": "Abhi lelo, der mat karo"
+  },
   "valueProposition": {
     "heading1": "Zyada kamaayein. Stress kam lein.",
     "heading2": "Jaldi payment paayein!",
