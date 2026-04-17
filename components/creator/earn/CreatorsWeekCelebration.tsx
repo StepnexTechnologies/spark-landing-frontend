@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState, useMemo, useCallback } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 
 // --- Confetti Particle ---
 interface ConfettiPiece {
@@ -73,102 +74,6 @@ function ConfettiParticle({ piece }: { piece: ConfettiPiece }) {
         ease: "easeOut",
       }}
     />
-  );
-}
-
-// --- Balloon Letter ---
-function BalloonLetter({
-  char,
-  index,
-  total,
-}: {
-  char: string;
-  index: number;
-  total: number;
-}) {
-  if (char === " ") {
-    return <span className="inline-block w-3 sm:w-4 md:w-5" />;
-  }
-
-  const entryDelay = 0.6 + index * 0.05;
-
-  return (
-    <motion.span
-      className="inline-block relative"
-      style={{
-        fontFamily: "'Fredoka One', 'Baloo 2', 'Arial Rounded MT Bold', sans-serif",
-        fontWeight: 900,
-        fontSize: "clamp(2.5rem, 9vw, 3.5rem)",
-        lineHeight: 1.1,
-        color: "transparent",
-        backgroundImage: `
-          radial-gradient(circle at 25% 25%, rgba(255,255,255,0.6) 0%, transparent 20%),
-          radial-gradient(circle at 75% 75%, #71717a 0%, transparent 35%),
-          linear-gradient(
-            170deg,
-            #d4d4d8 0%,
-            #a1a1aa 12%,
-            #c0c0c8 25%,
-            #71717a 42%,
-            #9898a0 55%,
-            #b8b8c0 68%,
-            #808088 82%,
-            #a8a8b0 100%
-          )
-        `,
-        backgroundClip: "text",
-        WebkitBackgroundClip: "text",
-        WebkitTextFillColor: "transparent",
-        filter: `
-          drop-shadow(0 6px 10px rgba(0,0,0,0.35))
-          drop-shadow(0 0 6px rgba(160,160,180,0.3))
-        `,
-        textShadow: "0 1px 0 #c0c0c8, 0 2px 3px rgba(0,0,0,0.3)",
-      }}
-      initial={{
-        y: 400,
-        scale: 0,
-        opacity: 0,
-        rotate: Math.random() * 40 - 20,
-      }}
-      animate={{
-        y: [400, -20, 5, 0],
-        scale: [0, 1.3, 0.95, 1],
-        opacity: 1,
-        rotate: 0,
-      }}
-      transition={{
-        duration: 0.8,
-        delay: entryDelay,
-        ease: [0.34, 1.56, 0.64, 1],
-      }}
-    >
-      {char}
-      {/* Balloon knot */}
-      <span
-        className="absolute left-1/2 -translate-x-1/2"
-        style={{
-          bottom: "-3px",
-          width: 0,
-          height: 0,
-          borderLeft: "3px solid transparent",
-          borderRight: "3px solid transparent",
-          borderTop: "5px solid #B0B0B8",
-        }}
-      />
-      {/* String */}
-      <span
-        className="absolute left-1/2"
-        style={{
-          bottom: "-20px",
-          width: "1px",
-          height: "16px",
-          background: "linear-gradient(to bottom, #B0B0B8 60%, transparent)",
-          transform: `translateX(-50%) rotate(${Math.sin(index) * 8}deg)`,
-          transformOrigin: "top center",
-        }}
-      />
-    </motion.span>
   );
 }
 
@@ -273,22 +178,8 @@ function GiftBox({
   );
 }
 
-// --- Load Rubik Bubbles font ---
-function useLoadFont() {
-  useEffect(() => {
-    const id = "rubik-bubbles-font";
-    if (document.getElementById(id)) return;
-    const link = document.createElement("link");
-    link.id = id;
-    link.rel = "stylesheet";
-    link.href = "https://fonts.googleapis.com/css2?family=Fredoka+One&family=Baloo+2:wght@800&display=swap";
-    document.head.appendChild(link);
-  }, []);
-}
-
 // --- Main Component ---
 export default function CreatorsWeekCelebration() {
-  useLoadFont();
   const [phase, setPhase] = useState<"hidden" | "box-enter" | "shaking" | "burst" | "text" | "done">("hidden");
   const [dismissed, setDismissed] = useState(false);
   const [canDismiss, setCanDismiss] = useState(false);
@@ -325,6 +216,17 @@ export default function CreatorsWeekCelebration() {
     return () => timers.forEach(clearTimeout);
   }, []);
 
+  // Auto-dismiss 4 seconds after image appears
+  useEffect(() => {
+    if (phase === "text") {
+      const timer = setTimeout(() => {
+        setPhase("done");
+        setTimeout(() => setDismissed(true), 500);
+      }, 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [phase]);
+
   // Ctrl+Shift+R to replay
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -346,11 +248,6 @@ export default function CreatorsWeekCelebration() {
   }, [canDismiss]);
 
   if (dismissed) return null;
-
-  const text = "Happy Creators Week!";
-  const words = text.split(" ");
-  // Track global letter index for staggered animation delay
-  let globalIndex = 0;
 
   return (
     <AnimatePresence>
@@ -394,53 +291,23 @@ export default function CreatorsWeekCelebration() {
             />
           )}
 
-          {/* Balloon Text */}
+          {/* Promo Image */}
           {phase === "text" && (
             <motion.div
-              className="relative z-40 text-center px-4"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.3 }}
+              className="relative z-40 flex flex-col items-center px-4"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
             >
-              {/* Glow behind text */}
-              <div
-                className="absolute inset-0 blur-3xl opacity-30 -z-10"
-                style={{
-                  background:
-                    "radial-gradient(ellipse at center, rgba(220,220,230,0.4) 0%, transparent 70%)",
-                }}
+              <Image
+                src="/images/creator/earn/PROMO-3.png"
+                alt="Creators Week Celebration"
+                width={600}
+                height={600}
+                className="max-w-[90vw] max-h-[70vh] w-auto h-auto object-contain mix-blend-lighten"
+                priority
               />
 
-              <div className="flex flex-wrap justify-center gap-x-3 gap-y-1 sm:gap-x-4">
-                {words.map((word, wi) => {
-                  const startIndex = globalIndex;
-                  globalIndex += word.length;
-                  return (
-                    <span key={wi} className="inline-flex whitespace-nowrap gap-x-0.5">
-                      {word.split("").map((char, ci) => (
-                        <BalloonLetter
-                          key={`${startIndex + ci}-${char}`}
-                          char={char}
-                          index={startIndex + ci}
-                          total={text.length}
-                        />
-                      ))}
-                    </span>
-                  );
-                })}
-              </div>
-
-              {/* Tap to dismiss — only shown after animation completes */}
-              {canDismiss && (
-                <motion.p
-                  className="text-white/60 text-sm mt-8 font-light"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.5 }}
-                >
-                  Tap anywhere to continue
-                </motion.p>
-              )}
             </motion.div>
           )}
         </motion.div>
