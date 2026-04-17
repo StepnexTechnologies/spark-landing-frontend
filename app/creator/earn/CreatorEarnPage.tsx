@@ -109,8 +109,8 @@ function CreatorEarnPageContent() {
             {/* Floating CTA Button */}
             <FloatingCTA />
 
-            {/* Creators Week Celebration */}
-            <CreatorsWeekCelebration />
+            {/* Creators Week Celebration — only in promo mode */}
+            {process.env.NEXT_PUBLIC_MODE === "promo" && <CreatorsWeekCelebration />}
           </motion.main>
         )}
       </AnimatePresence>
