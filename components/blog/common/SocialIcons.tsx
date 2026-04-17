@@ -51,13 +51,15 @@ interface SocialLinkProps {
 // Individual social link component
 export function SocialLink({ platform, href, className = "", iconClassName = "" }: SocialLinkProps) {
   const isEmail = platform === "email";
-  const finalHref = isEmail ? `mailto:${href}` : href;
+  const finalHref = isEmail
+    ? `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(href)}`
+    : href;
 
   return (
     <a
       href={finalHref}
-      target={isEmail ? undefined : "_blank"}
-      rel={isEmail ? undefined : "noopener noreferrer"}
+      target="_blank"
+      rel="noopener noreferrer"
       className={`text-gray-600 hover:text-[#9747FF] transition-colors ${className}`}
       aria-label={platform.charAt(0).toUpperCase() + platform.slice(1)}
     >
@@ -95,14 +97,16 @@ export function SocialLinksGroup({ links, variant = "default", className = "" }:
         if (!href) return null;
 
         const isEmail = platform === "email";
-        const finalHref = isEmail ? `mailto:${href}` : href;
+        const finalHref = isEmail
+          ? `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(href)}`
+          : href;
 
         return (
           <a
             key={platform}
             href={finalHref}
-            target={isEmail ? undefined : "_blank"}
-            rel={isEmail ? undefined : "noopener noreferrer"}
+            target="_blank"
+            rel="noopener noreferrer"
             className={linkClasses[variant]}
             aria-label={platform.charAt(0).toUpperCase() + platform.slice(1)}
           >
