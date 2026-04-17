@@ -561,6 +561,7 @@ export const authors: AuthorEntry[] = [
 
     socialLinks: {
       linkedin: "https://www.linkedin.com/in/meghatyagi",
+      twitter: "https://x.com/meghattyagi?s=11",
       email: "meghat@sparkonomy.com",
     },
 
@@ -681,7 +682,7 @@ export const authors: AuthorEntry[] = [
     },
 
     previousCompanies: [
-      { name: "Meta", logo: "/authors/Logos/Meta.png" },
+      { name: "Meta", logo: "/authors/Logos/META.png" },
       { name: "Google", logo: "/authors/Logos/Google.png" },
       { name: "SAP", logo: "/authors/Logos/SAP.png" },
       { name: "IBM", logo: "/authors/Logos/IBM.png" },
