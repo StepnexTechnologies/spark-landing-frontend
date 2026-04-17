@@ -15,7 +15,7 @@ export default function TermsOfServicePage() {
                     </Link>
                 </div>
                 <p className="text-sm text-gray-500 mb-8">
-                    Effective Date: August 10, 2025
+                    Effective Date: August 10, 2025 | Last Updated: April 17, 2026
                 </p>
                 <p className="mb-4">
                     Welcome to Sparkonomy! We’re thrilled to have you. We’re building an
@@ -252,6 +252,14 @@ export default function TermsOfServicePage() {
                             </li>
                         </ul>
                     </li>
+                    <li>
+                        <strong>Promotional Campaigns &amp; Rewards:</strong> From time to
+                        time, Sparkonomy may offer promotional access to paid features.
+                        Such promotions will be governed by their specific terms, which
+                        will be communicated to eligible users. Promotional access does
+                        not create any entitlement to continued access beyond the stated
+                        promotional period.
+                    </li>
                 </ul>
 
                 <h2 className="text-xl font-semibold mt-8 mb-4">
@@ -295,10 +303,10 @@ export default function TermsOfServicePage() {
                     (&#34;DMCA&#34;). If you believe your copyrighted work has been infringed
                     upon, please send a compliant notice to{" "}
                     <a
-                        href="mailto:hello@sparkonomy.com"
+                        href="mailto:legal@sparkonomy.com"
                         className={"text-primary font-bold hover:underline"}
                     >
-                        hello@sparkonomy.com
+                        legal@sparkonomy.com
                     </a>
                     .
                 </p>
