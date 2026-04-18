@@ -133,7 +133,9 @@ export default function AuthorPageTemplate({
             )}
             {author.socialLinks.email && (
               <a
-                href={`mailto:${author.socialLinks.email}`}
+                href={`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(author.socialLinks.email)}`}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-[#999999] hover:text-[#9747FF] transition-colors"
                 aria-label="Email"
               >

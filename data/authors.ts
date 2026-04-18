@@ -561,6 +561,8 @@ export const authors: AuthorEntry[] = [
 
     socialLinks: {
       linkedin: "https://www.linkedin.com/in/meghatyagi",
+      twitter: "https://x.com/meghattyagi?s=11",
+      email: "meghat@sparkonomy.com",
     },
 
     previousCompanies: [
@@ -617,7 +619,7 @@ export const authors: AuthorEntry[] = [
         title: "Privacy-First Future and Digital Transformation",
         author: "Megha Thareja Tyagi",
         date: "",
-        url: "",
+        url: "https://mmaglobal.com/impactindia2021/agenda",
       },
       {
         publication: "Women Economic Forum",
@@ -625,7 +627,7 @@ export const authors: AuthorEntry[] = [
         title: "India's Digital Retail Revolution",
         author: "Megha Thareja Tyagi",
         date: "",
-        url: "",
+        url: "https://www.wef.org.in/annual-wef-India-decembe-2021-bangalore-india/speaker.php?registrationid=137",
       },
     ],
 
@@ -647,13 +649,124 @@ export const authors: AuthorEntry[] = [
       "Brand-Creator Fit",
     ],
 
-    contactEmail: "contact@sparkonomy.com",
+    contactEmail: "meghat@sparkonomy.com",
     linkedinSubscribe: "https://www.linkedin.com/in/meghatyagi",
     responseTime:
       "Have a question about creator infrastructure, AI strategy, or building stronger creator-brand systems? Connect with Megha on LinkedIn to continue the conversation.",
 
     lastUpdated: "March 9, 2026",
     profileId: "authors/megha-thareja-tyagi",
+  },
+  {
+    id: "rachit_jain",
+    slug: "rachit-jain",
+
+    // SEO metadata
+    metaTitle: "Rachit Jain: Growth, partnerships, and GTM leader at Sparkonomy",
+    metaDescription:
+      "Meet Rachit Jain, growth and partnerships leader at Sparkonomy. He brings 20+ years across Meta, Google, SAP, and IBM to write about growth, GTM, and creator businesses.",
+    canonicalPath: "/authors/rachit-jain",
+
+    // WordPress matching (Co-Authors Plus uses "cap-" prefix)
+    wordpressSlug: "cap-rachit",
+
+    name: "Rachit Jain",
+    role: "Growth, Partnerships, and GTM leader",
+    avatarUrl: "/authors/rachit-jain-sparkonomy-author.png",
+    shortBio:
+      "I am a growth and partnerships leader based in Gurugram, with 20+ years of experience across Meta, Google, SAP, and IBM. At Sparkonomy, I write about growth strategy, monetization, partnerships, and how smart systems can help creators build stronger, more durable revenue streams. I am also an adjunct faculty at Manipal Academy of Higher Education.",
+
+    socialLinks: {
+      linkedin: "https://www.linkedin.com/in/jainrachit",
+      email: "rachitj@sparkonomy.com",
+    },
+
+    previousCompanies: [
+      { name: "Meta", logo: "/authors/Logos/META.png" },
+      { name: "Google", logo: "/authors/Logos/Google.png" },
+      { name: "SAP", logo: "/authors/Logos/SAP.png" },
+      { name: "IBM", logo: "/authors/Logos/IBM.png" },
+    ],
+    previousCompaniesLabel: "Previously driving growth at:",
+
+    storyTitle: "From enterprise growth to the next wave of business building",
+    storyContent: [
+      "I have spent more than two decades helping businesses grow at the intersection of marketing, technology, and commercial strategy. Across large platforms and enterprise teams, my work has centered on one core question: how do you turn technology into real business outcomes?",
+      "At Google and Meta, that meant leading consultative growth conversations, building category strategies, and helping teams and clients navigate digital transformation at scale.",
+      "Over time, I saw the same pattern repeat itself. Big businesses had access to systems, specialists, and strategic support. Independent builders often did not. Yet they were expected to move just as fast, sell just as well, and grow with far less structure around them. That gap is what makes the creator economy so exciting, and so fragile at the same time. Sparkonomy's mission to give creators smarter operating support sits right at the center of that shift.",
+    ],
+    highlightQuote:
+      "The future belongs to people who can pair human judgment with smarter systems.",
+    storyConclusion: [
+      "That is why I am drawn to the next generation of business building. I care about growth that is not just fast, but durable. I care about partnerships that create value on both sides. And I care about giving founders, operators, and creators the clarity they need to scale without drowning in complexity. That is the lens I bring to what I write at Sparkonomy.",
+    ],
+
+    aboutTitle: "About Rachit",
+    aboutContent: [
+      "Rachit Jain is a business and growth leader with 20+ years of experience across digital strategy, consultative sales, partnerships, product-led growth, and market development.",
+      "He currently runs a stealth-mode AI startup and writes for Sparkonomy on growth strategy, monetization, partnerships, and the systems that help modern businesses scale with more clarity. His career has focused on helping organizations use technology and marketing solutions to drive business outcomes, whether through enterprise transformation, revenue planning, category leadership, or new business building.",
+      "His standout strength is connecting commercial strategy with execution, turning broad opportunities into structured, scalable growth paths.",
+      "Before this chapter, Rachit spent 10+ years at Google in senior roles across India and the US, including Google Cloud EdTech Lead, Head of Video, CRM Tools, and Data Authors for gPS MediaOps, and Head of Industry for Retail, Education, EdTech, and Government. Earlier, he led mid-market and growth businesses at Meta.",
+      "His broader career also includes SAP, where he contributed to closing software revenue worth over $4.5 million in FY2008, IMA India, where he helped grow the CMO Forum to 65+ members in under a year, and IBM, where he supported product marketing and demand generation efforts.",
+      "Rachit believes strong growth is never just about selling harder. It comes from better judgment, better systems, and better alignment between product, market, and execution. His approach combines commercial sharpness with structured thinking, helping teams focus on what actually moves the business forward. That is the perspective he brings to Sparkonomy's readers as creators increasingly become businesses of their own.",
+    ],
+
+    careerHighlights: [
+      "20+ years across Meta, Google, SAP, and IBM, spanning growth, partnerships, sales, and digital strategy.",
+      "Led Google category strategy across Retail, Education, EdTech, and Government in India.",
+      "Built and coached high-performing teams while owning CXO relationships and multi-year revenue plans.",
+      "Helped drive cloud adoption for EdTech organizations through Google Cloud.",
+      "Contributed to closing software revenue worth over $4.5 million at SAP Value Engineering.",
+      "Grew IMA India's CMO Forum to 65+ members in Delhi and Mumbai in under 12 months, including 25 net new accounts.",
+      "Recognized in Paul Writer's Digi100 list of top digital marketing leaders in India.",
+      "Represented Google and Meta at multiple industry events, podcasts, and business conversations.",
+    ],
+
+    trustItems: [
+      { icon: "experience", label: "Experience", value: "20+ Years" },
+      { icon: "expertise", label: "Expertise", value: "GTM Growth" },
+      { icon: "awards", label: "Awards", value: "Digi100 Leader" },
+      { icon: "verified", label: "Verified", value: "Sparkonomy" },
+      { icon: "following", label: "Following", value: "LinkedIn Audience" },
+      { icon: "featured", label: "Featured", value: "Speaker Profile" },
+    ],
+
+    mediaMentions: [
+      {
+        publication: "Paul Writer",
+        logo: "/logos/paul-writer.svg",
+        title: "Paul Writer unveils Adobe Digi100 — India's Top 100 digital marketers",
+        author: "Rachit Jain",
+        date: "",
+        url: "https://paulwriter.com/paul-writer-unveils-adobe-digi100-indias-top-100-digital-marketers",
+      },
+    ],
+
+    featuredArticles: [],
+    recentArticles: [],
+
+    areasOfExpertise: [
+      "Growth Strategy",
+      "Strategic Partnerships",
+      "GTM Planning",
+      "Digital Transformation",
+      "MarTech",
+      "Business Development",
+      "Monetization",
+      "CXO Sales",
+      "Revenue Planning",
+      "Category Strategy",
+      "EdTech Growth",
+      "Enterprise Marketing",
+    ],
+
+    contactEmail: "rachitj@sparkonomy.com",
+    linkedinSubscribe: "https://www.linkedin.com/in/jainrachit",
+    responseTime:
+      "Want to talk about growth, partnerships, monetization, or how technology can unlock better business outcomes? Connect with me on LinkedIn.",
+
+    lastUpdated: "March 25, 2026",
+    profileId: "authors/rachit-jain",
   },
 ];
 
