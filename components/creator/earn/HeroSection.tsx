@@ -13,9 +13,7 @@ export default function HeroSection() {
   const [mounted, setMounted] = useState(false);
 
   // Creator Week promo window: April 20 — April 27, 2026 (inclusive).
-  // TODO: flip FORCE_CREATOR_WEEK back to false before shipping — it bypasses the date gate for testing.
-  const FORCE_CREATOR_WEEK = true;
-  const isCreatorWeek = FORCE_CREATOR_WEEK || (() => {
+  const isCreatorWeek = (() => {
     const now = new Date();
     const start = new Date(2026, 3, 20);
     const end = new Date(2026, 3, 28); // exclusive upper bound
@@ -96,14 +94,31 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.5 }}
-            className="mt-[30px] md:mt-10 -mx-5 md:-mx-20 px-[26px] py-4"
+            className="relative overflow-hidden mt-[30px] md:mt-10 -mx-5 md:-mx-20 px-5 py-4"
             style={{
               background:
                 "linear-gradient(90deg, rgba(61, 88, 219, 0.12) 2.15%, rgba(129, 52, 175, 0.6) 48.84%, rgba(61, 88, 219, 0.12) 96.24%)",
             }}
           >
-            <div className="text-center max-w-[560px] md:max-w-none mx-auto">
-              <h2 className="text-[19px] font-bold text-white leading-tight mb-1 md:whitespace-nowrap">
+            <motion.div
+              aria-hidden
+              className="pointer-events-none absolute -inset-y-8 w-[60%] mix-blend-screen"
+              style={{
+                background:
+                  "linear-gradient(115deg, transparent 0%, rgba(255,255,255,0.06) 35%, rgba(255,255,255,0.18) 50%, rgba(255,255,255,0.06) 65%, transparent 100%)",
+                filter: "blur(24px)",
+              }}
+              initial={{ left: "-60%" }}
+              animate={{ left: "100%" }}
+              transition={{
+                duration: 3.2,
+                ease: "easeInOut",
+                repeat: Infinity,
+                repeatDelay: 1.4,
+              }}
+            />
+            <div className="relative text-center max-w-[560px] md:max-w-none mx-auto">
+              <h2 className="text-[20px] font-bold text-white leading-tight mb-1 md:whitespace-nowrap">
                 {t("creatorWeek.heading")}
               </h2>
               <p className="text-white text-base md:text-lg mb-1 md:whitespace-nowrap">
