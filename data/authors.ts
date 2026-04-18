@@ -568,7 +568,7 @@ export const authors: AuthorEntry[] = [
     previousCompanies: [
       { name: "Google", logo: "/authors/Logos/Google.png" },
       { name: "PayPal", logo: "/authors/Logos/PayPal.png" },
-      { name: "American Express", logo: "/authors/Logos/AmericanExpress.png" },
+      { name: "American Express", logo: "/authors/Logos/AmericanExpressStacked.png" },
     ],
     previousCompaniesLabel: "Previously driving growth, payments, and commercial leadership at:",
 
