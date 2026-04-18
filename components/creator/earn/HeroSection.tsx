@@ -12,6 +12,16 @@ export default function HeroSection() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [mounted, setMounted] = useState(false);
 
+  // Creator Week promo window: April 20 — April 27, 2026 (inclusive).
+  // TODO: flip FORCE_CREATOR_WEEK back to false before shipping — it bypasses the date gate for testing.
+  const FORCE_CREATOR_WEEK = false;
+  const isCreatorWeek = FORCE_CREATOR_WEEK || (() => {
+    const now = new Date();
+    const start = new Date(2026, 3, 20);
+    const end = new Date(2026, 3, 28); // exclusive upper bound
+    return now >= start && now < end;
+  })();
+
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -80,17 +90,19 @@ export default function HeroSection() {
           </div>
         </motion.div>
 
-        {/* Get Early Access Button */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
-          className="flex justify-center mt-8 md:mt-12"
-        >
-          <Suspense fallback={<div className="h-12" />}>
-            <CTAButton buttonText={t("nav.getEarlyAccess")} />
-          </Suspense>
-        </motion.div>
+        {/* Get Early Access Button — hidden during Creator Week promo */}
+        {!isCreatorWeek && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+            className="flex justify-center mt-8 md:mt-12"
+          >
+            <Suspense fallback={<div className="h-12" />}>
+              <CTAButton buttonText={t("nav.getEarlyAccess")} />
+            </Suspense>
+          </motion.div>
+        )}
 
         {/* Partner Logos */}
         <motion.div
