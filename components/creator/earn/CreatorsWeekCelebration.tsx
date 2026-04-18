@@ -202,13 +202,13 @@ export default function CreatorsWeekCelebration() {
     return () => timers.forEach(clearTimeout);
   }, []);
 
-  // Play on mount — only show during Creator Week window: April 19 — April 26, 2026 (inclusive).
+  // Play on mount — only show during Creator Week window: April 20 — April 27, 2026 (inclusive).
   // TODO: flip FORCE_CREATOR_WEEK back to false before shipping — it bypasses the date gate for testing.
   useEffect(() => {
-    const FORCE_CREATOR_WEEK = false;
+    const FORCE_CREATOR_WEEK = true;
     const now = new Date();
-    const startDate = new Date(2026, 3, 19); // April 19, 2026 (month is 0-indexed)
-    const endDate = new Date(2026, 3, 27);   // exclusive upper bound (end of Apr 26)
+    const startDate = new Date(2026, 3, 20); // April 20, 2026 (month is 0-indexed)
+    const endDate = new Date(2026, 3, 28);   // exclusive upper bound (end of Apr 27)
     const inWindow = now >= startDate && now < endDate;
     if (!FORCE_CREATOR_WEEK && !inWindow) return;
 

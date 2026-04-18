@@ -12,13 +12,13 @@ export default function HeroSection() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [mounted, setMounted] = useState(false);
 
-  // Creator Week promo window: April 19 — April 26, 2026 (inclusive).
+  // Creator Week promo window: April 20 — April 27, 2026 (inclusive).
   // TODO: flip FORCE_CREATOR_WEEK back to false before shipping — it bypasses the date gate for testing.
-  const FORCE_CREATOR_WEEK = false;
+  const FORCE_CREATOR_WEEK = true;
   const isCreatorWeek = FORCE_CREATOR_WEEK || (() => {
     const now = new Date();
-    const start = new Date(2026, 3, 19);
-    const end = new Date(2026, 3, 27); // exclusive upper bound
+    const start = new Date(2026, 3, 20);
+    const end = new Date(2026, 3, 28); // exclusive upper bound
     return now >= start && now < end;
   })();
 

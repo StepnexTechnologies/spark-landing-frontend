@@ -96,12 +96,14 @@ export default function CreatorsWeekTermsPage() {
 
                 <h2 className="text-xl font-semibold mt-8 mb-4">5. How Long It Lasts</h2>
                 <p className="mb-4">
-                    Your Invoicing Pro upgrade stays active until April 26, 2027, no
-                    matter when during the Promotion Period you signed up or activated.
-                    On April 27, 2027, your account will automatically move back to the
-                    standard tier. You will never be charged as part of this promotion.
-                    Not at sign-up, not during the year, and not at the time your
-                    account moves back to standard. This promotion will never result in
+                    Your Invoicing Pro upgrade stays active for 365 days from the date
+                    you send your first invoice via Sparkonomy. After 365 days, your
+                    account will automatically move back to the standard tier.
+                </p>
+                <p className="mb-4">
+                    You will never be charged as part of this promotion. Not at
+                    sign-up, not during the year, and not at the time your account
+                    moves back to standard. This promotion will never result in
                     automatic billing.
                 </p>
 
