@@ -14,7 +14,7 @@ export default function HeroSection() {
 
   // Creator Week promo window: April 20 — April 27, 2026 (inclusive).
   // TODO: flip FORCE_CREATOR_WEEK back to false before shipping — it bypasses the date gate for testing.
-  const FORCE_CREATOR_WEEK = false;
+  const FORCE_CREATOR_WEEK = true;
   const isCreatorWeek = FORCE_CREATOR_WEEK || (() => {
     const now = new Date();
     const start = new Date(2026, 3, 20);
