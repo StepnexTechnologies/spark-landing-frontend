@@ -61,22 +61,24 @@ export default function Footer() {
                 xmlns="http://www.w3.org/2000/svg"
                 aria-hidden="true"
               >
-                <g>
-                  <animateTransform
-                    attributeName="transform"
-                    type="rotate"
-                    from="0 50 50"
-                    to="360 50 50"
-                    dur="3s"
-                    repeatCount="indefinite"
-                  />
-                  <rect x="20" y="40" width="60" height="45" rx="2" fill="#D32F2F" />
-                  <rect x="15" y="35" width="70" height="12" rx="2" fill="#E53935" />
-                  <rect x="42" y="35" width="16" height="50" fill="#FDD835" />
-                  <rect x="15" y="38" width="70" height="6" fill="#FDD835" />
-                  <path d="M50 35 C35 15 20 25 50 35 Z" fill="#FDD835" stroke="#FBC02D" strokeWidth="1" />
-                  <path d="M50 35 C65 15 80 25 50 35 Z" fill="#FDD835" stroke="#FBC02D" strokeWidth="1" />
-                  <circle cx="50" cy="35" r="4" fill="#FBC02D" />
+                <style>{`
+                  .gift-spinner {
+                    transform-origin: center;
+                    animation: gift-y-axis-spin 3s linear infinite;
+                  }
+                  @keyframes gift-y-axis-spin {
+                    from { transform: rotateY(0deg); }
+                    to { transform: rotateY(360deg); }
+                  }
+                `}</style>
+                <g className="gift-spinner">
+                  <rect x="25" y="40" width="50" height="40" rx="2" fill="#D32F2F" />
+                  <rect x="20" y="32" width="60" height="10" rx="2" fill="#E53935" />
+                  <rect x="44" y="32" width="12" height="48" fill="#FDD835" />
+                  <rect x="20" y="34" width="60" height="5" fill="#FDD835" />
+                  <path d="M50 32 C40 15 25 20 50 32 Z" fill="#FDD835" stroke="#FBC02D" strokeWidth="0.5" />
+                  <path d="M50 32 C60 15 75 20 50 32 Z" fill="#FDD835" stroke="#FBC02D" strokeWidth="0.5" />
+                  <circle cx="50" cy="32" r="3" fill="#FBC02D" />
                 </g>
               </svg>
             </span>
