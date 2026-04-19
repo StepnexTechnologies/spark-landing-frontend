@@ -10,7 +10,10 @@ export default function Footer() {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
+  // TODO: flip FORCE_CREATOR_WEEK back to false before shipping — bypasses the date gate for testing.
+  const FORCE_CREATOR_WEEK = true;
   const isCreatorWeek = (() => {
+    if (FORCE_CREATOR_WEEK) return true;
     const now = new Date();
     const start = new Date(2026, 3, 20);
     const end = new Date(2026, 3, 28);
@@ -59,10 +62,25 @@ export default function Footer() {
               🎁
             </motion.span>
           </p>
-          <p className="relative text-white font-normal text-[12px] leading-snug mt-1">
-            Send invoice → Get <span className="font-bold">12 month ₹3600</span> Pro Plan <span className="font-bold">FREE</span>,
-            <br className="hidden sm:inline" /> only in Creator Week (April 20-26)
-          </p>
+          <div
+            className="relative overflow-hidden mt-1"
+            style={{
+              maskImage: "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
+              WebkitMaskImage: "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
+            }}
+          >
+            <motion.div
+              className="flex items-center gap-12 w-max text-white font-normal text-[12px] leading-snug"
+              animate={{ x: ["0%", "-50%"] }}
+              transition={{ duration: 20, ease: "linear", repeat: Infinity }}
+            >
+              {[0, 1].map((i) => (
+                <span key={i} className="shrink-0 whitespace-nowrap">
+                  Send invoice → Get <span className="font-bold">12 month ₹3600</span> Pro Plan <span className="font-bold">FREE</span>, only in Creator Week (April 20-26)
+                </span>
+              ))}
+            </motion.div>
+          </div>
         </div>
       )}
       <div className="flex flex-col items-center space-y-2 w-full px-10 md:px-14 lg:px-20 pb-4">
