@@ -127,9 +127,9 @@ export const authors: AuthorEntry[] = [
     wordpressAuthorId: 5,
 
     name: "Guneet Singh",
-    role: "Igniting Sparkonomy | Global Tech Leader | Startup Mentor & Venture Builder",
+    role: "Global Tech Leader | Startup Mentor | Venture Builder",
     avatarUrl: "https://www.sparkonomy.com/authors/ProfilePicture_gunnet.png",
-    shortBio: "I am a tech leader and strategist based in Singapore. After 20 years working across Google, Microsoft, Samsung, and ABN AMRO, I now build and mentor at the edge of technology and new work. At Sparkonomy, I write about how smart systems and AI can complement creators by handling the friction so you can spend more time creating and still build a sustainable career.",
+    shortBio: "I am a tech leader and strategist based in Singapore. After 20 years working across Google, Microsoft, and Samsung I now build and mentor at the edge of technology and new work. Besides building Sparkonomy, I write about how technology systems and AI can support creators by handling the friction, so they can spend more time creating and building a sustainable career.",
 
     socialLinks: {
       twitter: "https://twitter.com/guneetsingh",
@@ -153,7 +153,7 @@ export const authors: AuthorEntry[] = [
     storyConclusion: [
       "Today, we are at another turning point. As AI begins to automate conventional white-collar jobs, human authenticity is becoming the most valuable asset in the world. The \"Creator\" isn't just a hobbyist anymore; they are the future workforce.",
       "But there is a problem. While we cheer for their entrepreneurship, the industry is saddled with exploitation. Creators are building empires on shaky foundations, often without the tools or protections traditional businesses take for granted.",
-      "That is why I am building Sparkonomy.",
+      "That is why I built Sparkonomy.",
       "I wanted to tilt my knowledge of the platform ecosystems and the \"big business\" playbook to help the little guy. We are using AI not to replace the creator, but to handle the friction—the contracts, the payments, the operations—so this profession can thrive without the burnout.",
     ],
     signatureImage: "/authors/Gunnet_singh_signature.png",
@@ -171,16 +171,16 @@ export const authors: AuthorEntry[] = [
 
     careerHighlights: [
       "Driven growth for Google products across a mobile-first market of 300+ million Indians, pushing Chrome to the #1 market share starting in 2011.",
-      "Served as Global Head of Marketing & Creative Solutions at Google, and held leadership roles at Microsoft and Samsung.",
-      "Serves as a Startup Mentor & Venture Architect for Singapore NGRIP program, actively working to commercialize deep tech.",
-      "Pioneered the intersection of creative strategy and computer-vision driven intelligent workflows before multi-modal AI, by founding Google's Ignition Labs.",
+      "Served as Global Head of Marketing & Creative Solutions at Google, and held leadership roles at Microsoft.",
+      "Serves as a Startup Mentor & Venture Architect for Singapore's NUS GRIP program, actively working to commercialize deep tech.",
+      "Pioneered the intersection of creative strategy and AI-driven execution years before GPT, by founding Google's Ignition Labs.",
       "Co-founded and scaled the social e-commerce startup DealsAndYou, growing the team from 0 to 40 employees in just 5 months.",
       "Recognized with 30+ international awards, including Cannes and Spikes, and named APAC Digital Marketer of the Year.",
     ],
 
     trustItems: [
       { icon: "experience", label: "Experience", value: "20+ Years" },
-      { icon: "expertise", label: "Expertise", value: "Tech Platform" },
+      { icon: "expertise", label: "Expertise", value: "Tech Platform growth" },
       { icon: "awards", label: "Awards", value: "Hall of Fame" },
       { icon: "verified", label: "Verified", value: "Sparkonomy" },
       { icon: "featured", label: "Focus", value: "Creator Systems" },
@@ -266,7 +266,7 @@ export const authors: AuthorEntry[] = [
     contactEmail: "guneets@sparkonomy.com",
     mediaEmail: "press@sparkonomy.com",
     speakingEmail: "events@sparkonomy.com",
-    responseTime: "I typically respond within 24 hours",
+    responseTime: "Do you have a big idea? Want to understand where the creator economy is going next? Connect with me on LinkedIn.",
     linkedinSubscribe: "https://www.linkedin.com/in/guneets",
 
     lastUpdated: "December 23, 2025",
@@ -767,6 +767,191 @@ export const authors: AuthorEntry[] = [
 
     lastUpdated: "March 25, 2026",
     profileId: "authors/rachit-jain",
+  },
+  {
+    id: "vipasha_joshi",
+    slug: "vipasha-joshi",
+
+    // SEO metadata
+    metaTitle: "Vipasha Joshi: Co-Founder & Creator Economy Veteran at Sparkonomy",
+    metaDescription:
+      "Meet Vipasha Joshi, Co-Founder at Sparkonomy. Former Googler and Jellysmack India lead with 16+ years building creator and brand businesses. LinkedIn Top Voice.",
+    canonicalPath: "/authors/vipasha-joshi",
+
+    // WordPress matching (Co-Authors Plus uses "cap-" prefix)
+    wordpressSlug: "cap-vipasha",
+
+    name: "Vipasha Joshi",
+    role: "Co-Founder & Global Head of Creator Business, Sparkonomy",
+    avatarUrl: "/authors/ProfilePictureVipasha.png",
+    shortBio:
+      "I am a creator economy expert and former Googler with 16+ years building for the internet. I'm now building the AI-driven infrastructure at Sparkonomy to help creators turn their cultural influence into sustainable businesses.",
+
+    socialLinks: {
+      linkedin: "https://www.linkedin.com/in/vipashajoshi",
+      email: "vipashaj@sparkonomy.com",
+    },
+
+    previousCompanies: [
+      { name: "Google", logo: "/authors/Logos/Google.png" },
+      { name: "Jellysmack", logo: "/authors/Logos/Jellysmack.png" },
+      { name: "Dentsu", logo: "/authors/Logos/Dentsu.png" },
+      { name: "Merkle", logo: "/authors/Logos/Merkle.png" },
+    ],
+    previousCompaniesLabel: "Previously scaling global creator businesses and brand campaigns at:",
+
+    storyTitle: "From Big Tech to the Creator Economy",
+    storyContent: [
+      "I've spent my career at the intersection of culture, technology, and creators. For over 16 years, from launching Google+ in India to leading Jellysmack's expansion across the country, I've had a front-row seat to how the digital world evolves.",
+      "Along the way, I noticed a critical gap. Platforms were scaling massively, but the individuals driving that growth—the creators—lacked the foundational tools to manage their businesses across multiple channels.",
+    ],
+    highlightQuote:
+      "Because the future of the internet won't be built by platforms alone. It will be built by creators who understand their power.",
+    storyConclusion: [
+      "That's why I co-founded Sparkonomy. We are building a platform—and a community—that strips away the friction of business management, allowing creators to focus on original insight and connection.",
+    ],
+
+    aboutTitle: "About Vipasha",
+    aboutContent: [
+      "Vipasha Joshi is the Co-Founder and Global Head of Creator Business at Sparkonomy, where she bridges the gap between creators, culture, and Artificial Intelligence. With 16+ years of experience in digital growth, Vipasha specializes in ecosystem building, AI-driven content strategy, and multi-platform revenue diversification. As a recognized LinkedIn Top Voice and founder of the 'Creator Chronicles' newsletter, she is dedicated to shifting the creator industry from a competitive \"lone wolf\" mindset to one rooted in deep community collaboration.",
+      "Before Sparkonomy, Vipasha served as the Country Manager for Jellysmack in India, successfully scaling the internal team and driving multi-platform growth for top-tier regional creators. Her foundational tech experience includes over six years at Google, where she managed the launch of Google+ in India and acted as the Diversity Lead for Google India. She has also held senior business development roles at Dentsu and Merkle.",
+      "Vipasha believes that in an internet flooded with automated content, true value lies in original insight and cultural authenticity. She champions \"Hinglish\" and vernacular languages as native product experiences, ensuring creators can build businesses that feel natural.",
+    ],
+
+    careerHighlights: [
+      "Scaled Jellysmack India's operations and creator roster significantly",
+      "Led diversity and inclusion initiatives for Google India for 6+ years",
+      "Recognized formally as a LinkedIn Top Voice for the Creator Economy",
+      "Speaker at NASSummit, VidCon, and prominent DEI gaming panels",
+      "Founder & Editor of 'Creator Chronicles', a top industry newsletter",
+      "Deep expertise in Answer Engine Optimization (AEO) and AI workflows",
+      "Alumna of Lady Shri Ram College and advocate for women entrepreneurs",
+    ],
+
+    trustItems: [
+      { icon: "experience", label: "Experience", value: "16+ Years" },
+      { icon: "expertise", label: "Expertise", value: "Creator Economy" },
+      { icon: "awards", label: "Awards", value: "LinkedIn Top Voice" },
+      { icon: "verified", label: "Verified", value: "Sparkonomy" },
+      { icon: "following", label: "Following", value: "Creator Coven" },
+      { icon: "featured", label: "Featured", value: "VidCon & NASSummit" },
+    ],
+
+    mediaMentions: [
+      {
+        publication: "NASSummit",
+        logo: "/logos/nassummit.svg",
+        title: "Creator Economy Dynamics — Panel Discussion",
+        author: "Vipasha Joshi",
+        date: "",
+        url: "https://nassummit.com/",
+      },
+      {
+        publication: "Inc42 & Thrifty Titans",
+        logo: "/logos/inc42.svg",
+        title: "Guest Speaker on Digital Culture and Growth — Podcast",
+        author: "Vipasha Joshi",
+        date: "",
+        url: "https://www.pod.one/ep/e63491a9-a6ed-4caf-8327-3e78a8a08938",
+      },
+      {
+        publication: "Creator Chronicles",
+        logo: "/logos/creator-chronicles.svg",
+        title: "One of the Top LinkedIn Newsletters for the Creator Economy",
+        author: "Vipasha Joshi",
+        date: "",
+        url: "https://www.linkedin.com/newsletters/creator-chronicles-7102677462349717505/",
+      },
+    ],
+
+    featuredArticles: [
+      {
+        id: "aeo-playbook-for-creators",
+        title: "The AEO Playbook for Creators: How to format content for AI engines",
+        description: "A practical guide for creators on structuring content so AI answer engines surface and cite your work.",
+        imageSrc: "/blog/default-thumbnail.jpg",
+        date: "2026",
+        readingTime: "10 min read",
+        href: "/blogs/aeo-playbook-for-creators",
+      },
+      {
+        id: "moving-past-lone-wolf-mindset",
+        title: "Moving Past the Lone Wolf Mindset: Why multi-platform teams are essential",
+        description: "Why the next chapter of the creator economy belongs to creators who build teams and systems, not solo operators.",
+        imageSrc: "/blog/default-thumbnail.jpg",
+        date: "2026",
+        readingTime: "8 min read",
+        href: "/blogs/moving-past-lone-wolf-mindset",
+      },
+      {
+        id: "community-over-competition-web3",
+        title: "Community Over Competition in Web3: Why the future is built by collaboration",
+        description: "How collaborative communities — not competitive silos — will define the next wave of internet-native businesses.",
+        imageSrc: "/blog/default-thumbnail.jpg",
+        date: "2026",
+        readingTime: "12 min read",
+        href: "/blogs/community-over-competition-web3",
+      },
+    ],
+    recentArticles: [
+      {
+        id: "dei-in-gaming-industry",
+        title: "Breaking Stereotypes: DEI in the Gaming Industry",
+        date: "2026",
+        imageSrc: "/blog/default-thumbnail.jpg",
+        href: "/blogs/dei-in-gaming-industry",
+      },
+      {
+        id: "designing-for-hinglish-users",
+        title: "Designing Interfaces for \"Hinglish\" Native Users",
+        date: "2026",
+        imageSrc: "/blog/default-thumbnail.jpg",
+        href: "/blogs/designing-for-hinglish-users",
+      },
+      {
+        id: "original-insight-ai-world",
+        title: "How to Build Original Insight in an AI-Generated World",
+        date: "2026",
+        imageSrc: "/blog/default-thumbnail.jpg",
+        href: "/blogs/original-insight-ai-world",
+      },
+      {
+        id: "scaling-content-facebook-snap-insta",
+        title: "Scaling Your Content: Facebook, Snap, and Insta",
+        date: "2026",
+        imageSrc: "/blog/default-thumbnail.jpg",
+        href: "/blogs/scaling-content-facebook-snap-insta",
+      },
+      {
+        id: "verified-expertise-2026-search",
+        title: "The Importance of Verified Expertise in 2026 Search",
+        date: "2026",
+        imageSrc: "/blog/default-thumbnail.jpg",
+        href: "/blogs/verified-expertise-2026-search",
+      },
+    ],
+
+    areasOfExpertise: [
+      "Creator Economy",
+      "Artificial Intelligence",
+      "Brand Management",
+      "Answer Engine Optimization",
+      "Multi-Platform Scaling",
+      "DEI in Tech",
+      "Community Building",
+      "Vernacular & Hinglish Markets",
+      "Data Strategy",
+    ],
+
+    contactEmail: "vipashaj@sparkonomy.com",
+    mediaEmail: "press@sparkonomy.com",
+    speakingEmail: "events@sparkonomy.com",
+    linkedinSubscribe: "https://www.linkedin.com/in/vipasha-joshi-46b5877b/",
+    responseTime:
+      "Building in the creator economy, AI, or digital media? I'd love to connect — email me or connect on LinkedIn.",
+
+    lastUpdated: "April 17, 2026",
+    profileId: "authors/vipasha-joshi",
   },
 ];
 
