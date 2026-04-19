@@ -10,8 +10,7 @@ export default function Footer() {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
-  // TODO: flip FORCE_CREATOR_WEEK back to false before shipping — bypasses the date gate for testing.
-  const FORCE_CREATOR_WEEK = true;
+  const FORCE_CREATOR_WEEK = false;
   const isCreatorWeek = (() => {
     if (FORCE_CREATOR_WEEK) return true;
     const now = new Date();
@@ -56,7 +55,7 @@ export default function Footer() {
             Your Freelancer to Founder move — on us!{" "}
             <motion.span
               className="inline-block"
-              animate={{ rotate: 360 }}
+              animate={{ rotate: -360 }}
               transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
             >
               🎁
