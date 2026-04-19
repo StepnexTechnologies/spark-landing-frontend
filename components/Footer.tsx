@@ -53,13 +53,33 @@ export default function Footer() {
           />
           <p className="relative text-white font-bold text-[16px] leading-tight">
             Your Freelancer to Founder move — on us!{" "}
-            <motion.span
-              className="inline-block"
-              animate={{ rotate: -360 }}
-              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-            >
-              🎁
-            </motion.span>
+            <span className="inline-block align-middle ml-1">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 100 100"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+              >
+                <g>
+                  <animateTransform
+                    attributeName="transform"
+                    type="rotate"
+                    from="0 50 50"
+                    to="360 50 50"
+                    dur="3s"
+                    repeatCount="indefinite"
+                  />
+                  <rect x="20" y="40" width="60" height="45" rx="2" fill="#D32F2F" />
+                  <rect x="15" y="35" width="70" height="12" rx="2" fill="#E53935" />
+                  <rect x="42" y="35" width="16" height="50" fill="#FDD835" />
+                  <rect x="15" y="38" width="70" height="6" fill="#FDD835" />
+                  <path d="M50 35 C35 15 20 25 50 35 Z" fill="#FDD835" stroke="#FBC02D" strokeWidth="1" />
+                  <path d="M50 35 C65 15 80 25 50 35 Z" fill="#FDD835" stroke="#FBC02D" strokeWidth="1" />
+                  <circle cx="50" cy="35" r="4" fill="#FBC02D" />
+                </g>
+              </svg>
+            </span>
           </p>
           <div
             className="relative overflow-hidden mt-1"
