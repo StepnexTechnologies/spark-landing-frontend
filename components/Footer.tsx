@@ -1,10 +1,22 @@
 "use client";
 
+import {useEffect, useState} from "react";
 import {Lock} from "lucide-react";
 import {motion} from "framer-motion";
 import Link from "next/link";
+import LogoCarousel from "@/components/LogoCarousel";
 
 export default function Footer() {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
+  const isCreatorWeek = (() => {
+    const now = new Date();
+    const start = new Date(2026, 3, 20);
+    const end = new Date(2026, 3, 28);
+    return now >= start && now < end;
+  })();
+
   return (
     <motion.footer
       initial={{ opacity: 0, y: 20 }}
@@ -12,7 +24,51 @@ export default function Footer() {
       transition={{ delay: 4, duration: 0.5, ease: "easeInOut" }}
       className="fixed bottom-0 w-full left-0 right-0 select-none z-50"
     >
+      {mounted && isCreatorWeek && (
+        <div
+          className="pointer-events-auto relative overflow-hidden w-full px-[30px] py-3 mb-[30px] text-center"
+          style={{
+            background:
+              "linear-gradient(90deg, rgba(61, 88, 219, 0) 2.15%, rgba(110, 99, 255, 0.36) 30.53%, rgba(110, 99, 255, 0.36) 62.34%, rgba(61, 88, 219, 0) 96.24%)",
+          }}
+        >
+          <motion.div
+            aria-hidden
+            className="pointer-events-none absolute -inset-y-6 w-[60%] mix-blend-screen"
+            style={{
+              background:
+                "linear-gradient(115deg, transparent 0%, rgba(255,255,255,0.06) 35%, rgba(255,255,255,0.18) 50%, rgba(255,255,255,0.06) 65%, transparent 100%)",
+              filter: "blur(24px)",
+            }}
+            initial={{ left: "-60%" }}
+            animate={{ left: "100%" }}
+            transition={{
+              duration: 3.2,
+              ease: "easeInOut",
+              repeat: Infinity,
+              repeatDelay: 1.4,
+            }}
+          />
+          <p className="relative text-white font-bold text-[16px] leading-tight">
+            Your Freelancer to Founder move — on us!{" "}
+            <motion.span
+              className="inline-block"
+              animate={{ rotate: 360 }}
+              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+            >
+              🎁
+            </motion.span>
+          </p>
+          <p className="relative text-white font-normal text-[12px] leading-snug mt-1">
+            Send invoice → Get <span className="font-bold">12 month ₹3600</span> Pro Plan <span className="font-bold">FREE</span>,
+            <br className="hidden sm:inline" /> only in Creator Week (April 20-26)
+          </p>
+        </div>
+      )}
       <div className="flex flex-col items-center space-y-2 w-full px-10 md:px-14 lg:px-20 pb-4">
+        <div className="pointer-events-auto mb-[30px]">
+          <LogoCarousel />
+        </div>
         <motion.div
           className="flex items-center justify-center space-x-3 px-4 py-2 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 w-fit cursor-pointer"
           whileHover={{ scale: 1.02 }}
