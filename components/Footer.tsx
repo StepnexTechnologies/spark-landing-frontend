@@ -69,12 +69,12 @@ export default function Footer() {
             }}
           >
             <motion.div
-              className="flex items-center gap-12 w-max text-white font-normal text-[12px] leading-snug"
+              className="flex items-center w-max text-white font-normal text-[12px] leading-snug"
               animate={{ x: ["0%", "-50%"] }}
-              transition={{ duration: 20, ease: "linear", repeat: Infinity }}
+              transition={{ duration: 60, ease: "linear", repeat: Infinity }}
             >
-              {[0, 1].map((i) => (
-                <span key={i} className="shrink-0 whitespace-nowrap">
+              {[0, 1, 2, 3, 4, 5].map((i) => (
+                <span key={i} className="shrink-0 whitespace-nowrap pr-12">
                   Send invoice → Get <span className="font-bold">12 month ₹3600</span> Pro Plan <span className="font-bold">FREE</span>, only in Creator Week (April 20-26)
                 </span>
               ))}
