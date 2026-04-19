@@ -127,9 +127,9 @@ export const authors: AuthorEntry[] = [
     wordpressAuthorId: 5,
 
     name: "Guneet Singh",
-    role: "Igniting Sparkonomy | Global Tech Leader | Startup Mentor & Venture Builder",
+    role: "Global Tech Leader | Startup Mentor | Venture Builder",
     avatarUrl: "https://www.sparkonomy.com/authors/ProfilePicture_gunnet.png",
-    shortBio: "I am a tech leader and strategist based in Singapore. After 20 years working across Google, Microsoft, Samsung, and ABN AMRO, I now build and mentor at the edge of technology and new work. At Sparkonomy, I write about how smart systems and AI can complement creators by handling the friction so you can spend more time creating and still build a sustainable career.",
+    shortBio: "I am a tech leader and strategist based in Singapore. After 20 years working across Google, Microsoft, and Samsung I now build and mentor at the edge of technology and new work. Besides building Sparkonomy, I write about how technology systems and AI can support creators by handling the friction, so they can spend more time creating and building a sustainable career.",
 
     socialLinks: {
       twitter: "https://twitter.com/guneetsingh",
@@ -153,7 +153,7 @@ export const authors: AuthorEntry[] = [
     storyConclusion: [
       "Today, we are at another turning point. As AI begins to automate conventional white-collar jobs, human authenticity is becoming the most valuable asset in the world. The \"Creator\" isn't just a hobbyist anymore; they are the future workforce.",
       "But there is a problem. While we cheer for their entrepreneurship, the industry is saddled with exploitation. Creators are building empires on shaky foundations, often without the tools or protections traditional businesses take for granted.",
-      "That is why I am building Sparkonomy.",
+      "That is why I built Sparkonomy.",
       "I wanted to tilt my knowledge of the platform ecosystems and the \"big business\" playbook to help the little guy. We are using AI not to replace the creator, but to handle the friction—the contracts, the payments, the operations—so this profession can thrive without the burnout.",
     ],
     signatureImage: "/authors/Gunnet_singh_signature.png",
@@ -171,16 +171,16 @@ export const authors: AuthorEntry[] = [
 
     careerHighlights: [
       "Driven growth for Google products across a mobile-first market of 300+ million Indians, pushing Chrome to the #1 market share starting in 2011.",
-      "Served as Global Head of Marketing & Creative Solutions at Google, and held leadership roles at Microsoft and Samsung.",
-      "Serves as a Startup Mentor & Venture Architect for Singapore NGRIP program, actively working to commercialize deep tech.",
-      "Pioneered the intersection of creative strategy and computer-vision driven intelligent workflows before multi-modal AI, by founding Google's Ignition Labs.",
+      "Served as Global Head of Marketing & Creative Solutions at Google, and held leadership roles at Microsoft.",
+      "Serves as a Startup Mentor & Venture Architect for Singapore's NUS GRIP program, actively working to commercialize deep tech.",
+      "Pioneered the intersection of creative strategy and AI-driven execution years before GPT, by founding Google's Ignition Labs.",
       "Co-founded and scaled the social e-commerce startup DealsAndYou, growing the team from 0 to 40 employees in just 5 months.",
       "Recognized with 30+ international awards, including Cannes and Spikes, and named APAC Digital Marketer of the Year.",
     ],
 
     trustItems: [
       { icon: "experience", label: "Experience", value: "20+ Years" },
-      { icon: "expertise", label: "Expertise", value: "Tech Platform" },
+      { icon: "expertise", label: "Expertise", value: "Tech Platform growth" },
       { icon: "awards", label: "Awards", value: "Hall of Fame" },
       { icon: "verified", label: "Verified", value: "Sparkonomy" },
       { icon: "featured", label: "Focus", value: "Creator Systems" },
@@ -266,7 +266,7 @@ export const authors: AuthorEntry[] = [
     contactEmail: "guneets@sparkonomy.com",
     mediaEmail: "press@sparkonomy.com",
     speakingEmail: "events@sparkonomy.com",
-    responseTime: "I typically respond within 24 hours",
+    responseTime: "Do you have a big idea? Want to understand where the creator economy is going next? Connect with me on LinkedIn.",
     linkedinSubscribe: "https://www.linkedin.com/in/guneets",
 
     lastUpdated: "December 23, 2025",
