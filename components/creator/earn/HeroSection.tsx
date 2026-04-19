@@ -96,7 +96,7 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.5 }}
-            className="relative overflow-hidden mt-[30px] md:mt-10 -mx-5 md:-mx-20 px-5 py-4"
+            className="relative overflow-hidden mt-[30px] md:mt-10 -mx-5 md:-mx-20 px-4 py-4"
             style={{
               background:
                 "linear-gradient(90deg, rgba(61, 88, 219, 0.12) 2.15%, rgba(129, 52, 175, 0.6) 48.84%, rgba(61, 88, 219, 0.12) 96.24%)",
@@ -120,10 +120,10 @@ export default function HeroSection() {
               }}
             />
             <div className="relative text-center max-w-[560px] md:max-w-none mx-auto">
-              <h2 className="text-[20px] font-bold text-white leading-tight mb-1 md:whitespace-nowrap">
+              <h2 className="text-[18px] font-bold text-white leading-tight mb-1 md:whitespace-nowrap">
                 {t("creatorWeek.heading")}
               </h2>
-              <p className="text-white text-base md:text-lg mb-1 md:whitespace-nowrap">
+              <p className="text-white text-[14px] md:text-lg mb-1 md:whitespace-nowrap">
                 {t("creatorWeek.descriptionBefore")}{" "}
                 <span className="font-bold">{t("creatorWeek.descriptionAmount")}</span>{" "}
                 <span className="font-normal">{t("creatorWeek.descriptionPlan")}</span>{" "}

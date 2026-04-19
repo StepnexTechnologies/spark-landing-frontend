@@ -53,13 +53,35 @@ export default function Footer() {
           />
           <p className="relative text-white font-bold text-[16px] leading-tight">
             Your Freelancer to Founder move — on us!{" "}
-            <motion.span
-              className="inline-block"
-              animate={{ rotate: -360 }}
-              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-            >
-              🎁
-            </motion.span>
+            <span className="inline-block align-middle ml-1">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 100 100"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+              >
+                <style>{`
+                  .gift-spinner {
+                    transform-origin: center;
+                    animation: gift-y-axis-spin 3s linear infinite;
+                  }
+                  @keyframes gift-y-axis-spin {
+                    from { transform: rotateY(0deg); }
+                    to { transform: rotateY(360deg); }
+                  }
+                `}</style>
+                <g className="gift-spinner">
+                  <rect x="25" y="40" width="50" height="40" rx="2" fill="#D32F2F" />
+                  <rect x="20" y="32" width="60" height="10" rx="2" fill="#E53935" />
+                  <rect x="44" y="32" width="12" height="48" fill="#FDD835" />
+                  <rect x="20" y="34" width="60" height="5" fill="#FDD835" />
+                  <path d="M50 32 C40 15 25 20 50 32 Z" fill="#FDD835" stroke="#FBC02D" strokeWidth="0.5" />
+                  <path d="M50 32 C60 15 75 20 50 32 Z" fill="#FDD835" stroke="#FBC02D" strokeWidth="0.5" />
+                  <circle cx="50" cy="32" r="3" fill="#FBC02D" />
+                </g>
+              </svg>
+            </span>
           </p>
           <div
             className="relative overflow-hidden mt-1"
@@ -69,12 +91,12 @@ export default function Footer() {
             }}
           >
             <motion.div
-              className="flex items-center gap-12 w-max text-white font-normal text-[12px] leading-snug"
+              className="flex items-center w-max text-white font-normal text-[12px] leading-snug"
               animate={{ x: ["0%", "-50%"] }}
-              transition={{ duration: 20, ease: "linear", repeat: Infinity }}
+              transition={{ duration: 60, ease: "linear", repeat: Infinity }}
             >
-              {[0, 1].map((i) => (
-                <span key={i} className="shrink-0 whitespace-nowrap">
+              {[0, 1, 2, 3, 4, 5].map((i) => (
+                <span key={i} className="shrink-0 whitespace-nowrap pr-12">
                   Send invoice → Get <span className="font-bold">12 month ₹3600</span> Pro Plan <span className="font-bold">FREE</span>, only in Creator Week (April 20-26)
                 </span>
               ))}
