@@ -307,7 +307,7 @@ export default function CreatorsWeekCelebration() {
               transition={{ duration: 0.5, ease: "easeOut" }}
             >
               <Image
-                src="/images/creator/earn/PROMO-3.png"
+                src="/images/creator/earn/PROMO.png"
                 alt="Creators Week Celebration"
                 width={600}
                 height={600}
