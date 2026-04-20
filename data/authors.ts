@@ -557,7 +557,7 @@ export const authors: AuthorEntry[] = [
     role: "Co-Founder, Sparkonomy",
     avatarUrl: "https://www.sparkonomy.com/authors/ProfilePictureMegha.png",
     shortBio:
-      "The creator economy doesn't have a content problem — it has an infrastructure problem. After two decades of building growth engines at Google, PayPal, and American Express, that's the problem I'm here to fix.",
+      "The creator economy doesn't have a content problem, it has an infrastructure problem. After two decades of building growth engines at Google, PayPal, and American Express, that's the problem I'm here to fix.",
 
     socialLinks: {
       linkedin: "https://www.linkedin.com/in/meghatyagi",
@@ -575,7 +575,7 @@ export const authors: AuthorEntry[] = [
     storyTitle: "From Enterprise Growth to the Creator Economy",
     storyContent: [
       "I've spent more than 20 years in go-to-market strategy, P&L management, and commercial leadership across financial services, media, and technology. At Google, PayPal, and American Express, I built and led the growth engines that scaled businesses across India and Southeast Asia.",
-      "One thing became hard to ignore: large companies had teams, processes, and commercial discipline built into the way they operated. Creators had talent, audience, and influence — but they were still doing the hardest parts of business manually. 300 million people building businesses with no infrastructure. That gap is what pulled me toward the creator economy.",
+      "One thing became hard to ignore: large companies had teams, processes, and commercial discipline built into the way they operated. Creators had talent, audience, and influence, but they were still doing the hardest parts of business manually. 300 million people building businesses with no infrastructure. That gap is what pulled me toward the creator economy.",
     ],
     highlightQuote:
       "We're not early to a trend. We're late to a need.",
@@ -587,7 +587,7 @@ export const authors: AuthorEntry[] = [
     aboutContent: [
       "Megha Thareja Tyagi is Co-Founder at Sparkonomy, where she is building AI infrastructure for the creator economy. With more than two decades of experience in go-to-market strategy, P&L management, and commercial leadership across financial services, media, and technology, she brings a rare operator's lens to a category that is still defining its next chapter. Her work sits at the intersection of AI strategy, business model design, creator monetization, and go-to-market execution.",
       "Before co-founding Sparkonomy, Megha held Director-level roles at Google spanning India and seven Southeast Asian markets. In India, she was the face of Google for CEOs and founders of the country's leading unicorns, start-ups, and government ministries.",
-      "In Southeast Asia, she led revenue delivery and growth strategy for the SMB segment across Singapore, Indonesia, Vietnam, Thailand, Malaysia, Philippines, and Pakistan. As a member of the country leadership team at PayPal India, she launched the domestic payments business while managing a thriving cross-border payments portfolio. She spent a decade at American Express India leading payments infrastructure, product development, and ecosystem partnerships — including representing Amex in the RBI core working group assessing the integration of Aadhaar into India's payments ecosystem and leading the migration of American Express India's card processing network.",
+      "In Southeast Asia, she led revenue delivery and growth strategy for the SMB segment across Singapore, Indonesia, Vietnam, Thailand, Malaysia, Philippines, and Pakistan. As a member of the country leadership team at PayPal India, she launched the domestic payments business while managing a thriving cross-border payments portfolio. She spent a decade at American Express India leading payments infrastructure, product development, and ecosystem partnerships, including representing Amex in the RBI core working group assessing the integration of Aadhaar into India's payments ecosystem and leading the migration of American Express India's card processing network.",
       "She is also Co-Founder and Director at MetaValue, a strategy and growth consultancy, and an active angel investor and mentor to early-stage startups through India Accelerator. She brings deep experience across enterprise growth, merchant ecosystems, regulatory engagement, digital monetization, and startup scaling.",
       "Megha believes the creator economy needs more than attention. It needs real operating infrastructure, sharper strategy, and systems that help talented people build sustainable businesses. Her approach combines commercial rigor, founder empathy, and a strong bias for action. Through her work and writing, she helps creators and brands move from fragmented effort to clearer strategy, stronger execution, and long-term growth.",
     ],
