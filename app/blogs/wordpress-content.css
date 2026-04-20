@@ -9,6 +9,9 @@
   font-size: 1.125rem;
   line-height: 150%;
   letter-spacing: 0.25px;
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
 }
 
 /* ====================
