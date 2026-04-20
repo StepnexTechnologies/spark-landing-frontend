@@ -579,7 +579,10 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             };
             const [firstSentence, rest] = splitFirstSentence(blogDescription);
             return (
-              <div className="px-4 md:px-[50px] lg:px-[130px] text-base md:text-[22px] text-[#6B7280] leading-[150%] tracking-[0.25px]">
+              <div
+                className="px-4 md:px-[50px] lg:px-[130px] text-base md:text-[22px] text-[#6B7280] leading-[150%] tracking-[0.25px]"
+                style={{ textAlign: 'justify', textJustify: 'inter-word', hyphens: 'auto' }}
+              >
                 <span className="font-semibold" dangerouslySetInnerHTML={{ __html: firstSentence }} />
                 {rest && <span dangerouslySetInnerHTML={{ __html: rest }} />}
               </div>
