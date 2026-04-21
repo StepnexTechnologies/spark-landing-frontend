@@ -1,7 +1,7 @@
 "use client";
 import type React from "react";
 import {useEffect, useRef, useState} from "react";
-import {AnimatePresence, motion} from "framer-motion";
+import {AnimatePresence, motion, Variants} from "framer-motion";
 import {ArrowRight, Mail, Phone, Sparkles} from "lucide-react";
 import {useSubmitEmail} from "@/lib/hooks/useSubmitEmail";
 import {track} from "@/lib/analytics/track";
@@ -113,7 +113,7 @@ export default function EmailCapture() {
 
   const hasInput = email.trim().length > 0;
 
-  const glowVariants = {
+  const glowVariants: Variants = {
     initial: {
       boxShadow:
         "0 0 35px rgba(108,99,255,0.7), 0 0 70px rgba(108,99,255,0.4), 0 0 100px rgba(108,99,255,0.2)",
@@ -137,7 +137,7 @@ export default function EmailCapture() {
   };
 
   // Synchronized button glow animation
-  const buttonGlowVariants = {
+  const buttonGlowVariants: Variants = {
     animate: {
       boxShadow: loading
         ? "0 0 25px rgba(255,255,255,0.8), 0 0 40px rgba(255,255,255,0.4)"

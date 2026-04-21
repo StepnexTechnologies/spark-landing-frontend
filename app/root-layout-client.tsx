@@ -2,6 +2,7 @@
 
 import {usePathname} from "next/navigation";
 import type React from "react";
+import {Suspense} from "react";
 import {WebGLFluidBackground} from "@/components/webgl-fluid-background";
 import Footer from "@/components/Footer";
 import I18nProvider from "@/components/I18nProvider";
@@ -26,9 +27,11 @@ export function RootLayoutClient({
     // For legal, creator, and blog pages, render children without WebGL background or Footer
     return (
       <I18nProvider>
-        <ReferralClickTracker />
+        <Suspense fallback={null}>
+          <ReferralClickTracker />
+          <PageViewTracker />
+        </Suspense>
         <OpenReplayInit />
-        <PageViewTracker />
         <Toaster
           position="top-center"
           toastOptions={{
@@ -59,7 +62,9 @@ export function RootLayoutClient({
   // For non-legal pages, render with WebGL background and Footer
   return (
     <I18nProvider>
-      <ReferralClickTracker />
+      <Suspense fallback={null}>
+        <ReferralClickTracker />
+      </Suspense>
       <OpenReplayInit />
       <Toaster
         position="top-center"

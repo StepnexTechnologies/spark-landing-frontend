@@ -1,6 +1,6 @@
 "use client";
 
-import {motion} from "framer-motion";
+import {motion, Variants} from "framer-motion";
 import {useEffect, useRef, useState} from "react";
 import {Home, Mail, MapPin, MessageSquare, Phone, Send, Sparkles, User} from "lucide-react";
 import toast from "react-hot-toast";
@@ -100,16 +100,16 @@ const ContactPage = () => {
     }
   };
 
-  const fadeInVariants = {
+  const fadeInVariants: Variants = {
     hidden: { opacity: 0, y: 30 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       y: 0,
       transition: { duration: 0.8, ease: "easeOut" }
     }
   };
 
-  const staggerContainer = {
+  const staggerContainer: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -120,7 +120,7 @@ const ContactPage = () => {
     }
   };
 
-  const inputVariants = {
+  const inputVariants: Variants = {
     initial: {
       borderColor: "rgba(108, 99, 255, 0.5)",
       boxShadow: "0 0 0 rgba(108, 99, 255, 0)"

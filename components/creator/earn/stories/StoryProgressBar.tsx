@@ -30,7 +30,6 @@ export default function StoryProgressBar({
               transition={{
                 duration: index === currentIndex ? 0 : index === currentIndex + 1 ? 0 : index === currentIndex - 1 ? 0 : 0.3,
                 ease: "linear",
-                easeIn: "ease-in",
               }}
             />
           </div>

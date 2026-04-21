@@ -2,7 +2,7 @@
 
 import type React from "react";
 import {useState} from "react";
-import {motion} from "framer-motion";
+import {motion, Variants} from "framer-motion";
 import {ArrowRight, TrendingUp} from "lucide-react";
 import {track} from "@/lib/analytics/track";
 
@@ -13,7 +13,7 @@ interface CampaignTrackerCTAProps {
 export default function CampaignTrackerCTA({ isVisible }: CampaignTrackerCTAProps) {
   const [isHovered, setIsHovered] = useState(false);
 
-  const glowVariants = {
+  const glowVariants: Variants = {
     initial: {
       boxShadow: "0 0 30px rgba(108,99,255,0.6), 0 0 60px rgba(108,99,255,0.3), 0 0 90px rgba(108,99,255,0.1)",
     },
