@@ -1,8 +1,10 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import Card from "./BlogCard";
+import { track } from "@/lib/analytics/track";
 
 interface RelatedPost {
   slug: string;
@@ -18,8 +20,17 @@ interface RelatedPostsProps {
 }
 
 export default function RelatedPosts({ posts, basePath = "/blogs" }: RelatedPostsProps) {
+  const pathname = usePathname();
   const [windowWidth, setWindowWidth] = useState<number>(0);
   const [isMounted, setIsMounted] = useState(false);
+
+  const handleCardClick = (toSlug: string) => {
+    const fromSlug = pathname?.split("/").filter(Boolean).pop() ?? null;
+    track("blog_related_post_click", {
+      from_slug: fromSlug,
+      to_slug: toSlug,
+    });
+  };
 
   // Track window width client-side (SSR-safe)
   useEffect(() => {
@@ -87,6 +98,7 @@ export default function RelatedPosts({ posts, basePath = "/blogs" }: RelatedPost
               {posts.map((post) => (
                 <div
                   key={post.slug}
+                  onClickCapture={() => handleCardClick(post.slug)}
                   className="flex-shrink-0 w-[85vw] max-w-[358px] flex justify-center transition-transform duration-300"
                 >
                   <Card
@@ -125,18 +137,22 @@ export default function RelatedPosts({ posts, basePath = "/blogs" }: RelatedPost
         /* Desktop: Grid Layout */
         <div className="hidden lg:grid grid-cols-2 lg:grid-cols-3 gap-6">
           {posts.map((post) => (
-            <Card
+            <div
               key={post.slug}
-              title={post.title}
-              description={post.excerpt}
-              imageSrc={post.featuredImage}
-              imageAlt={post.title}
-              href={`${basePath}/${post.slug}`}
-              layout="vertical"
-              descriptionPosition="bottom"
-              showReadMore={true}
-              meta={<span>{post.date}</span>}
-            />
+              onClickCapture={() => handleCardClick(post.slug)}
+            >
+              <Card
+                title={post.title}
+                description={post.excerpt}
+                imageSrc={post.featuredImage}
+                imageAlt={post.title}
+                href={`${basePath}/${post.slug}`}
+                layout="vertical"
+                descriptionPosition="bottom"
+                showReadMore={true}
+                meta={<span>{post.date}</span>}
+              />
+            </div>
           ))}
         </div>
       )}

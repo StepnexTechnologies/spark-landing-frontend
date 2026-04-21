@@ -1,14 +1,27 @@
 "use client";
 
+import { track } from "@/lib/analytics/track";
+
 interface ShareButtonsProps {
   title: string;
   url: string;
 }
 
+function slugFromUrl(url: string): string {
+  try {
+    return new URL(url).pathname.split("/").filter(Boolean).pop() ?? url;
+  } catch {
+    return url;
+  }
+}
+
 export default function ShareButtons({ title, url }: ShareButtonsProps) {
+  const slug = slugFromUrl(url);
+
   const handleCopyLink = () => {
     if (typeof window !== "undefined" && navigator.clipboard) {
       navigator.clipboard.writeText(url);
+      track("blog_share_click", { platform: "clipboard", slug });
       alert("Link copied to clipboard!");
     }
   };
@@ -21,6 +34,7 @@ export default function ShareButtons({ title, url }: ShareButtonsProps) {
           href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={() => track("blog_share_click", { platform: "twitter", slug })}
           className="px-6 py-2 bg-black hover:bg-gray-800 text-white rounded-lg transition-all"
         >
           Twitter
@@ -29,6 +43,7 @@ export default function ShareButtons({ title, url }: ShareButtonsProps) {
           href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={() => track("blog_share_click", { platform: "linkedin", slug })}
           className="px-6 py-2 bg-black hover:bg-gray-800 text-white rounded-lg transition-all"
         >
           LinkedIn

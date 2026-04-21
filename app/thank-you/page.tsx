@@ -4,6 +4,7 @@ import Link from "next/link";
 import { motion, useAnimation } from "framer-motion";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Home, Sparkles } from "lucide-react";
+import { track } from "@/lib/analytics/track";
 
 function ThankYouContent() {
   const searchParams = useSearchParams();
@@ -18,6 +19,8 @@ function ThankYouContent() {
       router.push("/");
       return;
     }
+
+    track("thank_you_view", { waitlist_id: number });
 
     // const message = localStorage.getItem("waitlistResponse");
     // setResponseMessage(message);

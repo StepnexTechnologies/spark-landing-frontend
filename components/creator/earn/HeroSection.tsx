@@ -3,14 +3,17 @@
 import { Suspense } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import CTAButton from "./CTAButton";
+import { useSectionViewTracking } from "@/lib/hooks/useSectionViewTracking";
 
 export default function HeroSection() {
   const { t, ready } = useTranslation("creatorEarn");
   const [scrollProgress, setScrollProgress] = useState(0);
   const [mounted, setMounted] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+  useSectionViewTracking(sectionRef, "earn_hero", { event: "earn_hero_view" });
 
   // Creator Week promo window: April 20 — April 27, 2026 (inclusive).
   // TODO: flip FORCE_CREATOR_WEEK back to false before shipping — it bypasses the date gate.
@@ -43,7 +46,7 @@ export default function HeroSection() {
   }
 
   return (
-    <section className="relative pt-8 md:pt-16 pb-12 md:pb-20 px-5 md:px-20 overflow-hidden">
+    <section ref={sectionRef} className="relative pt-8 md:pt-16 pb-12 md:pb-20 px-5 md:px-20 overflow-hidden">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}

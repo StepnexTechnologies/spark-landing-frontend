@@ -8,6 +8,7 @@ import {useContactForm} from "@/lib/hooks/useContactForm";
 import Link from "next/link";
 import PhoneInput from "@/components/form/PhoneInput";
 import LogoCarousel from "@/components/LogoCarousel";
+import {track} from "@/lib/analytics/track";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
 const ContactPage = () => {
@@ -50,6 +51,7 @@ const ContactPage = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    track("contact_submit_attempt");
 
     // Show loading toast
     const loadingToast = toast.loading("Sending your message...");
@@ -61,6 +63,7 @@ const ContactPage = () => {
       toast.dismiss(loadingToast);
 
       if (result.success) {
+        track("contact_submit_success");
         // Show success toast
         toast.success(result.message, {
           duration: 4000,
@@ -77,6 +80,9 @@ const ContactPage = () => {
           message: ""
         });
       } else {
+        track("contact_submit_error", {
+          error_message: result.detail || result.message,
+        });
         // Show error toast
         toast.error(result.detail || result.message, {
           duration: 4000,
@@ -84,6 +90,9 @@ const ContactPage = () => {
         });
       }
     } catch (error) {
+      track("contact_submit_error", {
+        error_message: (error as Error).message,
+      });
       toast.dismiss(loadingToast);
       toast.error("Something went wrong. Please try again.", {
         duration: 4000,

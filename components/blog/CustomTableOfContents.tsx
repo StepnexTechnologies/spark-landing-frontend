@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { track } from "@/lib/analytics/track";
 
 interface TOCItem {
   id: string;
@@ -46,6 +47,11 @@ export default function CustomTableOfContents({ headings }: CustomTableOfContent
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
+      const heading = headings.find((h) => h.id === id);
+      track("blog_toc_click", {
+        heading: heading?.text ?? id,
+        heading_id: id,
+      });
       const offset = 100;
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - offset;

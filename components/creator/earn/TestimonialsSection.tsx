@@ -1,17 +1,20 @@
 "use client";
 
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import useEmblaCarousel, { UseEmblaCarouselType } from "embla-carousel-react";
 import { useTranslation } from "react-i18next";
 import TestimonialCard from "./TestimonialCard";
 import styles from "./carousel.module.css";
 import { motion } from "framer-motion";
+import { useSectionViewTracking } from "@/lib/hooks/useSectionViewTracking";
 
 export default function TestimonialsSection() {
   const { t, ready } = useTranslation("creatorEarn");
   const [windowWidth, setWindowWidth] = useState<number>(0);
   const [mounted, setMounted] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState<number>(1); // Start with 2nd card
+  const sectionRef = useRef<HTMLElement>(null);
+  useSectionViewTracking(sectionRef, "testimonials");
 
   const testimonials = useMemo(
     () => [
@@ -94,7 +97,7 @@ export default function TestimonialsSection() {
   }
 
   return (
-    <section className="relative py-4 md:px-20">
+    <section ref={sectionRef} className="relative py-4 md:px-20">
       <div className="max-w-[1440px] mx-auto">
         {/* Section header */}
         <motion.div

@@ -6,10 +6,13 @@ import {useSearchParams} from "next/navigation";
 import {motion} from "framer-motion";
 import gsap from "gsap";
 import EmailCapture from "@/components/EmailCapture";
+import {track} from "@/lib/analytics/track";
 
 const HeroSection = () => {
   const searchParams = useSearchParams();
   const skipIntro = searchParams.get("skipIntro") === "true";
+  const heroMountTime = useRef<number>(0);
+  const intro1StartTime = useRef<number>(0);
 
   const [isTextRevealed, setIsTextRevealed] = useState(skipIntro);
   const [showContent, setShowContent] = useState(skipIntro);
@@ -58,12 +61,22 @@ const HeroSection = () => {
   }, []);
 
   useEffect(() => {
-    if (skipIntro) return;
+    if (skipIntro) {
+      track("hero_stage_skipped");
+      return;
+    }
+
+    heroMountTime.current = performance.now();
+    intro1StartTime.current = performance.now();
+    track("hero_stage_1_intro_start");
 
     const tl = gsap.timeline({
       onComplete: () => {
         // "Igniting Now..." animation is complete
         setIsInitialAnimationComplete(true);
+        track("hero_stage_1_intro_complete", {
+          duration_ms: Math.round(performance.now() - intro1StartTime.current),
+        });
       },
     });
 
@@ -104,7 +117,18 @@ const HeroSection = () => {
   // Decide what to show after initial animation completes
   useEffect(() => {
     if (isInitialAnimationComplete && !showContent) {
-      const handleInteraction = () => {
+      const waitStart = performance.now();
+      const handleInteraction = (e: Event) => {
+        const triggerType =
+          e.type === "mousemove"
+            ? "mouse"
+            : e.type === "touchstart"
+              ? "touch"
+              : "click";
+        track("hero_stage_2_interaction", {
+          trigger: triggerType,
+          time_to_interact_ms: Math.round(performance.now() - waitStart),
+        });
         setShowContent(true);
         window.removeEventListener("mousemove", handleInteraction);
         window.removeEventListener("click", handleInteraction);
@@ -138,10 +162,12 @@ const HeroSection = () => {
       // Sequential loading with delays
       // First show the title
       setTitleVisible(true);
+      track("hero_stage_3_title_revealed");
 
       // After 1 second, show the subtext
       const subtextTimer = setTimeout(() => {
         setSubtextVisible(true);
+        track("hero_stage_3_tagline_revealed");
 
         // After another 200ms, show the CTA
         const ctaTimer = setTimeout(() => {
@@ -150,6 +176,7 @@ const HeroSection = () => {
           // After another 200ms, show the email capture
           const emailTimer = setTimeout(() => {
             setEmailCaptureVisible(true);
+            track("hero_stage_4_cta_revealed");
           }, 200);
 
           return () => clearTimeout(emailTimer);

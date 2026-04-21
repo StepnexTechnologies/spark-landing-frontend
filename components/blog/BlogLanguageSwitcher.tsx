@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Globe, Check, ChevronDown } from "lucide-react";
+import { track } from "@/lib/analytics/track";
 
 interface BlogLanguageSwitcherProps {
   className?: string;
@@ -39,6 +40,7 @@ export const BlogLanguageSwitcher = ({ className }: BlogLanguageSwitcherProps) =
   }, []);
 
   const handleLanguageSelect = (langCode: string) => {
+    track("blog_language_change", { from: currentLang, to: langCode });
     const params = new URLSearchParams(searchParams.toString());
     params.set("lang", langCode);
     router.push(`${pathname}?${params.toString()}`);

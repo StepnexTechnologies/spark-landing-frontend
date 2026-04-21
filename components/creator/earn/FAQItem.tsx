@@ -3,6 +3,7 @@
 import {useState} from "react";
 import {AnimatePresence, motion} from "framer-motion";
 import {ChevronDown} from "lucide-react";
+import {track} from "@/lib/analytics/track";
 
 interface FAQItemProps {
   question: string;
@@ -30,6 +31,12 @@ export default function FAQItem({
   const isOpen = isControlled ? isExpanded : isOpenInternal;
 
   const handleToggle = () => {
+    const willOpen = !isOpen;
+    track("earn_faq_toggle", {
+      question,
+      action: willOpen ? "open" : "close",
+      index,
+    });
     if (isControlled && onToggle) {
       onToggle();
     } else {
