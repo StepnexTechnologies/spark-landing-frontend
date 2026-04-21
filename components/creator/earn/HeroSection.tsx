@@ -130,7 +130,16 @@ export default function HeroSection() {
                 <span className="font-bold">{t("creatorWeek.descriptionFree")}</span>
               </p>
               <p className="text-white/90 text-[12px] mb-4">
-                {t("creatorWeek.special")}
+                {t("creatorWeek.special")}{" "}
+                <a
+                  href="https://www.sparkonomy.com/creators-week-2026/terms"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline hover:text-white"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  T&amp;C
+                </a>
               </p>
               <div className="flex justify-center">
                 <Suspense fallback={<div className="h-12" />}>
