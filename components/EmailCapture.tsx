@@ -17,10 +17,24 @@ export default function EmailCapture() {
   const [inputType, setInputType] = useState<'email' | 'phone'>('email');
   const [selectedCountry, setSelectedCountry] = useState<Country>(countries[0]);
   const [isPhoneFocused, setIsPhoneFocused] = useState(false);
+  const [detectedCountry, setDetectedCountry] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const { submitEmail, loading, error, responseNumber } = useSubmitEmail();
   const focusTracked = useRef(false);
+
+  useEffect(() => {
+    fetch('/api/geolocation')
+      .then(res => res.json())
+      .then(data => {
+        if (data.countryCode) {
+          setDetectedCountry(data.countryCode);
+        }
+      })
+      .catch(() => {
+        // Graceful degradation: submit without country if geolocation fails
+      });
+  }, []);
 
   useEffect(() => {
     if (error) {
@@ -39,7 +53,8 @@ export default function EmailCapture() {
     const submitValue = inputType === 'phone'
       ? `${selectedCountry.dialCode}${email.replace(/\s/g, '')}`
       : email;
-    const { number, message } = await submitEmail(submitValue, inputType);
+    const country = inputType === 'email' ? (detectedCountry ?? selectedCountry.code) : null;
+    const { number, message, alreadyOnWaitlist } = await submitEmail(submitValue, inputType, country);
 
     if (number !== null) {
       localStorage.setItem("waitlistResponse", message);
@@ -47,7 +62,11 @@ export default function EmailCapture() {
         input_type: inputType,
         waitlist_id: number + 1000,
       });
-      window.location.href = `/thank-you?waitlist_id=${number + 1000}`;
+      const params = new URLSearchParams({
+        waitlist_id: String(number + 1000),
+        ...(alreadyOnWaitlist ? { returning: '1' } : {}),
+      });
+      window.location.href = `/thank-you?${params.toString()}`;
     }
   };
 
