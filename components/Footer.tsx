@@ -12,7 +12,14 @@ interface FooterProps {
 
 export default function Footer({ minimal = false }: FooterProps) {
   const [mounted, setMounted] = useState(false);
+  const [heroReady, setHeroReady] = useState(false);
   useEffect(() => setMounted(true), []);
+
+  useEffect(() => {
+    const onHeroReady = () => setHeroReady(true);
+    window.addEventListener('hero-ready', onHeroReady);
+    return () => window.removeEventListener('hero-ready', onHeroReady);
+  }, []);
 
   const FORCE_CREATOR_WEEK = false;
   const isCreatorWeek = (() => {
