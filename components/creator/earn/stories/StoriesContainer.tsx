@@ -1,6 +1,6 @@
 "use client";
 
-import {useCallback, useEffect, useState} from "react";
+import {useCallback, useEffect, useRef, useState} from "react";
 import {useSearchParams} from "next/navigation";
 import {AnimatePresence, motion} from "framer-motion";
 // import { StoriesContainerProps } from "./types";
@@ -10,6 +10,7 @@ import StoryContent1 from "./StoryContent1";
 import StoryContent2 from "./StoryContent2";
 import StoryContent3 from "./StoryContent3";
 import StoryContent4 from "./StoryContent4";
+import {track} from "@/lib/analytics/track";
 
 const STORY_DURATION = 6000; // 6 seconds per story
 
@@ -41,6 +42,12 @@ export default function StoriesContainer({
   const [progress, setProgress] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
+  const startedAt = useRef<number>(0);
+
+  useEffect(() => {
+    startedAt.current = performance.now();
+    track("story_start", { story_index: 0 });
+  }, []);
 
   // Get language from URL params, default to 'en'
   const langParam = searchParams.get("lang");
@@ -71,7 +78,7 @@ export default function StoriesContainer({
         const increment = (100 / currentStory?.duration) * 50; // Update every 50ms
         if (prev >= 100) {
           clearInterval(interval);
-          handleNext();
+          advance("auto");
           return 0;
         }
         return prev + increment;
@@ -81,35 +88,50 @@ export default function StoriesContainer({
     return () => clearInterval(interval);
   }, [currentIndex, isPaused, currentStory?.duration, isVisible]);
 
-  const handleNext = useCallback(() => {
+  const advance = useCallback((trigger: "auto" | "click") => {
     if (currentIndex < stories.length - 1) {
+      track("story_advance", {
+        from_index: currentIndex,
+        to_index: currentIndex + 1,
+        trigger,
+      });
       setCurrentIndex((prev) => prev + 1);
       setProgress(0);
     } else {
-      // Mark stories as viewed in sessionStorage
+      track("story_complete", {
+        total_duration_ms: Math.round(performance.now() - startedAt.current),
+        trigger,
+      });
       sessionStorage.setItem("storiesViewed", "true");
       setIsVisible(false);
       setTimeout(() => {
         onComplete();
       }, 300);
     }
-  }, [currentIndex, onComplete]);
+  }, [currentIndex, onComplete, stories.length]);
+
+  const handleNext = useCallback(() => advance("click"), [advance]);
 
   const handlePrevious = useCallback(() => {
     if (currentIndex > 0) {
+      track("story_back", {
+        from_index: currentIndex,
+        to_index: currentIndex - 1,
+      });
       setCurrentIndex((prev) => prev - 1);
       setProgress(0);
     }
   }, [currentIndex]);
 
   const handleClose = useCallback(() => {
+    track("story_close", { exit_index: currentIndex });
     // Mark stories as viewed even if closed early
     sessionStorage.setItem("storiesViewed", "true");
     setIsVisible(false);
     setTimeout(() => {
       onComplete();
     }, 300);
-  }, [onComplete]);
+  }, [onComplete, currentIndex]);
 
   return (
     <AnimatePresence>

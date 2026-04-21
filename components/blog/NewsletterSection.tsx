@@ -4,6 +4,7 @@ import {useEffect, useRef, useState} from "react";
 import {AnimatePresence, motion} from "framer-motion";
 import toast from "react-hot-toast";
 import ToggleInput from "@/components/form/ToggleInput";
+import {track} from "@/lib/analytics/track";
 
 export default function NewsletterSection() {
   const [isVisible, setIsVisible] = useState(false);
@@ -15,6 +16,7 @@ export default function NewsletterSection() {
 
   const handleSubmit = async (value: string, type: 'email' | 'phone') => {
     setLoading(true);
+    track("blog_newsletter_submit", { status: "attempt", input_type: type });
 
     try {
       const payload = type === 'email'
@@ -38,8 +40,14 @@ export default function NewsletterSection() {
         throw new Error(data.message || "Failed to subscribe");
       }
 
+      track("blog_newsletter_submit", { status: "success", input_type: type });
       toast.success(data.message || "Successfully subscribed!");
     } catch (err) {
+      track("blog_newsletter_submit", {
+        status: "error",
+        input_type: type,
+        error_message: (err as Error).message,
+      });
       toast.error((err as Error).message);
     } finally {
       setLoading(false);

@@ -2,6 +2,7 @@
 
 import {Suspense, useEffect} from "react";
 import {useSearchParams} from "next/navigation";
+import {track} from "@/lib/analytics/track";
 
 function ReferralClickTrackerInner() {
   const searchParams = useSearchParams();
@@ -14,6 +15,8 @@ function ReferralClickTrackerInner() {
     if (sessionStorage.getItem(storageKey)) return;
 
     sessionStorage.setItem(storageKey, "true");
+
+    track("referral_tracked", { referral_code: referralCode });
 
     const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE;
     if (!apiBaseUrl) return;

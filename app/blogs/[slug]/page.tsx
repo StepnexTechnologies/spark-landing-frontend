@@ -26,6 +26,7 @@ import TaxCalculatorInjector from "@/components/blog/TaxCalculatorInjector";
 import ImageOrientationEnhancer from "@/components/blog/ImageOrientationEnhancer";
 import NewsletterSection from "@/components/blog/NewsletterSection";
 import RelatedResourcesInjector from "@/components/blog/RelatedResourcesInjector";
+import BlogScrollTracker from "@/components/blog/BlogScrollTracker";
 import { getAuthorPageSlug, getAuthorByWordPressSlug } from "@/data/authors";
 import "../wordpress-content.css";
 
@@ -364,6 +365,12 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
   return (
     <>
+      <BlogScrollTracker
+        slug={post.slug}
+        author={author}
+        category={categoryName || undefined}
+      />
+
       {/* Article Structured Data */}
       <script
         type="application/ld+json"

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { track } from "@/lib/analytics/track";
 
 /**
  * Client component that adds interactivity to WordPress AAB accordion blocks
@@ -30,6 +31,11 @@ export default function FAQAccordion() {
 
           const handleClick = () => {
             const isCurrentlyHidden = body.style.display === 'none';
+
+            track("blog_faq_toggle", {
+              question: head.textContent?.trim().slice(0, 200) ?? "",
+              action: isCurrentlyHidden ? "open" : "close",
+            });
 
             // Toggle body visibility
             body.style.display = isCurrentlyHidden ? 'block' : 'none';

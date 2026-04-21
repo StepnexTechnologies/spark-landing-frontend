@@ -4,6 +4,7 @@ import type React from "react";
 import {useState} from "react";
 import {motion} from "framer-motion";
 import {ArrowRight, TrendingUp} from "lucide-react";
+import {track} from "@/lib/analytics/track";
 
 interface CampaignTrackerCTAProps {
   isVisible: boolean;
@@ -31,8 +32,12 @@ export default function CampaignTrackerCTA({ isVisible }: CampaignTrackerCTAProp
   };
 
   const handleClick = () => {
-    // Replace with actual Campaign Tracker landing page URL
-    window.open("https://beta.brand.sparkonomy.com/rtct", "_blank");
+    const url = "https://beta.brand.sparkonomy.com/rtct";
+    track("outbound_link_click", {
+      url,
+      label: "campaign_tracker_cta",
+    });
+    window.open(url, "_blank");
   };
 
   return (

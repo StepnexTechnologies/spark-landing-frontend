@@ -27,7 +27,9 @@
       "PowerShell(& \"C:\\\\Program Files\\\\nodejs\\\\npx.cmd\" tsc --noEmit 2>&1)",
       "PowerShell(& \"C:\\\\Program Files\\\\nodejs\\\\corepack.cmd\" yarn dev)",
       "Read(//c/Users/HP/AppData/Local/Temp/claude/c--Users-HP-Desktop-client-spark-landing-frontend/5884038e-5ea6-42e6-92ad-ad47d0d3403a/tasks/**)",
-      "PowerShell(try { $r1 = Invoke-WebRequest -Uri \"http://localhost:3000/\" -TimeoutSec 60 -UseBasicParsing; \"HOME: $\\($r1.StatusCode\\)\" } catch { \"HOME ERR: $_\" }; try { $r2 = Invoke-WebRequest -Uri \"http://localhost:3000/creator/earn\" -TimeoutSec 60 -UseBasicParsing; \"EARN: $\\($r2.StatusCode\\)\" } catch { \"EARN ERR: $_\" })"
+      "PowerShell(try { $r1 = Invoke-WebRequest -Uri \"http://localhost:3000/\" -TimeoutSec 60 -UseBasicParsing; \"HOME: $\\($r1.StatusCode\\)\" } catch { \"HOME ERR: $_\" }; try { $r2 = Invoke-WebRequest -Uri \"http://localhost:3000/creator/earn\" -TimeoutSec 60 -UseBasicParsing; \"EARN: $\\($r2.StatusCode\\)\" } catch { \"EARN ERR: $_\" })",
+      "Bash(command -v corepack)",
+      "Bash(npx --yes yarn lint)"
     ]
   }
 }

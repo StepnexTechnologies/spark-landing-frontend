@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Globe, Check, ChevronDown } from "lucide-react";
+import { track } from "@/lib/analytics/track";
 
 interface LanguageSwitcherProps {
   className?: string;
@@ -38,6 +39,9 @@ export const LanguageSwitcher = ({ className }: LanguageSwitcherProps) => {
   }, []);
 
   const handleLanguageSelect = (langCode: string) => {
+    if (langCode !== currentLang) {
+      track("locale_change", { from: currentLang, to: langCode });
+    }
     i18n.changeLanguage(langCode);
 
     // Update URL if lang param exists in current URL

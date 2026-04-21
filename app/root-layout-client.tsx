@@ -8,6 +8,7 @@ import I18nProvider from "@/components/I18nProvider";
 import {Toaster} from "react-hot-toast";
 import ReferralClickTracker from "@/components/ReferralClickTracker";
 import OpenReplayInit from "@/components/OpenReplayInit";
+import PageViewTracker from "@/lib/hooks/usePageViewTracking";
 
 export function RootLayoutClient({
   children,
@@ -26,6 +27,7 @@ export function RootLayoutClient({
       <I18nProvider>
         <ReferralClickTracker />
         <OpenReplayInit />
+        <PageViewTracker />
         <Toaster
           position="top-center"
           toastOptions={{

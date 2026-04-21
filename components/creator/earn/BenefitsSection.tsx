@@ -1,14 +1,17 @@
 "use client";
 
-import {Suspense, useState, useEffect} from "react";
+import {Suspense, useState, useEffect, useRef} from "react";
 import {motion} from "framer-motion";
 import { useTranslation } from "react-i18next";
 import BenefitCard from "./BenefitCard";
 import CTAButton from "./CTAButton";
+import {useSectionViewTracking} from "@/lib/hooks/useSectionViewTracking";
 
 export default function BenefitsSection() {
   const { t, ready } = useTranslation("creatorEarn");
   const [mounted, setMounted] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+  useSectionViewTracking(sectionRef, "benefits");
 
   useEffect(() => {
     setMounted(true);
@@ -40,7 +43,7 @@ export default function BenefitsSection() {
   ];
 
   return (
-    <section className="relative py-4 px-5 md:px-20">
+    <section ref={sectionRef} className="relative py-4 px-5 md:px-20">
       <div className="max-w-[1440px] mx-auto">
         {/* Section Header */}
         <motion.div
