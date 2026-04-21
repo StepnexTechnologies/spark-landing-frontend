@@ -88,7 +88,7 @@ export function RootLayoutClient({
           },
         }}
       />
-      <div className="relative min-h-[100dvh] w-full flex flex-col overflow-x-hidden touch-pan-y overflow-hidden">
+      <div className={`relative min-h-[100dvh] w-full flex flex-col overflow-x-hidden ${isHomePage ? "touch-none" : "touch-pan-y"} overflow-hidden`}>
         <div className="fixed inset-0 z-0">
           <WebGLFluidBackground />
         </div>

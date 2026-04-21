@@ -5,6 +5,7 @@ import {Lock} from "lucide-react";
 import {motion} from "framer-motion";
 import Link from "next/link";
 import LogoCarousel from "@/components/LogoCarousel";
+import {useIsCreatorWeek} from "@/lib/hooks/useIsCreatorWeek";
 
 interface FooterProps {
   minimal?: boolean;
@@ -21,14 +22,7 @@ export default function Footer({ minimal = false }: FooterProps) {
     return () => window.removeEventListener('hero-ready', onHeroReady);
   }, []);
 
-  const FORCE_CREATOR_WEEK = false;
-  const isCreatorWeek = (() => {
-    if (FORCE_CREATOR_WEEK) return true;
-    const now = new Date();
-    const start = new Date(2026, 3, 20);
-    const end = new Date(2026, 3, 28);
-    return now >= start && now < end;
-  })();
+  const isCreatorWeek = useIsCreatorWeek();
 
   return (
     <motion.footer
