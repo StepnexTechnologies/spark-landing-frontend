@@ -7,10 +7,12 @@ import {motion} from "framer-motion";
 import gsap from "gsap";
 import EmailCapture from "@/components/EmailCapture";
 import {track} from "@/lib/analytics/track";
+import {useIsCreatorWeek} from "@/lib/hooks/useIsCreatorWeek";
 
 const HeroSection = () => {
   const searchParams = useSearchParams();
   const skipIntro = searchParams.get("skipIntro") === "true";
+  const isCreatorWeek = useIsCreatorWeek();
   const heroMountTime = useRef<number>(0);
   const intro1StartTime = useRef<number>(0);
 
@@ -360,7 +362,7 @@ const HeroSection = () => {
         />
       </div>
 
-      <div className="flex-1 flex flex-col items-center justify-center pb-[240px]">
+      <div className={`flex-1 flex flex-col items-center justify-center ${isCreatorWeek ? "pb-[340px] md:pb-[260px]" : "pb-[240px]"}`}>
         <div className="text-center relative">
           <motion.div
             className={`absolute inset-0 flex flex-col space-y-8 items-center justify-center mb-12 ${showContent && 'hidden'}`}
