@@ -8,7 +8,14 @@ import LogoCarousel from "@/components/LogoCarousel";
 
 export default function Footer() {
   const [mounted, setMounted] = useState(false);
+  const [heroReady, setHeroReady] = useState(false);
   useEffect(() => setMounted(true), []);
+
+  useEffect(() => {
+    const onHeroReady = () => setHeroReady(true);
+    window.addEventListener('hero-ready', onHeroReady);
+    return () => window.removeEventListener('hero-ready', onHeroReady);
+  }, []);
 
   const FORCE_CREATOR_WEEK = false;
   const isCreatorWeek = (() => {
@@ -27,11 +34,9 @@ export default function Footer() {
       className="fixed bottom-0 w-full left-0 right-0 select-none z-50"
     >
       {mounted && isCreatorWeek && (
-        <a
-          href="https://beta.creator.sparkonomy.com/earn/new"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="pointer-events-auto relative overflow-hidden w-full px-[30px] py-3 mb-[30px] text-center block no-underline"
+        <div
+          onClick={() => heroReady && window.open('https://beta.creator.sparkonomy.com/earn/new', '_blank', 'noopener,noreferrer')}
+          className={`pointer-events-auto relative overflow-hidden w-full px-[30px] py-3 mb-[30px] text-center ${heroReady ? 'cursor-pointer' : 'cursor-default'}`}
           style={{
             background:
               "linear-gradient(90deg, rgba(61, 88, 219, 0) 2.15%, rgba(110, 99, 255, 0.36) 30.53%, rgba(110, 99, 255, 0.36) 62.34%, rgba(61, 88, 219, 0) 96.24%)",
@@ -105,7 +110,7 @@ export default function Footer() {
               ))}
             </motion.div>
           </div>
-        </a>
+        </div>
       )}
       <div className="flex flex-col items-center space-y-2 w-full px-10 md:px-14 lg:px-20 pb-4">
         <div className="pointer-events-auto mb-[30px]">
