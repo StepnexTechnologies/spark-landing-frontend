@@ -20,6 +20,7 @@ export function RootLayoutClient({
   const isCreatorPage = pathname.startsWith("/creator");
   const isBlogPage = pathname.startsWith("/blogs") || pathname.startsWith("/blog");
   const isPreviewPage = pathname.startsWith("/preview");
+  const isHomePage = pathname === "/";
 
   if (isLegalPage || isCreatorPage || isBlogPage || isPreviewPage) {
     // For legal, creator, and blog pages, render children without WebGL background or Footer
@@ -87,7 +88,7 @@ export function RootLayoutClient({
           <WebGLFluidBackground />
         </div>
         {children}
-        <Footer />
+        <Footer minimal={!isHomePage} />
       </div>
     </I18nProvider>
   );

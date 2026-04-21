@@ -9,7 +9,10 @@ let _tracker: Tracker | null = null;
 function getTracker(): Tracker | null {
   if (typeof window === "undefined") return null;
   if (!_tracker) {
-    _tracker = new Tracker({ projectKey: PROJECT_KEY });
+    _tracker = new Tracker({
+      projectKey: PROJECT_KEY,
+      __DISABLE_SECURE_MODE: process.env.NODE_ENV !== "production",
+    });
     _tracker.use(trackerAssist());
   }
   return _tracker;

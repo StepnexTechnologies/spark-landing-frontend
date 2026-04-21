@@ -358,7 +358,7 @@ const HeroSection = () => {
         />
       </div>
 
-      <div className="flex-1 flex flex-col items-center justify-center pb-[180px] md:pb-[240px]">
+      <div className="flex-1 flex flex-col items-center justify-center pb-[240px]">
         <div className="text-center relative">
           <motion.div
             className={`absolute inset-0 flex flex-col space-y-8 items-center justify-center mb-12 ${showContent && 'hidden'}`}

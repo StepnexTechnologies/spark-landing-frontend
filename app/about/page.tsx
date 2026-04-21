@@ -4,7 +4,6 @@ import {motion} from "framer-motion";
 import {useEffect, useRef, useState} from "react";
 import {Home, Sparkles, Target, Users} from "lucide-react";
 import Link from "next/link";
-import LogoCarousel from "@/components/LogoCarousel";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
 const AboutPage = () => {
@@ -276,16 +275,6 @@ const AboutPage = () => {
             </motion.div>
           </motion.section>
 
-          {/* Logo Carousel */}
-          <motion.section
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-100px" }}
-              variants={fadeInVariants}
-              className="mb-20"
-          >
-            <LogoCarousel showCompliance={false} />
-          </motion.section>
         </div>
       </div>
 

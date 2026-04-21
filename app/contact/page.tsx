@@ -7,7 +7,6 @@ import toast from "react-hot-toast";
 import {useContactForm} from "@/lib/hooks/useContactForm";
 import Link from "next/link";
 import PhoneInput from "@/components/form/PhoneInput";
-import LogoCarousel from "@/components/LogoCarousel";
 import {track} from "@/lib/analytics/track";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
@@ -440,16 +439,6 @@ const ContactPage = () => {
             </div>
           </motion.div>
 
-          {/* Logo Carousel */}
-          <motion.section
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-100px" }}
-              variants={fadeInVariants}
-              className="mb-20"
-          >
-            <LogoCarousel showCompliance={false} />
-          </motion.section>
         </div>
       </div>
 
