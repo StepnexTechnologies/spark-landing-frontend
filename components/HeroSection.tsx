@@ -63,6 +63,7 @@ const HeroSection = () => {
   useEffect(() => {
     if (skipIntro) {
       track("hero_stage_skipped");
+      window.dispatchEvent(new Event('hero-ready'));
       return;
     }
 
@@ -177,6 +178,7 @@ const HeroSection = () => {
           const emailTimer = setTimeout(() => {
             setEmailCaptureVisible(true);
             track("hero_stage_4_cta_revealed");
+            window.dispatchEvent(new Event('hero-ready'));
           }, 200);
 
           return () => clearTimeout(emailTimer);
