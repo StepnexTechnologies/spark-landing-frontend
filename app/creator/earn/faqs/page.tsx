@@ -1,11 +1,12 @@
 "use client";
 
+import {Suspense} from "react";
 import Navigation from "@/components/creator/earn/Navigation";
 import CTASection from "@/components/creator/earn/CTASection";
 import EarnFooter from "@/components/creator/earn/EarnFooter";
 import FAQPageContent from "@/components/creator/earn/FAQPageContent";
 
-export default function CreatorEarnFAQsPage() {
+function CreatorEarnFAQsPageContent() {
     return (
         <main className="relative min-h-screen bg-black overflow-hidden">
             {/* Background Gradients */}
@@ -23,5 +24,19 @@ export default function CreatorEarnFAQsPage() {
                 <EarnFooter/>
             </div>
         </main>
+    );
+}
+
+export default function CreatorEarnFAQsPage() {
+    return (
+        <Suspense
+            fallback={
+                <div className="min-h-screen bg-black flex items-center justify-center">
+                    <div className="text-white">Loading...</div>
+                </div>
+            }
+        >
+            <CreatorEarnFAQsPageContent />
+        </Suspense>
     );
 }

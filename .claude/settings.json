@@ -32,7 +32,11 @@
       "Bash(npx --yes yarn lint)",
       "Bash(npx --no-install eslint components/Footer.tsx app/root-layout-client.tsx)",
       "Bash(npx --no-install eslint app/about/page.tsx app/contact/page.tsx)",
-      "Bash(npx --no-install eslint components/Footer.tsx)"
+      "Bash(npx --no-install eslint components/Footer.tsx)",
+      "Bash(yarn build *)",
+      "PowerShell(yarn build 2>&1)",
+      "PowerShell(npx --no-install next build 2>&1)",
+      "PowerShell(npx --no-install next build 2>$null; Write-Output \"EXIT_CODE=$LASTEXITCODE\")"
     ]
   }
 }

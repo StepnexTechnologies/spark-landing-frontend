@@ -1,7 +1,7 @@
 "use client";
 
 import {useEffect, useRef, useState} from "react";
-import {motion} from "framer-motion";
+import {motion, Variants} from "framer-motion";
 import {Search} from "lucide-react";
 import type {Country} from "@/lib/data/countries";
 
@@ -82,7 +82,7 @@ export default function CountryList({
     setHighlightedIndex(0);
   }, [searchQuery]);
 
-  const dropdownVariants = {
+  const dropdownVariants: Variants = {
     hidden: {
       opacity: 0,
       y: -10,
