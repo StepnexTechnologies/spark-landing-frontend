@@ -4,6 +4,7 @@ import {useRef, useState} from "react";
 import {AnimatePresence, motion} from "framer-motion";
 import {ArrowRight, Mail, Phone, Sparkles} from "lucide-react";
 import {useSubmitEmail} from "@/lib/hooks/useSubmitEmail";
+import {trackEvent} from "@/lib/openreplay";
 import type {Country} from "@/lib/data/countries";
 import {countries} from "@/lib/data/countries";
 import CountrySelector from "@/components/form/CountrySelector";
@@ -34,6 +35,7 @@ export default function EmailCapture() {
       console.log("Redirecting to thank-you page with waitlist_id:", number);
     if (number !== null) {
       localStorage.setItem("waitlistResponse", message);
+      trackEvent("landing_cta_click", { cta: "waitlist_signup", input_type: inputType });
       window.location.href = `/thank-you?waitlist_id=${number + 1000}`;
     }
   };

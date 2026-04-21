@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "next/navigation";
 import { ValidatedPhoneInput } from "./ValidatedPhoneInput";
+import { trackEvent } from "@/lib/openreplay";
 
 export default function FloatingCTA() {
   const { t, i18n, ready } = useTranslation("creatorEarn");
@@ -46,6 +47,7 @@ export default function FloatingCTA() {
     if (phone) {
       url.searchParams.set("phone", phone);
     }
+    trackEvent("landing_cta_click", { cta: "floating_beta_signup" });
     window.location.href = url.toString();
   };
 

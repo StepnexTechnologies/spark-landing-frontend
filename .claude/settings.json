@@ -15,7 +15,19 @@
       "PowerShell(yarn lint 2>&1)",
       "PowerShell(npx next lint 2>&1)",
       "PowerShell(npx eslint app/creators-week-2026 2>&1)",
-      "Bash(git -C \"c:/Users/HP/Desktop/client/spark-landing-frontend\" show --stat e3aeebe)"
+      "Bash(git -C \"c:/Users/HP/Desktop/client/spark-landing-frontend\" show --stat e3aeebe)",
+      "PowerShell(yarn add \"@openreplay/tracker@^17.0.1\" \"@openreplay/tracker-assist@^11.0.10\")",
+      "PowerShell(Get-Command npm, npx, corepack, node -ErrorAction SilentlyContinue)",
+      "Read(//c/Users/HP/AppData/Roaming/npm/**)",
+      "Read(//c/Program Files/nodejs/**)",
+      "PowerShell(& \"C:\\\\Program Files\\\\nodejs\\\\corepack.cmd\" enable)",
+      "PowerShell(& \"C:\\\\Program Files\\\\nodejs\\\\corepack.cmd\" yarn --version)",
+      "PowerShell(& \"C:\\\\Program Files\\\\nodejs\\\\corepack.cmd\" yarn add \"@openreplay/tracker@^17.0.1\" \"@openreplay/tracker-assist@^11.0.10\")",
+      "PowerShell(& \"C:\\\\Program Files\\\\nodejs\\\\corepack.cmd\" yarn build)",
+      "PowerShell(& \"C:\\\\Program Files\\\\nodejs\\\\npx.cmd\" tsc --noEmit 2>&1)",
+      "PowerShell(& \"C:\\\\Program Files\\\\nodejs\\\\corepack.cmd\" yarn dev)",
+      "Read(//c/Users/HP/AppData/Local/Temp/claude/c--Users-HP-Desktop-client-spark-landing-frontend/5884038e-5ea6-42e6-92ad-ad47d0d3403a/tasks/**)",
+      "PowerShell(try { $r1 = Invoke-WebRequest -Uri \"http://localhost:3000/\" -TimeoutSec 60 -UseBasicParsing; \"HOME: $\\($r1.StatusCode\\)\" } catch { \"HOME ERR: $_\" }; try { $r2 = Invoke-WebRequest -Uri \"http://localhost:3000/creator/earn\" -TimeoutSec 60 -UseBasicParsing; \"EARN: $\\($r2.StatusCode\\)\" } catch { \"EARN ERR: $_\" })"
     ]
   }
 }

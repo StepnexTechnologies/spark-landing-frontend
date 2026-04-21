@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import I18nProvider from "@/components/I18nProvider";
 import {Toaster} from "react-hot-toast";
 import ReferralClickTracker from "@/components/ReferralClickTracker";
+import OpenReplayInit from "@/components/OpenReplayInit";
 
 export function RootLayoutClient({
   children,
@@ -24,6 +25,7 @@ export function RootLayoutClient({
     return (
       <I18nProvider>
         <ReferralClickTracker />
+        <OpenReplayInit />
         <Toaster
           position="top-center"
           toastOptions={{
@@ -55,6 +57,7 @@ export function RootLayoutClient({
   return (
     <I18nProvider>
       <ReferralClickTracker />
+      <OpenReplayInit />
       <Toaster
         position="top-center"
         toastOptions={{
