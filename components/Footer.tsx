@@ -35,8 +35,8 @@ export default function Footer({ minimal = false }: FooterProps) {
           : "fixed bottom-0 w-full left-0 right-0 select-none z-50"
       }
     >
-      {!minimal && mounted && isCreatorWeek && (
-        <a
+      {!minimal && mounted && isCreatorWeek && heroReady && (
+        <motion.a
           href="https://beta.creator.sparkonomy.com/auth?service=earn"
           target="_blank"
           rel="noopener noreferrer"
@@ -45,6 +45,9 @@ export default function Footer({ minimal = false }: FooterProps) {
             background:
               "linear-gradient(90deg, rgba(61, 88, 219, 0) 2.15%, rgba(110, 99, 255, 0.36) 30.53%, rgba(110, 99, 255, 0.36) 62.34%, rgba(61, 88, 219, 0) 96.24%)",
           }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
         >
           <motion.div
             aria-hidden
@@ -114,13 +117,18 @@ export default function Footer({ minimal = false }: FooterProps) {
               ))}
             </motion.div>
           </div>
-        </a>
+        </motion.a>
       )}
       <div className="flex flex-col items-center space-y-2 w-full px-10 md:px-14 lg:px-20 pb-4">
-        {!minimal && (
-          <div className="pointer-events-auto mb-[30px]">
+        {!minimal && heroReady && (
+          <motion.div
+            className="pointer-events-auto mb-[30px]"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
+          >
             <LogoCarousel />
-          </div>
+          </motion.div>
         )}
         <motion.div
           className="flex items-center justify-center space-x-3 px-4 py-2 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 w-fit cursor-pointer"
