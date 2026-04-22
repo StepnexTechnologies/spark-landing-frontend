@@ -52,6 +52,25 @@ function CreatorEarnPageContent() {
     setIsLoading(false);
   }, [searchParams, i18n]);
 
+  // Preload the Creators Week celebration image while the user is in stories /
+  // the landing page, so slow connections don't race the 4s auto-dismiss once
+  // the overlay starts playing.
+  useEffect(() => {
+    const now = new Date();
+    const start = new Date(2026, 3, 20);
+    const end = new Date(2026, 3, 28);
+    if (now < start || now >= end) return;
+
+    const link = document.createElement("link");
+    link.rel = "preload";
+    link.as = "image";
+    link.href = "/images/creator/earn/PROMO.png";
+    document.head.appendChild(link);
+    return () => {
+      document.head.removeChild(link);
+    };
+  }, []);
+
   const handleStoriesComplete = () => {
     setShowStories(false);
     setTimeout(() => {

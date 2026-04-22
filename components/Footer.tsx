@@ -112,7 +112,26 @@ export default function Footer({ minimal = false }: FooterProps) {
             >
               {[0, 1, 2, 3, 4, 5].map((i) => (
                 <span key={i} className="shrink-0 whitespace-nowrap pr-12">
-                  Send invoice → Get <span className="font-bold">12 month ₹3600</span> Pro Plan <span className="font-bold">FREE</span>, only in Creator Week (April 20-26)
+                  Send invoice → Get <span className="font-bold">12 month ₹3600</span> Pro Plan <span className="font-bold">FREE</span>, only in Creator Week (April 20-26){" "}
+                  <span
+                    role="link"
+                    tabIndex={0}
+                    className="underline cursor-pointer hover:text-white"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      window.open("https://www.sparkonomy.com/creators-week-2026/terms", "_blank", "noopener,noreferrer");
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        window.open("https://www.sparkonomy.com/creators-week-2026/terms", "_blank", "noopener,noreferrer");
+                      }
+                    }}
+                  >
+                    T&amp;C
+                  </span>
                 </span>
               ))}
             </motion.div>
