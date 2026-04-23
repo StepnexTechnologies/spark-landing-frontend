@@ -47,8 +47,7 @@ async function wordpressFetch<T>(
   try {
     const response = await fetch(url, {
       ...options,
-      cache: 'no-store',
-      next: { revalidate: 0 },
+      next: { revalidate: 300, tags: ['wp'] },
     });
 
     if (!response.ok) {
@@ -81,8 +80,7 @@ async function wordpressFetchWithPagination<T>(
   try {
     const response = await fetch(url, {
       ...options,
-      cache: 'no-store',
-      next: { revalidate: 0 },
+      next: { revalidate: 300, tags: ['wp'] },
     });
 
     if (!response.ok) {
@@ -405,7 +403,7 @@ export async function getCoAuthorById(id: number): Promise<WordPressAuthor | nul
   try {
     const response = await fetch(
       `${WORDPRESS_URL}/coauthors/${id}`,
-      { cache: 'no-store' }
+      { next: { revalidate: 300, tags: ['wp'] } }
     );
 
     if (!response.ok) {
@@ -555,6 +553,40 @@ export async function getPostsByAuthor(
   return wordpressFetchWithPagination<WordPressPost[]>(
     `/posts?author=${authorId}&_embed&page=${page}&per_page=${perPage}`
   );
+}
+
+/**
+ * Get posts by author slug. Works for both regular WordPress users and
+ * Co-Authors Plus guest authors (slugs prefixed "cap-").
+ *
+ * For regular users, resolves the slug via /users?slug=... and uses
+ * getPostsByAuthor. For CAP guests (no WP user), falls back to fetching
+ * the most recent posts and filtering by matching coauthor slug.
+ */
+export async function getPostsByAuthorSlug(
+  slug: string,
+  perPage: number = 10
+): Promise<WordPressPost[]> {
+  // Regular WordPress user path
+  const user = await getAuthorBySlug(slug);
+  if (user?.id) {
+    const { data } = await getPostsByAuthor(user.id, 1, perPage);
+    if (data.length > 0) return data;
+  }
+
+  // Fallback: fetch a batch of recent posts and filter by CAP coauthor slug
+  const { data: recent } = await getPosts(1, 30);
+  if (recent.length === 0) return [];
+
+  const matched: WordPressPost[] = [];
+  for (const post of recent) {
+    if (matched.length >= perPage) break;
+    const postAuthors = await getPostAuthorsAsync(post);
+    if (postAuthors.some((a) => a.slug === slug)) {
+      matched.push(post);
+    }
+  }
+  return matched;
 }
 
 /**

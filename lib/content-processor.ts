@@ -124,6 +124,25 @@ export function removeLeadingFeaturedImageBlock(html: string, featuredImageUrl: 
   return html;
 }
 
+/**
+ * Add native lazy-loading hints to every <img> tag in the WordPress content body.
+ * Content images are always below the fold — the featured image at the top of
+ * the post is rendered separately through next/image and marked priority there,
+ * so none of the body images should block LCP.
+ */
+export function lazyLoadImages(html: string): string {
+  return html.replace(/<img\b([^>]*)>/gi, (match, attrs) => {
+    let updated = attrs;
+    if (!/\bloading\s*=/.test(updated)) {
+      updated += ' loading="lazy"';
+    }
+    if (!/\bdecoding\s*=/.test(updated)) {
+      updated += ' decoding="async"';
+    }
+    return `<img${updated}>`;
+  });
+}
+
 export interface TOCItem {
   id: string;
   text: string;

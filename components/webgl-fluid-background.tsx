@@ -1,26 +1,43 @@
 // webgl-fluid-background.tsx
 "use client"
 import {useEffect, useRef} from 'react';
-import WebGLFluidEnhanced from 'webgl-fluid-enhanced';
+
+// Defer the WebGL library + simulation start to idle time so initial paint/TBT
+// isn't blocked by canvas setup and shader compilation.
+
+interface FluidSimulation {
+  start: () => void;
+  stop: () => void;
+}
 
 export function WebGLFluidBackground() {
-  const containerRef = useRef(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    // console.log("WebGL Simulation Starting...");
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    const simulation = new WebGLFluidEnhanced(containerRef.current);
-    // Store simulation instance in window for global access
-    (window as any).fluidSimulation = simulation;
-    simulation.start();
+    if (!containerRef.current) return;
 
-    // setInterval(() => {simulation.multipleSplats(6)}, 4000);
+    let cancelled = false;
+    let simulation: FluidSimulation | null = null;
+
+    const boot = async () => {
+      const mod = await import('webgl-fluid-enhanced');
+      if (cancelled || !containerRef.current) return;
+      const WebGLFluidEnhanced = mod.default as unknown as new (el: HTMLElement) => FluidSimulation;
+      simulation = new WebGLFluidEnhanced(containerRef.current);
+      (window as unknown as { fluidSimulation?: FluidSimulation }).fluidSimulation = simulation;
+      simulation.start();
+    };
+
+    const ric = (window as unknown as {
+      requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
+    }).requestIdleCallback;
+    const timeoutId = ric ? ric(() => { void boot(); }, { timeout: 2000 }) : window.setTimeout(() => { void boot(); }, 400);
 
     return () => {
-      // console.log("WebGL Simulation Stopping...");
-      simulation.stop();
-      delete (window as any).fluidSimulation;
+      cancelled = true;
+      if (!ric) clearTimeout(timeoutId);
+      if (simulation) simulation.stop();
+      delete (window as unknown as { fluidSimulation?: FluidSimulation }).fluidSimulation;
     };
   }, []);
 

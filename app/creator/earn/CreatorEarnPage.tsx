@@ -4,21 +4,26 @@ import {Suspense, useEffect, useState} from "react";
 import {useSearchParams} from "next/navigation";
 import {AnimatePresence, motion} from "framer-motion";
 import {useTranslation} from "react-i18next";
+import dynamic from "next/dynamic";
 import "@/lib/i18n"; // Initialize i18n
 import Navigation from "@/components/creator/earn/Navigation";
 import HeroSection from "@/components/creator/earn/HeroSection";
-import ValueProposition from "@/components/creator/earn/ValueProposition";
-import BenefitsSection from "@/components/creator/earn/BenefitsSection";
-import AdvantageSection from "@/components/creator/earn/AdvantageSection";
-import TestimonialsSection from "@/components/creator/earn/TestimonialsSection";
-import VideoSection from "@/components/creator/earn/VideoSection";
-import FAQSection from "@/components/creator/earn/FAQSection";
-import CTASection from "@/components/creator/earn/CTASection";
-import EarnFooter from "@/components/creator/earn/EarnFooter";
 import StoriesContainer from "@/components/creator/earn/stories/StoriesContainer";
-import FloatingCTA from "@/components/creator/earn/FloatingCTA";
 import ReferralBanner from "@/components/creator/earn/ReferralBanner";
-import CreatorsWeekCelebration from "@/components/creator/earn/CreatorsWeekCelebration";
+
+const ValueProposition = dynamic(() => import("@/components/creator/earn/ValueProposition"));
+const BenefitsSection = dynamic(() => import("@/components/creator/earn/BenefitsSection"));
+const AdvantageSection = dynamic(() => import("@/components/creator/earn/AdvantageSection"));
+const TestimonialsSection = dynamic(() => import("@/components/creator/earn/TestimonialsSection"));
+const VideoSection = dynamic(() => import("@/components/creator/earn/VideoSection"));
+const FAQSection = dynamic(() => import("@/components/creator/earn/FAQSection"));
+const CTASection = dynamic(() => import("@/components/creator/earn/CTASection"));
+const EarnFooter = dynamic(() => import("@/components/creator/earn/EarnFooter"));
+const FloatingCTA = dynamic(() => import("@/components/creator/earn/FloatingCTA"), { ssr: false });
+const CreatorsWeekCelebration = dynamic(
+  () => import("@/components/creator/earn/CreatorsWeekCelebration"),
+  { ssr: false }
+);
 
 function CreatorEarnPageContent() {
   const {i18n} = useTranslation();
@@ -52,22 +57,37 @@ function CreatorEarnPageContent() {
     setIsLoading(false);
   }, [searchParams, i18n]);
 
-  // Preload the Creators Week celebration image while the user is in stories /
-  // the landing page, so slow connections don't race the 4s auto-dismiss once
-  // the overlay starts playing.
+  // Preload the Creators Week celebration image during idle time so slow
+  // connections don't race the 4s auto-dismiss once the overlay starts playing.
+  // Deferred past the hero's LCP so the 5 MB PNG doesn't compete for bandwidth
+  // on first paint.
   useEffect(() => {
     const now = new Date();
     const start = new Date(2026, 3, 20);
     const end = new Date(2026, 3, 28);
     if (now < start || now >= end) return;
 
-    const link = document.createElement("link");
-    link.rel = "preload";
-    link.as = "image";
-    link.href = "/images/creator/earn/PROMO.png";
-    document.head.appendChild(link);
+    let cancelled = false;
+    let link: HTMLLinkElement | null = null;
+
+    const inject = () => {
+      if (cancelled) return;
+      link = document.createElement("link");
+      link.rel = "preload";
+      link.as = "image";
+      link.href = "/images/creator/earn/PROMO.png";
+      document.head.appendChild(link);
+    };
+
+    const ric = (window as unknown as {
+      requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
+    }).requestIdleCallback;
+    const timeoutId = ric ? ric(inject, { timeout: 3000 }) : window.setTimeout(inject, 2000);
+
     return () => {
-      document.head.removeChild(link);
+      cancelled = true;
+      if (!ric) clearTimeout(timeoutId);
+      if (link && link.parentNode) link.parentNode.removeChild(link);
     };
   }, []);
 

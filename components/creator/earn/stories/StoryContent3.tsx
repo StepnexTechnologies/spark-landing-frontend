@@ -6,9 +6,10 @@ import AnimatedEmojis from "./AnimatedEmojis";
 
 interface StoryContent3Props {
   imageSrc?: string;
+  priority?: boolean;
 }
 
-export default function StoryContent3({ imageSrc = "/images/creator/earn/story-3.png" }: StoryContent3Props) {
+export default function StoryContent3({ imageSrc = "/images/creator/earn/story-3.png", priority = false }: StoryContent3Props) {
 
     return (
         <div className="relative w-full h-full bg-[#212529]">
@@ -39,7 +40,7 @@ export default function StoryContent3({ imageSrc = "/images/creator/earn/story-3
                     alt={"Story"}
                     width={362}
                     height={595}
-                    priority
+                    priority={priority}
                     className="h-full w-full object-contain"
                 />
             </div>

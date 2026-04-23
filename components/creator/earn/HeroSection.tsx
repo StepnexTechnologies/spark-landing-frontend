@@ -69,7 +69,7 @@ export default function HeroSection() {
           <div className="absolute -bottom-[10px] left-1/2 -translate-x-1/2 w-[356px] md:w-[800px] h-[227px] md:h-[520px]">
             <div className="rounded-[32px] p-[10px] bg-gradient-to-br from-white/20 via-white/0 to-black/10 border border-white/20 backdrop-blur-lg shadow-[10px_10px_30px_rgba(0,0,0,0.2),-10px_-10px_30px_rgba(255,255,255,0.1)] h-full">
               <div
-                className="rounded-[26px] backdrop-blur-[2px] w-full h-full transition-all duration-300"
+                className="rounded-[26px] w-full h-full transition-all duration-300"
                 style={{
                   background: `linear-gradient(to bottom,
                     rgba(255, 255, 255, 0.15) 0%,

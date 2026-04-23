@@ -38,7 +38,7 @@ export default function Layout({
         <meta name="facebook-domain-verification" content="dq4gtmx7isvdg6evweg50e3rmarkil" />
         <meta name="theme-color" content="#000000" />
           {GTM_ID && (
-            <Script id="gtm-head" strategy="afterInteractive">
+            <Script id="gtm-head" strategy="lazyOnload">
               {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
                 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
                 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
@@ -63,10 +63,10 @@ export default function Layout({
           <Script
               async
               src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
-              strategy="afterInteractive"
+              strategy="lazyOnload"
           />
 
-          <Script id="gtag-init" strategy="afterInteractive">
+          <Script id="gtag-init" strategy="lazyOnload">
               {`
                 window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}

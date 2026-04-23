@@ -3,8 +3,13 @@
 import {usePathname} from "next/navigation";
 import type React from "react";
 import {Suspense} from "react";
-import {WebGLFluidBackground} from "@/components/webgl-fluid-background";
+import dynamic from "next/dynamic";
 import Footer from "@/components/Footer";
+
+const WebGLFluidBackground = dynamic(
+  () => import("@/components/webgl-fluid-background").then((m) => m.WebGLFluidBackground),
+  { ssr: false }
+);
 import I18nProvider from "@/components/I18nProvider";
 import {Toaster} from "react-hot-toast";
 import ReferralClickTracker from "@/components/ReferralClickTracker";

@@ -166,7 +166,7 @@ export default function StoriesContainer({
                           isPaused={isPaused}
                           onPauseChange={setIsPaused}
                       >
-                          <PreviousStoryComponent imageSrc={previousStory?.imageSrc} />
+                          <PreviousStoryComponent imageSrc={previousStory?.imageSrc} priority={false} />
                       </StoryPanel>
                   </div>
               )}
@@ -188,7 +188,7 @@ export default function StoriesContainer({
                 isPaused={isPaused}
                 onPauseChange={setIsPaused}
               >
-                <CurrentStoryComponent imageSrc={currentStory?.imageSrc} />
+                <CurrentStoryComponent imageSrc={currentStory?.imageSrc} priority />
               </StoryPanel>
             </div>
 
@@ -213,7 +213,7 @@ export default function StoriesContainer({
                               isPaused={isPaused}
                               onPauseChange={setIsPaused}
                           >
-                              <NextStoryComponent imageSrc={nextStory?.imageSrc} />
+                              <NextStoryComponent imageSrc={nextStory?.imageSrc} priority={false} />
                           </StoryPanel>
                       </div>
                   )}
@@ -236,7 +236,7 @@ export default function StoriesContainer({
               isPaused={isPaused}
               onPauseChange={setIsPaused}
             >
-              <CurrentStoryComponent imageSrc={currentStory?.imageSrc} />
+              <CurrentStoryComponent imageSrc={currentStory?.imageSrc} priority />
             </StoryPanel>
           </div>
         </motion.div>

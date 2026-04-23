@@ -128,7 +128,7 @@ export const authors: AuthorEntry[] = [
 
     name: "Guneet Singh",
     role: "Global Tech Leader | Startup Mentor | Venture Builder",
-    avatarUrl: "https://www.sparkonomy.com/authors/ProfilePicture_gunnet.png",
+    avatarUrl: "/authors/ProfilePicture_gunnet.webp",
     shortBio: "I am a tech leader and strategist based in Singapore. After 20 years working across Google, Microsoft, and Samsung I now build and mentor at the edge of technology and new work. Besides building Sparkonomy, I write about how technology systems and AI can support creators by handling the friction, so they can spend more time creating and building a sustainable career.",
 
     socialLinks: {
@@ -361,7 +361,7 @@ export const authors: AuthorEntry[] = [
 
     name: "Binny Agarwal",
     role: "Content Strategist & Chartered Accountant (CA)",
-    avatarUrl: "https://www.sparkonomy.com/authors/BinnyProfilePictue.png",
+    avatarUrl: "/authors/BinnyProfilePictue.webp",
     shortBio:
       "I help creators turn their hobby into a real business. I am a Chartered Accountant (CA) with 12 years of experience, and at Sparkonomy I write simple guides on money, systems, and how AI can complement your work by taking care of boring admin, so you can create more while building a career that lasts.",
 
@@ -461,7 +461,7 @@ export const authors: AuthorEntry[] = [
 
     name: "Saurabh Mongia",
     role: "VP (Legal Entity Control) | Chartered Accountant | Finance Controls & Compliance",
-    avatarUrl: "https://www.sparkonomy.com/authors/ProfilePictureSaurabh.jpg",
+    avatarUrl: "/authors/ProfilePictureSaurabh.jpg",
     shortBio:
       "I am a Chartered Accountant and finance leader with 16+ years of experience in reporting, regulatory compliance, and control frameworks. I currently work as Vice President (Legal Entity Control) at Morgan Stanley, and at Sparkonomy I share practical, creator-friendly guidance to help you manage money better, from raising the perfect invoice to navigating complex cross-border taxation.",
 
@@ -555,7 +555,7 @@ export const authors: AuthorEntry[] = [
 
     name: "Megha Thareja Tyagi",
     role: "Co-Founder, Sparkonomy",
-    avatarUrl: "https://www.sparkonomy.com/authors/ProfilePictureMegha.png",
+    avatarUrl: "/authors/ProfilePictureMegha.webp",
     shortBio:
       "The creator economy doesn't have a content problem, it has an infrastructure problem. After two decades of building growth engines at Google, PayPal, and American Express, that's the problem I'm here to fix.",
 
@@ -672,7 +672,7 @@ export const authors: AuthorEntry[] = [
 
     name: "Rachit Jain",
     role: "Growth, Partnerships, and GTM leader",
-    avatarUrl: "/authors/rachit-jain-sparkonomy-author.png",
+    avatarUrl: "/authors/rachit-jain-sparkonomy-author.webp",
     shortBio:
       "I am a growth and partnerships leader based in Gurugram, with 20+ years of experience across Meta, Google, SAP, and IBM. At Sparkonomy, I write about growth strategy, monetization, partnerships, and how smart systems can help creators build stronger, more durable revenue streams. I am also an adjunct faculty at Manipal Academy of Higher Education.",
 
@@ -783,7 +783,7 @@ export const authors: AuthorEntry[] = [
 
     name: "Vipasha Joshi",
     role: "Co-Founder & Global Head of Creator Business, Sparkonomy",
-    avatarUrl: "/authors/ProfilePictureVipasha.png",
+    avatarUrl: "/authors/ProfilePictureVipasha.webp",
     shortBio:
       "I am a creator economy expert and former Googler with 16+ years building for the internet. I'm now building the AI-driven infrastructure at Sparkonomy to help creators turn their cultural influence into sustainable businesses.",
 
@@ -865,72 +865,9 @@ export const authors: AuthorEntry[] = [
       },
     ],
 
-    featuredArticles: [
-      {
-        id: "aeo-playbook-for-creators",
-        title: "The AEO Playbook for Creators: How to format content for AI engines",
-        description: "A practical guide for creators on structuring content so AI answer engines surface and cite your work.",
-        imageSrc: "/blog/default-thumbnail.jpg",
-        date: "2026",
-        readingTime: "10 min read",
-        href: "/blogs/aeo-playbook-for-creators",
-      },
-      {
-        id: "moving-past-lone-wolf-mindset",
-        title: "Moving Past the Lone Wolf Mindset: Why multi-platform teams are essential",
-        description: "Why the next chapter of the creator economy belongs to creators who build teams and systems, not solo operators.",
-        imageSrc: "/blog/default-thumbnail.jpg",
-        date: "2026",
-        readingTime: "8 min read",
-        href: "/blogs/moving-past-lone-wolf-mindset",
-      },
-      {
-        id: "community-over-competition-web3",
-        title: "Community Over Competition in Web3: Why the future is built by collaboration",
-        description: "How collaborative communities — not competitive silos — will define the next wave of internet-native businesses.",
-        imageSrc: "/blog/default-thumbnail.jpg",
-        date: "2026",
-        readingTime: "12 min read",
-        href: "/blogs/community-over-competition-web3",
-      },
-    ],
-    recentArticles: [
-      {
-        id: "dei-in-gaming-industry",
-        title: "Breaking Stereotypes: DEI in the Gaming Industry",
-        date: "2026",
-        imageSrc: "/blog/default-thumbnail.jpg",
-        href: "/blogs/dei-in-gaming-industry",
-      },
-      {
-        id: "designing-for-hinglish-users",
-        title: "Designing Interfaces for \"Hinglish\" Native Users",
-        date: "2026",
-        imageSrc: "/blog/default-thumbnail.jpg",
-        href: "/blogs/designing-for-hinglish-users",
-      },
-      {
-        id: "original-insight-ai-world",
-        title: "How to Build Original Insight in an AI-Generated World",
-        date: "2026",
-        imageSrc: "/blog/default-thumbnail.jpg",
-        href: "/blogs/original-insight-ai-world",
-      },
-      {
-        id: "scaling-content-facebook-snap-insta",
-        title: "Scaling Your Content: Facebook, Snap, and Insta",
-        date: "2026",
-        imageSrc: "/blog/default-thumbnail.jpg",
-        href: "/blogs/scaling-content-facebook-snap-insta",
-      },
-      {
-        id: "verified-expertise-2026-search",
-        title: "The Importance of Verified Expertise in 2026 Search",
-        date: "2026",
-        imageSrc: "/blog/default-thumbnail.jpg",
-        href: "/blogs/verified-expertise-2026-search",
-      },
-    ],
+    // Articles fetched from WordPress - no hardcoded articles
+    featuredArticles: [],
+    recentArticles: [],
 
     areasOfExpertise: [
       "Creator Economy",

@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { CategoryBlogTemplate, CATEGORY_CONFIGS } from "@/components/blog/common";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+export const revalidate = 300;
 
 const config = CATEGORY_CONFIGS.brand;
 

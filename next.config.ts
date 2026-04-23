@@ -3,7 +3,7 @@ import type {NextConfig} from "next";
 const nextConfig: NextConfig = {
   /* config options here */
     images: {
-        unoptimized: true,
+        formats: ['image/avif', 'image/webp'],
         remotePatterns: [
             {
                 protocol: 'https',
@@ -13,6 +13,11 @@ const nextConfig: NextConfig = {
             {
                 protocol: 'https',
                 hostname: 'blog.sparkonomy.com',
+                pathname: '/**',
+            },
+            {
+                protocol: 'https',
+                hostname: 'www.sparkonomy.com',
                 pathname: '/**',
             },
             {
