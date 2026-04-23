@@ -69,23 +69,34 @@ export default function StoriesContainer({
   const PreviousStoryComponent = previousStory?.component;
   const NextStoryComponent = nextStory?.component;
 
-  // Handle story progression
+  // Handle story progression via requestAnimationFrame — cheaper than a 20Hz
+  // setInterval that was re-rendering the progress bar + story tree every 50ms
+  // (Lighthouse flagged this as a major TBT + long-task contributor on mobile).
   useEffect(() => {
     if (isPaused || !isVisible) return;
 
-    const interval = setInterval(() => {
-      setProgress((prev) => {
-        const increment = (100 / currentStory?.duration) * 50; // Update every 50ms
-        if (prev >= 100) {
-          clearInterval(interval);
-          advance("auto");
-          return 0;
-        }
-        return prev + increment;
-      });
-    }, 50);
+    const duration = currentStory?.duration ?? STORY_DURATION;
+    let rafId = 0;
+    let startTs = 0;
+    let advanced = false;
 
-    return () => clearInterval(interval);
+    const tick = (ts: number) => {
+      if (!startTs) startTs = ts;
+      const elapsed = ts - startTs;
+      const pct = Math.min((elapsed / duration) * 100, 100);
+      setProgress(pct);
+      if (pct >= 100) {
+        if (!advanced) {
+          advanced = true;
+          advance("auto");
+        }
+        return;
+      }
+      rafId = requestAnimationFrame(tick);
+    };
+
+    rafId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafId);
   }, [currentIndex, isPaused, currentStory?.duration, isVisible]);
 
   const advance = useCallback((trigger: "auto" | "click") => {

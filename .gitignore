@@ -48,3 +48,6 @@ next-env.d.ts
 .idea
 
 settings.local.json
+
+# Originals kept by scripts/compress-earn-images.mjs as local backups only.
+public/images/**/*.orig.png
