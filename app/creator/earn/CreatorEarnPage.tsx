@@ -61,6 +61,8 @@ function CreatorEarnPageContent() {
   // connections don't race the 4s auto-dismiss once the overlay starts playing.
   // Skipped on mobile — the 5 MB PNG is a major LCP/Speed-Index regression on
   // slow-4G phones, and the celebration still loads lazily when it mounts.
+  // Also deferred past the hero's LCP so it doesn't compete for bandwidth
+  // on first paint.
   useEffect(() => {
     const now = new Date();
     const start = new Date(2026, 3, 20);
