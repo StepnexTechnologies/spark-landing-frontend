@@ -4,8 +4,7 @@ import { Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { getPostBySlug, getFeaturedImageUrl, getAuthorName, getAuthorNames, getPostAuthors, getPostAuthorsAsync, formatDate, stripHtml, decodeHtmlEntities, getReadingTime, getPosts, getPostsByCategory } from "@/lib/wordpress-improved";
-import { extractHeadings, addHeadingIds, extractFAQs, extractVideos, removeWordPressTOC, extractFirstParagraph, removeLeadingFeaturedImageBlock, processH6Markers, lazyLoadImages } from "@/lib/content-processor";
-import { extractHeadings, addHeadingIds, extractFAQs, extractVideos, removeWordPressTOC, extractFirstParagraph, removeLeadingFeaturedImageBlock, processH6Markers, openLinksInNewTab } from "@/lib/content-processor";
+import { extractHeadings, addHeadingIds, extractFAQs, extractVideos, removeWordPressTOC, extractFirstParagraph, removeLeadingFeaturedImageBlock, processH6Markers, lazyLoadImages, openLinksInNewTab } from "@/lib/content-processor";
 import ShareButtons from "@/components/blog/ShareButtons";
 import Breadcrumb from "@/components/blog/Breadcrumb";
 import BlogLanguageSwitcher from "@/components/blog/BlogLanguageSwitcher";
@@ -176,12 +175,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const contentWithoutDuplicate = featuredImage
     ? removeLeadingFeaturedImageBlock(contentAfterParagraph, featuredImage)
     : contentAfterParagraph;
-  // Add native lazy-loading to body images so only the featured image competes for LCP
-  const processedContent = lazyLoadImages(contentWithoutDuplicate);
-  const contentWithoutLeadingImage = featuredImage
-    ? removeLeadingFeaturedImageBlock(contentAfterParagraph, featuredImage)
-    : contentAfterParagraph;
-  const processedContent = openLinksInNewTab(contentWithoutLeadingImage);
+  // Add native lazy-loading to body images (only featured image competes for LCP)
+  // and force links to open in a new tab
+  const processedContent = openLinksInNewTab(lazyLoadImages(contentWithoutDuplicate));
 
   // Get category for breadcrumb and related resources
   const categoryName = post._embedded?.["wp:term"]?.[0]?.[0]?.name || "";
