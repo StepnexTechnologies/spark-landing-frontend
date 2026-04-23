@@ -157,9 +157,9 @@ export default function  AuthorCard({
 
           {/* Previous Companies - Right Side on Desktop */}
           {displayCompanies.length > 0 && (
-            <div className="hidden md:flex flex-col items-end">
+~            <div className="hidden md:flex flex-col items-end max-w-[50%]">
               <p className="text-sm text-[#6B7280] mb-2">{previousCompaniesLabel}</p>
-              <div className="flex items-center gap-4">
+              <div className="flex flex-wrap items-center justify-end gap-4">
                 {displayCompanies.map((company, index) => (
                   company.logo ? (
                     <Image
@@ -186,7 +186,7 @@ export default function  AuthorCard({
         {displayCompanies.length > 0 && (
           <div className="md:hidden flex flex-col items-start">
             <p className="text-xs text-[#6B7280] mb-2">{previousCompaniesLabel}</p>
-            <div className="flex items-center gap-3">
+            <div className="flex flex-wrap items-center gap-3">
               {displayCompanies.map((company, index) => (
                 company.logo ? (
                   <Image
