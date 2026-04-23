@@ -10,6 +10,7 @@ import {
 import {
   getPosts,
   getPostsByAuthor,
+  getPostsByAuthorSlug,
   getFeaturedImageUrl,
   formatDate,
   stripHtml,
@@ -116,39 +117,45 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
     notFound();
   }
 
-  // Fetch articles from WordPress if wordpressAuthorId is set
+  // Fetch articles from WordPress. Prefer wordpressAuthorId for regular WP
+  // users; fall back to wordpressSlug (handles Co-Authors Plus guest authors
+  // whose slugs are not resolvable via /users?slug=).
   let featuredArticles: FeaturedArticle[] | undefined;
   let recentArticles: RecentArticle[] | undefined;
 
-  if (author.wordpressAuthorId) {
-    try {
-      const { data: posts } = await getPostsByAuthor(author.wordpressAuthorId, 1, 10);
-
-      if (posts.length > 0) {
-        // First 2-3 posts as featured articles
-        featuredArticles = posts.slice(0, 3).map((post) => ({
-          id: String(post.id),
-          title: decodeHtmlEntities(post.title.rendered),
-          description: decodeHtmlEntities(post.excerpt.rendered).slice(0, 100) + "...",
-          imageSrc: getFeaturedImageUrl(post, "full") || "/blog/default-thumbnail.jpg",
-          date: formatDate(post.date),
-          readingTime: `${getReadingTime(post)} min read`,
-          href: `/blogs/${post.slug}`,
-        }));
-
-        // Remaining posts as recent articles
-        recentArticles = posts.slice(3).map((post) => ({
-          id: String(post.id),
-          title: decodeHtmlEntities(post.title.rendered),
-          date: formatDate(post.date),
-          imageSrc: getFeaturedImageUrl(post, "full") || "/blog/default-thumbnail.jpg",
-          href: `/blogs/${post.slug}`,
-        }));
-      }
-    } catch (error) {
-      console.error("Error fetching WordPress posts for author:", error);
-      // Fall back to hardcoded articles if fetch fails
+  try {
+    let posts: Awaited<ReturnType<typeof getPostsByAuthor>>["data"] = [];
+    if (author.wordpressAuthorId) {
+      const res = await getPostsByAuthor(author.wordpressAuthorId, 1, 10);
+      posts = res.data;
+    } else if (author.wordpressSlug) {
+      posts = await getPostsByAuthorSlug(author.wordpressSlug, 10);
     }
+
+    if (posts.length > 0) {
+      // First 2-3 posts as featured articles
+      featuredArticles = posts.slice(0, 3).map((post) => ({
+        id: String(post.id),
+        title: decodeHtmlEntities(post.title.rendered),
+        description: decodeHtmlEntities(post.excerpt.rendered).slice(0, 100) + "...",
+        imageSrc: getFeaturedImageUrl(post, "full") || "/blog/default-thumbnail.jpg",
+        date: formatDate(post.date),
+        readingTime: `${getReadingTime(post)} min read`,
+        href: `/blogs/${post.slug}`,
+      }));
+
+      // Remaining posts as recent articles
+      recentArticles = posts.slice(3).map((post) => ({
+        id: String(post.id),
+        title: decodeHtmlEntities(post.title.rendered),
+        date: formatDate(post.date),
+        imageSrc: getFeaturedImageUrl(post, "full") || "/blog/default-thumbnail.jpg",
+        href: `/blogs/${post.slug}`,
+      }));
+    }
+  } catch (error) {
+    console.error("Error fetching WordPress posts for author:", error);
+    // Fall back to hardcoded articles if fetch fails
   }
 
   // Fetch latest 3 posts from WordPress for Recent Articles section (for all authors)

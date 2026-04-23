@@ -4,7 +4,7 @@ import { Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { getPostBySlug, getFeaturedImageUrl, getAuthorName, getAuthorNames, getPostAuthors, getPostAuthorsAsync, formatDate, stripHtml, decodeHtmlEntities, getReadingTime, getPosts, getPostsByCategory } from "@/lib/wordpress-improved";
-import { extractHeadings, addHeadingIds, extractFAQs, extractVideos, removeWordPressTOC, extractFirstParagraph, removeLeadingFeaturedImageBlock, processH6Markers } from "@/lib/content-processor";
+import { extractHeadings, addHeadingIds, extractFAQs, extractVideos, removeWordPressTOC, extractFirstParagraph, removeLeadingFeaturedImageBlock, processH6Markers, lazyLoadImages } from "@/lib/content-processor";
 import ShareButtons from "@/components/blog/ShareButtons";
 import Breadcrumb from "@/components/blog/Breadcrumb";
 import BlogLanguageSwitcher from "@/components/blog/BlogLanguageSwitcher";
@@ -25,6 +25,7 @@ import H6SectionParser from "@/components/blog/H6SectionParser";
 import TaxCalculatorInjector from "@/components/blog/TaxCalculatorInjector";
 import ImageOrientationEnhancer from "@/components/blog/ImageOrientationEnhancer";
 import NewsletterSection from "@/components/blog/NewsletterSection";
+import LazyOnVisible from "@/components/blog/LazyOnVisible";
 import RelatedResourcesInjector from "@/components/blog/RelatedResourcesInjector";
 import BlogScrollTracker from "@/components/blog/BlogScrollTracker";
 import { getAuthorPageSlug, getAuthorByWordPressSlug } from "@/data/authors";
@@ -171,9 +172,11 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   // Extract first paragraph for display before image, and get remaining content
   const { firstParagraph: blogDescription, remainingContent: contentAfterParagraph } = extractFirstParagraph(contentWithIds);
   // Remove leading image block from content if it matches the featured image (prevents duplicate display)
-  const processedContent = featuredImage
+  const contentWithoutDuplicate = featuredImage
     ? removeLeadingFeaturedImageBlock(contentAfterParagraph, featuredImage)
     : contentAfterParagraph;
+  // Add native lazy-loading to body images so only the featured image competes for LCP
+  const processedContent = lazyLoadImages(contentWithoutDuplicate);
 
   // Get category for breadcrumb and related resources
   const categoryName = post._embedded?.["wp:term"]?.[0]?.[0]?.name || "";
@@ -690,14 +693,18 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
           {/* Related Posts */}
           <div className="relative z-0">
-            <RelatedPosts posts={relatedPosts} />
+            <LazyOnVisible minHeight={400}>
+              <RelatedPosts posts={relatedPosts} />
+            </LazyOnVisible>
           </div>
 
         </article>
       </main>
 
       {/* Newsletter Section */}
-      <NewsletterSection />
+      <LazyOnVisible minHeight={300}>
+        <NewsletterSection />
+      </LazyOnVisible>
     </>
   );
 }

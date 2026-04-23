@@ -8,8 +8,7 @@ import MainSectionSkeleton from "@/components/blog/MainSectionSkeleton";
 import NewsletterSection from "@/components/blog/NewsletterSection";
 import { getPosts, getPostTags, decodeHtmlEntities } from "@/lib/wordpress-improved";
 
-export const dynamic = 'force-dynamic';
-export const revalidate = 0;
+export const revalidate = 300;
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.sparkonomy.com/"),

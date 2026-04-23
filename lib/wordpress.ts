@@ -20,7 +20,7 @@ export async function getPosts(
     const response = await fetch(
       `${WORDPRESS_API_URL}/posts?_embed&page=${page}&per_page=${perPage}`,
       {
-        cache: 'no-store', // Disable caching to always fetch fresh data
+        next: { revalidate: 300, tags: ['wp'] },
       }
     );
 
@@ -49,7 +49,7 @@ export async function getPostBySlug(slug: string): Promise<WordPressPost | null>
     const response = await fetch(
       `${WORDPRESS_API_URL}/posts?slug=${slug}&_embed`,
       {
-        cache: 'no-store', // Disable caching to always fetch fresh data
+        next: { revalidate: 300, tags: ['wp'] },
       }
     );
 
@@ -76,7 +76,7 @@ export async function getPostById(id: number): Promise<WordPressPost | null> {
     const response = await fetch(
       `${WORDPRESS_API_URL}/posts/${id}?_embed`,
       {
-        cache: 'no-store', // Disable caching to always fetch fresh data
+        next: { revalidate: 300, tags: ['wp'] },
       }
     );
 
@@ -153,7 +153,7 @@ export async function getPostsByCategory(
     const response = await fetch(
       `${WORDPRESS_API_URL}/posts?categories=${categoryId}&_embed&page=${page}&per_page=${perPage}`,
       {
-        cache: 'no-store', // Disable caching to always fetch fresh data
+        next: { revalidate: 300, tags: ['wp'] },
       }
     );
 
@@ -210,7 +210,7 @@ export async function searchPosts(
     const response = await fetch(
       `${WORDPRESS_API_URL}/posts?search=${encodeURIComponent(query)}&_embed&page=${page}&per_page=${perPage}`,
       {
-        cache: 'no-store', // Disable caching to always fetch fresh data
+        next: { revalidate: 300, tags: ['wp'] },
       }
     );
 

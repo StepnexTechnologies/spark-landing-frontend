@@ -24,7 +24,7 @@ export async function fetchWordPressHTML(slug: string): Promise<WordPressPageDat
   try {
     const url = `${WORDPRESS_BASE_URL}/${slug}/`;
     const response = await fetch(url, {
-      cache: 'no-store', // Always fetch fresh content
+      next: { revalidate: 300, tags: ['wp'] },
       headers: {
         'User-Agent': 'Sparkonomy-Frontend/1.0',
       },
@@ -163,7 +163,7 @@ function cleanWordPressContent(html: string): string {
 export async function fetchWordPressBlogListing(): Promise<string | null> {
   try {
     const response = await fetch(WORDPRESS_BASE_URL, {
-      cache: 'no-store',
+      next: { revalidate: 300, tags: ['wp'] },
       headers: {
         'User-Agent': 'Sparkonomy-Frontend/1.0',
       },
@@ -198,7 +198,7 @@ export async function fetchWordPressCategoryPage(category: string): Promise<stri
   try {
     const url = `${WORDPRESS_BASE_URL}/category/${category}/`;
     const response = await fetch(url, {
-      cache: 'no-store',
+      next: { revalidate: 300, tags: ['wp'] },
       headers: {
         'User-Agent': 'Sparkonomy-Frontend/1.0',
       },
