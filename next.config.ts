@@ -2,6 +2,14 @@ import type {NextConfig} from "next";
 
 const nextConfig: NextConfig = {
   /* config options here */
+    experimental: {
+        optimizePackageImports: [
+            "framer-motion",
+            "lucide-react",
+            "embla-carousel-react",
+            "react-phone-number-input",
+        ],
+    },
     images: {
         formats: ['image/avif', 'image/webp'],
         remotePatterns: [

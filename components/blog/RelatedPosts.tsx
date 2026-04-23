@@ -1,10 +1,20 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
-import useEmblaCarousel from "embla-carousel-react";
+import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import Card from "./BlogCard";
 import { track } from "@/lib/analytics/track";
+
+// Dynamic-import the mobile carousel (embla-carousel-react is ~10 KiB and only
+// needed below lg breakpoint).
+const RelatedPostsMobileCarousel = dynamic(
+  () => import("./RelatedPostsMobileCarousel"),
+  {
+    ssr: false,
+    loading: () => <div className="min-h-[400px]" />,
+  }
+);
 
 interface RelatedPost {
   slug: string;
@@ -21,8 +31,7 @@ interface RelatedPostsProps {
 
 export default function RelatedPosts({ posts, basePath = "/blogs" }: RelatedPostsProps) {
   const pathname = usePathname();
-  const [windowWidth, setWindowWidth] = useState<number>(0);
-  const [isMounted, setIsMounted] = useState(false);
+  const [viewport, setViewport] = useState<"ssr" | "mobile" | "desktop">("ssr");
 
   const handleCardClick = (toSlug: string) => {
     const fromSlug = pathname?.split("/").filter(Boolean).pop() ?? null;
@@ -32,45 +41,17 @@ export default function RelatedPosts({ posts, basePath = "/blogs" }: RelatedPost
     });
   };
 
-  // Track window width client-side (SSR-safe)
+  // Use matchMedia (doesn't read layout props, no forced reflow).
   useEffect(() => {
-    setIsMounted(true);
-    const setWidth = () => setWindowWidth(window.innerWidth);
-    setWidth();
-    window.addEventListener("resize", setWidth);
-    return () => window.removeEventListener("resize", setWidth);
+    const mql = window.matchMedia("(max-width: 1023px)"); // below Tailwind `lg`
+    const update = () => setViewport(mql.matches ? "mobile" : "desktop");
+    update();
+    mql.addEventListener("change", update);
+    return () => mql.removeEventListener("change", update);
   }, []);
 
-  // Only active carousel on mobile and tablet
-  const isCarouselActive = isMounted && windowWidth > 0 && windowWidth < 1024; // Tailwind `lg`
-
-  const [emblaRef, emblaApi] = useEmblaCarousel({
-    align: "center",
-    containScroll: "trimSnaps",
-    loop: false,
-    skipSnaps: false,
-  });
-
-  const [selectedIndex, setSelectedIndex] = useState<number>(1); // Start with middle card
-
-  const onSelect = useCallback(() => {
-    if (!emblaApi) return;
-    setSelectedIndex(emblaApi.selectedScrollSnap());
-  }, [emblaApi]);
-
-  useEffect(() => {
-    if (!emblaApi) return;
-    onSelect();
-    emblaApi.on("select", onSelect);
-    emblaApi.on("reInit", onSelect);
-    // Scroll to middle card (index 1) on init
-    emblaApi.scrollTo(1, true);
-  }, [emblaApi, onSelect]);
-
-  const scrollTo = useCallback(
-    (index: number) => emblaApi && emblaApi.scrollTo(index),
-    [emblaApi]
-  );
+  const isMounted = viewport !== "ssr";
+  const isCarouselActive = viewport === "mobile";
 
   if (posts.length === 0) return null;
 
@@ -85,54 +66,12 @@ export default function RelatedPosts({ posts, basePath = "/blogs" }: RelatedPost
 
   return (
     <section className="">
-      {/* Mobile & Tablet: Carousel */}
       {isCarouselActive ? (
-        <div className="relative">
-          <div className="w-full overflow-hidden" ref={emblaRef}>
-            <div
-              className="flex items-center gap-4 will-change-transform box-content"
-              style={{
-                paddingInline: 'calc((100% - 85vw) / 2)',
-              }}
-            >
-              {posts.map((post) => (
-                <div
-                  key={post.slug}
-                  onClickCapture={() => handleCardClick(post.slug)}
-                  className="flex-shrink-0 w-[85vw] max-w-[358px] flex justify-center transition-transform duration-300"
-                >
-                  <Card
-                    title={post.title}
-                    description={post.excerpt}
-                    imageSrc={post.featuredImage}
-                    imageAlt={post.title}
-                    href={`${basePath}/${post.slug}`}
-                    layout="vertical"
-                    descriptionPosition="bottom"
-                    showReadMore={true}
-                    meta={<span>{post.date}</span>}
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Navigation Dots */}
-          <div className="flex justify-center gap-2 mt-5">
-            {posts.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => scrollTo(index)}
-                aria-label={`Go to post ${index + 1}`}
-                className={`h-2.5 rounded-full border-none cursor-pointer transition-all duration-200 ${
-                  selectedIndex === index
-                    ? "w-7 bg-gray-900"
-                    : "w-2.5 bg-gray-900/35"
-                }`}
-              />
-            ))}
-          </div>
-        </div>
+        <RelatedPostsMobileCarousel
+          posts={posts}
+          basePath={basePath}
+          onCardClick={handleCardClick}
+        />
       ) : (
         /* Desktop: Grid Layout */
         <div className="hidden lg:grid grid-cols-2 lg:grid-cols-3 gap-6">

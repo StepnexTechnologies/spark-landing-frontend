@@ -1,12 +1,5 @@
 import type {Metadata} from "next";
 import {ReactNode} from "react";
-import {Roboto} from "next/font/google";
-
-const roboto = Roboto({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-roboto",
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.sparkonomy.com/"),
@@ -76,5 +69,9 @@ export default function EarnLayout({
 }: {
   children: ReactNode;
 }) {
-  return <div className={roboto.className}>{children}</div>;
+  // Roboto is already applied globally via <body> in the root layout — the
+  // previous duplicate next/font declaration here was registering a second
+  // set of font-face blocks (adding 600 weight and unused --font-roboto var)
+  // and shipping an extra font file on the earn route. Consolidated into root.
+  return <>{children}</>;
 }

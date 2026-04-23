@@ -2,8 +2,18 @@ import type {Metadata} from "next";
 import CreatorEarnPage from "./CreatorEarnPage";
 
 type Props = {
-  searchParams: Promise<{ lang?: string }>;
+  searchParams: Promise<{ lang?: string; ref?: string }>;
 };
+
+// Preload hint for the first story's image. First-time visitors see the
+// stories overlay as their LCP, and since the <Image> only mounts after the
+// client finishes hydrating (behind the Loading... gate), the browser otherwise
+// can't begin fetching it until React runs. Emitting a srcset-matching preload
+// on the server lets the fetch overlap hydration. Skipped when ?ref= is
+// present, since referral visitors bypass the stories entirely.
+function nextImageUrl(src: string, width: number, quality = 75): string {
+  return `/_next/image?url=${encodeURIComponent(src)}&w=${width}&q=${quality}`;
+}
 
 export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
   const { lang } = await searchParams;
@@ -44,6 +54,26 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
   };
 }
 
-export default function Page() {
-  return <CreatorEarnPage />;
+export default async function Page({ searchParams }: Props) {
+  const { lang, ref } = await searchParams;
+  const storyImage = lang === "hi-Latn"
+    ? "/images/creator/earn/story-1-hi-Latn.png"
+    : "/images/creator/earn/story-1.png";
+  const shouldPreloadStory = !ref;
+
+  return (
+    <>
+      {shouldPreloadStory && (
+        <link
+          rel="preload"
+          as="image"
+          href={nextImageUrl(storyImage, 828)}
+          imageSrcSet={`${nextImageUrl(storyImage, 640)} 640w, ${nextImageUrl(storyImage, 828)} 828w, ${nextImageUrl(storyImage, 1080)} 1080w`}
+          imageSizes="(max-width: 640px) 90vw, 362px"
+          fetchPriority="high"
+        />
+      )}
+      <CreatorEarnPage />
+    </>
+  );
 }

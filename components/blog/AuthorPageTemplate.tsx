@@ -82,6 +82,7 @@ export default function AuthorPageTemplate({
             src={author.avatarUrl}
             alt={author.name}
             fill
+            sizes="200px"
             className="object-cover rounded-full"
             priority
           />

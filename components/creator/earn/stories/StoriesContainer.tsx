@@ -3,13 +3,17 @@
 import {useCallback, useEffect, useRef, useState} from "react";
 import {useSearchParams} from "next/navigation";
 import {AnimatePresence, motion} from "framer-motion";
+import dynamic from "next/dynamic";
 // import { StoriesContainerProps } from "./types";
 import StoryPanel from "./StoryPanel";
 import StoryProgressBar from "./StoryProgressBar";
 import StoryContent1 from "./StoryContent1";
-import StoryContent2 from "./StoryContent2";
-import StoryContent3 from "./StoryContent3";
-import StoryContent4 from "./StoryContent4";
+// Stories 2-4 only appear after user interaction (auto-advance or click), so
+// they stay out of the initial bundle. Story 1 is the LCP candidate and must
+// ship inline.
+const StoryContent2 = dynamic(() => import("./StoryContent2"), { ssr: false });
+const StoryContent3 = dynamic(() => import("./StoryContent3"), { ssr: false });
+const StoryContent4 = dynamic(() => import("./StoryContent4"), { ssr: false });
 import {track} from "@/lib/analytics/track";
 
 const STORY_DURATION = 6000; // 6 seconds per story
