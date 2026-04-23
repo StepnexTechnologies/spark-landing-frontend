@@ -788,6 +788,7 @@ export const authors: AuthorEntry[] = [
       "I am a creator economy expert and former Googler with 16+ years building for the internet. I'm now building the AI-driven infrastructure at Sparkonomy to help creators turn their cultural influence into sustainable businesses.",
 
     socialLinks: {
+      twitter: "https://twitter.com/TheVipashaJoshi",
       linkedin: "https://www.linkedin.com/in/vipashajoshi",
       email: "vipashaj@sparkonomy.com",
     },
