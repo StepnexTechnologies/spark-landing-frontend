@@ -4,12 +4,14 @@ import Link from "next/link";
 import { motion, useAnimation } from "framer-motion";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Home, Sparkles } from "lucide-react";
+import { track } from "@/lib/analytics/track";
 
 function ThankYouContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   // const [responseMessage, setResponseMessage] = useState<string | null>(null);
   const number = searchParams.get("waitlist_id");
+  const isReturning = searchParams.get("returning") === "1";
   const controls = useAnimation();
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -18,6 +20,8 @@ function ThankYouContent() {
       router.push("/");
       return;
     }
+
+    track("thank_you_view", { waitlist_id: number });
 
     // const message = localStorage.getItem("waitlistResponse");
     // setResponseMessage(message);
@@ -105,12 +109,9 @@ function ThankYouContent() {
           animate={{opacity: 1, y: 0}}
           transition={{delay: 0.6, duration: 0.8, ease: "easeOut"}}
         >
-          {/*{responseMessage === "You have been added to the waitlist!"*/}
-          {/*  ? "We're excited to have you join our journey to ignite AI innovation."*/}
-          {/*  : responseMessage === "Already in the waitlist"*/}
-          {/*    ? "We love your enthusiasm and you're already in the queue..."*/}
-          {/*    : "Oops an unexpected error occurred, we'll fix it right away!"}*/}
-          We&#39;ll be in touch
+          {isReturning
+            ? "We love your enthusiasm — you\u2019re already on the list!"
+            : "We\u2019re excited to have you join. We\u2019ll be in touch!"}
         </motion.p>
       </motion.div>
     </div>

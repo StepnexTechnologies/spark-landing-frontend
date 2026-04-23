@@ -1,11 +1,12 @@
 "use client";
 
-import {Suspense, useState, useEffect} from "react";
+import {Suspense, useState, useEffect, useRef} from "react";
 import {motion} from "framer-motion";
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import FAQItem from "./FAQItem";
 import CTAButton from "./CTAButton";
+import {useSectionViewTracking} from "@/lib/hooks/useSectionViewTracking";
 
 interface FAQTranslation {
   question: string;
@@ -15,6 +16,8 @@ interface FAQTranslation {
 export default function FAQSection() {
   const { t, ready } = useTranslation("creatorEarn");
   const [mounted, setMounted] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+  useSectionViewTracking(sectionRef, "faq");
 
   useEffect(() => {
     setMounted(true);
@@ -29,7 +32,7 @@ export default function FAQSection() {
   }
 
   return (
-    <section className="relative py-4 px-5 md:px-20">
+    <section ref={sectionRef} className="relative py-4 px-5 md:px-20">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}

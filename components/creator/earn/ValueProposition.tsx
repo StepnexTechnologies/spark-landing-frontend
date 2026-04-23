@@ -1,13 +1,16 @@
 "use client";
 
-import {Suspense, useState, useEffect} from "react";
+import {Suspense, useState, useEffect, useRef} from "react";
 import {motion} from "framer-motion";
 import { useTranslation } from "react-i18next";
 import CTAButton from "./CTAButton";
+import {useSectionViewTracking} from "@/lib/hooks/useSectionViewTracking";
 
 export default function ValueProposition() {
   const { t, ready } = useTranslation("creatorEarn");
   const [mounted, setMounted] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+  useSectionViewTracking(sectionRef, "value_proposition");
 
   useEffect(() => {
     setMounted(true);
@@ -18,7 +21,7 @@ export default function ValueProposition() {
   }
 
   return (
-    <section className="relative pt-0 pb-12 md:pt-0 md:pb-20 px-5 md:px-20">
+    <section ref={sectionRef} className="relative pt-0 pb-12 md:pt-0 md:pb-20 px-5 md:px-20">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}

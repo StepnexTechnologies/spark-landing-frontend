@@ -1,14 +1,17 @@
 "use client";
 
-import {Suspense, useState, useEffect} from "react";
+import {Suspense, useState, useEffect, useRef} from "react";
 import {motion} from "framer-motion";
 import { useTranslation } from "react-i18next";
 import AdvantageFeature from "./AdvantageFeature";
 import CTAButton from "./CTAButton";
+import {useSectionViewTracking} from "@/lib/hooks/useSectionViewTracking";
 
 export default function AdvantageSection() {
   const { t, ready } = useTranslation("creatorEarn");
   const [mounted, setMounted] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+  useSectionViewTracking(sectionRef, "advantage");
 
   useEffect(() => {
     setMounted(true);
@@ -50,7 +53,7 @@ export default function AdvantageSection() {
   ];
 
   return (
-    <section className="relative py-12 md:py-20 px-5 md:px-20">
+    <section ref={sectionRef} className="relative py-12 md:py-20 px-5 md:px-20">
       <div className="max-w-[1440px] mx-auto">
         {/* Section Header */}
         <motion.div

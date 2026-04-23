@@ -1,9 +1,10 @@
 "use client";
 import type React from "react";
-import {useRef, useState} from "react";
-import {AnimatePresence, motion} from "framer-motion";
+import {useEffect, useRef, useState} from "react";
+import {AnimatePresence, motion, Variants} from "framer-motion";
 import {ArrowRight, Mail, Phone, Sparkles} from "lucide-react";
 import {useSubmitEmail} from "@/lib/hooks/useSubmitEmail";
+import {track} from "@/lib/analytics/track";
 import type {Country} from "@/lib/data/countries";
 import {countries} from "@/lib/data/countries";
 import CountrySelector from "@/components/form/CountrySelector";
@@ -16,31 +17,83 @@ export default function EmailCapture() {
   const [inputType, setInputType] = useState<'email' | 'phone'>('email');
   const [selectedCountry, setSelectedCountry] = useState<Country>(countries[0]);
   const [isPhoneFocused, setIsPhoneFocused] = useState(false);
+  const [detectedCountry, setDetectedCountry] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const { submitEmail, loading, error, responseNumber } = useSubmitEmail();
+  const focusTracked = useRef(false);
+
+  useEffect(() => {
+    fetch('/api/geolocation')
+      .then(res => res.json())
+      .then(data => {
+        if (data.countryCode) {
+          setDetectedCountry(data.countryCode);
+        }
+      })
+      .catch(() => {
+        // Graceful degradation: submit without country if geolocation fails
+      });
+  }, []);
+
+  useEffect(() => {
+    if (error) {
+      track("waitlist_submit_error", {
+        input_type: inputType,
+        error_message: error,
+      });
+    }
+  }, [error, inputType]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitted(true);
+    track("waitlist_submit_attempt", { input_type: inputType });
 
     const submitValue = inputType === 'phone'
       ? `${selectedCountry.dialCode}${email.replace(/\s/g, '')}`
       : email;
-    const { number, message } = await submitEmail(submitValue, inputType);
-    // console.log("Received number from server:", number);
-    // console.log("Received message from server:", message);
+    const country = inputType === 'email' ? (detectedCountry ?? selectedCountry.code) : null;
+    const { number, message, alreadyOnWaitlist } = await submitEmail(submitValue, inputType, country);
 
-      console.log("Redirecting to thank-you page with waitlist_id:", number);
     if (number !== null) {
       localStorage.setItem("waitlistResponse", message);
-      window.location.href = `/thank-you?waitlist_id=${number + 1000}`;
+      track("waitlist_submit_success", {
+        input_type: inputType,
+        waitlist_id: number + 1000,
+      });
+      const params = new URLSearchParams({
+        waitlist_id: String(number + 1000),
+        ...(alreadyOnWaitlist ? { returning: '1' } : {}),
+      });
+      window.location.href = `/thank-you?${params.toString()}`;
     }
   };
 
   const toggleInputType = () => {
-    setInputType(prev => prev === 'email' ? 'phone' : 'email');
+    setInputType(prev => {
+      const next = prev === 'email' ? 'phone' : 'email';
+      track("waitlist_input_type_toggled", { from: prev, to: next });
+      return next;
+    });
     setEmail(''); // Clear input when switching types
+  };
+
+  const handleCountryChange = (country: Country) => {
+    setSelectedCountry(country);
+    track("waitlist_country_changed", {
+      country_code: country.code,
+      dial_code: country.dialCode,
+    });
+  };
+
+  const handleFocus = () => {
+    setIsFocused(true);
+    setIsPhoneFocused(true);
+    if (!focusTracked.current) {
+      focusTracked.current = true;
+      track("waitlist_input_focus", { input_type: inputType });
+    }
   };
 
   const getPlaceholder = () => {
@@ -60,7 +113,7 @@ export default function EmailCapture() {
 
   const hasInput = email.trim().length > 0;
 
-  const glowVariants = {
+  const glowVariants: Variants = {
     initial: {
       boxShadow:
         "0 0 35px rgba(108,99,255,0.7), 0 0 70px rgba(108,99,255,0.4), 0 0 100px rgba(108,99,255,0.2)",
@@ -84,7 +137,7 @@ export default function EmailCapture() {
   };
 
   // Synchronized button glow animation
-  const buttonGlowVariants = {
+  const buttonGlowVariants: Variants = {
     animate: {
       boxShadow: loading
         ? "0 0 25px rgba(255,255,255,0.8), 0 0 40px rgba(255,255,255,0.4)"
@@ -127,7 +180,7 @@ export default function EmailCapture() {
                 <div className="relative z-[60] self-stretch">
                   <CountrySelector
                     selectedCountry={selectedCountry}
-                    onSelectCountry={setSelectedCountry}
+                    onSelectCountry={handleCountryChange}
                     isValid={true}
                     isFocused={isPhoneFocused}
                     rounded="rounded-l-full"
@@ -141,7 +194,7 @@ export default function EmailCapture() {
                 type={inputType === 'email' ? 'email' : 'tel'}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                onFocus={() => { setIsFocused(true); setIsPhoneFocused(true); }}
+                onFocus={handleFocus}
                 onBlur={() => { setIsFocused(false); setIsPhoneFocused(false); }}
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
