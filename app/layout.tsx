@@ -8,7 +8,7 @@ import Script from "next/script";
 import type {Metadata} from "next";
 import CookieConsentScript from "@/components/CookieConsentScript";
 
-const roboto = Roboto({ subsets: ["latin"], weight: ["300", "400", "500", "700"] });
+const roboto = Roboto({ subsets: ["latin"], weight: ["400", "500", "600", "700"], display: "swap" });
 
 export const metadata: Metadata = {
   icons: {

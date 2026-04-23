@@ -66,7 +66,24 @@
       "Bash(gh pr *)",
       "Bash(git ls-remote *)",
       "Bash(git push *)",
-      "Bash(git fetch *)"
+      "Bash(git fetch *)",
+      "Bash(xargs ls *)",
+      "Bash(node scripts/compress-earn-images.mjs)",
+      "WebFetch(domain:pagespeed.web.dev)",
+      "PowerShell(npx eslint components/blog/RelatedPosts.tsx components/blog/BlogHeader.tsx app/root-layout-client.tsx app/blogs/layout.tsx 2>&1)",
+      "Bash(npx tsc *)",
+      "PowerShell(npx eslint components/blog/RelatedPosts.tsx components/blog/RelatedPostsMobileCarousel.tsx app/root-layout-client.tsx \"app/blogs/author/[slug]/page.tsx\" 2>&1)",
+      "WebFetch(domain:www.googleapis.com)",
+      "Bash(curl -s \"https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=https://www.sparkonomy.com&strategy=mobile&category=performance\" -o /tmp/psi.json)",
+      "Read(//tmp/**)",
+      "Bash(python3 -c \"import json; d=json.load\\(open\\('/tmp/psi.json'\\)\\); print\\('score:', d['lighthouseResult']['categories']['performance']['score']\\); audits=d['lighthouseResult']['audits']; [print\\(f\\\\\"{k}: score={v.get\\('score'\\)} display={v.get\\('displayValue',''\\)}\\\\\"\\) for k,v in audits.items\\(\\) if v.get\\('score'\\) is not None and v.get\\('score'\\) != 1 and v.get\\('score'\\) != None]\")",
+      "Read(//c/tmp/**)",
+      "Bash(curl -sS \"https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=https://www.sparkonomy.com&strategy=mobile&category=performance\" -o psi-mobile.json)",
+      "Bash(node -e \"const d=require\\('./psi-mobile.json'\\); if\\(d.error\\){console.log\\('ERROR',JSON.stringify\\(d.error\\)\\);process.exit\\(1\\)} const a=d.lighthouseResult.audits; console.log\\('score:',d.lighthouseResult.categories.performance.score\\); ['largest-contentful-paint','first-contentful-paint','total-blocking-time','cumulative-layout-shift','speed-index','server-response-time','interactive'].forEach\\(k=>console.log\\(k, a[k]&&a[k].displayValue, 'score=',a[k]&&a[k].score\\)\\); console.log\\('--- FAILING/OPPORTUNITY ---'\\); Object.entries\\(a\\).forEach\\(\\([k,v]\\)=>{ if\\(v.score!==null && v.score<0.9 && v.score!==undefined\\){ console.log\\(k,'|score',v.score,'|',v.displayValue||v.title\\) } }\\);\")",
+      "PowerShell(npx --no-install tsc --noEmit 2>&1)",
+      "PowerShell(npx --no-install next lint . 2>&1)",
+      "PowerShell(npm run lint 2>&1)",
+      "PowerShell(npx --no-install eslint app/layout.tsx app/root-layout-client.tsx next.config.ts 2>&1)"
     ],
     "additionalDirectories": [
       "C:\\Users\\HP\\.claude\\plans"

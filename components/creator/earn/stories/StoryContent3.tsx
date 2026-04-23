@@ -41,6 +41,8 @@ export default function StoryContent3({ imageSrc = "/images/creator/earn/story-3
                     width={362}
                     height={595}
                     priority={priority}
+                    fetchPriority={priority ? "high" : undefined}
+                    sizes="(max-width: 640px) 90vw, 362px"
                     className="h-full w-full object-contain"
                 />
             </div>

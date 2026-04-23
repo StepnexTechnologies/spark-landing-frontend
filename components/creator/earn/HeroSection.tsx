@@ -9,9 +9,8 @@ import CTAButton from "./CTAButton";
 import { useSectionViewTracking } from "@/lib/hooks/useSectionViewTracking";
 
 export default function HeroSection() {
-  const { t, ready } = useTranslation("creatorEarn");
+  const { t } = useTranslation("creatorEarn");
   const [scrollProgress, setScrollProgress] = useState(0);
-  const [mounted, setMounted] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   useSectionViewTracking(sectionRef, "earn_hero", { event: "earn_hero_view" });
 
@@ -25,25 +24,22 @@ export default function HeroSection() {
     return FORCE_CREATOR_WEEK || (now >= start && now < end);
   })();
 
+  // rAF-throttled scroll handler — prevents a setState + forced reflow on every
+  // wheel event, which Lighthouse flagged as a major TBT contributor on mobile.
   useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
+    let ticking = false;
     const handleScroll = () => {
-      const scrollPosition = window.scrollY;
-      const windowHeight = window.innerHeight;
-      const progress = Math.min(scrollPosition / (windowHeight * 0.4), 1);
-      setScrollProgress(progress);
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const progress = Math.min(window.scrollY / (window.innerHeight * 0.4), 1);
+        setScrollProgress(progress);
+        ticking = false;
+      });
     };
-
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  if (!mounted || !ready) {
-    return null;
-  }
 
   return (
     <section ref={sectionRef} className="relative pt-8 md:pt-16 pb-12 md:pb-20 px-5 md:px-20 overflow-hidden">
@@ -87,8 +83,10 @@ export default function HeroSection() {
               src="/images/creator/earn/hero-illustration-2.png"
               alt="Happy woman pointing at phone showing invoice"
               fill
+              sizes="(max-width: 768px) 340px, 784px"
               className="object-contain"
               priority
+              fetchPriority="high"
             />
           </div>
         </motion.div>

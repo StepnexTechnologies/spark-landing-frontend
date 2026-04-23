@@ -50,7 +50,7 @@ export default function  BlogHeader() {
                             className={cn(
                                 "relative py-2 font-medium transition-colors text-sm md:text-base",
                                 "after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5",
-                                "after:transition-all after:duration-300",
+                                "after:transition-opacity after:duration-300",
                                 "after:bg-gradient-to-r after:from-[#DD2A7B] after:to-[#9747FF] after:opacity-0 hover:after:opacity-100",
                                 pathname === "/blogs"
                                     ? "bg-gradient-to-r from-[#DD2A7B] to-[#9747FF] text-transparent bg-clip-text"
@@ -66,7 +66,7 @@ export default function  BlogHeader() {
                                 className={cn(
                                     "relative py-2 font-medium transition-colors text-sm md:text-base",
                                     "after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5",
-                                    "after:transition-all after:duration-300",
+                                    "after:transition-opacity after:duration-300",
                                     "after:bg-gradient-to-r after:from-[#DD2A7B] after:to-[#9747FF] after:opacity-0 hover:after:opacity-100",
                                     pathname === item.href
                                         ? "bg-gradient-to-r from-[#DD2A7B] to-[#9747FF] text-transparent bg-clip-text"

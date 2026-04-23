@@ -119,19 +119,25 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
 
   // Fetch articles from WordPress. Prefer wordpressAuthorId for regular WP
   // users; fall back to wordpressSlug (handles Co-Authors Plus guest authors
-  // whose slugs are not resolvable via /users?slug=).
+  // whose slugs are not resolvable via /users?slug=). The two fetches run in
+  // parallel so the per-author call and the site-wide latest call overlap.
   let featuredArticles: FeaturedArticle[] | undefined;
   let recentArticles: RecentArticle[] | undefined;
 
-  try {
-    let posts: Awaited<ReturnType<typeof getPostsByAuthor>>["data"] = [];
-    if (author.wordpressAuthorId) {
-      const res = await getPostsByAuthor(author.wordpressAuthorId, 1, 10);
-      posts = res.data;
-    } else if (author.wordpressSlug) {
-      posts = await getPostsByAuthorSlug(author.wordpressSlug, 10);
-    }
+  type AuthorPostsData = Awaited<ReturnType<typeof getPostsByAuthor>>["data"];
+  const authorPostsPromise: Promise<AuthorPostsData> = author.wordpressAuthorId
+    ? getPostsByAuthor(author.wordpressAuthorId, 1, 10).then((r) => r.data)
+    : author.wordpressSlug
+      ? getPostsByAuthorSlug(author.wordpressSlug, 10)
+      : Promise.resolve([] as AuthorPostsData);
 
+  const [authorResult, latestResult] = await Promise.allSettled([
+    authorPostsPromise,
+    getPosts(1, 3),
+  ]);
+
+  if (authorResult.status === "fulfilled") {
+    const posts = authorResult.value;
     if (posts.length > 0) {
       // First 2-3 posts as featured articles
       featuredArticles = posts.slice(0, 3).map((post) => ({
@@ -144,7 +150,8 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
         href: `/blogs/${post.slug}`,
       }));
 
-      // Remaining posts as recent articles
+      // Remaining posts as recent articles (fallback if the latest-posts
+      // fetch below fails — otherwise it gets overwritten).
       recentArticles = posts.slice(3).map((post) => ({
         id: String(post.id),
         title: decodeHtmlEntities(post.title.rendered),
@@ -153,15 +160,12 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
         href: `/blogs/${post.slug}`,
       }));
     }
-  } catch (error) {
-    console.error("Error fetching WordPress posts for author:", error);
-    // Fall back to hardcoded articles if fetch fails
+  } else {
+    console.error("Error fetching WordPress posts for author:", authorResult.reason);
   }
 
-  // Fetch latest 3 posts from WordPress for Recent Articles section (for all authors)
-  try {
-    const { data: latestPosts } = await getPosts(1, 3);
-
+  if (latestResult.status === "fulfilled") {
+    const { data: latestPosts } = latestResult.value;
     if (latestPosts.length > 0) {
       recentArticles = latestPosts.map((post) => ({
         id: String(post.id),
@@ -171,9 +175,8 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
         href: `/blogs/${post.slug}`,
       }));
     }
-  } catch (error) {
-    console.error("Error fetching latest WordPress posts:", error);
-    // Fall back to hardcoded articles if fetch fails
+  } else {
+    console.error("Error fetching latest WordPress posts:", latestResult.reason);
   }
 
   // Build social links array for structured data

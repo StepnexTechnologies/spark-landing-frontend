@@ -59,13 +59,16 @@ function CreatorEarnPageContent() {
 
   // Preload the Creators Week celebration image during idle time so slow
   // connections don't race the 4s auto-dismiss once the overlay starts playing.
-  // Deferred past the hero's LCP so the 5 MB PNG doesn't compete for bandwidth
+  // Skipped on mobile — the 5 MB PNG is a major LCP/Speed-Index regression on
+  // slow-4G phones, and the celebration still loads lazily when it mounts.
+  // Also deferred past the hero's LCP so it doesn't compete for bandwidth
   // on first paint.
   useEffect(() => {
     const now = new Date();
     const start = new Date(2026, 3, 20);
     const end = new Date(2026, 3, 28);
     if (now < start || now >= end) return;
+    if (window.matchMedia("(max-width: 768px)").matches) return;
 
     let cancelled = false;
     let link: HTMLLinkElement | null = null;
