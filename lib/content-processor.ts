@@ -54,6 +54,34 @@ export function extractFirstParagraph(html: string): { firstParagraph: string; r
 }
 
 /**
+ * Force every anchor in rendered blog content to open in a new tab.
+ * Skips hash-only links (e.g. #section) so in-page TOC navigation keeps working.
+ */
+export function openLinksInNewTab(html: string): string {
+  return html.replace(/<a\b([^>]*)>/gi, (match, attrs: string) => {
+    const hrefMatch = attrs.match(/\shref\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))/i);
+    const href = hrefMatch ? (hrefMatch[1] ?? hrefMatch[2] ?? hrefMatch[3] ?? '') : '';
+    if (!href || href.trim().startsWith('#')) return match;
+
+    let newAttrs = attrs.replace(/\starget\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+)/gi, '');
+    newAttrs = newAttrs.replace(/\srel\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))/i, (_m, d, s, u) => {
+      const existing = (d ?? s ?? u ?? '').split(/\s+/).filter(Boolean);
+      for (const token of ['noopener', 'noreferrer']) {
+        if (!existing.includes(token)) existing.push(token);
+      }
+      return ` rel="${existing.join(' ')}"`;
+    });
+
+    if (!/\srel\s*=/i.test(newAttrs)) {
+      newAttrs += ' rel="noopener noreferrer"';
+    }
+    newAttrs += ' target="_blank"';
+
+    return `<a${newAttrs}>`;
+  });
+}
+
+/**
  * Remove the first paragraph from content (typically the excerpt/description)
  * since it's displayed separately before the featured image
  */
