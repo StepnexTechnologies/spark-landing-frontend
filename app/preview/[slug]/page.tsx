@@ -4,7 +4,7 @@ import { Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { getDraftPostById, getFeaturedImageUrl, getAuthorName, getAuthorNames, getPostAuthors, getPostAuthorsAsync, formatDate, stripHtml, decodeHtmlEntities, getReadingTime, getDraftPosts, getPostsByCategory } from "@/lib/wordpress-improved";
-import { extractHeadings, addHeadingIds, removeWordPressTOC, extractFirstParagraph, removeLeadingFeaturedImageBlock, processH6Markers } from "@/lib/content-processor";
+import { extractHeadings, addHeadingIds, removeWordPressTOC, extractFirstParagraph, removeLeadingFeaturedImageBlock, processH6Markers, openLinksInNewTab } from "@/lib/content-processor";
 import Breadcrumb from "@/components/blog/Breadcrumb";
 import BlogLanguageSwitcher from "@/components/blog/BlogLanguageSwitcher";
 import TOCEnhancer from "@/components/blog/TOCEnhancer";
@@ -157,9 +157,10 @@ export default async function PreviewPostPage({ params }: PreviewPostPageProps) 
   // Extract first paragraph for display before image, and get remaining content
   const { firstParagraph: blogDescription, remainingContent: contentAfterParagraph } = extractFirstParagraph(contentWithIds);
   // Remove leading image block from content if it matches the featured image (prevents duplicate display)
-  const processedContent = featuredImage
+  const contentWithoutLeadingImage = featuredImage
     ? removeLeadingFeaturedImageBlock(contentAfterParagraph, featuredImage)
     : contentAfterParagraph;
+  const processedContent = openLinksInNewTab(contentWithoutLeadingImage);
 
   // Get category for breadcrumb and related resources
   const categoryName = post._embedded?.["wp:term"]?.[0]?.[0]?.name || "";
@@ -266,6 +267,8 @@ export default async function PreviewPostPage({ params }: PreviewPostPageProps) 
                       <div>
                         <Link
                           href={`/blogs/author/${authorData.authorPageSlug}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
                           className="text-base md:text-2xl font-semibold text-[#6B7280] hover:text-purple-600 transition-colors"
                         >
                           {authorData.name}

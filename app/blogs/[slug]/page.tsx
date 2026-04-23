@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { getPostBySlug, getFeaturedImageUrl, getAuthorName, getAuthorNames, getPostAuthors, getPostAuthorsAsync, formatDate, stripHtml, decodeHtmlEntities, getReadingTime, getPosts, getPostsByCategory } from "@/lib/wordpress-improved";
 import { extractHeadings, addHeadingIds, extractFAQs, extractVideos, removeWordPressTOC, extractFirstParagraph, removeLeadingFeaturedImageBlock, processH6Markers, lazyLoadImages } from "@/lib/content-processor";
+import { extractHeadings, addHeadingIds, extractFAQs, extractVideos, removeWordPressTOC, extractFirstParagraph, removeLeadingFeaturedImageBlock, processH6Markers, openLinksInNewTab } from "@/lib/content-processor";
 import ShareButtons from "@/components/blog/ShareButtons";
 import Breadcrumb from "@/components/blog/Breadcrumb";
 import BlogLanguageSwitcher from "@/components/blog/BlogLanguageSwitcher";
@@ -177,6 +178,10 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     : contentAfterParagraph;
   // Add native lazy-loading to body images so only the featured image competes for LCP
   const processedContent = lazyLoadImages(contentWithoutDuplicate);
+  const contentWithoutLeadingImage = featuredImage
+    ? removeLeadingFeaturedImageBlock(contentAfterParagraph, featuredImage)
+    : contentAfterParagraph;
+  const processedContent = openLinksInNewTab(contentWithoutLeadingImage);
 
   // Get category for breadcrumb and related resources
   const categoryName = post._embedded?.["wp:term"]?.[0]?.[0]?.name || "";
@@ -475,6 +480,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                       <div>
                         <Link
                           href={`/blogs/author/${authorData.authorPageSlug}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
                           className="text-base md:text-2xl font-semibold text-[#6B7280] hover:text-purple-600 transition-colors"
                         >
                           {authorData.name}
