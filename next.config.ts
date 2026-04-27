@@ -9,10 +9,6 @@ const nextConfig: NextConfig = {
             "embla-carousel-react",
             "react-phone-number-input",
         ],
-        // Inlines critical CSS and defers the rest via `critters`. /creator/earn
-        // was losing ~344ms of mobile FCP/LCP to a render-blocking 15.5KB CSS
-        // chunk that was 90%+ unused on first paint.
-        optimizeCss: true,
     },
     images: {
         formats: ['image/avif', 'image/webp'],

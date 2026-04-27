@@ -26,12 +26,9 @@ const PromoCelebration = dynamic(() => import("@/components/promo/PromoCelebrati
 function CreatorEarnPageContent() {
   const {i18n} = useTranslation();
   const searchParams = useSearchParams();
-  // Default to "show stories" so the LCP story-1 image lands in the SSR HTML
-  // and doesn't wait for a hydration-time useEffect to mount StoriesContainer
-  // (Lighthouse was reporting ~1.3s of "element render delay" on mobile).
-  // Returning/?ref= visitors get switched to the landing page after hydration.
-  const [showStories, setShowStories] = useState(true);
+  const [showStories, setShowStories] = useState(false);
   const [showLandingPage, setShowLandingPage] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     // Set language from URL param only if present
@@ -49,7 +46,13 @@ function CreatorEarnPageContent() {
       // Skip stories for returning visitors OR referral visitors
       setShowLandingPage(true);
       setShowStories(false);
+    } else {
+      // Show stories for first-time visitors
+      setShowStories(true);
+      setShowLandingPage(false);
     }
+
+    setIsLoading(false);
   }, [searchParams, i18n]);
 
   // Preload the celebration image during idle time so the 4s auto-dismiss isn't
@@ -90,6 +93,15 @@ function CreatorEarnPageContent() {
       setShowLandingPage(true);
     }, 300);
   };
+
+  // Show loading state briefly
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="text-white">Loading...</div>
+      </div>
+    );
+  }
 
   return (
     <>
