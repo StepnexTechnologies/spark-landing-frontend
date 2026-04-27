@@ -40,7 +40,8 @@ export const PROMO_CONFIG: PromoConfig = {
   start: new Date(2026, 3, 20),
   end: new Date(2026, 3, 28),
   terms: {
-    url: "https://www.sparkonomy.com/creators-week-2026/terms",
+    // Each promo ships its own T&C page; set this to that page's URL when enabling a promo.
+    url: "",
   },
   celebration: {
     enabled: true,
