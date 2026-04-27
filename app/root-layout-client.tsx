@@ -2,7 +2,7 @@
 
 import {usePathname} from "next/navigation";
 import type React from "react";
-import {Suspense, useEffect, useState} from "react";
+import {Suspense} from "react";
 import dynamic from "next/dynamic";
 import Footer from "@/components/Footer";
 
@@ -25,16 +25,6 @@ export function RootLayoutClient({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const [isDesktopDevice, setIsDesktopDevice] = useState(false);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const isMobileUA = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-      navigator.userAgent
-    );
-    setIsDesktopDevice(!isMobileUA);
-  }, []);
-
   const isLegalPage = pathname.startsWith("/legal");
   const isCreatorPage = pathname.startsWith("/creator");
   const isBlogPage = pathname.startsWith("/blogs") || pathname.startsWith("/blog");
@@ -110,11 +100,9 @@ export function RootLayoutClient({
       <OpenReplayInit />
       {toasterNode}
       <div className={`relative min-h-[100dvh] w-full flex flex-col overflow-x-hidden ${isHomePage ? "touch-none" : "touch-pan-y"} overflow-hidden`}>
-        {isDesktopDevice && (
-          <div className="fixed inset-0 z-0">
-            <WebGLFluidBackground />
-          </div>
-        )}
+        <div className="fixed inset-0 z-0">
+          <WebGLFluidBackground />
+        </div>
         {children}
         <Footer minimal={!isHomePage} />
       </div>
