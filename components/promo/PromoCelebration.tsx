@@ -3,8 +3,13 @@
 import { useEffect, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import { PROMO_CONFIG, isPromoActiveAt } from "@/lib/promo/config";
 
-// --- Confetti Particle ---
+// Generic, promo-agnostic celebration overlay: gift box → burst → confetti →
+// promo image, auto-dismisses after ~4s. All promo-specific values (image,
+// active window, enabled flag) come from `PROMO_CONFIG` — no callers need to
+// pass props.
+
 interface ConfettiPiece {
   id: number;
   x: number;
@@ -27,7 +32,7 @@ const CONFETTI_COLORS = [
 function generateConfetti(count: number): ConfettiPiece[] {
   return Array.from({ length: count }, (_, i) => ({
     id: i,
-    x: 10 + Math.random() * 80, // spread across screen (10%-90%)
+    x: 10 + Math.random() * 80,
     y: 0,
     rotation: Math.random() * 720 - 360,
     scale: 0.5 + Math.random() * 1,
@@ -77,7 +82,6 @@ function ConfettiParticle({ piece }: { piece: ConfettiPiece }) {
   );
 }
 
-// --- Gift Box ---
 function GiftBox({
   phase,
   onBurst,
@@ -134,9 +138,7 @@ function GiftBox({
             boxShadow: "0 4px 20px rgba(255,20,147,0.5)",
           }}
         >
-          {/* Ribbon vertical */}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3 h-full bg-yellow-400/80" />
-          {/* Ribbon horizontal */}
           <div className="absolute top-1/2 left-0 -translate-y-1/2 w-full h-3 bg-yellow-400/80" />
         </div>
         {/* Lid */}
@@ -155,7 +157,6 @@ function GiftBox({
           }
           transition={{ duration: 0.4, ease: "easeOut" }}
         >
-          {/* Bow */}
           <div className="absolute -top-3 left-1/2 -translate-x-1/2 flex gap-0">
             <div
               className="w-4 h-5 rounded-full"
@@ -178,8 +179,7 @@ function GiftBox({
   );
 }
 
-// --- Main Component ---
-export default function CreatorsWeekCelebration() {
+export default function PromoCelebration() {
   const [phase, setPhase] = useState<"hidden" | "box-enter" | "shaking" | "burst" | "text" | "done">("hidden");
   const [dismissed, setDismissed] = useState(false);
   const [canDismiss, setCanDismiss] = useState(false);
@@ -196,24 +196,17 @@ export default function CreatorsWeekCelebration() {
     timers.push(setTimeout(() => setPhase("shaking"), 600));
     timers.push(setTimeout(() => setPhase("burst"), 1400));
     timers.push(setTimeout(() => setPhase("text"), 1600));
-    // Allow dismiss after balloon text animation completes (~1.6s + 0.8s entry + 20 letters * 0.05s = ~3.4s)
     timers.push(setTimeout(() => setCanDismiss(true), 3500));
 
     return () => timers.forEach(clearTimeout);
   }, []);
 
-  // Play on mount — only show during Creator Week window: April 20 — April 27, 2026 (inclusive).
-  // TODO: flip FORCE_CREATOR_WEEK back to false before shipping — it bypasses the date gate for testing.
+  // Auto-play on mount, gated by the configured promo window.
   useEffect(() => {
-    const FORCE_CREATOR_WEEK = false;
-    const now = new Date();
-    const startDate = new Date(2026, 3, 20); // April 20, 2026 (month is 0-indexed)
-    const endDate = new Date(2026, 3, 28);   // exclusive upper bound (end of Apr 27)
-    const inWindow = now >= startDate && now < endDate;
-    if (!FORCE_CREATOR_WEEK && !inWindow) return;
+    if (!PROMO_CONFIG.celebration.enabled) return;
+    if (!isPromoActiveAt()) return;
 
     const timers: NodeJS.Timeout[] = [];
-
     timers.push(setTimeout(() => setPhase("box-enter"), 1000));
     timers.push(setTimeout(() => setPhase("shaking"), 1500));
     timers.push(setTimeout(() => setPhase("burst"), 2300));
@@ -223,7 +216,7 @@ export default function CreatorsWeekCelebration() {
     return () => timers.forEach(clearTimeout);
   }, []);
 
-  // Auto-dismiss 4 seconds after image appears
+  // Auto-dismiss 4s after image appears.
   useEffect(() => {
     if (phase === "text") {
       const timer = setTimeout(() => {
@@ -234,7 +227,7 @@ export default function CreatorsWeekCelebration() {
     }
   }, [phase]);
 
-  // Ctrl+Shift+R to replay
+  // Ctrl+Shift+R replays the overlay (dev/QA aid).
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.ctrlKey && e.shiftKey && e.key === "R") {
@@ -256,6 +249,8 @@ export default function CreatorsWeekCelebration() {
 
   if (dismissed) return null;
 
+  const { image } = PROMO_CONFIG.celebration;
+
   return (
     <AnimatePresence>
       {phase !== "done" && phase !== "hidden" && (
@@ -267,7 +262,6 @@ export default function CreatorsWeekCelebration() {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.4 }}
         >
-          {/* Backdrop */}
           <motion.div
             className="absolute inset-0 bg-black/70 backdrop-blur-sm"
             initial={{ opacity: 0 }}
@@ -275,7 +269,6 @@ export default function CreatorsWeekCelebration() {
             transition={{ duration: 0.3 }}
           />
 
-          {/* Confetti layer */}
           {(phase === "burst" || phase === "text") && (
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
               {confetti.map((piece) => (
@@ -284,7 +277,6 @@ export default function CreatorsWeekCelebration() {
             </div>
           )}
 
-          {/* Gift Box */}
           {(phase === "box-enter" || phase === "shaking" || phase === "burst") && (
             <GiftBox
               phase={
@@ -298,7 +290,6 @@ export default function CreatorsWeekCelebration() {
             />
           )}
 
-          {/* Promo Image */}
           {phase === "text" && (
             <motion.div
               className="relative z-40 flex flex-col items-center px-4"
@@ -307,14 +298,13 @@ export default function CreatorsWeekCelebration() {
               transition={{ duration: 0.5, ease: "easeOut" }}
             >
               <Image
-                src="/images/creator/earn/PROMO.png"
-                alt="Creators Week Celebration"
-                width={600}
-                height={600}
+                src={image.src}
+                alt={image.alt}
+                width={image.width}
+                height={image.height}
                 className="max-w-[90vw] max-h-[70vh] w-auto h-auto object-contain mix-blend-lighten"
                 priority
               />
-
             </motion.div>
           )}
         </motion.div>
