@@ -5,7 +5,8 @@ import {Lock} from "lucide-react";
 import {motion} from "framer-motion";
 import Link from "next/link";
 import LogoCarousel from "@/components/LogoCarousel";
-import {useIsCreatorWeek} from "@/lib/hooks/useIsCreatorWeek";
+import {useIsPromoActive} from "@/lib/hooks/useIsPromoActive";
+import {PROMO_CONFIG} from "@/lib/promo/config";
 
 interface FooterProps {
   minimal?: boolean;
@@ -22,7 +23,8 @@ export default function Footer({ minimal = false }: FooterProps) {
     return () => window.removeEventListener('hero-ready', onHeroReady);
   }, []);
 
-  const isCreatorWeek = useIsCreatorWeek();
+  const isPromoActive = useIsPromoActive();
+  const termsUrl = PROMO_CONFIG.terms.url;
 
   return (
     <motion.footer
@@ -35,7 +37,7 @@ export default function Footer({ minimal = false }: FooterProps) {
           : "fixed bottom-0 w-full left-0 right-0 select-none z-50"
       }
     >
-      {!minimal && mounted && isCreatorWeek && heroReady && (
+      {!minimal && mounted && isPromoActive && heroReady && (
         <motion.a
           href="https://beta.creator.sparkonomy.com/auth?service=earn"
           target="_blank"
@@ -67,7 +69,7 @@ export default function Footer({ minimal = false }: FooterProps) {
             }}
           />
           <p className="relative text-white font-bold text-[16px] leading-tight">
-            Your Freelancer to Founder move — on us!{" "}
+            {PROMO_CONFIG.homepageBanner.headline}{" "}
             <span className="inline-block align-middle ml-1">
               <svg
                 width="20"
@@ -112,7 +114,7 @@ export default function Footer({ minimal = false }: FooterProps) {
             >
               {[0, 1, 2, 3, 4, 5].map((i) => (
                 <span key={i} className="shrink-0 whitespace-nowrap pr-12">
-                  Send invoice → Get <span className="font-bold">12 month ₹3600</span> Pro Plan <span className="font-bold">FREE</span>, only in Creator Week (April 20-26){" "}
+                  {PROMO_CONFIG.homepageBanner.marquee}{" "}
                   <span
                     role="link"
                     tabIndex={0}
@@ -120,13 +122,13 @@ export default function Footer({ minimal = false }: FooterProps) {
                     onClick={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
-                      window.open("https://www.sparkonomy.com/creators-week-2026/terms", "_blank", "noopener,noreferrer");
+                      window.open(termsUrl, "_blank", "noopener,noreferrer");
                     }}
                     onKeyDown={(e) => {
                       if (e.key === "Enter" || e.key === " ") {
                         e.preventDefault();
                         e.stopPropagation();
-                        window.open("https://www.sparkonomy.com/creators-week-2026/terms", "_blank", "noopener,noreferrer");
+                        window.open(termsUrl, "_blank", "noopener,noreferrer");
                       }
                     }}
                   >

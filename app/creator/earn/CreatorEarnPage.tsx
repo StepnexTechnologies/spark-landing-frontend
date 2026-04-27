@@ -10,6 +10,7 @@ import Navigation from "@/components/creator/earn/Navigation";
 import HeroSection from "@/components/creator/earn/HeroSection";
 import StoriesContainer from "@/components/creator/earn/stories/StoriesContainer";
 import ReferralBanner from "@/components/creator/earn/ReferralBanner";
+import {PROMO_CONFIG, isPromoActiveAt} from "@/lib/promo/config";
 
 const ValueProposition = dynamic(() => import("@/components/creator/earn/ValueProposition"));
 const BenefitsSection = dynamic(() => import("@/components/creator/earn/BenefitsSection"));
@@ -20,10 +21,7 @@ const FAQSection = dynamic(() => import("@/components/creator/earn/FAQSection"))
 const CTASection = dynamic(() => import("@/components/creator/earn/CTASection"));
 const EarnFooter = dynamic(() => import("@/components/creator/earn/EarnFooter"));
 const FloatingCTA = dynamic(() => import("@/components/creator/earn/FloatingCTA"), { ssr: false });
-const CreatorsWeekCelebration = dynamic(
-  () => import("@/components/creator/earn/CreatorsWeekCelebration"),
-  { ssr: false }
-);
+const PromoCelebration = dynamic(() => import("@/components/promo/PromoCelebration"), { ssr: false });
 
 function CreatorEarnPageContent() {
   const {i18n} = useTranslation();
@@ -57,17 +55,12 @@ function CreatorEarnPageContent() {
     setIsLoading(false);
   }, [searchParams, i18n]);
 
-  // Preload the Creators Week celebration image during idle time so slow
-  // connections don't race the 4s auto-dismiss once the overlay starts playing.
-  // Skipped on mobile — the 5 MB PNG is a major LCP/Speed-Index regression on
-  // slow-4G phones, and the celebration still loads lazily when it mounts.
-  // Also deferred past the hero's LCP so it doesn't compete for bandwidth
-  // on first paint.
+  // Preload the celebration image during idle time so the 4s auto-dismiss isn't
+  // racing the network. Skipped on mobile (the PNG is heavy enough to hurt LCP)
+  // and on viewers outside the active promo window.
   useEffect(() => {
-    const now = new Date();
-    const start = new Date(2026, 3, 20);
-    const end = new Date(2026, 3, 28);
-    if (now < start || now >= end) return;
+    if (!PROMO_CONFIG.celebration.enabled) return;
+    if (!isPromoActiveAt()) return;
     if (window.matchMedia("(max-width: 768px)").matches) return;
 
     let cancelled = false;
@@ -78,7 +71,7 @@ function CreatorEarnPageContent() {
       link = document.createElement("link");
       link.rel = "preload";
       link.as = "image";
-      link.href = "/images/creator/earn/PROMO.png";
+      link.href = PROMO_CONFIG.celebration.image.src;
       document.head.appendChild(link);
     };
 
@@ -151,8 +144,8 @@ function CreatorEarnPageContent() {
             {/* Floating CTA Button */}
             <FloatingCTA />
 
-            {/* Creators Week Celebration */}
-            <CreatorsWeekCelebration />
+            {/* Promo celebration overlay — renders nothing unless PROMO_CONFIG.enabled and the window is active. */}
+            <PromoCelebration />
           </motion.main>
         )}
       </AnimatePresence>

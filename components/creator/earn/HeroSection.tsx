@@ -7,6 +7,8 @@ import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import CTAButton from "./CTAButton";
 import { useSectionViewTracking } from "@/lib/hooks/useSectionViewTracking";
+import { useIsPromoActive } from "@/lib/hooks/useIsPromoActive";
+import { PROMO_CONFIG } from "@/lib/promo/config";
 
 export default function HeroSection() {
   const { t } = useTranslation("creatorEarn");
@@ -14,15 +16,7 @@ export default function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null);
   useSectionViewTracking(sectionRef, "earn_hero", { event: "earn_hero_view" });
 
-  // Creator Week promo window: April 20 — April 27, 2026 (inclusive).
-  // TODO: flip FORCE_CREATOR_WEEK back to false before shipping — it bypasses the date gate.
-  const isCreatorWeek = (() => {
-    const FORCE_CREATOR_WEEK = false;
-    const now = new Date();
-    const start = new Date(2026, 3, 20);
-    const end = new Date(2026, 3, 28); // exclusive upper bound
-    return FORCE_CREATOR_WEEK || (now >= start && now < end);
-  })();
+  const isPromoActive = useIsPromoActive();
 
   // rAF-throttled scroll handler — prevents a setState + forced reflow on every
   // wheel event, which Lighthouse flagged as a major TBT contributor on mobile.
@@ -91,8 +85,8 @@ export default function HeroSection() {
           </div>
         </motion.div>
 
-        {/* Creator Week Special Promo */}
-        {isCreatorWeek && (
+        {/* Promo banner — copy comes from i18n (`promo.*`), URL from PROMO_CONFIG. */}
+        {isPromoActive && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -122,18 +116,18 @@ export default function HeroSection() {
             />
             <div className="relative text-center max-w-[560px] md:max-w-none mx-auto">
               <h2 className="text-[18px] font-bold text-white leading-tight mb-1 md:whitespace-nowrap">
-                {t("creatorWeek.heading")}
+                {t("promo.heading")}
               </h2>
               <p className="text-white text-[14px] md:text-lg mb-1 md:whitespace-nowrap">
-                {t("creatorWeek.descriptionBefore")}{" "}
-                <span className="font-bold">{t("creatorWeek.descriptionAmount")}</span>{" "}
-                <span className="font-normal">{t("creatorWeek.descriptionPlan")}</span>{" "}
-                <span className="font-bold">{t("creatorWeek.descriptionFree")}</span>
+                {t("promo.descriptionBefore")}{" "}
+                <span className="font-bold">{t("promo.descriptionAmount")}</span>{" "}
+                <span className="font-normal">{t("promo.descriptionPlan")}</span>{" "}
+                <span className="font-bold">{t("promo.descriptionFree")}</span>
               </p>
               <p className="text-white/90 text-[12px] mb-4">
-                {t("creatorWeek.special")}{" "}
+                {t("promo.special")}{" "}
                 <a
-                  href="https://www.sparkonomy.com/creators-week-2026/terms"
+                  href={PROMO_CONFIG.terms.url}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="underline hover:text-white"
@@ -144,15 +138,15 @@ export default function HeroSection() {
               </p>
               <div className="flex justify-center">
                 <Suspense fallback={<div className="h-12" />}>
-                  <CTAButton buttonText={t("creatorWeek.cta")} />
+                  <CTAButton buttonText={t("promo.cta")} />
                 </Suspense>
               </div>
             </div>
           </motion.div>
         )}
 
-        {/* Get Early Access Button — hidden during Creator Week promo */}
-        {!isCreatorWeek && (
+        {/* Default CTA — hidden while a promo banner is showing. */}
+        {!isPromoActive && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
