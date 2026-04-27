@@ -83,7 +83,10 @@
       "PowerShell(npx --no-install tsc --noEmit 2>&1)",
       "PowerShell(npx --no-install next lint . 2>&1)",
       "PowerShell(npm run lint 2>&1)",
-      "PowerShell(npx --no-install eslint app/layout.tsx app/root-layout-client.tsx next.config.ts 2>&1)"
+      "PowerShell(npx --no-install eslint app/layout.tsx app/root-layout-client.tsx next.config.ts 2>&1)",
+      "PowerShell(npx --yes next lint 2>&1)",
+      "PowerShell(npx next lint . 2>&1)",
+      "PowerShell(npx eslint \"components/Footer.tsx\" \"components/HeroSection.tsx\" \"components/creator/earn/HeroSection.tsx\" \"app/creator/earn/CreatorEarnPage.tsx\" \"lib/hooks/useIsCreatorWeek.tsx\" 2>&1)"
     ],
     "additionalDirectories": [
       "C:\\Users\\HP\\.claude\\plans"

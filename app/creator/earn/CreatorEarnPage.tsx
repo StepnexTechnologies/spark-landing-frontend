@@ -20,10 +20,6 @@ const FAQSection = dynamic(() => import("@/components/creator/earn/FAQSection"))
 const CTASection = dynamic(() => import("@/components/creator/earn/CTASection"));
 const EarnFooter = dynamic(() => import("@/components/creator/earn/EarnFooter"));
 const FloatingCTA = dynamic(() => import("@/components/creator/earn/FloatingCTA"), { ssr: false });
-const CreatorsWeekCelebration = dynamic(
-  () => import("@/components/creator/earn/CreatorsWeekCelebration"),
-  { ssr: false }
-);
 
 function CreatorEarnPageContent() {
   const {i18n} = useTranslation();
@@ -56,43 +52,6 @@ function CreatorEarnPageContent() {
 
     setIsLoading(false);
   }, [searchParams, i18n]);
-
-  // Preload the Creators Week celebration image during idle time so slow
-  // connections don't race the 4s auto-dismiss once the overlay starts playing.
-  // Skipped on mobile — the 5 MB PNG is a major LCP/Speed-Index regression on
-  // slow-4G phones, and the celebration still loads lazily when it mounts.
-  // Also deferred past the hero's LCP so it doesn't compete for bandwidth
-  // on first paint.
-  useEffect(() => {
-    const now = new Date();
-    const start = new Date(2026, 3, 20);
-    const end = new Date(2026, 3, 28);
-    if (now < start || now >= end) return;
-    if (window.matchMedia("(max-width: 768px)").matches) return;
-
-    let cancelled = false;
-    let link: HTMLLinkElement | null = null;
-
-    const inject = () => {
-      if (cancelled) return;
-      link = document.createElement("link");
-      link.rel = "preload";
-      link.as = "image";
-      link.href = "/images/creator/earn/PROMO.png";
-      document.head.appendChild(link);
-    };
-
-    const ric = (window as unknown as {
-      requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
-    }).requestIdleCallback;
-    const timeoutId = ric ? ric(inject, { timeout: 3000 }) : window.setTimeout(inject, 2000);
-
-    return () => {
-      cancelled = true;
-      if (!ric) clearTimeout(timeoutId);
-      if (link && link.parentNode) link.parentNode.removeChild(link);
-    };
-  }, []);
 
   const handleStoriesComplete = () => {
     setShowStories(false);
@@ -150,9 +109,6 @@ function CreatorEarnPageContent() {
 
             {/* Floating CTA Button */}
             <FloatingCTA />
-
-            {/* Creators Week Celebration */}
-            <CreatorsWeekCelebration />
           </motion.main>
         )}
       </AnimatePresence>

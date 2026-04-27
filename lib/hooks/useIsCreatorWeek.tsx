@@ -1,22 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-
-const FORCE_CREATOR_WEEK = false;
-
+// Creator Week promo (April 20–27, 2026) is currently disabled. To re-enable,
+// restore the date-window check below.
 export function useIsCreatorWeek(): boolean {
-  const [isCreatorWeek, setIsCreatorWeek] = useState(false);
-
-  useEffect(() => {
-    if (FORCE_CREATOR_WEEK) {
-      setIsCreatorWeek(true);
-      return;
-    }
-    const now = new Date();
-    const start = new Date(2026, 3, 20);
-    const end = new Date(2026, 3, 28);
-    setIsCreatorWeek(now >= start && now < end);
-  }, []);
-
-  return isCreatorWeek;
+  return false;
 }
