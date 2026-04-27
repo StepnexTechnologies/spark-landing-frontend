@@ -11,6 +11,7 @@ import HeroSection from "@/components/creator/earn/HeroSection";
 import StoriesContainer from "@/components/creator/earn/stories/StoriesContainer";
 import ReferralBanner from "@/components/creator/earn/ReferralBanner";
 import {PROMO_CONFIG, isPromoActiveAt} from "@/lib/promo/config";
+import {track} from "@/lib/analytics/track";
 
 const ValueProposition = dynamic(() => import("@/components/creator/earn/ValueProposition"));
 const BenefitsSection = dynamic(() => import("@/components/creator/earn/BenefitsSection"));
@@ -38,18 +39,27 @@ function CreatorEarnPageContent() {
     }
     // Don't force English - let the user's selection persist
 
-    // Check if user has already viewed stories
     const storiesViewed = sessionStorage.getItem("storiesViewed");
     const referralCode = searchParams.get("ref");
 
-    if (storiesViewed === "true" || referralCode) {
-      // Skip stories for returning visitors OR referral visitors
+    if (referralCode || storiesViewed === "true") {
       setShowLandingPage(true);
       setShowStories(false);
     } else {
-      // Show stories for first-time visitors
-      setShowStories(true);
-      setShowLandingPage(false);
+      const variant = Math.random() < 0.5 ? "show_stories" : "no_stories";
+      track("earn_stories_ab_exposure", {
+        test_name: "earn_stories_50_50",
+        variant,
+      });
+
+      if (variant === "show_stories") {
+        setShowStories(true);
+        setShowLandingPage(false);
+      } else {
+        sessionStorage.setItem("storiesViewed", "true");
+        setShowLandingPage(true);
+        setShowStories(false);
+      }
     }
 
     setIsLoading(false);
