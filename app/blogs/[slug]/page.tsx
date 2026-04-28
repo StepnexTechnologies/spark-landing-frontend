@@ -28,6 +28,7 @@ import NewsletterSection from "@/components/blog/NewsletterSection";
 import LazyOnVisible from "@/components/blog/LazyOnVisible";
 import RelatedResourcesInjector from "@/components/blog/RelatedResourcesInjector";
 import BlogScrollTracker from "@/components/blog/BlogScrollTracker";
+import MetaShareButton from "@/components/blog/MetaShareButton";
 import { getAuthorPageSlug, getAuthorByWordPressSlug } from "@/data/authors";
 import "../wordpress-content.css";
 
@@ -448,12 +449,19 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           {/* Meta Information */}
           <div className="px-4 md:px-[30px] xl:px-[130px]">
             <div className="flex items-center gap-2 text-[14px] md:text-[20px] lg:text-[24px] text-[#6B7280] mb-4">
-              <span>{publishDate}</span>
-              <span>·</span>
-              <span>{readingTime} min read</span>
-              <Suspense fallback={<span className="text-sm">Loading...</span>}>
-                <BlogLanguageSwitcher />
-              </Suspense>
+              <div className="flex items-center gap-2">
+                <span>{publishDate}</span>
+                <span>·</span>
+                <span>{readingTime} min read</span>
+                <Suspense fallback={<span className="text-sm">Loading...</span>}>
+                  <BlogLanguageSwitcher />
+                </Suspense>
+              </div>
+              <MetaShareButton
+                title={stripHtml(post.title.rendered)}
+                url={`https://sparkonomy.com/blogs/${post.slug}`}
+                slug={post.slug}
+              />
             </div>
 
             {/* Author Section - Multiple Authors Support */}
