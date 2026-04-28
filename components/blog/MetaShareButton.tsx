@@ -53,9 +53,54 @@ export default function MetaShareButton({
 
   const handleLinkedIn = () => {
     track("blog_share_click", { platform: "linkedin", slug });
-    openShareUrl(
-      `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`
-    );
+    const webUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
+
+    if (typeof navigator === "undefined") {
+      openShareUrl(webUrl);
+      return;
+    }
+
+    const ua = navigator.userAgent;
+    const isAndroid = /Android/i.test(ua);
+    const isIOS = /iPhone|iPad|iPod/i.test(ua);
+
+    if (isAndroid) {
+      const intentUrl =
+        `intent://shareArticle?mini=true&url=${encodeURIComponent(url)}` +
+        `&title=${encodeURIComponent(title)}` +
+        `#Intent;scheme=linkedin;package=com.linkedin.android;` +
+        `S.browser_fallback_url=${encodeURIComponent(webUrl)};end`;
+      window.location.href = intentUrl;
+      return;
+    }
+
+    if (isIOS) {
+      const appUrl =
+        `linkedin://shareArticle?mini=true` +
+        `&url=${encodeURIComponent(url)}` +
+        `&title=${encodeURIComponent(title)}`;
+
+      let didHide = false;
+      const onVisibilityChange = () => {
+        if (document.hidden) didHide = true;
+      };
+      document.addEventListener("visibilitychange", onVisibilityChange);
+
+      window.location.href = appUrl;
+
+      window.setTimeout(() => {
+        document.removeEventListener(
+          "visibilitychange",
+          onVisibilityChange
+        );
+        if (!didHide && !document.hidden) {
+          window.location.href = webUrl;
+        }
+      }, 1500);
+      return;
+    }
+
+    openShareUrl(webUrl);
   };
 
   const handleX = () => {
@@ -74,23 +119,66 @@ export default function MetaShareButton({
 
   const handleInstagram = async () => {
     track("blog_share_click", { platform: "instagram", slug });
+    const caption = `${title} ${url}`;
+
+    // 1. Copy caption to clipboard so the user can paste it in IG
+    let copied = false;
     try {
       if (navigator.clipboard?.writeText) {
-        await navigator.clipboard.writeText(url);
+        await navigator.clipboard.writeText(caption);
+        copied = true;
       } else {
         const textarea = document.createElement("textarea");
-        textarea.value = url;
+        textarea.value = caption;
         textarea.style.position = "fixed";
         textarea.style.opacity = "0";
         document.body.appendChild(textarea);
         textarea.select();
-        document.execCommand("copy");
+        copied = document.execCommand("copy");
         document.body.removeChild(textarea);
       }
-      toast.success("Link copied — paste in Instagram");
     } catch {
+      copied = false;
+    }
+
+    if (copied) {
+      toast.success("Link copied! Paste it in your caption.");
+    } else {
       toast.error("Couldn't copy link");
     }
+
+    // 2. Open Instagram. On mobile, try the app URL scheme; fall back to the
+    //    web if nothing intercepts. Desktop opens instagram.com in a new tab.
+    if (typeof navigator === "undefined") return;
+
+    const webUrl = "https://www.instagram.com/";
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+    if (!isMobile) {
+      // Desktop: new tab opens immediately; the toast persists on this page
+      // for the user to read.
+      openShareUrl(webUrl);
+      return;
+    }
+
+    // Mobile: brief delay so the toast is readable before we navigate away.
+    window.setTimeout(() => {
+      const appUrl = "instagram://app";
+      let didHide = false;
+      const onVisibilityChange = () => {
+        if (document.hidden) didHide = true;
+      };
+      document.addEventListener("visibilitychange", onVisibilityChange);
+
+      window.location.href = appUrl;
+
+      window.setTimeout(() => {
+        document.removeEventListener("visibilitychange", onVisibilityChange);
+        if (!didHide && !document.hidden) {
+          window.location.href = webUrl;
+        }
+      }, 1500);
+    }, 1500);
   };
 
   return (
