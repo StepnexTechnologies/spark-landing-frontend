@@ -1,7 +1,6 @@
 "use client";
 
 import {useEffect, useState} from "react";
-import {Lock} from "lucide-react";
 import {motion} from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
@@ -43,7 +42,7 @@ export default function Footer({ minimal = false }: FooterProps) {
           href="https://beta.creator.sparkonomy.com/auth?service=earn"
           target="_blank"
           rel="noopener noreferrer"
-          className="pointer-events-auto relative overflow-hidden block w-full px-2 py-2 mb-[40px] text-center cursor-pointer"
+          className="pointer-events-auto relative overflow-hidden block w-full px-2 py-2 mb-[45px] text-center cursor-pointer"
           style={{
             background:
               "linear-gradient(90deg, rgba(61, 88, 219, 0) 2.15%, rgba(110, 99, 255, 0.36) 30.53%, rgba(110, 99, 255, 0.36) 62.34%, rgba(61, 88, 219, 0) 96.24%)",
@@ -92,7 +91,7 @@ export default function Footer({ minimal = false }: FooterProps) {
           href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-embedding-2/"
           target="_blank"
           rel="noopener noreferrer"
-          className="pointer-events-auto block text-center text-base font-normal italic text-zinc-400 hover:text-white transition-colors duration-300 mb-[60px] select-none"
+          className="pointer-events-auto block text-center text-base font-normal italic text-zinc-400 hover:text-white transition-colors duration-300 mb-[45px] select-none"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: "easeOut" }}
@@ -103,7 +102,7 @@ export default function Footer({ minimal = false }: FooterProps) {
       <div className="flex flex-col items-center space-y-2 w-full px-10 md:px-14 lg:px-20 pb-4">
         {!minimal && heroReady && (
           <motion.div
-            className="pointer-events-auto mb-[60px]"
+            className="pointer-events-auto mb-[30px]"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: "easeOut" }}
@@ -111,28 +110,6 @@ export default function Footer({ minimal = false }: FooterProps) {
             <LogoCarousel />
           </motion.div>
         )}
-        <motion.div
-          className="flex items-center justify-center space-x-3 px-4 py-2 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 w-fit cursor-pointer"
-          whileHover={{ scale: 1.02 }}
-          transition={{ duration: 0.2 }}
-        >
-          <div className="flex items-center space-x-2 text-[8px] sm:text-sm text-gray-300">
-            <motion.div
-              animate={{
-                scale: [1, 1.1, 1],
-              }}
-              transition={{
-                duration: 2,
-                repeat: Number.POSITIVE_INFINITY,
-                repeatType: "reverse",
-              }}
-            >
-              <Lock className="w-3 h-3 sm:w-4 sm:h-4 text-purple-400" />
-            </motion.div>
-            <Link href="/legal/privacy-policy" className="text-sm">Your data is secure with us</Link>
-          </div>
-        </motion.div>
-
         <motion.div
           className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-4 text-[12px] md:text-[14px] text-gray-500 w-full"
           initial={{ opacity: 0 }}

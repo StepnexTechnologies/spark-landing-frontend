@@ -362,7 +362,7 @@ const HeroSection = () => {
         />
       </div>
 
-      <div className={`flex-1 flex flex-col items-center justify-center ${isPromoActive ? "pb-[490px] md:pb-[420px]" : "pb-[330px]"}`}>
+      <div className={`flex-1 flex flex-col items-center justify-center ${isPromoActive ? "pb-[290px] md:pb-[260px]" : "pb-[200px]"}`}>
         <div className="text-center relative">
           <motion.div
             className={`absolute inset-0 flex flex-col space-y-8 items-center justify-center mb-12 ${showContent && 'hidden'}`}
