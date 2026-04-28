@@ -11,9 +11,13 @@ interface MetaShareButtonProps {
   slug: string;
 }
 
-const ICON_BUTTON_CLASS =
+const TRIGGER_CLASS =
   "text-[#999999] hover:text-gray-700 transition-colors";
-const ICON_SIZE_CLASS = "w-[18px] h-[18px] md:w-6 md:h-6";
+const TRIGGER_SIZE_CLASS = "w-[18px] h-[18px] md:w-6 md:h-6";
+
+const POPUP_ITEM_CLASS =
+  "w-[44.36px] h-[44.36px] flex items-center justify-center text-gray-500 hover:text-gray-700 transition-colors";
+const POPUP_ITEM_ICON_CLASS = "w-[18px] h-[18px] md:w-6 md:h-6";
 
 export default function MetaShareButton({
   title,
@@ -83,24 +87,61 @@ export default function MetaShareButton({
   };
 
   return (
-    <div ref={containerRef} className="relative flex items-center gap-3 ml-auto">
+    <div ref={containerRef} className="relative ml-auto">
+      <button
+        type="button"
+        onClick={() => setIsOpen((prev) => !prev)}
+        aria-label="Share this post"
+        aria-expanded={isOpen}
+        className={TRIGGER_CLASS}
+      >
+        <svg
+          className={TRIGGER_SIZE_CLASS}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <circle cx="18" cy="5" r="3" />
+          <circle cx="6" cy="12" r="3" />
+          <circle cx="18" cy="19" r="3" />
+          <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+          <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+        </svg>
+      </button>
+
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, x: 8 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 8 }}
-            transition={{ duration: 0.18 }}
-            className="flex items-center gap-3"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ duration: 0.15 }}
+            className="
+              absolute z-50
+              top-1/2 right-0 -translate-y-1/2
+              md:top-1/2 md:right-full md:-translate-y-1/2 md:mr-2
+              flex flex-col items-center
+              gap-[4.05px]
+              p-[8.11px]
+              rounded-[12.16px]
+              bg-white
+              border border-gray-100
+              shadow-[0px_4px_20px_rgba(0,0,0,0.08)]
+              w-[60.58px]
+            "
           >
             <button
               type="button"
               onClick={handleFacebook}
               aria-label="Share on Facebook"
-              className={ICON_BUTTON_CLASS}
+              className={POPUP_ITEM_CLASS}
             >
               <svg
-                className={ICON_SIZE_CLASS}
+                className={POPUP_ITEM_ICON_CLASS}
                 fill="currentColor"
                 viewBox="0 0 24 24"
                 aria-hidden="true"
@@ -117,10 +158,10 @@ export default function MetaShareButton({
               type="button"
               onClick={handleInstagram}
               aria-label="Copy link for Instagram"
-              className={ICON_BUTTON_CLASS}
+              className={POPUP_ITEM_CLASS}
             >
               <svg
-                className={ICON_SIZE_CLASS}
+                className={POPUP_ITEM_ICON_CLASS}
                 fill="currentColor"
                 viewBox="0 0 24 24"
                 aria-hidden="true"
@@ -137,10 +178,10 @@ export default function MetaShareButton({
               type="button"
               onClick={handleLinkedIn}
               aria-label="Share on LinkedIn"
-              className={ICON_BUTTON_CLASS}
+              className={POPUP_ITEM_CLASS}
             >
               <svg
-                className={ICON_SIZE_CLASS}
+                className={POPUP_ITEM_ICON_CLASS}
                 fill="currentColor"
                 viewBox="0 0 24 24"
                 aria-hidden="true"
@@ -153,10 +194,10 @@ export default function MetaShareButton({
               type="button"
               onClick={handleWhatsApp}
               aria-label="Share on WhatsApp"
-              className={ICON_BUTTON_CLASS}
+              className={POPUP_ITEM_CLASS}
             >
               <svg
-                className={ICON_SIZE_CLASS}
+                className={POPUP_ITEM_ICON_CLASS}
                 fill="currentColor"
                 viewBox="0 0 24 24"
                 aria-hidden="true"
@@ -167,31 +208,6 @@ export default function MetaShareButton({
           </motion.div>
         )}
       </AnimatePresence>
-
-      <button
-        type="button"
-        onClick={() => setIsOpen((prev) => !prev)}
-        aria-label="Share this post"
-        aria-expanded={isOpen}
-        className={ICON_BUTTON_CLASS}
-      >
-        <svg
-          className={ICON_SIZE_CLASS}
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          viewBox="0 0 24 24"
-          aria-hidden="true"
-        >
-          <circle cx="18" cy="5" r="3" />
-          <circle cx="6" cy="12" r="3" />
-          <circle cx="18" cy="19" r="3" />
-          <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
-          <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
-        </svg>
-      </button>
     </div>
   );
 }
