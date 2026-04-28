@@ -102,7 +102,7 @@ export default function Footer({ minimal = false }: FooterProps) {
       <div className="flex flex-col items-center space-y-2 w-full px-10 md:px-14 lg:px-20 pb-4">
         {!minimal && heroReady && (
           <motion.div
-            className="pointer-events-auto mb-[30px]"
+            className="pointer-events-auto mb-[60px]"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: "easeOut" }}

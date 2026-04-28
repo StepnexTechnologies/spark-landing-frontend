@@ -25,6 +25,7 @@ import TaxCalculatorInjector from "@/components/blog/TaxCalculatorInjector";
 import ImageOrientationEnhancer from "@/components/blog/ImageOrientationEnhancer";
 import NewsletterSection from "@/components/blog/NewsletterSection";
 import RelatedResourcesInjector from "@/components/blog/RelatedResourcesInjector";
+import MetaShareButton from "@/components/blog/MetaShareButton";
 import { getAuthorPageSlug, getAuthorByWordPressSlug } from "@/data/authors";
 import "../../blogs/wordpress-content.css";
 
@@ -239,12 +240,19 @@ export default async function PreviewPostPage({ params }: PreviewPostPageProps) 
           {/* Meta Information */}
           <div className="px-4 md:px-[30px] xl:px-[130px]">
             <div className="flex items-center gap-2 text-[14px] md:text-[20px] lg:text-[24px] text-[#6B7280] mb-4">
-              <span>{publishDate}</span>
-              <span>·</span>
-              <span>{readingTime} min read</span>
-              <Suspense fallback={<span className="text-sm">Loading...</span>}>
-                <BlogLanguageSwitcher />
-              </Suspense>
+              <div className="flex items-center gap-2">
+                <span>{publishDate}</span>
+                <span>·</span>
+                <span>{readingTime} min read</span>
+                <Suspense fallback={<span className="text-sm">Loading...</span>}>
+                  <BlogLanguageSwitcher />
+                </Suspense>
+              </div>
+              <MetaShareButton
+                title={stripHtml(post.title.rendered)}
+                url={`https://sparkonomy.com/preview/${slug}`}
+                slug={String(postId)}
+              />
             </div>
 
             {/* Author Section - Multiple Authors Support */}
