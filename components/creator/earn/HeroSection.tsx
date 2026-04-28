@@ -3,20 +3,31 @@
 import { Suspense } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useSearchParams } from "next/navigation";
 import CTAButton from "./CTAButton";
 import { useSectionViewTracking } from "@/lib/hooks/useSectionViewTracking";
 import { useIsPromoActive } from "@/lib/hooks/useIsPromoActive";
 import { PROMO_CONFIG } from "@/lib/promo/config";
+import { track } from "@/lib/analytics/track";
 
 export default function HeroSection() {
-  const { t } = useTranslation("creatorEarn");
+  const { t, i18n } = useTranslation("creatorEarn");
   const [scrollProgress, setScrollProgress] = useState(0);
   const sectionRef = useRef<HTMLElement>(null);
   useSectionViewTracking(sectionRef, "earn_hero", { event: "earn_hero_view" });
 
   const isPromoActive = useIsPromoActive();
+  const searchParams = useSearchParams();
+  const referralCode = searchParams.get("ref");
+  const promoSignupHref = (() => {
+    const lang = i18n.language?.startsWith("hi") ? "hi-Latn" : "en";
+    const params = new URLSearchParams({ service: "earn", lang });
+    if (referralCode) params.set("ref", referralCode);
+    return `https://beta.creator.sparkonomy.com/auth?${params.toString()}`;
+  })();
 
   // rAF-throttled scroll handler — prevents a setState + forced reflow on every
   // wheel event, which Lighthouse flagged as a major TBT contributor on mobile.
@@ -85,62 +96,91 @@ export default function HeroSection() {
           </div>
         </motion.div>
 
-        {/* Promo banner — copy comes from i18n (`promo.*`), URL from PROMO_CONFIG. */}
+        {/* Promo banner — copy comes from i18n (`promo.*`), T&C URL from PROMO_CONFIG. */}
         {isPromoActive && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.5 }}
-            className="relative overflow-hidden mt-[30px] md:mt-10 -mx-5 md:-mx-20 px-4 py-4"
-            style={{
-              background:
-                "linear-gradient(90deg, rgba(61, 88, 219, 0.12) 2.15%, rgba(129, 52, 175, 0.6) 48.84%, rgba(61, 88, 219, 0.12) 96.24%)",
-            }}
+            className="relative mt-[30px] md:mt-10 mx-auto w-full max-w-[420px] md:max-w-[560px]"
           >
-            <motion.div
-              aria-hidden
-              className="pointer-events-none absolute -inset-y-8 w-[60%] mix-blend-screen"
+            <div
+              className="relative overflow-hidden rounded-[24px] px-5 py-5 md:px-7 md:py-6 border border-white/20 backdrop-blur-lg"
               style={{
                 background:
-                  "linear-gradient(115deg, transparent 0%, rgba(255,255,255,0.06) 35%, rgba(255,255,255,0.18) 50%, rgba(255,255,255,0.06) 65%, transparent 100%)",
-                filter: "blur(24px)",
+                  "linear-gradient(90deg, rgba(61, 88, 219, 0.12) 2.15%, rgba(129, 52, 175, 0.6) 48.84%, rgba(61, 88, 219, 0.12) 96.24%)",
               }}
-              initial={{ left: "-60%" }}
-              animate={{ left: "100%" }}
-              transition={{
-                duration: 3.2,
-                ease: "easeInOut",
-                repeat: Infinity,
-                repeatDelay: 1.4,
-              }}
-            />
-            <div className="relative text-center max-w-[560px] md:max-w-none mx-auto">
-              <h2 className="text-[18px] font-bold text-white leading-tight mb-1 md:whitespace-nowrap">
+            >
+              <motion.div
+                aria-hidden
+                className="pointer-events-none absolute -inset-y-8 w-[60%] mix-blend-screen"
+                style={{
+                  background:
+                    "linear-gradient(115deg, transparent 0%, rgba(255,255,255,0.06) 35%, rgba(255,255,255,0.22) 50%, rgba(255,255,255,0.06) 65%, transparent 100%)",
+                  filter: "blur(24px)",
+                }}
+                initial={{ left: "-60%" }}
+                animate={{ left: "100%" }}
+                transition={{
+                  duration: 3.2,
+                  ease: "easeInOut",
+                  repeat: Infinity,
+                  repeatDelay: 1.4,
+                }}
+              />
+
+              <h2 className="relative text-white font-bold text-[32px] leading-tight text-center">
                 {t("promo.heading")}
               </h2>
-              <p className="text-white text-[14px] md:text-lg mb-1 md:whitespace-nowrap">
-                {t("promo.descriptionBefore")}{" "}
-                <span className="font-bold">{t("promo.descriptionAmount")}</span>{" "}
-                <span className="font-normal">{t("promo.descriptionPlan")}</span>{" "}
-                <span className="font-bold">{t("promo.descriptionFree")}</span>
-              </p>
-              <p className="text-white/90 text-[12px] mb-4">
-                {t("promo.special")}{" "}
-                <a
-                  href={PROMO_CONFIG.terms.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="underline hover:text-white"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  T&amp;C
-                </a>
-              </p>
-              <div className="flex justify-center">
-                <Suspense fallback={<div className="h-12" />}>
-                  <CTAButton buttonText={t("promo.cta")} />
-                </Suspense>
+
+              <div className="relative mt-2 flex items-center gap-4">
+                <Image
+                  src="/promo/icon.png"
+                  alt=""
+                  width={72}
+                  height={72}
+                  className="shrink-0 w-[72px] h-[72px] object-contain opacity-90"
+                />
+                <div className="flex-1 min-w-0">
+                  <p className="text-white text-[16px] font-normal leading-snug">
+                    {t("promo.subheading")}
+                  </p>
+                  <p className="mt-2 text-white text-[12px] font-normal leading-snug">
+                    {t("promo.tagline")}
+                  </p>
+                  {PROMO_CONFIG.terms.url ? (
+                    <a
+                      href={PROMO_CONFIG.terms.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-1 inline-block text-white/90 text-[10px] font-normal underline hover:text-white"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      {t("promo.terms")}
+                    </a>
+                  ) : (
+                    <span className="mt-1 inline-block text-white/90 text-[10px] font-normal underline">
+                      {t("promo.terms")}
+                    </span>
+                  )}
+                </div>
               </div>
+
+              <Link
+                href={promoSignupHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() =>
+                  track("earn_cta_click", {
+                    cta: "beta_signup",
+                    label: t("promo.cta"),
+                    referral_code: referralCode ?? null,
+                  })
+                }
+                className="relative mt-5 flex items-center justify-center w-full rounded-full bg-white px-6 py-3 text-[#9747FF] font-bold text-[16px] shadow-[0_8px_20px_rgba(0,0,0,0.18)] hover:bg-white/95 transition-colors"
+              >
+                {t("promo.cta")}
+              </Link>
             </div>
           </motion.div>
         )}
