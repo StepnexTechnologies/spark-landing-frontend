@@ -4,6 +4,7 @@ import {useEffect, useState} from "react";
 import {Lock} from "lucide-react";
 import {motion} from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import LogoCarousel from "@/components/LogoCarousel";
 import {useIsPromoActive} from "@/lib/hooks/useIsPromoActive";
 import {PROMO_CONFIG} from "@/lib/promo/config";
@@ -24,7 +25,7 @@ export default function Footer({ minimal = false }: FooterProps) {
   }, []);
 
   const isPromoActive = useIsPromoActive();
-  const termsUrl = PROMO_CONFIG.terms.url;
+  const banner = PROMO_CONFIG.homepageBanner;
 
   return (
     <motion.footer
@@ -42,7 +43,7 @@ export default function Footer({ minimal = false }: FooterProps) {
           href="https://beta.creator.sparkonomy.com/auth?service=earn"
           target="_blank"
           rel="noopener noreferrer"
-          className="pointer-events-auto relative overflow-hidden block w-full px-[30px] py-3 mb-[30px] text-center cursor-pointer"
+          className="pointer-events-auto relative overflow-hidden block w-full px-2 py-2 mb-[40px] text-center cursor-pointer"
           style={{
             background:
               "linear-gradient(90deg, rgba(61, 88, 219, 0) 2.15%, rgba(110, 99, 255, 0.36) 30.53%, rgba(110, 99, 255, 0.36) 62.34%, rgba(61, 88, 219, 0) 96.24%)",
@@ -68,82 +69,41 @@ export default function Footer({ minimal = false }: FooterProps) {
               repeatDelay: 1.4,
             }}
           />
-          <p className="relative text-white font-bold text-[16px] leading-tight">
-            {PROMO_CONFIG.homepageBanner.headline}{" "}
-            <span className="inline-block align-middle ml-1">
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 100 100"
-                xmlns="http://www.w3.org/2000/svg"
-                aria-hidden="true"
-              >
-                <style>{`
-                  .gift-spinner {
-                    transform-origin: center;
-                    animation: gift-y-axis-spin 3s linear infinite;
-                  }
-                  @keyframes gift-y-axis-spin {
-                    from { transform: rotateY(0deg); }
-                    to { transform: rotateY(360deg); }
-                  }
-                `}</style>
-                <g className="gift-spinner">
-                  <rect x="25" y="40" width="50" height="40" rx="2" fill="#D32F2F" />
-                  <rect x="20" y="32" width="60" height="10" rx="2" fill="#E53935" />
-                  <rect x="44" y="32" width="12" height="48" fill="#FDD835" />
-                  <rect x="20" y="34" width="60" height="5" fill="#FDD835" />
-                  <path d="M50 32 C40 15 25 20 50 32 Z" fill="#FDD835" stroke="#FBC02D" strokeWidth="0.5" />
-                  <path d="M50 32 C60 15 75 20 50 32 Z" fill="#FDD835" stroke="#FBC02D" strokeWidth="0.5" />
-                  <circle cx="50" cy="32" r="3" fill="#FBC02D" />
-                </g>
-              </svg>
-            </span>
+          <p className="relative text-white font-bold text-[14px] leading-tight text-center tracking-[-0.04em]">
+            {banner.headline}
           </p>
-          <div
-            className="relative overflow-hidden mt-1"
-            style={{
-              maskImage: "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
-              WebkitMaskImage: "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
-            }}
-          >
-            <motion.div
-              className="flex items-center w-max text-white font-normal text-[12px] leading-snug"
-              animate={{ x: ["0%", "-50%"] }}
-              transition={{ duration: 60, ease: "linear", repeat: Infinity }}
-            >
-              {[0, 1, 2, 3, 4, 5].map((i) => (
-                <span key={i} className="shrink-0 whitespace-nowrap pr-12">
-                  {PROMO_CONFIG.homepageBanner.marquee}{" "}
-                  <span
-                    role="link"
-                    tabIndex={0}
-                    className="underline cursor-pointer hover:text-white"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      window.open(termsUrl, "_blank", "noopener,noreferrer");
-                    }}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter" || e.key === " ") {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        window.open(termsUrl, "_blank", "noopener,noreferrer");
-                      }
-                    }}
-                  >
-                    T&amp;C
-                  </span>
-                </span>
-              ))}
-            </motion.div>
-          </div>
+          <p className="relative mt-2 text-white text-[12px] leading-snug flex items-center justify-center gap-2">
+            <Image
+              src="/promo/Hinglish Icon.png"
+              alt=""
+              width={20}
+              height={20}
+              className="inline-block w-5 h-5 object-contain"
+            />
+            <span>{banner.subheadline}</span>
+          </p>
+          <p className="relative mt-1 text-white text-[12px] leading-snug text-center">
+            {banner.tagline} <em>{banner.taglineEmphasis}</em>
+          </p>
+        </motion.a>
+      )}
+      {!minimal && heroReady && (
+        <motion.a
+          href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-embedding-2/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="pointer-events-auto block text-center text-base font-normal italic text-zinc-400 hover:text-white transition-colors duration-300 mb-[60px] select-none"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+        >
+          ✨ Spotlighted by Google Gemini ✨
         </motion.a>
       )}
       <div className="flex flex-col items-center space-y-2 w-full px-10 md:px-14 lg:px-20 pb-4">
         {!minimal && heroReady && (
           <motion.div
-            className="pointer-events-auto mb-[30px]"
+            className="pointer-events-auto mb-[60px]"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: "easeOut" }}

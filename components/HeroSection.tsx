@@ -362,7 +362,7 @@ const HeroSection = () => {
         />
       </div>
 
-      <div className={`flex-1 flex flex-col items-center justify-center ${isPromoActive ? "pb-[290px] md:pb-[260px]" : "pb-[200px]"}`}>
+      <div className={`flex-1 flex flex-col items-center justify-center ${isPromoActive ? "pb-[490px] md:pb-[420px]" : "pb-[330px]"}`}>
         <div className="text-center relative">
           <motion.div
             className={`absolute inset-0 flex flex-col space-y-8 items-center justify-center mb-12 ${showContent && 'hidden'}`}
@@ -465,20 +465,6 @@ const HeroSection = () => {
             >
               {showContent && <EmailCapture />}
             </div>
-
-            <a
-              href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-embedding-2/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-base font-normal italic text-zinc-400 hover:text-white transition-colors duration-300 mt-4 inline-block pointer-events-auto select-none"
-              style={{
-                opacity: emailCaptureVisible ? 1 : 0,
-                transform: emailCaptureVisible ? "translateY(0)" : "translateY(20px)",
-                transition: "opacity 0.7s, transform 0.7s",
-              }}
-            >
-              ✨ Spotlighted by Google Gemini ✨
-            </a>
 
           </motion.div>
         </div>
