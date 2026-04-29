@@ -16,8 +16,8 @@ const Toaster = dynamic(
   { ssr: false }
 );
 import ReferralClickTracker from "@/components/ReferralClickTracker";
-import OpenReplayInit from "@/components/OpenReplayInit";
 import PageViewTracker from "@/lib/hooks/usePageViewTracking";
+import ClarityInit from "@/components/ClarityInit";
 
 export function RootLayoutClient({
   children,
@@ -85,7 +85,7 @@ export function RootLayoutClient({
           <ReferralClickTracker />
           <PageViewTracker />
         </Suspense>
-        <OpenReplayInit />
+        <ClarityInit />
         {toasterNode}
         {children}
       </>
@@ -98,7 +98,7 @@ export function RootLayoutClient({
       <Suspense fallback={null}>
         <ReferralClickTracker />
       </Suspense>
-      <OpenReplayInit />
+      <ClarityInit />
       {toasterNode}
       <div className={`relative min-h-[100dvh] w-full flex flex-col overflow-x-hidden ${isHomePage ? "touch-none" : "touch-pan-y"} overflow-hidden`}>
         <div className="fixed inset-0 z-0">
