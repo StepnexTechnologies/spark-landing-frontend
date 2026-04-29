@@ -53,10 +53,8 @@ function dateRange(
 }
 
 // Summer Sign-up Daily Vouchers Promo: 1st May 2026 – 31st May 2026.
-// TESTING OVERRIDE: start pulled back to 28 Apr 2026 so the banner renders before
-// the real launch. Restore `month: 4, day: 1` before shipping.
 const SUMMER_SIGNUP_WINDOW = dateRange(
-  { year: 2026, month: 3, day: 28 },
+  { year: 2026, month: 4, day: 1 },
   { year: 2026, month: 4, day: 31 },
 );
 
@@ -66,7 +64,7 @@ export const PROMO_CONFIG: PromoConfig = {
   end: SUMMER_SIGNUP_WINDOW.end,
   terms: {
     // Each promo ships its own T&C page; set this to that page's URL when enabling a promo.
-    url: "",
+    url: "/summer-promo/terms",
   },
   celebration: {
     // Summer Sign-up promo doesn't use the celebration overlay.
