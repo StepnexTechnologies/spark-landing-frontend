@@ -51,35 +51,50 @@ export default function MetaShareButton({
     );
   };
 
-  const handleLinkedIn = () => {
+  const handleLinkedIn = async () => {
     track("blog_share_click", { platform: "linkedin", slug });
     const webUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
+    const caption = `${title} ${url}`;
 
     if (typeof navigator === "undefined") {
       openShareUrl(webUrl);
       return;
     }
 
-    const ua = navigator.userAgent;
-    const isAndroid = /Android/i.test(ua);
-    const isIOS = /iPhone|iPad|iPod/i.test(ua);
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-    if (isAndroid) {
-      const intentUrl =
-        `intent://shareArticle?mini=true&url=${encodeURIComponent(url)}` +
-        `&title=${encodeURIComponent(title)}` +
-        `#Intent;scheme=linkedin;package=com.linkedin.android;` +
-        `S.browser_fallback_url=${encodeURIComponent(webUrl)};end`;
-      window.location.href = intentUrl;
+    if (!isMobile) {
+      openShareUrl(webUrl);
       return;
     }
 
-    if (isIOS) {
-      const appUrl =
-        `linkedin://shareArticle?mini=true` +
-        `&url=${encodeURIComponent(url)}` +
-        `&title=${encodeURIComponent(title)}`;
+    let copied = false;
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(caption);
+        copied = true;
+      } else {
+        const textarea = document.createElement("textarea");
+        textarea.value = caption;
+        textarea.style.position = "fixed";
+        textarea.style.opacity = "0";
+        document.body.appendChild(textarea);
+        textarea.select();
+        copied = document.execCommand("copy");
+        document.body.removeChild(textarea);
+      }
+    } catch {
+      copied = false;
+    }
 
+    if (copied) {
+      toast.success("Link copied! Paste it in your LinkedIn post.");
+    } else {
+      toast.error("Couldn't copy link");
+    }
+
+    window.setTimeout(() => {
+      const appUrl = "linkedin://";
       let didHide = false;
       const onVisibilityChange = () => {
         if (document.hidden) didHide = true;
@@ -89,18 +104,12 @@ export default function MetaShareButton({
       window.location.href = appUrl;
 
       window.setTimeout(() => {
-        document.removeEventListener(
-          "visibilitychange",
-          onVisibilityChange
-        );
+        document.removeEventListener("visibilitychange", onVisibilityChange);
         if (!didHide && !document.hidden) {
           window.location.href = webUrl;
         }
       }, 1500);
-      return;
-    }
-
-    openShareUrl(webUrl);
+    }, 1500);
   };
 
   const handleX = () => {
