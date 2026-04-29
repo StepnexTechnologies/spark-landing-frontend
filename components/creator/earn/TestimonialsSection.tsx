@@ -8,13 +8,33 @@ import styles from "./carousel.module.css";
 import { motion } from "framer-motion";
 import { useSectionViewTracking } from "@/lib/hooks/useSectionViewTracking";
 
-export default function TestimonialsSection() {
-  const { t, ready } = useTranslation("creatorEarn");
+interface TestimonialsSectionProps {
+  namespace?: string;
+  trackingId?: string;
+  // When true, the carousel's per-slide fade-in is disabled. Use on funnels
+  // where the section sits above the fold on initial load — whileInView
+  // misfires for off-center carousel slides because their visible peek is
+  // smaller than the trigger margin, leaving them stuck at opacity 0 until
+  // the user interacts. Defaults to false so the existing earn page is unchanged.
+  disableSlideEntryAnimation?: boolean;
+}
+
+export default function TestimonialsSection({
+  namespace = "creatorEarn",
+  trackingId = "testimonials",
+  disableSlideEntryAnimation = false,
+}: TestimonialsSectionProps = {}) {
+  const { t, ready } = useTranslation(namespace);
   const [windowWidth, setWindowWidth] = useState<number>(0);
   const [mounted, setMounted] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState<number>(1); // Start with 2nd card
   const sectionRef = useRef<HTMLElement>(null);
-  useSectionViewTracking(sectionRef, "testimonials");
+  useSectionViewTracking(sectionRef, trackingId);
+
+  // Subtitle is optional — promo namespace defines `testimonials.subtitle`,
+  // earn doesn't. `defaultValue: ""` makes a missing key render empty rather
+  // than echoing the key string back.
+  const subtitle = t("testimonials.subtitle", { defaultValue: "" });
 
   const testimonials = useMemo(
     () => [
@@ -46,7 +66,10 @@ export default function TestimonialsSection() {
   const emblaOptions = useMemo(
     () => ({
       align: "center" as const, // ensures centered active card
-      containScroll: "trimSnaps" as const,
+      // `trimSnaps` would clip the first/last slides flush to the viewport edge
+      // and prevent them from centering. Disable containment so every snap
+      // lands in the middle.
+      containScroll: false as const,
       loop: false,
       draggable: true,
       skipSnaps: false,
@@ -105,11 +128,16 @@ export default function TestimonialsSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-8 md:mb-12 space-y-3"
+          className="text-center mb-8 md:mb-12 space-y-3 px-5 md:px-0"
         >
           <h2 className="text-2xl md:text-[52px] font-bold text-white">
             {t("testimonials.title")}
           </h2>
+          {subtitle && (
+            <p className="text-sm md:text-base text-white/70 max-w-[560px] mx-auto">
+              {subtitle}
+            </p>
+          )}
         </motion.div>
 
         {/* ---------- Carousel for tablet & phone ---------- */}
@@ -133,6 +161,7 @@ export default function TestimonialsSection() {
                         avatarUrl={testimonial.avatarUrl}
                         highlighted={testimonial.highlighted}
                         index={index}
+                        disableEntryAnimation={disableSlideEntryAnimation}
                       />
                     </motion.div>
                   </div>

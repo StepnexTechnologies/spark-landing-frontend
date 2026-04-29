@@ -14,7 +14,14 @@ interface ValidatedPhoneInputProps {
   defaultCountry?: Country;
   country?: Country;
   placeholder?: string;
+  disabled?: boolean;
+  // Override the inner <input>'s className. Defaults to the dark-bg styling
+  // (white text + translucent placeholder); override on light backgrounds.
+  inputClassName?: string;
 }
+
+const DEFAULT_INPUT_CLASS =
+  "bg-transparent border-none outline-none text-base placeholder:text-white/60 focus:outline-none focus:ring-0 w-full text-white";
 
 export const ValidatedPhoneInput = ({
   id,
@@ -26,6 +33,8 @@ export const ValidatedPhoneInput = ({
   defaultCountry = "IN",
   country,
   placeholder = "Your mobile number",
+  disabled = false,
+  inputClassName = DEFAULT_INPUT_CLASS,
 }: ValidatedPhoneInputProps) => {
   return (
     <div className="relative w-full">
@@ -39,10 +48,14 @@ export const ValidatedPhoneInput = ({
         onCountryChange={onCountryChange}
         onBlur={onBlur}
         placeholder={placeholder}
+        disabled={disabled}
         className="validated-phone-input"
         numberInputProps={{
-          className:
-            "bg-transparent border-none outline-none text-base placeholder:text-white/60 focus:outline-none focus:ring-0 w-full text-white",
+          className: inputClassName,
+          disabled,
+          name: "phone",
+          autoComplete: "tel",
+          inputMode: "tel",
         }}
       />
       {error && <p className="text-red-400 text-xs mt-1">{error}</p>}

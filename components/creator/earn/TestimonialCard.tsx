@@ -11,6 +11,10 @@ interface TestimonialCardProps {
   avatarUrl: string;
   highlighted?: boolean;
   index: number;
+  // When true, render the card statically (no fade-in / slide-up). Use this
+  // for cards inside a carousel where overflow:hidden + a small peek can
+  // prevent whileInView from firing for off-center slides on initial render.
+  disableEntryAnimation?: boolean;
 }
 
 export default function TestimonialCard({
@@ -20,17 +24,24 @@ export default function TestimonialCard({
   avatarUrl,
   highlighted = false,
   index,
+  disableEntryAnimation = false,
 }: TestimonialCardProps) {
+  const motionProps = disableEntryAnimation
+    ? {}
+    : {
+        initial: { opacity: 0, y: 30 },
+        whileInView: { opacity: 1, y: 0 },
+        viewport: { once: true, margin: "-50px" },
+        transition: { duration: 0.6, delay: index * 0.1 },
+      };
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.6, delay: index * 0.1 }}
+      {...motionProps}
       className={`
-        p-6 rounded-[32px] bg-gradient-to-br from-white/10 via-white/0 to-black/10 border border-white/20 backdrop-blur-[2px]
+        px-3 py-6 rounded-[32px] bg-gradient-to-br from-white/10 via-white/0 to-black/10 border border-white/20 backdrop-blur-[2px]
         ${highlighted ? "bg-white/10" : "bg-transparent"}
-        max-w-[284px] md:max-w-[364px]
+        min-w-[315px] md:max-w-[364px]
       `}
     >
       {/* Quote */}
@@ -39,7 +50,7 @@ export default function TestimonialCard({
       </p>
 
       {/* User Info */}
-      <div className="flex items-center gap-3 px-0 py-4">
+      <div className="flex items-center gap-3 px-0 pt-3">
         {/* Avatar */}
         <div className="relative w-10 h-10 rounded-full overflow-hidden flex-shrink-0">
           <Image src={avatarUrl} alt={name} fill className="object-cover" />

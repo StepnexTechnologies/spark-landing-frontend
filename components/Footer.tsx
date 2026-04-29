@@ -39,7 +39,7 @@ export default function Footer({ minimal = false }: FooterProps) {
     >
       {!minimal && mounted && isPromoActive && heroReady && (
         <motion.a
-          href="https://beta.creator.sparkonomy.com/auth?service=earn"
+          href="https://beta.creator.sparkonomy.com/auth?service=earn&lang=hi-Latn"
           target="_blank"
           rel="noopener noreferrer"
           className="pointer-events-auto relative overflow-hidden block w-full px-2 py-2 mb-[30px] text-center cursor-pointer"

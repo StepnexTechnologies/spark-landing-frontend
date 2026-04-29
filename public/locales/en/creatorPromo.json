@@ -1,0 +1,158 @@
+{
+  "nav": {
+    "getEarlyAccess": "Get Early Access"
+  },
+  "hero": {
+    "tagChip": "Apni Boli, Apna Bill",
+    "title": "Business in Hinglish... why is invoicing in English?",
+    "subtitle": "<0>Perfect English invoices.</0> Now create them in Hinglish. Made just for creators.",
+    "card": {
+      "livePromo": "Live promo",
+      "voucherHeading": "Your EnglishTax Refund",
+      "voucherBody": "5 x ₹XXX Amazon vouchers daily, har din",
+      "termsLine": "Sign up to enter. <0>T&C</0> apply",
+      "ctaLabel": "Send your invoice — free!",
+      "checks": ["No card needed", "30-sec signup"],
+      "phonePlaceholder": "XXXX XXXXXX",
+      "sendOtp": "Send OTP",
+      "disclaimer": "By tapping Send OTP, you agree to create an account and Sparkonomy's <0>Terms</0> and <1>Privacy Policy</1>."
+    }
+  },
+  "threeStep": {
+    "title": "3 step. No spreadsheets.",
+    "subtitle": "So easy you'll get it on the first try.",
+    "items": [
+      {
+        "title": "Send a chat or call",
+        "description": "WhatsApp, email or call — speak your way. We pick up every detail.",
+        "tags": ["Talk", "WhatsApp", "Email", "Hinglish"]
+      },
+      {
+        "title": "AI builds the invoice",
+        "description": "GST, PAN, formatting — handled. Pro-grade invoice ready in 30 seconds.",
+        "tags": ["GST Handle", "Proof Of Work"]
+      },
+      {
+        "title": "We chase the payment",
+        "description": "Polite reminders go out automatically. You create, we collect.",
+        "tags": ["WhatsApp", "Email", "Auto"]
+      }
+    ]
+  },
+  "testimonials": {
+    "title": "What creators are saying",
+    "subtitle": "Invoices that get you paid faster — and make you look good doing it.",
+    "items": [
+      {
+        "quote": "And I have to reach out so many times to get paid in 3 months, and still it hasn't happened 15-20 times! I want you to do my payment reminders",
+        "name": "Food YouTuber",
+        "handle": "700K Followers"
+      },
+      {
+        "quote": "I raise invoices once a month mostly. I don't get time… and it delays my payments. I want you help me raise instant invoices in under 5 mins from my phone",
+        "name": "Tech Instagrammer",
+        "handle": "1M Followers"
+      },
+      {
+        "quote": "I don't have time to write down and track all payments in Excel and become my own accountant! I want you to track & remind me of my money matters",
+        "name": "Lifestyle Instagrammer",
+        "handle": "1M Followers"
+      }
+    ]
+  },
+  "advantage": {
+    "title": "What else do you get?",
+    "subtitle": "All beta-period features — completely free.",
+    "items": [
+      {
+        "title": "Payment Ready",
+        "description": "Polite reminders run on autopilot. You create content, we get the cash."
+      },
+      {
+        "title": "Tax-Compliant",
+        "description": "GST, barters and other taxes — sorted automatically."
+      },
+      {
+        "title": "WhatsApp Alerts",
+        "description": "Payment status and reminders, right on WhatsApp."
+      },
+      {
+        "title": "Proof Of Work",
+        "description": "Auto-fetched. No more chasing screenshots."
+      }
+    ]
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "viewAll": "View All",
+    "items": [
+      {
+        "question": "How do I sign up?",
+        "answer": "Give your phone number — that's it! After that, share your social handles, answer a couple of easy questions on your billing info, and you'll be sending invoices using Sparkonomy's AI quicker than a collab DM reply!"
+      },
+      {
+        "question": "How is this AI for creators and its smart payment useful for me?",
+        "answer": "Sparkonomy's AI helps creators run their business like a pro. Share a chat or collab details and a GST-ready invoice is generated in seconds."
+      },
+      {
+        "question": "What information do I need to add to my profile to start invoicing?",
+        "answer": "Just share your name, address, PAN and payment details (UPI/Bank account). It takes less than 5 minutes and you only do it once."
+      },
+      {
+        "question": "How do I create my first invoice?",
+        "answer": "Sparkonomy's creator AI lets you make an invoice in under 3 minutes with a few taps — all from your phone."
+      },
+      {
+        "question": "How will Sparkonomy make payment reminders on my behalf?",
+        "answer": "When you create your invoice, you choose how many reminders to send and how often. We send them on WhatsApp and email."
+      }
+    ]
+  },
+  "floatingCta": {
+    "placeholder": "Your mobile number",
+    "sendOtp": "Send OTP",
+    "modalTitle": "Start sending invoices in your own boli"
+  },
+  "footer": {
+    "tagline": "sparking the creator economy",
+    "terms": "Terms & Conditions",
+    "privacy": "Privacy Policy",
+    "refund": "Refund Policy",
+    "copyright": "©All rights reserved."
+  },
+  "referral": {
+    "defaultName": "Chulbuli",
+    "message": "says this is the easiest app for creator work — and wants you to try it.",
+    "signUp": "Sign Up today!"
+  },
+  "otp": {
+    "title": "Enter the 4-digit OTP",
+    "sentTo": "Sent to {{phone}}",
+    "verify": "Verify OTP",
+    "resendIn": "Resend in {{seconds}}s",
+    "resend": "Resend OTP",
+    "changeNumber": "Change number",
+    "errorInvalid": "Invalid OTP. Please try again.",
+    "errorNetwork": "Something went wrong. Please try again.",
+    "sending": "Sending…",
+    "verifying": "Verifying…"
+  },
+  "signupCard": {
+    "otpSentOverWhatsapp": "OTP sent over WhatsApp",
+    "verified": "Verified",
+    "notVerified": "Not verified",
+    "verifying": "Verifying…",
+    "invalid": "Invalid",
+    "firstNameLabel": "First Name*",
+    "firstNamePlaceholder": "E.g. Chulbuli",
+    "lastNameLabel": "Last Name*",
+    "lastNamePlaceholder": "E.g. Dixit",
+    "emailLabel": "Email Id",
+    "emailPlaceholder": "E.g. yourname@email.com",
+    "createAccount": "Mera Account Banao!",
+    "creating": "Creating…",
+    "done": "Done!",
+    "builtWith": "Built with",
+    "developedWith": "Developed with"
+  }
+}

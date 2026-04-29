@@ -5,6 +5,8 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 // Import translation files directly for bundling
 import enCreatorEarn from '@/public/locales/en/creatorEarn.json';
 import hiLatnCreatorEarn from '@/public/locales/hi-Latn/creatorEarn.json';
+import enCreatorPromo from '@/public/locales/en/creatorPromo.json';
+import hiLatnCreatorPromo from '@/public/locales/hi-Latn/creatorPromo.json';
 
 // Only initialize on client side
 const initI18n = () => {
@@ -16,14 +18,16 @@ const initI18n = () => {
         fallbackLng: 'en',
         supportedLngs: ['en', 'hi-Latn'],
         debug: false,
-        ns: ['creatorEarn'],
+        ns: ['creatorEarn', 'creatorPromo'],
         defaultNS: 'creatorEarn',
         resources: {
           en: {
             creatorEarn: enCreatorEarn,
+            creatorPromo: enCreatorPromo,
           },
           'hi-Latn': {
             creatorEarn: hiLatnCreatorEarn,
+            creatorPromo: hiLatnCreatorPromo,
           },
         },
         detection: {

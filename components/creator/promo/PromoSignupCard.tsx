@@ -1,0 +1,394 @@
+"use client";
+
+import { Suspense } from "react";
+import Image from "next/image";
+import { AnimatePresence, motion } from "framer-motion";
+import { Trans, useTranslation } from "react-i18next";
+import { Check, Loader2, X } from "lucide-react";
+import { ValidatedPhoneInput } from "@/components/creator/earn/ValidatedPhoneInput";
+import OtpInput from "@/components/creator/otp/OtpInput";
+import TextInput from "@/components/common/TextInput";
+import { PROMO_CONFIG } from "@/lib/promo/config";
+import { useSignup } from "./SignupContext";
+
+const SHEET_TRANSITION = { duration: 0.35, ease: [0.4, 0, 0.2, 1] as const };
+
+export default function PromoSignupCard() {
+  const { t } = useTranslation("creatorPromo");
+  const {
+    phone,
+    setPhone,
+    stage,
+    otp,
+    setOtp,
+    verifyStatus,
+    profile,
+    setProfileField,
+    error,
+    resendIn,
+    sendOtp,
+    resendOtp,
+    submitProfile,
+    changeNumber,
+  } = useSignup();
+
+  const checks = (() => {
+    const raw = t("hero.card.checks", { returnObjects: true });
+    return Array.isArray(raw) ? (raw as string[]) : [];
+  })();
+
+  const otpVisible =
+    stage === "otp" || stage === "profile" || stage === "submitting" || stage === "submitted";
+  const profileVisible =
+    stage === "profile" || stage === "submitting" || stage === "submitted";
+  // Once we move past Stage 1 the phone input is locked so the user can't
+  // silently change the number mid-flow. To edit, they use the explicit
+  // "Change Number" button under the OTP boxes.
+  const phoneLocked = stage !== "phone";
+
+  const isFirstNameValid = profile.firstName.trim().length > 0;
+  const isLastNameValid = profile.lastName.trim().length > 0;
+  const emailTrimmed = profile.email.trim();
+  const isEmailValid = emailTrimmed === "" || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailTrimmed);
+  const canSubmitProfile = isFirstNameValid && isLastNameValid && isEmailValid;
+
+  const submitButtonLabel =
+    stage === "submitting"
+      ? t("signupCard.creating")
+      : stage === "submitted"
+        ? t("signupCard.done")
+        : t("signupCard.createAccount");
+
+  return (
+    <motion.div
+      id="promo-hero-card"
+      layout
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{
+        layout: { duration: 0.4, ease: [0.4, 0, 0.2, 1] },
+        opacity: { duration: 0.6, delay: 0.4 },
+        scale: { duration: 0.6, delay: 0.4 },
+      }}
+      className="relative mx-auto w-full max-w-[420px] rounded-[24px] border-[3px] border-[#DD2A7B] px-2 py-4 shadow-[0_18px_40px_rgba(245,166,35,0.25),0_8px_20px_rgba(0,0,0,0.25)]"
+      style={{
+        background:
+          "linear-gradient(160deg, #FFE27A 0%, #F5A623 60%, #E8911A 100%)",
+      }}
+    >
+      {/* Voucher row */}
+      <div className="flex items-start gap-3">
+        <Image
+          src="/promo/landing-promo/giftCard.png"
+          alt=""
+          width={88}
+          height={72}
+          className="w-[88px] h-[72px] shrink-0 object-contain"
+        />
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-1.5">
+            <span className="relative flex h-1.5 w-1.5">
+              <span className="absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75 animate-ping" />
+              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-green-600" />
+            </span>
+            <span className="text-xs font-normal text-primary">
+              {t("hero.card.livePromo")}
+            </span>
+          </div>
+          <h2 className="mt-0.5 text-[20px] font-semibold tracking-[-0.04em] text-primary leading-tight">
+            {t("hero.card.voucherHeading")}
+          </h2>
+          <p className="mt-1 text-xs font-normal text-primary leading-snug">
+            {t("hero.card.voucherBody")}
+          </p>
+          <p className="mt-1 text-[10px] font-normal text-primary leading-snug">
+            <Trans
+              i18nKey="hero.card.termsLine"
+              t={t}
+              components={[
+                <a
+                  key="tc"
+                  href={PROMO_CONFIG.terms.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline"
+                />,
+              ]}
+            />
+          </p>
+        </div>
+      </div>
+
+      {/* CTA label + checks */}
+      <div className="mt-2 px-2">
+        <p className="text-xs font-semibold leading-4 text-primary">
+          {t("hero.card.ctaLabel")}
+        </p>
+        <ul className="flex flex-wrap items-center gap-x-0.5 gap-y-1 text-xs font-normal text-primary">
+          {checks.map((label, i) => (
+            <li key={i} className="flex items-center gap-1.5">
+              <span aria-hidden="true">✅</span>
+              <span>{label}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      {/* Phone input + Send OTP. Once we leave stage 'phone' the input is
+          locked. To edit the number, the user uses the explicit "Change
+          Number" button under the OTP boxes — the row itself does not
+          collapse the flow when tapped. */}
+      <div className="mt-2.5 px-2">
+        <div className="flex items-center w-full rounded-[16px] bg-white border border-black/10 p-[6px] pl-3 gap-2">
+          <Suspense fallback={null}>
+            <ValidatedPhoneInput
+              id="promo-hero-phone"
+              value={phone}
+              onChange={setPhone}
+              placeholder={t("hero.card.phonePlaceholder")}
+              disabled={phoneLocked}
+              inputClassName="bg-transparent border-none outline-none text-base placeholder:text-[#999999] focus:outline-none focus:ring-0 w-full text-[#212529] disabled:bg-transparent"
+            />
+          </Suspense>
+          <button
+            type="button"
+            onClick={sendOtp}
+            disabled={!phone || stage === "otpSending" || phoneLocked}
+            className="flex-shrink-0 px-3 py-2 rounded-[8px] text-white text-sm font-semibold whitespace-nowrap bg-[linear-gradient(162deg,#dd2a7b_0%,#9747FF_64%)] hover:brightness-110 transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
+          >
+            {stage === "otpSending" ? t("otp.sending") : t("hero.card.sendOtp")}
+          </button>
+        </div>
+
+        {/* Disclaimer — only shown in stage 1 (hidden once OTP is sent) */}
+        <AnimatePresence initial={false}>
+          {stage === "phone" && (
+            <motion.p
+              key="disclaimer"
+              initial={{ height: 0, opacity: 0, marginTop: 0 }}
+              animate={{ height: "auto", opacity: 1, marginTop: 8 }}
+              exit={{ height: 0, opacity: 0, marginTop: 0 }}
+              transition={SHEET_TRANSITION}
+              className="overflow-hidden text-[10px] md:text-[11px] text-white/90 text-center leading-snug px-1"
+            >
+              <Trans
+                i18nKey="hero.card.disclaimer"
+                t={t}
+                components={[
+                  <a
+                    key="terms"
+                    href={PROMO_CONFIG.terms.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline"
+                  />,
+                  <a
+                    key="privacy"
+                    href="/legal/privacy-policy"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline"
+                  />,
+                ]}
+              />
+            </motion.p>
+          )}
+        </AnimatePresence>
+      </div>
+
+      {/* Stage 2: OTP block */}
+      <AnimatePresence initial={false}>
+        {otpVisible && (
+          <motion.div
+            key="otp-section"
+            initial={{ height: 0, opacity: 0, marginTop: 0 }}
+            animate={{ height: "auto", opacity: 1, marginTop: 12 }}
+            exit={{ height: 0, opacity: 0, marginTop: 0 }}
+            transition={SHEET_TRANSITION}
+            className="overflow-hidden"
+          >
+            <div className="flex flex-col items-center gap-3 px-2">
+              <p className="flex items-center justify-center gap-1.5 text-xs font-normal text-white text-center">
+                <span>{t("signupCard.otpSentOverWhatsapp")}</span>
+                <WhatsAppGlyph />
+                <span className="font-medium text-white">
+                  +91-{phone.replace(/^\+?91/, "").trim() || phone}
+                </span>
+              </p>
+
+              <OtpInput
+                length={4}
+                value={otp}
+                onChange={setOtp}
+                autoFocus
+                disabled={stage === "submitting" || stage === "submitted"}
+                variant="light"
+              />
+
+              <VerifiedBadge status={verifyStatus} t={t} />
+
+              {error && verifyStatus !== "verified" && (
+                <p className="text-xs text-red-100 bg-red-600/20 px-2 py-0.5 rounded">{error}</p>
+              )}
+
+              <div className="flex items-center justify-between w-full text-[11px] text-white/90">
+                {resendIn > 0 ? (
+                  <span>{t("otp.resendIn", { seconds: resendIn })}</span>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={resendOtp}
+                    disabled={verifyStatus === "verified" || verifyStatus === "verifying"}
+                    className="underline hover:text-white disabled:opacity-50"
+                  >
+                    {t("otp.resend")}
+                  </button>
+                )}
+                <button
+                  type="button"
+                  onClick={changeNumber}
+                  disabled={verifyStatus === "verified"}
+                  className="underline hover:text-white disabled:opacity-50"
+                >
+                  {t("otp.changeNumber")}
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Stage 3: profile form */}
+      <AnimatePresence initial={false}>
+        {profileVisible && (
+          <motion.div
+            key="profile-section"
+            initial={{ height: 0, opacity: 0, marginTop: 0 }}
+            animate={{ height: "auto", opacity: 1, marginTop: 16 }}
+            exit={{ height: 0, opacity: 0, marginTop: 0 }}
+            transition={SHEET_TRANSITION}
+            className="overflow-hidden"
+          >
+            <div className="flex flex-col gap-2 px-2">
+              <TextInput
+                label={t("signupCard.firstNameLabel")}
+                placeholder={t("signupCard.firstNamePlaceholder")}
+                value={profile.firstName}
+                onChange={(e) => setProfileField("firstName", e.target.value)}
+                autoComplete="given-name"
+              />
+              <TextInput
+                label={t("signupCard.lastNameLabel")}
+                placeholder={t("signupCard.lastNamePlaceholder")}
+                value={profile.lastName}
+                onChange={(e) => setProfileField("lastName", e.target.value)}
+                autoComplete="family-name"
+              />
+              <TextInput
+                label={t("signupCard.emailLabel")}
+                placeholder={t("signupCard.emailPlaceholder")}
+                value={profile.email}
+                onChange={(e) => setProfileField("email", e.target.value)}
+                type="email"
+                autoComplete="email"
+                error={
+                  emailTrimmed && !isEmailValid
+                    ? "Please enter a valid email"
+                    : undefined
+                }
+              />
+
+              <button
+                type="button"
+                onClick={submitProfile}
+                disabled={!canSubmitProfile || stage === "submitting" || stage === "submitted"}
+                className="mt-1 w-full rounded-full bg-white py-3 text-sm font-semibold text-primary shadow-[0_4px_12px_rgba(129,52,165,0.18)] border-2 border-primary/30 hover:border-primary transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
+              >
+                {submitButtonLabel}
+              </button>
+
+              <PartnerFooter t={t} />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  );
+}
+
+function VerifiedBadge({
+  status,
+  t,
+}: {
+  status: "idle" | "verifying" | "verified" | "error";
+  t: ReturnType<typeof useTranslation>["t"];
+}) {
+  let icon: React.ReactNode;
+  let label: string;
+  let cls: string;
+
+  if (status === "verifying") {
+    icon = <Loader2 className="w-3.5 h-3.5 animate-spin" />;
+    label = t("signupCard.verifying");
+    cls = "border-primary/40 text-primary/80 bg-white/70";
+  } else if (status === "verified") {
+    icon = <Check className="w-3.5 h-3.5" />;
+    label = t("signupCard.verified");
+    cls = "border-primary text-primary bg-black/10";
+  } else if (status === "error") {
+    icon = <X className="w-3.5 h-3.5" />;
+    label = t("signupCard.invalid");
+    cls = "border-red-500 text-red-600 bg-white";
+  } else {
+    icon = <X className="w-3.5 h-3.5" />;
+    label = t("signupCard.notVerified");
+    cls = "border-primary/40 text-primary/70 bg-[linear-gradient(162.34deg,_rgba(221,42,123,0.2)_4.78%,_rgba(151,71,255,0.2)_89.95%)]";
+  }
+
+  return (
+    <div className="self-end">
+      <span
+        className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-[11px] font-medium ${cls}`}
+      >
+        {icon}
+        {label}
+      </span>
+    </div>
+  );
+}
+
+function PartnerFooter(_: { t: ReturnType<typeof useTranslation>["t"] }) {
+  return (
+    <div className="mt-3 flex items-center justify-center text-[11px] text-[#5C2E0B]/85">
+      <Image
+        src="/logos/Meta_White.png"
+        alt="Meta"
+        width={85}
+        height={30}
+        className="mr-3 border-r border-white pr-3"
+      />
+      <Image
+        src="/logos/Yt_White.png"
+        alt="YouTube"
+        width={85}
+        height={30}
+        className="ml-3"
+      />
+    </div>
+  );
+}
+
+function WhatsAppGlyph() {
+  return (
+    <svg
+      width="14"
+      height="14"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+      className="text-white"
+    >
+      <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.711.307 1.265.49 1.697.626.713.226 1.362.194 1.875.118.572-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z" />
+    </svg>
+  );
+}

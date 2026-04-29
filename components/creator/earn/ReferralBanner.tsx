@@ -13,8 +13,15 @@ interface ReferrerInfo {
 
 const DEFAULT_IMAGE = "/images/creator/earn/referal-default.png";
 
-export default function ReferralBanner() {
-  const { t, ready } = useTranslation("creatorEarn");
+interface ReferralBannerProps {
+  // i18n namespace to read `referral.*` keys from. Defaults to "creatorEarn"
+  // for the existing earn page; pass "creatorPromo" (etc.) when reusing the
+  // banner on another funnel that owns its own Hinglish/English copy.
+  namespace?: string;
+}
+
+export default function ReferralBanner({ namespace = "creatorEarn" }: ReferralBannerProps = {}) {
+  const { t, ready } = useTranslation(namespace);
   const searchParams = useSearchParams();
   const referralCode = searchParams.get("ref");
 

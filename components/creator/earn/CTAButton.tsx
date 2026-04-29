@@ -11,9 +11,12 @@ interface CTAButtonProps {
     className?: string;
     navigateTo?: string;
     hideBorderAnimation?: boolean;
+    // Analytics event name. Defaults to "earn_cta_click"; pass "promo_cta_click"
+    // (or anything else) when reusing this button on a different funnel.
+    analyticsEvent?: string;
 }
 
-const CTAButton = ({buttonText = "Send Invoices For Free", className, navigateTo = "https://beta.creator.sparkonomy.com/auth?service=earn", hideBorderAnimation = false}: CTAButtonProps) => {
+const CTAButton = ({buttonText = "Send Invoices For Free", className, navigateTo = "https://beta.creator.sparkonomy.com/auth?service=earn", hideBorderAnimation = false, analyticsEvent = "earn_cta_click"}: CTAButtonProps) => {
     const searchParams = useSearchParams();
     const { i18n } = useTranslation();
     const referralCode = searchParams.get("ref");
@@ -41,7 +44,7 @@ const CTAButton = ({buttonText = "Send Invoices For Free", className, navigateTo
         <Link
             className={`all-[unset] box-border inline-flex items-start p-[1px] relative flex-col rounded-[32px] gap-2.5 border-[none] overflow-hidden ${className}`}
             href={finalUrl}
-            onClick={() => track("earn_cta_click", { cta: "beta_signup", label: buttonText, referral_code: referralCode ?? null })}
+            onClick={() => track(analyticsEvent, { cta: "beta_signup", label: buttonText, referral_code: referralCode ?? null })}
         >
             {!hideBorderAnimation && <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#ffffff_0%,rgba(221,42,123,1)_10%,rgba(151,71,255,1)_50%,rgba(221,42,123,0.5)_90%,#ffffff_100%)]" />}
             <div
