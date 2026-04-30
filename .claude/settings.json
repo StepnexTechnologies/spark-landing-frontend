@@ -141,7 +141,8 @@
       "PowerShell(npx --no-install next lint --dir app/summer-promo --dir app/gold-promo 2>&1)",
       "PowerShell(npx --no-install eslint app/summer-promo app/gold-promo 2>&1)",
       "WebFetch(domain:autosana.ai)",
-      "WebFetch(domain:docs.autosana.ai)"
+      "WebFetch(domain:docs.autosana.ai)",
+      "Bash(npx vercel *)"
     ],
     "additionalDirectories": [
       "C:\\Users\\HP\\.claude\\plans",

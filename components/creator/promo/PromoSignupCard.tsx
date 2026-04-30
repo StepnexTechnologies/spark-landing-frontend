@@ -150,12 +150,14 @@ export default function PromoSignupCard() {
             />
           </Suspense>
           {(() => {
-            const ctaDisabled = phoneLocked
-              ? verifyStatus === "verified" ||
-                stage === "submitting" ||
-                stage === "submitted"
-              : !phone || stage === "otpSending";
-            const shouldBounce = !ctaDisabled && !phoneLocked && stage !== "otpSending";
+            const ctaDisabled =
+              stage === "otpSending" ||
+              (phoneLocked
+                ? verifyStatus === "verified" ||
+                  stage === "submitting" ||
+                  stage === "submitted"
+                : !phone);
+            const shouldBounce = !ctaDisabled && !phoneLocked;
             return (
               <motion.button
                 type="button"
