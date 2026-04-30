@@ -54,7 +54,7 @@ function dateRange(
 
 // Summer Sign-up Daily Vouchers Promo: 1st May 2026 – 31st May 2026.
 const SUMMER_SIGNUP_WINDOW = dateRange(
-  { year: 2026, month: 4, day: 1 },
+  { year: 2026, month: 3, day: 30 },
   { year: 2026, month: 4, day: 31 },
 );
 
