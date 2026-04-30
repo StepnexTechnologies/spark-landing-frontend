@@ -45,15 +45,15 @@ function PromoAdvantageCard({ index, title, description, iconUrl }: AdvantageIte
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.5, delay: index * 0.05 }}
-      className="relative w-full max-w-[420px] rounded-[20px] py-3 px-2 bg-white/5 border border-white/10 backdrop-blur-md"
+      className="relative w-full max-w-[420px] rounded-[20px] py-3 px-2 bg-white/5 border border-white/10 backdrop-blur-md md:max-w-none md:rounded-none md:bg-transparent md:border-0 md:border-b md:border-white/20 md:backdrop-blur-0 md:px-0 md:py-0 md:pb-3"
     >
-      <div className="flex items-start gap-4">
-        <div className="relative shrink-0 w-[64px] h-[64px]">
-          <Image src={iconUrl} alt="" fill sizes="64px" className="object-contain" />
+      <div className="flex items-start gap-4 md:flex-col md:items-center md:gap-3.5 md:text-center">
+        <div className="relative shrink-0 w-[64px] h-[64px] md:w-[65px] md:h-[79px]">
+          <Image src={iconUrl} alt="" fill sizes="79px" className="object-contain" />
         </div>
-        <div className="flex-1 min-w-0">
-          <h3 className="text-white font-bold text-lg md:text-xl leading-tight">{title}</h3>
-          <p className="mt-1 text-white/75 text-sm leading-snug">{description}</p>
+        <div className="flex-1 min-w-0 md:flex-none md:flex md:flex-col md:items-center md:gap-3.5 md:max-w-[247px]">
+          <h3 className="text-white font-bold text-lg md:text-2xl md:font-semibold leading-tight md:leading-normal">{title}</h3>
+          <p className="mt-1 md:mt-0 text-white/75 md:text-white text-sm leading-snug md:text-center">{description}</p>
         </div>
       </div>
     </motion.div>
@@ -106,7 +106,7 @@ export default function AdvantageSection({
         </motion.div>
 
         {isPromo ? (
-          <div className="flex flex-col items-center gap-4 md:gap-5 max-w-[480px] mx-auto">
+          <div className="flex flex-col items-center gap-4 max-w-[480px] mx-auto md:max-w-none md:grid md:grid-cols-2 lg:grid-cols-4 md:gap-x-[55px] md:gap-y-[49px] md:items-stretch">
             {items.map((item, i) => (
               <PromoAdvantageCard
                 key={i}

@@ -200,7 +200,7 @@ function PromoFloatingCTA({ isVisible, t, trackingPrefix }: PromoVariantProps) {
           className="fixed bottom-0 left-0 right-0 z-40"
         >
           <div
-            className="relative w-full rounded-t-[20px] py-2 px-6 pb-[max(0.5rem,env(safe-area-inset-bottom))] shadow-[0_-12px_30px_rgba(245,166,35,0.35),0_-4px_12px_rgba(0,0,0,0.25)]"
+            className="relative w-full md:max-w-md md:mx-auto rounded-t-[20px] py-2 px-6 pb-[max(0.5rem,env(safe-area-inset-bottom))] shadow-[0_-12px_30px_rgba(245,166,35,0.35),0_-4px_12px_rgba(0,0,0,0.25)]"
             style={{
               background:
                 "linear-gradient(180deg, #FFCC00 0%, #FFCC00 50%, #806600 80%, #000000 100%)",
