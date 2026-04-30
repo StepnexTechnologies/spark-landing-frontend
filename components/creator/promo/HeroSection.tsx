@@ -54,13 +54,25 @@ export default function HeroSection() {
         </h1>
 
         {/* Subheadline */}
-        <p className="text-[16px] font-normal text-white text-center mb-8 md:mb-10 max-w-[520px] mx-auto leading-relaxed">
+        <p className="text-[16px] font-normal text-white text-center mb-8 md:mb-10 max-w-[640px] mx-auto leading-relaxed">
           <Trans
             i18nKey="hero.subtitle"
             t={t}
             components={[
               <span
-                key="highlight"
+                key="highlight-1"
+                className="font-bold text-primary"
+                style={{
+                  backgroundImage:
+                    "linear-gradient(100deg, transparent 0, transparent 0.2em, #FFCC00 0.35em, #FFCC00 calc(100% - 0.35em), transparent calc(100% - 0.2em), transparent 100%)",
+                  padding: "0.15em 0.5em",
+                  boxDecorationBreak: "clone",
+                  WebkitBoxDecorationBreak: "clone",
+                }}
+              />,
+              <br key="break" />,
+              <span
+                key="highlight-2"
                 className="font-bold text-primary"
                 style={{
                   backgroundImage:
