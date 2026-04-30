@@ -59,7 +59,7 @@ export const PROMO_CONFIG: PromoConfig = {
   homepageBanner: {
     headline: "Work happens in Hinglish. Why is invoicing still in English?",
     subheadline: "Introducing India's first Hinglish invoicing for creators",
-    tagline: "Talk/ type in Hinglish → get perfect English invoices.",
+    tagline: "Talk/Type in Hinglish → get perfect English invoices.",
     taglineEmphasis: "Try it free today.",
   },
 };
