@@ -4,7 +4,7 @@ import { Suspense } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { Trans, useTranslation } from "react-i18next";
-import { Check, Loader2, X } from "lucide-react";
+import { ArrowRight, Check, Loader2, X } from "lucide-react";
 import { ValidatedPhoneInput } from "@/components/creator/earn/ValidatedPhoneInput";
 import OtpInput from "@/components/creator/otp/OtpInput";
 import TextInput from "@/components/common/TextInput";
@@ -319,9 +319,25 @@ export default function PromoSignupCard() {
                 type="button"
                 onClick={submitProfile}
                 disabled={!canSubmitProfile || stage === "submitting" || stage === "submitted"}
-                className="mt-1 w-full rounded-full bg-white py-3 text-sm font-semibold text-primary shadow-[0_4px_12px_rgba(129,52,165,0.18)] border-2 border-primary/30 hover:border-primary transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
+                className="relative mt-1 w-full inline-flex items-center justify-center overflow-hidden rounded-full p-[1px] shadow-[0_4px_12px_rgba(129,52,165,0.18)] transition-[opacity] duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                {submitButtonLabel}
+                <span
+                  aria-hidden="true"
+                  className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#ffffff_0%,rgba(221,42,123,1)_10%,rgba(151,71,255,1)_50%,rgba(221,42,123,0.5)_90%,#ffffff_100%)]"
+                />
+                <span className="relative z-10 inline-flex w-full items-center justify-center gap-2 rounded-full bg-white py-3 text-sm font-semibold">
+                  <span className="bg-[linear-gradient(162.34deg,#DD2A7B_4.78%,#9747FF_89.95%)] bg-clip-text text-transparent">
+                    {submitButtonLabel}
+                  </span>
+                  <motion.span
+                    aria-hidden="true"
+                    animate={{ x: [0, 4, 0] }}
+                    transition={{ duration: 1.1, ease: "easeInOut", repeat: Infinity }}
+                    className="inline-flex"
+                  >
+                    <ArrowRight className="h-4 w-4 text-[#DD2A7B]" strokeWidth={2.5} />
+                  </motion.span>
+                </span>
               </button>
 
               <PartnerFooter t={t} />

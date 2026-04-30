@@ -58,10 +58,14 @@ function CreatorPromoPageContent() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6 }}
         >
-          {/* Background Gradients */}
+          {/* Background Gradients — second blob's height is tuned smaller than
+              /creator/earn's because the promo page has fewer sections. With the
+              earn values (h-[65%]/h-[62%]) the blob extends into the footer on
+              this shorter page; reducing it lets the page's bg-black show through
+              behind the footer. */}
           <div className="absolute -top-[400px] -left-[940px] inset-0 pointer-events-none">
             <div className="mt-[500px] w-[2422px] h-[2422px] md:w-[4500px] gradient-blob" />
-            <div className="-mt-[1000px] w-[2422px] h-[65%] md:w-[4500px] md:h-[62%] gradient-blob" />
+            <div className="-mt-[1000px] w-[2422px] h-[40%] md:w-[4500px] md:h-[38%] gradient-blob" />
           </div>
 
           {/* Content */}

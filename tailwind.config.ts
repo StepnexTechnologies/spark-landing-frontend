@@ -10,6 +10,9 @@ const config: Config = {
         aurora: "aurora 15s ease infinite",
         "aurora-delayed": "aurora 15s ease infinite -5s",
         shimmer: "shimmer 2s infinite linear",
+        // Shared sweep used by the promo card + its CTA so they stay locked
+        // in phase (CSS keyframes are wall-clock synced).
+        "shimmer-sweep": "shimmer-sweep 4.6s infinite",
       },
       keyframes: {
         aurora: {
@@ -20,6 +23,13 @@ const config: Config = {
         shimmer: {
           "0%": { backgroundPosition: "-200% 0" },
           "100%": { backgroundPosition: "200% 0" },
+        },
+        // 0–70% of the cycle (≈3.2s of 4.6s) sweeps left → right with ease-in-out;
+        // 70–100% holds off-screen so the gap matches the prior 1.4s repeatDelay.
+        "shimmer-sweep": {
+          "0%": { left: "-60%", animationTimingFunction: "ease-in-out" },
+          "70%": { left: "100%", animationTimingFunction: "linear" },
+          "100%": { left: "100%" },
         },
       },
       colors: {

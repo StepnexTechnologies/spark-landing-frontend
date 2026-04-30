@@ -10,7 +10,6 @@ import Navigation from "@/components/creator/earn/Navigation";
 import HeroSection from "@/components/creator/earn/HeroSection";
 import StoriesContainer from "@/components/creator/earn/stories/StoriesContainer";
 import ReferralBanner from "@/components/creator/earn/ReferralBanner";
-import {PROMO_CONFIG, isPromoActiveAt} from "@/lib/promo/config";
 import {track} from "@/lib/analytics/track";
 
 const ValueProposition = dynamic(() => import("@/components/creator/earn/ValueProposition"));
@@ -22,7 +21,6 @@ const FAQSection = dynamic(() => import("@/components/creator/earn/FAQSection"))
 const CTASection = dynamic(() => import("@/components/creator/earn/CTASection"));
 const EarnFooter = dynamic(() => import("@/components/creator/earn/EarnFooter"));
 const FloatingCTA = dynamic(() => import("@/components/creator/earn/FloatingCTA"), { ssr: false });
-const PromoCelebration = dynamic(() => import("@/components/promo/PromoCelebration"), { ssr: false });
 
 function CreatorEarnPageContent() {
   const {i18n} = useTranslation();
@@ -64,38 +62,6 @@ function CreatorEarnPageContent() {
 
     setIsLoading(false);
   }, [searchParams, i18n]);
-
-  // Preload the celebration image during idle time so the 4s auto-dismiss isn't
-  // racing the network. Skipped on mobile (the PNG is heavy enough to hurt LCP)
-  // and on viewers outside the active promo window.
-  useEffect(() => {
-    if (!PROMO_CONFIG.celebration.enabled) return;
-    if (!isPromoActiveAt()) return;
-    if (window.matchMedia("(max-width: 768px)").matches) return;
-
-    let cancelled = false;
-    let link: HTMLLinkElement | null = null;
-
-    const inject = () => {
-      if (cancelled) return;
-      link = document.createElement("link");
-      link.rel = "preload";
-      link.as = "image";
-      link.href = PROMO_CONFIG.celebration.image.src;
-      document.head.appendChild(link);
-    };
-
-    const ric = (window as unknown as {
-      requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
-    }).requestIdleCallback;
-    const timeoutId = ric ? ric(inject, { timeout: 3000 }) : window.setTimeout(inject, 2000);
-
-    return () => {
-      cancelled = true;
-      if (!ric) clearTimeout(timeoutId);
-      if (link && link.parentNode) link.parentNode.removeChild(link);
-    };
-  }, []);
 
   const handleStoriesComplete = () => {
     setShowStories(false);
@@ -153,9 +119,6 @@ function CreatorEarnPageContent() {
 
             {/* Floating CTA Button */}
             <FloatingCTA />
-
-            {/* Promo celebration overlay — renders nothing unless PROMO_CONFIG.enabled and the window is active. */}
-            <PromoCelebration />
           </motion.main>
         )}
       </AnimatePresence>
