@@ -208,7 +208,7 @@ export default function PromoSignupCard() {
                 components={[
                   <a
                     key="terms"
-                    href={PROMO_CONFIG.terms.url}
+                    href="/legal/terms"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="underline"

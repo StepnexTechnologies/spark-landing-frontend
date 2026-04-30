@@ -143,7 +143,12 @@
       "WebFetch(domain:autosana.ai)",
       "WebFetch(domain:docs.autosana.ai)",
       "Bash(npx vercel *)",
-      "Bash(echo \"exit=$?\")"
+      "Bash(echo \"exit=$?\")",
+      "Bash(curl -s --max-time 5 http://localhost:3000/creator/promo)",
+      "Bash(curl -s --max-time 10 http://localhost:3000/summer-promo/terms)",
+      "Bash(curl -s --max-time 10 \"http://localhost:3000/creator/promo\" -o /tmp/promo-page.html)",
+      "Bash(curl -s --max-time 10 \"http://localhost:3000/creator/promo\")",
+      "Bash(curl -s --max-time 10 \"http://localhost:3000/_next/static/chunks/components_creator_promo_PromoSignupCard_tsx_*.js\")"
     ],
     "additionalDirectories": [
       "C:\\Users\\HP\\.claude\\plans",

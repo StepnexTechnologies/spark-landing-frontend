@@ -8,7 +8,6 @@ import Image from "next/image";
 import { ValidatedPhoneInput } from "./ValidatedPhoneInput";
 import { useSignup } from "@/components/creator/promo/SignupContext";
 import { track } from "@/lib/analytics/track";
-import { PROMO_CONFIG } from "@/lib/promo/config";
 
 interface FloatingCTAProps {
   // "earn"  → existing inline phone input + Sign Up button on the dark glass bar.
@@ -256,7 +255,7 @@ function PromoFloatingCTA({ isVisible, t, trackingPrefix }: PromoVariantProps) {
                 components={[
                   <a
                     key="terms"
-                    href={PROMO_CONFIG.terms.url}
+                    href="/legal/terms"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="underline underline-offset-2 font-medium"
