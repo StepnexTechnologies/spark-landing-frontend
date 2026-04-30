@@ -41,9 +41,8 @@ export default function PromoSignupCard() {
     stage === "otp" || stage === "profile" || stage === "submitting" || stage === "submitted";
   const profileVisible =
     stage === "profile" || stage === "submitting" || stage === "submitted";
-  // Once we move past Stage 1 the phone input is locked so the user can't
-  // silently change the number mid-flow. To edit, they use the explicit
-  // "Change Number" button under the OTP boxes.
+  // Once we move past Stage 1 the phone input is locked. The CTA button
+  // toggles to "Edit" so the user can unlock it and pick a new number.
   const phoneLocked = stage !== "phone";
 
   const isFirstNameValid = profile.firstName.trim().length > 0;
@@ -73,7 +72,7 @@ export default function PromoSignupCard() {
       className="relative mx-auto w-full max-w-[420px] rounded-[24px] border-[3px] border-[#DD2A7B] px-2 py-4 shadow-[0_18px_40px_rgba(245,166,35,0.25),0_8px_20px_rgba(0,0,0,0.25)]"
       style={{
         background:
-          "linear-gradient(160deg, #FFE27A 0%, #F5A623 60%, #E8911A 100%)",
+          "linear-gradient(180deg, #FFCC00 0%, rgba(255, 204, 0, 0.7) 59.13%, rgba(255, 204, 0, 0.2) 100%)",
       }}
     >
       {/* Voucher row */}
@@ -135,9 +134,8 @@ export default function PromoSignupCard() {
       </div>
 
       {/* Phone input + Send OTP. Once we leave stage 'phone' the input is
-          locked. To edit the number, the user uses the explicit "Change
-          Number" button under the OTP boxes — the row itself does not
-          collapse the flow when tapped. */}
+          locked and the button flips to "Edit", which calls changeNumber
+          to unlock the field. */}
       <div className="mt-2.5 px-2">
         <div className="flex items-center w-full rounded-[16px] bg-white border border-black/10 p-[6px] pl-3 gap-2">
           <Suspense fallback={null}>
@@ -147,17 +145,48 @@ export default function PromoSignupCard() {
               onChange={setPhone}
               placeholder={t("hero.card.phonePlaceholder")}
               disabled={phoneLocked}
+              autoComplete="off"
               inputClassName="bg-transparent border-none outline-none text-base placeholder:text-[#999999] focus:outline-none focus:ring-0 w-full text-[#212529] disabled:bg-transparent"
             />
           </Suspense>
-          <button
-            type="button"
-            onClick={sendOtp}
-            disabled={!phone || stage === "otpSending" || phoneLocked}
-            className="flex-shrink-0 px-3 py-2 rounded-[8px] text-white text-sm font-semibold whitespace-nowrap bg-[linear-gradient(162deg,#dd2a7b_0%,#9747FF_64%)] hover:brightness-110 transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
-          >
-            {stage === "otpSending" ? t("otp.sending") : t("hero.card.sendOtp")}
-          </button>
+          {(() => {
+            const ctaDisabled = phoneLocked
+              ? verifyStatus === "verified" ||
+                stage === "submitting" ||
+                stage === "submitted"
+              : !phone || stage === "otpSending";
+            const shouldBounce = !ctaDisabled && !phoneLocked && stage !== "otpSending";
+            return (
+              <motion.button
+                type="button"
+                onClick={phoneLocked ? changeNumber : sendOtp}
+                disabled={ctaDisabled}
+                animate={
+                  shouldBounce
+                    ? { y: [0, -4, 0, -2, 0], scale: [1, 1.04, 1, 1.02, 1] }
+                    : { y: 0, scale: 1 }
+                }
+                transition={
+                  shouldBounce
+                    ? {
+                        duration: 1.1,
+                        ease: "easeInOut",
+                        repeat: Infinity,
+                        repeatDelay: 0.9,
+                      }
+                    : { duration: 0.2 }
+                }
+                whileTap={{ scale: 0.94 }}
+                className="flex-shrink-0 px-3 py-2 rounded-[8px] text-white text-sm font-semibold whitespace-nowrap bg-[linear-gradient(162deg,#dd2a7b_0%,#9747FF_64%)] hover:brightness-110 transition-[filter,opacity] duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
+              >
+                {stage === "otpSending"
+                  ? t("otp.sending")
+                  : phoneLocked
+                    ? t("hero.card.edit")
+                    : t("hero.card.sendOtp")}
+              </motion.button>
+            );
+          })()}
         </div>
 
         {/* Disclaimer — only shown in stage 1 (hidden once OTP is sent) */}
@@ -225,34 +254,20 @@ export default function PromoSignupCard() {
                 variant="light"
               />
 
-              <VerifiedBadge status={verifyStatus} t={t} />
+              {verifyStatus !== "idle" && (
+                <VerifiedBadge status={verifyStatus} t={t} />
+              )}
 
               {error && verifyStatus !== "verified" && (
                 <p className="text-xs text-red-100 bg-red-600/20 px-2 py-0.5 rounded">{error}</p>
               )}
 
-              <div className="flex items-center justify-between w-full text-[11px] text-white/90">
-                {resendIn > 0 ? (
-                  <span>{t("otp.resendIn", { seconds: resendIn })}</span>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={resendOtp}
-                    disabled={verifyStatus === "verified" || verifyStatus === "verifying"}
-                    className="underline hover:text-white disabled:opacity-50"
-                  >
-                    {t("otp.resend")}
-                  </button>
-                )}
-                <button
-                  type="button"
-                  onClick={changeNumber}
-                  disabled={verifyStatus === "verified"}
-                  className="underline hover:text-white disabled:opacity-50"
-                >
-                  {t("otp.changeNumber")}
-                </button>
-              </div>
+              <ResendRow
+                resendIn={resendIn}
+                resendOtp={resendOtp}
+                disabled={verifyStatus === "verified" || verifyStatus === "verifying"}
+                t={t}
+              />
             </div>
           </motion.div>
         )}
@@ -275,14 +290,14 @@ export default function PromoSignupCard() {
                 placeholder={t("signupCard.firstNamePlaceholder")}
                 value={profile.firstName}
                 onChange={(e) => setProfileField("firstName", e.target.value)}
-                autoComplete="given-name"
+                autoComplete="off"
               />
               <TextInput
                 label={t("signupCard.lastNameLabel")}
                 placeholder={t("signupCard.lastNamePlaceholder")}
                 value={profile.lastName}
                 onChange={(e) => setProfileField("lastName", e.target.value)}
-                autoComplete="family-name"
+                autoComplete="off"
               />
               <TextInput
                 label={t("signupCard.emailLabel")}
@@ -290,7 +305,7 @@ export default function PromoSignupCard() {
                 value={profile.email}
                 onChange={(e) => setProfileField("email", e.target.value)}
                 type="email"
-                autoComplete="email"
+                autoComplete="off"
                 error={
                   emailTrimmed && !isEmailValid
                     ? "Please enter a valid email"
@@ -353,6 +368,53 @@ function VerifiedBadge({
         {icon}
         {label}
       </span>
+    </div>
+  );
+}
+
+function ResendRow({
+  resendIn,
+  resendOtp,
+  disabled,
+  t,
+}: {
+  resendIn: number;
+  resendOtp: () => Promise<void>;
+  disabled: boolean;
+  t: ReturnType<typeof useTranslation>["t"];
+}) {
+  const m = Math.floor(resendIn / 60)
+    .toString()
+    .padStart(2, "0");
+  const s = (resendIn % 60).toString().padStart(2, "0");
+  const ticking = resendIn > 0;
+  const channelClass = ticking
+    ? "font-semibold underline opacity-60"
+    : "font-semibold underline hover:text-white disabled:opacity-50";
+
+  return (
+    <div className="flex items-center justify-center gap-1.5 w-full text-[11px] text-white/90 text-center">
+      {ticking && (
+        <span className="font-medium tabular-nums">{`${m}:${s}`}</span>
+      )}
+      <span>{t("otp.resendViaPrefix")}</span>
+      <button
+        type="button"
+        onClick={resendOtp}
+        disabled={disabled || ticking}
+        className={channelClass}
+      >
+        {t("otp.smsChannel")}
+      </button>
+      <span>&amp;</span>
+      <button
+        type="button"
+        onClick={resendOtp}
+        disabled={disabled || ticking}
+        className={channelClass}
+      >
+        {t("otp.whatsappChannel")}
+      </button>
     </div>
   );
 }

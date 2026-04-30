@@ -18,6 +18,9 @@ interface ValidatedPhoneInputProps {
   // Override the inner <input>'s className. Defaults to the dark-bg styling
   // (white text + translucent placeholder); override on light backgrounds.
   inputClassName?: string;
+  // Override the inner <input>'s autoComplete. Defaults to "tel"; pass "off"
+  // (or a non-standard token) to suppress browser saved-number suggestions.
+  autoComplete?: string;
 }
 
 const DEFAULT_INPUT_CLASS =
@@ -35,6 +38,7 @@ export const ValidatedPhoneInput = ({
   placeholder = "Your mobile number",
   disabled = false,
   inputClassName = DEFAULT_INPUT_CLASS,
+  autoComplete = "tel",
 }: ValidatedPhoneInputProps) => {
   return (
     <div className="relative w-full">
@@ -54,7 +58,7 @@ export const ValidatedPhoneInput = ({
           className: inputClassName,
           disabled,
           name: "phone",
-          autoComplete: "tel",
+          autoComplete,
           inputMode: "tel",
         }}
       />

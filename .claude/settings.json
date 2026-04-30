@@ -139,7 +139,9 @@
       "PowerShell(npx --no-install next lint --file app/summer-promo/terms/page.tsx --file app/gold-promo/terms/page.tsx --file app/summer-promo/layout.tsx --file app/gold-promo/layout.tsx 2>&1)",
       "PowerShell(npx --no-install next lint app/summer-promo app/gold-promo 2>&1)",
       "PowerShell(npx --no-install next lint --dir app/summer-promo --dir app/gold-promo 2>&1)",
-      "PowerShell(npx --no-install eslint app/summer-promo app/gold-promo 2>&1)"
+      "PowerShell(npx --no-install eslint app/summer-promo app/gold-promo 2>&1)",
+      "WebFetch(domain:autosana.ai)",
+      "WebFetch(domain:docs.autosana.ai)"
     ],
     "additionalDirectories": [
       "C:\\Users\\HP\\.claude\\plans",

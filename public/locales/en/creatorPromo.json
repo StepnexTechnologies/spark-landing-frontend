@@ -15,6 +15,7 @@
       "checks": ["No card needed", "30-sec signup"],
       "phonePlaceholder": "XXXX XXXXXX",
       "sendOtp": "Send OTP",
+      "edit": "Edit",
       "disclaimer": "By tapping Send OTP, you agree to create an account and Sparkonomy's <0>Terms</0> and <1>Privacy Policy</1>."
     }
   },
@@ -131,6 +132,9 @@
     "verify": "Verify OTP",
     "resendIn": "Resend in {{seconds}}s",
     "resend": "Resend OTP",
+    "resendViaPrefix": "Resend OTP via",
+    "smsChannel": "SMS",
+    "whatsappChannel": "WhatsApp",
     "changeNumber": "Change number",
     "errorInvalid": "Invalid OTP. Please try again.",
     "errorNetwork": "Something went wrong. Please try again.",

@@ -15,6 +15,7 @@
       "checks": ["No card needed", "30-sec signup"],
       "phonePlaceholder": "XXXX XXXXXX",
       "sendOtp": "Send OTP",
+      "edit": "Edit",
       "disclaimer": "By tapping Send OTP, you agree to create an account and Sparkonomy's <0>Terms</0> and <1>Privacy Policy</1>."
     }
   },
@@ -131,6 +132,9 @@
     "verify": "OTP Verify karein",
     "resendIn": "{{seconds}}s mein dobara bhejein",
     "resend": "OTP dobara bhejein",
+    "resendViaPrefix": "OTP dobara bhejo via",
+    "smsChannel": "SMS",
+    "whatsappChannel": "WhatsApp",
     "changeNumber": "Number badlein",
     "errorInvalid": "Galat OTP. Phir se try karein.",
     "errorNetwork": "Kuch gadbad ho gayi. Phir se try karein.",
