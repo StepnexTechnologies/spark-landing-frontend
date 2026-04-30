@@ -148,7 +148,13 @@
       "Bash(curl -s --max-time 10 http://localhost:3000/summer-promo/terms)",
       "Bash(curl -s --max-time 10 \"http://localhost:3000/creator/promo\" -o /tmp/promo-page.html)",
       "Bash(curl -s --max-time 10 \"http://localhost:3000/creator/promo\")",
-      "Bash(curl -s --max-time 10 \"http://localhost:3000/_next/static/chunks/components_creator_promo_PromoSignupCard_tsx_*.js\")"
+      "Bash(curl -s --max-time 10 \"http://localhost:3000/_next/static/chunks/components_creator_promo_PromoSignupCard_tsx_*.js\")",
+      "Bash(node -e \"JSON.parse\\(require\\('fs'\\).readFileSync\\('public/locales/en/creatorPromo.json','utf8'\\)\\); JSON.parse\\(require\\('fs'\\).readFileSync\\('public/locales/hi-Latn/creatorPromo.json','utf8'\\)\\); console.log\\('OK'\\)\")",
+      "PowerShell(yarn lint)",
+      "PowerShell(npx --no-install next lint)",
+      "PowerShell(npx --no-install next lint --dir components/creator/promo --dir app/creator/promo)",
+      "PowerShell(npx --no-install next --version)",
+      "PowerShell(npx --no-install eslint components/creator/promo/PhoneMockupSection.tsx app/creator/promo/CreatorPromoPage.tsx)"
     ],
     "additionalDirectories": [
       "C:\\Users\\HP\\.claude\\plans",

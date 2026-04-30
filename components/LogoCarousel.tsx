@@ -33,9 +33,9 @@ const LogoCarousel = ({ showCompliance = true }: { showCompliance?: boolean }) =
                 <Image
                   src={logo.src}
                   alt={logo.alt}
-                  height={50}
+                  height={45}
                   width={logo.width}
-                  className="h-[50px] w-auto object-contain"
+                  className="h-[45px] w-auto object-contain"
                 />
               </div>
             ))}

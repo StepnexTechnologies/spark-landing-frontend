@@ -98,11 +98,8 @@ export default function PromoSignupCard() {
             {t("hero.card.voucherHeading")}
           </h2>
           <p className="mt-1 text-xs font-normal text-primary leading-snug">
-            {t("hero.card.voucherBody")}
-          </p>
-          <p className="mt-1 text-[10px] font-normal text-primary leading-snug">
             <Trans
-              i18nKey="hero.card.termsLine"
+              i18nKey="hero.card.voucherBody"
               t={t}
               components={[
                 <a
@@ -112,6 +109,7 @@ export default function PromoSignupCard() {
                   rel="noopener noreferrer"
                   className="underline"
                 />,
+                <span key="tcWrap" style={{ color: "#8134A599" }} />,
               ]}
             />
           </p>

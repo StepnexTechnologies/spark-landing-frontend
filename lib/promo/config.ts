@@ -25,8 +25,6 @@ export interface PromoConfig {
   homepageBanner: {
     headline: string;
     subheadline: string;
-    tagline: string;
-    taglineEmphasis: string;
   };
 }
 
@@ -44,7 +42,7 @@ function dateRange(
 
 // Summer Sign-up Daily Vouchers Promo: 2nd May 2026 – 31st May 2026.
 const SUMMER_SIGNUP_WINDOW = dateRange(
-  { year: 2026, month: 4, day: 2 },
+  { year: 2026, month: 3, day: 1 },
   { year: 2026, month: 4, day: 31 },
 );
 
@@ -59,8 +57,6 @@ export const PROMO_CONFIG: PromoConfig = {
   homepageBanner: {
     headline: "Work happens in Hinglish. Why is invoicing still in English?",
     subheadline: "Introducing India's first Hinglish invoicing for creators",
-    tagline: "Talk/Type in Hinglish → get perfect English invoices.",
-    taglineEmphasis: "Try it free today.",
   },
 };
 

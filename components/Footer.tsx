@@ -71,7 +71,7 @@ export default function Footer({ minimal = false }: FooterProps) {
           <p className="relative text-white font-bold text-[14px] leading-tight text-center tracking-[-0.04em]">
             {banner.headline}
           </p>
-          <p className="relative mt-2 text-white text-[12px] leading-snug flex items-center justify-center gap-2">
+          <p className="relative mt-3 text-white text-[12px] leading-snug flex items-center justify-center gap-2">
             <Image
               src="/promo/Hinglish Icon.png"
               alt=""
@@ -80,9 +80,6 @@ export default function Footer({ minimal = false }: FooterProps) {
               className="inline-block w-5 h-5 object-contain"
             />
             <span>{banner.subheadline}</span>
-          </p>
-          <p className="relative mt-1 text-white text-[12px] leading-snug text-center">
-            {banner.tagline} <em>{banner.taglineEmphasis}</em>
           </p>
         </motion.a>
       )}

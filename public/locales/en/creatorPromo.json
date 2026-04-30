@@ -4,13 +4,12 @@
   },
   "hero": {
     "tagChip": "Apni Boli, Apna Bill",
-    "title": "Business in Hinglish... why is invoicing in English?",
+    "title": "Business in Hinglish...<0/>why is invoicing in English?",
     "subtitle": "Now create <0>perfect English</0><1/><2>invoices</2> in Hinglish. Made just for creators.",
     "card": {
-      "livePromo": "Live promo",
-      "voucherHeading": "Your EnglishTax Refund",
-      "voucherBody": "5 x ₹XXX Amazon vouchers daily, har din",
-      "termsLine": "Sign up to enter. <0>T&C</0> apply",
+      "livePromo": "LIVE PROMO",
+      "voucherHeading": "Aapka Ulta Bill",
+      "voucherBody": "₹500 aapke, bas Sign up ke liye. Hamari taraf se aaj tak ki angrezi confusion ka refund. Pehle 5 signups ko roz. <1><0>T&C</0> apply</1>",
       "ctaLabel": "Send your invoice — free!",
       "checks": ["No card needed", "30-sec signup"],
       "phonePlaceholder": "XXXX XXXXXX",
@@ -24,19 +23,19 @@
     "subtitle": "So easy you'll get it on the first try.",
     "items": [
       {
-        "title": "Send a chat or call",
-        "description": "WhatsApp, email or call — speak your way. We pick up every detail.",
-        "tags": ["Talk", "WhatsApp", "Email", "Hinglish"]
+        "title": "Bolo, type, ya screenshot bhejo",
+        "description": "WhatsApp message, email, ya brand chat ka screenshot upload karein — ya bas bolein/likhein \"invoice banao.\" Purana invoice duplicate bhi kar sakte hain.",
+        "tags": ["Voice", "Type", "Screenshot", "Duplicate"]
       },
       {
-        "title": "AI builds the invoice",
-        "description": "GST, PAN, formatting — handled. Pro-grade invoice ready in 30 seconds.",
-        "tags": ["GST Handle", "Proof Of Work"]
+        "title": "AI invoice banayega — jaadu",
+        "description": "AI proper format mein invoice banata hai, typo-free. GST/PAN apne aap add. Aap check kar sakte ho, edit kar sakte ho — AI guide karta rahega.",
+        "tags": ["Auto-format", "GST/PAN", "Typo-free"]
       },
       {
-        "title": "We chase the payment",
-        "description": "Polite reminders go out automatically. You create, we collect.",
-        "tags": ["WhatsApp", "Email", "Auto"]
+        "title": "Follow-ups hum sambhal lenge",
+        "description": "Ab \"Hi, payment?\" bhejne ki zarurat nahi. Sparkonomy ka AI WhatsApp aur email pe polite, professional reminders bhejta hai.",
+        "tags": ["WhatsApp + Email", "Auto reminders"]
       }
     ]
   },
@@ -62,24 +61,24 @@
     ]
   },
   "advantage": {
-    "title": "What else do you get?",
+    "title": "Aur kya milta hai?",
     "subtitle": "All beta-period features — completely free.",
     "items": [
       {
-        "title": "Payment Ready",
-        "description": "Polite reminders run on autopilot. You create content, we get the cash."
+        "title": "Proof of Work, automatic.",
+        "description": "Insta, YouTube, ya Reels ke screenshots khud attach ho jayenge. Aapko kuch bhejna nahi padega."
       },
       {
-        "title": "Tax-Compliant",
-        "description": "GST, barters and other taxes — sorted automatically."
+        "title": "Hamesha free, 4 invoices.",
+        "description": "Har mahine 4 invoices free — koi card nahi, koi hidden charge nahi."
       },
       {
-        "title": "WhatsApp Alerts",
-        "description": "Payment status and reminders, right on WhatsApp."
+        "title": "Tax calculations, AI karta hai.",
+        "description": "GST ho ya na ho — AI sab calculate kar leta hai. TDS, barter, multi-rate — sab handle."
       },
       {
-        "title": "Proof Of Work",
-        "description": "Auto-fetched. No more chasing screenshots."
+        "title": "CA-ready, year-end report.",
+        "description": "Saara data ek click pe export karein. CA ko bheje, ITR file karein — Excel sheet ki jhanjat nahi."
       }
     ]
   },

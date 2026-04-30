@@ -7,6 +7,7 @@ import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { ValidatedPhoneInput } from "./ValidatedPhoneInput";
 import { useSignup } from "@/components/creator/promo/SignupContext";
+import { PROMO_CONFIG } from "@/lib/promo/config";
 import { track } from "@/lib/analytics/track";
 
 interface FloatingCTAProps {
@@ -221,7 +222,20 @@ function PromoFloatingCTA({ isVisible, t, trackingPrefix }: PromoVariantProps) {
                   {t("hero.card.voucherHeading")}
                 </h3>
                 <p className="mt-1 text-primary font-normal text-xs leading-snug">
-                  {t("hero.card.voucherBody")}
+                  <Trans
+                    i18nKey="hero.card.voucherBody"
+                    t={t}
+                    components={[
+                      <a
+                        key="tc"
+                        href={PROMO_CONFIG.terms.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="underline"
+                      />,
+                      <span key="tcWrap" style={{ color: "#8134A599" }} />,
+                    ]}
+                  />
                 </p>
               </div>
             </div>

@@ -50,7 +50,11 @@ export default function HeroSection() {
 
         {/* Headline */}
         <h1 className="text-[30px] font-bold text-white text-center leading-tight mb-4 md:mb-5 max-w-[640px] mx-auto">
-          {t("hero.title")}
+          <Trans
+            i18nKey="hero.title"
+            t={t}
+            components={[<br key="title-break" className="hidden md:block" />]}
+          />
         </h1>
 
         {/* Subheadline */}
@@ -82,6 +86,7 @@ export default function HeroSection() {
                   WebkitBoxDecorationBreak: "clone",
                 }}
               />,
+              <br key="desktop-break" className="hidden md:block" />,
             ]}
           />
         </p>

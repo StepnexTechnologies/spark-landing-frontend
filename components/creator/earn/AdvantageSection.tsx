@@ -30,10 +30,10 @@ const ADVANTAGE_ICONS = [
 ];
 
 const PROMO_ADVANTAGE_ICONS = [
-  "/promo/landing-promo/paymentReady.png",
-  "/promo/landing-promo/taxCompliant.png",
-  "/promo/landing-promo/Whatsapp%20Alert.png",
-  "/promo/landing-promo/POW.png",
+  "/promo/landing-promo/Proofofwork.png",
+  "/promo/landing-promo/HameshaFree.png",
+  "/promo/landing-promo/Taxcalculations.png",
+  "/promo/landing-promo/CA-ready.png",
 ];
 
 // Promo-variant card. Inline because the layout (rounded backgrounded row)

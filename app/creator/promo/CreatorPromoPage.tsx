@@ -15,6 +15,7 @@ import { SignupProvider } from "@/components/creator/promo/SignupContext";
 // props swap copy/layout without forking files). HeroSection and the 3-step
 // section are kept forked because their layouts diverge structurally.
 const ThreeStepSection = dynamic(() => import("@/components/creator/promo/ThreeStepSection"));
+const PhoneMockupSection = dynamic(() => import("@/components/creator/promo/PhoneMockupSection"));
 const TestimonialsSection = dynamic(() => import("@/components/creator/earn/TestimonialsSection"));
 const AdvantageSection = dynamic(() => import("@/components/creator/earn/AdvantageSection"));
 const FAQSection = dynamic(() => import("@/components/creator/earn/FAQSection"));
@@ -74,6 +75,7 @@ function CreatorPromoPageContent() {
             </Suspense>
             <HeroSection />
             <ThreeStepSection />
+            <PhoneMockupSection />
             <TestimonialsSection
               namespace="creatorPromo"
               trackingId="promo_testimonials"

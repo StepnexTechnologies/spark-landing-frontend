@@ -35,15 +35,15 @@ function StepCard({ index, title, description, tags, imageUrl }: ThreeStepItem &
 
         {/* Title + description + tags */}
         <div className="flex-1 min-w-0">
-          <h3 className="text-white font-bold text-lg md:text-xl leading-tight">{title}</h3>
+          <h3 className="text-white font-bold text-lg md:text-xl leading-tight tracking-[-0.04em]">{title}</h3>
           <p className="mt-1.5 text-white/75 text-sm leading-snug">{description}</p>
 
           {tags.length > 0 && (
-            <div className="mt-3 flex flex-wrap gap-2">
+            <div className="mt-3 flex flex-wrap gap-1">
               {tags.map((tag) => (
                 <span
                   key={tag}
-                  className="inline-flex items-center px-3 py-1 rounded-full text-white text-xs font-medium"
+                  className="inline-flex items-center px-[6px] py-1 rounded-full text-white text-xs font-medium"
                   style={{
                     background:
                       "linear-gradient(322.94deg, rgba(221, 42, 123, 0.3) -4.16%, rgba(151, 71, 255, 0.3) 48.14%, rgba(51, 76, 202, 0.3) 122.6%)",
@@ -79,7 +79,7 @@ export default function BenefitsSection() {
   const steps: ThreeStepItem[] = Array.isArray(rawItems) ? (rawItems as ThreeStepItem[]) : [];
 
   return (
-    <section ref={sectionRef} className="relative py-8 md:py-12 px-5 md:px-20">
+    <section ref={sectionRef} className="relative py-5 md:py-12 px-5 md:px-20">
       <div className="max-w-[1200px] mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
