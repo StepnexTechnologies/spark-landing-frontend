@@ -13,6 +13,8 @@ const config: Config = {
         // Shared sweep used by the promo card + its CTA so they stay locked
         // in phase (CSS keyframes are wall-clock synced).
         "shimmer-sweep": "shimmer-sweep 4.6s infinite",
+        "floater-hue": "floater-hue 8s ease-in-out infinite",
+        "urgency-flicker": "urgency-flicker 4.5s ease-in-out infinite",
       },
       keyframes: {
         aurora: {
@@ -30,6 +32,16 @@ const config: Config = {
           "0%": { left: "-60%", animationTimingFunction: "ease-in-out" },
           "70%": { left: "100%", animationTimingFunction: "linear" },
           "100%": { left: "100%" },
+        },
+        "floater-hue": {
+          "0%, 100%": { opacity: "0" },
+          "50%": { opacity: "1" },
+        },
+        // Mostly-dark text with two quick light flashes near the end of each cycle.
+        "urgency-flicker": {
+          "0%, 85%, 100%": { color: "#3D1A4F", textShadow: "none" },
+          "88%, 94%": { color: "#FFFFFF", textShadow: "0 0 6px rgba(255,255,255,0.55)" },
+          "91%, 97%": { color: "#3D1A4F", textShadow: "none" },
         },
       },
       colors: {

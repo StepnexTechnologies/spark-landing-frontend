@@ -154,7 +154,10 @@
       "PowerShell(npx --no-install next lint)",
       "PowerShell(npx --no-install next lint --dir components/creator/promo --dir app/creator/promo)",
       "PowerShell(npx --no-install next --version)",
-      "PowerShell(npx --no-install eslint components/creator/promo/PhoneMockupSection.tsx app/creator/promo/CreatorPromoPage.tsx)"
+      "PowerShell(npx --no-install eslint components/creator/promo/PhoneMockupSection.tsx app/creator/promo/CreatorPromoPage.tsx)",
+      "Bash(npx --no-install next lint)",
+      "Bash(npx --no-install next lint --dir components --dir lib --dir app)",
+      "Bash(node -e \"JSON.parse\\(require\\('fs'\\).readFileSync\\('public/locales/hi-Latn/creatorPromo.json', 'utf8'\\)\\); console.log\\('json ok'\\)\")"
     ],
     "additionalDirectories": [
       "C:\\Users\\HP\\.claude\\plans",

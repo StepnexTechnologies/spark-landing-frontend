@@ -8,7 +8,11 @@ import { useTranslation } from "react-i18next";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import CTAButton from "./CTAButton";
 
-export default function Navigation() {
+interface NavigationProps {
+  showLanguageSwitcher?: boolean;
+}
+
+export default function Navigation({ showLanguageSwitcher = true }: NavigationProps = {}) {
   const { t, ready } = useTranslation("creatorEarn");
   const [mounted, setMounted] = useState(false);
 
@@ -39,7 +43,7 @@ export default function Navigation() {
           />
         </Link>
         <div className="flex items-center gap-3">
-          <LanguageSwitcher />
+          {showLanguageSwitcher && <LanguageSwitcher />}
           {/* Hidden on mobile, visible on md and above */}
           <Suspense fallback={<div className="h-10" />}>
             <div className="hidden md:block">

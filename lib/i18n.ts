@@ -5,7 +5,8 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 // Import translation files directly for bundling
 import enCreatorEarn from '@/public/locales/en/creatorEarn.json';
 import hiLatnCreatorEarn from '@/public/locales/hi-Latn/creatorEarn.json';
-import enCreatorPromo from '@/public/locales/en/creatorPromo.json';
+// creatorPromo is Hinglish-only — no English bundle. The promo route forces
+// hi-Latn at mount, so en pulls the same file as a defensive fallback.
 import hiLatnCreatorPromo from '@/public/locales/hi-Latn/creatorPromo.json';
 
 // Only initialize on client side
@@ -25,7 +26,7 @@ const initI18n = () => {
         resources: {
           en: {
             creatorEarn: enCreatorEarn,
-            creatorPromo: enCreatorPromo,
+            creatorPromo: hiLatnCreatorPromo,
           },
           'hi-Latn': {
             creatorEarn: hiLatnCreatorEarn,
@@ -51,7 +52,7 @@ const initI18n = () => {
   // because i18next.init() locks in `resources` on first call. Passing
   // deep=true + overwrite=true makes HMR-friendly key additions Just Work.
   i18n.addResourceBundle('en', 'creatorEarn', enCreatorEarn, true, true);
-  i18n.addResourceBundle('en', 'creatorPromo', enCreatorPromo, true, true);
+  i18n.addResourceBundle('en', 'creatorPromo', hiLatnCreatorPromo, true, true);
   i18n.addResourceBundle('hi-Latn', 'creatorEarn', hiLatnCreatorEarn, true, true);
   i18n.addResourceBundle('hi-Latn', 'creatorPromo', hiLatnCreatorPromo, true, true);
 };
