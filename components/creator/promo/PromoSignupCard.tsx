@@ -30,7 +30,14 @@ const LIFT_SHADOW =
 const CARD_GRADIENT =
   "linear-gradient(180deg, #FFCC00 0%, rgba(255, 204, 0, 0.7) 59.13%, rgba(255, 204, 0, 0.2) 100%)";
 
-export default function PromoSignupCard() {
+interface PromoSignupCardProps {
+  // When false, the gift-card bloom and ₹500 count-up are held in their
+  // initial state. They only fire once `play` flips true, so the parent can
+  // wait until the card is actually on-screen before starting the entry beat.
+  play?: boolean;
+}
+
+export default function PromoSignupCard({ play = true }: PromoSignupCardProps = {}) {
   const { t } = useTranslation("creatorPromo");
   const {
     phone,
@@ -115,7 +122,7 @@ export default function PromoSignupCard() {
     >
       {/* Voucher row */}
       <div className="flex items-start gap-3">
-        <GiftCardStackAnimation />
+        <GiftCardStackAnimation play={play} />
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-1.5">
             <span className="relative flex h-1.5 w-1.5">
@@ -131,7 +138,7 @@ export default function PromoSignupCard() {
               i18nKey="hero.card.voucherHeading"
               t={t}
               components={[
-                <CountUp key="amount" to={500} duration={2.5} delay={1.0} />,
+                <CountUp key="amount" to={500} duration={2.5} delay={1.0} play={play} />,
                 <motion.span
                   key="rupee"
                   className="inline-block origin-center"
@@ -153,20 +160,16 @@ export default function PromoSignupCard() {
             />
           </h2>
           <p className="mt-1 text-xs font-normal text-primary leading-snug">
-            <Trans
-              i18nKey="hero.card.voucherBody"
-              t={t}
-              components={[
-                <a
-                  key="tc"
-                  href={PROMO_CONFIG.terms.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="underline"
-                />,
-                <span key="tcWrap" style={{ color: "#8134A599" }} />,
-              ]}
-            />
+            {t("hero.card.voucherBody")}{" "}
+            <a
+              href={PROMO_CONFIG.terms.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="relative z-10 underline"
+              style={{ color: "#8134A599" }}
+            >
+              {t("hero.card.voucherTerms")}
+            </a>
           </p>
         </div>
       </div>

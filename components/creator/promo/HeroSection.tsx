@@ -213,7 +213,7 @@ export default function HeroSection({
           animate={showCard ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: CARD_FADE_MS / 1000, ease: "easeOut" }}
         >
-          <PromoSignupCard />
+          <PromoSignupCard play={showCard} />
         </motion.div>
       </div>
     </section>

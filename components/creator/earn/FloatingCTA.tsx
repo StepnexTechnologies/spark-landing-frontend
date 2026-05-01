@@ -305,20 +305,16 @@ function PromoFloatingCTA({ isVisible, t, trackingPrefix }: PromoVariantProps) {
                     />
                   </h3>
                   <p className="mt-1 text-primary font-semibold text-xs leading-snug">
-                    <Trans
-                      i18nKey="floatingCta.body"
-                      t={t}
-                      components={[
-                        <a
-                          key="tc"
-                          href={PROMO_CONFIG.terms.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="underline"
-                        />,
-                        <span key="tcWrap" style={{ color: "#8134A599", fontWeight: 400 }} />,
-                      ]}
-                    />
+                    {t("floatingCta.body")}{" "}
+                    <a
+                      href={PROMO_CONFIG.terms.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="relative z-10 underline"
+                      style={{ color: "#8134A599", fontWeight: 400 }}
+                    >
+                      {t("floatingCta.terms")}
+                    </a>
                   </p>
                 </div>
               </div>

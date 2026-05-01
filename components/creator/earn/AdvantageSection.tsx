@@ -53,7 +53,7 @@ function PromoAdvantageCard({ index, title, description, iconUrl }: AdvantageIte
         </div>
         <div className="flex-1 min-w-0 md:flex-none md:flex md:flex-col md:items-center md:gap-3.5 md:max-w-[247px]">
           <h3 className="text-white font-bold text-lg md:text-2xl md:font-semibold leading-tight md:leading-normal">{title}</h3>
-          <p className="mt-1 md:mt-0 text-white/75 md:text-white text-sm leading-snug md:text-center">{description}</p>
+          <p className="mt-1 md:mt-0 text-white text-sm leading-snug md:text-center">{description}</p>
         </div>
       </div>
     </motion.div>

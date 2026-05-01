@@ -96,7 +96,7 @@ export default function Footer({ minimal = false }: FooterProps) {
           ✨ Spotlighted by Google Gemini ✨
         </motion.a>
       )}
-      <div className="flex flex-col items-center space-y-2 w-full px-10 md:px-14 lg:px-20 pb-4">
+      <div className="flex flex-col items-center space-y-2 w-full px-10 md:px-14 lg:px-20 pb-[max(1rem,env(safe-area-inset-bottom))]">
         {!minimal && heroReady && (
           <motion.div
             className={`pointer-events-auto ${isPromoActive ? "mb-[30px]" : "mb-[50px]"}`}

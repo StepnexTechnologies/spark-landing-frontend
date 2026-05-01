@@ -36,7 +36,7 @@ function StepCard({ index, title, description, tags, imageUrl }: ThreeStepItem &
         {/* Title + description + tags */}
         <div className="flex-1 min-w-0">
           <h3 className="text-white font-bold text-lg md:text-xl leading-tight tracking-[-0.04em]">{title}</h3>
-          <p className="mt-1.5 text-white/75 text-sm leading-snug">{description}</p>
+          <p className="mt-1.5 text-white text-sm leading-snug">{description}</p>
 
           {tags.length > 0 && (
             <div className="mt-3 flex flex-wrap gap-1">

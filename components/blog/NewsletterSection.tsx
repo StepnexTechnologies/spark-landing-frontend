@@ -164,7 +164,7 @@ export default function NewsletterSection() {
             className="fixed bottom-0 left-0 right-0 z-40"
           >
             {/* Desktop Layout */}
-            <div className="hidden md:flex items-center justify-center gap-10 lg:gap-[120px] py-4 bg-[#F2F2F2] px-4 shadow-[0_-4px_16px_rgba(0,0,0,0.1)]">
+            <div className="hidden md:flex items-center justify-center gap-10 lg:gap-[120px] pt-4 pb-[max(1rem,env(safe-area-inset-bottom))] bg-[#F2F2F2] px-4 shadow-[0_-4px_16px_rgba(0,0,0,0.1)]">
               <h2 className="text-2xl lg:text-[32px] py-2 font-bold bg-gradient-to-b from-[#DD2A7B] via-[#9747FF] to-[#334CCA] text-transparent bg-clip-text whitespace-nowrap">
                 Sign Up, Stay Updated
               </h2>
@@ -184,7 +184,7 @@ export default function NewsletterSection() {
             </div>
 
             {/* Mobile Layout */}
-            <div className="md:hidden flex flex-col items-center text-center py-4 bg-[#F2F2F2] px-4 shadow-[0_-4px_16px_rgba(0,0,0,0.1)] relative">
+            <div className="md:hidden flex flex-col items-center text-center pt-4 pb-[max(1rem,env(safe-area-inset-bottom))] bg-[#F2F2F2] px-4 shadow-[0_-4px_16px_rgba(0,0,0,0.1)] relative">
               {/* Close button */}
               <button
                 onClick={() => setIsDismissed(true)}
