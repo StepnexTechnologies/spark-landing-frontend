@@ -1,11 +1,14 @@
 import type {Metadata} from "next";
 import {notFound} from "next/navigation";
 import {PROMO_CONFIG, isPromoActiveAt} from "@/lib/promo/config";
+import promoCopy from "@/public/locales/hi-Latn/creatorPromo.json";
 import CreatorPromoPage from "./CreatorPromoPage";
 
 type Props = {
   searchParams: Promise<{ lang?: string; ref?: string }>;
 };
+
+const PAGE_URL = "https://www.sparkonomy.com/creator/promo";
 
 export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
   const { lang } = await searchParams;
@@ -25,6 +28,9 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
   return {
     title,
     description,
+    alternates: {
+      canonical: PAGE_URL,
+    },
     robots: {
       index: false,
       follow: true,
@@ -32,6 +38,7 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
     openGraph: {
       title,
       description,
+      url: PAGE_URL,
       images: [
         {
           url: ogImage,
@@ -50,6 +57,28 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
   };
 }
 
+interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+function buildFaqJsonLd() {
+  const items = (promoCopy as { faq?: { items?: FaqItem[] } }).faq?.items ?? [];
+  if (items.length === 0) return null;
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((it) => ({
+      "@type": "Question",
+      name: it.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: it.answer,
+      },
+    })),
+  };
+}
+
 export default async function Page() {
   // Route-level kill switch: take the page down when the promo is disabled or
   // outside its active window. Paid traffic landing on an ended-promo URL gets
@@ -57,5 +86,16 @@ export default async function Page() {
   if (!PROMO_CONFIG.enabled || !isPromoActiveAt()) {
     notFound();
   }
-  return <CreatorPromoPage />;
+  const faqJsonLd = buildFaqJsonLd();
+  return (
+    <>
+      {faqJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        />
+      )}
+      <CreatorPromoPage />
+    </>
+  );
 }

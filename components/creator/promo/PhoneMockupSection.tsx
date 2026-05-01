@@ -15,7 +15,7 @@ const SLIDE_INTERVAL_MS = 5000;
 
 export default function PhoneMockupSection() {
   const sectionRef = useRef<HTMLElement>(null);
-  const inView = useInView(sectionRef, {margin: "0px"});
+  const inView = useInView(sectionRef, {amount: 0.6});
   const prefersReducedMotion = useReducedMotion();
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -56,23 +56,49 @@ export default function PhoneMockupSection() {
                   fill
                   sizes="212px"
                   className="object-cover"
-                  priority={activeIndex === 0}
+                  loading="lazy"
+                  decoding="async"
                 />
               </motion.div>
             </AnimatePresence>
           </div>
 
-          {/* Phone frame overlay */}
+          {/* Phone frame overlay — section is below the fold so we lazy-load. */}
           <Image
             src="/promo/landing-promo/Phone-layout.png"
             alt=""
             fill
             sizes="212px"
             className="object-contain pointer-events-none select-none z-10"
-            priority
+            loading="lazy"
+            decoding="async"
           />
         </motion.div>
       </div>
+
+      {/* Partner Logos */}
+      <motion.div
+        initial={{opacity: 0, y: 20}}
+        whileInView={{opacity: 1, y: 0}}
+        viewport={{once: true, margin: "-50px"}}
+        transition={{duration: 0.6, delay: 0.2}}
+        className="mt-8 flex items-center justify-center"
+      >
+        <Image
+          src="/logos/Meta_White.png"
+          alt="Built with Meta"
+          height={32}
+          width={120}
+          className="h-[32px] w-auto object-contain pr-4 border-r border-white"
+        />
+        <Image
+          src="/logos/Yt_White.png"
+          alt="Developed with YouTube"
+          height={32}
+          width={120}
+          className="h-[32px] w-auto object-contain pl-4"
+        />
+      </motion.div>
     </section>
   );
 }

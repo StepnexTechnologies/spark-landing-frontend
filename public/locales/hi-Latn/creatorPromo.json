@@ -44,25 +44,24 @@
     "subtitle": "Payments jaldi, aur aap bhi Pro lagein.",
     "items": [
       {
-        "quote": "And I have to reach out so many times to get paid in 3 months, and still it hasn't happened 15-20 times! I want you to do my payment reminders",
-        "name": "Food YouTuber",
-        "handle": "700K Followers"
-      },
-      {
-        "quote": "I raise invoices once a month mostly. I don't get time… and it delays my payments. I want you help me raise instant invoices in under 5 mins from my phone",
-        "name": "Tech Instagrammer",
-        "handle": "1M Followers"
-      },
-      {
-        "quote": "I don't have time to write down and track all payments in Excel and become my own accountant! I want you to track & remind me of my money matters",
+        "quote": "3 months ho gaye, payment ke liye 15-20 baar reach out kar chuki hoon — still nothing! Reminders aap karo please, I'm done.",
         "name": "Lifestyle Instagrammer",
         "handle": "1M Followers"
+      },
+      {
+        "quote": "Mostly month mein ek baar invoice raise karta hoon — time hi nahi milta, payments delay ho jaate hain. Phone se 5 minute mein invoice dilao please.",
+        "name": "Tech Instagramer",
+        "handle": "1M Followers"
+      },
+      {
+        "quote": "Excel mein payments track karne ka time kahaan hai? Mujhe apna khud ka accountant nahi banna! Aap track karo, remind karo — please.",
+        "name": "Food Youtuber",
+        "handle": "700K Followers"
       }
     ]
   },
   "advantage": {
     "title": "Aur kya milta hai?",
-    "subtitle": "Beta period ke saare features — completely free.",
     "items": [
       {
         "title": "Proof of Work, automatic.",
@@ -84,27 +83,60 @@
   },
   "faq": {
     "title": "Aksar Pooche Jane Wale Sawal",
-    "viewAll": "Sab Dekho",
+    "viewAll": "View All",
+    "viewLess": "Show Less",
     "items": [
       {
-        "question": "How do I sign up?",
-        "answer": "Give your phone number - that is it! After that, share your social handles, answer a couple of easy questions on your billing info, and you'll be sending invoices using Sparkonomy's AI quicker than a collab DM reply!"
+        "question": "Q1: Sach mein free hai? Koi hidden charges toh nahi?",
+        "answer": "Bilkul free hai. Aapko har mahine 4 invoices free milti hain - hamesha ke liye. Agar aapko zyada chahiye, toh aap in-product upgrade kar sakte ho - ya agar koi promo offer hum launch karte hain toh aapko free upgrade bhi mil sakta hai. Aur haan - jab bhi hum koi paid version ya special promo launch karenge, pehle aapko bata denge. Koi surprise nahi, koi hidden charge nahi."
       },
       {
-        "question": "How is this AI for creators and its smart payment useful for me?",
-        "answer": "Sparkonomy ka AI creators ko apna business ek pro tarah manage karne mein help karta hai. Chat ya collab details share karein aur GST-ready invoice ready ho jaayega."
+        "question": "Q2: Promo mein ₹500 Amazon voucher kaise milega?",
+        "answer": "Har roz ek Daily Offer Window announce hoti hai - Sparkonomy ke official Facebook page pe. Us window ke andar jo pehle 5 Creators full sign-up complete karte hain, unhe ₹500 ka Amazon voucher milta hai. Window ka time aur duration roz change ho sakta hai - toh Facebook page pe notifications on karo taaki koi din miss na ho."
       },
       {
-        "question": "What information do I need to add to my profile to start invoicing",
-        "answer": "Apna naam, address, PAN, aur payment details (UPI ya bank account) add karein. 5 minutes se kam time lagta hai aur sirf ek baar karna hota hai."
+        "question": "Q3: Roz pehle 5 mein aane ke liye kya karna hoga?",
+        "answer": "Jaise hi Daily Offer Window announce ho - immediately full sign-up complete karo. Sabse pehle aapka final step complete hone ka timestamp count karta hai. Toh pehle se ready raho: Facebook page follow karo, notifications on karo, aur announcement hote hi shuru ho jao. Ek din mein sirf 5 spots hain."
       },
       {
-        "question": "How do I create my first invoice?",
-        "answer": "Creator AI aapko phone par sirf kuch taps mein, 3 minutes se bhi kam time mein invoice bana deta hai."
+        "question": "Q4: Main Hinglish mein baat karoon, toh kya Invoice bhi Hinglish mein banega kya?",
+        "answer": "Nahi! Aap Hinglish mein bolte raho jaise kisi dost se baat karte hain, hum samajh jaate hain. Lekin invoice English mein hee banta hai - ekdum professional. Kyunki brands ke saamne aapko pro dikhne chahiye na? Aur yeh toh sach hai - professional invoices jaldi pay hoti hain!"
       },
       {
-        "question": "How will Sparkonomy make payment reminders on my behalf?",
-        "answer": "Invoice banate time aap choose karte hain ki reminders kitne bhejne hain, kitni frequency par, aur WhatsApp/email par bhejne hain ya nahi."
+        "question": "Q5: Mera PAN, GST number, bank details - yeh sab safe hai na?",
+        "answer": "Haan, bilkul safe hai. Har professional invoice mein PAN, GST number aur Bank details hoti hain. Bas isliye hi ye details li jaati hain - taaki aap ka invoice professional bane our brand ko pata ho ki payment kahan bhejni hai. Hum in details ka use aapko charge karne ke liye kabhi nahi karte. Zyada jaankari ke liye aap hamari Privacy Policy dekh sakte hain."
+      },
+      {
+        "question": "Q6: Yeh Sparkonomy hai kya exactly?",
+        "answer": "Sparkonomy, India ka pehla invoicing solution hai jo sirf Creators ke liye bana hai. Aap bas apne brand ka WhatsApp message ya email screenshot karke bhejo, ya seedha bol do ki deal kya thi - hamaara AI ek professional invoice ready kar deta hai, seconds mein. Automatic Payment reminders bhi bhej sakte hain aap brand ko. GST, taxes - sab kuch automatically calculate hota hai, bilkul CA-ready. Aur yeh sab hota hai aapki apni bhasha mein - Hinglish mein."
+      },
+      {
+        "question": "Q7: Full sign-up ka matlab kya hai?",
+        "answer": "Full sign-up matlab aapka account poora set up hona. Iske liye yeh sab complete karna hoga:\n• Phone number aur email se sign-up karo.\n• Apna Instagram ya YouTube handle add karo.\n• Apni personal details poori karo.\n• Apni billing entity details add karo\n• Apni payment details add karo - UPI ya bank details, taaki brand jaane ki payment kahan bhejni hai.\n\nSab steps complete hone ke baad hi aapka account fully active maana jaata hai aur promo ke liye eligible hota hai."
+      },
+      {
+        "question": "Q8: Invoice banane mein kitna time lagta hai?",
+        "answer": "Bas kuch minute. Kyonki humne simple options banaaye hain, bas aapko choose karna hai:\n• First: Seedha app se bolo, aapki language mein English ya Hinglish, jaise \"Brand X ke liye ek Instagram Reel, ₹5,000 ki, 10% discount ke saath\". Hum seconds mein aapke bole words se ek professional invoice banaa dete hain.\n• Second: Brand ka WhatsApp message, email ya PDF upload karo - hum saari details khud padh ke invoice banaa dete hain, seconds mein.\n• Third: Apna purana invoice upload karo - hum usme se hee nayi invoice banaa dete hain, aap fir sirf fields edit karo.\n• Fourth: Ek naya invoice bilkul shuru se bhi bana sakte ho - woh bhi kaam karta hai."
+      },
+      {
+        "question": "Q9: Kya har baar apni details daalni padegi?",
+        "answer": "Bilkul nahi! Ek baar add karo - bas. Uske baad har invoice pe aapki saari details automatically aa jaati hain. Aapko dobara kuch type nahi karna. Ek baar ka kaam, hamesha ke liye set."
+      },
+      {
+        "question": "Q10: Invoice brand tak kaise pahunchti hai?",
+        "answer": "Sabse aasaan tarika yeh hai ki invoice complete hote hi \"Send via Sparkonomy\" use karo. Hum invoice seedha brand contact ke WhatsApp aur email pe bhejte hain - aapki taraf se. Aur aapko aware rakhne ke liye, aap bhi CC hote ho har baar."
+      },
+      {
+        "question": "Q11: Payment reminders kaise kaam karte hain?",
+        "answer": "Hum jaante hain ki brands ko chase karna kitna stressful lagta hai. Sparkonomy pe payment reminders set karo aur hum aapki taraf se brand contact ko reminder bhejte hain - aapki chosen frequency pe. Aur yeh special part hai: hum pehle aapko WhatsApp pe poochhte hain. Sirf jab aap OK kehte ho, tab reminder brand ko jaata hai. Simple aur stress-free!"
+      },
+      {
+        "question": "Q12: Social profile kyun add karni hai?",
+        "answer": "Koi account linking nahi hoti, koi sign-in nahi - bas aapka social handle daalo. Hum automatically aapki profile picture aur handle invoice pe add kar dete hain. Brand aapka invoice ek nazar mein pehchaan leta hai, aap professional lagte ho - aur professional dikhne wale invoices jaldi pay hote hain. Simple sa kaam, bada farak!"
+      },
+      {
+        "question": "Q13: GST aur TDS manually calculate karna padega?",
+        "answer": "Bilkul nahi. Bas GST % daalo - hum automatically CGST, SGST ya IGST calculate kar dete hain jo bhi applicable ho. TDS bhi same hai - bas % daalo, baaki hum sambhal lete hain. Aapko kuch calculate nahi karna. Hai na simple!"
       }
     ]
   },

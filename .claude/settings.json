@@ -157,7 +157,12 @@
       "PowerShell(npx --no-install eslint components/creator/promo/PhoneMockupSection.tsx app/creator/promo/CreatorPromoPage.tsx)",
       "Bash(npx --no-install next lint)",
       "Bash(npx --no-install next lint --dir components --dir lib --dir app)",
-      "Bash(node -e \"JSON.parse\\(require\\('fs'\\).readFileSync\\('public/locales/hi-Latn/creatorPromo.json', 'utf8'\\)\\); console.log\\('json ok'\\)\")"
+      "Bash(node -e \"JSON.parse\\(require\\('fs'\\).readFileSync\\('public/locales/hi-Latn/creatorPromo.json', 'utf8'\\)\\); console.log\\('json ok'\\)\")",
+      "Bash(node -e \"const j=require\\('c:/Users/HP/Desktop/client/spark-landing-frontend/public/locales/hi-Latn/creatorPromo.json'\\); console.log\\(JSON.stringify\\(j.faq?.items?.slice\\(0,5\\), null, 2\\)\\)\")",
+      "PowerShell(npx --no-install next start 2>&1)",
+      "PowerShell($ok=$false; for\\($i=0;$i -lt 30;$i++\\){try{Invoke-WebRequest -UseBasicParsing -Uri http://localhost:3000/creator/promo -TimeoutSec 2 | Out-Null; $ok=$true; break}catch{Start-Sleep -Milliseconds 500}}; if\\(-not $ok\\){Write-Output \"server-not-ready\"; exit 1}; $r = Invoke-WebRequest -UseBasicParsing -Uri http://localhost:3000/creator/promo; $html = $r.Content; Write-Output \"==length==`n$\\($html.Length\\)\"; Write-Output \"==loading-text-present==`n$\\($html -match 'Loading\\\\.\\\\.\\\\.'\\)\"; Write-Output \"==hinglish-tag-present==`n$\\($html -match 'Apni Boli'\\)\"; Write-Output \"==jsonld-present==`n$\\($html -match 'application/ld\\\\+json'\\)\"; Write-Output \"==canonical-present==`n$\\($html -match 'rel=.canonical.'\\)\"; Write-Output \"==promo-hero-card-present==`n$\\($html -match 'promo-hero-card'\\)\";)",
+      "Bash(node -e \"JSON.parse\\(require\\('fs'\\).readFileSync\\('c:/Users/HP/Desktop/client/spark-landing-frontend/public/locales/hi-Latn/creatorPromo.json', 'utf8'\\)\\); console.log\\('OK'\\)\")",
+      "PowerShell(npx --no-install next lint --file components/creator/promo/HeroSection.tsx 2>&1)"
     ],
     "additionalDirectories": [
       "C:\\Users\\HP\\.claude\\plans",

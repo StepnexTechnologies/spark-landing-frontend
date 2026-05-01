@@ -76,7 +76,7 @@ export default function FAQItem({
             transition={{ duration: 0.3 }}
             className="overflow-hidden"
           >
-            <p className="text-sm md:text-[14px] text-white leading-[1.4] pb-5">
+            <p className="text-sm md:text-[14px] text-white leading-[1.4] pb-5 whitespace-pre-line">
               {answer}
             </p>
           </motion.div>

@@ -24,10 +24,9 @@ export default function TestimonialsSection({
   trackingId = "testimonials",
   disableSlideEntryAnimation = false,
 }: TestimonialsSectionProps = {}) {
-  const { t, ready } = useTranslation(namespace);
+  const { t } = useTranslation(namespace);
   const [windowWidth, setWindowWidth] = useState<number>(0);
-  const [mounted, setMounted] = useState(false);
-  const [selectedIndex, setSelectedIndex] = useState<number>(1); // Start with 2nd card
+  const [selectedIndex, setSelectedIndex] = useState<number>(0); // Start with 1st card
   const sectionRef = useRef<HTMLElement>(null);
   useSectionViewTracking(sectionRef, trackingId);
 
@@ -89,10 +88,6 @@ export default function TestimonialsSection({
     [emblaApi]
   );
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
   // track window width client-side (SSR-safe)
   useEffect(() => {
     const setWidth = () => setWindowWidth(window.innerWidth);
@@ -106,18 +101,14 @@ export default function TestimonialsSection({
     onSelect(emblaApi);
     emblaApi.on("select", () => onSelect(emblaApi));
     emblaApi.on("reInit", () => onSelect(emblaApi));
-    // Scroll to 2nd card (index 1) on init
-    emblaApi.scrollTo(1, true); // true = instant, no animation
+    // Scroll to 1st card (index 0) on init
+    emblaApi.scrollTo(0, true); // true = instant, no animation
   }, [emblaApi, onSelect]);
 
   // only active for tablet and phone
   const isCarouselActive = windowWidth > 0 && windowWidth < 1024; // Tailwind `lg`
 
   const snaps = emblaApi ? emblaApi.scrollSnapList() : testimonials.map((_, i) => i);
-
-  if (!mounted || !ready) {
-    return null;
-  }
 
   return (
     <section ref={sectionRef} className="relative py-4 md:px-20">

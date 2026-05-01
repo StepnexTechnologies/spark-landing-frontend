@@ -65,14 +65,9 @@ export default function FloatingCTA({
   trackingPrefix = "earn",
   triggerElementId,
 }: FloatingCTAProps = {}) {
-  const { t, i18n, ready } = useTranslation(namespace);
+  const { t, i18n } = useTranslation(namespace);
   const searchParams = useSearchParams();
   const [isVisible, setIsVisible] = useState(false);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   useEffect(() => {
     const target = triggerElementId ? document.getElementById(triggerElementId) : null;
@@ -91,10 +86,6 @@ export default function FloatingCTA({
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, [triggerElementId]);
-
-  if (!mounted || !ready) {
-    return null;
-  }
 
   return variant === "promo" ? (
     <PromoFloatingCTA isVisible={isVisible} t={t} trackingPrefix={trackingPrefix} />
@@ -355,7 +346,7 @@ function PromoFloatingCTA({ isVisible, t, trackingPrefix }: PromoVariantProps) {
               </div>
 
               {/* Disclaimer */}
-              <p className="mt-1 text-[11px] text-white text-center leading-snug px-1">
+              <p className="mt-1 text-[10px] text-white text-center leading-snug px-1">
                 <Trans
                   i18nKey="hero.card.disclaimer"
                   t={t}

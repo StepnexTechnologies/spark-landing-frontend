@@ -41,12 +41,19 @@ export const metadata: Metadata = {
       "Talk in Hinglish, get perfect English invoices. Sign up free and win Amazon vouchers daily. T&Cs apply.",
     locale: "en_IN",
     type: "website",
+    images: [
+      {
+        url: "/promo/landing-promo/OG_promo_landing.png",
+        alt: "Sparkonomy — Hinglish invoicing for creators",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Apni Boli, Apna Bill — Hinglish invoicing for creators | Sparkonomy",
     description:
       "Talk in Hinglish, get perfect English invoices. Sign up free and win Amazon vouchers daily. T&Cs apply.",
+    images: ["/promo/landing-promo/OG_promo_landing.png"],
   },
 };
 

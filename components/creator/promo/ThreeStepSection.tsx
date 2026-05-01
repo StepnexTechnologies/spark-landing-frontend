@@ -1,6 +1,6 @@
 "use client";
 
-import {useState, useEffect, useRef} from "react";
+import {useRef} from "react";
 import {motion} from "framer-motion";
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
@@ -25,9 +25,9 @@ function StepCard({ index, title, description, tags, imageUrl }: ThreeStepItem &
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.5, delay: index * 0.05 }}
-      className="relative w-full max-w-[420px] rounded-[24px] p-4 md:p-5 bg-white/5 border border-white/10 backdrop-blur-md shadow-[0_8px_24px_rgba(0,0,0,0.18)]"
+      className="relative w-full max-w-[420px] rounded-[24px] p-3.5 md:p-5 bg-white/5 border border-white/10 backdrop-blur-md shadow-[0_8px_24px_rgba(0,0,0,0.18)]"
     >
-      <div className="flex items-start gap-4">
+      <div className="flex items-start gap-2">
         {/* Phone illustration */}
         <div className="relative shrink-0 w-16 h-16">
           <Image src={imageUrl} alt="" fill sizes="64px" className="object-contain" />
@@ -62,18 +62,9 @@ function StepCard({ index, title, description, tags, imageUrl }: ThreeStepItem &
 }
 
 export default function BenefitsSection() {
-  const { t, ready } = useTranslation("creatorPromo");
-  const [mounted, setMounted] = useState(false);
+  const { t } = useTranslation("creatorPromo");
   const sectionRef = useRef<HTMLElement>(null);
   useSectionViewTracking(sectionRef, "promo_three_step");
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted || !ready) {
-    return null;
-  }
 
   const rawItems = t("threeStep.items", { returnObjects: true });
   const steps: ThreeStepItem[] = Array.isArray(rawItems) ? (rawItems as ThreeStepItem[]) : [];
