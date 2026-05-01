@@ -1,5 +1,6 @@
 import type {Metadata} from "next";
 import {ReactNode} from "react";
+import MetaPixelScript from "@/components/MetaPixelScript";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.sparkonomy.com/"),
@@ -73,5 +74,10 @@ export default function EarnLayout({
   // previous duplicate next/font declaration here was registering a second
   // set of font-face blocks (adding 600 weight and unused --font-roboto var)
   // and shipping an extra font file on the earn route. Consolidated into root.
-  return <>{children}</>;
+  return (
+    <>
+      <MetaPixelScript />
+      {children}
+    </>
+  );
 }

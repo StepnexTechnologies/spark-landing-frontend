@@ -1,5 +1,6 @@
 import type {Metadata} from "next";
 import {ReactNode} from "react";
+import MetaPixelScript from "@/components/MetaPixelScript";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.sparkonomy.com/"),
@@ -62,5 +63,10 @@ export default function PromoLayout({
 }: {
   children: ReactNode;
 }) {
-  return <>{children}</>;
+  return (
+    <>
+      <MetaPixelScript />
+      {children}
+    </>
+  );
 }

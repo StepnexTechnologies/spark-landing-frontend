@@ -162,7 +162,21 @@
       "PowerShell(npx --no-install next start 2>&1)",
       "PowerShell($ok=$false; for\\($i=0;$i -lt 30;$i++\\){try{Invoke-WebRequest -UseBasicParsing -Uri http://localhost:3000/creator/promo -TimeoutSec 2 | Out-Null; $ok=$true; break}catch{Start-Sleep -Milliseconds 500}}; if\\(-not $ok\\){Write-Output \"server-not-ready\"; exit 1}; $r = Invoke-WebRequest -UseBasicParsing -Uri http://localhost:3000/creator/promo; $html = $r.Content; Write-Output \"==length==`n$\\($html.Length\\)\"; Write-Output \"==loading-text-present==`n$\\($html -match 'Loading\\\\.\\\\.\\\\.'\\)\"; Write-Output \"==hinglish-tag-present==`n$\\($html -match 'Apni Boli'\\)\"; Write-Output \"==jsonld-present==`n$\\($html -match 'application/ld\\\\+json'\\)\"; Write-Output \"==canonical-present==`n$\\($html -match 'rel=.canonical.'\\)\"; Write-Output \"==promo-hero-card-present==`n$\\($html -match 'promo-hero-card'\\)\";)",
       "Bash(node -e \"JSON.parse\\(require\\('fs'\\).readFileSync\\('c:/Users/HP/Desktop/client/spark-landing-frontend/public/locales/hi-Latn/creatorPromo.json', 'utf8'\\)\\); console.log\\('OK'\\)\")",
-      "PowerShell(npx --no-install next lint --file components/creator/promo/HeroSection.tsx 2>&1)"
+      "PowerShell(npx --no-install next lint --file components/creator/promo/HeroSection.tsx 2>&1)",
+      "PowerShell(yarn add -D critters)",
+      "PowerShell(npm i -D critters)",
+      "PowerShell(npm install --no-audit --no-fund 2>&1)",
+      "PowerShell(Get-Process -Name node -ErrorAction SilentlyContinue)",
+      "PowerShell(Stop-Process -Force -ErrorAction SilentlyContinue)",
+      "PowerShell(\"killed\")",
+      "PowerShell(npm uninstall critters --no-audit --no-fund 2>&1)",
+      "PowerShell(npm run build 2>&1 | Select-String -Pattern \"error|Error|ERROR|warn|Warn|Failed|✓ Compiled|Generating static\" | Where-Object { $_ -notmatch \"baseline-browser-mapping\" } | Select-Object -First 15)",
+      "PowerShell($proc = Start-Process -FilePath \"node\" -ArgumentList \"node_modules\\\\next\\\\dist\\\\bin\\\\next\",\"start\" -PassThru -WindowStyle Hidden -RedirectStandardOutput \"$env:TEMP\\\\next-start.log\" -RedirectStandardError \"$env:TEMP\\\\next-start.err\"; \"PID: $\\($proc.Id\\)\")",
+      "PowerShell(Stop-Process -Id 20952 -Force -ErrorAction SilentlyContinue)",
+      "Bash(git check-ignore *)",
+      "PowerShell(npm run build 2>&1 | Select-String -Pattern \"error|Error|ERROR|Failed|✓ Compiled|Generating static\" | Where-Object { $_ -notmatch \"baseline-browser-mapping\" } | Select-Object -First 10)",
+      "PowerShell($proc = Start-Process -FilePath \"node\" -ArgumentList \"node_modules\\\\next\\\\dist\\\\bin\\\\next\",\"start\" -PassThru -WindowStyle Hidden -RedirectStandardOutput \"$env:TEMP\\\\next-start2.log\" -RedirectStandardError \"$env:TEMP\\\\next-start2.err\"; \"PID: $\\($proc.Id\\)\")",
+      "PowerShell(Stop-Process -Id 10364 -Force -ErrorAction SilentlyContinue)"
     ],
     "additionalDirectories": [
       "C:\\Users\\HP\\.claude\\plans",

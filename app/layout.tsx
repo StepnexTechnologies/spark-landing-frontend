@@ -77,12 +77,17 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         />
         <meta name="theme-color" content="#000000" />
 
+        {/* Warm up the GTM/GA origin so the deferred loader (below) doesn't pay
+            a fresh DNS+TLS round-trip on first fire. */}
+        <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="" />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+
         <Script id="consent-default" strategy="beforeInteractive">
           {CONSENT_DEFAULT}
         </Script>
 
         {GTM_ID && (
-          <Script id="gtm-loader" strategy="beforeInteractive">
+          <Script id="gtm-loader" strategy="afterInteractive">
             {GTM_LOADER(GTM_ID)}
           </Script>
         )}
