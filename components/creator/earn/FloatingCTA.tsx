@@ -286,7 +286,31 @@ function PromoFloatingCTA({ isVisible, t, trackingPrefix }: PromoVariantProps) {
                     >
                       ⚡
                     </motion.span>
-                    {t("floatingCta.heading")}
+                    <Trans
+                      i18nKey="floatingCta.heading"
+                      t={t}
+                      components={[
+                        <motion.span
+                          key="rupee"
+                          className="inline-block origin-center"
+                          animate={
+                            prefersReducedMotion
+                              ? undefined
+                              : { scale: [1, 1.18, 1] }
+                          }
+                          transition={
+                            prefersReducedMotion
+                              ? undefined
+                              : {
+                                  duration: 1.3,
+                                  repeat: Infinity,
+                                  ease: "easeInOut",
+                                  repeatDelay: 0.4,
+                                }
+                          }
+                        />,
+                      ]}
+                    />
                   </h3>
                   <p className="mt-1 text-primary font-semibold text-xs leading-snug">
                     <Trans
