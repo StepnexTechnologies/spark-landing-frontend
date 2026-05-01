@@ -6,9 +6,9 @@ import Image from "next/image";
 import {useSectionViewTracking} from "@/lib/hooks/useSectionViewTracking";
 
 const SCREENS = [
-  "/promo/landing-promo/Screen 1.png",
-  "/promo/landing-promo/screen 2.png",
-  "/promo/landing-promo/screen 3.png",
+  "/promo/landing-promo/Screen_1.png",
+  "/promo/landing-promo/Screen_2.png",
+  "/promo/landing-promo/Screen_3.png",
 ];
 
 const SLIDE_INTERVAL_MS = 5000;
@@ -37,10 +37,10 @@ export default function PhoneMockupSection() {
           whileInView={{opacity: 1, y: 0}}
           viewport={{once: true, margin: "-50px"}}
           transition={{duration: 0.5}}
-          className="relative w-[172px] h-[353px]"
+          className="relative w-[212px] h-[433px]"
         >
-          {/* Screen viewport — 154x335 centered inside the 172x353 phone frame (9px bezel) */}
-          <div className="absolute inset-[9px] rounded-[28px] overflow-hidden">
+          {/* Screen viewport — 190x412 inside the 212x433 phone frame (11px x bezel, ~10.5px y bezel) */}
+          <div className="absolute inset-x-[11px] top-[10px] bottom-[11px] rounded-[34px] overflow-hidden">
             <AnimatePresence mode="wait" initial={false}>
               <motion.div
                 key={activeIndex}
@@ -54,7 +54,7 @@ export default function PhoneMockupSection() {
                   src={SCREENS[activeIndex]}
                   alt=""
                   fill
-                  sizes="172px"
+                  sizes="212px"
                   className="object-cover"
                   priority={activeIndex === 0}
                 />
@@ -67,7 +67,7 @@ export default function PhoneMockupSection() {
             src="/promo/landing-promo/Phone-layout.png"
             alt=""
             fill
-            sizes="172px"
+            sizes="212px"
             className="object-contain pointer-events-none select-none z-10"
             priority
           />

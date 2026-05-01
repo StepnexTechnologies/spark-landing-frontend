@@ -8,8 +8,8 @@
     "subtitle": "Ab Hinglish mein banayein,<3/><0>perfect English invoices</0>. Khaas creators ke liye.",
     "card": {
       "livePromo": "LIVE PROMO",
-      "voucherHeading": "Aapka Ulta Bill",
-      "voucherBody": "₹500 aapke, bas Sign up ke liye. Hamari taraf se aaj tak ki angrezi confusion ka refund. Pehle 5 signups ko roz. <1><0>T&C</0> apply</1>",
+      "voucherHeading": "<1>₹</1><0>500</0> aapke, bas sign up.",
+      "voucherBody": "Hamari taraf se aaj tak ki angrezi confusion ka refund — aapka Ulta Bill 🧾 ↩️. Pehle 5 signups ko, roz. <1><0>T&Cs</0> apply</1>",
       "ctaLabel": "Send your invoice — free!",
       "checks": ["No card needed", "30-sec signup"],
       "phonePlaceholder": "XXXX XXXXXX",
@@ -19,29 +19,29 @@
     }
   },
   "threeStep": {
-    "title": "3 step. No spreadsheets.",
+    "title": "3 simple steps. Bas itna.",
     "subtitle": "Itna easy ki pehli baar mein hi ho jayega.",
     "items": [
       {
-        "title": "Bolo, type, ya screenshot bhejo",
-        "description": "WhatsApp message, email, ya brand chat ka screenshot upload karein — ya bas bolein/likhein \"invoice banao.\" Purana invoice duplicate bhi kar sakte hain.",
+        "title": "Bolo, type, ya screenshot",
+        "description": "WhatsApp message, email, brand chat ka screenshot upload karein — ya bas bolein/ likhein \"invoice banao.\"",
         "tags": ["Voice", "Type", "Screenshot", "Duplicate"]
       },
       {
-        "title": "AI invoice banayega — jaadu",
-        "description": "AI proper format mein invoice banata hai, typo-free. GST/PAN apne aap add. Aap check kar sakte ho, edit kar sakte ho — AI guide karta rahega.",
-        "tags": ["Auto-format", "GST/PAN", "Typo-free"]
+        "title": "AI invoice banayega",
+        "description": "AI proper format mein invoice banata hai, typo-free. GST/ PAN apne aap add. Aap check kar sakte ho, edit kar sakte ho.",
+        "tags": ["Auto-format", "GST/ PAN", "Typo-free"]
       },
       {
-        "title": "Follow-ups hum sambhal lenge",
-        "description": "Ab \"Hi, payment?\" bhejne ki zarurat nahi. Sparkonomy ka AI WhatsApp aur email pe polite, professional reminders bhejta hai.",
-        "tags": ["WhatsApp + Email", "Auto reminders"]
+        "title": "Follow-ups hum karenge",
+        "description": "\"Hi, payment?\" bhejne ki zarurat nahi. Sparkonomy ka AI WhatsApp aur email pe polite, professional reminders bhejta hai.",
+        "tags": ["WhatsApp + Email", "Auto-reminders"]
       }
     ]
   },
   "testimonials": {
     "title": "Creators kya bol rahe hain",
-    "subtitle": "Invoice jo aapko teji se bhugtan karate hain, aur aapko achcha dikhate hain!",
+    "subtitle": "Payments jaldi, aur aap bhi Pro lagein.",
     "items": [
       {
         "quote": "And I have to reach out so many times to get paid in 3 months, and still it hasn't happened 15-20 times! I want you to do my payment reminders",
@@ -66,7 +66,7 @@
     "items": [
       {
         "title": "Proof of Work, automatic.",
-        "description": "Insta, YouTube, ya Reels ke screenshots khud attach ho jayenge. Aapko kuch bhejna nahi padega."
+        "description": "Insta, YouTube ke screenshots khud attach ho jayenge. Aapko nahi karna padega."
       },
       {
         "title": "Hamesha free, 4 invoices.",
@@ -74,11 +74,11 @@
       },
       {
         "title": "Tax calculations, AI karta hai.",
-        "description": "GST ho ya na ho — AI sab calculate kar leta hai. TDS, barter, multi-rate — sab handle."
+        "description": "GST ho ya na ho, AI sab calculate kar leta hai. TDS, barter, multi-rate — sab handle."
       },
       {
         "title": "CA-ready, year-end report.",
-        "description": "Saara data ek click pe export karein. CA ko bheje, ITR file karein — Excel sheet ki jhanjat nahi."
+        "description": "Saara data ek click pe export. CA ko bheje, ITR file karein — ab Excel ka jhanjat band."
       }
     ]
   },
@@ -110,7 +110,13 @@
   },
   "floatingCta": {
     "placeholder": "Apna mobile number",
-    "sendOtp": "Send OTP",
+    "sendOtp": "Get OTP",
+    "staticPrefix": "Get",
+    "primaryLabel": "OTP",
+    "swapLabel": "₹500",
+    "heading": "<0>₹</0>500 jaa raha hai — aaj ke pehle 5 ko.",
+    "body": "Miss mat karna. <1><0>T&C</0> apply</1>",
+    "ariaLabel": "Get OTP to claim ₹500 voucher",
     "modalTitle": "Apni boli mein invoice bhejna shuru karein"
   },
   "footer": {

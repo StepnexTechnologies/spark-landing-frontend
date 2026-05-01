@@ -1,7 +1,6 @@
 "use client";
 
 import {Suspense, useEffect, useState} from "react";
-import {useSearchParams} from "next/navigation";
 import {AnimatePresence, motion} from "framer-motion";
 import {useTranslation} from "react-i18next";
 import dynamic from "next/dynamic";
@@ -24,23 +23,14 @@ const FloatingCTA = dynamic(() => import("@/components/creator/earn/FloatingCTA"
 
 function CreatorPromoPageContent() {
   const {i18n} = useTranslation();
-  const searchParams = useSearchParams();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Language priority on this route:
-    //   1. ?lang= URL param (explicit override always wins)
-    //   2. previously chosen language in localStorage (respect user's choice from /creator/earn etc.)
-    //   3. default to hi-Latn (this is a Hinglish-first promo page)
-    const langParam = searchParams.get("lang");
-    if (langParam && ["en", "hi-Latn"].includes(langParam)) {
-      i18n.changeLanguage(langParam);
-    } else if (typeof window !== "undefined" && !localStorage.getItem("i18nextLng")) {
-      i18n.changeLanguage("hi-Latn");
-    }
-
+    // Promo page is Hinglish-only — always force hi-Latn regardless of any
+    // ?lang= override or previously chosen language in localStorage.
+    i18n.changeLanguage("hi-Latn");
     setIsLoading(false);
-  }, [searchParams, i18n]);
+  }, [i18n]);
 
   if (isLoading) {
     return (
@@ -69,7 +59,7 @@ function CreatorPromoPageContent() {
 
           {/* Content */}
           <div className="relative z-10">
-            <Navigation />
+            <Navigation showLanguageSwitcher={false} />
             <Suspense fallback={null}>
               <ReferralBanner namespace="creatorPromo" />
             </Suspense>

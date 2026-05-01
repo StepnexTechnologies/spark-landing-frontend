@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense } from "react";
+import { Suspense, useEffect, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { Trans, useTranslation } from "react-i18next";
@@ -10,8 +10,32 @@ import OtpInput from "@/components/creator/otp/OtpInput";
 import TextInput from "@/components/common/TextInput";
 import { PROMO_CONFIG } from "@/lib/promo/config";
 import { useSignup } from "./SignupContext";
+import GiftCardStackAnimation from "./GiftCardStackAnimation";
+import CountUp from "./CountUp";
 
 const SHEET_TRANSITION = { duration: 0.35, ease: [0.4, 0, 0.2, 1] as const };
+
+// Resting + lifted box-shadows for the "the card noticed you" cue on first
+// scroll. Same two-layer composition (warm glow + soft drop), the lifted
+// version just pushes both layers further out and darker.
+const REST_SHADOW =
+  "0 18px 40px rgba(245,166,35,0.25), 0 8px 20px rgba(0,0,0,0.25)";
+const LIFT_SHADOW =
+  "0 26px 52px rgba(245,166,35,0.4), 0 14px 28px rgba(0,0,0,0.35)";
+
+// Background "breathing": the gradient angle rotates a full 360° over 12s
+// on a linear loop. We start at 180° (the resting orientation) and push
+// the angle monotonically up to 540° so framer-motion interpolates the
+// numeric value cleanly without an unwrap glitch at 360°.
+const gradientAt = (deg: number) =>
+  `linear-gradient(${deg}deg, #FFCC00 0%, rgba(255, 204, 0, 0.7) 59.13%, rgba(255, 204, 0, 0.2) 100%)`;
+const BREATHING_GRADIENT = [
+  gradientAt(180),
+  gradientAt(270),
+  gradientAt(360),
+  gradientAt(450),
+  gradientAt(540),
+];
 
 export default function PromoSignupCard() {
   const { t } = useTranslation("creatorPromo");
@@ -58,32 +82,49 @@ export default function PromoSignupCard() {
         ? t("signupCard.done")
         : t("signupCard.createAccount");
 
+  // One-shot lift on first scroll — like the card is "noticing" the user.
+  // Listener is { once: true } so it auto-detaches after the first event.
+  const [hasLifted, setHasLifted] = useState(false);
+  useEffect(() => {
+    if (hasLifted) return;
+    const onScroll = () => setHasLifted(true);
+    window.addEventListener("scroll", onScroll, { once: true, passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [hasLifted]);
+
   return (
     <motion.div
       id="promo-hero-card"
       layout
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
+      initial={{
+        opacity: 0,
+        scale: 0.95,
+        y: 0,
+        boxShadow: REST_SHADOW,
+        background: gradientAt(180),
+      }}
+      animate={{
+        opacity: 1,
+        scale: 1,
+        y: hasLifted ? [0, -4, 0] : 0,
+        boxShadow: hasLifted
+          ? [REST_SHADOW, LIFT_SHADOW, REST_SHADOW]
+          : REST_SHADOW,
+        background: BREATHING_GRADIENT,
+      }}
       transition={{
         layout: { duration: 0.4, ease: [0.4, 0, 0.2, 1] },
         opacity: { duration: 0.6, delay: 0.4 },
         scale: { duration: 0.6, delay: 0.4 },
+        y: { duration: 0.7, times: [0, 0.4, 1], ease: [0.34, 1.4, 0.64, 1] },
+        boxShadow: { duration: 0.7, times: [0, 0.4, 1], ease: [0.4, 0, 0.2, 1] },
+        background: { duration: 12, repeat: Infinity, ease: "linear" },
       }}
-      className="relative mx-auto w-full max-w-[420px] rounded-[24px] border-[3px] border-[#DD2A7B] px-2 py-4 shadow-[0_18px_40px_rgba(245,166,35,0.25),0_8px_20px_rgba(0,0,0,0.25)]"
-      style={{
-        background:
-          "linear-gradient(180deg, #FFCC00 0%, rgba(255, 204, 0, 0.7) 59.13%, rgba(255, 204, 0, 0.2) 100%)",
-      }}
+      className="relative mx-auto w-full max-w-[420px] rounded-[24px] border-[3px] border-[#DD2A7B] px-2 py-4"
     >
       {/* Voucher row */}
       <div className="flex items-start gap-3">
-        <Image
-          src="/promo/landing-promo/giftCard.png"
-          alt=""
-          width={88}
-          height={72}
-          className="w-[88px] h-[72px] shrink-0 object-contain"
-        />
+        <GiftCardStackAnimation />
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-1.5">
             <span className="relative flex h-1.5 w-1.5">
@@ -95,7 +136,30 @@ export default function PromoSignupCard() {
             </span>
           </div>
           <h2 className="mt-0.5 text-[20px] font-semibold tracking-[-0.04em] text-primary leading-tight">
-            {t("hero.card.voucherHeading")}
+            <Trans
+              i18nKey="hero.card.voucherHeading"
+              t={t}
+              components={[
+                <CountUp key="amount" to={500} duration={2.5} delay={1.0} />,
+                <motion.span
+                  key="rupee"
+                  className="inline-block origin-center"
+                  style={{
+                    verticalAlign: "baseline",
+                    lineHeight: 1,
+                    willChange: "transform",
+                    transform: "translateZ(0)",
+                  }}
+                  animate={{ scale: [1, 1.12, 1] }}
+                  transition={{
+                    duration: 1.6,
+                    repeat: Infinity,
+                    ease: [0.45, 0, 0.55, 1],
+                    repeatDelay: 1.4,
+                  }}
+                />,
+              ]}
+            />
           </h2>
           <p className="mt-1 text-xs font-normal text-primary leading-snug">
             <Trans
