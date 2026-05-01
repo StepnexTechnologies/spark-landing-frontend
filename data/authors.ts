@@ -132,7 +132,7 @@ export const authors: AuthorEntry[] = [
     shortBio: "I am a tech leader and strategist based in Singapore. After 20 years working across Google, Microsoft, and Samsung I now build and mentor at the edge of technology and new work. Besides building Sparkonomy, I write about how technology systems and AI can support creators by handling the friction, so they can spend more time creating and building a sustainable career.",
 
     socialLinks: {
-      twitter: "https://twitter.com/guneetsingh",
+      twitter: "https://x.com/guneet_musings?s=21",
       linkedin: "https://www.linkedin.com/in/guneets",
       email: "guneets@sparkonomy.com",
     },

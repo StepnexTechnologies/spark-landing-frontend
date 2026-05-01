@@ -1,12 +1,13 @@
 "use client";
 
-import {Suspense, useState, useEffect, useRef} from "react";
+import {Suspense, useRef, useState} from "react";
 import {motion} from "framer-motion";
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import FAQItem from "./FAQItem";
 import CTAButton from "./CTAButton";
 import {useSectionViewTracking} from "@/lib/hooks/useSectionViewTracking";
+import {track} from "@/lib/analytics/track";
 
 interface FAQTranslation {
   question: string;
@@ -22,6 +23,10 @@ interface FAQSectionProps {
   trackingId?: string;
   // Analytics event for the View All button (forwarded to CTAButton).
   analyticsEvent?: string;
+  // When true, "View All" expands the remaining FAQs inline instead of
+  // navigating away. Used by the promo page where the dedicated FAQs route
+  // (creatorEarn namespace) doesn't share the promo content.
+  expandInline?: boolean;
 }
 
 export default function FAQSection({
@@ -29,23 +34,29 @@ export default function FAQSection({
   viewAllHref = "/creator/earn/faqs",
   trackingId = "faq",
   analyticsEvent = "earn_cta_click",
+  expandInline = false,
 }: FAQSectionProps = {}) {
-  const { t, ready } = useTranslation(namespace);
-  const [mounted, setMounted] = useState(false);
+  const { t } = useTranslation(namespace);
   const sectionRef = useRef<HTMLElement>(null);
   useSectionViewTracking(sectionRef, trackingId);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const [showAll, setShowAll] = useState(false);
 
   // Get FAQs from translations
   const faqItems = t("faq.items", { returnObjects: true }) as FAQTranslation[];
   const faqs = Array.isArray(faqItems) ? faqItems : [];
 
-  if (!mounted || !ready) {
-    return null;
-  }
+  const visibleFaqs = showAll ? faqs : faqs.slice(0, 5);
+  const hasMore = faqs.length > 5;
+
+  const handleToggle = () => {
+    const next = !showAll;
+    track(analyticsEvent, {
+      section: trackingId,
+      action: next ? "view_all" : "view_less",
+    });
+    setShowAll(next);
+  };
 
   return (
     <section ref={sectionRef} className="relative py-4 px-5 md:px-20">
@@ -87,9 +98,9 @@ export default function FAQSection({
             {t("faq.title")}
           </h2>
 
-          {/* FAQ Items - Show only first 5 on landing page */}
-          <div className="space-y-0 mb-8 md:mb-10">
-            {faqs.slice(0, 5).map((faq, index) => (
+          {/* FAQ Items */}
+          <div className="space-y-0 mb-4 md:mb-6">
+            {visibleFaqs.map((faq, index) => (
               <FAQItem
                 key={index}
                 question={faq.question}
@@ -99,12 +110,28 @@ export default function FAQSection({
             ))}
           </div>
 
-          {/* View All Button */}
-          <div className="flex justify-center">
+          {/* View All — inline-expand variant renders a right-aligned text
+              link (matches promo design); legacy variant navigates to the
+              creatorEarn FAQs page. */}
+          {expandInline ? (
+            hasMore && (
+              <div className="flex justify-end pt-2">
+                <button
+                  type="button"
+                  onClick={handleToggle}
+                  className="text-white text-base md:text-lg underline underline-offset-4 hover:opacity-80 transition-opacity"
+                >
+                  {showAll ? t("faq.viewLess") : t("faq.viewAll")}
+                </button>
+              </div>
+            )
+          ) : (
+            <div className="flex justify-center mt-4 md:mt-6">
               <Suspense fallback={null}>
                 <CTAButton buttonText={t("faq.viewAll")} navigateTo={viewAllHref} hideBorderAnimation analyticsEvent={analyticsEvent}/>
               </Suspense>
-          </div>
+            </div>
+          )}
         </div>
       </motion.div>
     </section>

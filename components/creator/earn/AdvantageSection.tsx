@@ -1,6 +1,6 @@
 "use client";
 
-import {Suspense, useState, useEffect, useRef} from "react";
+import {Suspense, useRef} from "react";
 import {motion} from "framer-motion";
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
@@ -31,7 +31,7 @@ const ADVANTAGE_ICONS = [
 
 const PROMO_ADVANTAGE_ICONS = [
   "/promo/landing-promo/Proofofwork.png",
-  "/promo/landing-promo/HameshaFree.png",
+  "/promo/landing-promo/Hamesha4invoices.png",
   "/promo/landing-promo/Taxcalculations.png",
   "/promo/landing-promo/CA-ready.png",
 ];
@@ -47,7 +47,7 @@ function PromoAdvantageCard({ index, title, description, iconUrl }: AdvantageIte
       transition={{ duration: 0.5, delay: index * 0.05 }}
       className="relative w-full max-w-[420px] rounded-[20px] py-3 px-2 bg-white/5 border border-white/10 backdrop-blur-md md:max-w-none md:rounded-none md:bg-transparent md:border-0 md:border-b md:border-white/20 md:backdrop-blur-0 md:px-0 md:py-0 md:pb-3"
     >
-      <div className="flex items-start gap-4 md:flex-col md:items-center md:gap-3.5 md:text-center">
+      <div className="flex items-start gap-2 md:flex-col md:items-center md:gap-3.5 md:text-center">
         <div className="relative shrink-0 w-[64px] h-[64px] md:w-[65px] md:h-[79px]">
           <Image src={iconUrl} alt="" fill sizes="79px" className="object-contain" />
         </div>
@@ -66,18 +66,9 @@ export default function AdvantageSection({
   trackingId = "advantage",
   analyticsEvent = "earn_cta_click",
 }: AdvantageSectionProps = {}) {
-  const { t, ready } = useTranslation(namespace);
-  const [mounted, setMounted] = useState(false);
+  const { t } = useTranslation(namespace);
   const sectionRef = useRef<HTMLElement>(null);
   useSectionViewTracking(sectionRef, trackingId);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted || !ready) {
-    return null;
-  }
 
   const isPromo = variant === "promo";
 
@@ -100,9 +91,11 @@ export default function AdvantageSection({
           <h2 className={isPromo ? "text-3xl md:text-[44px] font-bold text-white leading-tight" : "text-2xl md:text-[52px] font-bold text-white"}>
             {t("advantage.title")}
           </h2>
-          <p className={isPromo ? "text-base text-white/70 max-w-[520px] mx-auto" : "text-base text-white max-w-[292px] md:max-w-full mx-auto"}>
-            {t("advantage.subtitle")}
-          </p>
+          {t("advantage.subtitle", { defaultValue: "" }) && (
+            <p className={isPromo ? "text-base text-white/70 max-w-[520px] mx-auto" : "text-base text-white max-w-[292px] md:max-w-full mx-auto"}>
+              {t("advantage.subtitle")}
+            </p>
+          )}
         </motion.div>
 
         {isPromo ? (

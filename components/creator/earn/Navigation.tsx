@@ -1,7 +1,6 @@
 "use client";
 
-import { Suspense, useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
@@ -10,27 +9,20 @@ import CTAButton from "./CTAButton";
 
 interface NavigationProps {
   showLanguageSwitcher?: boolean;
+  namespace?: string;
 }
 
-export default function Navigation({ showLanguageSwitcher = true }: NavigationProps = {}) {
-  const { t, ready } = useTranslation("creatorEarn");
-  const [mounted, setMounted] = useState(false);
+export default function Navigation({
+  showLanguageSwitcher = true,
+  namespace = "creatorEarn",
+}: NavigationProps = {}) {
+  const { t } = useTranslation(namespace);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted || !ready) {
-    return null;
-  }
-
+  // No fade-in: the nav (logo + CTA) is part of the LCP region on the
+  // promo page, so it must paint on the first SSR frame instead of waiting
+  // ~600ms for a framer transition.
   return (
-    <motion.nav
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
-      className="sticky top-0 left-0 right-0 z-50 px-5 md:px-20 py-3 md:py-8"
-    >
+    <nav className="sticky top-0 left-0 right-0 z-50 px-5 md:px-20 py-3 md:py-8">
       <div className="flex items-center justify-between max-w-[1440px] mx-auto">
         {/* Logo */}
         <Link className="relative h-6 w-[130px] md:h-10 md:w-[218px]" href={"/creator/earn"}>
@@ -52,6 +44,6 @@ export default function Navigation({ showLanguageSwitcher = true }: NavigationPr
           </Suspense>
         </div>
       </div>
-    </motion.nav>
+    </nav>
   );
 }

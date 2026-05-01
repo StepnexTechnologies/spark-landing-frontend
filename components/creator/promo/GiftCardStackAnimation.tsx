@@ -97,7 +97,8 @@ export default function GiftCardStackAnimation({ scale = 1 }: { scale?: number }
             width={CARD_W}
             height={CARD_H}
             className="w-full h-full object-contain drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]"
-            priority
+            loading="eager"
+            decoding="async"
           />
         </motion.div>
       ))}

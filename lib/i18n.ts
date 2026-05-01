@@ -9,16 +9,23 @@ import hiLatnCreatorEarn from '@/public/locales/hi-Latn/creatorEarn.json';
 // hi-Latn at mount, so en pulls the same file as a defensive fallback.
 import hiLatnCreatorPromo from '@/public/locales/hi-Latn/creatorPromo.json';
 
-// Only initialize on client side
-const initI18n = () => {
-  if (typeof window === 'undefined') return;
+const isBrowser = typeof window !== 'undefined';
 
+// Initialize on both server and client so SSR renders real strings instead
+// of bare i18n keys (or empty mounted-gates). LanguageDetector relies on
+// browser APIs so it only registers in the browser; on the server we fall
+// back to `fallbackLng` ('en'), which is fine because:
+//   - creatorPromo is always Hinglish (both en + hi-Latn map to the same bundle)
+//   - creatorEarn defaults to English copy on SSR; client-side detection then
+//     flips to Hindi if needed (i18next swaps text in place — no remount).
+const initI18n = () => {
   if (!i18n.isInitialized) {
-    i18n
-      .use(LanguageDetector)
+    const chain = isBrowser ? i18n.use(LanguageDetector) : i18n;
+    chain
       .use(initReactI18next)
       .init({
         fallbackLng: 'en',
+        lng: isBrowser ? undefined : 'en',
         supportedLngs: ['en', 'hi-Latn'],
         debug: false,
         ns: ['creatorEarn', 'creatorPromo'],
@@ -44,6 +51,7 @@ const initI18n = () => {
         react: {
           useSuspense: false,
         },
+        initImmediate: false,
       });
   }
 

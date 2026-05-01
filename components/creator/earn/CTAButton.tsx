@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, {useEffect, useState} from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useTranslation } from "react-i18next";
@@ -20,13 +20,18 @@ const CTAButton = ({buttonText = "Send Invoices For Free", className, navigateTo
     const searchParams = useSearchParams();
     const { i18n } = useTranslation();
     const referralCode = searchParams.get("ref");
-    const currentLang = i18n.language?.startsWith('hi') ? 'hi-Latn' : 'en';
 
-    // Build URL with language and optional referral code
+    // Defer reading i18n.language and window.location until after hydration
+    // so SSR and first client render emit identical href. Without this gate,
+    // SSR uses the fallback ('en') while the client may have already detected
+    // 'hi-Latn' via LanguageDetector, producing a hydration mismatch.
+    const [hydrated, setHydrated] = useState(false);
+    useEffect(() => setHydrated(true), []);
+
     const buildUrl = () => {
-        // Use window.location.origin as base for relative URLs
-        const base = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000';
+        const base = hydrated && typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000';
         const url = new URL(navigateTo, base);
+        const currentLang = hydrated && i18n.language?.startsWith('hi') ? 'hi-Latn' : 'en';
         url.searchParams.set('lang', currentLang);
         if (referralCode) {
             url.searchParams.set('ref', referralCode);

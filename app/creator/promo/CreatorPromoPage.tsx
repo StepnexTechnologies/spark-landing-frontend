@@ -1,18 +1,18 @@
 "use client";
 
-import {Suspense, useEffect, useState} from "react";
-import {AnimatePresence, motion} from "framer-motion";
+import {Suspense, useCallback, useEffect, useState} from "react";
 import {useTranslation} from "react-i18next";
 import dynamic from "next/dynamic";
 import "@/lib/i18n"; // Initialize i18n
+import { cn } from "@/lib/utils";
 import Navigation from "@/components/creator/earn/Navigation";
 import HeroSection from "@/components/creator/promo/HeroSection";
 import ReferralBanner from "@/components/creator/earn/ReferralBanner";
 import { SignupProvider } from "@/components/creator/promo/SignupContext";
 
-// Sections reused via earn's variant-aware orchestrators (namespace + variant
-// props swap copy/layout without forking files). HeroSection and the 3-step
-// section are kept forked because their layouts diverge structurally.
+// Below-the-fold sections are code-split. They still SSR (default
+// dynamic = ssr:true) so crawlers and Lighthouse get the full DOM, but
+// their JS chunks load on demand which keeps the hero TBT/JS budget tight.
 const ThreeStepSection = dynamic(() => import("@/components/creator/promo/ThreeStepSection"));
 const PhoneMockupSection = dynamic(() => import("@/components/creator/promo/PhoneMockupSection"));
 const TestimonialsSection = dynamic(() => import("@/components/creator/earn/TestimonialsSection"));
@@ -21,49 +21,50 @@ const FAQSection = dynamic(() => import("@/components/creator/earn/FAQSection"))
 const EarnFooter = dynamic(() => import("@/components/creator/earn/EarnFooter"));
 const FloatingCTA = dynamic(() => import("@/components/creator/earn/FloatingCTA"), { ssr: false });
 
-function CreatorPromoPageContent() {
+export default function CreatorPromoPage() {
   const {i18n} = useTranslation();
-  const [isLoading, setIsLoading] = useState(true);
+  // Hide everything below the hero until the staged hero animation finishes,
+  // so the chip → headline → subtitle → card sequence doesn't compete with
+  // ThreeStep (and below) showing through. SSR still emits the markup; we
+  // just keep it visually & interaction-hidden until the hero signals done.
+  const [heroComplete, setHeroComplete] = useState(false);
+  const handleHeroComplete = useCallback(() => setHeroComplete(true), []);
 
   useEffect(() => {
     // Promo page is Hinglish-only — always force hi-Latn regardless of any
-    // ?lang= override or previously chosen language in localStorage.
-    i18n.changeLanguage("hi-Latn");
-    setIsLoading(false);
+    // ?lang= override or previously chosen language in localStorage. Both
+    // 'en' and 'hi-Latn' resolve creatorPromo to the Hinglish bundle, so
+    // SSR copy is correct even before this runs.
+    if (i18n.language !== "hi-Latn") {
+      i18n.changeLanguage("hi-Latn");
+    }
   }, [i18n]);
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
-        <div className="text-white">Loading...</div>
-      </div>
-    );
-  }
 
   return (
     <SignupProvider>
-      <AnimatePresence>
-        <motion.main
-          className="relative min-h-screen bg-black overflow-hidden"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6 }}
-        >
-          {/* Background Gradients — second blob's height is tuned so the gradient
-              reaches the end of the FAQ (the "Sab Dekho" / View All button) and
-              the page's bg-black only takes over behind the footer below it. */}
-          <div className="absolute -top-[400px] -left-[940px] inset-0 pointer-events-none">
-            <div className="mt-[500px] w-[2422px] h-[2422px] md:w-[4500px] gradient-blob" />
-            <div className="-mt-[1000px] w-[2422px] h-[44%] md:w-[4500px] md:h-[41%] gradient-blob" />
-          </div>
+      <main className="relative min-h-screen bg-black overflow-hidden">
+        {/* Background Gradients — second blob's height is tuned so the gradient
+            reaches the end of the FAQ (the "Sab Dekho" / View All button) and
+            the page's bg-black only takes over behind the footer below it. */}
+        <div className="absolute -top-[400px] -left-[940px] inset-0 pointer-events-none">
+          <div className="mt-[500px] w-[2422px] h-[2422px] md:w-[4500px] gradient-blob" />
+          <div className="-mt-[1000px] w-[2422px] h-[44%] md:w-[4500px] md:h-[41%] gradient-blob" />
+        </div>
 
-          {/* Content */}
-          <div className="relative z-10">
-            <Navigation showLanguageSwitcher={false} />
-            <Suspense fallback={null}>
-              <ReferralBanner namespace="creatorPromo" />
-            </Suspense>
-            <HeroSection />
+        {/* Content */}
+        <div className="relative z-10">
+          <Navigation showLanguageSwitcher={false} namespace="creatorPromo" />
+          <Suspense fallback={null}>
+            <ReferralBanner namespace="creatorPromo" />
+          </Suspense>
+          <HeroSection onAnimationComplete={handleHeroComplete} />
+          <div
+            aria-hidden={!heroComplete}
+            className={cn(
+              "transition-opacity duration-700 ease-out",
+              heroComplete ? "opacity-100" : "opacity-0 pointer-events-none"
+            )}
+          >
             <ThreeStepSection />
             <PhoneMockupSection />
             <TestimonialsSection
@@ -75,37 +76,25 @@ function CreatorPromoPageContent() {
             <FAQSection
               namespace="creatorPromo"
               trackingId="promo_faq"
-              viewAllHref="/creator/earn/faqs"
-              analyticsEvent="promo_cta_click"
+              analyticsEvent="promo_faq_toggle"
+              expandInline
             />
             <EarnFooter />
           </div>
+        </div>
 
-          {/* Floating CTA Button — promo variant: yellow voucher strip → OTP modal.
-              Tied to the hero card so it only appears once that card scrolls out
-              of view (and hides again if the user scrolls back up). */}
+        {/* Floating CTA Button — promo variant: yellow voucher strip → OTP modal.
+            Tied to the hero card so it only appears once that card scrolls out
+            of view (and hides again if the user scrolls back up). */}
+        <Suspense fallback={null}>
           <FloatingCTA
             variant="promo"
             namespace="creatorPromo"
             trackingPrefix="promo"
             triggerElementId="promo-hero-card"
           />
-        </motion.main>
-      </AnimatePresence>
+        </Suspense>
+      </main>
     </SignupProvider>
-  );
-}
-
-export default function CreatorPromoPage() {
-  return (
-    <Suspense
-      fallback={
-        <div className="min-h-screen bg-black flex items-center justify-center">
-          <div className="text-white">Loading...</div>
-        </div>
-      }
-    >
-      <CreatorPromoPageContent />
-    </Suspense>
   );
 }
