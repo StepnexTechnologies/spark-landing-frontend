@@ -4,9 +4,9 @@ import { Suspense, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Trans, useTranslation } from "react-i18next";
 import { useSearchParams } from "next/navigation";
-import Image from "next/image";
 import { ValidatedPhoneInput } from "./ValidatedPhoneInput";
 import { useSignup } from "@/components/creator/promo/SignupContext";
+import GiftCardStackAnimation from "@/components/creator/promo/GiftCardStackAnimation";
 import { PROMO_CONFIG } from "@/lib/promo/config";
 import { track } from "@/lib/analytics/track";
 
@@ -247,13 +247,9 @@ function PromoFloatingCTA({ isVisible, t, trackingPrefix }: PromoVariantProps) {
             <div className="relative z-10">
               {/* Voucher row */}
               <div className="flex items-center gap-3 mb-1">
-                <Image
-                  src="/promo/landing-promo/giftCard.png"
-                  alt=""
-                  width={70}
-                  height={57}
-                  className="w-[70px] h-[57px] shrink-0 object-contain -mt-5"
-                />
+                <div className="-mt-14 -ml-3 shrink-0">
+                  <GiftCardStackAnimation scale={0.8} />
+                </div>
                 <div className="flex-1 min-w-0">
                   <h3 className="text-primary font-medium text-sm leading-tight">
                     <motion.span

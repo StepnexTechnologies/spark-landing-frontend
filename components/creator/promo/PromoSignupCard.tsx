@@ -10,6 +10,8 @@ import OtpInput from "@/components/creator/otp/OtpInput";
 import TextInput from "@/components/common/TextInput";
 import { PROMO_CONFIG } from "@/lib/promo/config";
 import { useSignup } from "./SignupContext";
+import GiftCardStackAnimation from "./GiftCardStackAnimation";
+import CountUp from "./CountUp";
 
 const SHEET_TRANSITION = { duration: 0.35, ease: [0.4, 0, 0.2, 1] as const };
 
@@ -77,13 +79,7 @@ export default function PromoSignupCard() {
     >
       {/* Voucher row */}
       <div className="flex items-start gap-3">
-        <Image
-          src="/promo/landing-promo/giftCard.png"
-          alt=""
-          width={88}
-          height={72}
-          className="w-[88px] h-[72px] shrink-0 object-contain"
-        />
+        <GiftCardStackAnimation />
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-1.5">
             <span className="relative flex h-1.5 w-1.5">
@@ -95,7 +91,11 @@ export default function PromoSignupCard() {
             </span>
           </div>
           <h2 className="mt-0.5 text-[20px] font-semibold tracking-[-0.04em] text-primary leading-tight">
-            {t("hero.card.voucherHeading")}
+            <Trans
+              i18nKey="hero.card.voucherHeading"
+              t={t}
+              components={[<CountUp key="amount" to={500} duration={2.5} delay={0.6} />]}
+            />
           </h2>
           <p className="mt-1 text-xs font-normal text-primary leading-snug">
             <Trans
