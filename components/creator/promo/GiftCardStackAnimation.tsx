@@ -22,7 +22,10 @@ const CARD_H = 56;
 // kicking off, otherwise the bloom plays under an invisible parent.
 const START_DELAY_MS = 1000;
 const STAGGER_MS = 100;
-const PER_CARD_MS = 1100;
+// Per-card duration tuned so the whole bloom (4×stagger + per-card) lasts
+// 2500ms — matching the ₹500 count-up duration so the two entry beats
+// finish together. Sparkles then fire after both have settled.
+const PER_CARD_MS = 2100;
 
 // Sparkles fire on the front voucher *after* the bloom has fully settled.
 // Last card delay = START_DELAY + (N-1)*STAGGER, plus its full duration.

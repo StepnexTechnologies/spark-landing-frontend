@@ -140,7 +140,7 @@ export default function PromoSignupCard() {
               i18nKey="hero.card.voucherHeading"
               t={t}
               components={[
-                <CountUp key="amount" to={500} duration={2.5} delay={0.6} />,
+                <CountUp key="amount" to={500} duration={2.5} delay={1.0} />,
                 <motion.span
                   key="rupee"
                   className="inline-block origin-center"
