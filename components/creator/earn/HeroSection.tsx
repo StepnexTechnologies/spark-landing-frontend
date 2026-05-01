@@ -111,21 +111,13 @@ export default function HeroSection() {
                   "linear-gradient(90deg, rgba(61, 88, 219, 0.12) 2.15%, rgba(129, 52, 175, 0.6) 48.84%, rgba(61, 88, 219, 0.12) 96.24%)",
               }}
             >
-              <motion.div
+              <span
                 aria-hidden
-                className="pointer-events-none absolute -inset-y-8 w-[60%] mix-blend-screen"
+                className="pointer-events-none absolute -inset-y-8 w-[60%] mix-blend-screen animate-shimmer-sweep"
                 style={{
                   background:
                     "linear-gradient(115deg, transparent 0%, rgba(255,255,255,0.06) 35%, rgba(255,255,255,0.22) 50%, rgba(255,255,255,0.06) 65%, transparent 100%)",
                   filter: "blur(24px)",
-                }}
-                initial={{ left: "-60%" }}
-                animate={{ left: "100%" }}
-                transition={{
-                  duration: 3.2,
-                  ease: "easeInOut",
-                  repeat: Infinity,
-                  repeatDelay: 1.4,
                 }}
               />
 
@@ -177,9 +169,22 @@ export default function HeroSection() {
                     referral_code: referralCode ?? null,
                   })
                 }
-                className="relative mt-5 flex items-center justify-center w-full rounded-full bg-white px-6 py-3 text-[#9747FF] font-bold text-[16px] shadow-[0_8px_20px_rgba(0,0,0,0.18)] hover:bg-white/95 transition-colors"
+                className="relative overflow-hidden mt-5 flex items-center justify-center w-full rounded-full bg-white px-6 py-3 text-[#9747FF] font-bold text-[16px] shadow-[0_8px_20px_rgba(0,0,0,0.18)] hover:bg-white/95 transition-colors"
               >
-                {t("promo.cta")}
+                <span
+                  aria-hidden
+                  className="pointer-events-none absolute inset-y-0 w-[60%] animate-shimmer-sweep"
+                  style={{
+                    background:
+                      "linear-gradient(115deg, transparent 0%, rgba(151, 71, 255, 0.18) 35%, rgba(129, 52, 175, 0.45) 50%, rgba(151, 71, 255, 0.18) 65%, transparent 100%)",
+                    filter: "blur(8px)",
+                    // Same keyframe as the card shimmer, but lagged so the beam
+                    // appears to travel from the top of the card down onto the
+                    // button — mimicking one continuous diagonal sweep.
+                    animationDelay: "0.2s",
+                  }}
+                />
+                <span className="relative">{t("promo.cta")}</span>
               </Link>
             </div>
           </motion.div>

@@ -1,4 +1,4 @@
-// Central config for the site-wide promo (banner + celebration overlay).
+// Central config for the site-wide promo banner.
 //
 // To run a new promo:
 //   1. Leave `enabled: true` (manual kill-switch — flip to `false` to force-disable
@@ -7,13 +7,12 @@
 //      auto-deactivates after 23:59:59.999 on `end` (both inclusive). Use the
 //      `dateRange()` helper below so you don't have to remember the time fields.
 //   3. Update `terms.url` to the new promo's T&C page
-//   4. Update `celebration.image` (or set `celebration.enabled: false` to skip the overlay)
-//   5. Update `homepageBanner` copy (the homepage footer banner — not i18n'd)
-//   6. Update the `promo.*` keys in `public/locales/<lang>/creatorEarn.json`
+//   4. Update `homepageBanner` copy (the homepage footer banner — not i18n'd)
+//   5. Update the `promo.*` keys in `public/locales/<lang>/creatorEarn.json`
 //      (drives the creator/earn hero banner copy)
 //
 // All consumers read from this single object — no other file should hard-code
-// promo dates, copy, URLs, or image paths.
+// promo dates, copy, or URLs.
 
 export interface PromoConfig {
   enabled: boolean;
@@ -22,21 +21,10 @@ export interface PromoConfig {
   terms: {
     url: string;
   };
-  celebration: {
-    enabled: boolean;
-    image: {
-      src: string;
-      alt: string;
-      width: number;
-      height: number;
-    };
-  };
   // Homepage footer banner — not localized (the homepage doesn't run through i18next).
   homepageBanner: {
     headline: string;
     subheadline: string;
-    tagline: string;
-    taglineEmphasis: string;
   };
 }
 
@@ -52,9 +40,9 @@ function dateRange(
   };
 }
 
-// Summer Sign-up Daily Vouchers Promo: 1st May 2026 – 31st May 2026.
+// Summer Sign-up Daily Vouchers Promo: 2nd May 2026 – 31st May 2026.
 const SUMMER_SIGNUP_WINDOW = dateRange(
-  { year: 2026, month: 4, day: 1 },
+  { year: 2026, month: 4, day: 2 },
   { year: 2026, month: 4, day: 31 },
 );
 
@@ -66,21 +54,9 @@ export const PROMO_CONFIG: PromoConfig = {
     // Each promo ships its own T&C page; set this to that page's URL when enabling a promo.
     url: "/summer-promo/terms",
   },
-  celebration: {
-    // Summer Sign-up promo doesn't use the celebration overlay.
-    enabled: false,
-    image: {
-      src: "/images/creator/earn/PROMO.png",
-      alt: "Promo celebration",
-      width: 600,
-      height: 600,
-    },
-  },
   homepageBanner: {
     headline: "Work happens in Hinglish. Why is invoicing still in English?",
     subheadline: "Introducing India's first Hinglish invoicing for creators",
-    tagline: "Talk/ type in Hinglish → get perfect English invoices.",
-    taglineEmphasis: "Try it free today.",
   },
 };
 

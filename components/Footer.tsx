@@ -39,10 +39,10 @@ export default function Footer({ minimal = false }: FooterProps) {
     >
       {!minimal && mounted && isPromoActive && heroReady && (
         <motion.a
-          href="https://beta.creator.sparkonomy.com/auth?service=earn"
+          href="https://beta.creator.sparkonomy.com/auth?service=earn&lang=hi-Latn"
           target="_blank"
           rel="noopener noreferrer"
-          className="pointer-events-auto relative overflow-hidden block w-full px-2 py-2 mb-[30px] text-center cursor-pointer"
+          className="pointer-events-auto relative overflow-hidden block w-full px-2 py-2 mb-[45px] text-center cursor-pointer"
           style={{
             background:
               "linear-gradient(90deg, rgba(61, 88, 219, 0) 2.15%, rgba(110, 99, 255, 0.36) 30.53%, rgba(110, 99, 255, 0.36) 62.34%, rgba(61, 88, 219, 0) 96.24%)",
@@ -71,7 +71,7 @@ export default function Footer({ minimal = false }: FooterProps) {
           <p className="relative text-white font-bold text-[14px] leading-tight text-center tracking-[-0.04em]">
             {banner.headline}
           </p>
-          <p className="relative mt-2 text-white text-[12px] leading-snug flex items-center justify-center gap-2">
+          <p className="relative mt-3 text-white text-[12px] leading-snug flex items-center justify-center gap-2">
             <Image
               src="/promo/Hinglish Icon.png"
               alt=""
@@ -81,9 +81,6 @@ export default function Footer({ minimal = false }: FooterProps) {
             />
             <span>{banner.subheadline}</span>
           </p>
-          <p className="relative mt-1 text-white text-[12px] leading-snug text-center">
-            {banner.tagline} <em>{banner.taglineEmphasis}</em>
-          </p>
         </motion.a>
       )}
       {!minimal && heroReady && (
@@ -91,7 +88,7 @@ export default function Footer({ minimal = false }: FooterProps) {
           href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-embedding-2/"
           target="_blank"
           rel="noopener noreferrer"
-          className="pointer-events-auto block text-center text-base font-normal italic text-zinc-400 hover:text-white transition-colors duration-300 mb-[30px] select-none"
+          className={`pointer-events-auto block text-center text-base font-normal italic text-zinc-400 hover:text-white transition-colors duration-300 select-none ${isPromoActive ? "mb-[45px]" : "mb-[60px]"}`}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: "easeOut" }}
@@ -102,7 +99,7 @@ export default function Footer({ minimal = false }: FooterProps) {
       <div className="flex flex-col items-center space-y-2 w-full px-10 md:px-14 lg:px-20 pb-4">
         {!minimal && heroReady && (
           <motion.div
-            className="pointer-events-auto mb-[30px]"
+            className={`pointer-events-auto ${isPromoActive ? "mb-[30px]" : "mb-[50px]"}`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: "easeOut" }}

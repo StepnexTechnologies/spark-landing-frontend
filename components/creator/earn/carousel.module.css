@@ -17,7 +17,7 @@
 .embla__container {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 30px;
   will-change: transform;
 
   /*

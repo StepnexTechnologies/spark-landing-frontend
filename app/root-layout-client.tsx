@@ -26,7 +26,10 @@ export function RootLayoutClient({
 }) {
   const pathname = usePathname();
 
-  const isLegalPage = pathname.startsWith("/legal");
+  const isLegalPage =
+    pathname.startsWith("/legal") ||
+    pathname.startsWith("/gold-promo") ||
+    pathname.startsWith("/summer-promo");
   const isCreatorPage = pathname.startsWith("/creator");
   const isBlogPage = pathname.startsWith("/blogs") || pathname.startsWith("/blog");
   const isPreviewPage = pathname.startsWith("/preview");

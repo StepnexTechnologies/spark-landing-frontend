@@ -139,7 +139,22 @@
       "PowerShell(npx --no-install next lint --file app/summer-promo/terms/page.tsx --file app/gold-promo/terms/page.tsx --file app/summer-promo/layout.tsx --file app/gold-promo/layout.tsx 2>&1)",
       "PowerShell(npx --no-install next lint app/summer-promo app/gold-promo 2>&1)",
       "PowerShell(npx --no-install next lint --dir app/summer-promo --dir app/gold-promo 2>&1)",
-      "PowerShell(npx --no-install eslint app/summer-promo app/gold-promo 2>&1)"
+      "PowerShell(npx --no-install eslint app/summer-promo app/gold-promo 2>&1)",
+      "WebFetch(domain:autosana.ai)",
+      "WebFetch(domain:docs.autosana.ai)",
+      "Bash(npx vercel *)",
+      "Bash(echo \"exit=$?\")",
+      "Bash(curl -s --max-time 5 http://localhost:3000/creator/promo)",
+      "Bash(curl -s --max-time 10 http://localhost:3000/summer-promo/terms)",
+      "Bash(curl -s --max-time 10 \"http://localhost:3000/creator/promo\" -o /tmp/promo-page.html)",
+      "Bash(curl -s --max-time 10 \"http://localhost:3000/creator/promo\")",
+      "Bash(curl -s --max-time 10 \"http://localhost:3000/_next/static/chunks/components_creator_promo_PromoSignupCard_tsx_*.js\")",
+      "Bash(node -e \"JSON.parse\\(require\\('fs'\\).readFileSync\\('public/locales/en/creatorPromo.json','utf8'\\)\\); JSON.parse\\(require\\('fs'\\).readFileSync\\('public/locales/hi-Latn/creatorPromo.json','utf8'\\)\\); console.log\\('OK'\\)\")",
+      "PowerShell(yarn lint)",
+      "PowerShell(npx --no-install next lint)",
+      "PowerShell(npx --no-install next lint --dir components/creator/promo --dir app/creator/promo)",
+      "PowerShell(npx --no-install next --version)",
+      "PowerShell(npx --no-install eslint components/creator/promo/PhoneMockupSection.tsx app/creator/promo/CreatorPromoPage.tsx)"
     ],
     "additionalDirectories": [
       "C:\\Users\\HP\\.claude\\plans",

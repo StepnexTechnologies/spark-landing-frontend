@@ -362,7 +362,7 @@ const HeroSection = () => {
         />
       </div>
 
-      <div className={`flex-1 flex flex-col items-center justify-center ${isPromoActive ? "pb-[290px] md:pb-[270px]" : "pb-[200px]"}`}>
+      <div className={`flex-1 flex flex-col items-center justify-center ${isPromoActive ? "pb-[360px] md:pb-[320px]" : "pb-[150px]"}`}>
         <div className="text-center relative">
           <motion.div
             className={`absolute inset-0 flex flex-col space-y-8 items-center justify-center mb-12 ${showContent && 'hidden'}`}
@@ -449,7 +449,7 @@ const HeroSection = () => {
                 transform: subtextVisible ? "translateY(0)" : "translateY(20px)",
               }}
             >
-              Developing AI to spark creator livelihoods globally
+              Developing AI to spark creator livelihoods
             </p>
 
             {/*{showContent && <CampaignTrackerCTA isVisible={ctaVisible} />}*/}

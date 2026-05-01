@@ -22,11 +22,9 @@ const DIR = path.join(ROOT, "public", "images", "creator", "earn");
 // Displayed dimensions from the codebase; we encode 2x for retina.
 // hero-illustration-2 is rendered at max 784px wide (desktop glass container).
 // Story images are rendered at 362px wide (both mobile full-bleed and desktop).
-// PROMO.png is shown full-viewport by the PromoCelebration overlay.
 const targets = [
   { file: "hero-illustration-2.png", maxWidth: 1600 },
   { file: "hero-illustration.png",   maxWidth: 1600 },
-  { file: "PROMO.png",               maxWidth: 1440 },
   { file: "story-1.png",             maxWidth: 800 },
   { file: "story-2.png",             maxWidth: 800 },
   { file: "story-3.png",             maxWidth: 800 },

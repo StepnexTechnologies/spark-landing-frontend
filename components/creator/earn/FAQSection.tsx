@@ -13,11 +13,27 @@ interface FAQTranslation {
   answer: string;
 }
 
-export default function FAQSection() {
-  const { t, ready } = useTranslation("creatorEarn");
+interface FAQSectionProps {
+  namespace?: string;
+  viewAllHref?: string;
+  // Tracking ID passed to useSectionViewTracking. Defaults to "faq"; pass a
+  // different label (e.g. "promo_faq") when reusing the section so impression
+  // tracking is attributable per funnel.
+  trackingId?: string;
+  // Analytics event for the View All button (forwarded to CTAButton).
+  analyticsEvent?: string;
+}
+
+export default function FAQSection({
+  namespace = "creatorEarn",
+  viewAllHref = "/creator/earn/faqs",
+  trackingId = "faq",
+  analyticsEvent = "earn_cta_click",
+}: FAQSectionProps = {}) {
+  const { t, ready } = useTranslation(namespace);
   const [mounted, setMounted] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
-  useSectionViewTracking(sectionRef, "faq");
+  useSectionViewTracking(sectionRef, trackingId);
 
   useEffect(() => {
     setMounted(true);
@@ -86,7 +102,7 @@ export default function FAQSection() {
           {/* View All Button */}
           <div className="flex justify-center">
               <Suspense fallback={null}>
-                <CTAButton buttonText={t("faq.viewAll")} navigateTo={"/creator/earn/faqs"} hideBorderAnimation/>
+                <CTAButton buttonText={t("faq.viewAll")} navigateTo={viewAllHref} hideBorderAnimation analyticsEvent={analyticsEvent}/>
               </Suspense>
           </div>
         </div>
