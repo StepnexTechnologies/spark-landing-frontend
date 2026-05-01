@@ -144,12 +144,18 @@ export default function PromoSignupCard() {
                 <motion.span
                   key="rupee"
                   className="inline-block origin-center"
-                  animate={{ scale: [1, 1.18, 1] }}
+                  style={{
+                    verticalAlign: "baseline",
+                    lineHeight: 1,
+                    willChange: "transform",
+                    transform: "translateZ(0)",
+                  }}
+                  animate={{ scale: [1, 1.12, 1] }}
                   transition={{
-                    duration: 1.3,
+                    duration: 1.6,
                     repeat: Infinity,
-                    ease: "easeInOut",
-                    repeatDelay: 0.4,
+                    ease: [0.45, 0, 0.55, 1],
+                    repeatDelay: 1.4,
                   }}
                 />,
               ]}
