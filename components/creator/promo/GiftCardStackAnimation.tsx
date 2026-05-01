@@ -45,7 +45,16 @@ const SPARKLES = [
 // Base footprint is 88×72 (the hero card). Pass a `scale` to shrink/grow the
 // whole animation proportionally; the container's outer box also scales so it
 // occupies the right amount of layout space (e.g. 0.8 → 70×57).
-export default function GiftCardStackAnimation({ scale = 1 }: { scale?: number } = {}) {
+//
+// `play` gates the bloom + sparkles. When false, the cards sit perfectly
+// stacked at rotation 0 (only the front Amazon card showing) and sparkles
+// stay invisible. The bloom/sparkle delays are measured from the moment
+// `play` flips true, so callers can hold the animation until the surrounding
+// card is actually visible.
+export default function GiftCardStackAnimation({
+  scale = 1,
+  play = true,
+}: { scale?: number; play?: boolean } = {}) {
   return (
     <div
       className="relative shrink-0"
@@ -76,14 +85,18 @@ export default function GiftCardStackAnimation({ scale = 1 }: { scale?: number }
             zIndex: card.z,
           }}
           initial={{ rotate: 0, scale: 1 }}
-          animate={{
-            // 0%      → stack (perfectly overlapped, only black visible)
-            // 32%     → bloom (wide fan)
-            // 55%     → still bloom (hold)
-            // 100%    → final stack pose matching giftCard.png
-            rotate: [0, card.bloom, card.bloom, card.stack],
-            scale:  [1, 1.05,       1.05,       1],
-          }}
+          animate={
+            play
+              ? {
+                  // 0%      → stack (perfectly overlapped, only black visible)
+                  // 32%     → bloom (wide fan)
+                  // 55%     → still bloom (hold)
+                  // 100%    → final stack pose matching giftCard.png
+                  rotate: [0, card.bloom, card.bloom, card.stack],
+                  scale: [1, 1.05, 1.05, 1],
+                }
+              : { rotate: 0, scale: 1 }
+          }
           transition={{
             duration: PER_CARD_MS / 1000,
             times: [0, 0.32, 0.55, 1],
@@ -123,13 +136,17 @@ export default function GiftCardStackAnimation({ scale = 1 }: { scale?: number }
               marginTop: -s.size / 2,
             }}
             initial={{ opacity: 0, scale: 0.3, y: 0 }}
-            animate={{
-              // fade in fast, hold, fade out as it floats up — total 1s.
-              opacity: [0, 1, 1, 0],
-              scale:   [0.3, 1.1, 1, 0.6],
-              y:       [0, -6, -14, -22],
-              rotate:  [0, 30, 60, 90],
-            }}
+            animate={
+              play
+                ? {
+                    // fade in fast, hold, fade out as it floats up — total 1s.
+                    opacity: [0, 1, 1, 0],
+                    scale: [0.3, 1.1, 1, 0.6],
+                    y: [0, -6, -14, -22],
+                    rotate: [0, 30, 60, 90],
+                  }
+                : { opacity: 0, scale: 0.3, y: 0, rotate: 0 }
+            }
             transition={{
               duration: 1,
               times: [0, 0.25, 0.6, 1],

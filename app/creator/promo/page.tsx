@@ -32,7 +32,7 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
       canonical: PAGE_URL,
     },
     robots: {
-      index: false,
+      index: true,
       follow: true,
     },
     openGraph: {

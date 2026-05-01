@@ -9,7 +9,8 @@
     "card": {
       "livePromo": "LIVE PROMO",
       "voucherHeading": "Aapka Ulta Bill",
-      "voucherBody": "₹500 aapke, bas Sign up ke liye. Hamari taraf se aaj tak ki angrezi confusion ka refund. Pehle 5 signups ko roz. <1><0>T&C</0> apply</1>",
+      "voucherBody": "₹500 aapke, bas Sign up ke liye. Hamari taraf se aaj tak ki angrezi confusion ka refund. Pehle 5 signups ko roz.",
+      "voucherTerms": "T&C apply",
       "ctaLabel": "Send your invoice — free!",
       "checks": ["No card needed", "30-sec signup"],
       "phonePlaceholder": "XXXX XXXXXX",
@@ -23,7 +24,7 @@
     "subtitle": "So easy you'll get it on the first try.",
     "items": [
       {
-        "title": "Bolo, type, ya screenshot bhejo",
+        "title": "Bolo, type, ya screenshot lo",
         "description": "WhatsApp message, email, ya brand chat ka screenshot upload karein — ya bas bolein/likhein \"invoice banao.\" Purana invoice duplicate bhi kar sakte hain.",
         "tags": ["Voice", "Type", "Screenshot", "Duplicate"]
       },
@@ -111,6 +112,13 @@
   "floatingCta": {
     "placeholder": "Your mobile number",
     "sendOtp": "Send OTP",
+    "staticPrefix": "Get",
+    "primaryLabel": "OTP",
+    "swapLabel": "₹500",
+    "heading": "<0>₹</0>500 jaa raha hai — aaj ke pehle 5 ko.",
+    "body": "Miss mat karna.",
+    "terms": "T&C apply",
+    "ariaLabel": "Get OTP to claim ₹500 voucher",
     "modalTitle": "Start sending invoices in your own boli"
   },
   "footer": {

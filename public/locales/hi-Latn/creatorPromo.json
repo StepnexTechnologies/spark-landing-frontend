@@ -5,11 +5,12 @@
   "hero": {
     "tagChip": "Apni Boli, Apna Bill",
     "title": "Business Hinglish mein...<0/>toh invoicing English mein kyun?",
-    "subtitle": "Ab Hinglish mein banayein,<3/><0>perfect English invoices</0>. Khaas creators ke liye.",
+    "subtitle": "Ab Hinglish mein banayein,<3/><0>perfect English invoices</0>. Khaas Creators ke liye.",
     "card": {
       "livePromo": "LIVE PROMO",
       "voucherHeading": "<1>₹</1><0>500</0> aapke, bas sign up.",
-      "voucherBody": "Hamari taraf se aaj tak ki angrezi confusion ka refund — aapka Ulta Bill 🧾 ↩️. Pehle 5 signups ko, roz. <1><0>T&Cs</0> apply</1>",
+      "voucherBody": "Hamari taraf se aaj tak ki angrezi confusion ka refund — aapka Ulta Bill 🧾 ↩️. Pehle 5 signups ko, roz.",
+      "voucherTerms": "T&Cs apply",
       "ctaLabel": "Send your invoice — free!",
       "checks": ["No card needed", "30-sec signup"],
       "phonePlaceholder": "XXXX XXXXXX",
@@ -19,11 +20,11 @@
     }
   },
   "threeStep": {
-    "title": "3 simple steps. Bas itna.",
+    "title": "3 simple steps.",
     "subtitle": "Itna easy ki pehli baar mein hi ho jayega.",
     "items": [
       {
-        "title": "Bolo, type, ya screenshot",
+        "title": "Bolo, type, ya screenshot lo",
         "description": "WhatsApp message, email, brand chat ka screenshot upload karein — ya bas bolein/ likhein \"invoice banao.\"",
         "tags": ["Voice", "Type", "Screenshot", "Duplicate"]
       },
@@ -41,7 +42,7 @@
   },
   "testimonials": {
     "title": "Creators kya bol rahe hain",
-    "subtitle": "Payments jaldi, aur aap bhi Pro lagein.",
+    "subtitle": "Payments jaldi, aur aap Pro lagein.",
     "items": [
       {
         "quote": "3 months ho gaye, payment ke liye 15-20 baar reach out kar chuki hoon — still nothing! Reminders aap karo please, I'm done.",
@@ -147,7 +148,8 @@
     "primaryLabel": "OTP",
     "swapLabel": "₹500",
     "heading": "<0>₹</0>500 jaa raha hai — aaj ke pehle 5 ko.",
-    "body": "Miss mat karna. <1><0>T&C</0> apply</1>",
+    "body": "Miss mat karna.",
+    "terms": "T&C apply",
     "ariaLabel": "Get OTP to claim ₹500 voucher",
     "modalTitle": "Apni boli mein invoice bhejna shuru karein"
   },

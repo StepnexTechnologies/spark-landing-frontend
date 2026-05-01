@@ -119,13 +119,13 @@ export default function TestimonialsSection({
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-8 md:mb-12 space-y-3 px-5 md:px-0"
+          className="text-center mb-8 md:mb-12 space-y-3 px-2.5 md:px-0"
         >
-          <h2 className="text-2xl md:text-[52px] font-bold text-white">
+          <h2 className="text-[28px] md:text-[52px] font-bold text-white">
             {t("testimonials.title")}
           </h2>
           {subtitle && (
-            <p className="text-sm md:text-base text-white/70 max-w-[560px] mx-auto">
+            <p className="text-sm md:text-base text-white md:text-white/70 max-w-[560px] mx-auto !mt-[4px] md:!mt-3">
               {subtitle}
             </p>
           )}
