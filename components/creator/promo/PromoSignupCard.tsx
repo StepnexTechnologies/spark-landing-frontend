@@ -35,6 +35,12 @@ interface PromoSignupCardProps {
   // initial state. They only fire once `play` flips true, so the parent can
   // wait until the card is actually on-screen before starting the entry beat.
   play?: boolean;
+  // "f" variant — used by /creator/promo-f only. ₹500 is rendered as a static
+  // number (no count-up) and bounces in sync with the Get OTP button. Both
+  // bounces wait for the first user interaction (scroll or tap) before
+  // starting their infinite loops. Gift-card bloom timing also shifts to
+  // VARIANT_F_CARDS_DELAY_MS after mount, independent of interaction.
+  variant?: "f";
 }
 
 // Gift-card bloom + Send-OTP button bounce wait this long after `play` flips
@@ -43,7 +49,11 @@ interface PromoSignupCardProps {
 // visually staggered: card → counter → images + button.
 const SECONDARY_REVEAL_DELAY_MS = 750;
 
-export default function PromoSignupCard({ play = true }: PromoSignupCardProps = {}) {
+// /promo-f variant — gift-card bloom kicks off this far after the card mounts,
+// independent of user interaction.
+const VARIANT_F_CARDS_DELAY_MS = 1400;
+
+export default function PromoSignupCard({ play = true, variant }: PromoSignupCardProps = {}) {
   const { t } = useTranslation("creatorPromo");
   const {
     phone,
@@ -65,21 +75,35 @@ export default function PromoSignupCard({ play = true }: PromoSignupCardProps = 
     changeNumber,
   } = useSignup();
 
-  // Gates the gift-card stack bloom and the Send-OTP button bounce. Held
-  // until SECONDARY_REVEAL_DELAY_MS after the parent signals `play=true`
-  // so the counter gets the spotlight first.
+  // Gates the Send-OTP button bounce (and, on /promo-f, the ₹500 bounce).
+  // Default variant: holds for SECONDARY_REVEAL_DELAY_MS so the counter gets
+  // the spotlight first. /promo-f variant: holds until the user actually
+  // interacts (scroll or tap anywhere on the page) so the card stays calm
+  // until engagement.
   const [playSecondary, setPlaySecondary] = useState(false);
   useEffect(() => {
     if (!play) {
       setPlaySecondary(false);
       return;
     }
+    if (variant === "f") {
+      const fire = () => setPlaySecondary(true);
+      // pointerdown covers both mouse-click and touch — single listener
+      // handles taps + clicks. Both registered { once: true } so they
+      // auto-detach after either fires.
+      window.addEventListener("scroll", fire, { once: true, passive: true });
+      window.addEventListener("pointerdown", fire, { once: true, passive: true });
+      return () => {
+        window.removeEventListener("scroll", fire);
+        window.removeEventListener("pointerdown", fire);
+      };
+    }
     const id = window.setTimeout(
       () => setPlaySecondary(true),
       SECONDARY_REVEAL_DELAY_MS
     );
     return () => window.clearTimeout(id);
-  }, [play]);
+  }, [play, variant]);
 
   const checks = (() => {
     const raw = t("hero.card.checks", { returnObjects: true });
@@ -120,6 +144,23 @@ export default function PromoSignupCard({ play = true }: PromoSignupCardProps = 
     return () => window.removeEventListener("scroll", onScroll);
   }, [hasLifted]);
 
+  // Forward-only progressive reveal in Stage 3: lastName appears once
+  // firstName has any non-whitespace text, email + submit appear once
+  // lastName does. Once revealed, fields stay revealed even if the user
+  // clears the field — collapsing mid-edit would be jarring.
+  const [hasTypedFirstName, setHasTypedFirstName] = useState(false);
+  const [hasTypedLastName, setHasTypedLastName] = useState(false);
+  useEffect(() => {
+    if (!hasTypedFirstName && profile.firstName.trim().length > 0) {
+      setHasTypedFirstName(true);
+    }
+  }, [profile.firstName, hasTypedFirstName]);
+  useEffect(() => {
+    if (!hasTypedLastName && profile.lastName.trim().length > 0) {
+      setHasTypedLastName(true);
+    }
+  }, [profile.lastName, hasTypedLastName]);
+
   return (
     <motion.div
       id="promo-hero-card"
@@ -144,7 +185,10 @@ export default function PromoSignupCard({ play = true }: PromoSignupCardProps = 
     >
       {/* Voucher row */}
       <div className="flex items-start gap-3">
-        <GiftCardStackAnimation play={playSecondary} />
+        <GiftCardStackAnimation
+          play={variant === "f" ? play : playSecondary}
+          startDelayMs={variant === "f" ? VARIANT_F_CARDS_DELAY_MS : undefined}
+        />
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-1.5">
             <span className="relative flex h-1.5 w-1.5">
@@ -160,7 +204,38 @@ export default function PromoSignupCard({ play = true }: PromoSignupCardProps = 
               i18nKey="hero.card.voucherHeading"
               t={t}
               components={[
-                <CountUp key="amount" to={500} duration={2.5} delay={0} play={play} />,
+                variant === "f" ? (
+                  // /promo-f: static "500" that bounces in sync with the
+                  // Get OTP button once the user first scrolls or taps.
+                  // Same keyframes/timing as the button below.
+                  <motion.span
+                    key="amount"
+                    className="inline-block origin-center"
+                    style={{
+                      willChange: "transform",
+                      transform: "translateZ(0)",
+                    }}
+                    animate={
+                      playSecondary
+                        ? { y: [0, -4, 0, -2, 0], scale: [1, 1.04, 1, 1.02, 1] }
+                        : { y: 0, scale: 1 }
+                    }
+                    transition={
+                      playSecondary
+                        ? {
+                            duration: 1.1,
+                            ease: "easeInOut",
+                            repeat: Infinity,
+                            repeatDelay: 0.9,
+                          }
+                        : { duration: 0 }
+                    }
+                  >
+                    500
+                  </motion.span>
+                ) : (
+                  <CountUp key="amount" to={500} duration={2.5} delay={0} play={play} />
+                ),
                 <motion.span
                   key="rupee"
                   className="inline-block origin-center"
@@ -170,13 +245,33 @@ export default function PromoSignupCard({ play = true }: PromoSignupCardProps = 
                     willChange: "transform",
                     transform: "translateZ(0)",
                   }}
-                  animate={{ scale: [1, 1.12, 1] }}
-                  transition={{
-                    duration: 1.6,
-                    repeat: Infinity,
-                    ease: [0.45, 0, 0.55, 1],
-                    repeatDelay: 1.4,
-                  }}
+                  animate={
+                    variant === "f"
+                      ? // /promo-f: bounce in lockstep with the static "500"
+                        // and the Get OTP button. Same keyframes / timing so
+                        // the whole "₹500" reads as a single bouncing unit.
+                        playSecondary
+                        ? { y: [0, -4, 0, -2, 0], scale: [1, 1.04, 1, 1.02, 1] }
+                        : { y: 0, scale: 1 }
+                      : { scale: [1, 1.12, 1] }
+                  }
+                  transition={
+                    variant === "f"
+                      ? playSecondary
+                        ? {
+                            duration: 1.1,
+                            ease: "easeInOut",
+                            repeat: Infinity,
+                            repeatDelay: 0.9,
+                          }
+                        : { duration: 0 }
+                      : {
+                          duration: 1.6,
+                          repeat: Infinity,
+                          ease: [0.45, 0, 0.55, 1],
+                          repeatDelay: 1.4,
+                        }
+                  }
                 />,
               ]}
             />
@@ -214,7 +309,7 @@ export default function PromoSignupCard({ play = true }: PromoSignupCardProps = 
       {/* Phone input + Send OTP. Once we leave stage 'phone' the input is
           locked and the button flips to "Edit", which calls changeNumber
           to unlock the field. */}
-      <div className="mt-2.5 px-2">
+      <div className="mt-2.5">
         <div className="flex items-center w-full rounded-[16px] bg-white border border-black/10 p-[6px] pl-3 gap-2">
           <Suspense fallback={null}>
             <ValidatedPhoneInput
@@ -229,8 +324,10 @@ export default function PromoSignupCard({ play = true }: PromoSignupCardProps = 
             />
           </Suspense>
           {(() => {
+            const isVerifying = verifyStatus === "verifying";
             const ctaDisabled =
               stage === "otpSending" ||
+              isVerifying ||
               (phoneLocked &&
                 (verifyStatus === "verified" ||
                   stage === "submitting" ||
@@ -258,11 +355,18 @@ export default function PromoSignupCard({ play = true }: PromoSignupCardProps = 
                 whileTap={{ scale: 0.94 }}
                 className="flex-shrink-0 px-3 py-2 rounded-[8px] text-white text-sm font-semibold whitespace-nowrap bg-[linear-gradient(162deg,#dd2a7b_0%,#9747FF_64%)] hover:brightness-110 transition-[filter,opacity] duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                {stage === "otpSending"
-                  ? t("otp.sending")
-                  : phoneLocked
-                    ? t("hero.card.edit")
-                    : t("hero.card.sendOtp")}
+                {stage === "otpSending" ? (
+                  t("otp.sending")
+                ) : isVerifying ? (
+                  <span className="inline-flex items-center gap-1.5">
+                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                    {t("signupCard.verifying")}
+                  </span>
+                ) : phoneLocked ? (
+                  t("hero.card.edit")
+                ) : (
+                  t("hero.card.sendOtp")
+                )}
               </motion.button>
             );
           })()}
@@ -352,20 +456,40 @@ export default function PromoSignupCard({ play = true }: PromoSignupCardProps = 
                 variant="light"
               />
 
-              {verifyStatus !== "idle" && (
+              {verifyStatus === "verified" && (
                 <VerifiedBadge status={verifyStatus} t={t} />
               )}
 
-              {error && verifyStatus !== "verified" && (
+              {error && verifyStatus !== "verified" && verifyStatus !== "error" && (
                 <p className="text-xs text-red-100 bg-red-600/20 px-2 py-0.5 rounded">{error}</p>
               )}
 
-              <ResendRow
-                resendIn={resendIn}
-                resendOtp={resendOtp}
-                disabled={verifyStatus === "verified" || verifyStatus === "verifying"}
-                t={t}
-              />
+              {verifyStatus !== "verified" && (
+                <ResendRow
+                  resendIn={resendIn}
+                  resendOtp={resendOtp}
+                  disabled={verifyStatus === "verifying"}
+                  t={t}
+                />
+              )}
+
+              {/* "Incorrect OTP" pill drops to its own line under the resend
+                  row and auto-hides after 2s — see the verifyStatus-watcher
+                  effect in SignupContext. The verifying state is surfaced on
+                  the Edit button itself, not here. */}
+              <AnimatePresence initial={false}>
+                {verifyStatus === "error" && (
+                  <motion.div
+                    key="pill-error"
+                    initial={{ opacity: 0, y: -4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -4 }}
+                    transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
+                  >
+                    <VerifiedBadge status={verifyStatus} t={t} />
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           </motion.div>
         )}
@@ -382,7 +506,7 @@ export default function PromoSignupCard({ play = true }: PromoSignupCardProps = 
             transition={SHEET_TRANSITION}
             className="overflow-hidden"
           >
-            <div className="flex flex-col gap-2 px-2">
+            <div className="flex flex-col px-2">
               <TextInput
                 label={t("signupCard.firstNameLabel")}
                 placeholder={t("signupCard.firstNamePlaceholder")}
@@ -390,68 +514,102 @@ export default function PromoSignupCard({ play = true }: PromoSignupCardProps = 
                 onChange={(e) => setProfileField("firstName", e.target.value)}
                 autoComplete="off"
               />
-              <TextInput
-                label={t("signupCard.lastNameLabel")}
-                placeholder={t("signupCard.lastNamePlaceholder")}
-                value={profile.lastName}
-                onChange={(e) => setProfileField("lastName", e.target.value)}
-                autoComplete="off"
-              />
-              <TextInput
-                label={t("signupCard.emailLabel")}
-                placeholder={t("signupCard.emailPlaceholder")}
-                value={profile.email}
-                onChange={(e) => setProfileField("email", e.target.value)}
-                type="email"
-                autoComplete="off"
-                error={
-                  // Server-reported "email already in use" wins over the
-                  // client-side regex hint — the regex is just a typo guard.
-                  fieldErrors.email ??
-                  (emailTrimmed && !isEmailValid
-                    ? "Please enter a valid email"
-                    : undefined)
-                }
-              />
 
-              {/* Generic /verify failure surface (network, unmapped 4xx). The
-                  documented codes are routed to the OTP stage or fieldErrors —
-                  this catches everything else without losing the message. */}
-              {stage === "profile" && error && !fieldErrors.email && (
-                <p
-                  role="alert"
-                  className="text-xs text-red-100 bg-red-600/20 px-2 py-1 rounded text-center"
-                >
-                  {error}
-                </p>
-              )}
-
-              <button
-                type="button"
-                onClick={submitProfile}
-                disabled={!canSubmitProfile || stage === "submitting" || stage === "submitted"}
-                className="relative mt-1 w-full inline-flex items-center justify-center overflow-hidden rounded-full p-[1px] shadow-[0_4px_12px_rgba(129,52,165,0.18)] transition-[opacity] duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
-              >
-                <span
-                  aria-hidden="true"
-                  className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#ffffff_0%,rgba(221,42,123,1)_10%,rgba(151,71,255,1)_50%,rgba(221,42,123,0.5)_90%,#ffffff_100%)]"
-                />
-                <span className="relative z-10 inline-flex w-full items-center justify-center gap-2 rounded-full bg-white py-3 text-sm font-semibold">
-                  <span className="bg-[linear-gradient(162.34deg,#DD2A7B_4.78%,#9747FF_89.95%)] bg-clip-text text-transparent">
-                    {submitButtonLabel}
-                  </span>
-                  <motion.span
-                    aria-hidden="true"
-                    animate={{ x: [0, 4, 0] }}
-                    transition={{ duration: 1.1, ease: "easeInOut", repeat: Infinity }}
-                    className="inline-flex"
+              {/* Progressive reveal: lastName appears once firstName has
+                  content. Forward-only — see hasTypedFirstName state above. */}
+              <AnimatePresence initial={false}>
+                {hasTypedFirstName && (
+                  <motion.div
+                    key="last-name-row"
+                    initial={{ height: 0, opacity: 0, marginTop: 0 }}
+                    animate={{ height: "auto", opacity: 1, marginTop: 8 }}
+                    exit={{ height: 0, opacity: 0, marginTop: 0 }}
+                    transition={SHEET_TRANSITION}
+                    className="overflow-hidden"
                   >
-                    <ArrowRight className="h-4 w-4 text-[#DD2A7B]" strokeWidth={2.5} />
-                  </motion.span>
-                </span>
-              </button>
+                    <TextInput
+                      label={t("signupCard.lastNameLabel")}
+                      placeholder={t("signupCard.lastNamePlaceholder")}
+                      value={profile.lastName}
+                      onChange={(e) => setProfileField("lastName", e.target.value)}
+                      autoComplete="off"
+                    />
+                  </motion.div>
+                )}
+              </AnimatePresence>
 
-              <PartnerFooter />
+              {/* Email + submit + partner logos all arrive together once
+                  lastName has been touched. */}
+              <AnimatePresence initial={false}>
+                {hasTypedLastName && (
+                  <motion.div
+                    key="email-and-submit"
+                    initial={{ height: 0, opacity: 0, marginTop: 0 }}
+                    animate={{ height: "auto", opacity: 1, marginTop: 8 }}
+                    exit={{ height: 0, opacity: 0, marginTop: 0 }}
+                    transition={SHEET_TRANSITION}
+                    className="overflow-hidden"
+                  >
+                    <div className="flex flex-col gap-2">
+                      <TextInput
+                        label={t("signupCard.emailLabel")}
+                        placeholder={t("signupCard.emailPlaceholder")}
+                        value={profile.email}
+                        onChange={(e) => setProfileField("email", e.target.value)}
+                        type="email"
+                        autoComplete="off"
+                        error={
+                          // Server-reported "email already in use" wins over the
+                          // client-side regex hint — the regex is just a typo guard.
+                          fieldErrors.email ??
+                          (emailTrimmed && !isEmailValid
+                            ? "Please enter a valid email"
+                            : undefined)
+                        }
+                      />
+
+                      {/* Generic /verify failure surface (network, unmapped 4xx). The
+                          documented codes are routed to the OTP stage or fieldErrors —
+                          this catches everything else without losing the message. */}
+                      {stage === "profile" && error && !fieldErrors.email && (
+                        <p
+                          role="alert"
+                          className="text-xs text-red-100 bg-red-600/20 px-2 py-1 rounded text-center"
+                        >
+                          {error}
+                        </p>
+                      )}
+
+                      <button
+                        type="button"
+                        onClick={submitProfile}
+                        disabled={!canSubmitProfile || stage === "submitting" || stage === "submitted"}
+                        className="relative mt-1 w-full inline-flex items-center justify-center overflow-hidden rounded-full p-[1px] shadow-[0_4px_12px_rgba(129,52,165,0.18)] transition-[opacity] duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
+                      >
+                        <span
+                          aria-hidden="true"
+                          className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#ffffff_0%,rgba(221,42,123,1)_10%,rgba(151,71,255,1)_50%,rgba(221,42,123,0.5)_90%,#ffffff_100%)]"
+                        />
+                        <span className="relative z-10 inline-flex w-full items-center justify-center gap-2 rounded-full bg-white py-3 text-sm font-semibold">
+                          <span className="bg-[linear-gradient(162.34deg,#DD2A7B_4.78%,#9747FF_89.95%)] bg-clip-text text-transparent">
+                            {submitButtonLabel}
+                          </span>
+                          <motion.span
+                            aria-hidden="true"
+                            animate={{ x: [0, 4, 0] }}
+                            transition={{ duration: 1.1, ease: "easeInOut", repeat: Infinity }}
+                            className="inline-flex"
+                          >
+                            <ArrowRight className="h-4 w-4 text-[#DD2A7B]" strokeWidth={2.5} />
+                          </motion.span>
+                        </span>
+                      </button>
+
+                      <PartnerFooter />
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           </motion.div>
         )}
@@ -476,7 +634,7 @@ function VerifiedBadge({
     label = t("signupCard.verifying");
     cls = "border-primary/40 text-primary/80 bg-white/70";
   } else if (status === "verified") {
-    icon = <Check className="w-3.5 h-3.5" />;
+    icon = <Check className="w-3.5 h-3.5" style={{ color: "#01F93F" }} />;
     label = t("signupCard.verified");
     cls = "border-primary text-primary bg-black/10";
   } else if (status === "error") {
@@ -490,14 +648,12 @@ function VerifiedBadge({
   }
 
   return (
-    <div className="self-end">
-      <span
-        className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-[11px] font-medium ${cls}`}
-      >
-        {icon}
-        {label}
-      </span>
-    </div>
+    <span
+      className={`inline-flex flex-shrink-0 items-center gap-1 rounded-full border px-2.5 py-1 text-[11px] font-medium ${cls}`}
+    >
+      {icon}
+      {label}
+    </span>
   );
 }
 

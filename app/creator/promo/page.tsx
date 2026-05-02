@@ -79,7 +79,11 @@ function buildFaqJsonLd() {
   };
 }
 
-export default async function Page() {
+// Shared by /promo (no variant, typewriter on) and /promo-f (variant="f",
+// typewriter off). /promo-f imports this so the kill-switch + JSON-LD wiring
+// stays in one place. /promo-w is intentionally NOT routed through here — it
+// has its own page entry so changes to the typewriter flag don't propagate.
+export async function renderPromoPage(variant?: "f", enableTypewriter = false) {
   // Route-level kill switch: take the page down when the promo is disabled or
   // outside its active window. Paid traffic landing on an ended-promo URL gets
   // a 404 rather than a hero advertising a stale offer.
@@ -95,7 +99,11 @@ export default async function Page() {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
         />
       )}
-      <CreatorPromoPage />
+      <CreatorPromoPage variant={variant} enableTypewriter={enableTypewriter} />
     </>
   );
+}
+
+export default async function Page() {
+  return renderPromoPage(undefined, true);
 }

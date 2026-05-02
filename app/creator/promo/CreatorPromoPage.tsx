@@ -20,7 +20,18 @@ const FAQSection = dynamic(() => import("@/components/creator/earn/FAQSection"))
 const EarnFooter = dynamic(() => import("@/components/creator/earn/EarnFooter"));
 const FloatingCTA = dynamic(() => import("@/components/creator/earn/FloatingCTA"), { ssr: false });
 
-export default function CreatorPromoPage() {
+interface CreatorPromoPageProps {
+  // Threaded into HeroSection. "f" variant is used by /creator/promo-f only
+  // and changes hero-card animation behavior — see PromoSignupCard.
+  variant?: "f";
+  // When true, HeroSection plays the staged title→subtitle typewriter →
+  // card fade-in sequence. Only /creator/promo enables this; /creator/promo-f
+  // and /creator/promo-w leave it off so their hero paints statically and
+  // mobile LCP stays low.
+  enableTypewriter?: boolean;
+}
+
+export default function CreatorPromoPage({ variant, enableTypewriter }: CreatorPromoPageProps = {}) {
   const {i18n} = useTranslation();
 
   useEffect(() => {
@@ -46,11 +57,11 @@ export default function CreatorPromoPage() {
 
         {/* Content */}
         <div className="relative z-10">
-          <Navigation showLanguageSwitcher={false} namespace="creatorPromo" />
+          <Navigation showLanguageSwitcher={false} showCTA={false} namespace="creatorPromo" />
           <Suspense fallback={null}>
             <ReferralBanner namespace="creatorPromo" />
           </Suspense>
-          <HeroSection />
+          <HeroSection variant={variant} enableTypewriter={enableTypewriter} />
           <ThreeStepSection />
           <PhoneMockupSection />
           <TestimonialsSection

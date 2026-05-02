@@ -444,14 +444,30 @@ export function SignupProvider({ children }: { children: React.ReactNode }) {
     t,
   ]);
 
-  // Reset error + verify status if user edits OTP after an error.
+  // Reset error + verify status once the user starts typing a new code.
+  // Note: the INVALID_OTP catch above clears `otp` to "" while flipping
+  // verifyStatus to "error" — so we must only fire on length > 0, otherwise
+  // this effect wipes the error pill ~immediately after it appears.
   useEffect(() => {
-    if (verifyStatus === "error" && otp.length < 4) {
+    if (verifyStatus === "error" && otp.length > 0) {
       setVerifyStatus("idle");
       setError(null);
       setErrorCode(null);
     }
   }, [otp, verifyStatus]);
+
+  // Auto-hide the "Incorrect OTP" pill 2s after it appears. If the user
+  // starts typing during that window the effect above runs first, flipping
+  // verifyStatus to "idle" and the cleanup here cancels the timer.
+  useEffect(() => {
+    if (verifyStatus !== "error") return;
+    const id = setTimeout(() => {
+      setVerifyStatus("idle");
+      setError(null);
+      setErrorCode(null);
+    }, 2000);
+    return () => clearTimeout(id);
+  }, [verifyStatus]);
 
   const value = useMemo<SignupContextValue>(
     () => ({

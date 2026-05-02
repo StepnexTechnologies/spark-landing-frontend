@@ -16,22 +16,22 @@ const CARDS = [
   { src: "/promo/landing-promo/Gift Card-5.png",  bloom: 85,  stack: 30,  z: 1 }, // purple, back
 ] as const;
 
-const CARD_W = 44;
-const CARD_H = 56;
+// Default card footprint matches the signup-card placement (48×62). The
+// floating CTA overrides via props (48×38) for a squatter strip — the
+// component scales its container off these so the layout stays tight.
+const DEFAULT_CARD_W = 48;
+const DEFAULT_CARD_H = 62;
+// Extra container headroom above the cards so the bloom rotations don't
+// clip. Empirically 16px gives a clean fan with the 30° max rotation.
+const CONTAINER_HEADROOM = 16;
 // Wait for the parent signup card to finish its 0.4s–1.0s fade-in before
 // kicking off, otherwise the bloom plays under an invisible parent.
-const START_DELAY_MS = 1000;
+const DEFAULT_START_DELAY_MS = 1000;
 const STAGGER_MS = 100;
 // Per-card duration tuned so the whole bloom (4×stagger + per-card) lasts
 // 2500ms — matching the ₹500 count-up duration so the two entry beats
 // finish together. Sparkles then fire after both have settled.
 const PER_CARD_MS = 2100;
-
-// Sparkles fire on the front voucher *after* the bloom has fully settled.
-// Last card delay = START_DELAY + (N-1)*STAGGER, plus its full duration.
-const CARDS_END_MS =
-  START_DELAY_MS + (CARDS.length - 1) * STAGGER_MS + PER_CARD_MS;
-const SPARKLE_START_MS = CARDS_END_MS + 200;
 
 // Emission points on the front voucher (corners + a center accent).
 // Coordinates are offsets from the container center, in px.
@@ -42,9 +42,9 @@ const SPARKLES = [
   { x: -10, y:  18, size:  8, delay: 0.45 }, // lower-left
 ] as const;
 
-// Base footprint is 88×72 (the hero card). Pass a `scale` to shrink/grow the
-// whole animation proportionally; the container's outer box also scales so it
-// occupies the right amount of layout space (e.g. 0.8 → 70×57).
+// Default card size 48×62 matches the signup-card placement. Pass
+// `cardWidth`/`cardHeight` to override (e.g. 48×38 for the floating CTA).
+// `scale` shrinks/grows the whole animation proportionally on top of that.
 //
 // `play` gates the bloom + sparkles. When false, the cards sit perfectly
 // stacked at rotation 0 (only the front Amazon card showing) and sparkles
@@ -54,20 +54,36 @@ const SPARKLES = [
 export default function GiftCardStackAnimation({
   scale = 1,
   play = true,
-}: { scale?: number; play?: boolean } = {}) {
+  cardWidth = DEFAULT_CARD_W,
+  cardHeight = DEFAULT_CARD_H,
+  startDelayMs = DEFAULT_START_DELAY_MS,
+}: {
+  scale?: number;
+  play?: boolean;
+  cardWidth?: number;
+  cardHeight?: number;
+  startDelayMs?: number;
+} = {}) {
+  const containerW = cardWidth * 2;
+  const containerH = cardHeight + CONTAINER_HEADROOM;
+  // Sparkles fire on the front voucher *after* the bloom has fully settled.
+  // Last card delay = startDelayMs + (N-1)*STAGGER, plus its full duration.
+  const cardsEndMs =
+    startDelayMs + (CARDS.length - 1) * STAGGER_MS + PER_CARD_MS;
+  const sparkleStartMs = cardsEndMs + 200;
   return (
     <div
       className="relative shrink-0"
       style={{
-        width: 88 * scale,
-        height: 72 * scale,
+        width: containerW * scale,
+        height: containerH * scale,
       }}
     >
       <div
         className="absolute inset-0"
         style={{
-          width: 88,
-          height: 72,
+          width: containerW,
+          height: containerH,
           transform: `scale(${scale})`,
           transformOrigin: "top left",
         }}
@@ -77,9 +93,9 @@ export default function GiftCardStackAnimation({
           key={card.src}
           className="absolute"
           style={{
-            width: CARD_W,
-            height: CARD_H,
-            left: `calc(50% - ${CARD_W / 2}px)`,
+            width: cardWidth,
+            height: cardHeight,
+            left: `calc(50% - ${cardWidth / 2}px)`,
             bottom: 2,
             transformOrigin: "50% 100%",
             zIndex: card.z,
@@ -100,15 +116,15 @@ export default function GiftCardStackAnimation({
           transition={{
             duration: PER_CARD_MS / 1000,
             times: [0, 0.32, 0.55, 1],
-            delay: (START_DELAY_MS + i * STAGGER_MS) / 1000,
+            delay: (startDelayMs + i * STAGGER_MS) / 1000,
             ease: [0.34, 1.2, 0.64, 1],
           }}
         >
           <Image
             src={card.src}
             alt=""
-            width={CARD_W}
-            height={CARD_H}
+            width={cardWidth}
+            height={cardHeight}
             className="w-full h-full object-contain drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]"
             loading="eager"
             decoding="async"
@@ -150,7 +166,7 @@ export default function GiftCardStackAnimation({
             transition={{
               duration: 1,
               times: [0, 0.25, 0.6, 1],
-              delay: SPARKLE_START_MS / 1000 + s.delay,
+              delay: sparkleStartMs / 1000 + s.delay,
               repeat: Infinity,
               // Each sparkle's own cycle is duration (1s) + repeatDelay (1s)
               // = 2s, matching the "every 2 seconds" emission cadence.

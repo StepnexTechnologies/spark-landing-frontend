@@ -9,11 +9,13 @@ import CTAButton from "./CTAButton";
 
 interface NavigationProps {
   showLanguageSwitcher?: boolean;
+  showCTA?: boolean;
   namespace?: string;
 }
 
 export default function Navigation({
   showLanguageSwitcher = true,
+  showCTA = true,
   namespace = "creatorEarn",
 }: NavigationProps = {}) {
   const { t } = useTranslation(namespace);
@@ -37,11 +39,13 @@ export default function Navigation({
         <div className="flex items-center gap-3">
           {showLanguageSwitcher && <LanguageSwitcher />}
           {/* Hidden on mobile, visible on md and above */}
-          <Suspense fallback={<div className="h-10" />}>
-            <div className="hidden md:block">
-              <CTAButton buttonText={t("nav.getEarlyAccess")} />
-            </div>
-          </Suspense>
+          {showCTA && (
+            <Suspense fallback={<div className="h-10" />}>
+              <div className="hidden md:block">
+                <CTAButton buttonText={t("nav.getEarlyAccess")} />
+              </div>
+            </Suspense>
+          )}
         </div>
       </div>
     </nav>

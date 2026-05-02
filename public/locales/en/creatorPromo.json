@@ -16,7 +16,7 @@
       "phonePlaceholder": "XXXX XXXXXX",
       "sendOtp": "Get OTP",
       "edit": "Edit",
-      "disclaimer": "By tapping Get OTP, you agree to create an account and Sparkonomy's <0>Terms</0> and <1>Privacy Policy</1>."
+      "disclaimer": "By tapping Get OTP, you agree to create an account and<br/>Sparkonomy's <0>Terms</0> and <1>Privacy Policy</1>."
     }
   },
   "threeStep": {
@@ -35,7 +35,7 @@
       },
       {
         "title": "Follow-ups hum sambhal lenge",
-        "description": "Ab \"Hi, payment?\" bhejne ki zarurat nahi. Sparkonomy ka AI WhatsApp aur email pe polite, professional reminders bhejta hai.",
+        "description": "Ab \"Hi, payment?\" bhejne ki zarurat nahi. Sparkonomy ka AI WhatsApp / email pe polite, professional reminders bhejta hai.",
         "tags": ["WhatsApp + Email", "Auto reminders"]
       }
     ]
@@ -153,7 +153,7 @@
     "verified": "Verified",
     "notVerified": "Not verified",
     "verifying": "Verifying…",
-    "invalid": "Invalid",
+    "invalid": "Incorrect OTP",
     "firstNameLabel": "First Name*",
     "firstNamePlaceholder": "E.g. Chulbuli",
     "lastNameLabel": "Last Name*",
