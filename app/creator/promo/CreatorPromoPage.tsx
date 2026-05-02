@@ -1,10 +1,9 @@
 "use client";
 
-import {Suspense, useCallback, useEffect, useState} from "react";
+import {Suspense, useEffect} from "react";
 import {useTranslation} from "react-i18next";
 import dynamic from "next/dynamic";
 import "@/lib/i18n"; // Initialize i18n
-import { cn } from "@/lib/utils";
 import Navigation from "@/components/creator/earn/Navigation";
 import HeroSection from "@/components/creator/promo/HeroSection";
 import ReferralBanner from "@/components/creator/earn/ReferralBanner";
@@ -23,12 +22,6 @@ const FloatingCTA = dynamic(() => import("@/components/creator/earn/FloatingCTA"
 
 export default function CreatorPromoPage() {
   const {i18n} = useTranslation();
-  // Hide everything below the hero until the staged hero animation finishes,
-  // so the chip → headline → subtitle → card sequence doesn't compete with
-  // ThreeStep (and below) showing through. SSR still emits the markup; we
-  // just keep it visually & interaction-hidden until the hero signals done.
-  const [heroComplete, setHeroComplete] = useState(false);
-  const handleHeroComplete = useCallback(() => setHeroComplete(true), []);
 
   useEffect(() => {
     // Promo page is Hinglish-only — always force hi-Latn regardless of any
@@ -57,30 +50,22 @@ export default function CreatorPromoPage() {
           <Suspense fallback={null}>
             <ReferralBanner namespace="creatorPromo" />
           </Suspense>
-          <HeroSection onAnimationComplete={handleHeroComplete} />
-          <div
-            aria-hidden={!heroComplete}
-            className={cn(
-              "transition-opacity duration-700 ease-out",
-              heroComplete ? "opacity-100" : "opacity-0 pointer-events-none"
-            )}
-          >
-            <ThreeStepSection />
-            <PhoneMockupSection />
-            <TestimonialsSection
-              namespace="creatorPromo"
-              trackingId="promo_testimonials"
-              disableSlideEntryAnimation
-            />
-            <AdvantageSection variant="promo" namespace="creatorPromo" trackingId="promo_advantage" />
-            <FAQSection
-              namespace="creatorPromo"
-              trackingId="promo_faq"
-              analyticsEvent="promo_faq_toggle"
-              expandInline
-            />
-            <EarnFooter />
-          </div>
+          <HeroSection />
+          <ThreeStepSection />
+          <PhoneMockupSection />
+          <TestimonialsSection
+            namespace="creatorPromo"
+            trackingId="promo_testimonials"
+            disableSlideEntryAnimation
+          />
+          <AdvantageSection variant="promo" namespace="creatorPromo" trackingId="promo_advantage" />
+          <FAQSection
+            namespace="creatorPromo"
+            trackingId="promo_faq"
+            analyticsEvent="promo_faq_toggle"
+            expandInline
+          />
+          <EarnFooter />
         </div>
 
         {/* Floating CTA Button — promo variant: yellow voucher strip → OTP modal.

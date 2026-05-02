@@ -1,19 +1,10 @@
 "use client";
 
-import { motion } from "framer-motion";
 import Image from "next/image";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import PromoSignupCard from "./PromoSignupCard";
 import { useSectionViewTracking } from "@/lib/hooks/useSectionViewTracking";
-
-// Card fade-in starts this long after the hero mounts. Replaces the prior
-// staged typewriter sequence (~5.4s) — the H1 + subtitle now SSR with their
-// full text so they paint at FCP, and the signup card (LCP candidate) only
-// has this delay + its own fade-in to wait for. Lighthouse mobile LCP/SI
-// drop from 7.3s/5.8s to ~2s/~1.8s as a result.
-const CARD_REVEAL_DELAY_MS = 700;
-const CARD_FADE_MS = 600;
 
 const HIGHLIGHT_STYLE: React.CSSProperties = {
   backgroundImage:
@@ -23,23 +14,10 @@ const HIGHLIGHT_STYLE: React.CSSProperties = {
   WebkitBoxDecorationBreak: "clone",
 };
 
-interface HeroSectionProps {
-  /** Fires after the signup card has fully faded in. */
-  onAnimationComplete?: () => void;
-}
-
-export default function HeroSection({
-  onAnimationComplete,
-}: HeroSectionProps = {}) {
+export default function HeroSection() {
   const { t } = useTranslation("creatorPromo");
   const sectionRef = useRef<HTMLElement>(null);
   useSectionViewTracking(sectionRef, "promo_hero", { event: "promo_hero_view" });
-
-  // Stable ref so effects don't re-fire when the parent re-renders.
-  const onCompleteRef = useRef(onAnimationComplete);
-  useEffect(() => {
-    onCompleteRef.current = onAnimationComplete;
-  }, [onAnimationComplete]);
 
   // Title — split on the desktop <br> placeholder.
   const titleRaw = t("hero.title");
@@ -58,56 +36,10 @@ export default function HeroSection({
     return { pre: m[1], hasBreak: !!m[2], hi: m[3], post: m[4] };
   }, [subtitleRaw]);
 
-  const [showCard, setShowCard] = useState(false);
-
-  // Reveal the card after CARD_REVEAL_DELAY_MS, OR immediately on the first
-  // user interaction — if they're already scrolling/tapping/typing, they've
-  // signalled engagement and shouldn't have to wait for the staged entry.
-  // The `#signup` deep-link useEffect below also force-reveals.
-  useEffect(() => {
-    let revealed = false;
-    let timeoutId: number | undefined;
-    const earlyTriggers = ["scroll", "pointerdown", "touchstart", "keydown"] as const;
-
-    const reveal = () => {
-      if (revealed) return;
-      revealed = true;
-      if (timeoutId !== undefined) window.clearTimeout(timeoutId);
-      earlyTriggers.forEach((evt) =>
-        window.removeEventListener(evt, reveal, true)
-      );
-      setShowCard(true);
-    };
-
-    timeoutId = window.setTimeout(reveal, CARD_REVEAL_DELAY_MS);
-    earlyTriggers.forEach((evt) =>
-      window.addEventListener(evt, reveal, { passive: true, capture: true })
-    );
-
-    return () => {
-      if (timeoutId !== undefined) window.clearTimeout(timeoutId);
-      earlyTriggers.forEach((evt) =>
-        window.removeEventListener(evt, reveal, true)
-      );
-    };
-  }, []);
-
-  // Notify the parent once the card has fully faded in.
-  useEffect(() => {
-    if (!showCard) return;
-    const id = window.setTimeout(
-      () => onCompleteRef.current?.(),
-      CARD_FADE_MS + 100
-    );
-    return () => window.clearTimeout(id);
-  }, [showCard]);
-
-  // Deep-link: skip the reveal wait so the scroll target exists immediately.
+  // Deep-link: scroll to the signup card if the URL is #signup.
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (window.location.hash !== "#signup") return;
-    setShowCard(true);
-    onCompleteRef.current?.();
     requestAnimationFrame(() => {
       document
         .getElementById("promo-hero-card")
@@ -164,14 +96,11 @@ export default function HeroSection({
           {subParts.post}
         </p>
 
-        {/* Signup card — fades in CARD_REVEAL_DELAY_MS after mount */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={showCard ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: CARD_FADE_MS / 1000, ease: "easeOut" }}
-        >
-          <PromoSignupCard play={showCard} />
-        </motion.div>
+        {/* Signup card — paints immediately at hydration so it qualifies as
+            the LCP element without waiting on a wrapper fade-in. The card's
+            interior beats (counter, gift-card bloom, button bounce) still
+            play once the page hydrates. */}
+        <PromoSignupCard play />
       </div>
     </section>
   );
