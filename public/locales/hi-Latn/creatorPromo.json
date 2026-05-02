@@ -14,9 +14,9 @@
       "ctaLabel": "Send your invoice — free!",
       "checks": ["No card needed", "30-sec signup"],
       "phonePlaceholder": "XXXX XXXXXX",
-      "sendOtp": "Send OTP",
+      "sendOtp": "Get OTP",
       "edit": "Edit",
-      "disclaimer": "By tapping Send OTP, you agree to create an account and Sparkonomy's <0>Terms</0> and <1>Privacy Policy</1>."
+      "disclaimer": "By tapping Get OTP, you agree to create an account and Sparkonomy's <0>Terms</0> and <1>Privacy Policy</1>."
     }
   },
   "threeStep": {
