@@ -1,6 +1,7 @@
-// Single replaceable surface for the OTP backend. The real endpoint will be
-// wired here when shared — only this file changes; `PhoneOtpFlow` consumes
-// these via `sendOtp`/`verifyOtp` and stays untouched.
+// Legacy stub surface kept only for `PhoneOtpFlow` (creator/earn hero), which
+// hard-redirects to the beta auth host after verifying. New surfaces should
+// import from `lib/auth/api.ts` instead — that module wraps the real
+// /v1/creator/auth/* endpoints and handles cookies/error envelopes.
 
 export interface VerifyOtpResult {
   ok: boolean;

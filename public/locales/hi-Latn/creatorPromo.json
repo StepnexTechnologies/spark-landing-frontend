@@ -196,6 +196,16 @@
     "creating": "Bana rahe hain…",
     "done": "Ho gaya!",
     "builtWith": "Built with",
-    "developedWith": "Developed with"
+    "developedWith": "Developed with",
+    "emailInUse": "Yeh email kisi aur account se linked hai."
+  },
+  "errors": {
+    "INVALID_OTP": "Galat OTP. Phir se try karein.",
+    "OTP_EXPIRED": "OTP expire ho gaya. Naya OTP mangwayein.",
+    "EMAIL_ALREADY_IN_USE": "Yeh email kisi aur account se linked hai.",
+    "PHONE_ALREADY_IN_USE": "Yeh number kisi aur account se linked hai.",
+    "USER_NOT_FOUND": "Account nahi mila. Phir se shuru karein.",
+    "NETWORK_ERROR": "Kuch gadbad ho gayi. Phir se try karein.",
+    "_default": "Kuch gadbad ho gayi. Phir se try karein."
   }
 }
