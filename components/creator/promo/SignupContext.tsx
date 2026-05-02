@@ -9,7 +9,15 @@ import {
   useRef,
   useState,
 } from "react";
-import { sendOtp, submitProfile, verifyOtp } from "@/components/creator/otp/api";
+import { useTranslation } from "react-i18next";
+import {
+  authenticate,
+  resendOtp,
+  sendIdentifierOtp,
+  updateMe,
+  verify,
+} from "@/lib/auth/api";
+import { AuthApiError, type MessageCode } from "@/lib/auth/errors";
 import { track } from "@/lib/analytics/track";
 
 export type SignupStage =
@@ -28,9 +36,15 @@ export interface SignupProfile {
   email: string;
 }
 
+export interface SignupFieldErrors {
+  email?: string;
+}
+
 interface SignupContextValue {
   phone: string;
   setPhone: (value: string) => void;
+  country: string;
+  setCountry: (code: string) => void;
   stage: SignupStage;
   otp: string;
   setOtp: (value: string) => void;
@@ -38,6 +52,9 @@ interface SignupContextValue {
   profile: SignupProfile;
   setProfileField: (field: keyof SignupProfile, value: string) => void;
   error: string | null;
+  errorCode: MessageCode | null;
+  fieldErrors: SignupFieldErrors;
+  requiresBasicInfo: boolean;
   resendIn: number;
   sendOtp: () => Promise<void>;
   resendOtp: () => Promise<void>;
@@ -51,9 +68,21 @@ const RESEND_SECONDS = 30;
 // Brief beat between the green tick and Stage 3 unfolding so the user sees the
 // success state before the form appears.
 const VERIFIED_HOLD_MS = 150;
+// Backend OTP TTL is 5 min. Bump back to the OTP stage 10s before that so the
+// user sees an "expired, please resend" prompt instead of a confusing 401 only
+// after they've filled the profile form.
+const OTP_EXPIRY_MS = 290_000;
+// Default channels — promo is WhatsApp-first (the card copy says "OTP sent
+// over WhatsApp"). Resend uses the same default; user-facing channel switching
+// would need this list to be wired through.
+const DEFAULT_CHANNELS: Array<"whatsapp"> = ["whatsapp"];
+const REFERRAL_STORAGE_KEY = "promo_ref";
 
 export function SignupProvider({ children }: { children: React.ReactNode }) {
+  const { t } = useTranslation("creatorPromo");
+
   const [phone, setPhone] = useState("");
+  const [country, setCountry] = useState<string>("IN");
   const [stage, setStage] = useState<SignupStage>("phone");
   const [otp, setOtp] = useState("");
   const [verifyStatus, setVerifyStatus] = useState<VerifyStatus>("idle");
@@ -63,12 +92,61 @@ export function SignupProvider({ children }: { children: React.ReactNode }) {
     email: "",
   });
   const [error, setError] = useState<string | null>(null);
+  const [errorCode, setErrorCode] = useState<MessageCode | null>(null);
+  const [fieldErrors, setFieldErrors] = useState<SignupFieldErrors>({});
   const [resendIn, setResendIn] = useState(0);
+
+  const [creatorId, setCreatorId] = useState<string | null>(null);
+  const [requiresBasicInfo, setRequiresBasicInfo] = useState(true);
+  const [isNewUser, setIsNewUser] = useState<boolean | null>(null);
+  const [referralCode, setReferralCode] = useState<string | null>(null);
 
   // Guards re-entrancy in the auto-verify effect when the user pastes a 4-digit
   // code or types the last digit while a previous verify is still in flight.
   const verifyingRef = useRef(false);
+  // Survives re-renders so changeNumber/submitted can clear an in-flight expiry.
+  const expiryTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  // Translate a thrown AuthApiError to user-facing copy via creatorPromo:errors.<code>.
+  // Falls back to errors._default for unknown codes — tighter than echoing the
+  // raw message_code and keeps Hinglish UX consistent.
+  const translateError = useCallback(
+    (err: unknown): { code: MessageCode; text: string } => {
+      const code: MessageCode =
+        err instanceof AuthApiError ? err.messageCode : "NETWORK_ERROR";
+      const key = `errors.${code}`;
+      const translated = t(key);
+      const text = translated === key ? t("errors._default") : translated;
+      return { code, text };
+    },
+    [t],
+  );
+
+  const clearExpiryTimer = useCallback(() => {
+    if (expiryTimerRef.current) {
+      clearTimeout(expiryTimerRef.current);
+      expiryTimerRef.current = null;
+    }
+  }, []);
+
+  const startExpiryTimer = useCallback(() => {
+    clearExpiryTimer();
+    expiryTimerRef.current = setTimeout(() => {
+      // Only act if the user hasn't already moved on (submitted) or restarted
+      // the flow (back to "phone"). Use functional setState so we don't stomp
+      // on a concurrent transition.
+      setStage((current) => {
+        if (current !== "otp" && current !== "profile") return current;
+        setOtp("");
+        setVerifyStatus("idle");
+        setErrorCode("OTP_EXPIRED");
+        setError(t("errors.OTP_EXPIRED"));
+        return "otp";
+      });
+    }, OTP_EXPIRY_MS);
+  }, [clearExpiryTimer, t]);
+
+  // Resend countdown
   useEffect(() => {
     if (stage !== "otp" || resendIn <= 0) return;
     const id = setInterval(() => {
@@ -77,114 +155,286 @@ export function SignupProvider({ children }: { children: React.ReactNode }) {
     return () => clearInterval(id);
   }, [stage, resendIn]);
 
+  // Cleanup on unmount.
+  useEffect(() => clearExpiryTimer, [clearExpiryTimer]);
+
+  // Pull referral code from ?ref or sessionStorage on mount. Reading
+  // window.location directly (vs useSearchParams) keeps the provider out of
+  // any Suspense-boundary requirement at the page level — referral data is
+  // client-only anyway, same as the sessionStorage fallback below.
+  useEffect(() => {
+    let fromUrl: string | null = null;
+    try {
+      fromUrl = new URLSearchParams(window.location.search).get("ref");
+    } catch {
+      // ignore — non-browser env
+    }
+    if (fromUrl) {
+      setReferralCode(fromUrl);
+      try {
+        sessionStorage.setItem(REFERRAL_STORAGE_KEY, fromUrl);
+      } catch {
+        // sessionStorage may be unavailable in private mode — tolerate silently.
+      }
+      return;
+    }
+    try {
+      const stored = sessionStorage.getItem(REFERRAL_STORAGE_KEY);
+      if (stored) setReferralCode(stored);
+    } catch {
+      // ignore
+    }
+  }, []);
+
   const handleSendOtp = useCallback(async () => {
     if (!phone || stage === "otpSending") return;
     setError(null);
+    setErrorCode(null);
+    setFieldErrors({});
     setStage("otpSending");
     setOtp("");
     setVerifyStatus("idle");
     track("promo_send_otp_click", { has_phone: Boolean(phone) });
     try {
-      await sendOtp(phone);
+      const res = await authenticate({ phone_number_e164: phone });
+      setCreatorId(res.creator_id);
+      setRequiresBasicInfo(res.requires_basic_info);
+      setIsNewUser(res.is_new_user);
       setStage("otp");
       setResendIn(RESEND_SECONDS);
-    } catch {
-      setError("Something went wrong. Please try again.");
+      startExpiryTimer();
+      track("promo_send_otp_success", {
+        creator_id: res.creator_id,
+        is_new_user: res.is_new_user,
+        requires_basic_info: res.requires_basic_info,
+      });
+    } catch (err) {
+      const { code, text } = translateError(err);
+      setErrorCode(code);
+      setError(text);
       setStage("phone");
+      track("promo_signup_error", {
+        stage: "phone",
+        message_code: code,
+        status: err instanceof AuthApiError ? err.status : 0,
+      });
     }
-  }, [phone, stage]);
+  }, [phone, stage, startExpiryTimer, translateError]);
 
   const handleResend = useCallback(async () => {
-    if (resendIn > 0) return;
+    if (resendIn > 0 || !creatorId) return;
     setError(null);
+    setErrorCode(null);
     setOtp("");
     setVerifyStatus("idle");
-    track("promo_resend_otp", {});
+    track("promo_resend_otp", { creator_id: creatorId });
     try {
-      await sendOtp(phone);
+      await resendOtp({ creator_id: creatorId, channels: DEFAULT_CHANNELS });
       setResendIn(RESEND_SECONDS);
-    } catch {
-      setError("Something went wrong. Please try again.");
-    }
-  }, [phone, resendIn]);
-
-  const handleSubmitProfile = useCallback(async () => {
-    if (stage === "submitting") return;
-    setError(null);
-    setStage("submitting");
-    track("promo_profile_submit", { has_email: Boolean(profile.email) });
-    try {
-      const res = await submitProfile({
-        phone,
-        firstName: profile.firstName.trim(),
-        lastName: profile.lastName.trim(),
-        email: profile.email.trim() || undefined,
+      startExpiryTimer();
+    } catch (err) {
+      const { code, text } = translateError(err);
+      setErrorCode(code);
+      setError(text);
+      track("promo_signup_error", {
+        stage: "otp",
+        message_code: code,
+        status: err instanceof AuthApiError ? err.status : 0,
       });
-      if (!res.ok) {
-        setError("Something went wrong. Please try again.");
+    }
+  }, [creatorId, resendIn, startExpiryTimer, translateError]);
+
+  // PATCH /users/me with basic info. Only fires for new users — returning
+  // users (requires_basic_info=false) skip the profile sheet and are marked
+  // submitted directly from the auto-verify success branch.
+  const handleSubmitProfile = useCallback(async () => {
+    if (!creatorId) return;
+    setStage((current) => (current === "submitting" ? current : "submitting"));
+    setError(null);
+    setErrorCode(null);
+    setFieldErrors({});
+
+    track("promo_profile_submit", {
+      creator_id: creatorId,
+      is_returning: isNewUser === false,
+      requires_basic_info: requiresBasicInfo,
+      has_email: Boolean(profile.email),
+    });
+
+    try {
+      await updateMe({
+        first_name: profile.firstName.trim(),
+        last_name: profile.lastName.trim(),
+        country_code: country,
+      });
+      setStage("submitted");
+
+      // PATCH /users/me doesn't accept email — to attach the optional email
+      // we POST /users/me/verify/send-otp, which stores it on the row (and
+      // sends a verification OTP the user can confirm later). Fire-and-forget:
+      // failures are logged via analytics but don't block the success state.
+      const emailToAttach = profile.email.trim();
+      if (emailToAttach) {
+        void sendIdentifierOtp({
+          email: emailToAttach,
+          channels: ["email"],
+        }).catch((err) => {
+          const apiErr = err instanceof AuthApiError ? err : null;
+          track("promo_attach_email_error", {
+            creator_id: creatorId,
+            message_code: apiErr?.messageCode ?? "NETWORK_ERROR",
+            status: apiErr?.status ?? 0,
+          });
+        });
+      }
+    } catch (err) {
+      const apiErr = err instanceof AuthApiError ? err : null;
+      const code: MessageCode = apiErr?.messageCode ?? "NETWORK_ERROR";
+
+      track("promo_signup_error", {
+        stage: "profile",
+        message_code: code,
+        status: apiErr?.status ?? 0,
+      });
+
+      if (code === "EMAIL_ALREADY_IN_USE") {
+        setFieldErrors({ email: t("errors.EMAIL_ALREADY_IN_USE") });
+        setErrorCode(code);
         setStage("profile");
         return;
       }
-      setStage("submitted");
-    } catch {
-      setError("Something went wrong. Please try again.");
+
+      const { text } = translateError(err);
+      setErrorCode(code);
+      setError(text);
       setStage("profile");
     }
-  }, [phone, profile, stage]);
+  }, [
+    country,
+    creatorId,
+    isNewUser,
+    profile.email,
+    profile.firstName,
+    profile.lastName,
+    requiresBasicInfo,
+    t,
+    translateError,
+  ]);
 
   const changeNumber = useCallback(() => {
+    clearExpiryTimer();
     setOtp("");
     setVerifyStatus("idle");
     setError(null);
+    setErrorCode(null);
+    setFieldErrors({});
     setResendIn(0);
+    setCreatorId(null);
+    setRequiresBasicInfo(true);
+    setIsNewUser(null);
     setStage("phone");
-  }, []);
+  }, [clearExpiryTimer]);
 
   const setProfileField = useCallback(
     (field: keyof SignupProfile, value: string) => {
       setProfile((p) => ({ ...p, [field]: value }));
+      // Clear the inline server error on the field once the user edits it,
+      // otherwise the stale error sits next to the corrected value.
+      if (field === "email") {
+        setFieldErrors((fe) => (fe.email ? { ...fe, email: undefined } : fe));
+      }
     },
     [],
   );
 
-  // Auto-verify on 4th digit. Once verified we hold for VERIFIED_HOLD_MS so the
-  // green tick is visible, then advance to the profile stage.
+  // Auto-verify when the 4th digit lands. Calls /auth/verify with just
+  // {user_id, otp, referral_code} per the new contract — basic info is
+  // captured separately via PATCH /users/me on profile submit.
+  //
+  // verifyStatus is intentionally NOT in the deps. setVerifyStatus calls
+  // inside this effect would otherwise cancel the in-flight verify via
+  // the cleanup, so re-entry is gated by verifyingRef instead.
   useEffect(() => {
     if (stage !== "otp") return;
     if (otp.length !== 4) return;
     if (verifyingRef.current) return;
-    if (verifyStatus === "verified") return;
+    if (!creatorId) return;
 
-    let cancelled = false;
     verifyingRef.current = true;
+    let cancelled = false;
+
     setVerifyStatus("verifying");
     setError(null);
+    setErrorCode(null);
 
     (async () => {
       try {
-        const result = await verifyOtp(phone, otp);
+        await verify({
+          user_id: creatorId,
+          otp,
+          referral_code: referralCode ?? undefined,
+        });
         if (cancelled) return;
-        if (!result.ok) {
+        // OTP consumed — cookies are set, the 290s expiry guard no longer
+        // applies.
+        clearExpiryTimer();
+        setVerifyStatus("verified");
+        track("promo_otp_verified", { creator_id: creatorId });
+
+        // Brief beat between green tick and Stage 3 so the user clocks the
+        // success state before the form unfolds.
+        await new Promise((r) => setTimeout(r, VERIFIED_HOLD_MS));
+        if (cancelled) return;
+
+        setStage((current) => {
+          if (current !== "otp") return current;
+          // Returning users (requires_basic_info=false) skip the profile sheet
+          // — they're already onboarded server-side, nothing to PATCH.
+          return requiresBasicInfo ? "profile" : "submitted";
+        });
+      } catch (err) {
+        if (cancelled) return;
+        const apiErr = err instanceof AuthApiError ? err : null;
+        const code: MessageCode = apiErr?.messageCode ?? "NETWORK_ERROR";
+
+        track("promo_signup_error", {
+          stage: "verify",
+          message_code: code,
+          status: apiErr?.status ?? 0,
+        });
+
+        if (code === "INVALID_OTP") {
+          setOtp("");
           setVerifyStatus("error");
-          setError("Invalid OTP. Please try again.");
-          verifyingRef.current = false;
+          setErrorCode(code);
+          setError(t("errors.INVALID_OTP"));
           return;
         }
-        setVerifyStatus("verified");
-        track("promo_otp_verified", {});
-        // Stage advance is intentionally NOT gated on `cancelled` — the
-        // verifyStatus -> "verified" state update causes this effect to
-        // re-run and its cleanup to fire (flipping `cancelled` to true), but
-        // by that point we've committed to advancing. Use functional setState
-        // so we don't stomp on a concurrent changeNumber().
-        setTimeout(() => {
-          setStage((current) => (current === "otp" ? "profile" : current));
-          verifyingRef.current = false;
-        }, VERIFIED_HOLD_MS);
-      } catch {
-        if (cancelled) return;
+        if (code === "OTP_EXPIRED") {
+          clearExpiryTimer();
+          setOtp("");
+          setVerifyStatus("idle");
+          setErrorCode(code);
+          setError(t("errors.OTP_EXPIRED"));
+          return;
+        }
+        if (code === "USER_NOT_FOUND") {
+          // creator_id is stale (likely soft-deleted server-side); restart.
+          clearExpiryTimer();
+          setCreatorId(null);
+          setOtp("");
+          setVerifyStatus("idle");
+          setResendIn(0);
+          setErrorCode(code);
+          setError(t("errors.USER_NOT_FOUND"));
+          setStage("phone");
+          return;
+        }
+        const { text } = translateError(err);
         setVerifyStatus("error");
-        setError("Something went wrong. Please try again.");
+        setErrorCode(code);
+        setError(text);
+      } finally {
         verifyingRef.current = false;
       }
     })();
@@ -192,13 +442,14 @@ export function SignupProvider({ children }: { children: React.ReactNode }) {
     return () => {
       cancelled = true;
     };
-  }, [otp, stage, phone, verifyStatus]);
+  }, [otp, stage, creatorId, referralCode, requiresBasicInfo, clearExpiryTimer, t, translateError]);
 
   // Reset error + verify status if user edits OTP after an error.
   useEffect(() => {
     if (verifyStatus === "error" && otp.length < 4) {
       setVerifyStatus("idle");
       setError(null);
+      setErrorCode(null);
     }
   }, [otp, verifyStatus]);
 
@@ -206,6 +457,8 @@ export function SignupProvider({ children }: { children: React.ReactNode }) {
     () => ({
       phone,
       setPhone,
+      country,
+      setCountry,
       stage,
       otp,
       setOtp,
@@ -213,6 +466,9 @@ export function SignupProvider({ children }: { children: React.ReactNode }) {
       profile,
       setProfileField,
       error,
+      errorCode,
+      fieldErrors,
+      requiresBasicInfo,
       resendIn,
       sendOtp: handleSendOtp,
       resendOtp: handleResend,
@@ -221,12 +477,16 @@ export function SignupProvider({ children }: { children: React.ReactNode }) {
     }),
     [
       phone,
+      country,
       stage,
       otp,
       verifyStatus,
       profile,
       setProfileField,
       error,
+      errorCode,
+      fieldErrors,
+      requiresBasicInfo,
       resendIn,
       handleSendOtp,
       handleResend,
