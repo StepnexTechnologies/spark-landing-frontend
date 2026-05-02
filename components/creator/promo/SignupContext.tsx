@@ -18,6 +18,8 @@ import {
   verify,
 } from "@/lib/auth/api";
 import { AuthApiError, type MessageCode } from "@/lib/auth/errors";
+import { redirectToApp } from "@/lib/auth/redirect";
+import { getCurrentLang } from "@/lib/i18n";
 import { track } from "@/lib/analytics/track";
 
 export type SignupStage =
@@ -79,7 +81,7 @@ const DEFAULT_CHANNELS: Array<"whatsapp"> = ["whatsapp"];
 const REFERRAL_STORAGE_KEY = "promo_ref";
 
 export function SignupProvider({ children }: { children: React.ReactNode }) {
-  const { t } = useTranslation("creatorPromo");
+  const { t, i18n } = useTranslation("creatorPromo");
 
   const [phone, setPhone] = useState("");
   const [country, setCountry] = useState<string>("IN");
@@ -122,6 +124,23 @@ export function SignupProvider({ children }: { children: React.ReactNode }) {
     [t],
   );
 
+  const reportSignupError = useCallback(
+    (
+      signupStage: "phone" | "otp" | "verify" | "profile",
+      err: unknown,
+    ): { code: MessageCode; text: string } => {
+      const apiErr = err instanceof AuthApiError ? err : null;
+      const code: MessageCode = apiErr?.messageCode ?? "NETWORK_ERROR";
+      track("promo_signup_error", {
+        stage: signupStage,
+        message_code: code,
+        status: apiErr?.status ?? 0,
+      });
+      return { code, text: translateError(err).text };
+    },
+    [translateError],
+  );
+
   const clearExpiryTimer = useCallback(() => {
     if (expiryTimerRef.current) {
       clearTimeout(expiryTimerRef.current);
@@ -146,7 +165,6 @@ export function SignupProvider({ children }: { children: React.ReactNode }) {
     }, OTP_EXPIRY_MS);
   }, [clearExpiryTimer, t]);
 
-  // Resend countdown
   useEffect(() => {
     if (stage !== "otp" || resendIn <= 0) return;
     const id = setInterval(() => {
@@ -155,7 +173,6 @@ export function SignupProvider({ children }: { children: React.ReactNode }) {
     return () => clearInterval(id);
   }, [stage, resendIn]);
 
-  // Cleanup on unmount.
   useEffect(() => clearExpiryTimer, [clearExpiryTimer]);
 
   // Pull referral code from ?ref or sessionStorage on mount. Reading
@@ -209,17 +226,12 @@ export function SignupProvider({ children }: { children: React.ReactNode }) {
         requires_basic_info: res.requires_basic_info,
       });
     } catch (err) {
-      const { code, text } = translateError(err);
+      const { code, text } = reportSignupError("phone", err);
       setErrorCode(code);
       setError(text);
       setStage("phone");
-      track("promo_signup_error", {
-        stage: "phone",
-        message_code: code,
-        status: err instanceof AuthApiError ? err.status : 0,
-      });
     }
-  }, [phone, stage, startExpiryTimer, translateError]);
+  }, [phone, stage, reportSignupError, startExpiryTimer]);
 
   const handleResend = useCallback(async () => {
     if (resendIn > 0 || !creatorId) return;
@@ -233,23 +245,18 @@ export function SignupProvider({ children }: { children: React.ReactNode }) {
       setResendIn(RESEND_SECONDS);
       startExpiryTimer();
     } catch (err) {
-      const { code, text } = translateError(err);
+      const { code, text } = reportSignupError("otp", err);
       setErrorCode(code);
       setError(text);
-      track("promo_signup_error", {
-        stage: "otp",
-        message_code: code,
-        status: err instanceof AuthApiError ? err.status : 0,
-      });
     }
-  }, [creatorId, resendIn, startExpiryTimer, translateError]);
+  }, [creatorId, reportSignupError, resendIn, startExpiryTimer]);
 
-  // PATCH /users/me with basic info. Only fires for new users — returning
-  // users (requires_basic_info=false) skip the profile sheet and are marked
-  // submitted directly from the auto-verify success branch.
+  // Only fires for new users — returning users (requires_basic_info=false)
+  // skip the profile sheet and are marked submitted directly from the
+  // auto-verify success branch.
   const handleSubmitProfile = useCallback(async () => {
     if (!creatorId) return;
-    setStage((current) => (current === "submitting" ? current : "submitting"));
+    setStage("submitting");
     setError(null);
     setErrorCode(null);
     setFieldErrors({});
@@ -269,15 +276,15 @@ export function SignupProvider({ children }: { children: React.ReactNode }) {
       });
       setStage("submitted");
 
-      // PATCH /users/me doesn't accept email — to attach the optional email
-      // we POST /users/me/verify/send-otp, which stores it on the row (and
-      // sends a verification OTP the user can confirm later). Fire-and-forget:
-      // failures are logged via analytics but don't block the success state.
+      // PATCH /users/me doesn't accept email — POST /users/me/verify/send-otp
+      // stores it on the row (and sends a verification OTP the user can
+      // confirm later). Awaited before redirect so window.location assignment
+      // doesn't abort the in-flight fetch; failures fall to analytics only.
       const emailToAttach = profile.email.trim();
       if (emailToAttach) {
-        void sendIdentifierOtp({
+        await sendIdentifierOtp({
           email: emailToAttach,
-          channels: ["email"],
+          channels: ["email"] as const,
         }).catch((err) => {
           const apiErr = err instanceof AuthApiError ? err : null;
           track("promo_attach_email_error", {
@@ -287,38 +294,35 @@ export function SignupProvider({ children }: { children: React.ReactNode }) {
           });
         });
       }
+
+      clearExpiryTimer();
+      redirectToApp({ phone, referralCode, lang: getCurrentLang(i18n) });
     } catch (err) {
-      const apiErr = err instanceof AuthApiError ? err : null;
-      const code: MessageCode = apiErr?.messageCode ?? "NETWORK_ERROR";
-
-      track("promo_signup_error", {
-        stage: "profile",
-        message_code: code,
-        status: apiErr?.status ?? 0,
-      });
-
+      const { code, text } = reportSignupError("profile", err);
       if (code === "EMAIL_ALREADY_IN_USE") {
         setFieldErrors({ email: t("errors.EMAIL_ALREADY_IN_USE") });
         setErrorCode(code);
         setStage("profile");
         return;
       }
-
-      const { text } = translateError(err);
       setErrorCode(code);
       setError(text);
       setStage("profile");
     }
   }, [
+    clearExpiryTimer,
     country,
     creatorId,
     isNewUser,
+    phone,
     profile.email,
     profile.firstName,
     profile.lastName,
+    referralCode,
+    reportSignupError,
     requiresBasicInfo,
+    i18n,
     t,
-    translateError,
   ]);
 
   const changeNumber = useCallback(() => {
@@ -351,9 +355,12 @@ export function SignupProvider({ children }: { children: React.ReactNode }) {
   // {user_id, otp, referral_code} per the new contract — basic info is
   // captured separately via PATCH /users/me on profile submit.
   //
-  // verifyStatus is intentionally NOT in the deps. setVerifyStatus calls
-  // inside this effect would otherwise cancel the in-flight verify via
-  // the cleanup, so re-entry is gated by verifyingRef instead.
+  // No cancellation flag here on purpose. React StrictMode (Next 16 default)
+  // does setup → cleanup → setup on mount; if the cleanup flipped a
+  // `cancelled=true` flag, the in-flight verify's success branch would bail
+  // and stage would never advance to "profile". verifyingRef alone gates
+  // re-entry, and verifyStatus is deliberately out of the deps for the same
+  // reason — its setter inside the effect must not retrigger cleanup.
   useEffect(() => {
     if (stage !== "otp") return;
     if (otp.length !== 4) return;
@@ -361,7 +368,6 @@ export function SignupProvider({ children }: { children: React.ReactNode }) {
     if (!creatorId) return;
 
     verifyingRef.current = true;
-    let cancelled = false;
 
     setVerifyStatus("verifying");
     setError(null);
@@ -374,34 +380,22 @@ export function SignupProvider({ children }: { children: React.ReactNode }) {
           otp,
           referral_code: referralCode ?? undefined,
         });
-        if (cancelled) return;
         // OTP consumed — cookies are set, the 290s expiry guard no longer
         // applies.
         clearExpiryTimer();
         setVerifyStatus("verified");
         track("promo_otp_verified", { creator_id: creatorId });
 
-        // Brief beat between green tick and Stage 3 so the user clocks the
-        // success state before the form unfolds.
         await new Promise((r) => setTimeout(r, VERIFIED_HOLD_MS));
-        if (cancelled) return;
 
-        setStage((current) => {
-          if (current !== "otp") return current;
-          // Returning users (requires_basic_info=false) skip the profile sheet
-          // — they're already onboarded server-side, nothing to PATCH.
-          return requiresBasicInfo ? "profile" : "submitted";
-        });
+        if (requiresBasicInfo) {
+          setStage((current) => (current === "otp" ? "profile" : current));
+        } else {
+          setStage((current) => (current === "otp" ? "submitted" : current));
+          redirectToApp({ phone, referralCode, lang: getCurrentLang(i18n) });
+        }
       } catch (err) {
-        if (cancelled) return;
-        const apiErr = err instanceof AuthApiError ? err : null;
-        const code: MessageCode = apiErr?.messageCode ?? "NETWORK_ERROR";
-
-        track("promo_signup_error", {
-          stage: "verify",
-          message_code: code,
-          status: apiErr?.status ?? 0,
-        });
+        const { code, text } = reportSignupError("verify", err);
 
         if (code === "INVALID_OTP") {
           setOtp("");
@@ -430,7 +424,6 @@ export function SignupProvider({ children }: { children: React.ReactNode }) {
           setStage("phone");
           return;
         }
-        const { text } = translateError(err);
         setVerifyStatus("error");
         setErrorCode(code);
         setError(text);
@@ -438,11 +431,18 @@ export function SignupProvider({ children }: { children: React.ReactNode }) {
         verifyingRef.current = false;
       }
     })();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [otp, stage, creatorId, referralCode, requiresBasicInfo, clearExpiryTimer, t, translateError]);
+  }, [
+    otp,
+    stage,
+    creatorId,
+    referralCode,
+    requiresBasicInfo,
+    phone,
+    i18n,
+    clearExpiryTimer,
+    reportSignupError,
+    t,
+  ]);
 
   // Reset error + verify status if user edits OTP after an error.
   useEffect(() => {

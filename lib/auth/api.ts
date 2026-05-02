@@ -87,15 +87,11 @@ export interface UpdateMeRequest {
   language_code?: string;
 }
 
+// Response is the full UserResponse. Promo flow doesn't read it, so the
+// type stays minimal — extend when a consumer needs more fields.
 export interface UpdateMeResponse {
   id: string;
   has_basic_information: boolean;
-  first_name?: string | null;
-  last_name?: string | null;
-  email?: string | null;
-  phone_number_e164?: string | null;
-  // Other UserResponse fields are returned but unused by the promo card.
-  [key: string]: unknown;
 }
 
 export function updateMe(body: UpdateMeRequest): Promise<UpdateMeResponse> {

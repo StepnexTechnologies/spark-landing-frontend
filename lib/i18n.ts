@@ -67,4 +67,12 @@ const initI18n = () => {
 
 initI18n();
 
+export type SupportedLang = "en" | "hi-Latn";
+
+export function getCurrentLang(
+  i18nLike: { language?: string } = i18n,
+): SupportedLang {
+  return i18nLike.language?.startsWith("hi") ? "hi-Latn" : "en";
+}
+
 export default i18n;
