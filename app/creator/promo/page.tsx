@@ -14,8 +14,8 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
   const { lang } = await searchParams;
 
   const isHindi = lang !== "en";
-  const ogImage = isHindi ? "/og-earn-hi-v2.png" : "/og-earn-en-v2.png";
-  const ogAlt = isHindi ? "Sparkonomy Promo - Hinglish" : "Sparkonomy Promo";
+  const ogImage = "/promo/landing-promo/OG_promo_landing.png";
+  const ogAlt = "Sparkonomy — Hinglish invoicing for creators";
 
   const title = isHindi
     ? "Apni Boli, Apna Bill — Hinglish mein invoice banayein. Daily Amazon vouchers jeetein!"
@@ -32,8 +32,8 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
       canonical: PAGE_URL,
     },
     robots: {
-      index: true,
-      follow: true,
+      index: false,
+      follow: false,
     },
     openGraph: {
       title,
