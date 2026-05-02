@@ -3,13 +3,14 @@ import type {NextConfig} from "next";
 const nextConfig: NextConfig = {
   /* config options here */
     experimental: {
-        // Inlines critical above-the-fold CSS (via Critters/Beasties at build
-        // time) and defers the rest, removing the render-blocking CSS chain
-        // flagged by Lighthouse (~1.25s LCP/FCP saving on slow 4G mobile).
-        // Build-time only — no runtime/UI impact. If `next build` complains
-        // about a missing peer, install it: `yarn add -D critters` (older
-        // Next) or `yarn add -D beasties` (newer Next).
-        optimizeCss: true,
+        // NOTE: experimental.optimizeCss is intentionally NOT set here.
+        // In Next 16 it is wired only into the Pages Router post-process
+        // pipeline (node_modules/next/dist/server/post-process.js); the App
+        // Router (which this entire site uses) never invokes it, so flipping
+        // it on with critters/beasties installed is a silent no-op. Verified
+        // 2026-05: prerendered HTML in .next/server/app/* contained zero
+        // inline <style> blocks regardless of the flag. Re-evaluate when
+        // Next ships App-Router support for inline critical CSS.
         optimizePackageImports: [
             "framer-motion",
             "lucide-react",
