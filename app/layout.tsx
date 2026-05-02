@@ -1,16 +1,15 @@
 import "./globals.css";
 import { Roboto } from "next/font/google";
-import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 import type React from "react";
 import { RootLayoutClient } from "./root-layout-client";
 import Script from "next/script";
 import type { Metadata } from "next";
 import CookieConsentScript from "@/components/CookieConsentScript";
+import DeferredVercelAnalytics from "@/components/DeferredVercelAnalytics";
 
 const roboto = Roboto({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "700"],
   display: "swap",
 });
 
@@ -87,7 +86,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </Script>
 
         {GTM_ID && (
-          <Script id="gtm-loader" strategy="afterInteractive">
+          <Script id="gtm-loader" strategy="lazyOnload">
             {GTM_LOADER(GTM_ID)}
           </Script>
         )}
@@ -97,7 +96,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <Script
               id="gtag-src"
               src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
-              strategy="afterInteractive"
+              strategy="lazyOnload"
             />
             <Script id="gtag-init" strategy="beforeInteractive">
               {GTAG_INIT(GA_MEASUREMENT_ID)}
@@ -120,8 +119,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <CookieConsentScript />
 
         <RootLayoutClient>{children}</RootLayoutClient>
-        <Analytics />
-        <SpeedInsights />
+        <DeferredVercelAnalytics />
       </body>
     </html>
   );

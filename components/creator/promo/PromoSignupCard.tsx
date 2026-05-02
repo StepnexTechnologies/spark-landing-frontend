@@ -37,6 +37,12 @@ interface PromoSignupCardProps {
   play?: boolean;
 }
 
+// Gift-card bloom + Send-OTP button bounce wait this long after `play` flips
+// true. The counter starts immediately, so this is just the gap between the
+// counter starting and the secondary entry beats kicking off. Keeps the entry
+// visually staggered: card → counter → images + button.
+const SECONDARY_REVEAL_DELAY_MS = 750;
+
 export default function PromoSignupCard({ play = true }: PromoSignupCardProps = {}) {
   const { t } = useTranslation("creatorPromo");
   const {
@@ -58,6 +64,22 @@ export default function PromoSignupCard({ play = true }: PromoSignupCardProps = 
     submitProfile,
     changeNumber,
   } = useSignup();
+
+  // Gates the gift-card stack bloom and the Send-OTP button bounce. Held
+  // until SECONDARY_REVEAL_DELAY_MS after the parent signals `play=true`
+  // so the counter gets the spotlight first.
+  const [playSecondary, setPlaySecondary] = useState(false);
+  useEffect(() => {
+    if (!play) {
+      setPlaySecondary(false);
+      return;
+    }
+    const id = window.setTimeout(
+      () => setPlaySecondary(true),
+      SECONDARY_REVEAL_DELAY_MS
+    );
+    return () => window.clearTimeout(id);
+  }, [play]);
 
   const checks = (() => {
     const raw = t("hero.card.checks", { returnObjects: true });
@@ -104,14 +126,10 @@ export default function PromoSignupCard({ play = true }: PromoSignupCardProps = 
       layout
       style={{ background: CARD_GRADIENT }}
       initial={{
-        opacity: 0,
-        scale: 0.95,
         y: 0,
         boxShadow: REST_SHADOW,
       }}
       animate={{
-        opacity: 1,
-        scale: 1,
         y: hasLifted ? [0, -4, 0] : 0,
         boxShadow: hasLifted
           ? [REST_SHADOW, LIFT_SHADOW, REST_SHADOW]
@@ -119,8 +137,6 @@ export default function PromoSignupCard({ play = true }: PromoSignupCardProps = 
       }}
       transition={{
         layout: { duration: 0.4, ease: [0.4, 0, 0.2, 1] },
-        opacity: { duration: 0.6, delay: 0.4 },
-        scale: { duration: 0.6, delay: 0.4 },
         y: { duration: 0.7, times: [0, 0.4, 1], ease: [0.34, 1.4, 0.64, 1] },
         boxShadow: { duration: 0.7, times: [0, 0.4, 1], ease: [0.4, 0, 0.2, 1] },
       }}
@@ -128,7 +144,7 @@ export default function PromoSignupCard({ play = true }: PromoSignupCardProps = 
     >
       {/* Voucher row */}
       <div className="flex items-start gap-3">
-        <GiftCardStackAnimation play={play} />
+        <GiftCardStackAnimation play={playSecondary} />
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-1.5">
             <span className="relative flex h-1.5 w-1.5">
@@ -144,7 +160,7 @@ export default function PromoSignupCard({ play = true }: PromoSignupCardProps = 
               i18nKey="hero.card.voucherHeading"
               t={t}
               components={[
-                <CountUp key="amount" to={500} duration={2.5} delay={1.0} play={play} />,
+                <CountUp key="amount" to={500} duration={2.5} delay={0} play={play} />,
                 <motion.span
                   key="rupee"
                   className="inline-block origin-center"
@@ -224,13 +240,21 @@ export default function PromoSignupCard({ play = true }: PromoSignupCardProps = 
                 type="button"
                 onClick={phoneLocked ? changeNumber : sendOtp}
                 disabled={ctaDisabled}
-                animate={{ y: [0, -4, 0, -2, 0], scale: [1, 1.04, 1, 1.02, 1] }}
-                transition={{
-                  duration: 1.1,
-                  ease: "easeInOut",
-                  repeat: Infinity,
-                  repeatDelay: 0.9,
-                }}
+                animate={
+                  playSecondary
+                    ? { y: [0, -4, 0, -2, 0], scale: [1, 1.04, 1, 1.02, 1] }
+                    : { y: 0, scale: 1 }
+                }
+                transition={
+                  playSecondary
+                    ? {
+                        duration: 1.1,
+                        ease: "easeInOut",
+                        repeat: Infinity,
+                        repeatDelay: 0.9,
+                      }
+                    : { duration: 0 }
+                }
                 whileTap={{ scale: 0.94 }}
                 className="flex-shrink-0 px-3 py-2 rounded-[8px] text-white text-sm font-semibold whitespace-nowrap bg-[linear-gradient(162deg,#dd2a7b_0%,#9747FF_64%)] hover:brightness-110 transition-[filter,opacity] duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
               >

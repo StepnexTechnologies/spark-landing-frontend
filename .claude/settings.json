@@ -176,7 +176,20 @@
       "Bash(git check-ignore *)",
       "PowerShell(npm run build 2>&1 | Select-String -Pattern \"error|Error|ERROR|Failed|✓ Compiled|Generating static\" | Where-Object { $_ -notmatch \"baseline-browser-mapping\" } | Select-Object -First 10)",
       "PowerShell($proc = Start-Process -FilePath \"node\" -ArgumentList \"node_modules\\\\next\\\\dist\\\\bin\\\\next\",\"start\" -PassThru -WindowStyle Hidden -RedirectStandardOutput \"$env:TEMP\\\\next-start2.log\" -RedirectStandardError \"$env:TEMP\\\\next-start2.err\"; \"PID: $\\($proc.Id\\)\")",
-      "PowerShell(Stop-Process -Id 10364 -Force -ErrorAction SilentlyContinue)"
+      "PowerShell(Stop-Process -Id 10364 -Force -ErrorAction SilentlyContinue)",
+      "Bash(findstr /C:\"browserslist\")",
+      "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\HP\\\\Desktop\\\\client\\\\spark-landing-frontend\" -Recurse -Directory -Filter \"creator\")",
+      "Bash(Select-Object -ExpandProperty FullName)",
+      "PowerShell(yarn add -D beasties)",
+      "PowerShell(corepack --version)",
+      "PowerShell(corepack enable yarn 2>&1)",
+      "PowerShell(corepack use yarn@1.22.22 2>&1)",
+      "PowerShell(corepack yarn --version)",
+      "PowerShell(corepack yarn add -D beasties)",
+      "Bash(cat C:\\\\\\\\Users\\\\\\\\HP\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\claude\\\\\\\\c--Users-HP-Desktop-client-spark-landing-frontend\\\\\\\\5285f12b-c34a-4ee9-a0a6-7c400261ef84\\\\\\\\tasks\\\\\\\\b2rp2tkri.output)",
+      "PowerShell(corepack yarn remove beasties)",
+      "PowerShell(corepack yarn add -D critters)",
+      "PowerShell(corepack yarn remove critters)"
     ],
     "additionalDirectories": [
       "C:\\Users\\HP\\.claude\\plans",
