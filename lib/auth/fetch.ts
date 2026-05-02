@@ -5,7 +5,7 @@ import { AuthApiError, type AuthApiFieldError, type MessageCode } from "./errors
 const TIMEOUT_MS = 10_000;
 
 interface AuthFetchInit {
-  method: "POST";
+  method: "POST" | "PATCH";
   body?: unknown;
 }
 

@@ -10,7 +10,13 @@ import {
   useState,
 } from "react";
 import { useTranslation } from "react-i18next";
-import { authenticate, resendOtp, verify } from "@/lib/auth/api";
+import {
+  authenticate,
+  resendOtp,
+  sendIdentifierOtp,
+  updateMe,
+  verify,
+} from "@/lib/auth/api";
 import { AuthApiError, type MessageCode } from "@/lib/auth/errors";
 import { track } from "@/lib/analytics/track";
 
@@ -238,8 +244,9 @@ export function SignupProvider({ children }: { children: React.ReactNode }) {
     }
   }, [creatorId, resendIn, startExpiryTimer, translateError]);
 
-  // Forward-declared so the auto-verify effect can call it for the
-  // returning-user short-circuit path. Stable identity via useCallback.
+  // PATCH /users/me with basic info. Only fires for new users — returning
+  // users (requires_basic_info=false) skip the profile sheet and are marked
+  // submitted directly from the auto-verify success branch.
   const handleSubmitProfile = useCallback(async () => {
     if (!creatorId) return;
     setStage((current) => (current === "submitting" ? current : "submitting"));
@@ -254,105 +261,65 @@ export function SignupProvider({ children }: { children: React.ReactNode }) {
       has_email: Boolean(profile.email),
     });
 
-    // Returning users (requires_basic_info=false) get a minimal payload — the
-    // server ignores name/country/email anyway, but skipping them keeps the
-    // request honest and easier to read in the network tab.
-    const basicInfo = requiresBasicInfo
-      ? {
-          first_name: profile.firstName.trim(),
-          last_name: profile.lastName.trim(),
-          country_code: country,
-          email: profile.email.trim() || undefined,
-        }
-      : {};
-
     try {
-      await verify({
-        user_id: creatorId,
-        otp,
-        ...basicInfo,
-        // referral_code is only consumed on the user's very first verify;
-        // safe to always include per the spec.
-        referral_code: referralCode ?? undefined,
+      await updateMe({
+        first_name: profile.firstName.trim(),
+        last_name: profile.lastName.trim(),
+        country_code: country,
       });
-      clearExpiryTimer();
       setStage("submitted");
+
+      // PATCH /users/me doesn't accept email — to attach the optional email
+      // we POST /users/me/verify/send-otp, which stores it on the row (and
+      // sends a verification OTP the user can confirm later). Fire-and-forget:
+      // failures are logged via analytics but don't block the success state.
+      const emailToAttach = profile.email.trim();
+      if (emailToAttach) {
+        void sendIdentifierOtp({
+          email: emailToAttach,
+          channels: ["email"],
+        }).catch((err) => {
+          const apiErr = err instanceof AuthApiError ? err : null;
+          track("promo_attach_email_error", {
+            creator_id: creatorId,
+            message_code: apiErr?.messageCode ?? "NETWORK_ERROR",
+            status: apiErr?.status ?? 0,
+          });
+        });
+      }
     } catch (err) {
       const apiErr = err instanceof AuthApiError ? err : null;
       const code: MessageCode = apiErr?.messageCode ?? "NETWORK_ERROR";
 
       track("promo_signup_error", {
-        stage: "verify",
+        stage: "profile",
         message_code: code,
         status: apiErr?.status ?? 0,
       });
 
-      // Map the documented failure codes back to the right stage. Anything
-      // not enumerated falls through to a generic in-place error.
-      if (code === "INVALID_OTP") {
-        setOtp("");
-        setVerifyStatus("error");
-        setErrorCode(code);
-        setError(t("errors.INVALID_OTP"));
-        setStage("otp");
-        return;
-      }
-      if (code === "OTP_EXPIRED") {
-        clearExpiryTimer();
-        setOtp("");
-        setVerifyStatus("idle");
-        setErrorCode(code);
-        setError(t("errors.OTP_EXPIRED"));
-        setStage("otp");
-        return;
-      }
       if (code === "EMAIL_ALREADY_IN_USE") {
         setFieldErrors({ email: t("errors.EMAIL_ALREADY_IN_USE") });
         setErrorCode(code);
         setStage("profile");
         return;
       }
-      if (code === "PHONE_ALREADY_IN_USE" || code === "USER_NOT_FOUND") {
-        // Both require restarting from the phone stage — PHONE_ALREADY_IN_USE
-        // because the number itself is wrong, USER_NOT_FOUND because the
-        // creator_id we held is stale (likely soft-deleted server-side).
-        clearExpiryTimer();
-        setCreatorId(null);
-        setOtp("");
-        setVerifyStatus("idle");
-        setResendIn(0);
-        setErrorCode(code);
-        setError(t(`errors.${code}`));
-        setStage("phone");
-        return;
-      }
 
       const { text } = translateError(err);
       setErrorCode(code);
       setError(text);
-      setStage(requiresBasicInfo ? "profile" : "otp");
+      setStage("profile");
     }
   }, [
-    clearExpiryTimer,
     country,
     creatorId,
     isNewUser,
-    otp,
     profile.email,
     profile.firstName,
     profile.lastName,
-    referralCode,
     requiresBasicInfo,
     t,
     translateError,
   ]);
-
-  // Stable ref so the auto-verify effect can call the latest handler without
-  // forcing the effect to re-run when the handler identity changes.
-  const submitRef = useRef(handleSubmitProfile);
-  useEffect(() => {
-    submitRef.current = handleSubmitProfile;
-  }, [handleSubmitProfile]);
 
   const changeNumber = useCallback(() => {
     clearExpiryTimer();
@@ -380,44 +347,102 @@ export function SignupProvider({ children }: { children: React.ReactNode }) {
     [],
   );
 
-  // Optimistic verify. We do NOT call /verify here — the new auth API merges
-  // OTP verification with basic-info capture into a single atomic call, so
-  // /verify only fires on profile submit. The green tick + 150ms hold are a
-  // UX cue; bad-OTP feedback surfaces on the profile-submit failure path.
-  // (This trade-off is intentional — see the plan file for context.)
+  // Auto-verify when the 4th digit lands. Calls /auth/verify with just
+  // {user_id, otp, referral_code} per the new contract — basic info is
+  // captured separately via PATCH /users/me on profile submit.
+  //
+  // verifyStatus is intentionally NOT in the deps. setVerifyStatus calls
+  // inside this effect would otherwise cancel the in-flight verify via
+  // the cleanup, so re-entry is gated by verifyingRef instead.
   useEffect(() => {
     if (stage !== "otp") return;
     if (otp.length !== 4) return;
     if (verifyingRef.current) return;
-    if (verifyStatus === "verified") return;
+    if (!creatorId) return;
 
     verifyingRef.current = true;
+    let cancelled = false;
+
     setVerifyStatus("verifying");
     setError(null);
     setErrorCode(null);
 
-    setVerifyStatus("verified");
-    track("promo_otp_verified", { creator_id: creatorId });
+    (async () => {
+      try {
+        await verify({
+          user_id: creatorId,
+          otp,
+          referral_code: referralCode ?? undefined,
+        });
+        if (cancelled) return;
+        // OTP consumed — cookies are set, the 290s expiry guard no longer
+        // applies.
+        clearExpiryTimer();
+        setVerifyStatus("verified");
+        track("promo_otp_verified", { creator_id: creatorId });
 
-    const id = setTimeout(() => {
-      // Returning users (requires_basic_info=false) skip the profile form
-      // entirely — go straight into submitting and let /verify run with no
-      // basic-info fields.
-      if (!requiresBasicInfo) {
-        setStage((current) => (current === "otp" ? "submitting" : current));
+        // Brief beat between green tick and Stage 3 so the user clocks the
+        // success state before the form unfolds.
+        await new Promise((r) => setTimeout(r, VERIFIED_HOLD_MS));
+        if (cancelled) return;
+
+        setStage((current) => {
+          if (current !== "otp") return current;
+          // Returning users (requires_basic_info=false) skip the profile sheet
+          // — they're already onboarded server-side, nothing to PATCH.
+          return requiresBasicInfo ? "profile" : "submitted";
+        });
+      } catch (err) {
+        if (cancelled) return;
+        const apiErr = err instanceof AuthApiError ? err : null;
+        const code: MessageCode = apiErr?.messageCode ?? "NETWORK_ERROR";
+
+        track("promo_signup_error", {
+          stage: "verify",
+          message_code: code,
+          status: apiErr?.status ?? 0,
+        });
+
+        if (code === "INVALID_OTP") {
+          setOtp("");
+          setVerifyStatus("error");
+          setErrorCode(code);
+          setError(t("errors.INVALID_OTP"));
+          return;
+        }
+        if (code === "OTP_EXPIRED") {
+          clearExpiryTimer();
+          setOtp("");
+          setVerifyStatus("idle");
+          setErrorCode(code);
+          setError(t("errors.OTP_EXPIRED"));
+          return;
+        }
+        if (code === "USER_NOT_FOUND") {
+          // creator_id is stale (likely soft-deleted server-side); restart.
+          clearExpiryTimer();
+          setCreatorId(null);
+          setOtp("");
+          setVerifyStatus("idle");
+          setResendIn(0);
+          setErrorCode(code);
+          setError(t("errors.USER_NOT_FOUND"));
+          setStage("phone");
+          return;
+        }
+        const { text } = translateError(err);
+        setVerifyStatus("error");
+        setErrorCode(code);
+        setError(text);
+      } finally {
         verifyingRef.current = false;
-        // Fire AFTER the state flush so handleSubmitProfile sees stage="submitting".
-        void submitRef.current();
-        return;
       }
-      setStage((current) => (current === "otp" ? "profile" : current));
-      verifyingRef.current = false;
-    }, VERIFIED_HOLD_MS);
+    })();
 
     return () => {
-      clearTimeout(id);
+      cancelled = true;
     };
-  }, [otp, stage, verifyStatus, requiresBasicInfo, creatorId]);
+  }, [otp, stage, creatorId, referralCode, requiresBasicInfo, clearExpiryTimer, t, translateError]);
 
   // Reset error + verify status if user edits OTP after an error.
   useEffect(() => {

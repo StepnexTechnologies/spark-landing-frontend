@@ -1,7 +1,7 @@
-// Typed client for the /v1/creator/auth/* surface used by the promo signup
-// card. Only the three endpoints the card needs are wired here — /status,
-// /refresh, /logout will be added when a consumer (logged-in dashboard etc.)
-// lands. Cross-origin cookies + envelope parsing live in ./fetch.
+// Typed client for the /v1/creator/auth/* + /v1/creator/users/me surface used
+// by the promo signup card. /status, /refresh, /logout will be added when a
+// consumer (logged-in dashboard etc.) lands. Cross-origin cookies + envelope
+// parsing live in ./fetch.
 
 import { authFetch } from "./fetch";
 
@@ -30,16 +30,6 @@ export interface AuthenticateResponse {
 export interface VerifyRequest {
   user_id: string;
   otp: string;
-  // Basic-info fields — applied only when the row currently has
-  // requires_basic_info=true; ignored for returning users.
-  first_name?: string;
-  middle_name?: string | null;
-  last_name?: string;
-  country_code?: string; // ISO-3166-1 alpha-2
-  // Optional secondary identifier: phone-signup users can attach an email
-  // here (and vice versa). Stored unverified.
-  email?: string;
-  phone_number_e164?: string | null;
   // Only consumed on the user's very first verify. Safe to always include.
   referral_code?: string | null;
 }
@@ -84,4 +74,57 @@ export function resendOtp(body: ResendOtpRequest): Promise<ResendOtpResponse> {
     method: "POST",
     body,
   });
+}
+
+// Basic-info onboarding step. Send only what changed; writing first_name flips
+// has_basic_information=true server-side.
+export interface UpdateMeRequest {
+  first_name?: string;
+  middle_name?: string | null;
+  last_name?: string;
+  country_code?: string; // ISO-3166-1 alpha-2
+  currency_code?: string;
+  language_code?: string;
+}
+
+export interface UpdateMeResponse {
+  id: string;
+  has_basic_information: boolean;
+  first_name?: string | null;
+  last_name?: string | null;
+  email?: string | null;
+  phone_number_e164?: string | null;
+  // Other UserResponse fields are returned but unused by the promo card.
+  [key: string]: unknown;
+}
+
+export function updateMe(body: UpdateMeRequest): Promise<UpdateMeResponse> {
+  return authFetch<UpdateMeResponse>("/v1/creator/users/me", {
+    method: "PATCH",
+    body,
+  });
+}
+
+// Attach a secondary identifier (e.g. email after a phone signup). The server
+// stores the identifier on the row and sends an OTP — the user can complete
+// verification later via /users/me/verify/confirm, or skip it; the email
+// remains attached unverified either way.
+export interface SendIdentifierOtpRequest {
+  email?: string;
+  phone_number_e164?: string;
+  channels?: AuthChannel[];
+}
+
+export interface SendIdentifierOtpResponse {
+  message_code: string;
+  message_params: Record<string, unknown>;
+}
+
+export function sendIdentifierOtp(
+  body: SendIdentifierOtpRequest,
+): Promise<SendIdentifierOtpResponse> {
+  return authFetch<SendIdentifierOtpResponse>(
+    "/v1/creator/users/me/verify/send-otp",
+    { method: "POST", body },
+  );
 }
