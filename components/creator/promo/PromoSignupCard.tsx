@@ -427,7 +427,7 @@ export default function PromoSignupCard({ play = true }: PromoSignupCardProps = 
                 </span>
               </button>
 
-              <PartnerFooter t={t} />
+              <PartnerFooter />
             </div>
           </motion.div>
         )}
@@ -524,7 +524,7 @@ function ResendRow({
   );
 }
 
-function PartnerFooter(_: { t: ReturnType<typeof useTranslation>["t"] }) {
+function PartnerFooter() {
   return (
     <div className="mt-3 flex items-center justify-center text-[11px] text-[#5C2E0B]/85">
       <Image
