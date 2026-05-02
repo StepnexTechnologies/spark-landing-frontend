@@ -164,6 +164,16 @@
     "creating": "Creating…",
     "done": "Done!",
     "builtWith": "Built with",
-    "developedWith": "Developed with"
+    "developedWith": "Developed with",
+    "emailInUse": "This email is already linked to another account."
+  },
+  "errors": {
+    "INVALID_OTP": "Invalid OTP. Please try again.",
+    "OTP_EXPIRED": "OTP expired. Please request a new one.",
+    "EMAIL_ALREADY_IN_USE": "This email is already linked to another account.",
+    "PHONE_ALREADY_IN_USE": "This phone number is already linked to another account.",
+    "USER_NOT_FOUND": "We couldn't find that account. Please start again.",
+    "NETWORK_ERROR": "Something went wrong. Please try again.",
+    "_default": "Something went wrong. Please try again."
   }
 }

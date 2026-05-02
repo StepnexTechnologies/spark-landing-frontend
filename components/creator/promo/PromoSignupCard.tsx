@@ -48,6 +48,7 @@ export default function PromoSignupCard({ play = true }: PromoSignupCardProps = 
   const {
     phone,
     setPhone,
+    setCountry,
     stage,
     otp,
     setOtp,
@@ -55,6 +56,8 @@ export default function PromoSignupCard({ play = true }: PromoSignupCardProps = 
     profile,
     setProfileField,
     error,
+    fieldErrors,
+    requiresBasicInfo,
     resendIn,
     sendOtp,
     resendOtp,
@@ -85,8 +88,11 @@ export default function PromoSignupCard({ play = true }: PromoSignupCardProps = 
 
   const otpVisible =
     stage === "otp" || stage === "profile" || stage === "submitting" || stage === "submitted";
+  // Returning users (requires_basic_info=false) skip the profile sheet entirely;
+  // /verify runs straight from the OTP stage with no name/email payload.
   const profileVisible =
-    stage === "profile" || stage === "submitting" || stage === "submitted";
+    requiresBasicInfo &&
+    (stage === "profile" || stage === "submitting" || stage === "submitted");
   // Once we move past Stage 1 the phone input is locked. The CTA button
   // toggles to "Edit" so the user can unlock it and pick a new number.
   const phoneLocked = stage !== "phone";
@@ -215,6 +221,7 @@ export default function PromoSignupCard({ play = true }: PromoSignupCardProps = 
               id="promo-hero-phone"
               value={phone}
               onChange={setPhone}
+              onCountryChange={(c) => c && setCountry(c)}
               placeholder={t("hero.card.phonePlaceholder")}
               disabled={phoneLocked}
               autoComplete="off"
@@ -260,6 +267,25 @@ export default function PromoSignupCard({ play = true }: PromoSignupCardProps = 
             );
           })()}
         </div>
+
+        {/* Phone-stage error — surfaces /authenticate failures (network,
+            VALIDATION_ERROR) and the rollback path from /verify when we
+            bumped back to phone (PHONE_ALREADY_IN_USE, USER_NOT_FOUND). */}
+        <AnimatePresence initial={false}>
+          {stage === "phone" && error && (
+            <motion.p
+              key="phone-error"
+              initial={{ height: 0, opacity: 0, marginTop: 0 }}
+              animate={{ height: "auto", opacity: 1, marginTop: 8 }}
+              exit={{ height: 0, opacity: 0, marginTop: 0 }}
+              transition={SHEET_TRANSITION}
+              role="alert"
+              className="overflow-hidden text-xs text-red-100 bg-red-600/20 px-2 py-1 rounded text-center"
+            >
+              {error}
+            </motion.p>
+          )}
+        </AnimatePresence>
 
         {/* Disclaimer — only shown in stage 1 (hidden once OTP is sent) */}
         <AnimatePresence initial={false}>
@@ -379,11 +405,26 @@ export default function PromoSignupCard({ play = true }: PromoSignupCardProps = 
                 type="email"
                 autoComplete="off"
                 error={
-                  emailTrimmed && !isEmailValid
+                  // Server-reported "email already in use" wins over the
+                  // client-side regex hint — the regex is just a typo guard.
+                  fieldErrors.email ??
+                  (emailTrimmed && !isEmailValid
                     ? "Please enter a valid email"
-                    : undefined
+                    : undefined)
                 }
               />
+
+              {/* Generic /verify failure surface (network, unmapped 4xx). The
+                  documented codes are routed to the OTP stage or fieldErrors —
+                  this catches everything else without losing the message. */}
+              {stage === "profile" && error && !fieldErrors.email && (
+                <p
+                  role="alert"
+                  className="text-xs text-red-100 bg-red-600/20 px-2 py-1 rounded text-center"
+                >
+                  {error}
+                </p>
+              )}
 
               <button
                 type="button"
@@ -410,7 +451,7 @@ export default function PromoSignupCard({ play = true }: PromoSignupCardProps = 
                 </span>
               </button>
 
-              <PartnerFooter t={t} />
+              <PartnerFooter />
             </div>
           </motion.div>
         )}
@@ -507,7 +548,7 @@ function ResendRow({
   );
 }
 
-function PartnerFooter(_: { t: ReturnType<typeof useTranslation>["t"] }) {
+function PartnerFooter() {
   return (
     <div className="mt-3 flex items-center justify-center text-[11px] text-[#5C2E0B]/85">
       <Image
