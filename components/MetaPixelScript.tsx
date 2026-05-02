@@ -25,7 +25,12 @@ export default function MetaPixelScript() {
       <link rel="preconnect" href="https://connect.facebook.net" crossOrigin="" />
       <link rel="dns-prefetch" href="https://connect.facebook.net" />
 
-      <Script id="meta-pixel" strategy="afterInteractive">
+      {/* lazyOnload defers the loader (and the fbevents.js fetch it kicks
+          off) until after window 'load', so it doesn't compete with hydration
+          for main-thread time. PageView still fires within the session and
+          subsequent fbq() calls work normally — the loader sets up a queue
+          stub so calls before fbevents.js arrives are replayed. */}
+      <Script id="meta-pixel" strategy="lazyOnload">
         {PIXEL_LOADER(META_PIXEL_ID)}
       </Script>
 

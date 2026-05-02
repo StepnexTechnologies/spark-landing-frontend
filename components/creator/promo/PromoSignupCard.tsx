@@ -38,11 +38,10 @@ interface PromoSignupCardProps {
 }
 
 // Gift-card bloom + Send-OTP button bounce wait this long after `play` flips
-// true. Composition: 1000ms = CountUp's own internal delay before the ₹500
-// counter starts ticking; 750ms = requested gap between the counter starting
-// and the secondary entry beats kicking off. Keeps the entry visually
-// staggered: card → counter → images + button.
-const SECONDARY_REVEAL_DELAY_MS = 1000 + 750;
+// true. The counter starts immediately, so this is just the gap between the
+// counter starting and the secondary entry beats kicking off. Keeps the entry
+// visually staggered: card → counter → images + button.
+const SECONDARY_REVEAL_DELAY_MS = 750;
 
 export default function PromoSignupCard({ play = true }: PromoSignupCardProps = {}) {
   const { t } = useTranslation("creatorPromo");
@@ -127,14 +126,10 @@ export default function PromoSignupCard({ play = true }: PromoSignupCardProps = 
       layout
       style={{ background: CARD_GRADIENT }}
       initial={{
-        opacity: 0,
-        scale: 0.95,
         y: 0,
         boxShadow: REST_SHADOW,
       }}
       animate={{
-        opacity: 1,
-        scale: 1,
         y: hasLifted ? [0, -4, 0] : 0,
         boxShadow: hasLifted
           ? [REST_SHADOW, LIFT_SHADOW, REST_SHADOW]
@@ -142,8 +137,6 @@ export default function PromoSignupCard({ play = true }: PromoSignupCardProps = 
       }}
       transition={{
         layout: { duration: 0.4, ease: [0.4, 0, 0.2, 1] },
-        opacity: { duration: 0.6, delay: 0.4 },
-        scale: { duration: 0.6, delay: 0.4 },
         y: { duration: 0.7, times: [0, 0.4, 1], ease: [0.34, 1.4, 0.64, 1] },
         boxShadow: { duration: 0.7, times: [0, 0.4, 1], ease: [0.4, 0, 0.2, 1] },
       }}
@@ -167,7 +160,7 @@ export default function PromoSignupCard({ play = true }: PromoSignupCardProps = 
               i18nKey="hero.card.voucherHeading"
               t={t}
               components={[
-                <CountUp key="amount" to={500} duration={2.5} delay={1.0} play={play} />,
+                <CountUp key="amount" to={500} duration={2.5} delay={0} play={play} />,
                 <motion.span
                   key="rupee"
                   className="inline-block origin-center"

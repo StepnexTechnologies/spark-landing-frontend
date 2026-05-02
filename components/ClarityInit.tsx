@@ -41,17 +41,37 @@ function gatherTags(): Record<string, string> {
 export default function ClarityInit() {
   useEffect(() => {
     const tags = gatherTags();
-    import("@microsoft/clarity")
-      .then(({ default: Clarity }) => {
-        Clarity.init(PROJECT_ID);
-        Clarity.consentV2({
-          ad_Storage: "granted",
-          analytics_Storage: "granted",
+
+    // Defer Clarity's bundle download + init until the browser is idle so
+    // it doesn't compete with hydration for main-thread time. Clarity
+    // captures session activity from the moment it initializes; a 1-3s
+    // delay just trims the very start of the recording (which is rarely
+    // useful anyway).
+    const loadClarity = () => {
+      import("@microsoft/clarity")
+        .then(({ default: Clarity }) => {
+          Clarity.init(PROJECT_ID);
+          Clarity.consentV2({
+            ad_Storage: "granted",
+            analytics_Storage: "granted",
+          });
+        })
+        .finally(() => {
+          setUserProperties(tags);
         });
-      })
-      .finally(() => {
-        setUserProperties(tags);
-      });
+    };
+
+    if (typeof window === "undefined") return;
+
+    if (typeof window.requestIdleCallback === "function") {
+      const handle = window.requestIdleCallback(loadClarity, { timeout: 3000 });
+      return () => window.cancelIdleCallback?.(handle);
+    }
+
+    // Safari/older browsers: setTimeout fallback. 1500ms is past the typical
+    // hydration finish on slow 4G.
+    const id = window.setTimeout(loadClarity, 1500);
+    return () => window.clearTimeout(id);
   }, []);
   return null;
 }
