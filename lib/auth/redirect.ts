@@ -5,7 +5,6 @@
 export const APP_REDIRECT_URL = "https://beta.creator.sparkonomy.com/earn/new";
 
 export interface RedirectToAppArgs {
-  phone?: string;
   referralCode?: string | null;
   lang: string;
 }
@@ -14,7 +13,6 @@ export function redirectToApp(args: RedirectToAppArgs): void {
   if (typeof window === "undefined") return;
   const url = new URL(APP_REDIRECT_URL);
   url.searchParams.set("lang", args.lang);
-  if (args.phone) url.searchParams.set("phone", args.phone);
   if (args.referralCode) url.searchParams.set("ref", args.referralCode);
   window.location.href = url.toString();
 }

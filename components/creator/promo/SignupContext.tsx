@@ -296,7 +296,7 @@ export function SignupProvider({ children }: { children: React.ReactNode }) {
       }
 
       clearExpiryTimer();
-      redirectToApp({ phone, referralCode, lang: getCurrentLang(i18n) });
+      redirectToApp({ referralCode, lang: getCurrentLang(i18n) });
     } catch (err) {
       const { code, text } = reportSignupError("profile", err);
       if (code === "EMAIL_ALREADY_IN_USE") {
@@ -314,7 +314,6 @@ export function SignupProvider({ children }: { children: React.ReactNode }) {
     country,
     creatorId,
     isNewUser,
-    phone,
     profile.email,
     profile.firstName,
     profile.lastName,
@@ -392,7 +391,7 @@ export function SignupProvider({ children }: { children: React.ReactNode }) {
           setStage((current) => (current === "otp" ? "profile" : current));
         } else {
           setStage((current) => (current === "otp" ? "submitted" : current));
-          redirectToApp({ phone, referralCode, lang: getCurrentLang(i18n) });
+          redirectToApp({ referralCode, lang: getCurrentLang(i18n) });
         }
       } catch (err) {
         const { code, text } = reportSignupError("verify", err);
@@ -437,7 +436,6 @@ export function SignupProvider({ children }: { children: React.ReactNode }) {
     creatorId,
     referralCode,
     requiresBasicInfo,
-    phone,
     i18n,
     clearExpiryTimer,
     reportSignupError,
