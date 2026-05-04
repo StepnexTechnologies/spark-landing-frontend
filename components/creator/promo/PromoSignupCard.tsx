@@ -37,9 +37,8 @@ interface PromoSignupCardProps {
   play?: boolean;
   // "f" variant — used by /creator/promo-f only. ₹500 is rendered as a static
   // number (no count-up) and bounces in sync with the Get OTP button. Both
-  // bounces wait for the first user interaction (scroll or tap) before
-  // starting their infinite loops. Gift-card bloom timing also shifts to
-  // VARIANT_F_CARDS_DELAY_MS after mount, independent of interaction.
+  // bounces start VARIANT_F_SECONDARY_DELAY_MS after card render, staggered
+  // just behind the gift-card bloom (VARIANT_F_CARDS_DELAY_MS).
   variant?: "f";
 }
 
@@ -49,9 +48,12 @@ interface PromoSignupCardProps {
 // visually staggered: card → counter → images + button.
 const SECONDARY_REVEAL_DELAY_MS = 750;
 
-// /promo-f variant — gift-card bloom kicks off this far after the card mounts,
-// independent of user interaction.
-const VARIANT_F_CARDS_DELAY_MS = 1400;
+// /promo-f variant — gift-card bloom kicks off this far after the card mounts.
+const VARIANT_F_CARDS_DELAY_MS = 1800;
+// /promo-f variant — ₹500 + Get OTP bounce kick off this far after the card
+// mounts, staggered just behind the gift-card bloom so the eye lands on the
+// cards first, then the bouncing CTA pair.
+const VARIANT_F_SECONDARY_DELAY_MS = 2400;
 
 export default function PromoSignupCard({ play = true, variant }: PromoSignupCardProps = {}) {
   const { t } = useTranslation("creatorPromo");
@@ -77,31 +79,17 @@ export default function PromoSignupCard({ play = true, variant }: PromoSignupCar
 
   // Gates the Send-OTP button bounce (and, on /promo-f, the ₹500 bounce).
   // Default variant: holds for SECONDARY_REVEAL_DELAY_MS so the counter gets
-  // the spotlight first. /promo-f variant: holds until the user actually
-  // interacts (scroll or tap anywhere on the page) so the card stays calm
-  // until engagement.
+  // the spotlight first. /promo-f variant: holds for VARIANT_F_SECONDARY_DELAY_MS
+  // so the bounce lands just after the gift-card bloom (1800ms).
   const [playSecondary, setPlaySecondary] = useState(false);
   useEffect(() => {
     if (!play) {
       setPlaySecondary(false);
       return;
     }
-    if (variant === "f") {
-      const fire = () => setPlaySecondary(true);
-      // pointerdown covers both mouse-click and touch — single listener
-      // handles taps + clicks. Both registered { once: true } so they
-      // auto-detach after either fires.
-      window.addEventListener("scroll", fire, { once: true, passive: true });
-      window.addEventListener("pointerdown", fire, { once: true, passive: true });
-      return () => {
-        window.removeEventListener("scroll", fire);
-        window.removeEventListener("pointerdown", fire);
-      };
-    }
-    const id = window.setTimeout(
-      () => setPlaySecondary(true),
-      SECONDARY_REVEAL_DELAY_MS
-    );
+    const delay =
+      variant === "f" ? VARIANT_F_SECONDARY_DELAY_MS : SECONDARY_REVEAL_DELAY_MS;
+    const id = window.setTimeout(() => setPlaySecondary(true), delay);
     return () => window.clearTimeout(id);
   }, [play, variant]);
 
