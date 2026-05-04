@@ -1,7 +1,7 @@
 import type {NextConfig} from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+    output: "standalone",
     experimental: {
         // NOTE: experimental.optimizeCss is intentionally NOT set here.
         // In Next 16 it is wired only into the Pages Router post-process
