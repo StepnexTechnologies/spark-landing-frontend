@@ -51,26 +51,35 @@ const SPARKLES = [
 // stay invisible. The bloom/sparkle delays are measured from the moment
 // `play` flips true, so callers can hold the animation until the surrounding
 // card is actually visible.
+//
+// `skipBloom` (used by /creator/promo-w) renders the cards directly in their
+// final asymmetric stack pose with no bloom transition, while keeping the
+// sparkles. Sparkles start almost immediately since there's no bloom to wait
+// on.
 export default function GiftCardStackAnimation({
   scale = 1,
   play = true,
   cardWidth = DEFAULT_CARD_W,
   cardHeight = DEFAULT_CARD_H,
   startDelayMs = DEFAULT_START_DELAY_MS,
+  skipBloom = false,
 }: {
   scale?: number;
   play?: boolean;
   cardWidth?: number;
   cardHeight?: number;
   startDelayMs?: number;
+  skipBloom?: boolean;
 } = {}) {
   const containerW = cardWidth * 2;
   const containerH = cardHeight + CONTAINER_HEADROOM;
   // Sparkles fire on the front voucher *after* the bloom has fully settled.
   // Last card delay = startDelayMs + (N-1)*STAGGER, plus its full duration.
+  // When skipBloom is true the cards paint in their final pose immediately,
+  // so sparkles only need a brief settle delay before kicking off.
   const cardsEndMs =
     startDelayMs + (CARDS.length - 1) * STAGGER_MS + PER_CARD_MS;
-  const sparkleStartMs = cardsEndMs + 200;
+  const sparkleStartMs = skipBloom ? 200 : cardsEndMs + 200;
   return (
     <div
       className="relative shrink-0"
@@ -100,25 +109,33 @@ export default function GiftCardStackAnimation({
             transformOrigin: "50% 100%",
             zIndex: card.z,
           }}
-          initial={{ rotate: 0, scale: 1 }}
+          initial={skipBloom ? { rotate: card.stack, scale: 1 } : { rotate: 0, scale: 1 }}
           animate={
-            play
-              ? {
-                  // 0%      → stack (perfectly overlapped, only black visible)
-                  // 32%     → bloom (wide fan)
-                  // 55%     → still bloom (hold)
-                  // 100%    → final stack pose matching giftCard.png
-                  rotate: [0, card.bloom, card.bloom, card.stack],
-                  scale: [1, 1.05, 1.05, 1],
-                }
-              : { rotate: 0, scale: 1 }
+            skipBloom
+              ? // /promo-w: cards paint directly in their final stack pose;
+                // no bloom keyframes.
+                { rotate: card.stack, scale: 1 }
+              : play
+                ? {
+                    // 0%      → stack (perfectly overlapped, only black visible)
+                    // 32%     → bloom (wide fan)
+                    // 55%     → still bloom (hold)
+                    // 100%    → final stack pose matching giftCard.png
+                    rotate: [0, card.bloom, card.bloom, card.stack],
+                    scale: [1, 1.05, 1.05, 1],
+                  }
+                : { rotate: 0, scale: 1 }
           }
-          transition={{
-            duration: PER_CARD_MS / 1000,
-            times: [0, 0.32, 0.55, 1],
-            delay: (startDelayMs + i * STAGGER_MS) / 1000,
-            ease: [0.34, 1.2, 0.64, 1],
-          }}
+          transition={
+            skipBloom
+              ? { duration: 0 }
+              : {
+                  duration: PER_CARD_MS / 1000,
+                  times: [0, 0.32, 0.55, 1],
+                  delay: (startDelayMs + i * STAGGER_MS) / 1000,
+                  ease: [0.34, 1.2, 0.64, 1],
+                }
+          }
         >
           <Image
             src={card.src}

@@ -96,7 +96,7 @@ export default async function Page() {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
         />
       )}
-      <CreatorPromoPage />
+      <CreatorPromoPage variant="w" />
     </>
   );
 }
