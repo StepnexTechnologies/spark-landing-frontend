@@ -28,7 +28,9 @@ const HIGHLIGHT_STYLE: React.CSSProperties = {
 interface HeroSectionProps {
   // Threaded down to PromoSignupCard. "f" variant tweaks the hero card's
   // animation behavior for /creator/promo-f only — see PromoSignupCard.
-  variant?: "f";
+  // "w" variant strips entry animations on /creator/promo-w (sparkles + Get
+  // OTP bounce kept).
+  variant?: "f" | "w";
   // When true, plays the staged title→subtitle typewriter → card fade-in
   // sequence. Off everywhere except /creator/promo.
   enableTypewriter?: boolean;
