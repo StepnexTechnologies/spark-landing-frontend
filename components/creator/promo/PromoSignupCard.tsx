@@ -39,7 +39,11 @@ interface PromoSignupCardProps {
   // number (no count-up) and bounces in sync with the Get OTP button. Both
   // bounces start VARIANT_F_SECONDARY_DELAY_MS after card render, staggered
   // just behind the gift-card bloom (VARIANT_F_CARDS_DELAY_MS).
-  variant?: "f";
+  // "w" variant — used by /creator/promo-w only. Entry animations are stripped
+  // entirely: gift cards render in their final stack pose, ₹500 is static, the
+  // rupee glyph does not pulse, and the card does not lift on first scroll.
+  // Sparkles on the front voucher and the Get OTP button bounce are preserved.
+  variant?: "f" | "w";
 }
 
 // Gift-card bloom + Send-OTP button bounce wait this long after `play` flips
@@ -124,13 +128,15 @@ export default function PromoSignupCard({ play = true, variant }: PromoSignupCar
 
   // One-shot lift on first scroll — like the card is "noticing" the user.
   // Listener is { once: true } so it auto-detaches after the first event.
+  // Skipped on variant="w" (promo-w strips entry animations).
   const [hasLifted, setHasLifted] = useState(false);
   useEffect(() => {
+    if (variant === "w") return;
     if (hasLifted) return;
     const onScroll = () => setHasLifted(true);
     window.addEventListener("scroll", onScroll, { once: true, passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, [hasLifted]);
+  }, [hasLifted, variant]);
 
   // Forward-only progressive reveal in Stage 3: lastName appears once
   // firstName has any non-whitespace text, email + submit appear once
@@ -176,6 +182,7 @@ export default function PromoSignupCard({ play = true, variant }: PromoSignupCar
         <GiftCardStackAnimation
           play={variant === "f" ? play : playSecondary}
           startDelayMs={variant === "f" ? VARIANT_F_CARDS_DELAY_MS : undefined}
+          skipBloom={variant === "w"}
         />
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-1.5">
@@ -221,46 +228,54 @@ export default function PromoSignupCard({ play = true, variant }: PromoSignupCar
                   >
                     500
                   </motion.span>
+                ) : variant === "w" ? (
+                  // /promo-w: static "500" — no count-up, no bounce.
+                  <span key="amount">500</span>
                 ) : (
                   <CountUp key="amount" to={500} duration={2.5} delay={0} play={play} />
                 ),
-                <motion.span
-                  key="rupee"
-                  className="inline-block origin-center"
-                  style={{
-                    verticalAlign: "baseline",
-                    lineHeight: 1,
-                    willChange: "transform",
-                    transform: "translateZ(0)",
-                  }}
-                  animate={
-                    variant === "f"
-                      ? // /promo-f: bounce in lockstep with the static "500"
-                        // and the Get OTP button. Same keyframes / timing so
-                        // the whole "₹500" reads as a single bouncing unit.
-                        playSecondary
-                        ? { y: [0, -4, 0, -2, 0], scale: [1, 1.04, 1, 1.02, 1] }
-                        : { y: 0, scale: 1 }
-                      : { scale: [1, 1.12, 1] }
-                  }
-                  transition={
-                    variant === "f"
-                      ? playSecondary
-                        ? {
-                            duration: 1.1,
-                            ease: "easeInOut",
+                variant === "w" ? (
+                  // /promo-w: static rupee glyph — no scale pulse.
+                  <span key="rupee" />
+                ) : (
+                  <motion.span
+                    key="rupee"
+                    className="inline-block origin-center"
+                    style={{
+                      verticalAlign: "baseline",
+                      lineHeight: 1,
+                      willChange: "transform",
+                      transform: "translateZ(0)",
+                    }}
+                    animate={
+                      variant === "f"
+                        ? // /promo-f: bounce in lockstep with the static "500"
+                          // and the Get OTP button. Same keyframes / timing so
+                          // the whole "₹500" reads as a single bouncing unit.
+                          playSecondary
+                          ? { y: [0, -4, 0, -2, 0], scale: [1, 1.04, 1, 1.02, 1] }
+                          : { y: 0, scale: 1 }
+                        : { scale: [1, 1.12, 1] }
+                    }
+                    transition={
+                      variant === "f"
+                        ? playSecondary
+                          ? {
+                              duration: 1.1,
+                              ease: "easeInOut",
+                              repeat: Infinity,
+                              repeatDelay: 0.9,
+                            }
+                          : { duration: 0 }
+                        : {
+                            duration: 1.6,
                             repeat: Infinity,
-                            repeatDelay: 0.9,
+                            ease: [0.45, 0, 0.55, 1],
+                            repeatDelay: 1.4,
                           }
-                        : { duration: 0 }
-                      : {
-                          duration: 1.6,
-                          repeat: Infinity,
-                          ease: [0.45, 0, 0.55, 1],
-                          repeatDelay: 1.4,
-                        }
-                  }
-                />,
+                    }
+                  />
+                ),
               ]}
             />
           </h2>

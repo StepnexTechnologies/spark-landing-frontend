@@ -23,7 +23,10 @@ const FloatingCTA = dynamic(() => import("@/components/creator/earn/FloatingCTA"
 interface CreatorPromoPageProps {
   // Threaded into HeroSection. "f" variant is used by /creator/promo-f only
   // and changes hero-card animation behavior — see PromoSignupCard.
-  variant?: "f";
+  // "w" variant is used by /creator/promo-w — strips all entry animations
+  // on the signup card (gift-card bloom, count-up, rupee pulse, lift-on-scroll)
+  // while keeping the sparkles and Get OTP button bounce.
+  variant?: "f" | "w";
   // When true, HeroSection plays the staged title→subtitle typewriter →
   // card fade-in sequence. Only /creator/promo enables this; /creator/promo-f
   // and /creator/promo-w leave it off so their hero paints statically and
