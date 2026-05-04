@@ -13,7 +13,10 @@ const roboto = Roboto({
   display: "swap",
 });
 
+const isProduction = process.env.SITE_URL === 'https://sparkonomy.com'
+
 export const metadata: Metadata = {
+  robots: isProduction ? undefined : { index: false, follow: false },
   icons: {
     icon: [
       { url: "/home-192x192Px.png", sizes: "192x192", type: "image/png" },
