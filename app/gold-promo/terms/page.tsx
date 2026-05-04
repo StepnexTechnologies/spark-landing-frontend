@@ -5,7 +5,7 @@ import { Home } from "lucide-react";
 export const metadata = {
   title: "Gold Shagun Promo — Terms & Conditions | Sparkonomy",
   description:
-    "Terms and conditions for the Sparkonomy Gold Shagun Promo lucky draw running May 1–31, 2026.",
+    "Terms and conditions for the Sparkonomy Gold Shagun Promo lucky draw running May 4–31, 2026.",
 };
 
 export default function GoldPromoTermsPage() {
@@ -23,7 +23,7 @@ export default function GoldPromoTermsPage() {
           Gold Shagun Promo — Terms &amp; Conditions
         </h1>
         <p className="text-sm text-gray-500 mb-8">
-          Effective Date: May 1, 2026
+          Effective Date: May 04, 2026
         </p>
 
         <h2 className="text-xl font-semibold mt-8 mb-4">1. The Promo</h2>
@@ -38,7 +38,7 @@ export default function GoldPromoTermsPage() {
 
         <h2 className="text-xl font-semibold mt-8 mb-4">2. Promo Period</h2>
         <p className="mb-4">
-          The Promo runs from May 1, 2026 to May 31, 2026 (the &ldquo;Promo
+          The Promo runs from May 04, 2026 to May 31, 2026 (the &ldquo;Promo
           Period&rdquo;), inclusive of both dates. This Promo has one draw
           period, covering the full Promo Period. All times referenced in the
           Promo are in Indian Standard Time (IST).
@@ -102,7 +102,7 @@ export default function GoldPromoTermsPage() {
             Invoices that appear to be created solely for the purpose of
             entering this Promo may be disqualified at our discretion.
           </li>
-          <li>Sent during the Promo Period (May 1 – May 31, 2026).</li>
+          <li>Sent during the Promo Period (May 4 – May 31, 2026).</li>
         </ul>
         <p className="mb-4">
           The timestamp of your invoice submission, as recorded by
