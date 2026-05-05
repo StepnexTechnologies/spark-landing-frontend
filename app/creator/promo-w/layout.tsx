@@ -30,10 +30,6 @@ export const metadata: Metadata = {
       { url: "/earn-180x180Px.png", sizes: "180x180", type: "image/png" },
     ],
   },
-  robots: {
-    index: false,
-    follow: false,
-  },
   openGraph: {
     siteName: "Sparkonomy",
     url: "https://sparkonomy.com/creator/promo-w",
