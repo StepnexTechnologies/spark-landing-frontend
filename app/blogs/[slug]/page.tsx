@@ -424,7 +424,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       />
 
       <main className="min-h-screen px-0 md:px-10 lg:px-[90px] py-5 lg:py-6 bg-white">
-        <article className="flex flex-col gap-4 md:gap-6 lg:gap-10">
+        <article className="flex flex-col gap-4 md:gap-6 lg:gap-10 max-w-[760px] w-full mx-auto">
           {/* Breadcrumb Navigation */}
           <div className="px-4 md:px-0 ">
             <Breadcrumb
@@ -439,15 +439,15 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           </div>
 
           {/* Title */}
-          <div className="px-4 md:px-[50px] lg:px-[130px]">
+          <div className="px-4 md:px-6 lg:px-0">
             <h1
-              className="text-[32px] md:text-[36px] lg:text-[40px] font-bold text-[#6B7280] leading-tight"
+              className="text-[32px] md:text-[40px] lg:text-[44px] font-bold text-[#6B7280] leading-[1.15] tracking-tight"
               dangerouslySetInnerHTML={{ __html: post.title.rendered }}
             />
           </div>
 
           {/* Meta Information */}
-          <div className="px-4 md:px-[30px] xl:px-[130px]">
+          <div className="px-4 md:px-6 lg:px-0">
             <div className="flex items-center gap-2 text-[14px] md:text-[20px] lg:text-[24px] text-[#6B7280] mb-4">
               <div className="flex items-center gap-2">
                 <span>{publishDate}</span>
@@ -601,8 +601,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             const [firstSentence, rest] = splitFirstSentence(blogDescription);
             return (
               <div
-                className="px-4 md:px-[50px] lg:px-[130px] text-base md:text-[22px] text-[#6B7280] leading-[150%] tracking-[0.25px]"
-                style={{ textAlign: 'justify', textJustify: 'inter-word', hyphens: 'auto' }}
+                className="px-4 md:px-6 lg:px-0 text-[18px] md:text-[22px] text-[#6B7280] leading-[1.6]"
               >
                 <span className="font-semibold" dangerouslySetInnerHTML={{ __html: firstSentence }} />
                 {rest && <span dangerouslySetInnerHTML={{ __html: rest }} />}
@@ -641,7 +640,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           )}
 
           {/* Article Content */}
-          <div className="px-4 md:px-[50px] lg:px-[130px]">
+          <div className="px-4 md:px-6 lg:px-0">
             {/* Tax Calculator injector — replaces <h6>tax-calc</h6> markers with the calculator */}
             <TaxCalculatorInjector />
             {/* H6 Section Parser — runs first, wraps all H6-marked sections */}
@@ -682,7 +681,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           </div>
 
           {/* Author Bio - Multiple Authors Support */}
-          <div className="px-4 md:px-[50px] lg:px-[130px] relative z-10 flex flex-col gap-6">
+          <div className="px-4 md:px-6 lg:px-0 relative z-10 flex flex-col gap-6">
             {authorsWithLocalData.map((authorData, index) => (
               <AuthorCard
                 key={index}
@@ -702,14 +701,14 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             ))}
           </div>
 
-          {/* Related Posts */}
-          <div className="relative z-0">
-            <LazyOnVisible minHeight={400}>
-              <RelatedPosts posts={relatedPosts} />
-            </LazyOnVisible>
-          </div>
-
         </article>
+
+        {/* Related Posts - full width, outside the narrow reading column */}
+        <div className="relative z-0 mt-10 lg:mt-16 px-4 md:px-0">
+          <LazyOnVisible minHeight={400}>
+            <RelatedPosts posts={relatedPosts} />
+          </LazyOnVisible>
+        </div>
       </main>
 
       {/* Newsletter Section */}
