@@ -1089,30 +1089,34 @@
 .wordpress-content .wp-block-pullquote p:first-of-type::before,
 .wordpress-content .wp-block-quote p:first-of-type::before {
   content: "\201C";
+  font-family: Georgia, "Times New Roman", Times, serif;
   font-size: 3rem;
   color: #8b5cf6;
   font-weight: 700;
   line-height: 0;
-  vertical-align: -0.3em;
-  margin-right: 0.1em;
+  vertical-align: 0rem;
+  margin-right: 0.05em;
+  display: inline-block;
 }
 
 .wordpress-content .wp-block-pullquote p:last-of-type::after,
 .wordpress-content .wp-block-quote p:last-of-type::after {
   content: "\201D";
+  font-family: Georgia, "Times New Roman", Times, serif;
   font-size: 3rem;
   color: #8b5cf6;
   font-weight: 700;
   line-height: 0;
-  vertical-align: -0.3em;
-  margin-left: 0.1em;
+  vertical-align: 0rem;
+  margin-left: 0.05em;
+  display: inline-block;
 }
 
 .wordpress-content .wp-block-pullquote cite,
 .wordpress-content .wp-block-quote cite {
   display: block;
   text-align: center;
-  font-style: italic;
+  font-style: ;
   font-size: 0.875rem;
   font-weight: 600;
   letter-spacing: 0.05em;
