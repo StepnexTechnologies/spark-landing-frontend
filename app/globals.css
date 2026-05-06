@@ -85,6 +85,30 @@ body {
     }
 }
 
+/* Founder-invite backdrop — paint hints for the 390-px-wide stage and the
+   absolutely-positioned blobs inside it. Coordinates and gradients are set
+   inline from FounderInviteBackdrop.tsx (ported from Figma); these classes
+   only carry the GPU-promotion + ellipse hints. */
+.founder-bg-stage {
+    will-change: transform;
+    transform: translate3d(0, 0, 0);
+    -webkit-backface-visibility: hidden;
+}
+.founder-bg-blob {
+    position: absolute;
+    border-radius: 50%;
+    will-change: transform;
+    transform: translate3d(0, 0, 0);
+    -webkit-backface-visibility: hidden;
+}
+@media (max-width: 768px) {
+    /* Cap the largest blurs on mobile so painting stays cheap on lower-end
+       GPUs. The selectors target the inline filter strings emitted by the
+       BLOBS array — see FounderInviteBackdrop.tsx for the source values. */
+    .founder-bg-blob[style*="blur(150px)"] { filter: blur(80px) !important; }
+    .founder-bg-blob[style*="blur(100px)"] { filter: blur(60px) !important; }
+}
+
 .cta-button-gradient {
     background: linear-gradient(162deg, rgba(221, 42, 123, 0.4) 0%, rgba(151, 71, 255, 0.4) 64%);
 }

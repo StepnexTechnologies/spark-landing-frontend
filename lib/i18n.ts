@@ -8,6 +8,10 @@ import hiLatnCreatorEarn from '@/public/locales/hi-Latn/creatorEarn.json';
 // creatorPromo is Hinglish-only — no English bundle. The promo route forces
 // hi-Latn at mount, so en pulls the same file as a defensive fallback.
 import hiLatnCreatorPromo from '@/public/locales/hi-Latn/creatorPromo.json';
+// creatorFounderInvite — Hinglish-style brand copy authored once and shipped
+// to both locales verbatim (project rule). Both bundles are identical files.
+import enCreatorFounderInvite from '@/public/locales/en/creatorFounderInvite.json';
+import hiLatnCreatorFounderInvite from '@/public/locales/hi-Latn/creatorFounderInvite.json';
 
 const isBrowser = typeof window !== 'undefined';
 
@@ -28,16 +32,18 @@ const initI18n = () => {
         lng: isBrowser ? undefined : 'en',
         supportedLngs: ['en', 'hi-Latn'],
         debug: false,
-        ns: ['creatorEarn', 'creatorPromo'],
+        ns: ['creatorEarn', 'creatorPromo', 'creatorFounderInvite'],
         defaultNS: 'creatorEarn',
         resources: {
           en: {
             creatorEarn: enCreatorEarn,
             creatorPromo: hiLatnCreatorPromo,
+            creatorFounderInvite: enCreatorFounderInvite,
           },
           'hi-Latn': {
             creatorEarn: hiLatnCreatorEarn,
             creatorPromo: hiLatnCreatorPromo,
+            creatorFounderInvite: hiLatnCreatorFounderInvite,
           },
         },
         detection: {
@@ -61,8 +67,10 @@ const initI18n = () => {
   // deep=true + overwrite=true makes HMR-friendly key additions Just Work.
   i18n.addResourceBundle('en', 'creatorEarn', enCreatorEarn, true, true);
   i18n.addResourceBundle('en', 'creatorPromo', hiLatnCreatorPromo, true, true);
+  i18n.addResourceBundle('en', 'creatorFounderInvite', enCreatorFounderInvite, true, true);
   i18n.addResourceBundle('hi-Latn', 'creatorEarn', hiLatnCreatorEarn, true, true);
   i18n.addResourceBundle('hi-Latn', 'creatorPromo', hiLatnCreatorPromo, true, true);
+  i18n.addResourceBundle('hi-Latn', 'creatorFounderInvite', hiLatnCreatorFounderInvite, true, true);
 };
 
 initI18n();
