@@ -29,7 +29,7 @@ import LazyOnVisible from "@/components/blog/LazyOnVisible";
 import RelatedResourcesInjector from "@/components/blog/RelatedResourcesInjector";
 import BlogScrollTracker from "@/components/blog/BlogScrollTracker";
 import MetaShareButton from "@/components/blog/MetaShareButton";
-import { getAuthorPageSlug, getAuthorByWordPressSlug } from "@/data/authors";
+import { getAuthorPageSlug, getAuthorByWordPressSlug, getAuthorBySlug, isFoundingTeamPost } from "@/data/authors";
 import "../wordpress-content.css";
 
 interface BlogPostPageProps {
@@ -139,12 +139,12 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const featuredImage = post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || getFeaturedImageUrl(post, "full");
   // Use async version to fetch Co-Authors Plus guest authors
   const postAuthors = await getPostAuthorsAsync(post);
-  const authorNames = postAuthors.map(a => a.name).join(postAuthors.length === 2 ? ' and ' : ', ');
   const publishDate = formatDate(post.date);
   const readingTime = getReadingTime(post);
 
-  // Get local author data for each WordPress author
-  const authorsWithLocalData = postAuthors.map(wpAuthor => {
+  // Get local author data for each WordPress author. JSON-LD below keeps every
+  // individual author so structured data preserves per-person attribution.
+  const authorsWithLocalData = postAuthors.map((wpAuthor) => {
     const localAuthor = getAuthorByWordPressSlug(wpAuthor.slug);
     const authorPageSlug = getAuthorPageSlug(wpAuthor.slug);
     return {
@@ -161,8 +161,36 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     };
   });
 
-  // For backward compatibility, get first author data
-  const primaryAuthor = authorsWithLocalData[0];
+  // When a post is co-authored by exactly the four co-founders, collapse the
+  // visual author header + bio cards into a single "Founding Team" entry.
+  // JSON-LD above intentionally keeps every co-founder.
+  const foundingTeam = isFoundingTeamPost(postAuthors.map((a) => a.slug))
+    ? getAuthorBySlug("founding-team")
+    : null;
+
+  const displayAuthors = foundingTeam
+    ? [
+        {
+          wpAuthor: postAuthors[0],
+          localAuthor: foundingTeam,
+          authorPageSlug: foundingTeam.slug,
+          name: foundingTeam.name,
+          role: foundingTeam.role,
+          avatarUrl: foundingTeam.avatarUrl,
+          shortBio: foundingTeam.shortBio,
+          socialLinks: foundingTeam.socialLinks,
+          previousCompanies: foundingTeam.previousCompanies,
+          previousCompaniesLabel: foundingTeam.previousCompaniesLabel || "Previously at",
+        },
+      ]
+    : authorsWithLocalData;
+
+  const authorNames = foundingTeam
+    ? foundingTeam.name
+    : postAuthors.map((a) => a.name).join(postAuthors.length === 2 ? " and " : ", ");
+
+  // For backward compatibility, get first author data (collapsed when founding team)
+  const primaryAuthor = displayAuthors[0];
   const author = primaryAuthor?.name || "Unknown";
 
   // Process content: pre-process H6 markers, extract headings, add toc-list class
@@ -467,7 +495,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             {/* Author Section - Multiple Authors Support */}
             <div className="border-t border-b border-gray-200 py-2 md:py-5">
               <div className="flex flex-col gap-4">
-                {authorsWithLocalData.map((authorData, index) => (
+                {displayAuthors.map((authorData, index) => (
                   <div key={index} className={`flex items-center justify-between gap-1 ${index > 0 ? 'pt-4 border-t border-gray-100' : ''}`}>
                     {/* Author Info */}
                     <div className="flex items-center gap-4">
