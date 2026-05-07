@@ -29,7 +29,7 @@ import LazyOnVisible from "@/components/blog/LazyOnVisible";
 import RelatedResourcesInjector from "@/components/blog/RelatedResourcesInjector";
 import BlogScrollTracker from "@/components/blog/BlogScrollTracker";
 import MetaShareButton from "@/components/blog/MetaShareButton";
-import { getAuthorPageSlug, getAuthorByWordPressSlug } from "@/data/authors";
+import { getAuthorPageSlug, getAuthorByWordPressSlug, getAuthorBySlug, isFoundingTeamPost } from "@/data/authors";
 import "../wordpress-content.css";
 
 interface BlogPostPageProps {
@@ -139,12 +139,12 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const featuredImage = post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || getFeaturedImageUrl(post, "full");
   // Use async version to fetch Co-Authors Plus guest authors
   const postAuthors = await getPostAuthorsAsync(post);
-  const authorNames = postAuthors.map(a => a.name).join(postAuthors.length === 2 ? ' and ' : ', ');
   const publishDate = formatDate(post.date);
   const readingTime = getReadingTime(post);
 
-  // Get local author data for each WordPress author
-  const authorsWithLocalData = postAuthors.map(wpAuthor => {
+  // Get local author data for each WordPress author. JSON-LD below keeps every
+  // individual author so structured data preserves per-person attribution.
+  const authorsWithLocalData = postAuthors.map((wpAuthor) => {
     const localAuthor = getAuthorByWordPressSlug(wpAuthor.slug);
     const authorPageSlug = getAuthorPageSlug(wpAuthor.slug);
     return {
@@ -161,8 +161,36 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     };
   });
 
-  // For backward compatibility, get first author data
-  const primaryAuthor = authorsWithLocalData[0];
+  // When a post is co-authored by exactly the four co-founders, collapse the
+  // visual author header + bio cards into a single "Founding Team" entry.
+  // JSON-LD above intentionally keeps every co-founder.
+  const foundingTeam = isFoundingTeamPost(postAuthors.map((a) => a.slug))
+    ? getAuthorBySlug("founding-team")
+    : null;
+
+  const displayAuthors = foundingTeam
+    ? [
+        {
+          wpAuthor: postAuthors[0],
+          localAuthor: foundingTeam,
+          authorPageSlug: foundingTeam.slug,
+          name: foundingTeam.name,
+          role: foundingTeam.role,
+          avatarUrl: foundingTeam.avatarUrl,
+          shortBio: foundingTeam.shortBio,
+          socialLinks: foundingTeam.socialLinks,
+          previousCompanies: foundingTeam.previousCompanies,
+          previousCompaniesLabel: foundingTeam.previousCompaniesLabel || "Previously at",
+        },
+      ]
+    : authorsWithLocalData;
+
+  const authorNames = foundingTeam
+    ? foundingTeam.name
+    : postAuthors.map((a) => a.name).join(postAuthors.length === 2 ? " and " : ", ");
+
+  // For backward compatibility, get first author data (collapsed when founding team)
+  const primaryAuthor = displayAuthors[0];
   const author = primaryAuthor?.name || "Unknown";
 
   // Process content: pre-process H6 markers, extract headings, add toc-list class
@@ -424,7 +452,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       />
 
       <main className="min-h-screen px-0 md:px-10 lg:px-[90px] py-5 lg:py-6 bg-white">
-        <article className="flex flex-col gap-4 md:gap-6 lg:gap-10">
+        <article className="flex flex-col gap-4 md:gap-6 lg:gap-10 max-w-[760px] w-full mx-auto">
           {/* Breadcrumb Navigation */}
           <div className="px-4 md:px-0 ">
             <Breadcrumb
@@ -439,15 +467,15 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           </div>
 
           {/* Title */}
-          <div className="px-4 md:px-[50px] lg:px-[130px]">
+          <div className="px-4 md:px-6 lg:px-0">
             <h1
-              className="text-[32px] md:text-[36px] lg:text-[40px] font-bold text-[#6B7280] leading-tight"
+              className="text-[32px] md:text-[40px] lg:text-[44px] font-bold text-[#6B7280] leading-[1.15] tracking-tight"
               dangerouslySetInnerHTML={{ __html: post.title.rendered }}
             />
           </div>
 
           {/* Meta Information */}
-          <div className="px-4 md:px-[30px] xl:px-[130px]">
+          <div className="px-4 md:px-6 lg:px-0">
             <div className="flex items-center gap-2 text-[14px] md:text-[20px] lg:text-[24px] text-[#6B7280] mb-4">
               <div className="flex items-center gap-2">
                 <span>{publishDate}</span>
@@ -467,7 +495,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             {/* Author Section - Multiple Authors Support */}
             <div className="border-t border-b border-gray-200 py-2 md:py-5">
               <div className="flex flex-col gap-4">
-                {authorsWithLocalData.map((authorData, index) => (
+                {displayAuthors.map((authorData, index) => (
                   <div key={index} className={`flex items-center justify-between gap-1 ${index > 0 ? 'pt-4 border-t border-gray-100' : ''}`}>
                     {/* Author Info */}
                     <div className="flex items-center gap-4">
@@ -601,8 +629,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             const [firstSentence, rest] = splitFirstSentence(blogDescription);
             return (
               <div
-                className="px-4 md:px-[50px] lg:px-[130px] text-base md:text-[22px] text-[#6B7280] leading-[150%] tracking-[0.25px]"
-                style={{ textAlign: 'justify', textJustify: 'inter-word', hyphens: 'auto' }}
+                className="px-4 md:px-6 lg:px-0 text-[18px] md:text-[22px] text-[#6B7280] leading-[1.6]"
               >
                 <span className="font-semibold" dangerouslySetInnerHTML={{ __html: firstSentence }} />
                 {rest && <span dangerouslySetInnerHTML={{ __html: rest }} />}
@@ -641,7 +668,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           )}
 
           {/* Article Content */}
-          <div className="px-4 md:px-[50px] lg:px-[130px]">
+          <div className="px-4 md:px-6 lg:px-0">
             {/* Tax Calculator injector — replaces <h6>tax-calc</h6> markers with the calculator */}
             <TaxCalculatorInjector />
             {/* H6 Section Parser — runs first, wraps all H6-marked sections */}
@@ -682,7 +709,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           </div>
 
           {/* Author Bio - Multiple Authors Support */}
-          <div className="px-4 md:px-[50px] lg:px-[130px] relative z-10 flex flex-col gap-6">
+          <div className="px-4 md:px-6 lg:px-0 relative z-10 flex flex-col gap-6">
             {authorsWithLocalData.map((authorData, index) => (
               <AuthorCard
                 key={index}
@@ -702,14 +729,14 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             ))}
           </div>
 
-          {/* Related Posts */}
-          <div className="relative z-0">
-            <LazyOnVisible minHeight={400}>
-              <RelatedPosts posts={relatedPosts} />
-            </LazyOnVisible>
-          </div>
-
         </article>
+
+        {/* Related Posts - full width, outside the narrow reading column */}
+        <div className="relative z-0 mt-10 lg:mt-16 px-4 md:px-0">
+          <LazyOnVisible minHeight={400}>
+            <RelatedPosts posts={relatedPosts} />
+          </LazyOnVisible>
+        </div>
       </main>
 
       {/* Newsletter Section */}
