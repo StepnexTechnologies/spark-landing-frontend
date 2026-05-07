@@ -891,6 +891,99 @@ export const authors: AuthorEntry[] = [
     lastUpdated: "April 17, 2026",
     profileId: "authors/vipasha-joshi",
   },
+  {
+    id: "founding_team",
+    slug: "founding-team",
+
+    // SEO metadata
+    metaTitle: "The Sparkonomy Founding Team",
+    metaDescription:
+      "Meet the Sparkonomy founding team — Guneet Singh, Megha Thareja Tyagi, Vipasha Joshi, and Rachit Jain — building AI infrastructure for the creator economy.",
+    canonicalPath: "/authors/founding-team",
+
+    // No WordPress slug — this is a synthetic author used to collapse multi-author posts
+    // where all four co-founders appear together.
+
+    name: "The Sparkonomy Founding Team",
+    role: "Co-Founders, Sparkonomy",
+    avatarUrl: "/sparkonomy.png",
+    shortBio:
+      "We are the co-founders of Sparkonomy — Guneet Singh, Megha Thareja Tyagi, Vipasha Joshi, and Rachit Jain. Together we bring 70+ years across Google, Meta, Microsoft, PayPal, American Express, Samsung, Jellysmack, SAP, and IBM to building AI infrastructure for the creator economy.",
+
+    socialLinks: {
+      linkedin: "https://www.linkedin.com/company/sparkonomy",
+      twitter: "https://x.com/SparkonomySays",
+      email: "team@sparkonomy.com",
+    },
+
+    previousCompanies: [
+      { name: "Google", logo: "/authors/Logos/Google.png" },
+      { name: "Meta", logo: "/authors/Logos/META.png" },
+      { name: "Microsoft", logo: "/authors/Logos/Microsoft.png" },
+      { name: "PayPal", logo: "/authors/Logos/PayPal.png" },
+      { name: "American Express", logo: "/authors/Logos/AmericanExpressStacked.png" },
+      { name: "Samsung", logo: "/authors/Logos/Samsung.png" },
+      { name: "Jellysmack", logo: "/authors/Logos/Jellysmack.png" },
+    ],
+    previousCompaniesLabel: "Collectively built and led teams at:",
+
+    storyTitle: "Why we are building Sparkonomy",
+    storyContent: [
+      "We have spent the last two decades inside the systems that power the modern internet — at Google, Meta, Microsoft, PayPal, American Express, Samsung, Jellysmack, SAP, and IBM. We watched platforms scale, payments globalize, and creators emerge as a real economic force.",
+      "But the same patterns kept repeating. Creators were running real businesses without the operating support that every traditional business takes for granted. Pricing, contracts, payments, taxes, partnerships — the back-office work was eating the creative work.",
+    ],
+    highlightQuote:
+      "The creator economy doesn't have a content problem. It has an infrastructure problem.",
+    storyConclusion: [
+      "Sparkonomy is our answer. We are building AI infrastructure for the creator economy — so creators can spend less time wrestling with operations and more time building durable, profitable businesses.",
+    ],
+
+    aboutTitle: "About the Founding Team",
+    aboutContent: [
+      "The Sparkonomy founding team brings together leadership across product, growth, payments, partnerships, and the creator economy. Guneet Singh leads tech and platform strategy after 20+ years across Google, Microsoft, and Samsung. Megha Thareja Tyagi leads commercial and AI strategy after two decades at Google, PayPal, and American Express. Vipasha Joshi leads creator business after 16+ years at Google and Jellysmack. Rachit Jain leads growth and partnerships after 20+ years at Meta, Google, SAP, and IBM.",
+      "Posts published under \"The Sparkonomy Founding Team\" are co-written by all four — usually deep dives on the strategy, market, or product direction we are taking together.",
+    ],
+
+    careerHighlights: [
+      "70+ combined years across Google, Meta, Microsoft, PayPal, American Express, Samsung, Jellysmack, SAP, and IBM",
+      "Co-founded Sparkonomy to build AI infrastructure for the creator economy",
+      "Operator backgrounds across product, growth, payments, partnerships, and creator business",
+      "Hands-on with the creator economy since the earliest YouTube and platform-scale waves",
+    ],
+
+    trustItems: [
+      { icon: "experience", label: "Experience", value: "70+ Combined Years" },
+      { icon: "expertise", label: "Expertise", value: "Creator Infrastructure" },
+      { icon: "verified", label: "Verified", value: "Sparkonomy" },
+      { icon: "featured", label: "Focus", value: "Building Sparkonomy" },
+    ],
+
+    mediaMentions: [],
+
+    featuredArticles: [],
+    recentArticles: [],
+
+    areasOfExpertise: [
+      "Creator Economy",
+      "AI Infrastructure",
+      "Go-to-Market Strategy",
+      "Platform Ecosystems",
+      "Payments",
+      "Partnerships",
+      "Growth",
+      "Product Strategy",
+    ],
+
+    contactEmail: "team@sparkonomy.com",
+    mediaEmail: "press@sparkonomy.com",
+    speakingEmail: "events@sparkonomy.com",
+    linkedinSubscribe: "https://www.linkedin.com/company/sparkonomy",
+    responseTime:
+      "Building in the creator economy and want to talk to the founding team? Reach us on LinkedIn or by email.",
+
+    lastUpdated: "May 6, 2026",
+    profileId: "authors/founding-team",
+  },
 ];
 
 // Helper functions
@@ -922,4 +1015,16 @@ export function getAuthorPageSlug(wpSlug: string): string {
 
 export function getAllAuthorSlugs(): string[] {
   return authors.map((author) => author.slug);
+}
+
+/**
+ * WordPress slugs of the four Sparkonomy co-founders. When a post is co-authored
+ * by exactly this set, the blog UI collapses them into a single "Founding Team"
+ * author block instead of stacking four author cards.
+ */
+const FOUNDING_TEAM_WP_SLUGS = ["cap-guneet", "cap-megha", "cap-vipasha", "cap-rachit"];
+
+export function isFoundingTeamPost(wpAuthorSlugs: string[]): boolean {
+  if (wpAuthorSlugs.length !== FOUNDING_TEAM_WP_SLUGS.length) return false;
+  return FOUNDING_TEAM_WP_SLUGS.every((s) => wpAuthorSlugs.includes(s));
 }
