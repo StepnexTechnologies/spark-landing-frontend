@@ -466,13 +466,116 @@ export function getExcerpt(post: WordPressPost, maxLength: number = 160): string
 }
 
 /**
- * Get reading time estimate
+ * Get reading time estimate.
+ * Counts only body prose (no FAQs, TOC, captions, code, author boxes) at 250 wpm.
  */
 export function getReadingTime(post: WordPressPost): number {
-  const text = stripHtml(post.content.rendered);
-  const wordsPerMinute = 200;
-  const wordCount = text.split(/\s+/).length;
-  return Math.ceil(wordCount / wordsPerMinute);
+  const wordsPerMinute = 250;
+  return Math.max(1, Math.ceil(countWords(post.content.rendered) / wordsPerMinute));
+}
+
+/**
+ * Strip a tag and its content (whole element), e.g. <script>...</script>.
+ * Safe for tags that don't typically nest inside themselves.
+ */
+function stripTagWithContent(html: string, tag: string): string {
+  const re = new RegExp(`<${tag}\\b[^<]*(?:(?!<\\/${tag}>)<[^<]*)*<\\/${tag}>`, 'gi');
+  return html.replace(re, '');
+}
+
+/**
+ * Strip elements (with nested children) whose class attribute matches any of the
+ * given names. Uses a depth counter so nested same-tag elements are handled.
+ */
+function stripElementsByClass(html: string, classNames: string[]): string {
+  if (!classNames.length) return html;
+  const classPattern = classNames
+    .map(c => c.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+    .join('|');
+  const startRegex = new RegExp(
+    `<(\\w+)\\b[^>]*\\bclass\\s*=\\s*["'][^"']*\\b(?:${classPattern})\\b[^"']*["'][^>]*>`,
+    'i'
+  );
+
+  let result = html;
+  for (let safety = 0; safety < 200; safety++) {
+    const match = startRegex.exec(result);
+    if (!match) break;
+
+    const tag = match[1].toLowerCase();
+    const startIdx = match.index;
+    let pos = startIdx + match[0].length;
+    let depth = 1;
+
+    const openRe = new RegExp(`<${tag}\\b[^>]*>`, 'gi');
+    const closeRe = new RegExp(`<\\/${tag}\\s*>`, 'gi');
+
+    while (depth > 0 && pos < result.length) {
+      openRe.lastIndex = pos;
+      closeRe.lastIndex = pos;
+      const next = openRe.exec(result);
+      const close = closeRe.exec(result);
+      if (!close) {
+        pos = result.length;
+        break;
+      }
+      if (next && next.index < close.index) {
+        depth++;
+        pos = next.index + next[0].length;
+      } else {
+        depth--;
+        pos = close.index + close[0].length;
+      }
+    }
+
+    result = result.slice(0, startIdx) + result.slice(pos);
+  }
+  return result;
+}
+
+/**
+ * Count words in an HTML string for reading-time purposes.
+ *
+ * Excludes content the reader skims or skips: FAQ accordions, table of
+ * contents, image captions/figcaptions, code/pre blocks, scripts/styles, and
+ * inline author boxes. Decodes HTML entities and matches Unicode word tokens
+ * so non-English content is handled correctly.
+ */
+export function countWords(html: string): number {
+  let cleaned = html;
+
+  // Whole-element strips for tags that don't nest themselves
+  for (const tag of ['script', 'style', 'noscript', 'pre', 'code', 'figcaption']) {
+    cleaned = stripTagWithContent(cleaned, tag);
+  }
+
+  // Heading-based strip: "Frequently Asked Questions" section through the next <h2>
+  cleaned = cleaned.replace(
+    /<h2\b[^>]*>(?:<[^>]*>)*\s*Frequently\s+Asked\s+Questions?\s*(?:<[^>]*>)*<\/h2>[\s\S]*?(?=<h2\b|$)/gi,
+    ''
+  );
+
+  // Heading-based strip: "Table of Content(s)" heading + its following list
+  cleaned = cleaned.replace(
+    /<h2\b[^>]*>(?:<[^>]*>)*\s*Table\s+of\s+Contents?\s*(?:<[^>]*>)*<\/h2>\s*<ul\b[^>]*>[\s\S]*?<\/ul>/gi,
+    ''
+  );
+
+  // Class-based strips for blocks with nested children
+  cleaned = stripElementsByClass(cleaned, [
+    // Gutenberg accordion (this site's FAQ pattern) — strip whole accordion + items
+    'wp-block-accordion', 'wp-block-accordion-item',
+    // Other FAQ block conventions (defensive)
+    'wp-block-faq', 'faq-section', 'faq-block', 'schema-faq', 'rank-math-faq',
+    // Table of contents wrappers (defensive — heading-based regex above handles the common case)
+    'wp-block-table-of-contents', 'table-of-contents', 'toc-list', 'toc-container', 'ez-toc',
+    // Author/bio cards inside post content
+    'author-box', 'author-bio', 'author-card', 'wp-author-box',
+  ]);
+
+  const text = decodeHtmlEntities(cleaned);
+  const words = text.match(/[\p{L}\p{N}]+(?:['’\-][\p{L}\p{N}]+)*/gu);
+  return words ? words.length : 0;
 }
 
 /**

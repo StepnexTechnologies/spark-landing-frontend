@@ -41,9 +41,17 @@ export default function MainSection({
   textAlign = "left",
 }: MainSectionProps) {
   const isRight = textAlign === "right";
-  const overlayGradient = isRight
-    ? "bg-gradient-to-r from-black/10 via-black/25 to-black/65"
-    : "bg-gradient-to-r from-black/65 via-black/25 to-black/10";
+  const overlayStyle: React.CSSProperties = {
+    background: isRight
+      ? [
+          "radial-gradient(ellipse 170% 150% at bottom right, rgba(0,0,0,0.78) 0%, rgba(0,0,0,0.76) 25%, rgba(0,0,0,0.64) 50%, rgba(0,0,0,0.4) 75%, rgba(0,0,0,0.12) 95%, rgba(0,0,0,0) 100%)",
+          "linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.36) 45%, rgba(0,0,0,0.08) 80%, rgba(0,0,0,0) 100%)",
+        ].join(", ")
+      : [
+          "radial-gradient(ellipse 170% 150% at bottom left, rgba(0,0,0,0.78) 0%, rgba(0,0,0,0.76) 25%, rgba(0,0,0,0.64) 50%, rgba(0,0,0,0.4) 75%, rgba(0,0,0,0.12) 95%, rgba(0,0,0,0) 100%)",
+          "linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.36) 45%, rgba(0,0,0,0.08) 80%, rgba(0,0,0,0) 100%)",
+        ].join(", "),
+  };
   const truncatedDescription = description.length > 160
     ? `${description.substring(0, 160)}...`
     : description;
@@ -61,7 +69,7 @@ export default function MainSection({
             priority
             quality={90}
           />
-          <div className={`absolute inset-0 pointer-events-none ${overlayGradient}`} />
+          <div className="absolute inset-0 pointer-events-none" style={overlayStyle} />
         </div>
         <div className={`relative h-full max-w-7xl px-[24px] lg:px-[84px] flex items-end pb-10 lg:pb-20 ${isRight ? "ml-auto" : ""}`}>
           <div className={`md:max-w-lg lg:max-w-2xl text-white ${isRight ? "ml-auto text-right" : ""}`}>
