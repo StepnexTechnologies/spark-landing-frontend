@@ -8,9 +8,13 @@ import { track } from "@/lib/analytics/track";
 
 interface BlogLanguageSwitcherProps {
   className?: string;
+  hinglishAvailable?: boolean;
 }
 
-export const BlogLanguageSwitcher = ({ className }: BlogLanguageSwitcherProps) => {
+export const BlogLanguageSwitcher = ({
+  className,
+  hinglishAvailable = true,
+}: BlogLanguageSwitcherProps) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -19,7 +23,7 @@ export const BlogLanguageSwitcher = ({ className }: BlogLanguageSwitcherProps) =
 
   const languages = [
     { code: "en", label: "English", disabled: false },
-    { code: "hi-Latn", label: "Hinglish", disabled: true },
+    { code: "hi-Latn", label: "Hinglish", disabled: !hinglishAvailable },
   ];
 
   const currentLangParam = searchParams.get("lang");

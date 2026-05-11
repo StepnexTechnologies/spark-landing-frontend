@@ -132,6 +132,45 @@ export async function getPostBySlug(slug: string): Promise<WordPressPost | null>
   }
 }
 
+export type BlogLang = "en" | "hi-Latn";
+
+const HINGLISH_SUFFIX = "-hi";
+
+export function getEnglishSlug(slug: string): string {
+  return slug.endsWith(HINGLISH_SUFFIX) ? slug.slice(0, -HINGLISH_SUFFIX.length) : slug;
+}
+
+export function getHinglishSlug(slug: string): string {
+  return slug.endsWith(HINGLISH_SUFFIX) ? slug : `${slug}${HINGLISH_SUFFIX}`;
+}
+
+/**
+ * Resolve a post for the requested language using the slug-suffix convention:
+ * Hinglish posts share the English slug with a `-hi` suffix. Falls back to the
+ * English version when the Hinglish counterpart is missing.
+ */
+export async function getPostBySlugForLang(
+  slug: string,
+  lang: BlogLang
+): Promise<{ post: WordPressPost | null; resolvedLang: BlogLang }> {
+  const englishSlug = getEnglishSlug(slug);
+
+  if (lang === "hi-Latn") {
+    const hi = await getPostBySlug(getHinglishSlug(englishSlug));
+    if (hi) return { post: hi, resolvedLang: "hi-Latn" };
+  }
+
+  const en = await getPostBySlug(englishSlug);
+  return { post: en, resolvedLang: "en" };
+}
+
+export async function hasHinglishVersion(slug: string): Promise<boolean> {
+  const englishSlug = getEnglishSlug(slug);
+  if (englishSlug !== slug) return true;
+  const hi = await getPostBySlug(getHinglishSlug(englishSlug));
+  return hi !== null;
+}
+
 /**
  * Get post by ID
  */

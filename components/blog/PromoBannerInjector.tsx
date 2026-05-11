@@ -58,30 +58,70 @@ function styleCTASections() {
       ) {
         child.classList.add("cta-banner-title");
         foundTitle = true;
-      } else if (tagName === "P") {
-        const link = child.querySelector("a");
-        const paragraphText = child.textContent?.trim() || "";
+        continue;
+      }
 
-        // Check if this is a CTA button paragraph
-        const isCTAButton =
-          link &&
-          (paragraphText.includes("→") ||
-            paragraphText.toLowerCase().includes("get started") ||
-            paragraphText.toLowerCase().includes("try free") ||
-            paragraphText.toLowerCase().includes("talk to"));
+      if (tagName !== "P") continue;
 
-        if (isCTAButton && !foundLink) {
-          child.classList.add("cta-banner-button");
-          if (link) {
-            link.classList.add("cta-banner-link");
-            // Replace → text with Arrow_navigate.png image
-            replaceArrowWithImage(link as HTMLAnchorElement);
+      const link = child.querySelector("a");
+      const paragraphText = child.textContent?.trim() || "";
+
+      // Pattern: <p><strong>Title</strong> <a>Download</a></p>
+      // Split the paragraph: bold text becomes the CTA title, link becomes the button.
+      if (link && !foundLink) {
+        const strongEl = child.querySelector("strong, b");
+        const linkText = link.textContent?.trim() || "";
+        const restText = paragraphText.replace(linkText, "").trim();
+
+        if (strongEl && restText.length > 0) {
+          if (!foundTitle) {
+            const titleEl = document.createElement("p");
+            titleEl.className = "cta-banner-title";
+            titleEl.innerHTML = strongEl.innerHTML;
+            child.parentNode?.insertBefore(titleEl, child);
+            foundTitle = true;
           }
+          child.innerHTML = "";
+          child.appendChild(link);
+          child.classList.add("cta-banner-button");
+          link.classList.add("cta-banner-link");
+          replaceArrowWithImage(link as HTMLAnchorElement);
           foundLink = true;
-        } else if (!foundSubtitle && foundTitle) {
-          child.classList.add("cta-banner-subtitle");
-          foundSubtitle = true;
+          continue;
         }
+      }
+
+      // Pattern: <p><strong>Title</strong></p> (with the link in a sibling P)
+      // Treat a bold-only paragraph as the CTA title.
+      if (!foundTitle && !link) {
+        const strongEl = child.querySelector("strong, b");
+        if (strongEl && strongEl.textContent?.trim() === paragraphText) {
+          child.classList.add("cta-banner-title");
+          foundTitle = true;
+          continue;
+        }
+      }
+
+      // Check if this is a CTA button paragraph
+      const isCTAButton =
+        link &&
+        (paragraphText.includes("→") ||
+          paragraphText.toLowerCase().includes("get started") ||
+          paragraphText.toLowerCase().includes("try free") ||
+          paragraphText.toLowerCase().includes("talk to") ||
+          paragraphText.toLowerCase().includes("download"));
+
+      if (isCTAButton && !foundLink) {
+        child.classList.add("cta-banner-button");
+        if (link) {
+          link.classList.add("cta-banner-link");
+          // Replace → text with Arrow_navigate.png image
+          replaceArrowWithImage(link as HTMLAnchorElement);
+        }
+        foundLink = true;
+      } else if (!foundSubtitle && foundTitle) {
+        child.classList.add("cta-banner-subtitle");
+        foundSubtitle = true;
       }
     }
   });
