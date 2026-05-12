@@ -340,10 +340,10 @@ const HeroSection = () => {
         />
       </div>
 
-      <div className={`flex-1 flex flex-col items-center justify-center ${isPromoActive ? "pb-[360px] md:pb-[320px]" : "pb-[150px]"}`}>
-        <div className="text-center relative">
+      <div className={`flex-1 flex flex-col items-center justify-center pointer-events-none ${isPromoActive ? "pb-[360px] md:pb-[320px]" : "pb-[150px]"}`}>
+        <div className="text-center relative pointer-events-none">
           <motion.div
-            className={`absolute inset-0 flex flex-col space-y-8 items-center justify-center mb-12 ${showContent && 'hidden'}`}
+            className={`absolute inset-0 flex flex-col space-y-8 items-center justify-center mb-12 pointer-events-none ${showContent && 'hidden'}`}
             initial={{ opacity: 1 }}
             animate={{ opacity: showContent ? 0 : 1 }}
             transition={{ duration: 0.5, ease: "easeInOut" }}
@@ -397,6 +397,7 @@ const HeroSection = () => {
 
           <motion.div
             ref={contentRef}
+            className="pointer-events-none"
             initial={{ opacity: 0, y: 20 }}
             animate={{
               opacity: showContent ? 1 : 0,
@@ -405,12 +406,12 @@ const HeroSection = () => {
             transition={{ duration: 1, ease: "easeInOut" }}
           >
             <div
-              className="relative px-4 w-full flex justify-center transition-opacity duration-700"
+              className="relative px-4 w-full flex justify-center transition-opacity duration-700 pointer-events-none"
               style={{ opacity: titleVisible ? 1 : 0 }}
             >
               <h2
                 ref={sparkonomyRef}
-                className="text-5xl xs:text-5xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-6 tracking-normal text-white select-none whitespace-nowrap"
+                className="text-5xl xs:text-5xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-6 tracking-normal text-white select-none whitespace-nowrap pointer-events-none"
                 style={{
                   textShadow: "0 0 20px rgba(108,99,255,0.3)",
                 }}
@@ -421,7 +422,7 @@ const HeroSection = () => {
 
             <p
               ref={taglineRef}
-              className="tagline text-lg sm:text-xl md:text-2xl mb-8 relative text-white select-none px-4 transition-opacity duration-700"
+              className="tagline text-lg sm:text-xl md:text-2xl mb-8 relative text-white select-none px-4 transition-opacity duration-700 pointer-events-none"
               style={{
                 opacity: subtextVisible ? 1 : 0,
                 transform: subtextVisible ? "translateY(0)" : "translateY(20px)",
