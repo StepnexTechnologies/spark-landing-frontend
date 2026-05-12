@@ -34,7 +34,7 @@ export default function Footer({ minimal = false }: FooterProps) {
       className={
         minimal
           ? "relative w-full select-none z-10 mt-auto pt-8"
-          : "fixed bottom-0 w-full left-0 right-0 select-none z-50"
+          : "fixed bottom-0 w-full left-0 right-0 select-none z-50 pointer-events-none"
       }
     >
       {!minimal && mounted && isPromoActive && heroReady && (
@@ -42,7 +42,7 @@ export default function Footer({ minimal = false }: FooterProps) {
           href="https://beta.creator.sparkonomy.com/auth?service=earn&lang=hi-Latn"
           target="_blank"
           rel="noopener noreferrer"
-          className="pointer-events-auto relative overflow-hidden block w-full px-2 py-2 mb-[115px] text-center cursor-pointer"
+          className="pointer-events-auto relative overflow-hidden block w-full px-2 py-2 mb-[70px] text-center cursor-pointer"
           style={{
             background:
               "linear-gradient(90deg, rgba(61, 88, 219, 0) 2.15%, rgba(110, 99, 255, 0.36) 30.53%, rgba(110, 99, 255, 0.36) 62.34%, rgba(61, 88, 219, 0) 96.24%)",
@@ -96,7 +96,7 @@ export default function Footer({ minimal = false }: FooterProps) {
           ✨ Spotlighted by Google Gemini ✨
         </motion.a>
       )}
-      <div className="flex flex-col items-center w-full px-2 md:px-14 lg:px-20 pb-[max(1rem,env(safe-area-inset-bottom))]">
+      <div className="flex flex-col items-center w-full px-2 md:px-14 lg:px-20 pb-[max(1rem,env(safe-area-inset-bottom))] pointer-events-none">
         {!minimal && heroReady && (
           <motion.div
             className="pointer-events-auto w-full mb-8"
