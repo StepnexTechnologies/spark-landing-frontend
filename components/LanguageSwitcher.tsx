@@ -24,7 +24,20 @@ export const LanguageSwitcher = ({ className }: LanguageSwitcherProps) => {
     { code: "hi-Latn", label: "Hinglish" },
   ];
 
-  const currentLang = i18n.language?.startsWith("hi") ? "hi-Latn" : "en";
+  // Hydration gate: i18n on the server is locked to lng="en" (see lib/i18n.ts),
+  // but on the client the LanguageDetector may have already flipped the
+  // language to hi-Latn from localStorage before the first React render.
+  // Reading i18n.language during hydration would then produce "Hinglish"
+  // against an "English" SSR HTML and trigger a hydration mismatch. We hold
+  // the rendered label at the SSR default until after mount, then let the
+  // real language take over on the next render.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const currentLang =
+    mounted && i18n.language?.startsWith("hi") ? "hi-Latn" : "en";
   const currentLanguage =
     languages.find((lang) => lang.code === currentLang) || languages[0];
 

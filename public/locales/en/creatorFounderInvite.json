@@ -1,0 +1,28 @@
+{
+  "banner": {
+    "left": "NOT PUBLICLY AVAILABLE",
+    "right": "BY INVITATION ONLY"
+  },
+  "hero": {
+    "invitedYou": "Invited you",
+    "exclusiveDivider": "EXCLUSIVE FOUNDERS' INVITE",
+    "headline": "A friend of the founders has a <0>gift for you</0>",
+    "founderTitle": "Founder, Sparkonomy",
+    "whatIs": "WHAT IS SPARKONOMY?",
+    "whatIsHeadline": "India's First AI for <0>Creators.</0>",
+    "whatIsBody": "Launching with payments — so invoicing, late payments, taxes, and endless reminders are no longer your problem.",
+    "whatIsFootnote": "Built by ex-Google & Meta leaders with 80+ years in the creator economy."
+  },
+  "signupCard": {
+    "ribbon": "VIP INVITE",
+    "headline": "First Year, Free",
+    "originalPrice": "₹3,600/ Year",
+    "checks": ["No credit card", "No auto-renewal"],
+    "topTierLine": "Full Top Tier access — from {{founder}}.",
+    "exclusiveLine": "Exclusively for {{friend}}'s referrals — not a public offer",
+    "yourMobileNumber": "Your mobile number",
+    "ctaSendOtp": "Claim Now",
+    "ctaCreateAccount": "Create An Account",
+    "disclaimer": "By tapping, you agree to create an account and Sparkonomy's <0>Terms</0> and <1>Privacy Policy</1>"
+  }
+}
