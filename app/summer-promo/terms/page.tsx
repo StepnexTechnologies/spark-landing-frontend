@@ -23,7 +23,7 @@ export default function SummerPromoTermsPage() {
           Summer Sign-up Promo — Terms &amp; Conditions
         </h1>
         <p className="text-sm text-gray-500 mb-8">
-          Effective Date: May 04, 2026
+          Effective Date: May 10, 2026
         </p>
 
         <h2 className="text-xl font-semibold mt-8 mb-4">1. The Promo</h2>
@@ -183,11 +183,19 @@ export default function SummerPromoTermsPage() {
           </li>
           <li>Was created primarily to participate in this Promo;</li>
           <li>Belongs to someone other than the Sparkonomy account holder; or</li>
-          <li>Otherwise appears fraudulent, misleading, or inauthentic.</li>
+          <li>Otherwise appears fraudulent, misleading, or inauthentic;</li>
+          <li>Was created on or after January 1, 2026; or</li>
+          <li>Has fewer than 5,000 followers at the time of sign-up.</li>
         </ul>
         <p className="mb-4">
           We&apos;re not required to disclose our verification methods, and
           our determination on social account authenticity is final.
+        </p>
+        <p className="mb-4">
+          Notwithstanding the follower threshold above, Sparkonomy reserves
+          the right, at its sole discretion, to award vouchers to creators
+          with fewer than 5,000 followers. This does not create any
+          obligation or entitlement for creators below the threshold.
         </p>
 
         <h2 className="text-xl font-semibold mt-8 mb-4">
