@@ -96,11 +96,7 @@ export default function EmailCapture() {
     }
   };
 
-  const getPlaceholder = () => {
-    return inputType === 'email'
-      ? "By Invitation, Leave Your Email"
-      : "Your Phone Number";
-  };
+  const getPlaceholder = () => "Partner. Invest. Spark.";
 
   const isValidInput = () => {
     if (!email.trim()) return false;
@@ -155,7 +151,7 @@ export default function EmailCapture() {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto relative mb-6">
+    <div className="w-full max-w-md mx-auto relative">
       <AnimatePresence mode="wait">
         {!isSubmitted ? (
           <motion.form
@@ -314,7 +310,7 @@ export default function EmailCapture() {
               transition={{ delay: 0.2 }}
               className="text-xs sm:text-sm text-gray-400 mt-2 text-center italic select-none"
             >
-              No spam. Just sparks.
+              Leave your email or phone. No spam. Just sparks.
             </motion.p>
           </motion.form>
         ) : (
