@@ -32,6 +32,10 @@ export interface VerifyRequest {
   otp: string;
   // Only consumed on the user's very first verify. Safe to always include.
   referral_code?: string | null;
+  // Same first-login-only semantics as referral_code — backend writes these to
+  // the creator row only when is_first_login=true. Safe to always include.
+  utm_source?: string | null;
+  utm_medium?: string | null;
 }
 
 export interface VerifyResponse {

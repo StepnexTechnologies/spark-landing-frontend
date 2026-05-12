@@ -73,7 +73,9 @@ export const metadata: Metadata = {
 };
 
 async function BlogPosts() {
-  const { data: posts } = await getPosts(1, 13);
+  // Pull a bit extra to absorb the Hinglish counterparts we filter out below.
+  const { data: rawPosts } = await getPosts(1, 26);
+  const posts = rawPosts.filter((p) => !p.slug.endsWith("-hi")).slice(0, 13);
 
   if (posts.length === 0) {
     return (
@@ -162,13 +164,14 @@ async function BlogPosts() {
 
 
 async function HeroSection() {
-  const { data: posts } = await getPosts(1, 1);
+  const { data: posts } = await getPosts(1, 5);
+  const englishPosts = posts.filter((p) => !p.slug.endsWith("-hi"));
 
-  if (posts.length === 0) {
+  if (englishPosts.length === 0) {
     return null;
   }
 
-  const heroPost = posts[0];
+  const heroPost = englishPosts[0];
   const allTags = getPostTags(heroPost);
 
   // Check for alignment tag (#left/#right or left/right), default to left

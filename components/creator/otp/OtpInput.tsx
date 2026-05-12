@@ -17,7 +17,7 @@ const VARIANT_INPUT_CLASS: Record<OtpInputVariant, string> = {
   dark:
     "w-12 h-14 md:w-14 md:h-14 rounded-lg text-xl md:text-2xl font-semibold bg-white/10 border border-white/20 text-white focus:border-white/60 focus:bg-white/15",
   light:
-    "w-14 h-16 md:w-[60px] md:h-[64px] rounded-xl text-2xl md:text-[28px] font-bold shadow-[0_2px_6px_rgba(129,52,165,0.15)]",
+    "w-[51.5px] h-12 md:w-[55px] md:h-12 rounded-xl text-2xl md:text-[28px] font-bold shadow-[0_2px_6px_rgba(129,52,165,0.15)]",
 };
 
 const PROMO_GRADIENT =

@@ -1,8 +1,18 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Script from "next/script";
 
 export default function CookieConsentScript() {
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setReady(true), 15_000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (!ready) return null;
+
   return (
     <Script
       async

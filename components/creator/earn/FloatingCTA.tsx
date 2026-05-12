@@ -10,6 +10,7 @@ import { useSignup } from "@/components/creator/promo/SignupContext";
 import GiftCardStackAnimation from "@/components/creator/promo/GiftCardStackAnimation";
 import { PROMO_CONFIG } from "@/lib/promo/config";
 import { track } from "@/lib/analytics/track";
+import { appendUtmTo, readUtmParams } from "@/lib/utm";
 
 // Module-level rAF id so overlapping clicks cancel the previous scroll
 // instead of fighting it (each animation re-reads window.scrollY at start).
@@ -122,6 +123,7 @@ function EarnFloatingCTA({ isVisible, t, i18n, searchParams, trackingPrefix }: E
     url.searchParams.set("lang", currentLang);
     if (referralCode) url.searchParams.set("ref", referralCode);
     if (phone) url.searchParams.set("phone", phone);
+    appendUtmTo(url, readUtmParams(new URLSearchParams(searchParams.toString())));
     track(`${trackingPrefix}_cta_click`, {
       cta: "floating_beta_signup",
       has_phone: Boolean(phone),
