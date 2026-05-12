@@ -21,6 +21,7 @@ import { AuthApiError, type MessageCode } from "@/lib/auth/errors";
 import { redirectToApp } from "@/lib/auth/redirect";
 import { getCurrentLang } from "@/lib/i18n";
 import { track } from "@/lib/analytics/track";
+import { clearStoredUtm, readUtmParams } from "@/lib/utm";
 
 export type SignupStage =
   | "phone"
@@ -102,6 +103,8 @@ export function SignupProvider({ children }: { children: React.ReactNode }) {
   const [requiresBasicInfo, setRequiresBasicInfo] = useState(true);
   const [isNewUser, setIsNewUser] = useState<boolean | null>(null);
   const [referralCode, setReferralCode] = useState<string | null>(null);
+  const [utmSource, setUtmSource] = useState<string | null>(null);
+  const [utmMedium, setUtmMedium] = useState<string | null>(null);
 
   // Guards re-entrancy in the auto-verify effect when the user pastes a 4-digit
   // code or types the last digit while a previous verify is still in flight.
@@ -175,31 +178,41 @@ export function SignupProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => clearExpiryTimer, [clearExpiryTimer]);
 
-  // Pull referral code from ?ref or sessionStorage on mount. Reading
-  // window.location directly (vs useSearchParams) keeps the provider out of
-  // any Suspense-boundary requirement at the page level — referral data is
-  // client-only anyway, same as the sessionStorage fallback below.
+  // Pull referral code + UTM labels from URL or sessionStorage on mount.
+  // Reading window.location directly (vs useSearchParams) keeps the provider
+  // out of any Suspense-boundary requirement at the page level — referral
+  // and UTM data are client-only anyway, same as the sessionStorage fallback.
   useEffect(() => {
-    let fromUrl: string | null = null;
+    let search: URLSearchParams | null = null;
     try {
-      fromUrl = new URLSearchParams(window.location.search).get("ref");
+      search = new URLSearchParams(window.location.search);
     } catch {
       // ignore — non-browser env
     }
-    if (fromUrl) {
-      setReferralCode(fromUrl);
+
+    const refFromUrl = search?.get("ref") ?? null;
+    if (refFromUrl) {
+      setReferralCode(refFromUrl);
       try {
-        sessionStorage.setItem(REFERRAL_STORAGE_KEY, fromUrl);
+        sessionStorage.setItem(REFERRAL_STORAGE_KEY, refFromUrl);
       } catch {
         // sessionStorage may be unavailable in private mode — tolerate silently.
       }
-      return;
+    } else {
+      try {
+        const stored = sessionStorage.getItem(REFERRAL_STORAGE_KEY);
+        if (stored) setReferralCode(stored);
+      } catch {
+        // ignore
+      }
     }
-    try {
-      const stored = sessionStorage.getItem(REFERRAL_STORAGE_KEY);
-      if (stored) setReferralCode(stored);
-    } catch {
-      // ignore
+
+    // readUtmParams handles URL→sessionStorage write-through and falls back to
+    // sessionStorage when the URL has no UTM (e.g. internal nav from /).
+    if (search) {
+      const utm = readUtmParams(search);
+      if (utm.utm_source) setUtmSource(utm.utm_source);
+      if (utm.utm_medium) setUtmMedium(utm.utm_medium);
     }
   }, []);
 
@@ -296,6 +309,9 @@ export function SignupProvider({ children }: { children: React.ReactNode }) {
       }
 
       clearExpiryTimer();
+      // New-user happy path complete — drop UTM sessionStorage so a future
+      // signup in the same tab doesn't inherit stale attribution.
+      clearStoredUtm();
       redirectToApp({ referralCode, lang: getCurrentLang(i18n) });
     } catch (err) {
       const { code, text } = reportSignupError("profile", err);
@@ -378,6 +394,8 @@ export function SignupProvider({ children }: { children: React.ReactNode }) {
           user_id: creatorId,
           otp,
           referral_code: referralCode ?? undefined,
+          utm_source: utmSource ?? undefined,
+          utm_medium: utmMedium ?? undefined,
         });
         // OTP consumed — cookies are set, the 290s expiry guard no longer
         // applies.
@@ -390,6 +408,10 @@ export function SignupProvider({ children }: { children: React.ReactNode }) {
         if (requiresBasicInfo) {
           setStage((current) => (current === "otp" ? "profile" : current));
         } else {
+          // Returning-user fast path: verify consumed any UTM the backend
+          // would store, so drop the sessionStorage copies to avoid stale
+          // attribution if the user opens the page again in this tab.
+          clearStoredUtm();
           setStage((current) => (current === "otp" ? "submitted" : current));
           redirectToApp({ referralCode, lang: getCurrentLang(i18n) });
         }
@@ -435,6 +457,8 @@ export function SignupProvider({ children }: { children: React.ReactNode }) {
     stage,
     creatorId,
     referralCode,
+    utmSource,
+    utmMedium,
     requiresBasicInfo,
     i18n,
     clearExpiryTimer,

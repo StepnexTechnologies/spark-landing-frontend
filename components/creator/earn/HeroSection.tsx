@@ -12,6 +12,7 @@ import { useSectionViewTracking } from "@/lib/hooks/useSectionViewTracking";
 import { useIsPromoActive } from "@/lib/hooks/useIsPromoActive";
 import { PROMO_CONFIG } from "@/lib/promo/config";
 import { track } from "@/lib/analytics/track";
+import { appendUtmTo, readUtmParams } from "@/lib/utm";
 
 export default function HeroSection() {
   const { t, i18n } = useTranslation("creatorEarn");
@@ -22,11 +23,19 @@ export default function HeroSection() {
   const isPromoActive = useIsPromoActive();
   const searchParams = useSearchParams();
   const referralCode = searchParams.get("ref");
+  // UTM appending touches sessionStorage, so gate on hydration to avoid
+  // SSR/client href mismatch (same pattern as CTAButton).
+  const [hydrated, setHydrated] = useState(false);
+  useEffect(() => setHydrated(true), []);
   const promoSignupHref = (() => {
-    const lang = i18n.language?.startsWith("hi") ? "hi-Latn" : "en";
-    const params = new URLSearchParams({ service: "earn", lang });
-    if (referralCode) params.set("ref", referralCode);
-    return `https://beta.creator.sparkonomy.com/auth?${params.toString()}`;
+    const url = new URL("https://beta.creator.sparkonomy.com/auth");
+    url.searchParams.set("service", "earn");
+    url.searchParams.set("lang", i18n.language?.startsWith("hi") ? "hi-Latn" : "en");
+    if (referralCode) url.searchParams.set("ref", referralCode);
+    if (hydrated) {
+      appendUtmTo(url, readUtmParams(new URLSearchParams(searchParams.toString())));
+    }
+    return url.toString();
   })();
 
   // rAF-throttled scroll handler — prevents a setState + forced reflow on every

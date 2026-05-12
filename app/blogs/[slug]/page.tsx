@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { getPostBySlug, getFeaturedImageUrl, getAuthorName, getAuthorNames, getPostAuthors, getPostAuthorsAsync, formatDate, stripHtml, decodeHtmlEntities, getReadingTime, getPosts, getPostsByCategory } from "@/lib/wordpress-improved";
+import { getPostBySlug, getPostBySlugForLang, hasHinglishVersion, getEnglishSlug, getFeaturedImageUrl, getAuthorName, getAuthorNames, getPostAuthors, getPostAuthorsAsync, formatDate, stripHtml, decodeHtmlEntities, getReadingTime, getPosts, getPostsByCategory, type BlogLang } from "@/lib/wordpress-improved";
 import { extractHeadings, addHeadingIds, extractFAQs, extractVideos, removeWordPressTOC, extractFirstParagraph, removeLeadingFeaturedImageBlock, processH6Markers, lazyLoadImages, openLinksInNewTab } from "@/lib/content-processor";
 import ShareButtons from "@/components/blog/ShareButtons";
 import Breadcrumb from "@/components/blog/Breadcrumb";
@@ -36,12 +36,21 @@ interface BlogPostPageProps {
   params: Promise<{
     slug: string;
   }>;
+  searchParams: Promise<{
+    lang?: string;
+  }>;
+}
+
+function resolveLangParam(lang: string | undefined): BlogLang {
+  return lang === "hi-Latn" ? "hi-Latn" : "en";
 }
 
 // Generate dynamic metadata for SEO
-export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
+export async function generateMetadata({ params, searchParams }: BlogPostPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const post = await getPostBySlug(slug);
+  const { lang } = await searchParams;
+  const requestedLang = resolveLangParam(lang);
+  const { post, resolvedLang } = await getPostBySlugForLang(slug, requestedLang);
 
   if (!post) {
     return {
@@ -50,6 +59,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
     };
   }
 
+  const englishSlug = getEnglishSlug(post.slug);
   const title = stripHtml(post.title.rendered);
   const description = stripHtml(post.excerpt.rendered).substring(0, 160);
   const featuredImage = post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || getFeaturedImageUrl(post, "full");
@@ -57,13 +67,17 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
   const authorNames = getAuthorNames(post);
   const publishedTime = post.date;
   const modifiedTime = post.modified;
-  const url = `https://sparkonomy.com/blogs/${post.slug}`;
+  const englishUrl = `https://sparkonomy.com/blogs/${englishSlug}`;
+  const hinglishUrl = `${englishUrl}?lang=hi-Latn`;
+  const url = resolvedLang === "hi-Latn" ? hinglishUrl : englishUrl;
+  const ogLocale = resolvedLang === "hi-Latn" ? "hi_IN" : "en_US";
 
   // Use Yoast SEO data if available, otherwise fall back to defaults
   const seoTitle = post.yoast_head_json?.title || title;
   const seoDescription = post.yoast_head_json?.description || description;
   const canonical = url;
   const ogImage = post.yoast_head_json?.og_image?.[0]?.url || featuredImage || "https://sparkonomy.com/sparkonomy.png";
+  const hinglishExists = await hasHinglishVersion(englishSlug);
 
   // Extract categories and tags for better SEO
   const categories = post._embedded?.["wp:term"]?.[0]?.map((cat) => cat.name) || [];
@@ -80,6 +94,12 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
     category: categories[0] || "Blog",
     alternates: {
       canonical: canonical,
+      languages: hinglishExists
+        ? {
+            "en-US": englishUrl,
+            "hi-Latn": hinglishUrl,
+          }
+        : undefined,
     },
     robots: {
       index: true,
@@ -108,7 +128,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
           alt: title,
         },
       ],
-      locale: "en_US",
+      locale: ogLocale,
     },
     twitter: {
       card: (post.yoast_head_json?.twitter_card as "summary_large_image" | "summary") || "summary_large_image",
@@ -128,13 +148,22 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
   };
 }
 
-export default async function BlogPostPage({ params }: BlogPostPageProps) {
+export default async function BlogPostPage({ params, searchParams }: BlogPostPageProps) {
   const { slug } = await params;
-  const post = await getPostBySlug(slug);
+  const { lang } = await searchParams;
+  const requestedLang = resolveLangParam(lang);
+  const { post, resolvedLang } = await getPostBySlugForLang(slug, requestedLang);
 
   if (!post) {
     notFound();
   }
+
+  const englishSlug = getEnglishSlug(post.slug);
+  const hinglishExists = await hasHinglishVersion(englishSlug);
+  const canonicalSlug = englishSlug;
+  const canonicalUrl = resolvedLang === "hi-Latn"
+    ? `https://sparkonomy.com/blogs/${canonicalSlug}?lang=hi-Latn`
+    : `https://sparkonomy.com/blogs/${canonicalSlug}`;
 
   const featuredImage = post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || getFeaturedImageUrl(post, "full");
   // Use async version to fetch Co-Authors Plus guest authors
@@ -214,9 +243,11 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const categoryId = post._embedded?.["wp:term"]?.[0]?.[0]?.id;
 
   // Fetch related posts (3 most recent posts from same category or general)
-  const { data: allPosts } = await getPosts(1, 4);
+  // Always show English versions in related links — exclude Hinglish counterparts
+  // and the current post (matched by canonical English slug).
+  const { data: allPosts } = await getPosts(1, 8);
   const relatedPosts = allPosts
-    .filter((p) => p.slug !== slug)
+    .filter((p) => !p.slug.endsWith("-hi") && p.slug !== englishSlug)
     .slice(0, 3)
     .map((p) => ({
       slug: p.slug,
@@ -229,9 +260,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   // Fetch same-category posts for Related Resources section
   let relatedResources: { slug: string; title: string; excerpt: string; featuredImage: string }[] = [];
   if (categoryId) {
-    const { data: categoryPosts } = await getPostsByCategory(categoryId, 1, 4);
+    const { data: categoryPosts } = await getPostsByCategory(categoryId, 1, 8);
     relatedResources = categoryPosts
-      .filter((p) => p.slug !== slug)
+      .filter((p) => !p.slug.endsWith("-hi") && p.slug !== englishSlug)
       .slice(0, 3)
       .map((p) => ({
         slug: p.slug,
@@ -297,13 +328,13 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     },
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": `https://sparkonomy.com/blogs/${post.slug}`,
+      "@id": canonicalUrl,
     },
     articleSection: categories[0] || "Blog",
     keywords: tags.join(", "),
     wordCount: post.content.rendered.split(/\s+/).length,
     timeRequired: `PT${readingTime}M`,
-    inLanguage: "en-US",
+    inLanguage: resolvedLang === "hi-Latn" ? "hi-Latn" : "en-US",
   };
 
   // Breadcrumb structured data
@@ -335,7 +366,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               "@type": "ListItem",
               position: 4,
               name: stripHtml(post.title.rendered),
-              item: `https://sparkonomy.com/blogs/${post.slug}`,
+              item: canonicalUrl,
             },
           ]
         : [
@@ -343,7 +374,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               "@type": "ListItem",
               position: 3,
               name: stripHtml(post.title.rendered),
-              item: `https://sparkonomy.com/blogs/${post.slug}`,
+              item: canonicalUrl,
             },
           ]),
     ],
@@ -399,7 +430,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   return (
     <>
       <BlogScrollTracker
-        slug={post.slug}
+        slug={canonicalSlug}
         author={author}
         category={categoryName || undefined}
       />
@@ -482,13 +513,13 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 <span>·</span>
                 <span>{readingTime} min read</span>
                 <Suspense fallback={<span className="text-sm">Loading...</span>}>
-                  <BlogLanguageSwitcher />
+                  <BlogLanguageSwitcher hinglishAvailable={hinglishExists} />
                 </Suspense>
               </div>
               <MetaShareButton
                 title={stripHtml(post.title.rendered)}
-                url={`https://sparkonomy.com/blogs/${post.slug}`}
-                slug={post.slug}
+                url={canonicalUrl}
+                slug={canonicalSlug}
               />
             </div>
 

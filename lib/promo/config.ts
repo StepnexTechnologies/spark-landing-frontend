@@ -22,9 +22,13 @@ export interface PromoConfig {
     url: string;
   };
   // Homepage footer banner — not localized (the homepage doesn't run through i18next).
+  // `headline` is the bold top line (rendered next to the icon avatar in `PromoCard`).
+  // `subheadline` is the smaller body line below it. `cta` is an optional italicized
+  // suffix appended to `subheadline` (e.g. "Try Karein").
   homepageBanner: {
     headline: string;
     subheadline: string;
+    cta?: string;
   };
 }
 
@@ -55,8 +59,9 @@ export const PROMO_CONFIG: PromoConfig = {
     url: "/summer-promo/terms",
   },
   homepageBanner: {
-    headline: "Work happens in Hinglish. Why is invoicing still in English?",
-    subheadline: "Introducing India's first Hinglish invoicing for Creators",
+    headline: "India's first Hinglish invoicing for Creators",
+    subheadline: "Work happens in Hinglish. Why is invoicing still in English?",
+    cta: "Try Karein",
   },
 };
 

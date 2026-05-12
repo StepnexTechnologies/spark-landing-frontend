@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import { track } from "@/lib/analytics/track";
+import { appendUtmTo, readUtmParams } from "@/lib/utm";
 
 interface CTAButtonProps {
     buttonText?: string;
@@ -35,6 +36,14 @@ const CTAButton = ({buttonText = "Send Invoices For Free", className, navigateTo
         url.searchParams.set('lang', currentLang);
         if (referralCode) {
             url.searchParams.set('ref', referralCode);
+        }
+        // Forward UTM labels so creator-frontend's AuthScreen can stash them
+        // in localStorage and attach to /auth/verify. Gated on hydration —
+        // readUtmParams touches sessionStorage which isn't available on the
+        // server. The URLSearchParams wrapper around searchParams normalises
+        // the Next.js ReadonlyURLSearchParams to the standard interface.
+        if (hydrated) {
+            appendUtmTo(url, readUtmParams(new URLSearchParams(searchParams.toString())));
         }
         // Return relative path for internal URLs, full URL for external
         if (url.origin === base && !navigateTo.startsWith('http')) {
