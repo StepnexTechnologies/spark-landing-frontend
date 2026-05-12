@@ -5,7 +5,7 @@ import {useSearchParams} from "next/navigation";
 // import Link from "next/link";
 import {motion} from "framer-motion";
 import gsap from "gsap";
-import EmailCapture from "@/components/EmailCapture";
+import LogoCarousel from "@/components/LogoCarousel";
 import {track} from "@/lib/analytics/track";
 import {useIsPromoActive} from "@/lib/hooks/useIsPromoActive";
 
@@ -269,28 +269,6 @@ const HeroSection = () => {
     }
   }, [subtextVisible]);
 
-  // Apply smooth animation to email capture when it becomes visible
-  useEffect(() => {
-    if (emailCaptureVisible) {
-      const emailContainer = document.querySelector(".email-container");
-      if (emailContainer) {
-        gsap.fromTo(
-          emailContainer,
-          {
-            opacity: 0,
-            y: 20,
-          },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            ease: "power2.out",
-          }
-        );
-      }
-    }
-  }, [emailCaptureVisible]);
-
   const handleUserInteraction = (e: React.MouseEvent) => {
     if (containerRef.current) {
       const rect = containerRef.current.getBoundingClientRect();
@@ -452,19 +430,11 @@ const HeroSection = () => {
               Developing AI to spark creator livelihoods
             </p>
 
-            {/*{showContent && <CampaignTrackerCTA isVisible={ctaVisible} />}*/}
-
-            <div
-              className="relative z-[60] pointer-events-auto transition-all duration-700 email-container"
-              style={{
-                opacity: emailCaptureVisible ? 1 : 0,
-                transform: emailCaptureVisible
-                  ? "translateY(0)"
-                  : "translateY(20px)",
-              }}
-            >
-              {showContent && <EmailCapture />}
+            <div className="flex justify-center pointer-events-auto">
+              <LogoCarousel />
             </div>
+
+            {/*{showContent && <CampaignTrackerCTA isVisible={ctaVisible} />}*/}
 
           </motion.div>
         </div>
