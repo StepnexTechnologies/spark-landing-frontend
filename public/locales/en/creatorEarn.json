@@ -3,215 +3,154 @@
     "getEarlyAccess": "Get Early Access"
   },
   "hero": {
-    "title": "World's 1st AI built exclusively for the Creator Economy! Now in Private Beta.⚡️"
+    "title": "Earn more. Stress less.<0/><1>Get paid faster!</1>",
+    "features": [
+      "<0>Easy</0> invoices with AI: Voice, chat, or photo",
+      "<0>Error-free</0>: Instant-tax calculations",
+      "<0>Faster</0> payments: Auto-reminders on email & Whatsapp"
+    ],
+    "card": {
+      "livePromo": "LIVE PROMO",
+      "voucherHeading": "Send free invoice — <0>Win Gold Coin</0>",
+      "voucherBody": "4 invoices/mo free forever. The first 5 signups each day win a Gold Coin.",
+      "voucherTerms": "T&Cs apply",
+      "ctaLabel": "Get started — completely free!",
+      "checks": ["4 invoices/mo free forever", "No card needed", "30-sec signup"],
+      "phonePlaceholder": "XXXX XXXXXX",
+      "sendOtp": "Win Now",
+      "edit": "Edit",
+      "disclaimer": "By tapping, you agree to create an account and<br/>Sparkonomy's <0>Terms</0> and <1>Privacy Policy</1>."
+    }
   },
-  "promo": {
-    "heading": "Apni Boli, Apna Bill",
-    "subheading": "Ab Hinglish mein banayein, perfect English invoices.",
-    "tagline": "Sign up. Win Amazon vouchers daily!",
-    "terms": "T&Cs apply",
-    "cta": "Sign up & Win!"
+  "pitch": {
+    "heading": "The world's first AI — built just for creators.",
+    "description": "Late payments, endless follow-ups and tax headaches — it all ends here! The first AI built for creators, starting with smart payments. You create the content, we'll handle the follow-ups."
   },
-  "valueProposition": {
-    "heading1": "Earn More. Stress Less.",
-    "heading2": "Get Paid Faster!",
-    "description": "Late payments, endless reminders, messy tax calculations —gone! Meet the first AI built for creators, starting with smart payments that help you earn more, faster. We handle the headache, you spark the content.",
-    "cta": "Send Invoices For Free"
-  },
-  "benefits": {
-    "title": "Benefits",
-    "cta": "Don't Wait Try For Free",
+  "threeStep": {
+    "title": "3 simple steps. That's it.",
+    "subtitle": "So easy you'll get it on the first try.",
     "items": [
       {
-        "title": "Send a Chat. Get an Invoice.",
-        "description": "Upload a WhatsApp message, email, or PO — or just type \"Make me an invoice for…\" and our AI does the rest. Perfect pro formatting, GST/PAN handled, no typos, no approval tension.",
-        "highlight": "You create content, we create cash flow."
+        "title": "Speak, type, or screenshot",
+        "description": "Upload a WhatsApp message, email, or brand chat screenshot — or just say/type \"make an invoice.\"",
+        "tags": ["Voice", "Type", "Screenshot", "Duplicate"]
       },
       {
-        "title": "You Create. We Chase.",
-        "description": "No more painful \"Hey, just checking on the payment?\" reminder follow-ups. Our AI sends polite, friendly payment reminders so you don't have to.",
-        "highlight": "You build relationships, we get payments."
+        "title": "AI builds your invoice",
+        "description": "AI builds your invoice in the proper format, typo-free. GST/PAN added automatically. You can review and edit.",
+        "tags": ["Auto-format", "GST/ PAN", "Typo-free"]
       },
       {
-        "title": "Go Pro. With your Pocket CFO.",
-        "description": "Get weekly, 5-minute updates of your cash flow, overdue payments, and income growth. We keep your records organised and help your business stay tax compliant.",
-        "highlight": "You go Pro, we get you there."
-      }
-    ]
-  },
-  "advantage": {
-    "title": "Your Advantage",
-    "subtitle": "Invoices that get you paid faster, and make you look good!",
-    "cta": "Get Paid Faster",
-    "items": [
-      {
-        "title": "Payment Ready",
-        "description": "GST auto‑calculated, payment integrated."
-      },
-      {
-        "title": "Tax‑Compliant",
-        "description": "GST Barters and other taxes managed."
-      },
-      {
-        "title": "WhatsApp Alerts",
-        "description": "Your money tracked!"
-      },
-      {
-        "title": "Proof Of Work",
-        "description": "Auto-fetched, no more screenshots."
+        "title": "We handle the follow-ups",
+        "description": "No more sending \"Hi, payment?\". Sparkonomy's AI sends polite, professional reminders on WhatsApp / email.",
+        "tags": ["WhatsApp + Email", "Auto-reminders"]
       }
     ]
   },
   "testimonials": {
-    "title": "What People Say",
+    "title": "What creators are saying",
+    "subtitle": "Faster payments, and you look like a Pro.",
     "items": [
       {
-        "quote": "And I have to reach out so many times to get paid in 3 months, and still it hasn't happened 15-20 times! I want you to do my payment reminders",
-        "name": "Food YouTuber",
-        "handle": "700K Followers"
+        "quote": "It's been 3 months and I've followed up 15-20 times for payment — still nothing! Please handle reminders for me, I'm done.",
+        "name": "Lifestyle Instagrammer",
+        "handle": "1M Followers"
       },
       {
-        "quote": "I raise invoices once a month mostly. I don't get time… and it delays my payments. I want you help me raise instant invoices in under 5 mins from my phone",
+        "quote": "I usually raise invoices once a month — I just don't get the time, and payments get delayed. Please help me send invoices in 5 minutes from my phone.",
         "name": "Tech Instagrammer",
         "handle": "1M Followers"
       },
       {
-        "quote": "I don't have time to write down and track all payments in Excel and become my own accountant! I want you to track & remind me of my money matters",
-        "name": "Lifestyle Instagrammer",
-        "handle": "320K Followers"
+        "quote": "Who has time to track payments in Excel? I don't want to be my own accountant! You track them, you remind — please.",
+        "name": "Food YouTuber",
+        "handle": "700K Followers"
       }
     ]
   },
-  "cta": {
-    "title": "Ready to get paid faster?",
-    "button": "Make your first Invoice Now"
+  "advantage": {
+    "title": "What else do you get?",
+    "items": [
+      {
+        "title": "Proof of Work, automatic.",
+        "description": "Insta and YouTube screenshots auto-attach. You don't have to do a thing."
+      },
+      {
+        "title": "Forever free, 4 invoices.",
+        "description": "4 free invoices every month — no card, no hidden charges."
+      },
+      {
+        "title": "Tax calculations, AI does it.",
+        "description": "GST or no GST, AI calculates everything. TDS, barter, multi-rate — all handled."
+      },
+      {
+        "title": "CA-ready, year-end report.",
+        "description": "Export all data in one click. Send it to your CA, file ITR — no more Excel mess."
+      }
+    ]
   },
   "faq": {
     "title": "Frequently Asked Questions",
     "viewAll": "View All",
-    "categories": [
-      { "key": "all", "label": "All" },
-      { "key": "getting-started", "label": "Getting Started" },
-      { "key": "invoice", "label": "Invoice" },
-      { "key": "payment-reminders", "label": "Payment Reminders" },
-      { "key": "pocket-cfo", "label": "Pocket CFO" },
-      { "key": "pricing", "label": "Pricing" },
-      { "key": "taxation", "label": "Taxation" }
-    ],
+    "viewLess": "Show Less",
     "items": [
       {
-        "question": "How do I sign up?",
-        "answer": "Give your phone number - that is it! After that, share your social handles, answer a couple of easy questions on your billing info, and you'll be sending invoices using Sparkonomy's AI quicker than a collab DM reply! "
+        "question": "Q1: How do I sign up?",
+        "answer": "Give your phone number — that's it! After that, share your social handles, answer a couple of easy questions on your billing info, and you'll be sending invoices using Sparkonomy's AI quicker than a collab DM reply!"
       },
       {
-        "question": "How is this AI for creators and its smart payment useful for me?",
-        "answer": "Sparkonomy's AI was designed exclusively to help creators manage their businesses like a pro. The smart payments feature helps you send invoices fast and easy. Just share your chat or brand collab details, and we'll make a GST-ready invoice with no math, no stress, no chasing brands. Our Pocket CFO AI tracks your payments and cash flow, sending 5-minute weekly updates to keep you informed. And the best of all, Sparkonomy automatically tracks & sends friendly reminders for your payments on WhatsApp/email. You are always in control of who gets what, with quick 1-tap actions like - STOP, DELAY, or PAYMENT DONE. Earn More. Stress Less.",
-        "category": "getting-started"
+        "question": "Q2: How is this AI for creators and its smart payment useful for me?",
+        "answer": "Sparkonomy's AI was designed exclusively to help creators manage their businesses like a pro. The smart payments feature helps you send invoices fast and easy. Just share your chat or brand collab details, and we'll make a GST-ready invoice with no math, no stress, no chasing brands. Our Pocket CFO AI tracks your payments and cash flow, sending 5-minute weekly updates to keep you informed. And the best of all, Sparkonomy automatically tracks & sends friendly reminders for your payments on WhatsApp/email. You are always in control of who gets what, with quick 1-tap actions like - STOP, DELAY, or PAYMENT DONE. Earn More. Stress Less."
       },
       {
-        "question": "What information do I need to add to my profile to start invoicing?",
-        "answer": "Just share your name, address, PAN and payment details (UPI/Bank account). If you have a separate billing organization, add its PAN and registration like CIN or GSTIN. And, we know you are busy, so no typing is needed, just snap or upload a pic of the document. It takes less than 5 minutes and you have to do it only once!",
-        "category": "invoice"
+        "question": "Q3: What information do I need to add to my profile to start invoicing?",
+        "answer": "Just share your name, address, PAN and payment details (UPI/Bank account). If you have a separate billing organization, add its PAN and registration like CIN or GSTIN. And, we know you are busy, so no typing is needed, just snap or upload a pic of the document. It takes less than 5 minutes and you have to do it only once!"
       },
       {
-        "question": "How do I create my first invoice?",
-        "answer": "Sparkonomy's creator AI helps you make an invoice in under 3-minutes with a few taps - and all from your phone! Our smart payments feature helps you get started fast. Duplicate an old invoice, upload a WhatsApp or email screenshot with billing instructions, or just type \"I need an invoice for...\" and watch one get built in for you. It's that easy to spark your invoice. Send a chat - get an invoice. Now, you will never be delayed in sending one!",
-        "category": "invoice"
+        "question": "Q4: How do I create my first invoice?",
+        "answer": "Sparkonomy's creator AI helps you make an invoice in under 3-minutes with a few taps - and all from your phone! Our smart payments feature helps you get started fast. Duplicate an old invoice, upload a WhatsApp or email screenshot with billing instructions, or just type \"I need an invoice for...\" and watch one get built in for you. It's that easy to spark your invoice. Send a chat - get an invoice. Now, you will never be delayed in sending one!"
       },
       {
-        "question": "How will Sparkonomy make payment reminders on my behalf?",
-        "answer": "We know how frustrating it is to keep following up for the money you deserve! When you make your invoice, Sparkonomy asks how many reminders to send and how often. We'll send them to your client on WhatsApp and email. On the day of the reminder we ping you at 10AM and ask if you still want to send it and if you say yes, it goes at 3 PM. We only send four friendly nudges: a check-in, a soft poke, a late fee alert, and a final notice. You stay in control with quick replies like STOP, DELAY, or PAYMENT DONE. We chase, you create.",
-        "category": "payment-reminders"
+        "question": "Q5: How will Sparkonomy make payment reminders on my behalf?",
+        "answer": "We know how frustrating it is to keep following up for the money you deserve! When you make your invoice, Sparkonomy asks how many reminders to send and how often. We'll send them to your client on WhatsApp and email. On the day of the reminder we ping you at 10AM and ask if you still want to send it and if you say yes, it goes at 3 PM. We only send four friendly nudges: a check-in, a soft poke, a late fee alert, and a final notice. You stay in control with quick replies like STOP, DELAY, or PAYMENT DONE. We chase, you create."
       },
       {
-        "question": "What is a pocket CFO and what will it do?",
-        "answer": "We know you don't want to be your creator business accountant, and yet you end up being one! Invoices made in Excel, Canva, or Word are impossible to manage and track. Sparkonomy's Pocket CFO AI agent analyses your payments & cash flows every week. Then it sends you quick weekly 5-minute updates on cash flow, overdue payments, and income growth. It keeps your records tidy and your business tax-ready. You go Pro, we get you there!",
-        "category": "pocket-cfo"
+        "question": "Q6: What is a pocket CFO and what will it do?",
+        "answer": "We know you don't want to be your creator business accountant, and yet you end up being one! Invoices made in Excel, Canva, or Word are impossible to manage and track. Sparkonomy's Pocket CFO AI agent analyses your payments & cash flows every week. Then it sends you quick weekly 5-minute updates on cash flow, overdue payments, and income growth. It keeps your records tidy and your business tax-ready. You go Pro, we get you there!"
       },
       {
-        "question": "How much do I have to pay?",
-        "answer": "You can make up to 4 new invoices every month, send unlimited reminders, and get your own Pocket CFO - perfect for most creators. As your needs grow, you can switch to Pro by referring a few friends or for less than the price of a cup of coffee.",
-        "category": "pricing"
+        "question": "Q7: How much do I have to pay?",
+        "answer": "You can make up to 4 new invoices every month, send unlimited reminders, and get your own Pocket CFO - perfect for most creators. As your needs grow, you can switch to Pro by referring a few friends or for less than the price of a cup of coffee."
       },
       {
-        "question": "How will I calculate taxes on the invoice?",
-        "answer": "You don't want to keep doing back & forth with the brand on tax errors or worse meet the tax-man! If you are GST registered, Sparkonomy's AI takes care of it by picking the right GST code, splitting CGST/SGST/IGST, and making your invoice GST-ready automatically. We do the tax calculations & keep you compliance-ready, you do creation!",
-        "category": "taxation"
+        "question": "Q8: How will I calculate taxes on the invoice?",
+        "answer": "You don't want to keep doing back & forth with the brand on tax errors or worse meet the tax-man! If you are GST registered, Sparkonomy's AI takes care of it by picking the right GST code, splitting CGST/SGST/IGST, and making your invoice GST-ready automatically. We do the tax calculations & keep you compliance-ready, you do creation!"
       },
       {
-        "question": "Does the AI help calculate GST?",
-        "answer": "Yes! Sparkonomy's AI knows the GST system inside out. It automatically picks the right service codes and best of all - our invoice template follows the GST requirements to the tee! Let Sparkonomy do the hard work while you sparkle!",
-        "category": "taxation"
+        "question": "Q9: Does the AI help calculate GST?",
+        "answer": "Yes! Sparkonomy's AI knows the GST system inside out. It automatically picks the right service codes and best of all - our invoice template follows the GST requirements to the tee! Let Sparkonomy do the hard work while you sparkle!"
       },
       {
-        "question": "What is the GST rate I must charge on my brand services?",
-        "answer": "You don't have to worry—Sparkonomy's AI takes care of GST for you! It automatically matches your service to the right HSN code, splits GST into IGST, SGST, or CGST, and makes sure every invoice is correct. If you're not GST-registered, Sparkonomy won't let you add GST, so there are no mistakes. Every invoice you make and send is error-free and compliant, saving you time and stress.",
-        "category": "taxation"
+        "question": "Q10: How do I send an invoice to a brand?",
+        "answer": "The way you like it! After you finish your invoice, send it to the brand within Sparkonomy or download it and send a PDF personally over email/Whatsapp. No chasing, no hassle, just fast cash!"
       },
       {
-        "question": "How do I send an invoice to a brand?",
-        "answer": "The way you like it! After you finish your invoice, send it to the brand within Sparkonomy or download it and send a PDF personally over email/Whatsapp. No chasing, no hassle, just fast cash!",
-        "category": "invoice"
-      },
-      {
-        "question": "Can I add my own logo to my invoices?",
-        "answer": "Yes! We know your invoices should reflect your unique brand. Upload a business logo, profile picture or just share your social accounts and we'll pull your profile photo to personalize your invoices—so they look just like yours! 1-tap to give every invoice that shiny, pro look.",
-        "category": "invoice"
-      },
-      {
-        "question": "Can I use a Purchase Order (PO) to quickly create an invoice?",
-        "answer": "Absolutely. We know speed is everything. Instead of manually entering all the project details, you can upload the brand's Purchase Order (PO) when you tap \"Create Invoice.\" Our smart system will instantly break down the document and pre-fill all the basic details like the brand name, contact info, and sometimes even the rate - so you can verify the details and send the invoice even faster.",
-        "category": "invoice"
-      },
-      {
-        "question": "I often delay sending my invoices because it feels like a chore, or I worry I'll make a mistake. Is this a big deal?",
-        "answer": "Yes! Delayed invoices mean brands start processing your payment later, which can push your payment cycle anywhere from 45 to 180 days—that's up to 6 months of waiting. We hate that delay too, so we made invoicing with Sparkonomy super simple and fast. Our 'Tap-to-Invoice' design and AI create 100% accurate, professional invoices in seconds. This means no errors or missing info that can hold up payments. By removing invoice mistakes and delays, we help you get paid faster, so you can focus fully on creating!",
-        "category": "invoice"
-      },
-      {
-        "question": "Do your invoices support tax and service codes for my country?",
-        "answer": "Yes, absolutely! Sparkonomy's AI automatically fills in all the mandatory details, including the correct tax and service codes, for your service according to your country. This ensures every invoice is fully compliant, correctly classified, and meets all legal requirements for both your filing and your client's Input Tax Credit. With Sparkonomy, you don't have to worry about errors - our AI handles it all seamlessly!",
-        "category": "invoice"
-      },
-      {
-        "question": "I believe there is an error on my invoice. What should I do?",
-        "answer": "If your invoice hasn't been sent yet, no worries—just go to your dashboard and use the edit option to make changes. If the invoice has been sent and you are not GST-registered, you can edit the invoice, but it's better practice to cancel the old one and send a new invoice to keep things clean. If you are GST-registered, you should cancel the existing invoice and create a fresh one. This helps keep your invoice serial numbers and dates correct. You can speed things up by duplicating the old invoice and making the necessary changes before sending. This approach helps with compliance and keeps your records tidy!",
-        "category": "invoice"
-      },
-      {
-        "question": "I just changed my Payment Method. Will this affect my current invoice?",
-        "answer": "All invoices sent before your payment change will reflect the old payment details. Your updated payout information is saved and will be used for all future invoices and payouts, but make sure your new bank details are fully verified before the next payment date. If the old payment system no longer accepts money, you'll need to send a quick update to the brands where payment is still pending to avoid delays.",
-        "category": "invoice"
-      },
-      {
-        "question": "What are the Sparkonomy steps for final collection and public disclosure of non-paying brands?",
-        "answer": "A brand ghosting your payment is not cool. We don't provide legal support for collections yet, but we've got some smart hacks to help you get paid. We'll suggest ways to draft strong follow-up messages and professional steps to encourage payment—without any drama. You stay in control, and we help you keep it smooth and professional.",
-        "category": "payment-reminders"
-      },
-      {
-        "question": " Do I need to pay taxes on free products and sponsored trips I receive from brands?",
-        "answer": "Yes, The law considers any payment in exchange for your services as taxable income, whether it is cash, products, or experiences. If a brand sends you gifts worth more than a particular amount as part of a sponsored collaboration, you must declare the full value as income. Only small one-off tokens are exempt. This means you need to keep records of all products and perks you receive, noting their retail value, so you can report them accurately during tax filing.",
-        "category": "taxation"
-      },
-      {
-        "question": "How do I track and manage multiple brand deals at the same time?",
-        "answer": "When your deals are scattered across WhatsApp, email, and Instagram DMs, chaos is inevitable. The simple rule is: track everything in one place. For every deal, always note these 4 things: Brand name, Payment amount, Due date, and Payment status. With Sparkonomy's AI tools, all of this becomes effortless. From vendor registration to invoicing, payment tracking, and income management - we handle it all, so you can focus on creating.",
-        "category": "invoice"
-      },
-      {
-        "question": "Can I claim expenses like camera equipment and software as tax deductions?",
-        "answer": "Yes, if you are operating as a self-employed creator or registered business, you can deduct legitimate business expenses from your income to reduce your taxable profit. This includes camera gear, editing software subscriptions, props, studio rental, and even a portion of your home internet if you work from home. Keep receipts and records for all your expenses, and only claim items that are genuinely used for your content creation work.",
-        "category": "taxation"
+        "question": "Q11: Can I add my own logo to my invoices?",
+        "answer": "Yes! We know your invoices should reflect your unique brand. Upload a business logo, profile picture or just share your social accounts and we'll pull your profile photo to personalize your invoices—so they look just like yours! 1-tap to give every invoice that shiny, pro look."
       }
     ]
   },
-  "video": {
-    "cta": "Completely Free, Start Now"
-  },
   "floatingCta": {
-    "button": "Try For Free",
     "placeholder": "Your mobile number",
-    "signup": "Sign Up"
+    "sendOtp": "Win Now",
+    "staticPrefix": "Win",
+    "primaryLabel": "Now",
+    "swapLabel": "Gold Coin",
+    "heading": "<0>Gold Coin</0> for the first 5 signups today.",
+    "body": "Don't miss out.",
+    "terms": "T&C apply",
+    "ariaLabel": "Sign up to win a Gold Coin",
+    "modalTitle": "Start sending invoices in your own boli"
   },
   "footer": {
     "tagline": "sparking the creator economy",
@@ -224,5 +163,48 @@
     "defaultName": "Chulbuli",
     "message": "says this is the easiest app for creator work — and wants you to try it.",
     "signUp": "Sign Up today!"
+  },
+  "otp": {
+    "title": "Enter the 4-digit OTP",
+    "sentTo": "Sent to {{phone}}",
+    "verify": "Verify OTP",
+    "resendIn": "Resend in {{seconds}}s",
+    "resend": "Resend OTP",
+    "resendViaPrefix": "Resend OTP via",
+    "smsChannel": "SMS",
+    "whatsappChannel": "WhatsApp",
+    "changeNumber": "Change number",
+    "errorInvalid": "Invalid OTP. Please try again.",
+    "errorNetwork": "Something went wrong. Please try again.",
+    "sending": "Sending…",
+    "verifying": "Verifying…"
+  },
+  "signupCard": {
+    "otpSentOverWhatsapp": "OTP sent over WhatsApp",
+    "verified": "Verified",
+    "notVerified": "Not verified",
+    "verifying": "Verifying…",
+    "invalid": "Incorrect OTP",
+    "firstNameLabel": "First Name*",
+    "firstNamePlaceholder": "E.g. Chulbuli",
+    "lastNameLabel": "Last Name*",
+    "lastNamePlaceholder": "E.g. Dixit",
+    "emailLabel": "Email",
+    "emailPlaceholder": "E.g. yourname@email.com",
+    "createAccount": "Create my account!",
+    "creating": "Creating…",
+    "done": "Done!",
+    "builtWith": "Built with",
+    "developedWith": "Developed with",
+    "emailInUse": "This email is already linked to another account."
+  },
+  "errors": {
+    "INVALID_OTP": "Invalid OTP. Please try again.",
+    "OTP_EXPIRED": "OTP expired. Please request a new one.",
+    "EMAIL_ALREADY_IN_USE": "This email is already linked to another account.",
+    "PHONE_ALREADY_IN_USE": "This phone number is already linked to another account.",
+    "USER_NOT_FOUND": "We couldn't find that account. Please start again.",
+    "NETWORK_ERROR": "Something went wrong. Please try again.",
+    "_default": "Something went wrong. Please try again."
   }
 }

@@ -8,6 +8,7 @@ import { ArrowRight, Check, Loader2, X } from "lucide-react";
 import { ValidatedPhoneInput } from "@/components/creator/earn/ValidatedPhoneInput";
 import OtpInput from "@/components/creator/otp/OtpInput";
 import TextInput from "@/components/common/TextInput";
+import GoldCoinAnimation from "@/components/creator/earn/GoldCoinAnimation";
 import { PROMO_CONFIG } from "@/lib/promo/config";
 import { useSignup } from "./SignupContext";
 import GiftCardStackAnimation from "./GiftCardStackAnimation";
@@ -30,6 +31,13 @@ const LIFT_SHADOW =
 const CARD_GRADIENT =
   "linear-gradient(180deg, #FFCC00 0%, rgba(255, 204, 0, 0.7) 59.13%, rgba(255, 204, 0, 0.2) 100%)";
 
+// Earn variant — dark plum so the gold-coin corners + the yellow CTA contrast
+// against the rest of the card chrome. The page itself sits on a pink/purple
+// gradient blob, so the card needs to be measurably darker to read as its own
+// surface (otherwise it visually melts into the page bg).
+const EARN_CARD_GRADIENT =
+  "linear-gradient(180deg, #3D1438 0%, #28092A 100%)";
+
 interface PromoSignupCardProps {
   // When false, the gift-card bloom and ₹500 count-up are held in their
   // initial state. They only fire once `play` flips true, so the parent can
@@ -43,7 +51,17 @@ interface PromoSignupCardProps {
   // entirely: gift cards render in their final stack pose, ₹500 is static, the
   // rupee glyph does not pulse, and the card does not lift on first scroll.
   // Sparkles on the front voucher and the Get OTP button bounce are preserved.
-  variant?: "f" | "w";
+  // "earn" variant — used by /creator/earn. Swaps the gift-card stack for a
+  // single GoldCoinAnimation, renders the heading as plain text (no count-up
+  // or rupee pulse), and flips the Send OTP button from purple/pink gradient
+  // to a yellow "Win Now" button. Entry beats are stripped like the "w"
+  // variant — the button bounce is preserved as a subtle attention cue.
+  variant?: "f" | "w" | "earn";
+  // i18n namespace the card reads from. Defaults to "creatorPromo" so the
+  // existing /creator/promo and /creator/promo-{f,w} routes are unchanged.
+  // /creator/earn passes "creatorEarn" so the same card draws Win-Gold-Coin
+  // copy, 3 checks, and the "Win Now" CTA label from the earn locale.
+  namespace?: string;
 }
 
 // Gift-card bloom + Send-OTP button bounce wait this long after `play` flips
@@ -59,8 +77,13 @@ const VARIANT_F_CARDS_DELAY_MS = 1800;
 // cards first, then the bouncing CTA pair.
 const VARIANT_F_SECONDARY_DELAY_MS = 2400;
 
-export default function PromoSignupCard({ play = true, variant }: PromoSignupCardProps = {}) {
-  const { t } = useTranslation("creatorPromo");
+export default function PromoSignupCard({
+  play = true,
+  variant,
+  namespace = "creatorPromo",
+}: PromoSignupCardProps = {}) {
+  const { t } = useTranslation(namespace);
+  const isEarn = variant === "earn";
   const {
     phone,
     setPhone,
@@ -128,10 +151,10 @@ export default function PromoSignupCard({ play = true, variant }: PromoSignupCar
 
   // One-shot lift on first scroll — like the card is "noticing" the user.
   // Listener is { once: true } so it auto-detaches after the first event.
-  // Skipped on variant="w" (promo-w strips entry animations).
+  // Skipped on variant="w" and variant="earn" (both strip entry animations).
   const [hasLifted, setHasLifted] = useState(false);
   useEffect(() => {
-    if (variant === "w") return;
+    if (variant === "w" || variant === "earn") return;
     if (hasLifted) return;
     const onScroll = () => setHasLifted(true);
     window.addEventListener("scroll", onScroll, { once: true, passive: true });
@@ -159,7 +182,7 @@ export default function PromoSignupCard({ play = true, variant }: PromoSignupCar
     <motion.div
       id="promo-hero-card"
       layout
-      style={{ background: CARD_GRADIENT }}
+      style={{ background: isEarn ? EARN_CARD_GRADIENT : CARD_GRADIENT }}
       initial={{
         y: 0,
         boxShadow: REST_SHADOW,
@@ -177,7 +200,47 @@ export default function PromoSignupCard({ play = true, variant }: PromoSignupCar
       }}
       className="relative mx-auto w-full max-w-[420px] rounded-[24px] border-[3px] border-[#DD2A7B] px-2 py-4"
     >
+      {/* Earn variant: corner coins — top-right peeks above the card, bottom-right
+          peeks below. Both are siblings of the voucher row so they're positioned
+          relative to the outer card box rather than the content column. */}
+      {isEarn && (
+        <>
+          <div className="absolute -top-5 right-3 z-20 pointer-events-none">
+            <GoldCoinAnimation size={52} symbol="S" static />
+          </div>
+          <div className="absolute -bottom-5 right-4 z-20 pointer-events-none">
+            <GoldCoinAnimation size={48} symbol="S" static />
+          </div>
+        </>
+      )}
+
       {/* Voucher row */}
+      {isEarn ? (
+        <div className="px-1 pr-14">
+          {/* Heading — "Send free invoice —" stays plain, the <0>Win Gold Coin</0>
+              portion is rendered as a gold script-style span via Trans. */}
+          <h2 className="text-[22px] font-bold text-white leading-tight">
+            <Trans
+              i18nKey="hero.card.voucherHeading"
+              t={t}
+              components={[
+                <span
+                  key="gold"
+                  className="italic"
+                  style={{
+                    color: "#FFCC00",
+                    fontFamily:
+                      "var(--font-solitreo), 'Brush Script MT', 'Snell Roundhand', cursive",
+                    fontWeight: 700,
+                    fontSize: "1.15em",
+                    paddingLeft: "0.1em",
+                  }}
+                />,
+              ]}
+            />
+          </h2>
+        </div>
+      ) : (
       <div className="flex items-start gap-3">
         <GiftCardStackAnimation
           play={variant === "f" ? play : playSecondary}
@@ -293,6 +356,7 @@ export default function PromoSignupCard({ play = true, variant }: PromoSignupCar
           </p>
         </div>
       </div>
+      )}
 
       {/* CTA label + checks */}
       <div className="mt-2 px-2">
@@ -356,7 +420,11 @@ export default function PromoSignupCard({ play = true, variant }: PromoSignupCar
                     : { duration: 0 }
                 }
                 whileTap={{ scale: 0.94 }}
-                className="flex-shrink-0 px-3 py-2 rounded-[8px] text-white text-sm font-semibold whitespace-nowrap bg-[linear-gradient(162deg,#dd2a7b_0%,#9747FF_64%)] hover:brightness-110 transition-[filter,opacity] duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
+                className={
+                  isEarn
+                    ? "flex-shrink-0 px-4 py-2 rounded-[8px] text-[#5B3A00] text-sm font-bold whitespace-nowrap bg-[#FFCC00] hover:brightness-110 transition-[filter,opacity] duration-200 disabled:opacity-60 disabled:cursor-not-allowed shadow-[0_2px_8px_rgba(245,166,35,0.4)]"
+                    : "flex-shrink-0 px-3 py-2 rounded-[8px] text-white text-sm font-semibold whitespace-nowrap bg-[linear-gradient(162deg,#dd2a7b_0%,#9747FF_64%)] hover:brightness-110 transition-[filter,opacity] duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
+                }
               >
                 {stage === "otpSending" ? (
                   t("otp.sending")
