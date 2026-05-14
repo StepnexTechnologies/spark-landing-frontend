@@ -131,13 +131,14 @@ function CreatorEarnPageContent() {
               <EarnFooter />
             </div>
 
-            {/* Floating CTA — promo variant pipes the phone input into the
-                shared SignupContext so submitting from the bottom bar advances
-                the hero card straight to OTP. triggerElementId hides the bar
-                while the hero card is on-screen (and shows it again when the
-                user scrolls back up past the card). */}
+            {/* Floating CTA — earn variant mirrors the hero card's pitch
+                (dark surface, FlippingCoin, Win-Gold-Coin heading, inline
+                checks, white phone pill, Win Now). Phone input is piped into
+                the shared SignupContext so submitting from the bottom bar
+                advances the hero card straight to OTP. triggerElementId
+                hides the bar while the hero card is on-screen. */}
             <FloatingCTA
-              variant="promo"
+              variant="earn"
               namespace="creatorEarn"
               trackingPrefix="earn"
               triggerElementId="promo-hero-card"

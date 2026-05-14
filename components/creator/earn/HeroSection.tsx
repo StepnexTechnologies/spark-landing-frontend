@@ -25,16 +25,6 @@ export default function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null);
   useSectionViewTracking(sectionRef, "earn_hero", { event: "earn_hero_view" });
 
-  const features = (() => {
-    const raw = t("hero.features", { returnObjects: true });
-    return Array.isArray(raw) ? (raw as string[]) : [];
-  })();
-
-  // i18n strings wrap the lead word in <0>…</0> (e.g. "<0>Easy</0> invoices…").
-  // Rendered via Trans so the wrapped portion lands as a bold span instead of
-  // showing the raw tag text in the bullet.
-  const FEATURE_BOLD = <strong className="font-bold text-white" />;
-
   return (
     <section
       ref={sectionRef}
@@ -63,28 +53,13 @@ export default function HeroSection() {
 
         {/* Signup card — earn variant draws gold coin + Win Now button + 3
             checks from the creatorEarn namespace. Static paint (no fade-in
-            wrapper) so the card qualifies as the LCP element. */}
-        <PromoSignupCard variant="earn" namespace="creatorEarn" />
-
-        {/* Feature bullets below the card. Yellow ★ + white text, mirrors
-            the screenshot. Hidden when the key is missing so a stale locale
-            doesn't render an empty list. */}
-        {features.length > 0 && (
-          <ul className="mt-5 md:mt-6 mx-auto w-full max-w-[420px] flex flex-col gap-2 text-white text-sm leading-snug">
-            {features.map((_, i) => (
-              <li key={i} className="flex items-start gap-2">
-                <span aria-hidden className="text-[#FFCC00] mt-[1px]">★</span>
-                <span>
-                  <Trans
-                    i18nKey={`hero.features.${i}`}
-                    t={t}
-                    components={[FEATURE_BOLD]}
-                  />
-                </span>
-              </li>
-            ))}
-          </ul>
-        )}
+            wrapper) so the card qualifies as the LCP element.
+            Negative side-margins on mobile (-13px) cancel the section's
+            px-5 (20px) so the card sits 7px from the screen edges; desktop
+            keeps the original max-w-[420px] mx-auto centering. */}
+        <div className="-mx-[13px] md:mx-0">
+          <PromoSignupCard variant="earn" namespace="creatorEarn" />
+        </div>
       </div>
     </section>
   );

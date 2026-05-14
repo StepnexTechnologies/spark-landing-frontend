@@ -19,7 +19,12 @@
       "phonePlaceholder": "XXXX XXXXXX",
       "sendOtp": "Win Now",
       "edit": "Edit",
-      "disclaimer": "By tapping, you agree to create an account and<br/>Sparkonomy's <0>Terms</0> and <1>Privacy Policy</1>."
+      "changeNumber": "Change Number",
+      "otpSentTo": "OTP sent to <0>{{phone}}</0>",
+      "verify": "Verify",
+      "verifying": "Verifying",
+      "verified": "Verified",
+      "disclaimer": "By tapping, you agree to create an account and Sparkonomy's <0>Terms</0> and <1>Privacy Policy</1>."
     }
   },
   "pitch": {
