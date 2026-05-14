@@ -33,7 +33,7 @@ export default function StoryContent1({ imageSrc = "/images/creator/earn/story-1
       </div>
 
       {/* Main Image */}
-      <div className="absolute top-[15%] left-1/2 -translate-x-1/2 w-[90vw] sm:w-[362px] max-w-[362px] max-h-[calc(100%-150px)] aspect-[362/595] rounded-3xl overflow-hidden ">
+      <div className="absolute top-[12%] left-1/2 -translate-x-1/2 w-[90vw] sm:w-[362px] max-w-[362px] max-h-[calc(100%-150px)] aspect-[362/595] rounded-3xl overflow-hidden ">
         <Image
           src={imageSrc}
           alt={"Story"}
@@ -64,7 +64,7 @@ export default function StoryContent1({ imageSrc = "/images/creator/earn/story-1
 
       {/* Bottom Navigation */}
       <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-full max-w-[390px] pl-2 pr-10 flex items-center gap-4">
-          <div className="flex-1 border border-white/50 rounded-full px-5 py-1 flex items-center justify-start">
+          <div className="flex-1 min-w-0 overflow-hidden border border-white/50 rounded-full px-5 py-1 flex items-center justify-start">
             <AnimatedEmojis
               emojis={["🙋🏼‍♂️", "🙋🏼‍♀️", "🙋🏻‍♂️", "🙋🏻‍♀️", "🙋🏾‍♀️", "🙋🏽", "🙋🏽‍♀️", "🙋‍♂️"]}
               className="text-xl"

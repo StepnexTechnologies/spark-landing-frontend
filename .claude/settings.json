@@ -188,12 +188,19 @@
       "Bash(curl -s -o /tmp/home.html -w \"HTTP %{http_code} | %{size_download} bytes\\\\n\" http://localhost:3000/)",
       "Bash(curl -s -o /tmp/home-skip.html -w \"HTTP %{http_code} | %{size_download} bytes\\\\n\" \"http://localhost:3000/?skipIntro=true\")",
       "Bash(grep -oE \"\\(Sparkonomy|Spotlighted by Google|Hinglish|Try Karein|India.{1,3}s first Hinglish|Work happens in Hinglish|About Us|Privacy Policy|Igniting\\)\" /tmp/home-skip.html)",
-      "Bash(git restore *)"
+      "Bash(git restore *)",
+      "Bash(find \"c:\\\\Users\\\\HP\\\\Desktop\\\\client\\\\spark-landing-frontend\" -name \"CreatorPromoPage.tsx\" -o -name \"*PromoPage*.tsx\" 2>nul)",
+      "PowerShell(npx --no-install yarn build 2>&1)",
+      "PowerShell(Move-Item -Path \"public\\\\images\\\\creator\\\\earn\\\\1.png\" -Destination \"public\\\\images\\\\creator\\\\earn\\\\story-1.png\" -Force)",
+      "PowerShell(Move-Item -Path \"public\\\\images\\\\creator\\\\earn\\\\2.png\" -Destination \"public\\\\images\\\\creator\\\\earn\\\\story-2.png\" -Force)",
+      "PowerShell(Move-Item -Path \"public\\\\images\\\\creator\\\\earn\\\\3.png\" -Destination \"public\\\\images\\\\creator\\\\earn\\\\story-3.png\" -Force)",
+      "PowerShell(Move-Item -Path \"public\\\\images\\\\creator\\\\earn\\\\4.png\" -Destination \"public\\\\images\\\\creator\\\\earn\\\\story-4.png\" -Force)"
     ],
     "additionalDirectories": [
       "C:\\Users\\HP\\.claude\\plans",
       "\\tmp",
-      "c:\\Users\\HP\\Desktop\\client\\spark-landing-frontend\\app\\blogs\\[slug]"
+      "c:\\Users\\HP\\Desktop\\client\\spark-landing-frontend\\app\\blogs\\[slug]",
+      "c:\\Users\\HP\\Desktop\\client\\spark-landing-frontend"
     ]
   }
 }
