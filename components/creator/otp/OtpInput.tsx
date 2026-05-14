@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 export type OtpInputVariant = "dark" | "light";
 
@@ -43,6 +43,13 @@ export default function OtpInput({
   variant = "dark",
 }: OtpInputProps) {
   const inputs = useRef<Array<HTMLInputElement | null>>([]);
+  // Tracks which box currently owns focus so we can render a synthetic
+  // blinking caret inside it. The native caret is invisible on the "light"
+  // variant (WebkitTextFillColor: transparent for the gradient digits), and
+  // hard to see on the "dark" variant — so we draw our own.
+  const [focusedIndex, setFocusedIndex] = useState<number | null>(
+    autoFocus ? 0 : null,
+  );
 
   const digits = value.padEnd(length, " ").slice(0, length).split("");
 
@@ -68,41 +75,55 @@ export default function OtpInput({
     <div className="flex items-center justify-center gap-2 md:gap-3" onPaste={handlePaste}>
       {digits.map((d, i) => {
         const ch = d.trim();
+        const showCaret = !disabled && !ch && focusedIndex === i;
         return (
-          <input
-            key={i}
-            ref={(el) => {
-              inputs.current[i] = el;
-            }}
-            type="text"
-            inputMode="numeric"
-            pattern="[0-9]*"
-            maxLength={1}
-            autoFocus={autoFocus && i === 0}
-            disabled={disabled}
-            value={ch}
-            onChange={(e) => {
-              const nextCh = e.target.value.replace(/\D/g, "").slice(-1);
-              setAt(i, nextCh);
-              if (nextCh && i < length - 1) {
-                inputs.current[i + 1]?.focus();
+          <div key={i} className="relative inline-block">
+            <input
+              ref={(el) => {
+                inputs.current[i] = el;
+              }}
+              type="text"
+              inputMode="numeric"
+              pattern="[0-9]*"
+              maxLength={1}
+              autoFocus={autoFocus && i === 0}
+              disabled={disabled}
+              value={ch}
+              onChange={(e) => {
+                const nextCh = e.target.value.replace(/\D/g, "").slice(-1);
+                setAt(i, nextCh);
+                if (nextCh && i < length - 1) {
+                  inputs.current[i + 1]?.focus();
+                }
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Backspace" && !ch && i > 0) {
+                  inputs.current[i - 1]?.focus();
+                }
+                if (e.key === "ArrowLeft" && i > 0) {
+                  inputs.current[i - 1]?.focus();
+                }
+                if (e.key === "ArrowRight" && i < length - 1) {
+                  inputs.current[i + 1]?.focus();
+                }
+              }}
+              onFocus={() => setFocusedIndex(i)}
+              onBlur={() =>
+                setFocusedIndex((cur) => (cur === i ? null : cur))
               }
-            }}
-            onKeyDown={(e) => {
-              if (e.key === "Backspace" && !ch && i > 0) {
-                inputs.current[i - 1]?.focus();
-              }
-              if (e.key === "ArrowLeft" && i > 0) {
-                inputs.current[i - 1]?.focus();
-              }
-              if (e.key === "ArrowRight" && i < length - 1) {
-                inputs.current[i + 1]?.focus();
-              }
-            }}
-            className={`text-center outline-none transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${variantClass}`}
-            style={variantStyle}
-            aria-label={`OTP digit ${i + 1}`}
-          />
+              className={`text-center outline-none transition-colors caret-transparent disabled:opacity-50 disabled:cursor-not-allowed ${variantClass}`}
+              style={variantStyle}
+              aria-label={`OTP digit ${i + 1}`}
+            />
+            {showCaret && (
+              <span
+                aria-hidden
+                className={`pointer-events-none absolute left-1/2 top-1/2 h-1/2 w-[2px] -translate-x-1/2 -translate-y-1/2 rounded-full animate-caret-blink ${
+                  variant === "light" ? "bg-[#9747FF]" : "bg-white/80"
+                }`}
+              />
+            )}
+          </div>
         );
       })}
     </div>
