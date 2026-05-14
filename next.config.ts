@@ -53,6 +53,22 @@ const nextConfig: NextConfig = {
             },
         ],
     },
+    async headers() {
+        return [
+            {
+                source: "/((?!api/).*)",
+                headers: [
+                    { key: "Vary", value: "Accept" },
+                    { key: "Content-Signal", value: "ai-train=no, ai-search=yes" },
+                ],
+            },
+        ];
+    },
+    async rewrites() {
+        return [
+            { source: "/blogs/:slug.md", destination: "/api/blog-md/:slug" },
+        ];
+    },
 };
 
 export default nextConfig;
