@@ -40,7 +40,7 @@ export default function FeaturedBlogCard({
               src={imageSrc}
               alt={imageAlt}
               fill
-              style={{ objectFit: "cover" }}
+              style={{ objectFit: "contain" }}
               sizes="(min-width: 768px) 50vw, 100vw"
               priority={imagePriority}
             />
