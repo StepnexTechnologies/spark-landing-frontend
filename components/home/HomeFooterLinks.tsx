@@ -21,7 +21,7 @@ const MOBILE_LINKS = [
 export default function HomeFooterLinks({className}: HomeFooterLinksProps) {
   return (
     <motion.div
-      className={`w-full ${className ?? ""}`}
+      className={`pointer-events-auto w-full ${className ?? ""}`}
       initial={{opacity: 0}}
       animate={{opacity: 1}}
       transition={{delay: 0.8}}

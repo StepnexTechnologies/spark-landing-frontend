@@ -15,6 +15,14 @@ const config: Config = {
         "shimmer-sweep": "shimmer-sweep 4.6s infinite",
         "floater-hue": "floater-hue 8s ease-in-out infinite",
         "urgency-flicker": "urgency-flicker 4.5s ease-in-out infinite",
+        "coin-flip": "coin-flip 2.5s linear infinite",
+        "coin-twinkle": "coin-twinkle 2.5s linear infinite",
+        "coin-shine": "coin-shine 2.5s ease-in-out infinite",
+        // Hard on/off blink for the synthetic OTP caret. The OTP inputs use
+        // bg-clip text + WebkitTextFillColor: transparent for the gradient
+        // digits, which hides the native caret — we draw our own bar and
+        // blink it here.
+        "caret-blink": "caret-blink 1s steps(2, start) infinite",
       },
       keyframes: {
         aurora: {
@@ -42,6 +50,23 @@ const config: Config = {
           "0%, 85%, 100%": { color: "#3D1A4F", textShadow: "none" },
           "88%, 94%": { color: "#FFFFFF", textShadow: "0 0 6px rgba(255,255,255,0.55)" },
           "91%, 97%": { color: "#3D1A4F", textShadow: "none" },
+        },
+        "coin-flip": {
+          "0%": { transform: "rotateY(0deg)" },
+          "100%": { transform: "rotateY(360deg)" },
+        },
+        "coin-twinkle": {
+          "0%, 78%": { opacity: "0", transform: "scale(0) rotate(0deg)" },
+          "88%": { opacity: "1", transform: "scale(1.1) rotate(35deg)" },
+          "100%": { opacity: "0", transform: "scale(0.4) rotate(70deg)" },
+        },
+        "coin-shine": {
+          "0%, 100%": { opacity: "0.95", transform: "scale(1.08)" },
+          "50%": { opacity: "0.35", transform: "scale(0.92)" },
+        },
+        "caret-blink": {
+          "0%, 100%": { opacity: "1" },
+          "50%": { opacity: "0" },
         },
       },
       colors: {

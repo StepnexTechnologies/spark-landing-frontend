@@ -63,6 +63,11 @@ interface SignupContextValue {
   resendOtp: () => Promise<void>;
   submitProfile: () => Promise<void>;
   changeNumber: () => void;
+  // Manually trigger /verify with the current OTP value. Auto-verify still
+  // fires when the user types/pastes the 4th digit; this exposes the same path
+  // for explicit "Verify" buttons (e.g. /creator/earn Stage 2). Re-entry is
+  // guarded by verifyingRef so double calls are safe.
+  verifyOtp: () => Promise<void>;
 }
 
 const SignupContext = createContext<SignupContextValue | null>(null);
@@ -366,33 +371,30 @@ export function SignupProvider({ children }: { children: React.ReactNode }) {
     [],
   );
 
-  // Auto-verify when the 4th digit lands. Calls /auth/verify with just
-  // {user_id, otp, referral_code} per the new contract — basic info is
-  // captured separately via PATCH /users/me on profile submit.
+  // Core /auth/verify call. Takes an explicit otp so callers (auto-verify
+  // useEffect, manual "Verify" button) share one code path. Re-entry is
+  // guarded by verifyingRef — calling this concurrently is safe.
   //
   // No cancellation flag here on purpose. React StrictMode (Next 16 default)
   // does setup → cleanup → setup on mount; if the cleanup flipped a
   // `cancelled=true` flag, the in-flight verify's success branch would bail
   // and stage would never advance to "profile". verifyingRef alone gates
-  // re-entry, and verifyStatus is deliberately out of the deps for the same
-  // reason — its setter inside the effect must not retrigger cleanup.
-  useEffect(() => {
-    if (stage !== "otp") return;
-    if (otp.length !== 4) return;
-    if (verifyingRef.current) return;
-    if (!creatorId) return;
+  // re-entry.
+  const performVerify = useCallback(
+    async (currentOtp: string) => {
+      if (currentOtp.length !== 4) return;
+      if (verifyingRef.current) return;
+      if (!creatorId) return;
 
-    verifyingRef.current = true;
+      verifyingRef.current = true;
+      setVerifyStatus("verifying");
+      setError(null);
+      setErrorCode(null);
 
-    setVerifyStatus("verifying");
-    setError(null);
-    setErrorCode(null);
-
-    (async () => {
       try {
         await verify({
           user_id: creatorId,
-          otp,
+          otp: currentOtp,
           referral_code: referralCode ?? undefined,
           utm_source: utmSource ?? undefined,
           utm_medium: utmMedium ?? undefined,
@@ -451,20 +453,30 @@ export function SignupProvider({ children }: { children: React.ReactNode }) {
       } finally {
         verifyingRef.current = false;
       }
-    })();
-  }, [
-    otp,
-    stage,
-    creatorId,
-    referralCode,
-    utmSource,
-    utmMedium,
-    requiresBasicInfo,
-    i18n,
-    clearExpiryTimer,
-    reportSignupError,
-    t,
-  ]);
+    },
+    [
+      creatorId,
+      referralCode,
+      utmSource,
+      utmMedium,
+      requiresBasicInfo,
+      i18n,
+      clearExpiryTimer,
+      reportSignupError,
+      t,
+    ],
+  );
+
+  // Auto-verify when the 4th digit lands. Calls /auth/verify with just
+  // {user_id, otp, referral_code} per the new contract — basic info is
+  // captured separately via PATCH /users/me on profile submit.
+  useEffect(() => {
+    if (stage !== "otp") return;
+    if (otp.length !== 4) return;
+    performVerify(otp);
+  }, [otp, stage, performVerify]);
+
+  const verifyOtp = useCallback(() => performVerify(otp), [performVerify, otp]);
 
   // Reset error + verify status once the user starts typing a new code.
   // Note: the INVALID_OTP catch above clears `otp` to "" while flipping
@@ -512,6 +524,7 @@ export function SignupProvider({ children }: { children: React.ReactNode }) {
       resendOtp: handleResend,
       submitProfile: handleSubmitProfile,
       changeNumber,
+      verifyOtp,
     }),
     [
       phone,
@@ -530,6 +543,7 @@ export function SignupProvider({ children }: { children: React.ReactNode }) {
       handleResend,
       handleSubmitProfile,
       changeNumber,
+      verifyOtp,
     ],
   );
 
