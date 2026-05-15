@@ -195,7 +195,12 @@
       "PowerShell(Move-Item -Path \"public\\\\images\\\\creator\\\\earn\\\\2.png\" -Destination \"public\\\\images\\\\creator\\\\earn\\\\story-2.png\" -Force)",
       "PowerShell(Move-Item -Path \"public\\\\images\\\\creator\\\\earn\\\\3.png\" -Destination \"public\\\\images\\\\creator\\\\earn\\\\story-3.png\" -Force)",
       "PowerShell(Move-Item -Path \"public\\\\images\\\\creator\\\\earn\\\\4.png\" -Destination \"public\\\\images\\\\creator\\\\earn\\\\story-4.png\" -Force)",
-      "PowerShell(npx eslint components/creator/earn/FloatingCTA.tsx app/creator/earn/CreatorEarnPage.tsx 2>&1)"
+      "PowerShell(npx eslint components/creator/earn/FloatingCTA.tsx app/creator/earn/CreatorEarnPage.tsx 2>&1)",
+      "Bash(yarn tsc *)",
+      "PowerShell(yarn tsc --noEmit 2>&1)",
+      "PowerShell(npx --no tsc --noEmit 2>&1)",
+      "Bash(git -C c:/Users/HP/Desktop/client/spark-landing-frontend status --short)",
+      "WebFetch(domain:dev.sparkonomy.com)"
     ],
     "additionalDirectories": [
       "C:\\Users\\HP\\.claude\\plans",
