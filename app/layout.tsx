@@ -13,7 +13,7 @@ const roboto = Roboto({
   display: "swap",
 });
 
-const isProduction = process.env.SITE_URL === 'https://sparkonomy.com'
+const isProduction = /^https:\/\/(www\.)?sparkonomy\.com\/?$/.test(process.env.SITE_URL ?? '')
 
 export const metadata: Metadata = {
   robots: isProduction ? undefined : { index: false, follow: false },
