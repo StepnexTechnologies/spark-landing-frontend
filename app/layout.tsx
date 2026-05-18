@@ -13,7 +13,9 @@ const roboto = Roboto({
   display: "swap",
 });
 
-const isProduction = process.env.SITE_URL === 'https://sparkonomy.com'
+// Fail-open: only an explicit dev.* SITE_URL is treated as non-prod, so a missing
+// or misconfigured value can't accidentally noindex production.
+const isProduction = !process.env.SITE_URL?.startsWith('https://dev.')
 
 export const metadata: Metadata = {
   robots: isProduction ? undefined : { index: false, follow: false },

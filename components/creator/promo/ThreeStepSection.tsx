@@ -61,10 +61,18 @@ function StepCard({ index, title, description, tags, imageUrl }: ThreeStepItem &
   );
 }
 
-export default function BenefitsSection() {
-  const { t } = useTranslation("creatorPromo");
+interface ThreeStepSectionProps {
+  namespace?: string;
+  trackingId?: string;
+}
+
+export default function BenefitsSection({
+  namespace = "creatorPromo",
+  trackingId = "promo_three_step",
+}: ThreeStepSectionProps = {}) {
+  const { t } = useTranslation(namespace);
   const sectionRef = useRef<HTMLElement>(null);
-  useSectionViewTracking(sectionRef, "promo_three_step");
+  useSectionViewTracking(sectionRef, trackingId);
 
   const rawItems = t("threeStep.items", { returnObjects: true });
   const steps: ThreeStepItem[] = Array.isArray(rawItems) ? (rawItems as ThreeStepItem[]) : [];

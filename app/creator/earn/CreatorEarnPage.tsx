@@ -10,15 +10,15 @@ import Navigation from "@/components/creator/earn/Navigation";
 import HeroSection from "@/components/creator/earn/HeroSection";
 import StoriesContainer from "@/components/creator/earn/stories/StoriesContainer";
 import ReferralBanner from "@/components/creator/earn/ReferralBanner";
+import { SignupProvider } from "@/components/creator/promo/SignupContext";
 import {track} from "@/lib/analytics/track";
 
 const ValueProposition = dynamic(() => import("@/components/creator/earn/ValueProposition"));
-const BenefitsSection = dynamic(() => import("@/components/creator/earn/BenefitsSection"));
+const ThreeStepSection = dynamic(() => import("@/components/creator/promo/ThreeStepSection"));
+const PhoneMockupSection = dynamic(() => import("@/components/creator/promo/PhoneMockupSection"));
 const AdvantageSection = dynamic(() => import("@/components/creator/earn/AdvantageSection"));
 const TestimonialsSection = dynamic(() => import("@/components/creator/earn/TestimonialsSection"));
-const VideoSection = dynamic(() => import("@/components/creator/earn/VideoSection"));
 const FAQSection = dynamic(() => import("@/components/creator/earn/FAQSection"));
-const CTASection = dynamic(() => import("@/components/creator/earn/CTASection"));
 const EarnFooter = dynamic(() => import("@/components/creator/earn/EarnFooter"));
 const FloatingCTA = dynamic(() => import("@/components/creator/earn/FloatingCTA"), { ssr: false });
 
@@ -80,7 +80,7 @@ function CreatorEarnPageContent() {
   }
 
   return (
-    <>
+    <SignupProvider>
       {/* Stories Experience */}
       {showStories && <StoriesContainer onComplete={handleStoriesComplete} />}
 
@@ -93,11 +93,12 @@ function CreatorEarnPageContent() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6 }}
           >
-            {/* Background Gradients */}
+            {/* Background Gradients — tuned to reach the end of the FAQ
+                (the "View All" / "Show Less" toggle), so bg-black only
+                shows behind the footer below it. */}
             <div className="absolute -top-[400px] -left-[940px] inset-0 pointer-events-none">
-              {/* Pink to Purple Gradient Blob */}
-              <div className="mt-[500px] w-[2422px] h-[2422px] md:w-[4500px] gradient-blob" />
-              <div className="-mt-[1000px] w-[2422px] h-[65%] md:w-[4500px] md:h-[62%] gradient-blob" />
+              <div className="mt-[900px] w-[2422px] h-[2422px] md:w-[4500px] gradient-blob" />
+              <div className="-mt-[1000px] w-[2422px] h-[44%] md:w-[4500px] md:h-[41%] gradient-blob" />
             </div>
 
             {/* Content */}
@@ -108,21 +109,44 @@ function CreatorEarnPageContent() {
               </Suspense>
               <HeroSection />
               <ValueProposition />
-              <BenefitsSection />
-              <AdvantageSection />
-              <TestimonialsSection />
-              <VideoSection />
-              <FAQSection />
-              <CTASection />
+              <ThreeStepSection namespace="creatorEarn" trackingId="earn_three_step" />
+              <PhoneMockupSection />
+              <TestimonialsSection
+                namespace="creatorEarn"
+                trackingId="earn_testimonials"
+                disableSlideEntryAnimation
+              />
+              <AdvantageSection
+                variant="promo"
+                namespace="creatorEarn"
+                trackingId="earn_advantage"
+                analyticsEvent="earn_cta_click"
+              />
+              <FAQSection
+                namespace="creatorEarn"
+                trackingId="earn_faq"
+                analyticsEvent="earn_faq_toggle"
+                expandInline
+              />
               <EarnFooter />
             </div>
 
-            {/* Floating CTA Button */}
-            <FloatingCTA />
+            {/* Floating CTA — earn variant mirrors the hero card's pitch
+                (dark surface, FlippingCoin, Win-Gold-Coin heading, inline
+                checks, white phone pill, Win Now). Phone input is piped into
+                the shared SignupContext so submitting from the bottom bar
+                advances the hero card straight to OTP. triggerElementId
+                hides the bar while the hero card is on-screen. */}
+            <FloatingCTA
+              variant="earn"
+              namespace="creatorEarn"
+              trackingPrefix="earn"
+              triggerElementId="promo-hero-card"
+            />
           </motion.main>
         )}
       </AnimatePresence>
-    </>
+    </SignupProvider>
   );
 }
 

@@ -5,9 +5,11 @@ import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { Trans, useTranslation } from "react-i18next";
 import { ArrowRight, Check, Loader2, X } from "lucide-react";
+import { parsePhoneNumber } from "libphonenumber-js";
 import { ValidatedPhoneInput } from "@/components/creator/earn/ValidatedPhoneInput";
 import OtpInput from "@/components/creator/otp/OtpInput";
 import TextInput from "@/components/common/TextInput";
+import FlippingCoin from "@/components/creator/earn/FlippingCoin";
 import { PROMO_CONFIG } from "@/lib/promo/config";
 import { useSignup } from "./SignupContext";
 import GiftCardStackAnimation from "./GiftCardStackAnimation";
@@ -30,6 +32,13 @@ const LIFT_SHADOW =
 const CARD_GRADIENT =
   "linear-gradient(180deg, #FFCC00 0%, rgba(255, 204, 0, 0.7) 59.13%, rgba(255, 204, 0, 0.2) 100%)";
 
+// Earn variant — dark plum so the gold-coin corners + the yellow CTA contrast
+// against the rest of the card chrome. The page itself sits on a pink/purple
+// gradient blob, so the card needs to be measurably darker to read as its own
+// surface (otherwise it visually melts into the page bg).
+const EARN_CARD_GRADIENT =
+  "linear-gradient(180deg, #000000 0%, rgba(221, 42, 123, 0.09) 100%)";
+
 interface PromoSignupCardProps {
   // When false, the gift-card bloom and ₹500 count-up are held in their
   // initial state. They only fire once `play` flips true, so the parent can
@@ -43,7 +52,17 @@ interface PromoSignupCardProps {
   // entirely: gift cards render in their final stack pose, ₹500 is static, the
   // rupee glyph does not pulse, and the card does not lift on first scroll.
   // Sparkles on the front voucher and the Get OTP button bounce are preserved.
-  variant?: "f" | "w";
+  // "earn" variant — used by /creator/earn. Swaps the gift-card stack for a
+  // pair of FlippingCoin images, renders the heading as plain text (no count-up
+  // or rupee pulse), and flips the Send OTP button from purple/pink gradient
+  // to a yellow "Win Now" button. Entry beats are stripped like the "w"
+  // variant — the button bounce is preserved as a subtle attention cue.
+  variant?: "f" | "w" | "earn";
+  // i18n namespace the card reads from. Defaults to "creatorPromo" so the
+  // existing /creator/promo and /creator/promo-{f,w} routes are unchanged.
+  // /creator/earn passes "creatorEarn" so the same card draws Win-Gold-Coin
+  // copy, 3 checks, and the "Win Now" CTA label from the earn locale.
+  namespace?: string;
 }
 
 // Gift-card bloom + Send-OTP button bounce wait this long after `play` flips
@@ -59,8 +78,13 @@ const VARIANT_F_CARDS_DELAY_MS = 1800;
 // cards first, then the bouncing CTA pair.
 const VARIANT_F_SECONDARY_DELAY_MS = 2400;
 
-export default function PromoSignupCard({ play = true, variant }: PromoSignupCardProps = {}) {
-  const { t } = useTranslation("creatorPromo");
+export default function PromoSignupCard({
+  play = true,
+  variant,
+  namespace = "creatorPromo",
+}: PromoSignupCardProps = {}) {
+  const { t } = useTranslation(namespace);
+  const isEarn = variant === "earn";
   const {
     phone,
     setPhone,
@@ -79,7 +103,21 @@ export default function PromoSignupCard({ play = true, variant }: PromoSignupCar
     resendOtp,
     submitProfile,
     changeNumber,
+    verifyOtp,
   } = useSignup();
+
+  // Pretty-print the entered E.164 phone for the earn-variant OTP header
+  // ("OTP sent to +91 98765 43210"). libphonenumber's formatInternational
+  // handles the country-specific spacing; fall back to raw E.164 if parsing
+  // fails so the user still sees something useful.
+  const formattedPhone = (() => {
+    if (!phone) return "";
+    try {
+      return parsePhoneNumber(phone)?.formatInternational() ?? phone;
+    } catch {
+      return phone;
+    }
+  })();
 
   // Gates the Send-OTP button bounce (and, on /promo-f, the ₹500 bounce).
   // Default variant: holds for SECONDARY_REVEAL_DELAY_MS so the counter gets
@@ -99,6 +137,14 @@ export default function PromoSignupCard({ play = true, variant }: PromoSignupCar
 
   const checks = (() => {
     const raw = t("hero.card.checks", { returnObjects: true });
+    return Array.isArray(raw) ? (raw as string[]) : [];
+  })();
+
+  // Earn variant only — feature bullets that previously sat below the card,
+  // now nested inside the card per the new design.
+  const earnFeatures = (() => {
+    if (!isEarn) return [];
+    const raw = t("hero.features", { returnObjects: true });
     return Array.isArray(raw) ? (raw as string[]) : [];
   })();
 
@@ -128,10 +174,10 @@ export default function PromoSignupCard({ play = true, variant }: PromoSignupCar
 
   // One-shot lift on first scroll — like the card is "noticing" the user.
   // Listener is { once: true } so it auto-detaches after the first event.
-  // Skipped on variant="w" (promo-w strips entry animations).
+  // Skipped on variant="w" and variant="earn" (both strip entry animations).
   const [hasLifted, setHasLifted] = useState(false);
   useEffect(() => {
-    if (variant === "w") return;
+    if (variant === "w" || variant === "earn") return;
     if (hasLifted) return;
     const onScroll = () => setHasLifted(true);
     window.addEventListener("scroll", onScroll, { once: true, passive: true });
@@ -159,25 +205,62 @@ export default function PromoSignupCard({ play = true, variant }: PromoSignupCar
     <motion.div
       id="promo-hero-card"
       layout
-      style={{ background: CARD_GRADIENT }}
+      style={{ background: isEarn ? EARN_CARD_GRADIENT : CARD_GRADIENT }}
       initial={{
         y: 0,
-        boxShadow: REST_SHADOW,
+        boxShadow: isEarn ? "none" : REST_SHADOW,
       }}
       animate={{
         y: hasLifted ? [0, -4, 0] : 0,
-        boxShadow: hasLifted
-          ? [REST_SHADOW, LIFT_SHADOW, REST_SHADOW]
-          : REST_SHADOW,
+        boxShadow: isEarn
+          ? "none"
+          : hasLifted
+            ? [REST_SHADOW, LIFT_SHADOW, REST_SHADOW]
+            : REST_SHADOW,
       }}
       transition={{
         layout: { duration: 0.4, ease: [0.4, 0, 0.2, 1] },
         y: { duration: 0.7, times: [0, 0.4, 1], ease: [0.34, 1.4, 0.64, 1] },
         boxShadow: { duration: 0.7, times: [0, 0.4, 1], ease: [0.4, 0, 0.2, 1] },
       }}
-      className="relative mx-auto w-full max-w-[420px] rounded-[24px] border-[3px] border-[#DD2A7B] px-2 py-4"
+      className="relative mx-auto w-full max-w-[420px] rounded-[24px] px-2 py-4"
     >
+      {/* Earn variant: top-right corner coin peeks above the card. Sibling of
+          the voucher row so it's positioned relative to the outer card box
+          rather than the content column. */}
+      {isEarn && (
+        <div className="absolute -top-5 right-3 z-20 pointer-events-none">
+          <FlippingCoin size={52} />
+        </div>
+      )}
+
       {/* Voucher row */}
+      {isEarn ? (
+        <div className="pr-14">
+          {/* Heading — "Send free invoice —" sits at 20px/semibold; the gold
+              <0>Win Gold Coin</0> portion has its own weight/style. */}
+          <h2 className="text-[20px] font-semibold tracking-[-0.04em] text-white leading-tight">
+            <Trans
+              i18nKey="hero.card.voucherHeading"
+              t={t}
+              components={[
+                <span
+                  key="gold"
+                  className="italic"
+                  style={{
+                    color: "#FFCC00",
+                    fontFamily:
+                      "var(--font-solitreo), 'Brush Script MT', 'Snell Roundhand', cursive",
+                    fontWeight: 700,
+                    fontSize: "1.15em",
+                    paddingLeft: "0.1em",
+                  }}
+                />,
+              ]}
+            />
+          </h2>
+        </div>
+      ) : (
       <div className="flex items-start gap-3">
         <GiftCardStackAnimation
           play={variant === "f" ? play : playSecondary}
@@ -293,26 +376,42 @@ export default function PromoSignupCard({ play = true, variant }: PromoSignupCar
           </p>
         </div>
       </div>
+      )}
 
-      {/* CTA label + checks */}
-      <div className="mt-2 px-2">
-        <p className="text-xs font-semibold leading-4 text-primary">
-          {t("hero.card.ctaLabel")}
-        </p>
-        <ul className="flex flex-wrap items-center gap-x-0.5 gap-y-1 text-xs font-normal text-primary">
+      {/* CTA label + checks. Default/f/w variants keep the "Get started" label
+          plus a wrapping check list. Earn variant drops the label and renders
+          the three checks inline on a single 10px row. */}
+      {!isEarn ? (
+        <div className="mt-2 px-2">
+          <p className="text-xs font-semibold leading-4 text-primary">
+            {t("hero.card.ctaLabel")}
+          </p>
+          <ul className="flex flex-wrap items-center gap-x-0.5 gap-y-1 text-xs font-normal text-primary">
+            {checks.map((label, i) => (
+              <li key={i} className="flex items-center gap-1.5">
+                <span aria-hidden="true">✅</span>
+                <span>{label}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : !otpVisible ? (
+        <ul className="mt-1 px-1 flex items-center justify-center text-[11px] font-normal text-white whitespace-nowrap">
           {checks.map((label, i) => (
-            <li key={i} className="flex items-center gap-1.5">
+            <li key={i} className="flex items-center gap-1">
               <span aria-hidden="true">✅</span>
               <span>{label}</span>
             </li>
           ))}
         </ul>
-      </div>
+      ) : null}
 
       {/* Phone input + Send OTP. Once we leave stage 'phone' the input is
           locked and the button flips to "Edit", which calls changeNumber
-          to unlock the field. */}
-      <div className="mt-2.5">
+          to unlock the field. Earn variant hides this entirely once we move
+          past Stage 1 — the OTP entry layout below replaces it. */}
+      {(!isEarn || !otpVisible) && (
+      <div className={isEarn ? "mt-1.5" : "mt-2.5"}>
         <div className="flex items-center w-full rounded-[16px] bg-white border border-black/10 p-[6px] pl-3 gap-2">
           <Suspense fallback={null}>
             <ValidatedPhoneInput
@@ -356,7 +455,11 @@ export default function PromoSignupCard({ play = true, variant }: PromoSignupCar
                     : { duration: 0 }
                 }
                 whileTap={{ scale: 0.94 }}
-                className="flex-shrink-0 px-3 py-2 rounded-[8px] text-white text-sm font-semibold whitespace-nowrap bg-[linear-gradient(162deg,#dd2a7b_0%,#9747FF_64%)] hover:brightness-110 transition-[filter,opacity] duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
+                className={
+                  isEarn
+                    ? "flex-shrink-0 px-4 py-2 rounded-[8px] text-white text-sm font-bold whitespace-nowrap bg-[linear-gradient(180.27deg,#DD2A7B_-46.92%,#9747FF_80.1%)] hover:brightness-110 transition-[filter,opacity] duration-200 disabled:opacity-60 disabled:cursor-not-allowed shadow-[0_2px_8px_rgba(151,71,255,0.4)]"
+                    : "flex-shrink-0 px-3 py-2 rounded-[8px] text-white text-sm font-semibold whitespace-nowrap bg-[linear-gradient(162deg,#dd2a7b_0%,#9747FF_64%)] hover:brightness-110 transition-[filter,opacity] duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
+                }
               >
                 {stage === "otpSending" ? (
                   t("otp.sending")
@@ -400,10 +503,14 @@ export default function PromoSignupCard({ play = true, variant }: PromoSignupCar
             <motion.p
               key="disclaimer"
               initial={{ height: 0, opacity: 0, marginTop: 0 }}
-              animate={{ height: "auto", opacity: 1, marginTop: 8 }}
+              animate={{ height: "auto", opacity: 1, marginTop: isEarn ? 6 : 8 }}
               exit={{ height: 0, opacity: 0, marginTop: 0 }}
               transition={SHEET_TRANSITION}
-              className="overflow-hidden text-[10px] md:text-[11px] text-white/90 text-center leading-snug px-1"
+              className={
+                isEarn
+                  ? "overflow-hidden text-[8.5px] text-white/90 text-center leading-snug px-1 whitespace-nowrap"
+                  : "overflow-hidden text-[10px] md:text-[11px] text-white/90 text-center leading-snug px-1"
+              }
             >
               <Trans
                 i18nKey="hero.card.disclaimer"
@@ -429,10 +536,158 @@ export default function PromoSignupCard({ play = true, variant }: PromoSignupCar
           )}
         </AnimatePresence>
       </div>
+      )}
 
-      {/* Stage 2: OTP block */}
+      {/* Earn variant Stage 2 — replaces the phone input row once we move past
+          Stage 1. Top header shows a "Change Number" affordance and the
+          masked destination ("OTP sent to +91 …"); the white pill below
+          mirrors the Stage 1 input chrome, swapping the phone field for 4
+          OTP boxes + a Verify CTA. Auto-verify still fires on the 4th digit
+          via SignupContext; the Verify button just exposes the same path
+          for users who don't trust the auto-trigger. */}
+      {isEarn && otpVisible && (
+        <div className="mt-2">
+          <div className="flex items-center justify-between px-1 mb-2 text-[12px] text-white">
+            <button
+              type="button"
+              onClick={changeNumber}
+              disabled={stage === "submitting" || stage === "submitted"}
+              className="font-medium hover:underline disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {t("hero.card.changeNumber")}
+            </button>
+            <span className="opacity-90">
+              <Trans
+                i18nKey="hero.card.otpSentTo"
+                t={t}
+                values={{ phone: formattedPhone }}
+                components={[
+                  <strong key="ph" className="font-semibold text-white" />,
+                ]}
+              />
+            </span>
+          </div>
+
+          <div className="flex items-center w-full rounded-[16px] bg-white border border-black/10 p-[6px] gap-2">
+            <div className="flex-1 flex items-center justify-center">
+              <OtpInput
+                length={4}
+                value={otp}
+                onChange={setOtp}
+                autoFocus
+                disabled={
+                  stage === "submitting" ||
+                  stage === "submitted" ||
+                  verifyStatus === "verified"
+                }
+                variant="light"
+              />
+            </div>
+            <button
+              type="button"
+              onClick={verifyOtp}
+              disabled={
+                otp.length !== 4 ||
+                verifyStatus === "verifying" ||
+                verifyStatus === "verified" ||
+                stage === "submitting" ||
+                stage === "submitted"
+              }
+              className={
+                verifyStatus === "verified"
+                  ? // Verified pill — swaps the purple→pink CTA for a solid green
+                    // affirmation that locks until the user uses "Change Number"
+                    // to restart. Cursor-default + disabled state below makes
+                    // sure clicks don't re-fire verify.
+                    "flex-shrink-0 px-4 py-2 rounded-[8px] text-white text-sm font-bold whitespace-nowrap bg-[#16A34A] shadow-[0_2px_8px_rgba(22,163,74,0.45)] cursor-default disabled:opacity-100"
+                  : "flex-shrink-0 px-4 py-2 rounded-[8px] text-white text-sm font-bold whitespace-nowrap bg-[linear-gradient(180.27deg,#DD2A7B_-46.92%,#9747FF_80.1%)] hover:brightness-110 transition-[filter,opacity] duration-200 disabled:opacity-60 disabled:cursor-not-allowed shadow-[0_2px_8px_rgba(151,71,255,0.4)]"
+              }
+            >
+              {verifyStatus === "verifying" ? (
+                <span className="inline-flex items-center gap-1.5">
+                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                </span>
+              ) : verifyStatus === "verified" ? (
+                <span className="inline-flex items-center gap-1.5">
+                  <Check className="w-4 h-4" strokeWidth={3} />
+                  {t("hero.card.verified")}
+                </span>
+              ) : (
+                t("hero.card.verify")
+              )}
+            </button>
+          </div>
+
+          {/* Non-error status messages (network failures the OTP-stage
+              error handler couldn't route to a known code). Hidden when
+              the verify succeeded or when the "Incorrect OTP" pill below
+              is taking over. */}
+          {error && verifyStatus !== "verified" && verifyStatus !== "error" && (
+            <p className="mt-2 text-xs text-red-100 bg-red-600/20 px-2 py-1 rounded text-center">
+              {error}
+            </p>
+          )}
+
+          {/* "Incorrect OTP" pill — auto-hides after 2s (see verifyStatus
+              watcher in SignupContext). */}
+          <AnimatePresence initial={false}>
+            {verifyStatus === "error" && (
+              <motion.div
+                key="earn-pill-error"
+                initial={{ opacity: 0, y: -4 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -4 }}
+                transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
+                className="mt-2 flex justify-center"
+              >
+                <VerifiedBadge status={verifyStatus} t={t} />
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {verifyStatus !== "verified" && (
+            <div className="mt-2">
+              <ResendRow
+                resendIn={resendIn}
+                resendOtp={resendOtp}
+                disabled={verifyStatus === "verifying"}
+                t={t}
+              />
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Earn variant — feature bullets moved inside the card. Yellow ★ + white
+          text; lead word in each i18n string is wrapped in <0>…</0> for bold.
+          Hidden once we move past Stage 1 so the OTP layout sits clean. */}
+      {isEarn && !otpVisible && earnFeatures.length > 0 && (
+        <ul className="mt-3 px-2 flex flex-col gap-1.5 text-white text-[12px] leading-snug">
+          {earnFeatures.map((_, i) => (
+            <li key={i} className="flex items-center gap-2">
+              <span
+                aria-hidden
+                className="text-[#FFCC00] text-[14px] leading-none drop-shadow-[0_0_4px_rgba(255,204,0,0.85)]"
+              >
+                ★
+              </span>
+              <span>
+                <Trans
+                  i18nKey={`hero.features.${i}`}
+                  t={t}
+                  components={[<strong key="b" className="font-bold text-white" />]}
+                />
+              </span>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      {/* Stage 2: OTP block — default/f/w variants. Earn renders its own
+          OTP entry layout above (inline with the Stage 1 input pill), so
+          this block is suppressed for variant="earn". */}
       <AnimatePresence initial={false}>
-        {otpVisible && (
+        {!isEarn && otpVisible && (
           <motion.div
             key="otp-section"
             initial={{ height: 0, opacity: 0, marginTop: 0 }}
@@ -608,7 +863,14 @@ export default function PromoSignupCard({ play = true, variant }: PromoSignupCar
                         </span>
                       </button>
 
-                      <PartnerFooter />
+                      <PartnerFooter
+                        builtWithLabel={
+                          isEarn ? t("signupCard.builtWith") : undefined
+                        }
+                        developedWithLabel={
+                          isEarn ? t("signupCard.developedWith") : undefined
+                        }
+                      />
                     </div>
                   </motion.div>
                 )}
@@ -707,7 +969,39 @@ function ResendRow({
   );
 }
 
-function PartnerFooter() {
+function PartnerFooter({
+  builtWithLabel,
+  developedWithLabel,
+}: {
+  builtWithLabel?: string;
+  developedWithLabel?: string;
+} = {}) {
+  // Earn variant renders "Built with" / "Developed with" labels above each
+  // logo (per /creator/earn design); the original promo variants pass no
+  // labels and get the side-by-side logos with a vertical divider between.
+  const labeled = Boolean(builtWithLabel && developedWithLabel);
+
+  if (labeled) {
+    return (
+      <div className="mt-3 flex items-end justify-center gap-6 text-[11px] text-white/85">
+        <div className="flex flex-col items-center gap-1">
+          <span>{builtWithLabel}</span>
+          <Image src="/logos/Meta_White.png" alt="Meta" width={85} height={30} />
+        </div>
+        <span aria-hidden className="h-9 w-px bg-white/30" />
+        <div className="flex flex-col items-center gap-1">
+          <span>{developedWithLabel}</span>
+          <Image
+            src="/logos/Yt_White.png"
+            alt="YouTube"
+            width={85}
+            height={30}
+          />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="mt-3 flex items-center justify-center text-[11px] text-[#5C2E0B]/85">
       <Image
