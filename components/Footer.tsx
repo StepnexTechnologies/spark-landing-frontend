@@ -107,7 +107,7 @@ export default function Footer({ minimal = false }: FooterProps) {
             <EmailCapture />
           </motion.div>
         )}
-        <HomeFooterLinks />
+        {(minimal || heroReady) && <HomeFooterLinks />}
       </div>
     </motion.footer>
   );
