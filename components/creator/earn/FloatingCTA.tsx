@@ -67,12 +67,24 @@ export default function FloatingCTA({
 }: FloatingCTAProps = {}) {
   const { t } = useTranslation(namespace);
   const [isVisible, setIsVisible] = useState(false);
+  // Gate visibility on the hero card having been seen at least once. The
+  // observer's initial callback fires synchronously on observe(), so without
+  // this guard the bar pops up on first paint whenever the card starts below
+  // the fold (e.g. /creator/earn, where the story carousel pushes it down).
+  const hasBeenSeenRef = useRef(false);
 
   useEffect(() => {
     const target = triggerElementId ? document.getElementById(triggerElementId) : null;
     if (target) {
       const observer = new IntersectionObserver(
-        ([entry]) => setIsVisible(!entry.isIntersecting),
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            hasBeenSeenRef.current = true;
+            setIsVisible(false);
+          } else {
+            setIsVisible(hasBeenSeenRef.current);
+          }
+        },
         { threshold: 0 },
       );
       observer.observe(target);
