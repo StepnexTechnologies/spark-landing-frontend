@@ -200,7 +200,10 @@
       "PowerShell(yarn tsc --noEmit 2>&1)",
       "PowerShell(npx --no tsc --noEmit 2>&1)",
       "Bash(git -C c:/Users/HP/Desktop/client/spark-landing-frontend status --short)",
-      "WebFetch(domain:dev.sparkonomy.com)"
+      "WebFetch(domain:dev.sparkonomy.com)",
+      "PowerShell(npx --no-install next lint --dir app --dir components 2>&1)",
+      "Bash(ls \"c:/Users/HP/Desktop/client/\")",
+      "Read(//c/Users/HP/Desktop/client/**)"
     ],
     "additionalDirectories": [
       "C:\\Users\\HP\\.claude\\plans",

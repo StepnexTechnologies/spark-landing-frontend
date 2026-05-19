@@ -70,7 +70,7 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <main className="h-[100dvh] overflow-hidden">
+    <main className="md:h-[100dvh] md:overflow-hidden">
       <Suspense>
         <HeroSection />
       </Suspense>
