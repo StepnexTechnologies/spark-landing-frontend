@@ -15,18 +15,24 @@ steps:
       - |
         docker build \
           --build-arg NEXT_PUBLIC_API_BASE=$$NEXT_PUBLIC_API_BASE \
+          --build-arg NEXT_PUBLIC_GTM_ID=$$NEXT_PUBLIC_GTM_ID \
           --build-arg NEXT_PUBLIC_META_PIXEL_ID=$$NEXT_PUBLIC_META_PIXEL_ID \
           --build-arg NEXT_PUBLIC_GA_MEASUREMENT_ID=$$NEXT_PUBLIC_GA_MEASUREMENT_ID \
           --build-arg NEXT_PUBLIC_CLARITY_PROJECT_ID=$$NEXT_PUBLIC_CLARITY_PROJECT_ID \
+          --build-arg NEXT_PUBLIC_COOKIEYES_SITE_ID=$$NEXT_PUBLIC_COOKIEYES_SITE_ID \
+          --build-arg NEXT_PUBLIC_FB_DOMAIN_VERIFICATION=$$NEXT_PUBLIC_FB_DOMAIN_VERIFICATION \
           --build-arg SITE_URL=$$SITE_URL \
           -t ${_AR_REPO}/${_SERVICE_NAME}:${COMMIT_SHA} \
           -t ${_AR_REPO}/${_SERVICE_NAME}:latest \
           .
     secretEnv:
       - 'NEXT_PUBLIC_API_BASE'
+      - 'NEXT_PUBLIC_GTM_ID'
       - 'NEXT_PUBLIC_META_PIXEL_ID'
       - 'NEXT_PUBLIC_GA_MEASUREMENT_ID'
       - 'NEXT_PUBLIC_CLARITY_PROJECT_ID'
+      - 'NEXT_PUBLIC_COOKIEYES_SITE_ID'
+      - 'NEXT_PUBLIC_FB_DOMAIN_VERIFICATION'
       - 'SITE_URL'
 
   # Push image to Artifact Registry
@@ -54,12 +60,18 @@ availableSecrets:
   secretManager:
     - versionName: projects/sparkonomy/secrets/${_ENV}_NEXT_PUBLIC_API_BASE/versions/latest
       env: 'NEXT_PUBLIC_API_BASE'
+    - versionName: projects/sparkonomy/secrets/${_ENV}_NEXT_PUBLIC_GTM_ID/versions/latest
+      env: 'NEXT_PUBLIC_GTM_ID'
     - versionName: projects/sparkonomy/secrets/${_ENV}_NEXT_PUBLIC_META_PIXEL_ID/versions/latest
       env: 'NEXT_PUBLIC_META_PIXEL_ID'
     - versionName: projects/sparkonomy/secrets/${_ENV}_NEXT_PUBLIC_GA_MEASUREMENT_ID/versions/latest
       env: 'NEXT_PUBLIC_GA_MEASUREMENT_ID'
     - versionName: projects/sparkonomy/secrets/${_ENV}_NEXT_PUBLIC_CLARITY_PROJECT_ID/versions/latest
       env: 'NEXT_PUBLIC_CLARITY_PROJECT_ID'
+    - versionName: projects/sparkonomy/secrets/${_ENV}_NEXT_PUBLIC_COOKIEYES_SITE_ID/versions/latest
+      env: 'NEXT_PUBLIC_COOKIEYES_SITE_ID'
+    - versionName: projects/sparkonomy/secrets/${_ENV}_NEXT_PUBLIC_FB_DOMAIN_VERIFICATION/versions/latest
+      env: 'NEXT_PUBLIC_FB_DOMAIN_VERIFICATION'
     - versionName: projects/sparkonomy/secrets/${_ENV}_SITE_URL/versions/latest
       env: 'SITE_URL'
 
