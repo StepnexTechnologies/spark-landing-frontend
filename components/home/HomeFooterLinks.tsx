@@ -20,13 +20,15 @@ export default function HomeFooterLinks({className}: HomeFooterLinksProps) {
       <div className="md:hidden flex flex-col items-center gap-6 w-full pt-10 text-gray-400">
         <div className="w-full border-t border-white/10" />
 
-        <Image
-          src="/sparkonomy_full.png"
-          alt="Sparkonomy"
-          width={196}
-          height={36}
-          className="h-9 w-auto object-contain"
-        />
+        <div className="w-full max-w-xs">
+          <Image
+            src="/sparkonomy_full.png"
+            alt="Sparkonomy"
+            width={196}
+            height={36}
+            className="h-9 w-auto object-contain"
+          />
+        </div>
 
         <div className="grid grid-cols-2 gap-x-12 gap-y-6 w-full max-w-xs">
           <div className="flex flex-col gap-6">
