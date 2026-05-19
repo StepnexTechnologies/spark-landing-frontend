@@ -165,6 +165,14 @@ export default function HomeFooterLinks({className}: HomeFooterLinksProps) {
             <Link href="/blogs" className="hover:underline hover:text-purple-400">
               Blogs
             </Link>
+            <Link
+              href="https://beta.creator.sparkonomy.com/auth?service=earn"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:underline hover:text-purple-400"
+            >
+              Creator Payments
+            </Link>
           </div>
         </div>
 
@@ -190,6 +198,12 @@ export default function HomeFooterLinks({className}: HomeFooterLinksProps) {
           >
             Refunds
           </Link>
+          <button
+            type="button"
+            className="cky-banner-element hover:underline hover:text-purple-400"
+          >
+            Cookie Options
+          </button>
         </div>
       </div>
     </motion.div>
