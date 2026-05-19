@@ -15,6 +15,13 @@ function withContentSignal(res: NextResponse) {
 }
 
 export function middleware(req: NextRequest) {
+  const host = req.headers.get("host") ?? "";
+  if (host === "sparkonomy.com") {
+    const url = req.nextUrl.clone();
+    url.host = "www.sparkonomy.com";
+    return NextResponse.redirect(url, 301);
+  }
+
   const { pathname } = req.nextUrl;
   const lower = pathname.toLowerCase();
 
