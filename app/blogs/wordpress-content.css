@@ -812,7 +812,7 @@
 
 .wordpress-content .wp-block-list li {
   display: list-item;
-  margin-bottom: 0px;
+  margin-bottom: 16px;
 }
 
 /* Ensure ordered lists show numbers */
@@ -835,11 +835,9 @@
 .wordpress-content em,
 .wordpress-content i {
   font-style: italic;
-  font-family: Georgia, "Times New Roman", Times, serif;
 }
 
-/* All italic-rendering elements use a serif font */
-.wordpress-content cite,
+/* Pullquote/quote elements use a serif italic font */
 .wordpress-content .wp-block-pullquote p,
 .wordpress-content .wp-block-quote p,
 .wordpress-content .wp-block-pullquote cite,
@@ -849,11 +847,7 @@
 .wordpress-content .wp-block-quote.has-author p,
 .wordpress-content .author-quote p,
 .wordpress-content .stats-quote p,
-.wordpress-content .stats-quote cite,
-.wordpress-content .wp-element-caption,
-.wordpress-content figcaption,
-.wordpress-content .sources-section li a,
-.wordpress-content .sources-list li a {
+.wordpress-content .stats-quote cite {
   font-family: Georgia, "Times New Roman", Times, serif;
 }
 
