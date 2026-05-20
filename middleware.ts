@@ -17,8 +17,7 @@ function withContentSignal(res: NextResponse) {
 export function middleware(req: NextRequest) {
   const host = req.headers.get("host") ?? "";
   if (host === "sparkonomy.com") {
-    const url = req.nextUrl.clone();
-    url.host = "www.sparkonomy.com";
+    const url = new URL(`https://www.sparkonomy.com${req.nextUrl.pathname}${req.nextUrl.search}`);
     return NextResponse.redirect(url, 301);
   }
 
