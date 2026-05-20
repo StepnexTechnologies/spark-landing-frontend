@@ -53,6 +53,27 @@ const nextConfig: NextConfig = {
             },
         ],
     },
+    async headers() {
+        return [
+            {
+                source: "/((?!api/).*)",
+                headers: [
+                    { key: "Vary", value: "Accept" },
+                    { key: "Content-Signal", value: "ai-train=no, ai-search=yes" },
+                    { key: "X-Frame-Options", value: "SAMEORIGIN" },
+                    { key: "X-Content-Type-Options", value: "nosniff" },
+                    { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+                    { key: "X-DNS-Prefetch-Control", value: "on" },
+                    { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
+                ],
+            },
+        ];
+    },
+    async rewrites() {
+        return [
+            { source: "/blogs/:slug.md", destination: "/api/blog-md/:slug" },
+        ];
+    },
 };
 
 export default nextConfig;

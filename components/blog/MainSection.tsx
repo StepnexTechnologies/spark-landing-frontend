@@ -62,6 +62,13 @@ export default function MainSection({
             quality={90}
           />
           <div className={`absolute inset-0 pointer-events-none ${overlayGradient}`} />
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background:
+                "linear-gradient(111.96deg, rgba(51, 76, 202, 0) 16.69%, rgba(25, 38, 100, 0.39) 85.25%)",
+            }}
+          />
         </div>
         <div className={`relative h-full max-w-7xl px-[24px] lg:px-[84px] flex items-end pb-10 lg:pb-20 ${isRight ? "ml-auto" : ""}`}>
           <div className={`md:max-w-lg lg:max-w-2xl text-white ${isRight ? "ml-auto text-right" : ""}`}>
@@ -88,6 +95,13 @@ export default function MainSection({
             className="object-cover object-center"
             priority
             quality={90}
+          />
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background:
+                "linear-gradient(111.96deg, rgba(51, 76, 202, 0) 16.69%, rgba(25, 38, 100, 0.39) 85.25%)",
+            }}
           />
         </div>
         <div className={`px-6 py-8 bg-white ${isRight ? "text-right" : ""}`}>

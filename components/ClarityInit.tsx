@@ -3,8 +3,7 @@
 import { useEffect } from "react";
 import { setUserProperties } from "@/lib/analytics/track";
 
-const PROJECT_ID =
-  process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID ?? "dwiqlxestpk";
+const PROJECT_ID = process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID;
 
 const UTM_KEYS = [
   "utm_source",
@@ -40,6 +39,7 @@ function gatherTags(): Record<string, string> {
 
 export default function ClarityInit() {
   useEffect(() => {
+    if (!PROJECT_ID) return;
     const tags = gatherTags();
 
     // Defer Clarity's bundle download + init until the browser is idle so

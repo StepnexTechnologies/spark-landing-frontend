@@ -81,6 +81,13 @@ export default function Card({
               }
               priority={imagePriority}
             />
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                background:
+                  "linear-gradient(111.96deg, rgba(51, 76, 202, 0) 16.69%, rgba(25, 38, 100, 0.39) 85.25%)",
+              }}
+            />
           </div>
         </div>
       )}

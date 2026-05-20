@@ -7,20 +7,33 @@ const LANDING_PREFIXES = [
   '/creator/earn',
 ];
 
+const CONTENT_SIGNAL = 'ai-train=no, ai-search=yes';
+
+function withContentSignal(res: NextResponse) {
+  res.headers.set('Content-Signal', CONTENT_SIGNAL);
+  return res;
+}
+
 export function middleware(req: NextRequest) {
+  const host = req.headers.get("host") ?? "";
+  if (host === "sparkonomy.com") {
+    const url = new URL(`https://www.sparkonomy.com${req.nextUrl.pathname}${req.nextUrl.search}`);
+    return NextResponse.redirect(url, 301);
+  }
+
   const { pathname } = req.nextUrl;
   const lower = pathname.toLowerCase();
 
   const isLanding = LANDING_PREFIXES.some(
     (p) => lower === p || lower.startsWith(p + '/'),
   );
-  if (!isLanding) return NextResponse.next();
+  if (!isLanding) return withContentSignal(NextResponse.next());
 
-  if (pathname === lower) return NextResponse.next();
+  if (pathname === lower) return withContentSignal(NextResponse.next());
 
   const url = req.nextUrl.clone();
   url.pathname = lower;
-  return NextResponse.redirect(url, 308);
+  return withContentSignal(NextResponse.redirect(url, 308));
 }
 
 export const config = {

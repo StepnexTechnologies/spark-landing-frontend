@@ -13,7 +13,9 @@ const roboto = Roboto({
   display: "swap",
 });
 
-const isProduction = process.env.SITE_URL === 'https://sparkonomy.com'
+// Fail-open: only an explicit dev.* SITE_URL is treated as non-prod, so a missing
+// or misconfigured value can't accidentally noindex production.
+const isProduction = !process.env.SITE_URL?.startsWith('https://dev.')
 
 export const metadata: Metadata = {
   robots: isProduction ? undefined : { index: false, follow: false },
@@ -28,6 +30,7 @@ export const metadata: Metadata = {
 
 const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+const FB_DOMAIN_VERIFICATION = process.env.NEXT_PUBLIC_FB_DOMAIN_VERIFICATION;
 
 // Consent Mode v2 — explicit granted defaults so GA/Ads fire fully on first
 // hit, including for users who never interact with the cookie banner.
@@ -73,10 +76,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <html lang="en" className="h-full">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-        <meta
-          name="facebook-domain-verification"
-          content="dq4gtmx7isvdg6evweg50e3rmarkil"
-        />
+        {FB_DOMAIN_VERIFICATION && (
+          <meta
+            name="facebook-domain-verification"
+            content={FB_DOMAIN_VERIFICATION}
+          />
+        )}
         <meta name="theme-color" content="#000000" />
 
         {/* Warm up the GTM/GA origin so the deferred loader (below) doesn't pay
