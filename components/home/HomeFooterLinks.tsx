@@ -48,9 +48,7 @@ export default function HomeFooterLinks({className}: HomeFooterLinksProps) {
             <div className="flex flex-col gap-2">
               <p className="text-white text-sm font-medium">Products</p>
               <Link
-                href="https://beta.creator.sparkonomy.com/auth?service=earn"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="/creator/earn"
                 className="text-sm text-gray-400 hover:text-white transition-colors"
               >
                 Creator Payments
@@ -166,9 +164,7 @@ export default function HomeFooterLinks({className}: HomeFooterLinksProps) {
               Blogs
             </Link>
             <Link
-              href="https://beta.creator.sparkonomy.com/auth?service=earn"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="/creator/earn"
               className="hover:underline hover:text-purple-400"
             >
               Creator Payments
