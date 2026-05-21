@@ -23,7 +23,18 @@ export default function ValueProposition() {
         className="max-w-[760px] mx-auto text-center space-y-4 md:space-y-6"
       >
         <h2 className="text-[32px] md:text-[44px] font-bold text-white leading-tight">
-          {t("pitch.heading")}
+          {(() => {
+            const [before, after] = t("pitch.heading").split(" — ");
+            return after === undefined ? (
+              before
+            ) : (
+              <>
+                {before}
+                <br />
+                {after}
+              </>
+            );
+          })()}
         </h2>
         <p className="text-base md:text-lg text-white/90 leading-relaxed max-w-[640px] mx-auto">
           {t("pitch.description")}
