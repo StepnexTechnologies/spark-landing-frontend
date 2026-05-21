@@ -26,7 +26,7 @@ export default function HomeFooterLinks({className}: HomeFooterLinksProps) {
             alt="Sparkonomy"
             width={196}
             height={36}
-            className="h-9 w-auto object-contain"
+            className="h-6 w-auto object-contain"
           />
         </div>
 

@@ -42,7 +42,7 @@ export default function Footer({ minimal = false }: FooterProps) {
           href="https://beta.creator.sparkonomy.com/auth?service=earn&lang=hi-Latn"
           target="_blank"
           rel="noopener noreferrer"
-          className="pointer-events-auto relative overflow-hidden block w-full px-2 py-2 mb-[70px] text-center cursor-pointer"
+          className="pointer-events-auto relative overflow-hidden block w-full px-2 py-2 mt-[105px] mb-[105px] text-center cursor-pointer"
           style={{
             background:
               "linear-gradient(90deg, rgba(61, 88, 219, 0) 2.15%, rgba(110, 99, 255, 0.36) 30.53%, rgba(110, 99, 255, 0.36) 62.34%, rgba(61, 88, 219, 0) 96.24%)",
