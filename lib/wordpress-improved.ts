@@ -215,15 +215,17 @@ export async function getCategoryBySlug(slug: string): Promise<WordPressCategory
 }
 
 /**
- * Get posts by category with pagination
+ * Get posts by category with pagination.
+ * Accepts a single category ID or an array of IDs (OR'd together via WP's comma syntax).
  */
 export async function getPostsByCategory(
-  categoryId: number,
+  categoryId: number | number[],
   page: number = 1,
   perPage: number = 10
 ): Promise<WordPressResponse<WordPressPost[]>> {
+  const ids = Array.isArray(categoryId) ? categoryId.join(',') : String(categoryId);
   return wordpressFetchWithPagination<WordPressPost[]>(
-    `/posts?categories=${categoryId}&_embed&page=${page}&per_page=${perPage}`
+    `/posts?categories=${ids}&_embed&page=${page}&per_page=${perPage}`
   );
 }
 
