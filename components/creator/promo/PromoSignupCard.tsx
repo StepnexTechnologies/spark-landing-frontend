@@ -223,7 +223,7 @@ export default function PromoSignupCard({
         y: { duration: 0.7, times: [0, 0.4, 1], ease: [0.34, 1.4, 0.64, 1] },
         boxShadow: { duration: 0.7, times: [0, 0.4, 1], ease: [0.4, 0, 0.2, 1] },
       }}
-      className="relative mx-auto w-full max-w-md rounded-[24px] px-2 py-4"
+      className={`relative mx-auto w-full max-w-md rounded-[24px] px-3 py-4 ${isEarn ? "border-b border-white/80" : ""}`}
     >
       {/* Earn variant: top-right corner coin peeks above the card. Sibling of
           the voucher row so it's positioned relative to the outer card box
