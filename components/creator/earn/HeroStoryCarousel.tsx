@@ -19,13 +19,13 @@ const STORY_COMPONENTS = [StoryContent1, StoryContent2, StoryContent3, StoryCont
 const STORY_IMAGES: Record<"en" | "hi-Latn", readonly string[]> = {
   en: [
     "/images/creator/earn/story-1.png",
-    "/images/creator/earn/story-2.png",
+    "/images/creator/earn/Story2.png",
     "/images/creator/earn/story-3.png",
     "/images/creator/earn/story-4.png",
   ],
   "hi-Latn": [
     "/images/creator/earn/story-1-hi-Latn.png",
-    "/images/creator/earn/story-2-hi-Latn.png",
+    "/images/creator/earn/Story2-hi.png",
     "/images/creator/earn/story-3-hi-Latn.png",
     "/images/creator/earn/story-4-hi-Latn.png",
   ],

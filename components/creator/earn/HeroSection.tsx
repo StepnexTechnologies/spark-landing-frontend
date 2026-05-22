@@ -28,13 +28,13 @@ export default function HeroSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative pt-6 md:pt-12 pb-8 md:pb-12 px-5 md:px-20 overflow-hidden"
+      className="relative pt-6 md:pt-0 pb-8 md:pb-12 px-5 md:px-20 overflow-hidden"
     >
       <div className="max-w-[760px] mx-auto">
         {/* Headline — plain text leading line + yellow-highlighted script tail.
             i18nKey "hero.title" uses <0/> for the mobile line break and
             <1>...</1> to mark the portion that should get the highlight. */}
-        <h1 className="text-[25px] font-bold text-white text-center leading-[1.2] tracking-[-0.04em] mb-6 md:mb-8 max-w-[640px] mx-auto">
+        <h1 className="text-[25px] font-bold text-white text-center leading-[2] tracking-[-0.04em] mb-6 max-w-[640px] mx-auto">
           <Trans
             i18nKey="hero.title"
             t={t}

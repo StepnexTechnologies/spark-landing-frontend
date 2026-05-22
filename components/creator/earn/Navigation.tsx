@@ -24,7 +24,7 @@ export default function Navigation({
   // promo page, so it must paint on the first SSR frame instead of waiting
   // ~600ms for a framer transition.
   return (
-    <nav className="sticky top-0 left-0 right-0 z-50 px-5 md:px-20 py-3 md:py-8">
+    <nav className="sticky top-0 left-0 right-0 z-50 px-5 md:px-20 py-3 md:pt-8 md:pb-3">
       <div className="flex items-center justify-between max-w-[1440px] mx-auto">
         {/* Logo */}
         <Link className="relative h-6 w-[130px] md:h-10 md:w-[218px]" href={"/creator/earn"}>
