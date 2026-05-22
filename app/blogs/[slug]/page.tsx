@@ -494,7 +494,7 @@ export default async function BlogPostPage({ params, searchParams }: BlogPostPag
       />
 
       <main className="min-h-screen px-0 md:px-10 lg:px-[90px] py-5 lg:py-6 bg-white">
-        <article className="flex flex-col gap-4 md:gap-6 lg:gap-10 max-w-[760px] w-full mx-auto">
+        <article className="flex flex-col gap-6 md:gap-8 lg:gap-12 max-w-[760px] w-full mx-auto">
           {/* Breadcrumb Navigation */}
           <div className="px-4 md:px-0 ">
             <Breadcrumb
@@ -699,7 +699,7 @@ export default async function BlogPostPage({ params, searchParams }: BlogPostPag
                 if (hasImageCaption) {
                   return (
                     <div
-                      className="text-sm text-gray-500 italic mt-2 [&>p]:m-0"
+                      className="text-sm text-gray-500 italic mt-3 [&>p]:m-0"
                       dangerouslySetInnerHTML={{ __html: imageCaption }}
                     />
                   );
