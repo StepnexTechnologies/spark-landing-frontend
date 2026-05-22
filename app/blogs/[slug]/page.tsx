@@ -83,11 +83,20 @@ export async function generateMetadata({ params, searchParams }: BlogPostPagePro
   const categories = post._embedded?.["wp:term"]?.[0]?.map((cat) => cat.name) || [];
   const tags = post._embedded?.["wp:term"]?.[1]?.map((tag) => tag.name) || [];
 
+  // ACF SEO overrides — content team can set these per post via the
+  // "Blog SEO Overrides" field group in WordPress. ACF wins over Yoast.
+  const ogTitle = post.acf?.og_title || post.yoast_head_json?.og_title || seoTitle;
+  const ogDescription = post.acf?.og_description || post.yoast_head_json?.og_description || seoDescription;
+  const acfPrimaryKw = post.acf?.primary_keyword ? [post.acf.primary_keyword] : [];
+  const acfSecondaryKws = post.acf?.secondary_keywords
+    ? post.acf.secondary_keywords.split(",").map((k) => k.trim()).filter(Boolean)
+    : [];
+
   return {
     metadataBase: new URL("https://www.sparkonomy.com/"),
     title: seoTitle,
     description: seoDescription,
-    keywords: [...tags, ...categories, "Sparkonomy", "creator economy", "content monetization", "influencers", "social media influencers", "youtubers", "instagrammers", "content creators"],
+    keywords: [...acfPrimaryKw, ...acfSecondaryKws, ...tags, ...categories, "Sparkonomy", "creator economy", "content monetization", "influencers", "social media influencers", "youtubers", "instagrammers", "content creators"],
     authors: authors.map(a => ({ name: a.name, url: a.link })),
     creator: authorNames,
     publisher: "Sparkonomy",
@@ -112,8 +121,8 @@ export async function generateMetadata({ params, searchParams }: BlogPostPagePro
     openGraph: {
       siteName: "Sparkonomy",
       url: url,
-      title: post.yoast_head_json?.og_title || seoTitle,
-      description: post.yoast_head_json?.og_description || seoDescription,
+      title: ogTitle,
+      description: ogDescription,
       type: "article",
       publishedTime: publishedTime,
       modifiedTime: modifiedTime,
@@ -132,8 +141,8 @@ export async function generateMetadata({ params, searchParams }: BlogPostPagePro
     },
     twitter: {
       card: (post.yoast_head_json?.twitter_card as "summary_large_image" | "summary") || "summary_large_image",
-      title: post.yoast_head_json?.twitter_title || seoTitle,
-      description: post.yoast_head_json?.twitter_description || seoDescription,
+      title: post.acf?.og_title || post.yoast_head_json?.twitter_title || seoTitle,
+      description: post.acf?.og_description || post.yoast_head_json?.twitter_description || seoDescription,
       images: [post.yoast_head_json?.twitter_image || ogImage],
       creator: post.yoast_head_json?.twitter_creator || "@sparkonomy",
       site: post.yoast_head_json?.twitter_site || "@sparkonomy",
