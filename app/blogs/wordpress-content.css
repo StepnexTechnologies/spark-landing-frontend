@@ -1458,6 +1458,29 @@
   text-align: center;
 }
 
+/* Click-to-expand lightbox: visual affordance + clickability.
+   Applies to content images and any element tagged data-lightbox-target.
+   Excludes avatars (.rounded-full ancestor) and explicit opt-outs.
+   Note: globals.css sets `img { pointer-events: none }` to prevent dragging,
+   which would also block lightbox clicks — re-enable pointer events here. */
+.wordpress-content img,
+[data-lightbox-target] img {
+  cursor: zoom-in;
+  pointer-events: auto;
+}
+/* The expanded image inside the overlay needs clicks (for stopPropagation)
+   but keeps the cursor-default from its Tailwind class. */
+[data-lightbox-overlay] img {
+  pointer-events: auto;
+}
+.wordpress-content .rounded-full img,
+.wordpress-content img.check-highlight-icon,
+[data-no-lightbox] img,
+[data-no-lightbox] {
+  cursor: default;
+  pointer-events: none;
+}
+
 .wordpress-content figure.wp-block-image img {
   border-radius: 1rem;
   max-width: 100%;
@@ -2509,5 +2532,92 @@
   .wordpress-content .cta-banner-link {
     font-size: 1rem !important;
     padding: 0.75rem 2rem !important;
+  }
+}
+
+/* ====================
+   SEPARATOR BLOCK STYLING
+   Beautified gradient separator that fades to the brand purple in the center
+   ==================== */
+
+.wordpress-content .wp-block-separator,
+.wordpress-content hr.wp-block-separator {
+  border: none;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(151, 71, 255, 0) 0%,
+    rgba(151, 71, 255, 0.35) 50%,
+    rgba(151, 71, 255, 0) 100%
+  );
+  margin: 2.5rem auto;
+  width: 100%;
+  max-width: 560px;
+  position: relative;
+  overflow: visible;
+}
+
+/* Decorative dot centered on the line */
+.wordpress-content .wp-block-separator::after,
+.wordpress-content hr.wp-block-separator::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  background: #9747FF;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 0 4px #ffffff, 0 0 0 5px rgba(151, 71, 255, 0.25);
+}
+
+/* Alpha-channel opacity variant — slightly stronger gradient */
+.wordpress-content .wp-block-separator.has-alpha-channel-opacity {
+  background: linear-gradient(
+    90deg,
+    rgba(151, 71, 255, 0) 0%,
+    rgba(151, 71, 255, 0.45) 50%,
+    rgba(151, 71, 255, 0) 100%
+  );
+}
+
+/* Wide variant — spans full content width */
+.wordpress-content .wp-block-separator.is-style-wide {
+  max-width: 100%;
+}
+
+/* Dots variant — three dots instead of a line */
+.wordpress-content .wp-block-separator.is-style-dots {
+  background: none;
+  height: auto;
+  text-align: center;
+  line-height: 1;
+  color: transparent;
+}
+
+.wordpress-content .wp-block-separator.is-style-dots::before {
+  content: "• • •";
+  color: #9747FF;
+  font-size: 1.5rem;
+  letter-spacing: 1rem;
+  padding-left: 1rem;
+  display: inline-block;
+}
+
+.wordpress-content .wp-block-separator.is-style-dots::after {
+  display: none;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .wordpress-content .wp-block-separator,
+  .wordpress-content hr.wp-block-separator {
+    margin: 2rem auto;
+  }
+
+  .wordpress-content .wp-block-separator.is-style-dots::before {
+    font-size: 1.25rem;
+    letter-spacing: 0.75rem;
   }
 }
