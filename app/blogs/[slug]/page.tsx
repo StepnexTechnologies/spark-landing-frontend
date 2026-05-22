@@ -63,6 +63,7 @@ export async function generateMetadata({ params, searchParams }: BlogPostPagePro
   const title = stripHtml(post.title.rendered);
   const description = stripHtml(post.excerpt.rendered).substring(0, 160);
   const featuredImage = post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || getFeaturedImageUrl(post, "full");
+  const featuredAlt = post._embedded?.["wp:featuredmedia"]?.[0]?.alt_text || title;
   const authors = getPostAuthors(post);
   const authorNames = getAuthorNames(post);
   const publishedTime = post.date;
@@ -125,7 +126,7 @@ export async function generateMetadata({ params, searchParams }: BlogPostPagePro
           url: ogImage,
           width: post.yoast_head_json?.og_image?.[0]?.width || 1200,
           height: post.yoast_head_json?.og_image?.[0]?.height || 630,
-          alt: title,
+          alt: featuredAlt,
         },
       ],
       locale: ogLocale,
@@ -166,6 +167,7 @@ export default async function BlogPostPage({ params, searchParams }: BlogPostPag
     : `https://sparkonomy.com/blogs/${canonicalSlug}`;
 
   const featuredImage = post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || getFeaturedImageUrl(post, "full");
+  const featuredAlt = post._embedded?.["wp:featuredmedia"]?.[0]?.alt_text || stripHtml(post.title.rendered);
   // Use async version to fetch Co-Authors Plus guest authors
   const postAuthors = await getPostAuthorsAsync(post);
   const publishDate = formatDate(post.date);
@@ -674,7 +676,7 @@ export default async function BlogPostPage({ params, searchParams }: BlogPostPag
               <div className="relative w-full aspect-video rounded-2xl overflow-hidden">
                 <Image
                   src={featuredImage}
-                  alt={stripHtml(post.title.rendered)}
+                  alt={featuredAlt}
                   fill
                   className="object-cover"
                   priority
