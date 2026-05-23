@@ -24,6 +24,7 @@ import CheckmarkEnhancer from "@/components/blog/CheckmarkEnhancer";
 import H6SectionParser from "@/components/blog/H6SectionParser";
 import TaxCalculatorInjector from "@/components/blog/TaxCalculatorInjector";
 import ImageOrientationEnhancer from "@/components/blog/ImageOrientationEnhancer";
+import ImageLightboxEnhancer from "@/components/blog/ImageLightboxEnhancer";
 import NewsletterSection from "@/components/blog/NewsletterSection";
 import LazyOnVisible from "@/components/blog/LazyOnVisible";
 import RelatedResourcesInjector from "@/components/blog/RelatedResourcesInjector";
@@ -682,7 +683,10 @@ export default async function BlogPostPage({ params, searchParams }: BlogPostPag
           {/* Featured Image */}
           {featuredImage && (
             <div className="px-4 md:px-0">
-              <div className="relative w-full aspect-video rounded-2xl overflow-hidden">
+              <div
+                data-lightbox-target
+                className="relative w-full aspect-video rounded-2xl overflow-hidden"
+              >
                 <Image
                   src={featuredImage}
                   alt={featuredAlt}
@@ -737,6 +741,8 @@ export default async function BlogPostPage({ params, searchParams }: BlogPostPag
             <CheckmarkEnhancer />
             {/* Apply orientation-based styles to images */}
             <ImageOrientationEnhancer />
+            {/* Click-to-expand lightbox for featured + content images */}
+            <ImageLightboxEnhancer />
             {/* Inject Related Resources after first CTA, before FAQ */}
             <RelatedResourcesInjector posts={relatedResources} basePath="/blogs" />
             <div
