@@ -5,7 +5,6 @@ import { RootLayoutClient } from "./root-layout-client";
 import Script from "next/script";
 import type { Metadata } from "next";
 import CookieConsentScript from "@/components/CookieConsentScript";
-import DeferredVercelAnalytics from "@/components/DeferredVercelAnalytics";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -127,7 +126,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <CookieConsentScript />
 
         <RootLayoutClient>{children}</RootLayoutClient>
-        <DeferredVercelAnalytics />
       </body>
     </html>
   );

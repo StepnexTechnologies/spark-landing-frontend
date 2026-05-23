@@ -33,11 +33,12 @@ export default function RelatedResources({ posts, basePath = "/blogs" }: Related
             className="flex items-center gap-4 group"
           >
             {/* Image */}
-            <div className="relative w-[84px] h-[84px] flex-shrink-0 rounded-xl overflow-hidden">
+            <div className="relative w-[128px] h-[72px] flex-shrink-0 rounded-xl overflow-hidden bg-[#F2F2F2]">
               <Image
                 src={post.featuredImage}
                 alt={post.title}
                 fill
+                sizes="128px"
                 className="object-contain"
               />
             </div>
@@ -59,11 +60,12 @@ export default function RelatedResources({ posts, basePath = "/blogs" }: Related
             className="group flex items-center gap-3 p-2 transition-all"
           >
             {/* Image */}
-            <div className="relative w-[84px] h-[84px] flex-shrink-0 rounded-xl overflow-hidden">
+            <div className="relative w-[128px] h-[72px] flex-shrink-0 rounded-xl overflow-hidden bg-[#F2F2F2]">
               <Image
                 src={post.featuredImage}
                 alt={post.title}
                 fill
+                sizes="128px"
                 className="object-contain"
               />
             </div>

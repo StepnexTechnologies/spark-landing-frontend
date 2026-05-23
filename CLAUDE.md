@@ -10,7 +10,6 @@ Marketing site and waitlist for Sparkonomy — an AI platform for the creator ec
 - **Forms:** `@tanstack/react-form`, `react-phone-number-input`, `libphonenumber-js`
 - **i18n:** `i18next` + `react-i18next` (browser detector + http backend)
 - **UI:** `lucide-react` icons, `embla-carousel-react`, `react-hot-toast`
-- **Analytics:** `@vercel/analytics`, `@vercel/speed-insights`
 - **Content:** WordPress REST API v2 (external CMS)
 - **Package manager:** Yarn 1.22
 

@@ -24,7 +24,7 @@ export default function NewsletterSection() {
         : { email: null, phone_number: value };
 
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE}/api/v1/blogs/subscribe`,
+        `${process.env.NEXT_PUBLIC_API_BASE}/v1/creator/blogs/subscribe`,
         {
           method: "POST",
           headers: {

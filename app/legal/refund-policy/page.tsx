@@ -1,22 +1,23 @@
 import LegalFooter from "@/components/LegalFooter";
+import LegalHeader from "@/components/LegalHeader";
 import Link from "next/link";
-import {Home} from "lucide-react";
 
 export default function RefundPolicyPage() {
     return (
         <>
             <div className="max-w-4xl mx-auto px-4 py-10 text-gray-800">
-                <div className="flex justify-between items-start mb-2">
-                    <h1 className="text-3xl font-bold text-primary">
-                        <div>Sparkonomy Refund</div><div> & Cancellation Policy</div>
-                    </h1>
-                    <Link href="/" className="text-primary hover:text-primary/80 transition-colors mr-4 mt-1">
-                        <Home className="w-6 h-6" />
-                    </Link>
-                </div>
-                <p className="text-sm text-gray-500 mb-8">
-                    Last Updated: November 10, 2025
-                </p>
+                <LegalHeader
+                    title={
+                        <>
+                            <div>Sparkonomy Refund</div>
+                            <div> & Cancellation Policy</div>
+                        </>
+                    }
+                    effectiveDate="November 10, 2025"
+                    lastUpdated="November 10, 2025"
+                    homeHref="/"
+                    homeClassName="mr-4 mt-1"
+                />
 
                 <p className="mb-6">
                     At Sparkonomy, we strive to be your trusted thinking partner. We want your experience with our platform & Operating System to be seamless, including how we handle payments.
