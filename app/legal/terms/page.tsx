@@ -1,22 +1,16 @@
 import LegalFooter from "@/components/LegalFooter";
+import LegalHeader from "@/components/LegalHeader";
 import Link from "next/link";
-import {Home} from "lucide-react";
 
 export default function TermsOfServicePage() {
     return (
         <>
             <div className="max-w-4xl mx-auto px-4 py-10 text-gray-800">
-                <div className="flex justify-between items-start mb-2">
-                    <h1 className="text-3xl font-bold text-primary">
-                        The Sparkonomy Terms of Service
-                    </h1>
-                    <Link href="/?skipIntro=true" className="text-primary hover:text-primary/80 transition-colors mr-8 mt-2">
-                        <Home className="w-6 h-6" />
-                    </Link>
-                </div>
-                <p className="text-sm text-gray-500 mb-8">
-                    Effective Date: August 10, 2025 | Last Updated: April 17, 2026
-                </p>
+                <LegalHeader
+                    title="The Sparkonomy Terms of Service"
+                    effectiveDate="August 10, 2025"
+                    lastUpdated="April 17, 2026"
+                />
                 <p className="mb-4">
                     Welcome to Sparkonomy! We’re thrilled to have you. We’re building an
                     ecosystem where creators and brands can forge powerful, successful
