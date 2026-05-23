@@ -67,6 +67,12 @@ export interface WordPressPost {
     "wp:featuredmedia"?: WordPressFeaturedMedia[];
     "wp:term"?: WordPressTerm[][];
   };
+  acf?: {
+    og_title?: string;
+    og_description?: string;
+    primary_keyword?: string;
+    secondary_keywords?: string;
+  };
 }
 
 export interface WordPressAuthor {

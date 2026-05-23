@@ -24,6 +24,7 @@ import CheckmarkEnhancer from "@/components/blog/CheckmarkEnhancer";
 import H6SectionParser from "@/components/blog/H6SectionParser";
 import TaxCalculatorInjector from "@/components/blog/TaxCalculatorInjector";
 import ImageOrientationEnhancer from "@/components/blog/ImageOrientationEnhancer";
+import ImageLightboxEnhancer from "@/components/blog/ImageLightboxEnhancer";
 import NewsletterSection from "@/components/blog/NewsletterSection";
 import LazyOnVisible from "@/components/blog/LazyOnVisible";
 import RelatedResourcesInjector from "@/components/blog/RelatedResourcesInjector";
@@ -63,6 +64,7 @@ export async function generateMetadata({ params, searchParams }: BlogPostPagePro
   const title = stripHtml(post.title.rendered);
   const description = stripHtml(post.excerpt.rendered).substring(0, 160);
   const featuredImage = post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || getFeaturedImageUrl(post, "full");
+  const featuredAlt = post._embedded?.["wp:featuredmedia"]?.[0]?.alt_text || title;
   const authors = getPostAuthors(post);
   const authorNames = getAuthorNames(post);
   const publishedTime = post.date;
@@ -83,11 +85,20 @@ export async function generateMetadata({ params, searchParams }: BlogPostPagePro
   const categories = post._embedded?.["wp:term"]?.[0]?.map((cat) => cat.name) || [];
   const tags = post._embedded?.["wp:term"]?.[1]?.map((tag) => tag.name) || [];
 
+  // ACF SEO overrides — content team can set these per post via the
+  // "Blog SEO Overrides" field group in WordPress. ACF wins over Yoast.
+  const ogTitle = post.acf?.og_title || post.yoast_head_json?.og_title || seoTitle;
+  const ogDescription = post.acf?.og_description || post.yoast_head_json?.og_description || seoDescription;
+  const acfPrimaryKw = post.acf?.primary_keyword ? [post.acf.primary_keyword] : [];
+  const acfSecondaryKws = post.acf?.secondary_keywords
+    ? post.acf.secondary_keywords.split(",").map((k) => k.trim()).filter(Boolean)
+    : [];
+
   return {
     metadataBase: new URL("https://www.sparkonomy.com/"),
     title: seoTitle,
     description: seoDescription,
-    keywords: [...tags, ...categories, "Sparkonomy", "creator economy", "content monetization", "influencers", "social media influencers", "youtubers", "instagrammers", "content creators"],
+    keywords: [...acfPrimaryKw, ...acfSecondaryKws, ...tags, ...categories, "Sparkonomy", "creator economy", "content monetization", "influencers", "social media influencers", "youtubers", "instagrammers", "content creators"],
     authors: authors.map(a => ({ name: a.name, url: a.link })),
     creator: authorNames,
     publisher: "Sparkonomy",
@@ -112,8 +123,8 @@ export async function generateMetadata({ params, searchParams }: BlogPostPagePro
     openGraph: {
       siteName: "Sparkonomy",
       url: url,
-      title: post.yoast_head_json?.og_title || seoTitle,
-      description: post.yoast_head_json?.og_description || seoDescription,
+      title: ogTitle,
+      description: ogDescription,
       type: "article",
       publishedTime: publishedTime,
       modifiedTime: modifiedTime,
@@ -125,15 +136,15 @@ export async function generateMetadata({ params, searchParams }: BlogPostPagePro
           url: ogImage,
           width: post.yoast_head_json?.og_image?.[0]?.width || 1200,
           height: post.yoast_head_json?.og_image?.[0]?.height || 630,
-          alt: title,
+          alt: featuredAlt,
         },
       ],
       locale: ogLocale,
     },
     twitter: {
       card: (post.yoast_head_json?.twitter_card as "summary_large_image" | "summary") || "summary_large_image",
-      title: post.yoast_head_json?.twitter_title || seoTitle,
-      description: post.yoast_head_json?.twitter_description || seoDescription,
+      title: post.acf?.og_title || post.yoast_head_json?.twitter_title || seoTitle,
+      description: post.acf?.og_description || post.yoast_head_json?.twitter_description || seoDescription,
       images: [post.yoast_head_json?.twitter_image || ogImage],
       creator: post.yoast_head_json?.twitter_creator || "@sparkonomy",
       site: post.yoast_head_json?.twitter_site || "@sparkonomy",
@@ -166,6 +177,7 @@ export default async function BlogPostPage({ params, searchParams }: BlogPostPag
     : `https://sparkonomy.com/blogs/${canonicalSlug}`;
 
   const featuredImage = post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || getFeaturedImageUrl(post, "full");
+  const featuredAlt = post._embedded?.["wp:featuredmedia"]?.[0]?.alt_text || stripHtml(post.title.rendered);
   // Use async version to fetch Co-Authors Plus guest authors
   const postAuthors = await getPostAuthorsAsync(post);
   const publishDate = formatDate(post.date);
@@ -483,7 +495,7 @@ export default async function BlogPostPage({ params, searchParams }: BlogPostPag
       />
 
       <main className="min-h-screen px-0 md:px-10 lg:px-[90px] py-5 lg:py-6 bg-white">
-        <article className="flex flex-col gap-4 md:gap-6 lg:gap-10 max-w-[760px] w-full mx-auto">
+        <article className="flex flex-col gap-6 md:gap-8 lg:gap-12 max-w-[760px] w-full mx-auto">
           {/* Breadcrumb Navigation */}
           <div className="px-4 md:px-0 ">
             <Breadcrumb
@@ -671,10 +683,13 @@ export default async function BlogPostPage({ params, searchParams }: BlogPostPag
           {/* Featured Image */}
           {featuredImage && (
             <div className="px-4 md:px-0">
-              <div className="relative w-full aspect-video rounded-2xl overflow-hidden">
+              <div
+                data-lightbox-target
+                className="relative w-full aspect-video rounded-2xl overflow-hidden"
+              >
                 <Image
                   src={featuredImage}
-                  alt={stripHtml(post.title.rendered)}
+                  alt={featuredAlt}
                   fill
                   className="object-cover"
                   priority
@@ -688,7 +703,7 @@ export default async function BlogPostPage({ params, searchParams }: BlogPostPag
                 if (hasImageCaption) {
                   return (
                     <div
-                      className="text-sm text-gray-500 italic mt-2 [&>p]:m-0"
+                      className="text-sm text-gray-500 italic mt-3 [&>p]:m-0"
                       dangerouslySetInnerHTML={{ __html: imageCaption }}
                     />
                   );
@@ -726,6 +741,8 @@ export default async function BlogPostPage({ params, searchParams }: BlogPostPag
             <CheckmarkEnhancer />
             {/* Apply orientation-based styles to images */}
             <ImageOrientationEnhancer />
+            {/* Click-to-expand lightbox for featured + content images */}
+            <ImageLightboxEnhancer />
             {/* Inject Related Resources after first CTA, before FAQ */}
             <RelatedResourcesInjector posts={relatedResources} basePath="/blogs" />
             <div

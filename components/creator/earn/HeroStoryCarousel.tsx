@@ -19,13 +19,13 @@ const STORY_COMPONENTS = [StoryContent1, StoryContent2, StoryContent3, StoryCont
 const STORY_IMAGES: Record<"en" | "hi-Latn", readonly string[]> = {
   en: [
     "/images/creator/earn/story-1.png",
-    "/images/creator/earn/story-2.png",
+    "/images/creator/earn/Story2.png",
     "/images/creator/earn/story-3.png",
     "/images/creator/earn/story-4.png",
   ],
   "hi-Latn": [
     "/images/creator/earn/story-1-hi-Latn.png",
-    "/images/creator/earn/story-2-hi-Latn.png",
+    "/images/creator/earn/Story2-hi.png",
     "/images/creator/earn/story-3-hi-Latn.png",
     "/images/creator/earn/story-4-hi-Latn.png",
   ],
@@ -52,10 +52,10 @@ export default function HeroStoryCarousel() {
   const activeImage = images[index];
 
   return (
-    <div className="relative mx-auto w-full max-w-[360px] aspect-[360/640] mb-6 md:mb-8 rounded-[28px] overflow-hidden bg-black/40">
+    <div className="relative mx-auto w-full max-w-[360px] aspect-[360/640] mb-6 md:mb-8 rounded-[28px] overflow-hidden bg-black/40 p-[9px]">
       {/* Top-edge progress dots — 4 thin bars, the active one filling left-to-right
           on the same 2s cadence as the carousel rotation. */}
-      <div className="absolute top-2 left-2 right-2 z-50 flex gap-1 pointer-events-none">
+      <div className="absolute top-[17px] left-[17px] right-[17px] z-50 flex gap-1 pointer-events-none">
         {STORY_COMPONENTS.map((_, i) => (
           <div
             key={i}
@@ -87,7 +87,7 @@ export default function HeroStoryCarousel() {
       <AnimatePresence mode="sync" initial={false}>
         <motion.div
           key={index}
-          className="absolute inset-0"
+          className="absolute inset-[9px]"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}

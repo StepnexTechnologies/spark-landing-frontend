@@ -296,7 +296,7 @@ const HeroSection = () => {
       ref={containerRef}
       onMouseMove={handleUserInteraction}
       onClick={handleUserInteraction}
-      className={`flex flex-col items-center md:h-full p-4 relative overflow-hidden bg-none pointer-events-none`}
+      className={`flex flex-col items-center md:h-full px-4 pt-4 relative overflow-hidden bg-none pointer-events-none`}
     >
       {/* Blog link - top right */}
       {/*<Link*/}
@@ -340,7 +340,7 @@ const HeroSection = () => {
         />
       </div>
 
-      <div className={`md:flex-1 flex flex-col items-center md:justify-center pt-24 md:pt-0 pb-16 pointer-events-none ${isPromoActive ? "md:pb-[320px]" : "md:pb-[150px]"}`}>
+      <div className={`md:flex-1 flex flex-col items-center md:justify-center pt-12 md:pt-0 pb-0 pointer-events-none ${isPromoActive ? "md:pb-[320px]" : "md:pb-[150px]"}`}>
         <div className="text-center relative pointer-events-none">
           <motion.div
             className={`absolute inset-0 flex flex-col space-y-8 items-center justify-center mb-12 pointer-events-none ${showContent && 'hidden'}`}

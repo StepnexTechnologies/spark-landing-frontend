@@ -94,7 +94,7 @@ export default function FAQSection({
           </div>
 
           {/* Section Header */}
-          <h2 className="text-[40px] md:text-[40px] font-bold text-white mb-6 md:mb-12">
+          <h2 className="text-[40px] md:text-[40px] font-bold text-white leading-none md:leading-tight mb-1 md:mb-12">
             {t("faq.title")}
           </h2>
 

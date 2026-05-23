@@ -11,13 +11,19 @@ import NoPostsPlaceholder from "./NoPostsPlaceholder";
 
 // Configuration for each category
 export interface CategoryConfig {
-  slug: string;
+  slugs: string[];
   title: string;
   subtitle: string;
   description: string;
   defaultHashtags: string[];
   gradient: string;
   noPostsMessage?: string;
+}
+
+// Resolve every slug in the config to a WordPress category ID, dropping any that don't exist.
+async function resolveCategoryIds(slugs: string[]): Promise<number[]> {
+  const categories = await Promise.all(slugs.map((s) => getCategoryBySlug(s)));
+  return categories.filter((c): c is NonNullable<typeof c> => c !== null).map((c) => c.id);
 }
 
 // Strip HTML helper
@@ -41,10 +47,12 @@ function getFeaturedImage(post: any): string | undefined {
 
 // Posts Grid Component
 async function CategoryPosts({ config }: { config: CategoryConfig }) {
-  const category = await getCategoryBySlug(config.slug);
-  const { data: posts } = category
-    ? await getPostsByCategory(category.id, 1, 14)
+  const categoryIds = await resolveCategoryIds(config.slugs);
+  // Pull extra to absorb the Hinglish counterparts we filter out below (matches blogs home behavior).
+  const { data: rawPosts } = categoryIds.length > 0
+    ? await getPostsByCategory(categoryIds, 1, 28)
     : { data: [] };
+  const posts = rawPosts.filter((p) => !p.slug.endsWith("-hi")).slice(0, 14);
 
   if (posts.length === 0) {
     return (
@@ -70,9 +78,9 @@ async function CategoryPosts({ config }: { config: CategoryConfig }) {
         <p className="text-gray-600 max-w-md mx-auto">
           {config.noPostsMessage || "We're working on bringing you content. Check back soon!"}
         </p>
-        {!category && (
+        {categoryIds.length === 0 && (
           <div className="mt-6 text-sm text-gray-500">
-            <p>Make sure to create a &quot;{config.slug}&quot; category in your WordPress site.</p>
+            <p>Make sure to create one of these categories in your WordPress site: {config.slugs.map((s) => `"${s}"`).join(", ")}.</p>
           </div>
         )}
       </div>
@@ -182,10 +190,12 @@ function BlogPostsSkeleton() {
 
 // Hero Section Component
 async function HeroSection({ config }: { config: CategoryConfig }) {
-  const category = await getCategoryBySlug(config.slug);
-  const { data: posts } = category
-    ? await getPostsByCategory(category.id, 1, 1)
+  const categoryIds = await resolveCategoryIds(config.slugs);
+  // Pull a few so we can skip any Hinglish counterparts and still land on an English post.
+  const { data: rawPosts } = categoryIds.length > 0
+    ? await getPostsByCategory(categoryIds, 1, 5)
     : { data: [] };
+  const posts = rawPosts.filter((p) => !p.slug.endsWith("-hi"));
 
   // Don't show hero section if no posts - the CategoryPosts component will show "No posts" message
   if (posts.length === 0) {
@@ -242,7 +252,7 @@ export default function CategoryBlogTemplate({ config }: CategoryBlogTemplatePro
         />
 
         <div className="relative z-10">
-          <Suspense key={`${config.slug}-posts`} fallback={<BlogPostsSkeleton />}>
+          <Suspense key={`${config.slugs.join(',')}-posts`} fallback={<BlogPostsSkeleton />}>
             <CategoryPosts config={config} />
           </Suspense>
         </div>
@@ -257,7 +267,7 @@ export default function CategoryBlogTemplate({ config }: CategoryBlogTemplatePro
 // Pre-defined category configurations
 export const CATEGORY_CONFIGS: Record<string, CategoryConfig> = {
   brand: {
-    slug: "brand",
+    slugs: ["brand", "brand-en"],
     title: "Brand Insights & Marketing Strategies",
     subtitle: "For Brands",
     description: "Discover how top brands leverage creator partnerships to drive growth and engagement.",
@@ -266,7 +276,7 @@ export const CATEGORY_CONFIGS: Record<string, CategoryConfig> = {
     noPostsMessage: "We're working on bringing you brand-focused content. Check back soon!",
   },
   creators: {
-    slug: "creators",
+    slugs: ["creators", "creators-en"],
     title: "Creator Tips & Growth Strategies",
     subtitle: "For Creators",
     description: "Unlock your creative potential with tips, tools, and strategies for content creators.",
@@ -275,7 +285,7 @@ export const CATEGORY_CONFIGS: Record<string, CategoryConfig> = {
     noPostsMessage: "We're working on bringing you creator-focused content. Check back soon!",
   },
   company: {
-    slug: "company",
+    slugs: ["company", "company-en"],
     title: "Company News & Updates",
     subtitle: "Company",
     description: "Stay updated with the latest news, updates, and announcements from Sparkonomy.",

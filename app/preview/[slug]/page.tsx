@@ -23,6 +23,7 @@ import CheckmarkEnhancer from "@/components/blog/CheckmarkEnhancer";
 import H6SectionParser from "@/components/blog/H6SectionParser";
 import TaxCalculatorInjector from "@/components/blog/TaxCalculatorInjector";
 import ImageOrientationEnhancer from "@/components/blog/ImageOrientationEnhancer";
+import ImageLightboxEnhancer from "@/components/blog/ImageLightboxEnhancer";
 import NewsletterSection from "@/components/blog/NewsletterSection";
 import RelatedResourcesInjector from "@/components/blog/RelatedResourcesInjector";
 import MetaShareButton from "@/components/blog/MetaShareButton";
@@ -243,7 +244,7 @@ export default async function PreviewPostPage({ params }: PreviewPostPageProps) 
       />
 
       <main className="min-h-screen px-0 md:px-10 lg:px-[90px] py-5 lg:py-6 bg-white">
-        <article className="flex flex-col gap-2 md:gap-6 lg:gap-10 max-w-[760px] w-full mx-auto">
+        <article className="flex flex-col gap-6 md:gap-8 lg:gap-12 max-w-[760px] w-full mx-auto">
           {/* Breadcrumb Navigation */}
           <div className="px-4 md:px-0 ">
             <Breadcrumb
@@ -431,7 +432,10 @@ export default async function PreviewPostPage({ params }: PreviewPostPageProps) 
           {/* Featured Image */}
           {featuredImage && (
             <div className="px-4 md:px-0">
-              <div className="relative w-full aspect-video rounded-2xl overflow-hidden">
+              <div
+                data-lightbox-target
+                className="relative w-full aspect-video rounded-2xl overflow-hidden"
+              >
                 <Image
                   src={featuredImage}
                   alt={stripHtml(post.title.rendered)}
@@ -448,7 +452,7 @@ export default async function PreviewPostPage({ params }: PreviewPostPageProps) 
                 if (hasImageCaption) {
                   return (
                     <div
-                      className="text-sm text-gray-500 italic mt-2 [&>p]:m-0"
+                      className="text-sm text-gray-500 italic mt-3 [&>p]:m-0"
                       dangerouslySetInnerHTML={{ __html: imageCaption }}
                     />
                   );
@@ -486,6 +490,8 @@ export default async function PreviewPostPage({ params }: PreviewPostPageProps) 
             <CheckmarkEnhancer />
             {/* Apply orientation-based styles to images */}
             <ImageOrientationEnhancer />
+            {/* Click-to-expand lightbox for featured + content images */}
+            <ImageLightboxEnhancer />
             {/* Inject Related Resources after first CTA, before FAQ */}
             <RelatedResourcesInjector posts={relatedResources} basePath="/preview" />
             <div

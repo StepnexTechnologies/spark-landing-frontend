@@ -12,7 +12,7 @@ interface StoryContent3Props {
 export default function StoryContent3({ imageSrc = "/images/creator/earn/story-3.png", priority = false }: StoryContent3Props) {
 
     return (
-        <div className="relative w-full h-full bg-[#212529]">
+        <div className="relative w-full h-full">
             {/* Header */}
             <div className="absolute top-[41px] left-1/2 -translate-x-1/2 w-full max-w-[390px] px-3 flex items-center justify-between z-40">
                 <div className="flex items-center gap-2">

@@ -112,13 +112,13 @@ export default function EmailCapture() {
   const glowVariants: Variants = {
     initial: {
       boxShadow:
-        "0 0 35px rgba(108,99,255,0.7), 0 0 70px rgba(108,99,255,0.4), 0 0 100px rgba(108,99,255,0.2)",
+        "0 0 18px rgba(108,99,255,0.35), 0 0 35px rgba(108,99,255,0.2), 0 0 50px rgba(108,99,255,0.1)",
     },
     hover: {
       boxShadow: [
-        "0 0 40px rgba(108,99,255,0.8), 0 0 80px rgba(108,99,255,0.6), 0 0 120px rgba(108,99,255,0.4)",
-        "0 0 50px rgba(108,99,255,0.9), 0 0 100px rgba(108,99,255,0.7), 0 0 150px rgba(108,99,255,0.5)",
-        "0 0 40px rgba(108,99,255,0.8), 0 0 80px rgba(108,99,255,0.6), 0 0 120px rgba(108,99,255,0.4)",
+        "0 0 20px rgba(108,99,255,0.4), 0 0 40px rgba(108,99,255,0.3), 0 0 60px rgba(108,99,255,0.2)",
+        "0 0 25px rgba(108,99,255,0.45), 0 0 50px rgba(108,99,255,0.35), 0 0 75px rgba(108,99,255,0.25)",
+        "0 0 20px rgba(108,99,255,0.4), 0 0 40px rgba(108,99,255,0.3), 0 0 60px rgba(108,99,255,0.2)",
       ],
       transition: {
         duration: 2.5,
@@ -128,7 +128,7 @@ export default function EmailCapture() {
     },
     focus: {
       boxShadow:
-        "0 0 60px rgba(108,99,255,1), 0 0 100px rgba(108,99,255,0.8), 0 0 150px rgba(108,99,255,0.5)",
+        "0 0 30px rgba(108,99,255,0.5), 0 0 50px rgba(108,99,255,0.4), 0 0 75px rgba(108,99,255,0.25)",
     },
   };
 
@@ -151,7 +151,7 @@ export default function EmailCapture() {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto relative">
+    <div className="w-full max-w-[331px] mx-auto relative">
       <AnimatePresence mode="wait">
         {!isSubmitted ? (
           <motion.form
