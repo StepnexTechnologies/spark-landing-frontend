@@ -1005,8 +1005,6 @@
 
 /* WordPress table block - scrollable container */
 .wordpress-content .wp-block-table {
-  margin-top: 2.5rem;
-  margin-bottom: 2.5rem;
   overflow-x: auto; /* Enable horizontal scroll */
   -webkit-overflow-scrolling: touch; /* Smooth scroll on iOS */
   display: block;
@@ -2441,7 +2439,7 @@
 /* Subtitle styling */
 .wordpress-content .cta-banner-subtitle {
   font-size: 16px !important;
-  font-weight: 500 !important;
+  font-weight: 400 !important;
   line-height: 1.5 !important;
   color: #8134a5 !important;
   max-width: 700px;
