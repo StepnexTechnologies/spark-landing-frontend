@@ -1036,6 +1036,8 @@
   -webkit-overflow-scrolling: touch; /* Smooth scroll on iOS */
   display: block;
   width: 100%;
+  margin-top: -30px;
+  margin-bottom: 0px;
 }
 
 .wordpress-content .wp-block-table table {
