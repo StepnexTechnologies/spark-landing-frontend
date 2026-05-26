@@ -2772,10 +2772,10 @@
 /* Collapse the gap when a code block immediately follows a paragraph */
 .wordpress-content p:has(+ .wp-block-code),
 .wordpress-content p:has(+ pre) {
-  margin-bottom: 1.2rem;
+  margin-bottom: 0.4rem;
 }
 
 .wordpress-content p + .wp-block-code,
 .wordpress-content p + pre {
-  margin-top: 1.2rem;
+  margin-top: 0.4rem;
 }
