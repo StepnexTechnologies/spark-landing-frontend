@@ -219,6 +219,7 @@ function EarnFloatingCTA({ isVisible, t, trackingPrefix }: EarnVariantProps) {
                   value={phone}
                   onChange={setPhone}
                   placeholder={t("hero.card.phonePlaceholder")}
+                  theme="light"
                   inputClassName="bg-transparent border-none outline-none text-base placeholder:text-[#999999] focus:outline-none focus:ring-0 w-full text-[#212529]"
                 />
               </Suspense>
@@ -234,7 +235,7 @@ function EarnFloatingCTA({ isVisible, t, trackingPrefix }: EarnVariantProps) {
             </div>
 
             {/* Disclaimer */}
-            <p className="mt-1.5 text-[9.5px] text-white/90 text-center leading-snug px-1">
+            <p className="mt-1.5 text-[8.5px] text-white/90 text-center leading-snug px-1">
               <Trans
                 i18nKey="hero.card.disclaimer"
                 t={t}
@@ -425,6 +426,7 @@ function PromoFloatingCTA({ isVisible, t, trackingPrefix }: PromoVariantProps) {
                     value={phone}
                     onChange={setPhone}
                     placeholder={t("floatingCta.placeholder")}
+                    theme="light"
                     inputClassName="bg-transparent border-none outline-none text-base placeholder:text-[#999999] focus:outline-none focus:ring-0 w-full text-[#212529]"
                   />
                 </Suspense>

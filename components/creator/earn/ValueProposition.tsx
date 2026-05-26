@@ -20,7 +20,7 @@ export default function ValueProposition() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-80px" }}
         transition={{ duration: 0.6 }}
-        className="max-w-[760px] mx-auto text-center space-y-4 md:space-y-6"
+        className="max-w-[760px] mx-auto text-center space-y-3"
       >
         <h2 className="text-[32px] md:text-[44px] font-bold text-white leading-tight">
           {(() => {
@@ -29,14 +29,14 @@ export default function ValueProposition() {
               before
             ) : (
               <>
-                {before}
+                {before} —
                 <br />
                 {after}
               </>
             );
           })()}
         </h2>
-        <p className="text-base md:text-lg text-white/90 leading-relaxed max-w-[640px] mx-auto">
+        <p className="text-base md:text-lg text-white/90 leading-relaxed max-w-[640px] mx-[9px]">
           {t("pitch.description")}
         </p>
       </motion.div>
