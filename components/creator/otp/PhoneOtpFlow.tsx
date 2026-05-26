@@ -148,6 +148,7 @@ export default function PhoneOtpFlow({
               value={phone}
               onChange={setPhone}
               placeholder={t("hero.card.phonePlaceholder")}
+              theme={isLight ? "light" : "dark"}
               inputClassName={
                 isLight
                   ? "bg-transparent border-none outline-none text-base placeholder:text-[#999999] focus:outline-none focus:ring-0 w-full text-[#212529]"

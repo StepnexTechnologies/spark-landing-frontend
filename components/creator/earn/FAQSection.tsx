@@ -69,7 +69,7 @@ export default function FAQSection({
       >
         <div className="w-full mx-auto">
           {/* Compliance Badges */}
-          <div className="flex items-center justify-center gap-6 mb-12">
+          <div className="flex items-center justify-center gap-6 mb-10">
             <Image
               src="/logos/GDPR_White.png"
               alt="GDPR"

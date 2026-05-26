@@ -13,7 +13,7 @@ export default function StoryContent1({ imageSrc = "/images/creator/earn/story-1
   return (
     <div className="relative w-full h-full">
       {/* Header */}
-      <div className="absolute top-[41px] left-1/2 -translate-x-1/2 w-full max-w-[390px] px-3 flex items-center justify-between z-40">
+      <div className="absolute top-[16px] left-1/2 -translate-x-1/2 w-full max-w-[390px] px-3 flex items-center justify-between z-40">
         <div className="flex items-center gap-2">
           {/*<div className="w-9 h-9 rounded-full bg-white overflow-hidden flex items-center justify-center">*/}
           {/*  <span className="text-lg">🐶</span>*/}
@@ -33,7 +33,7 @@ export default function StoryContent1({ imageSrc = "/images/creator/earn/story-1
       </div>
 
       {/* Main Image */}
-      <div className="absolute top-[12%] left-1/2 -translate-x-1/2 w-[90vw] sm:w-[362px] max-w-[362px] max-h-[calc(100%-150px)] aspect-[362/595] rounded-3xl overflow-hidden ">
+      <div className="absolute top-[12%] left-1/2 -translate-x-1/2 w-[90vw] sm:w-[362px] max-w-[362px] max-h-[calc(100%-150px)] aspect-[362/595] rounded-xl overflow-hidden ">
         <Image
           src={imageSrc}
           alt={"Story"}
