@@ -687,6 +687,19 @@
   }
 }
 
+/* Tighten spacing when a list immediately follows a paragraph */
+.wordpress-content p:has(+ ul),
+.wordpress-content p:has(+ ol),
+.wordpress-content p:has(+ .wp-block-list) {
+  margin-bottom: 0.5em;
+}
+
+.wordpress-content p + ul,
+.wordpress-content p + ol,
+.wordpress-content p + .wp-block-list {
+  margin-top: 0;
+}
+
 /* Primary color for list bullets/markers */
 .wordpress-content ul li::marker {
   color: #9747FF;
@@ -839,6 +852,7 @@
 .wordpress-content .wp-block-list li {
   display: list-item;
   margin-bottom: 0.5em;
+  
 }
 
 /* Ensure ordered lists show numbers */
@@ -2674,7 +2688,7 @@
    Vertical margins mirror the article gap rhythm (gap-6/8/12).
    ==================== */
 .wordpress-content .wp-block-code {
-  margin: 1.5rem auto;
+  margin: 0;
   border: 1px solid #d1d5db;
   border-radius: 0.75rem;
   background: #1e1e2e;
@@ -2753,4 +2767,15 @@
   .wordpress-content .wp-block-code {
     margin: 3rem auto;
   }
+}
+
+/* Collapse the gap when a code block immediately follows a paragraph */
+.wordpress-content p:has(+ .wp-block-code),
+.wordpress-content p:has(+ pre) {
+  margin-bottom: 0.4rem;
+}
+
+.wordpress-content p + .wp-block-code,
+.wordpress-content p + pre {
+  margin-top: 0.4rem;
 }
