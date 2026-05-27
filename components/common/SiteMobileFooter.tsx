@@ -30,7 +30,7 @@ export default function SiteMobileFooter({
     >
       <div className={`w-full border-t ${dividerClass}`} />
 
-      <div className="w-full max-w-xs flex justify-start">
+      <div className="w-full flex justify-start">
         <Image
           src={isDark ? "/sparkonomy_full.png" : "/FooterLogo.png"}
           alt="Sparkonomy"
@@ -40,7 +40,7 @@ export default function SiteMobileFooter({
         />
       </div>
 
-      <div className="grid grid-cols-2 gap-x-12 gap-y-6 w-full max-w-xs">
+      <div className="flex justify-between w-full">
         <div className="flex flex-col gap-6">
           <div className="flex flex-col gap-2">
             <p className={`${headingClass} text-sm font-medium`}>Company</p>
