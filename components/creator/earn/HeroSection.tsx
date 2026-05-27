@@ -16,7 +16,7 @@ const TITLE_SCRIPT_STYLE: React.CSSProperties = {
   fontSize: "40px",
   letterSpacing: "-0.04em",
   lineHeight: 1.1,
-  color: "#EF4444",
+  color: "#FFFFFF",
   display: "inline-block",
 };
 
@@ -34,7 +34,7 @@ export default function HeroSection() {
         {/* Headline — plain text leading line + yellow-highlighted script tail.
             i18nKey "hero.title" uses <0/> for the mobile line break and
             <1>...</1> to mark the portion that should get the highlight. */}
-        <h1 className="text-[25px] font-bold text-red-500 text-center leading-[2] tracking-[-0.04em] mb-1.5 max-w-[640px] mx-auto">
+        <h1 className="text-[25px] font-bold text-white text-center leading-[2] tracking-[-0.04em] mb-1.5 max-w-[640px] mx-auto">
           <Trans
             i18nKey="hero.title"
             t={t}
