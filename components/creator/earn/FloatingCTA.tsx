@@ -201,7 +201,7 @@ function EarnFloatingCTA({ isVisible, t, trackingPrefix }: EarnVariantProps) {
             {/* Inline checks — single row mirroring the hero card's earn
                 layout. 10.5px so all three fit on a 360px viewport. */}
             {checks.length > 0 && (
-              <ul className="mt-1.5 flex items-center text-[10.5px] font-normal text-white whitespace-nowrap gap-x-2">
+              <ul className="mt-1.5 flex items-center text-[10.5px] font-normal text-white whitespace-nowrap gap-x-3.5">
                 {checks.map((label, i) => (
                   <li key={i} className="flex items-center gap-1">
                     <span aria-hidden="true">✅</span>
