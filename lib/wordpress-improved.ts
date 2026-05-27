@@ -576,7 +576,7 @@ function stripNonBodyContent(html: string): string {
     const start = match.index;
     const after = start + match[0].length;
     const tail = result.substring(after);
-    const nextBoundary = tail.match(/<h[26][\s>]/i);
+    const nextBoundary = /<h[26][\s>]/i.exec(tail);
     const end = nextBoundary ? after + nextBoundary.index : result.length;
     ranges.push({ start, end });
   }
