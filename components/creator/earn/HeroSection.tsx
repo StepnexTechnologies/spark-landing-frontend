@@ -34,7 +34,7 @@ export default function HeroSection() {
         {/* Headline — plain text leading line + yellow-highlighted script tail.
             i18nKey "hero.title" uses <0/> for the mobile line break and
             <1>...</1> to mark the portion that should get the highlight. */}
-        <h1 className="text-[25px] font-bold text-white text-center leading-[2] tracking-[-0.04em] mb-1.5 max-w-[640px] mx-auto">
+        <h1 className="text-[25px] font-bold text-white text-center leading-[1.8] tracking-[-0.04em] mb-1.5 max-w-[640px] mx-auto">
           <Trans
             i18nKey="hero.title"
             t={t}
