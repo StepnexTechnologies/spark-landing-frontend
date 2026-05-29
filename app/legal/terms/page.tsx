@@ -9,7 +9,7 @@ export default function TermsOfServicePage() {
                 <LegalHeader
                     title="The Sparkonomy Terms of Service"
                     effectiveDate="August 10, 2025"
-                    lastUpdated="April 17, 2026"
+                    lastUpdated="May 25, 2026"
                 />
                 <p className="mb-4">
                     Welcome to Sparkonomy! We’re thrilled to have you. We’re building an
@@ -46,8 +46,12 @@ export default function TermsOfServicePage() {
                     Sparkonomy provides a comprehensive, AI-powered Operating System
                     (&quot;Services&quot;) designed to empower creators, brands, and agencies. Our
                     goal is to be your thinking partner, helping you manage and scale your
-                    business. The services we offer are constantly evolving and may
-                    include, but are not limited to, the features described below.
+                    business. We use analytics tools, including Google Analytics and
+                    Microsoft Clarity, to understand and improve how you use the Service.
+                    Details on the data collected, cookies used, and your choices are
+                    described in our Privacy Policy. The services we offer are constantly
+                    evolving and may include, but are not limited to, the features described
+                    below.
                 </p>
                 <ul className="list-inside space-y-2 mb-1 ml-4">
                     <li>
@@ -166,6 +170,12 @@ export default function TermsOfServicePage() {
                         the Services for any purpose without our express written permission.
                     </li>
                 </ul>
+                <p className="mb-6">
+                    <strong>Note:</strong> Sparkonomy accesses publicly available data through
+                    official APIs and publicly available web pages to operate its services,
+                    including building Creator Profiles which support multiple public and
+                    signed-in user experiences. This is described in our Privacy Policy.
+                </p>
 
                 <h2 className="text-xl font-semibold mt-8 mb-4">
                     5. Terms for Partnerships
@@ -275,9 +285,9 @@ export default function TermsOfServicePage() {
                     <li>
                         <strong>How We Use Data for AI:</strong> We are committed to
                         protecting your work. To improve our services, our AI models learn
-                        from public data and anonymized user data. We will not use your
-                        private, identifiable content to train our general AI models without
-                        your explicit consent.
+                        from public data and anonymized user data to improve our services and
+                        develop new features. We do not access private or restricted content
+                        without explicit consent.
                     </li>
                     <li>
                         <strong>Sparkonomy&#39;s Intellectual Property:</strong> We retain all
