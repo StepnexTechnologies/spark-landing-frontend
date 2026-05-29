@@ -85,7 +85,7 @@ export default function StoryPanel({
       </AnimatePresence>
       {/* Close button overlay - positioned to match the X icon in story content */}
       <button
-        className="absolute top-[41px] right-3 z-50 text-white text-3xl p-2"
+        className="absolute top-[16px] right-3 z-50 text-white text-3xl p-2"
         onClick={handleCloseClick}
         onMouseDown={(e) => e.stopPropagation()}
         onTouchStart={(e) => e.stopPropagation()}

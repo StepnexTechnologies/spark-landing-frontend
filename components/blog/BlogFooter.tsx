@@ -1,10 +1,17 @@
 import Link from "next/link";
 import Image from "next/image";
+import SiteMobileFooter from "@/components/common/SiteMobileFooter";
 
 export default function BlogFooter() {
   return (
     <footer className="w-full bg-transparent md:bg-white py-4 md:py-5 lg:py-9">
-      <div className="border-t border-gray-200 py-4 md:mx-[84px]">
+      {/* Mobile (<md): shared site footer (light variant) */}
+      <div className="md:hidden px-4">
+        <SiteMobileFooter theme="light" />
+      </div>
+
+      {/* Tablet + Desktop (≥md): existing footer with added links */}
+      <div className="hidden md:block border-t border-gray-200 py-4 md:mx-[84px]">
         <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
           <div className="flex flex-col items-center text-center gap-4">
           {/* Logo */}
@@ -32,6 +39,17 @@ export default function BlogFooter() {
               <Link href="/legal/refund-policy" className="hover:text-purple-600 transition-colors whitespace-nowrap">
                 Refund Policy
               </Link>
+              <span className="text-gray-400">|</span>
+              <Link href="/creator/earn" className="hover:text-purple-600 transition-colors whitespace-nowrap">
+                Creator Payments
+              </Link>
+              <span className="text-gray-400">|</span>
+              <button
+                type="button"
+                className="cky-banner-element hover:text-purple-600 transition-colors whitespace-nowrap"
+              >
+                Cookie Options
+              </button>
             </div>
             <span className="text-xs md:text-sm lg:text-base font-normal text-gray-600 whitespace-nowrap">
               ©All rights reserved.

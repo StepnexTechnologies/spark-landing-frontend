@@ -83,10 +83,6 @@ Next.js 16.0.0 (App Router)
 - **GSAP 3.12.7** - Advanced animations, letter-by-letter reveals, timelines
 - **webgl-fluid-enhanced 0.8.0** - Interactive fluid background simulation
 
-### Analytics & Monitoring
-- **@vercel/analytics** - User analytics
-- **@vercel/speed-insights** - Performance monitoring
-
 ### External Integrations
 - **WordPress REST API v2** - Blog content management
 - **Custom Backend API** - Waitlist system

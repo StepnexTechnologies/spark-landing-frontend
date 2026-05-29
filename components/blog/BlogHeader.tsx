@@ -14,7 +14,7 @@ export default function  BlogHeader() {
 
     const navItems = [
         { name: "Creators", href: "/blogs/creators" },
-        { name: "Brand", href: "/blogs/brand" },
+        // { name: "Brand", href: "/blogs/brand" },
         { name: "Company", href: "/blogs/company" },
     ];
 

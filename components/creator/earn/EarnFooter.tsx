@@ -4,6 +4,7 @@ import {motion} from "framer-motion";
 import { useTranslation } from "react-i18next";
 import Image from "next/image";
 import Link from "next/link";
+import SiteMobileFooter from "@/components/common/SiteMobileFooter";
 
 export default function EarnFooter() {
   const { t } = useTranslation("creatorEarn");
@@ -17,7 +18,11 @@ export default function EarnFooter() {
         transition={{ duration: 0.6 }}
         className="max-w-[1440px] mx-auto"
       >
-        <div className="max-w-[392px] md:max-w-[1058px] mx-auto space-y-4">
+        {/* Mobile (<md): shared site footer with full link columns + socials */}
+        <SiteMobileFooter theme="dark" />
+
+        {/* Tablet + Desktop (≥md): existing compact footer with added links */}
+        <div className="hidden md:block max-w-[392px] md:max-w-[1058px] mx-auto space-y-4">
           {/* Divider Line */}
           <div className="w-full h-[1px] bg-white/20" />
 
@@ -38,7 +43,7 @@ export default function EarnFooter() {
 
           {/* Footer Links */}
           <div className="flex flex-col items-center gap-1 text-gray-500 text-xs">
-            <div className="flex items-center justify-center gap-1">
+            <div className="flex flex-wrap items-center justify-center gap-1">
               <Link href="/legal/terms" className="hover:text-white transition-colors">
                 {t("footer.terms")}
               </Link>
@@ -50,6 +55,17 @@ export default function EarnFooter() {
               <Link href="/legal/refund-policy" className="hover:text-white transition-colors">
                 {t("footer.refund")}
               </Link>
+              <span>|</span>
+              <Link href="/creator/earn" className="hover:text-white transition-colors">
+                Creator Payments
+              </Link>
+              <span>|</span>
+              <button
+                type="button"
+                className="cky-banner-element hover:text-white transition-colors"
+              >
+                Cookie Options
+              </button>
             </div>
             <span>{t("footer.copyright")}</span>
           </div>

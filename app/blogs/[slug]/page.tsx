@@ -788,7 +788,7 @@ export default async function BlogPostPage({ params, searchParams }: BlogPostPag
       </main>
 
       {/* Newsletter Section */}
-      <LazyOnVisible minHeight={300}>
+      <LazyOnVisible>
         <NewsletterSection />
       </LazyOnVisible>
     </>

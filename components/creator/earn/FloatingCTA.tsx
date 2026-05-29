@@ -201,7 +201,7 @@ function EarnFloatingCTA({ isVisible, t, trackingPrefix }: EarnVariantProps) {
             {/* Inline checks — single row mirroring the hero card's earn
                 layout. 10.5px so all three fit on a 360px viewport. */}
             {checks.length > 0 && (
-              <ul className="mt-1.5 flex items-center text-[10.5px] font-normal text-white whitespace-nowrap gap-x-2">
+              <ul className="mt-1.5 flex items-center text-[10.5px] font-normal text-white whitespace-nowrap gap-x-3.5">
                 {checks.map((label, i) => (
                   <li key={i} className="flex items-center gap-1">
                     <span aria-hidden="true">✅</span>
@@ -219,6 +219,7 @@ function EarnFloatingCTA({ isVisible, t, trackingPrefix }: EarnVariantProps) {
                   value={phone}
                   onChange={setPhone}
                   placeholder={t("hero.card.phonePlaceholder")}
+                  theme="light"
                   inputClassName="bg-transparent border-none outline-none text-base placeholder:text-[#999999] focus:outline-none focus:ring-0 w-full text-[#212529]"
                 />
               </Suspense>
@@ -234,7 +235,7 @@ function EarnFloatingCTA({ isVisible, t, trackingPrefix }: EarnVariantProps) {
             </div>
 
             {/* Disclaimer */}
-            <p className="mt-1.5 text-[9.5px] text-white/90 text-center leading-snug px-1">
+            <p className="mt-1.5 text-[8.5px] text-white/90 text-center leading-snug px-1">
               <Trans
                 i18nKey="hero.card.disclaimer"
                 t={t}
@@ -425,6 +426,7 @@ function PromoFloatingCTA({ isVisible, t, trackingPrefix }: PromoVariantProps) {
                     value={phone}
                     onChange={setPhone}
                     placeholder={t("floatingCta.placeholder")}
+                    theme="light"
                     inputClassName="bg-transparent border-none outline-none text-base placeholder:text-[#999999] focus:outline-none focus:ring-0 w-full text-[#212529]"
                   />
                 </Suspense>

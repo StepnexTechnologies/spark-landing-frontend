@@ -507,13 +507,99 @@ export function getExcerpt(post: WordPressPost, maxLength: number = 160): string
 }
 
 /**
- * Get reading time estimate
+ * H6 marker text (normalized) for sections that don't count toward reading time:
+ * CTA banners, TOC, sources/references, key takeaways, trust/expert para, tax calc.
+ */
+const NON_BODY_H6_MARKERS = new Set<string>([
+  'cta 1', 'cta1',
+  'cta 2', 'cta2',
+  'table of content', 'table of contents', 'toc',
+  'key takeaways', 'key takeaway',
+  'trust para', 'trust paragraph',
+  'sources and references', 'sources & references', 'sources', 'references',
+  'tax calc', 'tax calculator', 'creator tax calc', 'creator tax calculator',
+]);
+
+function normalizeH6MarkerText(text: string): string {
+  return text
+    .replace(/<[^>]*>/g, '')
+    .replace(/&amp;/g, '&')
+    .trim()
+    .toLowerCase()
+    .replace(/-/g, ' ')
+    .replace(/\s+/g, ' ');
+}
+
+/**
+ * Strip non-body content from WordPress HTML before counting words:
+ * opening paragraph (DAB), CTAs, TOC, FAQ, sources/references, key takeaways,
+ * trust para (expert block), tax calc.
+ */
+function stripNonBodyContent(html: string): string {
+  let result = html;
+
+  // Opening paragraph (DAB) — rendered above the featured image, not part of the body.
+  result = result.replace(/^\s*<p[^>]*>[\s\S]*?<\/p>\s*/, '');
+
+  // AAB accordion FAQ blocks (markup nests 3 closing divs around the accordion body).
+  result = result.replace(
+    /<div[^>]*class="[^"]*wp-block-aab-accordion-block[^"]*"[\s\S]*?<\/div>\s*<\/div>\s*<\/div>/gi,
+    ''
+  );
+
+  // Gutenberg core/accordion items.
+  result = result.replace(
+    /<div[^>]*class="[^"]*wp-block-accordion-item[^"]*"[\s\S]*?<\/div>\s*<\/div>/gi,
+    ''
+  );
+
+  // H2-based "Frequently Asked Questions" section — strip through next H2 (or end).
+  result = result.replace(
+    /<h2[^>]*>(?:\s|<[^>]*>)*Frequently Asked Questions?(?:\s|<\/[^>]*>)*<\/h2>[\s\S]*?(?=<h2[\s>]|$)/gi,
+    ''
+  );
+
+  // H2-based Sources / References section.
+  result = result.replace(
+    /<h2[^>]*>(?:\s|<[^>]*>)*(?:Sources(?:\s*(?:and|&amp;|&)\s*References?)?|References?)(?:\s|<\/[^>]*>)*<\/h2>[\s\S]*?(?=<h2[\s>]|$)/gi,
+    ''
+  );
+
+  // H6-marker sections — strip each matching section from its H6 up to the next H6 or H2.
+  const h6Regex = /<h6[^>]*>([\s\S]*?)<\/h6>/gi;
+  const ranges: Array<{ start: number; end: number }> = [];
+  let match: RegExpExecArray | null;
+  while ((match = h6Regex.exec(result)) !== null) {
+    const marker = normalizeH6MarkerText(match[1]);
+    if (!NON_BODY_H6_MARKERS.has(marker)) continue;
+
+    const start = match.index;
+    const after = start + match[0].length;
+    const tail = result.substring(after);
+    const nextBoundary = /<h[26][\s>]/i.exec(tail);
+    const end = nextBoundary ? after + nextBoundary.index : result.length;
+    ranges.push({ start, end });
+  }
+
+  for (let i = ranges.length - 1; i >= 0; i--) {
+    const { start, end } = ranges[i];
+    result = result.substring(0, start) + result.substring(end);
+  }
+
+  return result;
+}
+
+/**
+ * Get reading time estimate (minutes) for the main article body only.
+ * Skips opening paragraph, CTAs, TOC, FAQ, sources/references, key takeaways,
+ * trust/expert para, and tax calc sections. Uses 250 wpm.
  */
 export function getReadingTime(post: WordPressPost): number {
-  const text = stripHtml(post.content.rendered);
-  const wordsPerMinute = 200;
-  const wordCount = text.split(/\s+/).length;
-  return Math.ceil(wordCount / wordsPerMinute);
+  const body = stripNonBodyContent(post.content.rendered);
+  const text = stripHtml(body);
+  const wordsPerMinute = 250;
+  const wordCount = text.split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.ceil(wordCount / wordsPerMinute));
 }
 
 /**

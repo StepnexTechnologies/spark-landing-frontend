@@ -440,14 +440,14 @@
   line-height: 1.25;
   letter-spacing: -0.01em;
   color: #6B7280;
-  margin-top: 3rem;
+  margin-top: 1.5rem;
   margin-bottom: 0.875rem;
 }
 
 @media (min-width: 768px) {
   .wordpress-content h2 {
     font-size: 1.875rem;
-    margin-top: 3.5rem;
+    margin-top: 1.75rem;
   }
 }
 
@@ -687,6 +687,19 @@
   }
 }
 
+/* Tighten spacing when a list immediately follows a paragraph */
+.wordpress-content p:has(+ ul),
+.wordpress-content p:has(+ ol),
+.wordpress-content p:has(+ .wp-block-list) {
+  margin-bottom: 0.5em;
+}
+
+.wordpress-content p + ul,
+.wordpress-content p + ol,
+.wordpress-content p + .wp-block-list {
+  margin-top: 0;
+}
+
 /* Primary color for list bullets/markers */
 .wordpress-content ul li::marker {
   color: #9747FF;
@@ -716,31 +729,46 @@
   color: #6B7280;
 }
 
-/* Sources and references section — H6-based wrapper styling */
+/* Sources and references section — H6-based wrapper styling.
+   Rendered as a decimal-numbered list (research-paper style). CSS counters
+   are used instead of native list-style so the same rule works whether the
+   author wrote a <ul> or <ol> in WordPress. */
 .wordpress-content .sources-section ol,
 .wordpress-content .sources-section ul {
   list-style: none !important;
   list-style-type: none !important;
   padding-left: 0 !important;
+  counter-reset: source-item;
 }
 
 .wordpress-content .sources-section li {
   list-style: none !important;
   list-style-type: none !important;
+  counter-increment: source-item;
+  position: relative;
   margin: 0 !important;
-  padding: 6px 0 !important;
-  color: #415CE7 !important;
-  text-decoration: underline;
-  font-style: italic;
+  padding: 6px 0 6px 1.75rem !important;
+  color: #6B7280;
   font-size: 12px;
   font-weight: 400;
   line-height: 1.4;
 }
 
+.wordpress-content .sources-section li::before {
+  content: counter(source-item) ".";
+  position: absolute;
+  left: 0;
+  top: 6px;
+  color: #6B7280;
+  font-weight: 600;
+  font-style: normal;
+  text-decoration: none;
+}
+
 /* Override wp-block-list spacing inside sources */
 .wordpress-content .sources-section .wp-block-list li {
   margin: 0 !important;
-  padding: 6px 0 !important;
+  padding: 6px 0 6px 1.75rem !important;
 }
 
 /* Hide empty list items (may contain whitespace) */
@@ -769,19 +797,31 @@
   list-style: none !important;
   list-style-type: none !important;
   padding-left: 0 !important;
+  counter-reset: source-item;
 }
 
 .wordpress-content .sources-list li {
   list-style: none !important;
   list-style-type: none !important;
+  counter-increment: source-item;
+  position: relative;
   margin: 0 !important;
-  padding: 6px 0 !important;
-  color: #415CE7 !important;
-  text-decoration: underline;
-  font-style: italic;
+  padding: 6px 0 6px 1.75rem !important;
+  color: #6B7280;
   font-size: 12px;
   font-weight: 400;
   line-height: 1.4;
+}
+
+.wordpress-content .sources-list li::before {
+  content: counter(source-item) ".";
+  position: absolute;
+  left: 0;
+  top: 6px;
+  color: #6B7280;
+  font-weight: 600;
+  font-style: normal;
+  text-decoration: none;
 }
 
 .wordpress-content .sources-list li a {
@@ -812,6 +852,7 @@
 .wordpress-content .wp-block-list li {
   display: list-item;
   margin-bottom: 0.5em;
+  
 }
 
 /* Ensure ordered lists show numbers */
@@ -1005,12 +1046,12 @@
 
 /* WordPress table block - scrollable container */
 .wordpress-content .wp-block-table {
-  margin-top: 2.5rem;
-  margin-bottom: 2.5rem;
   overflow-x: auto; /* Enable horizontal scroll */
   -webkit-overflow-scrolling: touch; /* Smooth scroll on iOS */
   display: block;
   width: 100%;
+  margin-top: -30px;
+  margin-bottom: 0px;
 }
 
 .wordpress-content .wp-block-table table {
@@ -1448,13 +1489,27 @@
   text-align: left;
 }
 
-/* Image with Border/Frame - Center aligned */
+/* Image with Border/Frame - Center aligned.
+   Vertical margins mirror the article-level flex gap (gap-6/8/12) so the
+   first (featured) image and subsequent inline images share the same rhythm. */
 .wordpress-content figure.wp-block-image {
-  margin: 2.5rem auto;
+  margin: 1.5rem auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
+}
+
+@media (min-width: 768px) {
+  .wordpress-content figure.wp-block-image {
+    margin: 2rem auto;
+  }
+}
+
+@media (min-width: 1024px) {
+  .wordpress-content figure.wp-block-image {
+    margin: 3rem auto;
+  }
 }
 
 /* Click-to-expand lightbox: visual affordance + clickability.
@@ -2441,7 +2496,7 @@
 /* Subtitle styling */
 .wordpress-content .cta-banner-subtitle {
   font-size: 16px !important;
-  font-weight: 500 !important;
+  font-weight: 400 !important;
   line-height: 1.5 !important;
   color: #8134a5 !important;
   max-width: 700px;
@@ -2625,4 +2680,102 @@
     font-size: 1.25rem;
     letter-spacing: 0.75rem;
   }
+}
+
+/* ====================
+   Code blocks (wp-block-code)
+   Windows Explorer-style chrome with a folder icon header.
+   Vertical margins mirror the article gap rhythm (gap-6/8/12).
+   ==================== */
+.wordpress-content .wp-block-code {
+  margin: 0;
+  border: 1px solid #d1d5db;
+  border-radius: 0.75rem;
+  background: #1e1e2e;
+  overflow: hidden;
+  padding: 0;
+  font-family: "Cascadia Code", "Consolas", "SF Mono", Monaco, "Courier New", monospace;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06), 0 4px 12px rgba(15, 23, 42, 0.05);
+}
+
+.wordpress-content .wp-block-code::before {
+  content: "\01F4C1\00a0\ Code";
+  display: block;
+  background: linear-gradient(to bottom, #f9fafb, #e5e7eb);
+  color: #374151;
+  font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 10px 16px;
+  border-bottom: 1px solid #d1d5db;
+  letter-spacing: 0.01em;
+}
+
+.wordpress-content .wp-block-code code {
+  display: block;
+  padding: 16px 20px;
+  color: #e5e7eb;
+  font-size: 13.5px;
+  line-height: 1.65;
+  font-family: inherit;
+  background: transparent;
+  white-space: pre;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.wordpress-content .wp-block-code code::-webkit-scrollbar {
+  height: 8px;
+}
+
+.wordpress-content .wp-block-code code::-webkit-scrollbar-track {
+  background: #2a2a3a;
+}
+
+.wordpress-content .wp-block-code code::-webkit-scrollbar-thumb {
+  background: #4b5563;
+  border-radius: 4px;
+}
+
+.wordpress-content .wp-block-code code::-webkit-scrollbar-thumb:hover {
+  background: #6b7280;
+}
+
+/* Inline code — outside <pre> wrapper */
+.wordpress-content :not(pre) > code {
+  background: #f3f4f6;
+  color: #6B7280;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: "Cascadia Code", "Consolas", "SF Mono", Monaco, "Courier New", monospace;
+  font-size: 0.9em;
+  border: 1px solid #e5e7eb;
+}
+
+@media (min-width: 768px) {
+  .wordpress-content .wp-block-code {
+    margin: 2rem auto;
+  }
+
+  .wordpress-content .wp-block-code code {
+    font-size: 14px;
+    padding: 18px 22px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .wordpress-content .wp-block-code {
+    margin: 3rem auto;
+  }
+}
+
+/* Collapse the gap when a code block immediately follows a paragraph */
+.wordpress-content p:has(+ .wp-block-code),
+.wordpress-content p:has(+ pre) {
+  margin-bottom: 0.4rem;
+}
+
+.wordpress-content p + .wp-block-code,
+.wordpress-content p + pre {
+  margin-top: 0.4rem;
 }

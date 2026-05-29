@@ -25,18 +25,18 @@ function StepCard({ index, title, description, tags, imageUrl }: ThreeStepItem &
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.5, delay: index * 0.05 }}
-      className="relative w-full max-w-[420px] rounded-[24px] p-3.5 md:p-5 bg-white/5 border border-white/10 backdrop-blur-md shadow-[0_8px_24px_rgba(0,0,0,0.18)]"
+      className="relative w-full max-w-[420px] rounded-[24px] px-2 py-3 md:p-5 bg-white/5 border border-white/10 backdrop-blur-md shadow-[0_8px_24px_rgba(0,0,0,0.18)]"
     >
-      <div className="flex items-start gap-2">
+      <div className="flex items-center gap-2">
         {/* Phone illustration */}
-        <div className="relative shrink-0 w-16 h-16">
+        <div className="relative shrink-0 w-16 h-[63px]">
           <Image src={imageUrl} alt="" fill sizes="64px" className="object-contain" />
         </div>
 
         {/* Title + description + tags */}
         <div className="flex-1 min-w-0">
           <h3 className="text-white font-bold text-lg md:text-xl leading-tight tracking-[-0.04em]">{title}</h3>
-          <p className="mt-1.5 text-white text-sm leading-snug">{description}</p>
+          <p className="mt-1.5 text-white text-sm leading-[150%]">{description}</p>
 
           {tags.length > 0 && (
             <div className="mt-3 flex flex-wrap gap-1">
@@ -78,7 +78,7 @@ export default function BenefitsSection({
   const steps: ThreeStepItem[] = Array.isArray(rawItems) ? (rawItems as ThreeStepItem[]) : [];
 
   return (
-    <section ref={sectionRef} className="relative py-5 md:py-12 px-5 md:px-20">
+    <section ref={sectionRef} className="relative pb-5 md:pb-12 px-5 md:px-20">
       <div className="max-w-[1200px] mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 16 }}

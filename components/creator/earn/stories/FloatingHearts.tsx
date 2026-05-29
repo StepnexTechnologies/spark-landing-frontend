@@ -39,7 +39,7 @@ export default function FloatingHearts({ triggerCount }: FloatingHeartsProps) {
 
   return (
     <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-full max-w-[390px] pointer-events-none z-50">
-      <div className="absolute bottom-[51px] right-[76px]">
+      <div className="absolute bottom-[40px] right-[85px]">
         {hearts.map((heart) => (
           <FloatingHeart
             key={heart.id}

@@ -223,7 +223,7 @@ export default function PromoSignupCard({
         y: { duration: 0.7, times: [0, 0.4, 1], ease: [0.34, 1.4, 0.64, 1] },
         boxShadow: { duration: 0.7, times: [0, 0.4, 1], ease: [0.4, 0, 0.2, 1] },
       }}
-      className={`relative mx-auto w-full max-w-md rounded-[24px] px-3 py-4 ${isEarn ? "border-b border-white/80" : ""}`}
+      className={`relative mx-auto w-full max-w-[468px] rounded-[24px] px-3 py-4 ${isEarn ? "border-b border-white" : ""}`}
     >
       {/* Earn variant: top-right corner coin peeks above the card. Sibling of
           the voucher row so it's positioned relative to the outer card box
@@ -396,9 +396,9 @@ export default function PromoSignupCard({
           </ul>
         </div>
       ) : !otpVisible ? (
-        <ul className="mt-1 px-1 flex items-center justify-center text-[11px] font-normal text-white whitespace-nowrap">
+        <ul className="mt-1 px-1 flex items-center justify-center text-[11px] font-normal text-white whitespace-nowrap gap-x-3.5">
           {checks.map((label, i) => (
-            <li key={i} className="flex items-center gap-1">
+            <li key={i} className="flex items-center gap-0.5">
               <span aria-hidden="true">✅</span>
               <span>{label}</span>
             </li>
@@ -422,6 +422,7 @@ export default function PromoSignupCard({
               placeholder={t("hero.card.phonePlaceholder")}
               disabled={phoneLocked}
               autoComplete="off"
+              theme="light"
               inputClassName="bg-transparent border-none outline-none text-base placeholder:text-[#999999] focus:outline-none focus:ring-0 w-full text-[#212529] disabled:bg-transparent"
             />
           </Suspense>
