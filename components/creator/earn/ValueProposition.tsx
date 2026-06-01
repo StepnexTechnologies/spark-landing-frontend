@@ -36,7 +36,7 @@ export default function ValueProposition() {
             );
           })()}
         </h2>
-        <p className="text-base md:text-lg text-white/90 leading-relaxed max-w-[640px] mx-[9px]">
+        <p className="text-base md:text-lg text-white/90 leading-relaxed max-w-[640px] mx-auto">
           {t("pitch.description")}
         </p>
       </motion.div>
