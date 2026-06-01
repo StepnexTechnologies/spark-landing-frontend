@@ -36,6 +36,27 @@ const PROMO_ADVANTAGE_ICONS = [
   "/promo/landing-promo/CA-ready.png",
 ];
 
+// Renders a comma-headline ("Hamesha free, 4 invoices.") as two balanced lines
+// on laptop/desktop — breaking right after the first comma — while keeping it
+// inline (natural wrap) on mobile. Titles without a comma render unchanged.
+function TitleWithLaptopBreak({ title }: { title: string }) {
+  const commaIdx = title.indexOf(",");
+  if (commaIdx === -1 || commaIdx >= title.trimEnd().length - 1) {
+    return <>{title}</>;
+  }
+  const first = title.slice(0, commaIdx + 1); // keep the comma on line 1
+  const rest = title.slice(commaIdx + 1).trimStart();
+  return (
+    <>
+      {first}{" "}
+      {/* md+ only: forces the break after the comma. Hidden on mobile, where
+          the trailing space above keeps the headline a single inline run. */}
+      <br className="hidden md:block" />
+      {rest}
+    </>
+  );
+}
+
 // Promo-variant card. Inline because the layout (rounded backgrounded row)
 // differs from AdvantageFeature's bare-with-bottom-border earn layout.
 function PromoAdvantageCard({ index, title, description, iconUrl }: AdvantageItem & { index: number; iconUrl: string }) {
@@ -52,7 +73,7 @@ function PromoAdvantageCard({ index, title, description, iconUrl }: AdvantageIte
           <Image src={iconUrl} alt="" fill sizes="79px" className="object-contain" />
         </div>
         <div className="flex-1 min-w-0 md:flex-none md:flex md:flex-col md:items-center md:gap-3.5 md:max-w-[247px]">
-          <h3 className="text-white font-bold text-lg md:text-2xl md:font-semibold leading-tight md:leading-normal">{title}</h3>
+          <h3 className="text-white font-bold text-lg md:text-2xl md:font-semibold leading-tight md:leading-normal"><TitleWithLaptopBreak title={title} /></h3>
           <p className="mt-1 md:mt-0 text-white text-sm leading-snug md:text-center">{description}</p>
         </div>
       </div>
