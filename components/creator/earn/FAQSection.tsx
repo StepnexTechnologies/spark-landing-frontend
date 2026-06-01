@@ -69,7 +69,7 @@ export default function FAQSection({
       >
         <div className="w-full mx-auto">
           {/* Compliance Badges */}
-          <div className="flex items-center justify-center gap-6 mb-10">
+          <div className="flex items-center justify-center gap-6 mb-12">
             <Image
               src="/logos/GDPR_White.png"
               alt="GDPR"
@@ -94,7 +94,7 @@ export default function FAQSection({
           </div>
 
           {/* Section Header */}
-          <h2 className="text-[40px] md:text-[40px] font-bold text-white leading-none md:leading-tight mb-1 md:mb-12">
+          <h2 className="text-[40px] md:text-[40px] font-bold text-white mb-6 md:mb-12">
             {t("faq.title")}
           </h2>
 

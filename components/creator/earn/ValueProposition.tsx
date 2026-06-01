@@ -1,44 +1,58 @@
 "use client";
 
-import { useRef } from "react";
-import { motion } from "framer-motion";
+import {Suspense, useState, useEffect, useRef} from "react";
+import {motion} from "framer-motion";
 import { useTranslation } from "react-i18next";
-import { useSectionViewTracking } from "@/lib/hooks/useSectionViewTracking";
+import CTAButton from "./CTAButton";
+import {useSectionViewTracking} from "@/lib/hooks/useSectionViewTracking";
 
 export default function ValueProposition() {
-  const { t } = useTranslation("creatorEarn");
+  const { t, ready } = useTranslation("creatorEarn");
+  const [mounted, setMounted] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
-  useSectionViewTracking(sectionRef, "earn_pitch");
+  useSectionViewTracking(sectionRef, "value_proposition");
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted || !ready) {
+    return null;
+  }
 
   return (
-    <section
-      ref={sectionRef}
-      className="relative pt-2 pb-10 md:pt-4 md:pb-16 px-5 md:px-20"
-    >
+    <section ref={sectionRef} className="relative pt-0 pb-12 md:pt-0 md:pb-20 px-5 md:px-20">
       <motion.div
-        initial={{ opacity: 0, y: 24 }}
+        initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-80px" }}
-        transition={{ duration: 0.6 }}
-        className="max-w-[760px] mx-auto text-center space-y-3"
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.8 }}
+        className="max-w-[1440px] mx-auto text-center"
       >
-        <h2 className="text-[32px] md:text-[44px] font-bold text-white leading-tight">
-          {(() => {
-            const [before, after] = t("pitch.heading").split(" — ");
-            return after === undefined ? (
-              before
-            ) : (
-              <>
-                {before} —
-                <br />
-                {after}
-              </>
-            );
-          })()}
-        </h2>
-        <p className="text-base md:text-lg text-white/90 leading-relaxed max-w-[640px] mx-auto">
-          {t("pitch.description")}
-        </p>
+        <div className="max-w-[321px] md:max-w-[931px] mx-auto space-y-6 md:space-y-8">
+          {/* Main Heading */}
+          <h2 className="text-[40px] md:text-[52px] font-bold text-white leading-tight">
+            <span className="block">{t("valueProposition.heading1")}</span>
+            <span className="block">{t("valueProposition.heading2")}</span>
+          </h2>
+
+          {/* Description */}
+          <p className="text-base md:text-base text-white leading-normal max-w-[321px] md:max-w-full mx-auto">
+            {t("valueProposition.description")}
+          </p>
+
+          {/* CTA Button */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+              <Suspense fallback={null}>
+                <CTAButton buttonText={t("valueProposition.cta")}/>
+              </Suspense>
+          </motion.div>
+        </div>
       </motion.div>
     </section>
   );

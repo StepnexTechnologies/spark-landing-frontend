@@ -2,6 +2,7 @@
 
 import {motion} from "framer-motion";
 import Image from "next/image";
+import {Check} from "lucide-react";
 
 interface TestimonialCardProps {
   quote: string;
@@ -38,29 +39,34 @@ export default function TestimonialCard({
     <motion.div
       {...motionProps}
       className={`
-        p-3 rounded-[24px] bg-gradient-to-br from-white/10 via-white/0 to-black/10 border border-[#FFFFFF33] backdrop-blur-[2px]
+        px-3 py-6 rounded-[32px] bg-gradient-to-br from-white/10 via-white/0 to-black/10 border border-white/20 backdrop-blur-[2px]
         ${highlighted ? "bg-white/10" : "bg-transparent"}
-        min-w-[315px] md:max-w-[364px] flex flex-col gap-4
+        min-w-[315px] md:max-w-[364px]
       `}
     >
       {/* Quote */}
-      <p className="text-white text-base leading-[1.2] text-center italic min-h-[77px] flex items-center justify-center">
+      <p className="text-white text-[15px] leading-normal text-center mb-3 h-[124px] flex items-center justify-center italic">
         &ldquo;{quote}&rdquo;
       </p>
 
       {/* User Info */}
-      <div className="flex items-center justify-center gap-3">
+      <div className="flex items-center gap-3 px-0 pt-3">
         {/* Avatar */}
-        <div className="relative w-12 h-12 rounded-full overflow-hidden flex-shrink-0">
+        <div className="relative w-10 h-10 rounded-full overflow-hidden flex-shrink-0">
           <Image src={avatarUrl} alt={name} fill className="object-cover" />
         </div>
 
         {/* Name and Handle */}
-        <div className="flex flex-col">
-          <span className="text-white font-medium text-base leading-normal">
-            {name}
-          </span>
-          <span className="text-white font-normal leading-5 text-sm">{handle}</span>
+        <div className="flex flex-col flex-1">
+          <div className="flex items-center gap-1">
+            <span className="text-white font-medium text-[14px] leading-normal">
+              {name}
+            </span>
+            <div className="w-4 h-4 rounded-full bg-blue-500 flex items-center justify-center">
+              <Check className="w-3 h-3 text-white" strokeWidth={3} />
+            </div>
+          </div>
+          <span className="text-white leading-5 text-[12px]">{handle}</span>
         </div>
       </div>
     </motion.div>
