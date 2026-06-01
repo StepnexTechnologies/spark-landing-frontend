@@ -123,6 +123,16 @@ img {
     -ms-user-select: none;
 }
 
+/* Base flex layout for the phone field. react-phone-number-input's own
+   stylesheet is now lazy-loaded with the widget (see PhoneInputWidget), so this
+   minimal rule lives here — in the always-present globals — to lay out the
+   pre-mount placeholder (and the widget for the frame before its sheet arrives)
+   identically, keeping CLS at 0. */
+.PhoneInput {
+    display: flex;
+    align-items: center;
+}
+
 /* react-phone-number-input overrides */
 .PhoneInput .PhoneInputInput {
     background-color: transparent;

@@ -16,11 +16,11 @@ function nextImageUrl(src: string, width: number, quality = 75): string {
   return `/_next/image?url=${encodeURIComponent(src)}&w=${width}&q=${quality}`;
 }
 
-// Mirror the srcset Next/Image generates for the carousel's fixed 210px-wide
-// <Image> (1x → w=256, 2x → w=640, default q=75). Keeping these byte-identical
-// is what lets the browser reuse the preloaded variant instead of refetching.
+// Mirror the srcset Next/Image generates for the carousel's <Image> (width=192
+// → 1x w=256, 2x w=384, default q=75). Keeping these byte-identical is what lets
+// the browser reuse the preloaded variant instead of refetching.
 function storySrcSet(src: string): string {
-  return `${nextImageUrl(src, 256)} 1x, ${nextImageUrl(src, 640)} 2x`;
+  return `${nextImageUrl(src, 256)} 1x, ${nextImageUrl(src, 384)} 2x`;
 }
 
 // Filenames mirror HeroStoryCarousel's STORY_IMAGES exactly, so the preloads
@@ -88,7 +88,7 @@ export default async function Page({ searchParams }: Props) {
             key={file}
             rel="preload"
             as="image"
-            href={nextImageUrl(base + file, 640)}
+            href={nextImageUrl(base + file, 384)}
             imageSrcSet={storySrcSet(base + file)}
             // Story 1 is the LCP — preload it at high priority from the document
             // head (Next/Image `priority` alone wasn't getting fetchpriority=high
