@@ -30,7 +30,7 @@ export default function StoryContent4({ imageSrc = "/images/creator/earn/story-2
   return (
     <div className="relative w-full h-full">
       {/* Header */}
-      <div className="absolute top-[16px] left-1/2 -translate-x-1/2 w-full max-w-[390px] px-3 flex items-center justify-between z-40">
+      <div className="absolute top-[41px] left-1/2 -translate-x-1/2 w-full max-w-[390px] px-3 flex items-center justify-between z-40">
         <div className="flex items-center gap-2">
           <Image src={"/images/creator/earn/story-avatar.png"} alt={"Avatar"} width={36} height={36}/>
           <div className="flex flex-col">
@@ -47,7 +47,7 @@ export default function StoryContent4({ imageSrc = "/images/creator/earn/story-2
       </div>
 
       {/* Main Image */}
-      <div className="absolute top-[12%] left-1/2 -translate-x-1/2 w-[90vw] sm:w-[362px] max-w-[362px] max-h-[calc(100%-150px)] aspect-[362/595] rounded-xl overflow-hidden ">
+      <div className="absolute top-[15%] left-1/2 -translate-x-1/2 w-[90vw] sm:w-[362px] max-w-[362px] max-h-[calc(100%-150px)] aspect-[362/595] rounded-3xl overflow-hidden ">
         <Image
           src={imageSrc}
           alt={"Story"}
@@ -94,7 +94,7 @@ export default function StoryContent4({ imageSrc = "/images/creator/earn/story-2
 
       {/* Bottom Navigation */}
       <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-full max-w-[390px] px-2 flex items-center gap-4 z-40">
-        <div className="flex-1 min-w-0 overflow-hidden border border-white/50 rounded-full px-5 py-1.5 flex items-center justify-start">
+        <div className="flex-1 border border-white/50 rounded-full px-5 py-1.5 flex items-center justify-start">
           <AnimatedEmojis
             emojis={["❤️", "❤️", "❤️", "❤️", "❤️", "❤️", "❤️", "❤️", "❤️", "❤️"]}
             className="text-base"
