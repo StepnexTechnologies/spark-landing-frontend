@@ -411,7 +411,7 @@ const HeroSection = () => {
             >
               <h2
                 ref={sparkonomyRef}
-                className="text-5xl xs:text-5xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-6 pt-20 tracking-normal text-white select-none whitespace-nowrap pointer-events-none"
+                className="text-5xl xs:text-5xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-6 tracking-normal text-white select-none whitespace-nowrap pointer-events-none"
                 style={{
                   textShadow: "0 0 20px rgba(108,99,255,0.3)",
                 }}
