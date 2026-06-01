@@ -51,7 +51,7 @@ export default function BenefitsSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-12 md:mb-6"
+          className="text-center mb-12 md:mb-16"
         >
           <h2 className="text-2xl md:text-[52px] font-bold text-white">
             {t("benefits.title")}
