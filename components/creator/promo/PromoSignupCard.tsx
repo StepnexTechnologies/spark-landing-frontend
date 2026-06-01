@@ -5,7 +5,6 @@ import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { Trans, useTranslation } from "react-i18next";
 import { ArrowRight, Check, Loader2, X } from "lucide-react";
-import { parsePhoneNumber } from "libphonenumber-js";
 import { ValidatedPhoneInput } from "@/components/creator/earn/ValidatedPhoneInput";
 import OtpInput from "@/components/creator/otp/OtpInput";
 import TextInput from "@/components/common/TextInput";
@@ -108,16 +107,32 @@ export default function PromoSignupCard({
 
   // Pretty-print the entered E.164 phone for the earn-variant OTP header
   // ("OTP sent to +91 98765 43210"). libphonenumber's formatInternational
-  // handles the country-specific spacing; fall back to raw E.164 if parsing
-  // fails so the user still sees something useful.
-  const formattedPhone = (() => {
-    if (!phone) return "";
-    try {
-      return parsePhoneNumber(phone)?.formatInternational() ?? phone;
-    } catch {
-      return phone;
+  // handles the country-specific spacing. Its metadata is ~150 KiB and this
+  // header only appears after the user submits a number, so the parser is
+  // lazily imported off the critical path — we show the raw E.164 immediately
+  // and replace it with the spaced version once the chunk lands.
+  const [formattedPhone, setFormattedPhone] = useState("");
+  useEffect(() => {
+    if (!phone) {
+      setFormattedPhone("");
+      return;
     }
-  })();
+    setFormattedPhone(phone);
+    let cancelled = false;
+    import("libphonenumber-js")
+      .then(({ parsePhoneNumber }) => {
+        if (cancelled) return;
+        try {
+          setFormattedPhone(parsePhoneNumber(phone)?.formatInternational() ?? phone);
+        } catch {
+          setFormattedPhone(phone);
+        }
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, [phone]);
 
   // Gates the Send-OTP button bounce (and, on /promo-f, the ₹500 bounce).
   // Default variant: holds for SECONDARY_REVEAL_DELAY_MS so the counter gets

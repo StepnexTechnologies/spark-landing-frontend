@@ -15,8 +15,11 @@ interface FlippingCoinProps {
   spinTransitionMs?: number;
 }
 
-const COIN_FRONT_SRC = "/images/creator/earn/Coin%20front.png";
-const COIN_BACK_SRC = "/images/creator/earn/Coin_back.png";
+// Small WebP coins (160×160, ~10 KiB each) — the source PNGs were 527×527 /
+// ~500 KiB and only ever render at ≤52 px, so they wasted ~1 MB of transfer
+// on the /creator/earn page. Resized + re-encoded; see public/images/creator/earn.
+const COIN_FRONT_SRC = "/images/creator/earn/coin-front.webp";
+const COIN_BACK_SRC = "/images/creator/earn/coin-back.webp";
 
 const TWINKLES = [
   { topPct: 12, leftPct: 22, sizeFactor: 0.2, delayMs: 0 },
