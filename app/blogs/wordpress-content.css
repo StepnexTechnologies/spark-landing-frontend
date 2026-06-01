@@ -2545,6 +2545,11 @@
   vertical-align: middle !important;
 }
 
+
+.wordpress-content .cta-banner-section p:not(.cta-banner-title):not(.cta-banner-subtitle):not(.cta-banner-button) {
+  margin-top: 20px !important;
+}
+
 /* ====================
    RELATED RESOURCES SECTION OVERRIDES
    Override WordPress default styles for injected Related Resources
@@ -2688,7 +2693,7 @@
    Vertical margins mirror the article gap rhythm (gap-6/8/12).
    ==================== */
 .wordpress-content .wp-block-code {
-  margin: 0;
+  margin: 0 0 1.7rem 0;
   border: 1px solid #d1d5db;
   border-radius: 0.75rem;
   background: #1e1e2e;
