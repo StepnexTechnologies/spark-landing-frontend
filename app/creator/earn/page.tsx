@@ -83,16 +83,20 @@ export default async function Page({ searchParams }: Props) {
   return (
     <>
       {shouldPreloadStories &&
-        // Skip index 0 — Next/Image `priority` already emits a matched
-        // high-priority preload for story 1. Warm 2-4 at low priority.
-        stories.slice(1).map((file) => (
+        stories.map((file, i) => (
           <link
             key={file}
             rel="preload"
             as="image"
             href={nextImageUrl(base + file, 640)}
             imageSrcSet={storySrcSet(base + file)}
-            fetchPriority="low"
+            // Story 1 is the LCP — preload it at high priority from the document
+            // head (Next/Image `priority` alone wasn't getting fetchpriority=high
+            // onto the actual request). The srcset matches the carousel <Image>
+            // exactly, so this preload is the request the browser uses. Stories
+            // 2-4 load at low priority during idle so they're decoded before the
+            // (load-gated) rotation reaches them — no black flash on swap.
+            fetchPriority={i === 0 ? "high" : "low"}
           />
         ))}
       <CreatorEarnPage />
