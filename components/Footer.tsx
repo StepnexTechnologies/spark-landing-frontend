@@ -34,7 +34,7 @@ export default function Footer({ minimal = false }: FooterProps) {
       className={
         minimal
           ? "relative w-full select-none z-10 mt-auto pt-8"
-          : "relative w-full left-0 right-0 select-none z-50 md:fixed md:bottom-0 pointer-events-none"
+          : "relative w-full left-0 right-0 select-none z-50 md:fixed md:bottom-0 pointer-events-none pt-20"
       }
     >
       {!minimal && mounted && isPromoActive && heroReady && (
