@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { Heart, Send } from "lucide-react";
 import AnimatedEmojis from "./stories/AnimatedEmojis";
@@ -130,31 +130,23 @@ export default function HeroStoryCarousel() {
         </div>
 
         <div className="relative w-[210px] h-[312px] rounded-2xl overflow-hidden">
-          {/* Story image */}
-          <AnimatePresence mode="sync" initial={false}>
-            <motion.div
-              key={index}
-              className="absolute inset-0"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: prefersReducedMotion ? 0 : 0.35, ease: "easeInOut" }}
-            >
-              {/* width=192 (not the 210px container) so Next/Image's 2x srcset
-                  variant is w=384 instead of w=640 — the story renders in a
-                  210px box (≈368px on the test device's 1.75 DPR), so 384px is
-                  the right resolution and ~halves the LCP image's bytes. The
-                  preload in page.tsx mirrors this srcset exactly. */}
-              <Image
-                src={activeImage}
-                alt={`Story ${index + 1}`}
-                width={192}
-                height={285}
-                priority={index === 0}
-                className="w-full h-full object-cover"
-              />
-            </motion.div>
-          </AnimatePresence>
+          {/* Story image — rendered plainly (no framer-motion fade) so the first
+              story, which is the page's LCP element, is present at opacity 1 in
+              the server HTML and paints the instant it downloads instead of
+              waiting for framer-motion to animate it in after hydration (that
+              opacity:0→1 enter was adding seconds of render delay to LCP).
+              Stories swap instantly (keyed by index); the progress bar conveys
+              progression. width=192 → Next serves its w=384 srcset variant
+              (≈half the bytes) for the 210px box; page.tsx preload mirrors it. */}
+          <Image
+            key={index}
+            src={activeImage}
+            alt={`Story ${index + 1}`}
+            width={192}
+            height={285}
+            priority={index === 0}
+            className="absolute inset-0 w-full h-full object-cover"
+          />
         </div>
 
         {/* Bottom bar — type bar + heart + send */}
