@@ -53,10 +53,32 @@ export default function HeroStoryCarousel() {
     // a frozen hero was hitting a large slice of mobile traffic, not just users
     // who opted into reduced motion. Reduced motion is honoured by swapping the
     // images instantly (no crossfade) below, not by stopping rotation.
-    const id = window.setInterval(() => {
-      setIndex((i) => (i + 1) % TOTAL_STORIES);
-    }, STORY_INTERVAL_MS);
-    return () => window.clearInterval(id);
+    let intervalId: number | undefined;
+    let fallbackId: number | undefined;
+    const start = () => {
+      if (intervalId !== undefined) return;
+      window.clearTimeout(fallbackId);
+      intervalId = window.setInterval(() => {
+        setIndex((i) => (i + 1) % TOTAL_STORIES);
+      }, STORY_INTERVAL_MS);
+    };
+    // Hold story 1 until the page finishes loading before auto-advancing. This
+    // keeps the hero visually stable through the first-paint window (so swaps
+    // don't inflate Speed Index) and guarantees stories 2-4 have been preloaded
+    // and decoded before they're shown (no black flash between stories on slow
+    // connections). Fast connections fire 'load' within a second or two, so real
+    // users still get prompt rotation; the 6s fallback covers a stalled 'load'.
+    if (document.readyState === "complete") {
+      start();
+    } else {
+      window.addEventListener("load", start, { once: true });
+      fallbackId = window.setTimeout(start, 6000);
+    }
+    return () => {
+      window.removeEventListener("load", start);
+      window.clearTimeout(fallbackId);
+      if (intervalId !== undefined) window.clearInterval(intervalId);
+    };
   }, []);
 
   // Hearts fountain only runs while the hearts story is active.
