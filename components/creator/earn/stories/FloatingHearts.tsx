@@ -38,15 +38,17 @@ export default function FloatingHearts({ triggerCount }: FloatingHeartsProps) {
   }, [triggerCount]);
 
   return (
-    <div className="absolute bottom-[54px] right-[86px] pointer-events-none z-50">
-      {hearts.map((heart) => (
-        <FloatingHeart
-          key={heart.id}
-          id={heart.id}
-          delay={heart.delay}
-          onComplete={handleHeartComplete}
-        />
-      ))}
+    <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-full max-w-[390px] pointer-events-none z-50">
+      <div className="absolute bottom-[40px] right-[85px]">
+        {hearts.map((heart) => (
+          <FloatingHeart
+            key={heart.id}
+            id={heart.id}
+            delay={heart.delay}
+            onComplete={handleHeartComplete}
+          />
+        ))}
+      </div>
     </div>
   );
 }

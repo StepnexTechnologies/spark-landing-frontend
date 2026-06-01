@@ -5,15 +5,35 @@ type Props = {
   searchParams: Promise<{ lang?: string; ref?: string }>;
 };
 
-// Preload hint for the first story's image. First-time visitors see the
-// stories overlay as their LCP, and since the <Image> only mounts after the
-// client finishes hydrating (behind the Loading... gate), the browser otherwise
-// can't begin fetching it until React runs. Emitting a srcset-matching preload
-// on the server lets the fetch overlap hydration. Skipped when ?ref= is
-// present, since referral visitors bypass the stories entirely.
+// Story-image preloads. First-time visitors see the auto-rotating story
+// carousel as their LCP. Story 1 is now rendered straight from the server HTML
+// (the old client-only "Loading..." gate is gone) with Next/Image `priority`,
+// so Next emits a correctly-matched high-priority preload for it automatically.
+// We additionally warm stories 2-4 here at LOW priority so the 2s/4s/6s carousel
+// swaps are instant without ever competing with the LCP fetch or hydration.
+// Skipped when ?ref= is present, since referral visitors bypass the stories.
 function nextImageUrl(src: string, width: number, quality = 75): string {
   return `/_next/image?url=${encodeURIComponent(src)}&w=${width}&q=${quality}`;
 }
+
+// Mirror the srcset Next/Image generates for the carousel's <Image> (width=192
+// → 1x w=256, 2x w=384, default q=75). Keeping these byte-identical is what lets
+// the browser reuse the preloaded variant instead of refetching.
+function storySrcSet(src: string): string {
+  return `${nextImageUrl(src, 256)} 1x, ${nextImageUrl(src, 384)} 2x`;
+}
+
+// Filenames mirror HeroStoryCarousel's STORY_IMAGES exactly, so the preloads
+// line up with what the component actually requests.
+const STORY_FILES: Record<"en" | "hi-Latn", readonly string[]> = {
+  en: ["story-1.png", "Story2.png", "story-3.png", "story-4.png"],
+  "hi-Latn": [
+    "story-1-hi-Latn.png",
+    "Story2-hi.png",
+    "story-3-hi-Latn.png",
+    "story-4-hi-Latn.png",
+  ],
+};
 
 export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
   const { lang } = await searchParams;
@@ -56,23 +76,29 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
 
 export default async function Page({ searchParams }: Props) {
   const { lang, ref } = await searchParams;
-  const storyImage = lang === "hi-Latn"
-    ? "/images/creator/earn/story-1-hi-Latn.png"
-    : "/images/creator/earn/story-1.png";
-  const shouldPreloadStory = !ref;
+  const stories = STORY_FILES[lang === "hi-Latn" ? "hi-Latn" : "en"];
+  const base = "/images/creator/earn/";
+  const shouldPreloadStories = !ref;
 
   return (
     <>
-      {shouldPreloadStory && (
-        <link
-          rel="preload"
-          as="image"
-          href={nextImageUrl(storyImage, 828)}
-          imageSrcSet={`${nextImageUrl(storyImage, 640)} 640w, ${nextImageUrl(storyImage, 828)} 828w, ${nextImageUrl(storyImage, 1080)} 1080w`}
-          imageSizes="(max-width: 640px) 90vw, 362px"
-          fetchPriority="high"
-        />
-      )}
+      {shouldPreloadStories &&
+        stories.map((file, i) => (
+          <link
+            key={file}
+            rel="preload"
+            as="image"
+            href={nextImageUrl(base + file, 384)}
+            imageSrcSet={storySrcSet(base + file)}
+            // Story 1 is the LCP — preload it at high priority from the document
+            // head (Next/Image `priority` alone wasn't getting fetchpriority=high
+            // onto the actual request). The srcset matches the carousel <Image>
+            // exactly, so this preload is the request the browser uses. Stories
+            // 2-4 load at low priority during idle so they're decoded before the
+            // (load-gated) rotation reaches them — no black flash on swap.
+            fetchPriority={i === 0 ? "high" : "low"}
+          />
+        ))}
       <CreatorEarnPage />
     </>
   );
