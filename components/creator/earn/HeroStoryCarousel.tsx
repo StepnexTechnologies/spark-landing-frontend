@@ -72,7 +72,9 @@ export default function HeroStoryCarousel() {
       start();
     } else {
       window.addEventListener("load", start, { once: true });
-      fallbackId = window.setTimeout(start, 6000);
+      // Cap the wait so a slow 'load' (lots of third-party) never leaves the
+      // carousel frozen — 4s is past the first-paint window but still prompt.
+      fallbackId = window.setTimeout(start, 4000);
     }
     return () => {
       window.removeEventListener("load", start);
@@ -138,11 +140,16 @@ export default function HeroStoryCarousel() {
               exit={{ opacity: 0 }}
               transition={{ duration: prefersReducedMotion ? 0 : 0.35, ease: "easeInOut" }}
             >
+              {/* width=192 (not the 210px container) so Next/Image's 2x srcset
+                  variant is w=384 instead of w=640 — the story renders in a
+                  210px box (≈368px on the test device's 1.75 DPR), so 384px is
+                  the right resolution and ~halves the LCP image's bytes. The
+                  preload in page.tsx mirrors this srcset exactly. */}
               <Image
                 src={activeImage}
                 alt={`Story ${index + 1}`}
-                width={210}
-                height={312}
+                width={192}
+                height={285}
                 priority={index === 0}
                 className="w-full h-full object-cover"
               />
