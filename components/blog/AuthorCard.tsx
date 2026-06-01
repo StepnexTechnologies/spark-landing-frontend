@@ -157,7 +157,7 @@ export default function  AuthorCard({
 
           {/* Previous Companies - Right Side on Desktop */}
           {displayCompanies.length > 0 && (
-~            <div className="hidden md:flex flex-col items-end max-w-[50%]">
+            <div className="hidden md:flex flex-col items-end max-w-[50%]">
               <p className="text-sm text-[#6B7280] mb-2">{previousCompaniesLabel}</p>
               <div className="flex flex-wrap items-center justify-end gap-4">
                 {displayCompanies.map((company, index) => (

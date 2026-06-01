@@ -1,9 +1,18 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import PhoneInput from "react-phone-number-input";
+import dynamic from "next/dynamic";
 import type { Country } from "react-phone-number-input";
 import "react-phone-number-input/style.css";
+
+// react-phone-number-input bundles its own ~150 KiB copy of libphonenumber's
+// metadata. The widget sits in the above-the-fold hero card but is only needed
+// once the user reaches for the phone field, so load it lazily (ssr:false)
+// instead of shipping it in the critical hydration bundle. The `mounted`
+// placeholder below reserves the exact layout, so the swap causes no shift.
+const PhoneInput = dynamic(() => import("react-phone-number-input"), {
+  ssr: false,
+});
 
 interface ValidatedPhoneInputProps {
   id: string;

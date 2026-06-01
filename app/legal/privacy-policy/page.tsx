@@ -9,7 +9,7 @@ export default function PrivacyPolicyPage() {
                 <LegalHeader
                     title="Sparkonomy Privacy Policy"
                     effectiveDate="19 August 2025"
-                    lastUpdated="November 10, 2025"
+                    lastUpdated="May 25, 2026"
                     dateClassName="mb-6"
                 />
 
@@ -97,7 +97,7 @@ export default function PrivacyPolicyPage() {
                                 Source
                             </th>
                             <th className="border border-gray-300 px-3 py-2 text-left">
-                                Legal Basis (GDPR)
+                                Purpose & Legal Basis (GDPR)
                             </th>
                         </tr>
                         </thead>
@@ -234,7 +234,9 @@ export default function PrivacyPolicyPage() {
                                 Technical & Usage Data
                             </td>
                             <td className="border border-gray-300 px-3 py-2">
-                                Your IP address, browser type, and cookies.
+                                Your IP address, browser type, and cookies. This includes data
+                                collected through analytics tools such as Google Analytics and
+                                Microsoft Clarity.
                             </td>
                             <td className="border border-gray-300 px-3 py-2">
                                 Automated technologies.
@@ -245,17 +247,30 @@ export default function PrivacyPolicyPage() {
                                     Service.
                                 </p>
                                 <p>
-                                    <strong>Basis:</strong> Legitimate Interest
+                                    <strong>Basis:</strong> Legitimate Interest. We use analytics
+                                    data from multiple tools to understand how you use our
+                                    platform and to improve your experience.
                                 </p>
                             </td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
+                <p className="mb-6">
+                    <strong>How we use AI:</strong> We use AI to improve our services and
+                    develop new features. This includes analysing publicly available content
+                    to help creators get discovered, match with the right opportunities, and
+                    grow. We don&apos;t store or share original content.
+                </p>
 
                 <h2 className="text-xl font-semibold mt-8 mb-4">
                     2. Your Data from Connected Social Platforms
                 </h2>
+                <p className="mb-4">
+                    To power your Sparkonomy profile, you can connect your accounts from
+                    third-party social platforms. Our use of data from these platforms is
+                    strictly governed by their respective terms.
+                </p>
                 <ul className="list-disc list-inside space-y-2 mb-6">
                     <li>
                         <strong>Our Purpose is Your Success:</strong> We request view-only
@@ -333,7 +348,8 @@ export default function PrivacyPolicyPage() {
                             consent
                         </strong>
                         , for facilitating collaboration & partnerships with other users, by clicking <strong>&quot;Apply to this Opportunity&quot;</strong>{" "}
-                        or <strong>&quot;Share My Portfolio&quot;</strong>.
+                        or <strong>&quot;Share My Portfolio&quot;</strong> or{" "}
+                        <strong>&quot;Submit My Post&quot;</strong>.
                     </li>
                 </ul>
 
@@ -419,6 +435,27 @@ export default function PrivacyPolicyPage() {
                             .
                         </li>
                         <li>
+                            <strong>Creator Profiles:</strong> We may create Creator Profiles
+                            using publicly available data to support multiple public and
+                            signed-in user experiences. These profiles display publicly
+                            available information only, such as profile pictures, public post
+                            thumbnails linking back to source platforms, and engagement
+                            metrics. Creators can request removal of their profile by
+                            contacting us at{" "}
+                            <a
+                                className={"text-blue-700 hover:underline"}
+                                href={"mailto:hello@sparkonomy.com"}
+                            >
+                                hello@sparkonomy.com
+                            </a>
+                            . Removal requests are processed in line with our data retention
+                            and deletion policies. Please note that removing your profile may
+                            reduce your visibility and discovery by brands on the platform.
+                            Sparkonomy is not responsible for any cached or archived versions
+                            of profile information that may appear on third-party websites or
+                            archiving services.
+                        </li>
+                        <li>
                             <strong>Trusted Technology Partners:</strong> We rely on industry
                             leaders to run our platform, including{" "}
                             <strong>Amazon Web Services (AWS)</strong>
@@ -427,7 +464,13 @@ export default function PrivacyPolicyPage() {
                                 Google Cloud Platform (including Google&apos;s Gemini AI models,
                                 OpenAIs &amp; other similar AI models)
                             </strong>{" "}
-                            for our cloud hosting and AI services.
+                            for our cloud hosting and AI services. We also use{" "}
+                            <strong>Google Analytics (Google LLC)</strong> and{" "}
+                            <strong>Microsoft Clarity (Microsoft Ireland Operations Ltd.)</strong>{" "}
+                            for analytics and service improvement. Note: Microsoft processes
+                            Clarity data as both a data processor for our analytics and as an
+                            independent data controller for its own purposes, including
+                            advertising.
                         </li>
                     </ul>
                 </section>
@@ -457,7 +500,13 @@ export default function PrivacyPolicyPage() {
                     <li>
                         <strong>Your Global Rights:</strong> We recognize your rights under
                         global privacy laws like GDPR and CCPA/CPRA, including your right to
-                        access, correct, and delete your data.
+                        access, correct, and delete your data. Under GDPR Art. 22, you have
+                        the right not to be subject to decisions based solely on automated
+                        processing, including profiling, that produce legal or similarly
+                        significant effects. Our analytics processing is used for service
+                        improvement only and does not produce automated decisions about you.
+                        You can control your cookie and tracking preferences at any time
+                        through our Cookie Settings.
                     </li>
                     <li>
                         <strong>Security:</strong> We use robust security measures to
@@ -478,8 +527,48 @@ export default function PrivacyPolicyPage() {
                     </li>
                 </ul>
 
+                <section className="mb-12">
+                    <h2 className="text-xl font-semibold mb-4">
+                        9. Cookies & Tracking Technologies
+                    </h2>
+                    <p className="mb-4">
+                        We use cookies to help you navigate our site and to understand how
+                        you use it so we can make it better. When you first visit, you can
+                        choose which cookies to allow through our consent banner. You can
+                        change your preferences anytime via Cookie Settings in the footer.
+                    </p>
+                    <p className="mb-2">Our cookie categories:</p>
+                    <ul className="list-disc list-inside space-y-2 mb-4">
+                        <li>
+                            <strong>Necessary</strong> - Required for the site to work. Always
+                            active.
+                        </li>
+                        <li>
+                            <strong>Functional</strong> - Enable features like social sharing
+                            and feedback tools.
+                        </li>
+                        <li>
+                            <strong>Analytics</strong> - Help us understand how visitors use
+                            the site (e.g., pages visited, time spent).
+                        </li>
+                        <li>
+                            <strong>Performance</strong> - Help us measure and improve site
+                            speed and experience.
+                        </li>
+                        <li>
+                            <strong>Advertisement</strong> - Used to measure the effectiveness
+                            of campaigns you may see.
+                        </li>
+                    </ul>
+                    <p className="mb-4">
+                        We use Google Analytics and Microsoft Clarity as our analytics tools.
+                        Microsoft processes Clarity data under its own privacy policy for its
+                        own purposes. For details on our technology partners, see Section 6.
+                    </p>
+                </section>
+
                 <section className="mb-12" id="contact-us">
-                    <h2 className="text-xl font-semibold mb-4">9. Contact Us</h2>
+                    <h2 className="text-xl font-semibold mb-4">10. Contact Us</h2>
                     <p className="mb-4">
                         If you have questions or grievances, please contact our{" "}
                         <strong>Data Protection Officer</strong>. We will{" "}

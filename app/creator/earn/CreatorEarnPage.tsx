@@ -1,6 +1,6 @@
 "use client";
 
-import {Suspense, useEffect, useState} from "react";
+import {Suspense, useEffect} from "react";
 import {useSearchParams} from "next/navigation";
 import {useTranslation} from "react-i18next";
 import dynamic from "next/dynamic";
@@ -22,27 +22,21 @@ const FloatingCTA = dynamic(() => import("@/components/creator/earn/FloatingCTA"
 function CreatorEarnPageContent() {
   const {i18n} = useTranslation();
   const searchParams = useSearchParams();
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Set language from URL param only if present
+    // Set language from URL param only if present. Runs after the first paint
+    // so the server-rendered English content hydrates cleanly; i18next then
+    // swaps the strings in place (no remount) when ?lang=hi-Latn is set.
+    // Don't force English - let the user's selection persist.
     const langParam = searchParams.get("lang");
     if (langParam && ["en", "hi-Latn"].includes(langParam)) {
       i18n.changeLanguage(langParam);
     }
-    // Don't force English - let the user's selection persist
-
-    setIsLoading(false);
   }, [searchParams, i18n]);
 
-  // Show loading state briefly
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
-        <div className="text-white">Loading...</div>
-      </div>
-    );
-  }
+  // No loading gate: rendering real content on the server (instead of a
+  // "Loading..." placeholder behind a client-only state flip) lets the hero
+  // and LCP element paint from the SSR HTML rather than waiting on hydration.
 
   return (
     <SignupProvider>

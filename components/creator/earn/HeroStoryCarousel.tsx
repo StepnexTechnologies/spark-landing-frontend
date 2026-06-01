@@ -47,12 +47,17 @@ export default function HeroStoryCarousel() {
   const images = STORY_IMAGES[lang];
 
   useEffect(() => {
-    if (prefersReducedMotion) return;
+    // Advance regardless of prefers-reduced-motion: bailing out here froze the
+    // carousel on story 1, hiding 3/4 of the content. Crucially this also fires
+    // for anyone on iOS Low Power Mode (Safari reports reduced-motion then), so
+    // a frozen hero was hitting a large slice of mobile traffic, not just users
+    // who opted into reduced motion. Reduced motion is honoured by swapping the
+    // images instantly (no crossfade) below, not by stopping rotation.
     const id = window.setInterval(() => {
       setIndex((i) => (i + 1) % TOTAL_STORIES);
     }, STORY_INTERVAL_MS);
     return () => window.clearInterval(id);
-  }, [prefersReducedMotion]);
+  }, []);
 
   // Hearts fountain only runs while the hearts story is active.
   useEffect(() => {
@@ -109,7 +114,7 @@ export default function HeroStoryCarousel() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.35, ease: "easeInOut" }}
+              transition={{ duration: prefersReducedMotion ? 0 : 0.35, ease: "easeInOut" }}
             >
               <Image
                 src={activeImage}
