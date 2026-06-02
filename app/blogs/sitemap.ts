@@ -1,10 +1,12 @@
 import { MetadataRoute } from 'next'
 import { getAllPostSlugs, getPostBySlug } from '@/lib/wordpress-improved'
+import { getAllAuthorSlugs } from '@/data/authors'
+import { SITE_URL, authorUrl } from '@/lib/urls'
 
 export const revalidate = 3600
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = 'https://www.sparkonomy.com'
+  const baseUrl = SITE_URL
 
   // Fetch all blog posts
   let blogPosts: MetadataRoute.Sitemap = []
@@ -59,5 +61,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ]
 
-  return [...staticPages, ...blogPosts]
+  // Author/profile pages — entity pages for the founders + content team.
+  // Indexable (rich expert bios + ProfilePage schema), so include them for
+  // discovery. Served at /blogs/author/<slug>.
+  const authorPages: MetadataRoute.Sitemap = getAllAuthorSlugs().map((slug) => ({
+    url: authorUrl(slug),
+    lastModified: new Date(),
+    changeFrequency: 'monthly' as const,
+    priority: 0.6,
+  }))
+
+  return [...staticPages, ...authorPages, ...blogPosts]
 }
