@@ -5,7 +5,7 @@ import { Home } from "lucide-react";
 export const metadata = {
   title: "Summer Sign-up Promo — Terms & Conditions | Sparkonomy",
   description:
-    "Terms and conditions for the Sparkonomy Summer Sign-up Promo running May 4–31, 2026.",
+    "Terms and conditions for the Sparkonomy Summer Sign-up Promo running June 1 – July 31, 2026.",
 };
 
 export default function SummerPromoTermsPage() {
@@ -23,7 +23,7 @@ export default function SummerPromoTermsPage() {
           Summer Sign-up Promo — Terms &amp; Conditions
         </h1>
         <p className="text-sm text-gray-500 mb-8">
-          Effective Date: May 10, 2026
+          Effective Date: June 01, 2026
         </p>
 
         <h2 className="text-xl font-semibold mt-8 mb-4">1. The Promo</h2>
@@ -37,7 +37,7 @@ export default function SummerPromoTermsPage() {
 
         <h2 className="text-xl font-semibold mt-8 mb-4">2. Promo Period</h2>
         <p className="mb-4">
-          The Promo runs from May 04, 2026 to May 31, 2026 (the &ldquo;Promo
+          The Promo runs from June 01, 2026 to July 31, 2026 (the &ldquo;Promo
           Period&rdquo;), inclusive of both dates. We may extend or withdraw
           the Promo at any time, at our sole discretion. If we do, we&apos;ll
           let you know through our promotional channels. All times referenced
