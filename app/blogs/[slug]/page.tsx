@@ -3,9 +3,8 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { getPostBySlug, getPostBySlugForLang, hasHinglishVersion, getEnglishSlug, getFeaturedImageUrl, getAuthorName, getAuthorNames, getPostAuthors, getPostAuthorsAsync, formatDate, stripHtml, decodeHtmlEntities, getReadingTime, getPosts, getPostsByCategory, type BlogLang } from "@/lib/wordpress-improved";
+import { getPostBySlugForLang, hasHinglishVersion, getEnglishSlug, getFeaturedImageUrl, getAuthorNames, getPostAuthors, getPostAuthorsAsync, formatDate, stripHtml, decodeHtmlEntities, getReadingTime, getPosts, getPostsByCategory, type BlogLang } from "@/lib/wordpress-improved";
 import { extractHeadings, addHeadingIds, extractFAQs, extractVideos, removeWordPressTOC, extractFirstParagraph, removeLeadingFeaturedImageBlock, processH6Markers, lazyLoadImages, openLinksInNewTab } from "@/lib/content-processor";
-import ShareButtons from "@/components/blog/ShareButtons";
 import Breadcrumb from "@/components/blog/Breadcrumb";
 import BlogLanguageSwitcher from "@/components/blog/BlogLanguageSwitcher";
 import TOCEnhancer from "@/components/blog/TOCEnhancer";
@@ -31,6 +30,7 @@ import RelatedResourcesInjector from "@/components/blog/RelatedResourcesInjector
 import BlogScrollTracker from "@/components/blog/BlogScrollTracker";
 import MetaShareButton from "@/components/blog/MetaShareButton";
 import { getAuthorPageSlug, getAuthorByWordPressSlug, getAuthorBySlug, isFoundingTeamPost } from "@/data/authors";
+import { SITE_URL, authorUrl } from "@/lib/urls";
 import "../wordpress-content.css";
 
 interface BlogPostPageProps {
@@ -292,6 +292,45 @@ export default async function BlogPostPage({ params, searchParams }: BlogPostPag
   const faqItems = extractFAQs(post.content.rendered);
   const videoItems = extractVideos(post.content.rendered, stripHtml(post.title.rendered), post.date);
 
+  // Single source of truth for the author Person node so the BlogPosting.author,
+  // the standalone Person, and the author page's ProfilePage>Person all share one
+  // @id and canonical url — letting search engines and LLMs unify the article
+  // author with their profile entity instead of treating them as separate people.
+  const orgRef = {
+    "@type": "Organization",
+    "@id": "https://www.sparkonomy.com/#organization",
+    name: "Sparkonomy",
+    url: "https://www.sparkonomy.com",
+  };
+  const buildPersonNode = (a: (typeof authorsWithLocalData)[number]) => {
+    const profileUrl = authorUrl(a.authorPageSlug);
+    const img = a.avatarUrl
+      ? a.avatarUrl.startsWith("http")
+        ? a.avatarUrl
+        : `${SITE_URL}${a.avatarUrl}`
+      : undefined;
+    return {
+      "@type": "Person",
+      "@id": `${profileUrl}#person`,
+      name: a.name,
+      url: profileUrl,
+      ...(img ? { image: img } : {}),
+      jobTitle: a.role,
+      worksFor: orgRef,
+      sameAs: [
+        a.socialLinks?.linkedin,
+        a.socialLinks?.instagram,
+        a.socialLinks?.youtube,
+        a.socialLinks?.twitter,
+        a.socialLinks?.website,
+        a.wpAuthor?.link,
+      ].filter(Boolean),
+      ...(a.localAuthor?.areasOfExpertise?.length
+        ? { knowsAbout: a.localAuthor.areasOfExpertise }
+        : {}),
+    };
+  };
+
   // Generate comprehensive JSON-LD structured data for SEO
   const articleJsonLd = {
     "@context": "https://schema.org",
@@ -307,26 +346,8 @@ export default async function BlogPostPage({ params, searchParams }: BlogPostPag
     datePublished: post.date,
     dateModified: post.modified,
     author: authorsWithLocalData.length === 1
-      ? {
-          "@type": "Person",
-          name: authorsWithLocalData[0].name,
-          url: authorsWithLocalData[0].wpAuthor.link || "https://sparkonomy.com",
-          jobTitle: authorsWithLocalData[0].role,
-          worksFor: {
-            "@type": "Organization",
-            name: "Sparkonomy",
-          },
-        }
-      : authorsWithLocalData.map(authorData => ({
-          "@type": "Person",
-          name: authorData.name,
-          url: authorData.wpAuthor.link || "https://sparkonomy.com",
-          jobTitle: authorData.role,
-          worksFor: {
-            "@type": "Organization",
-            name: "Sparkonomy",
-          },
-        })),
+      ? buildPersonNode(authorsWithLocalData[0])
+      : authorsWithLocalData.map(buildPersonNode),
     publisher: {
       "@type": "Organization",
       name: "Sparkonomy",
@@ -392,25 +413,12 @@ export default async function BlogPostPage({ params, searchParams }: BlogPostPag
     ],
   };
 
-  // Author/Person structured data (array for multiple authors)
-  const authorJsonLd = authorsWithLocalData.map(authorData => ({
+  // Author/Person structured data (array for multiple authors). Shares the same
+  // @id, canonical url and absolute image as the BlogPosting.author node and the
+  // author page's ProfilePage>Person, unifying the author across documents.
+  const authorJsonLd = authorsWithLocalData.map((authorData) => ({
     "@context": "https://schema.org",
-    "@type": "Person",
-    name: authorData.name,
-    url: authorData.wpAuthor.link || "https://sparkonomy.com",
-    image: authorData.avatarUrl || "",
-    jobTitle: authorData.role,
-    worksFor: {
-      "@type": "Organization",
-      name: "Sparkonomy",
-      url: "https://sparkonomy.com",
-    },
-    sameAs: [
-      authorData.socialLinks?.linkedin,
-      authorData.socialLinks?.instagram,
-      authorData.socialLinks?.youtube,
-      authorData.socialLinks?.twitter,
-    ].filter(Boolean),
+    ...buildPersonNode(authorData),
   }));
 
   // FAQ structured data (if FAQs exist)
