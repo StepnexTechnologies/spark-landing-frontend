@@ -6,15 +6,22 @@ import Link from "next/link";
 
 interface HomeFooterLinksProps {
   className?: string;
+  /**
+   * Controls the visual reveal. When false the links stay invisible
+   * (opacity 0, non-interactive) but remain in the server-rendered HTML
+   * so crawlers can discover them without a user interaction. Defaults to
+   * true so minimal footers (legal/creator/etc.) behave exactly as before.
+   */
+  visible?: boolean;
 }
 
-export default function HomeFooterLinks({className}: HomeFooterLinksProps) {
+export default function HomeFooterLinks({className, visible = true}: HomeFooterLinksProps) {
   return (
     <motion.div
-      className={`pointer-events-auto w-full ${className ?? ""}`}
+      className={`w-full ${visible ? "pointer-events-auto" : "pointer-events-none"} ${className ?? ""}`}
       initial={{opacity: 0}}
-      animate={{opacity: 1}}
-      transition={{delay: 0.8}}
+      animate={{opacity: visible ? 1 : 0}}
+      transition={{delay: visible ? 0.8 : 0}}
     >
       {/* Mobile (<md): comprehensive footer with logo, columns, copyright + social row */}
       <div className="md:hidden flex flex-col items-center gap-6 w-full pt-10 text-gray-400">
