@@ -1,6 +1,6 @@
 import { MetadataRoute } from 'next'
 import { getAllPostSlugs, getPostBySlug } from '@/lib/wordpress-improved'
-import { getAllAuthorSlugs } from '@/data/authors'
+import { authors } from '@/data/authors'
 import { SITE_URL, authorUrl } from '@/lib/urls'
 
 export const revalidate = 3600
@@ -64,12 +64,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Author/profile pages — entity pages for the founders + content team.
   // Indexable (rich expert bios + ProfilePage schema), so include them for
   // discovery. Served at /blogs/author/<slug>.
-  const authorPages: MetadataRoute.Sitemap = getAllAuthorSlugs().map((slug) => ({
-    url: authorUrl(slug),
-    lastModified: new Date(),
-    changeFrequency: 'monthly' as const,
-    priority: 0.6,
-  }))
+  const authorPages: MetadataRoute.Sitemap = authors.map((a) => {
+    // Use the author's own lastUpdated date so the sitemap reflects real profile
+    // freshness instead of stamping "modified now" on every build.
+    const parsed = a.lastUpdated ? new Date(`${a.lastUpdated} UTC`) : null
+    return {
+      url: authorUrl(a.slug),
+      lastModified: parsed && !Number.isNaN(parsed.getTime()) ? parsed : new Date(),
+      changeFrequency: 'monthly' as const,
+      priority: 0.6,
+    }
+  })
 
   return [...staticPages, ...authorPages, ...blogPosts]
 }

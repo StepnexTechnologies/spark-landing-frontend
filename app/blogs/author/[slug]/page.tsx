@@ -13,7 +13,6 @@ import {
   getPostsByAuthorSlug,
   getFeaturedImageUrl,
   formatDate,
-  stripHtml,
   decodeHtmlEntities,
   getReadingTime,
 } from "@/lib/wordpress-improved";
@@ -23,6 +22,22 @@ interface AuthorPageProps {
   params: Promise<{
     slug: string;
   }>;
+}
+
+// Build an absolute URL from a possibly-relative asset path. JSON-LD is NOT
+// resolved against metadataBase, so Person/Organization images embedded in
+// structured data must be absolute or they are invalid.
+function absoluteUrl(path?: string): string | undefined {
+  if (!path) return undefined;
+  return path.startsWith("http") ? path : `${SITE_URL}${path}`;
+}
+
+// Convert a human "Month DD, YYYY" date into an ISO 8601 date (YYYY-MM-DD).
+// Appending " UTC" forces UTC parsing so the value never shifts by a day.
+function toIsoDate(human?: string): string | undefined {
+  if (!human) return undefined;
+  const d = new Date(`${human} UTC`);
+  return Number.isNaN(d.getTime()) ? undefined : d.toISOString().slice(0, 10);
 }
 
 // Generate static params for all authors
@@ -54,6 +69,8 @@ export async function generateMetadata({ params }: AuthorPageProps): Promise<Met
     `Read articles by ${author.name} on Sparkonomy. Expert insights on ${expertiseText}, and digital marketing.`;
 
   const canonicalUrl = authorUrl(author.slug);
+  const ogImage =
+    absoluteUrl(author.avatarUrl) || "https://www.sparkonomy.com/sparkonomy.png";
 
   return {
     metadataBase: new URL("https://www.sparkonomy.com/"),
@@ -90,19 +107,19 @@ export async function generateMetadata({ params }: AuthorPageProps): Promise<Met
       type: "profile",
       images: [
         {
-          url: author.avatarUrl || "https://www.sparkonomy.com/sparkonomy.png",
+          url: ogImage,
           width: 400,
           height: 400,
           alt: author.name,
         },
       ],
-      locale: "en_IND",
+      locale: "en_IN",
     },
     twitter: {
       card: "summary",
       title,
       description,
-      images: [author.avatarUrl || "https://www.sparkonomy.com/sparkonomy.png"],
+      images: [ogImage],
       creator: "@sparkonomy",
       site: "@sparkonomy",
     },
@@ -136,32 +153,35 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
     getPosts(1, 3),
   ]);
 
-  if (authorResult.status === "fulfilled") {
-    const posts = authorResult.value;
-    if (posts.length > 0) {
-      // First 2-3 posts as featured articles
-      featuredArticles = posts.slice(0, 3).map((post) => ({
-        id: String(post.id),
-        title: decodeHtmlEntities(post.title.rendered),
-        description: decodeHtmlEntities(post.excerpt.rendered).slice(0, 100) + "...",
-        imageSrc: getFeaturedImageUrl(post, "full") || "/blog/default-thumbnail.jpg",
-        date: formatDate(post.date),
-        readingTime: `${getReadingTime(post)} min read`,
-        href: `/blogs/${post.slug}`,
-      }));
-
-      // Remaining posts as recent articles (fallback if the latest-posts
-      // fetch below fails — otherwise it gets overwritten).
-      recentArticles = posts.slice(3).map((post) => ({
-        id: String(post.id),
-        title: decodeHtmlEntities(post.title.rendered),
-        date: formatDate(post.date),
-        imageSrc: getFeaturedImageUrl(post, "full") || "/blog/default-thumbnail.jpg",
-        href: `/blogs/${post.slug}`,
-      }));
-    }
-  } else {
+  // Hoisted so the author's own posts are available both for display and for
+  // the authored-articles ItemList structured data built further below.
+  const authorPosts: AuthorPostsData =
+    authorResult.status === "fulfilled" ? authorResult.value : [];
+  if (authorResult.status === "rejected") {
     console.error("Error fetching WordPress posts for author:", authorResult.reason);
+  }
+
+  if (authorPosts.length > 0) {
+    // First 2-3 posts as featured articles
+    featuredArticles = authorPosts.slice(0, 3).map((post) => ({
+      id: String(post.id),
+      title: decodeHtmlEntities(post.title.rendered),
+      description: decodeHtmlEntities(post.excerpt.rendered).slice(0, 100) + "...",
+      imageSrc: getFeaturedImageUrl(post, "full") || "/blog/default-thumbnail.jpg",
+      date: formatDate(post.date),
+      readingTime: `${getReadingTime(post)} min read`,
+      href: `/blogs/${post.slug}`,
+    }));
+
+    // Remaining posts as recent articles (fallback if the latest-posts
+    // fetch below fails — otherwise it gets overwritten).
+    recentArticles = authorPosts.slice(3).map((post) => ({
+      id: String(post.id),
+      title: decodeHtmlEntities(post.title.rendered),
+      date: formatDate(post.date),
+      imageSrc: getFeaturedImageUrl(post, "full") || "/blog/default-thumbnail.jpg",
+      href: `/blogs/${post.slug}`,
+    }));
   }
 
   if (latestResult.status === "fulfilled") {
@@ -213,6 +233,16 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
     ],
   };
 
+  // Freshness + richer entity facts mapped from data we already hold.
+  const isoLastUpdated = toIsoDate(author.lastUpdated);
+  const alumniOf = author.previousCompanies.map((c) => ({
+    "@type": "Organization",
+    name: c.name,
+  }));
+  const awards = author.trustItems
+    .filter((t) => t.icon === "awards")
+    .map((t) => t.value);
+
   // Person entity — nested as the ProfilePage's mainEntity, so it carries no
   // own @context.
   const personEntity = {
@@ -220,12 +250,20 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
     "@id": `${canonicalUrl}#person`,
     name: author.name,
     url: canonicalUrl,
-    image: author.avatarUrl || "",
+    mainEntityOfPage: canonicalUrl,
+    image: absoluteUrl(author.avatarUrl) || "https://www.sparkonomy.com/sparkonomy.png",
     description: author.metaDescription || author.shortBio || `${author.name} is a writer at Sparkonomy`,
     jobTitle: author.role,
+    hasOccupation: {
+      "@type": "Occupation",
+      name: author.role,
+    },
     worksFor: {
       "@id": "https://www.sparkonomy.com/#organization",
     },
+    ...(alumniOf.length ? { alumniOf } : {}),
+    ...(awards.length ? { award: awards } : {}),
+    ...(author.contactEmail ? { email: author.contactEmail } : {}),
     sameAs: sameAsLinks,
     knowsAbout: author.areasOfExpertise,
   };
@@ -238,6 +276,7 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
     "@id": canonicalUrl,
     url: canonicalUrl,
     name: author.metaTitle || `${author.name} — ${author.role}`,
+    ...(isoLastUpdated ? { dateModified: isoLastUpdated } : {}),
     mainEntity: personEntity,
   };
 
@@ -259,6 +298,30 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
     })),
   };
 
+  // Authored-works ItemList — an explicit machine link from this author entity
+  // to the articles they wrote (each item references the Person @id), so search
+  // engines and LLMs can answer "what has this author written".
+  const authoredArticlesJsonLd =
+    authorPosts.length > 0
+      ? {
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          name: `Articles by ${author.name}`,
+          numberOfItems: authorPosts.length,
+          itemListElement: authorPosts.slice(0, 10).map((post, idx) => ({
+            "@type": "ListItem",
+            position: idx + 1,
+            item: {
+              "@type": "BlogPosting",
+              "@id": `${SITE_URL}/blogs/${post.slug}`,
+              url: `${SITE_URL}/blogs/${post.slug}`,
+              headline: decodeHtmlEntities(post.title.rendered),
+              author: { "@id": `${canonicalUrl}#person` },
+            },
+          })),
+        }
+      : null;
+
   return (
     <>
       {/* Organization Structured Data (Identity Schema) */}
@@ -278,6 +341,14 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
+
+      {/* Authored Articles ItemList (entity → works machine link) */}
+      {authoredArticlesJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(authoredArticlesJsonLd) }}
+        />
+      )}
 
       <AuthorPageTemplate
         author={author}
