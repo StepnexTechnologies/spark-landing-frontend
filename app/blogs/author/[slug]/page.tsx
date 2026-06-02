@@ -17,6 +17,7 @@ import {
   decodeHtmlEntities,
   getReadingTime,
 } from "@/lib/wordpress-improved";
+import { SITE_URL, authorPath, authorUrl } from "@/lib/urls";
 
 interface AuthorPageProps {
   params: Promise<{
@@ -37,7 +38,7 @@ export async function generateMetadata({ params }: AuthorPageProps): Promise<Met
 
   if (!author) {
     return {
-      metadataBase: new URL("https://www.sparkonomy.com/"),
+      metadataBase: new URL(SITE_URL),
       title: "Author Not Found",
       description: "The requested author could not be found.",
     };
@@ -52,8 +53,7 @@ export async function generateMetadata({ params }: AuthorPageProps): Promise<Met
     author.shortBio ||
     `Read articles by ${author.name} on Sparkonomy. Expert insights on ${expertiseText}, and digital marketing.`;
 
-  const canonicalPath = author.canonicalPath || `/blogs/author/${author.slug}`;
-  const canonicalUrl = `https://www.sparkonomy.com${canonicalPath}`;
+  const canonicalUrl = authorUrl(author.slug);
 
   return {
     metadataBase: new URL("https://www.sparkonomy.com/"),
@@ -72,7 +72,7 @@ export async function generateMetadata({ params }: AuthorPageProps): Promise<Met
     creator: author.name,
     publisher: "Sparkonomy",
     alternates: {
-      canonical: canonicalUrl,
+      canonical: authorPath(author.slug),
     },
     robots: {
       index: true,
@@ -179,15 +179,19 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
     console.error("Error fetching latest WordPress posts:", latestResult.reason);
   }
 
-  // Build social links array for structured data
-  const sameAsLinks: string[] = [];
-  if (author.socialLinks?.linkedin) sameAsLinks.push(author.socialLinks.linkedin);
-  if (author.socialLinks?.twitter) sameAsLinks.push(author.socialLinks.twitter);
-  if (author.socialLinks?.website) sameAsLinks.push(author.socialLinks.website);
+  // Build social links array for structured data. sameAs is the dominant
+  // person-entity signal — include every known profile (not email).
+  const sameAsLinks: string[] = [
+    author.socialLinks?.linkedin,
+    author.socialLinks?.twitter,
+    author.socialLinks?.instagram,
+    author.socialLinks?.youtube,
+    author.socialLinks?.facebook,
+    author.socialLinks?.website,
+  ].filter((u): u is string => Boolean(u));
 
-  const canonicalPath = author.canonicalPath || `/blogs/author/${author.slug}`;
-  const canonicalUrl = `https://www.sparkonomy.com${canonicalPath}`;
-  const blogUrl = "https://www.sparkonomy.com/blogs";
+  const canonicalUrl = authorUrl(author.slug);
+  const blogUrl = `${SITE_URL}/blogs`;
 
   // Organization structured data (standalone for Identity Schema)
   const organizationJsonLd = {
@@ -209,9 +213,9 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
     ],
   };
 
-  // Structured data for the author page
-  const authorJsonLd = {
-    "@context": "https://schema.org",
+  // Person entity — nested as the ProfilePage's mainEntity, so it carries no
+  // own @context.
+  const personEntity = {
     "@type": "Person",
     "@id": `${canonicalUrl}#person`,
     name: author.name,
@@ -226,20 +230,23 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
     knowsAbout: author.areasOfExpertise,
   };
 
-  // Breadcrumb structured data
-  const breadcrumbItems =
-    author.canonicalPath && author.canonicalPath.startsWith("/authors/")
-      ? [
-          { name: "Home", item: "https://www.sparkonomy.com" },
-          { name: "Blog", item: blogUrl },
-          { name: "Authors", item: `${blogUrl}` },
-          { name: author.name, item: canonicalUrl },
-        ]
-      : [
-          { name: "Home", item: "https://www.sparkonomy.com" },
-          { name: "Blog", item: blogUrl },
-          { name: author.name, item: canonicalUrl },
-        ];
+  // ProfilePage wrapping the Person — Google's recommended shape for author
+  // pages; helps establish the author as an entity in the Knowledge Graph.
+  const profilePageJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    "@id": canonicalUrl,
+    url: canonicalUrl,
+    name: author.metaTitle || `${author.name} — ${author.role}`,
+    mainEntity: personEntity,
+  };
+
+  // Breadcrumb structured data (Home › Blog › Author)
+  const breadcrumbItems = [
+    { name: "Home", item: SITE_URL },
+    { name: "Blog", item: blogUrl },
+    { name: author.name, item: canonicalUrl },
+  ];
 
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
@@ -260,10 +267,10 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
       />
 
-      {/* Author Structured Data */}
+      {/* Author Structured Data (ProfilePage → Person) */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(authorJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(profilePageJsonLd) }}
       />
 
       {/* Breadcrumb Structured Data */}
