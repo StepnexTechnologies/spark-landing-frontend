@@ -672,7 +672,7 @@ export default async function BlogPostPage({ params, searchParams }: BlogPostPag
             const [firstSentence, rest] = splitFirstSentence(blogDescription);
             return (
               <div
-                className="px-4 md:px-6 lg:px-0 text-[18px] md:text-[22px] text-[#6B7280] leading-[1.6]"
+                className="px-4 md:px-6 lg:px-0 text-[18px] md:text-[22px] text-[#6B7280] leading-[1.6] text-justify"
               >
                 <span className="font-semibold" dangerouslySetInnerHTML={{ __html: firstSentence }} />
                 {rest && <span dangerouslySetInnerHTML={{ __html: rest }} />}
