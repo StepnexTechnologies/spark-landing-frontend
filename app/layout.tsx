@@ -5,6 +5,7 @@ import { RootLayoutClient } from "./root-layout-client";
 import Script from "next/script";
 import type { Metadata } from "next";
 import CookieConsentScript from "@/components/CookieConsentScript";
+import { SITE_URL } from "@/lib/urls";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -17,6 +18,7 @@ const roboto = Roboto({
 const isProduction = !process.env.SITE_URL?.startsWith('https://dev.')
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   robots: isProduction ? undefined : { index: false, follow: false },
   icons: {
     icon: [
@@ -70,6 +72,39 @@ gtag('config', '${id}', {
 })();
 `.trim();
 
+// Site-wide entity graph: declares the Sparkonomy Organization + WebSite once
+// for every page, so the brand is a consistent entity and author `worksFor`
+// references (@id .../#organization) resolve to a real node.
+const ORG_WEBSITE_JSONLD = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://www.sparkonomy.com/#organization",
+      name: "Sparkonomy",
+      url: "https://www.sparkonomy.com",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://www.sparkonomy.com/sparkonomy.png",
+        width: 512,
+        height: 512,
+      },
+      sameAs: [
+        "https://twitter.com/sparkonomy",
+        "https://www.linkedin.com/company/sparkonomy",
+        "https://www.instagram.com/sparkonomy",
+      ],
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://www.sparkonomy.com/#website",
+      url: "https://www.sparkonomy.com",
+      name: "Sparkonomy",
+      publisher: { "@id": "https://www.sparkonomy.com/#organization" },
+    },
+  ],
+});
+
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className="h-full">
@@ -82,6 +117,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           />
         )}
         <meta name="theme-color" content="#000000" />
+
+        {/* Site-wide Organization + WebSite entity graph (helps brand + author
+            entity understanding in the Knowledge Graph). */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: ORG_WEBSITE_JSONLD }}
+        />
 
         {/* Warm up the GTM/GA origin so the deferred loader (below) doesn't pay
             a fresh DNS+TLS round-trip on first fire. */}

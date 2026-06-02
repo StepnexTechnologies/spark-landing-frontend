@@ -58,8 +58,6 @@ export interface AuthorEntry {
   // SEO metadata
   metaTitle?: string;
   metaDescription?: string;
-  canonicalPath?: string;
-
   // WordPress matching - use ONE of these to match WordPress author to our data
   wordpressSlug?: string; // WordPress author slug (e.g., "dev-sparkonomy") - PREFERRED
   wordpressAuthorId?: number; // WordPress author ID (e.g., 1) - Alternative
@@ -120,8 +118,6 @@ export const authors: AuthorEntry[] = [
     // SEO metadata
     metaTitle: "Guneet Singh: Product, Tech Leader and Mentor at Sparkonomy",
     metaDescription: "Guneet Singh worked at Google and Microsoft. Now, he helps creators use technology to build real businesses. Read his guides on growth and AI.",
-    canonicalPath: "/authors/guneet-singh",
-
     // WordPress matching
     wordpressSlug: "cap-guneet",
     wordpressAuthorId: 5,
@@ -353,8 +349,6 @@ export const authors: AuthorEntry[] = [
     // SEO metadata
     metaTitle: "Binny Agarwal: CA and Business Guide at Sparkonomy",
     metaDescription: "Binny Agarwal is a Chartered Accountant and writer. She helps creators use AI and smart tools to build real businesses.",
-    canonicalPath: "/authors/binny-agarwal",
-
     // WordPress matching (Co-Authors Plus uses "cap-" prefix)
     wordpressSlug: "cap-binny",
     wordpressAuthorId: 7,
@@ -453,8 +447,6 @@ export const authors: AuthorEntry[] = [
     // SEO metadata
     metaTitle: "Saurabh Mongia, CA | VP Finance & Creator Payment Expert at Sparkonomy",
     metaDescription: "Saurabh Mongia bridges institutional finance and creator payouts. CA, VP at Morgan Stanley. Read invoicing & payment workflow guides.",
-    canonicalPath: "/authors/saurabh-mongia",
-
     // WordPress matching (Co-Authors Plus uses "cap-" prefix)
     wordpressSlug: "cap-saurabh",
     wordpressAuthorId: 8,
@@ -548,8 +540,6 @@ export const authors: AuthorEntry[] = [
     metaTitle: "Megha Thareja Tyagi: AI Strategy and Creator Economy Leader at Sparkonomy",
     metaDescription:
       "Meet Megha Thareja Tyagi, Co-Founder at Sparkonomy. Expert in AI strategy, creator economy infrastructure, growth, and commercialization. Explore her background across Google, PayPal, and American Express, and read her Sparkonomy insights.",
-    canonicalPath: "/authors/megha-thareja-tyagi",
-
     // WordPress matching (Co-Authors Plus uses "cap-" prefix)
     wordpressSlug: "cap-megha",
 
@@ -665,8 +655,6 @@ export const authors: AuthorEntry[] = [
     metaTitle: "Rachit Jain: Growth, partnerships, and GTM leader at Sparkonomy",
     metaDescription:
       "Meet Rachit Jain, growth and partnerships leader at Sparkonomy. He brings 20+ years across Meta, Google, SAP, and IBM to write about growth, GTM, and creator businesses.",
-    canonicalPath: "/authors/rachit-jain",
-
     // WordPress matching (Co-Authors Plus uses "cap-" prefix)
     wordpressSlug: "cap-rachit",
 
@@ -776,8 +764,6 @@ export const authors: AuthorEntry[] = [
     metaTitle: "Vipasha Joshi: Co-Founder & Creator Economy Veteran at Sparkonomy",
     metaDescription:
       "Meet Vipasha Joshi, Co-Founder at Sparkonomy. Former Googler and Jellysmack India lead with 16+ years building creator and brand businesses. LinkedIn Top Voice.",
-    canonicalPath: "/authors/vipasha-joshi",
-
     // WordPress matching (Co-Authors Plus uses "cap-" prefix)
     wordpressSlug: "cap-vipasha",
 
@@ -899,8 +885,6 @@ export const authors: AuthorEntry[] = [
     metaTitle: "The Sparkonomy Founding Team",
     metaDescription:
       "Meet the Sparkonomy founding team — Guneet Singh, Megha Thareja Tyagi, Vipasha Joshi, and Rachit Jain — building AI infrastructure for the creator economy.",
-    canonicalPath: "/authors/founding-team",
-
     // No WordPress slug — this is a synthetic author used to collapse multi-author posts
     // where all four co-founders appear together.
 
