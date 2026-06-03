@@ -8,6 +8,17 @@
   color: #374151;
   font-size: 1.125rem;
   line-height: 1.7;
+  text-align: justify;
+}
+
+/* Keep headings left-aligned — justify only the running body text so multi-line
+   headings don't get their words stretched apart. */
+.wordpress-content h1,
+.wordpress-content h2,
+.wordpress-content h3,
+.wordpress-content h4,
+.wordpress-content h5,
+.wordpress-content h6 {
   text-align: left;
 }
 
@@ -2491,6 +2502,18 @@
   color: #8134a5 !important;
   max-width: 700px;
   margin: 0 auto 8px auto !important;
+}
+
+/* Keep CTA banner headings centered — the global heading reset (which forces
+   headings left so justified body text doesn't stretch them) would otherwise
+   left-align the banner title. */
+.wordpress-content .cta-banner-section h1,
+.wordpress-content .cta-banner-section h2,
+.wordpress-content .cta-banner-section h3,
+.wordpress-content .cta-banner-section h4,
+.wordpress-content .cta-banner-section h5,
+.wordpress-content .cta-banner-section h6 {
+  text-align: center;
 }
 
 /* Subtitle styling */
