@@ -107,7 +107,10 @@ export default function Footer({ minimal = false }: FooterProps) {
             <EmailCapture />
           </motion.div>
         )}
-        {(minimal || heroReady) && <HomeFooterLinks />}
+        {/* Always rendered so the nav links exist in the server-rendered HTML
+            (crawlable without interaction); only the visual reveal is gated on
+            heroReady, preserving the pitch-black intro before interaction. */}
+        <HomeFooterLinks visible={minimal || heroReady} />
       </div>
     </motion.footer>
   );
