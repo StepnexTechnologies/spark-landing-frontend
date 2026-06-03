@@ -18,3 +18,13 @@ export const authorPath = (slug: string): string => `/blogs/author/${slug}`;
 
 /** Absolute URL to an author page — use where an absolute URL is required (JSON-LD, sitemap). */
 export const authorUrl = (slug: string): string => `${SITE_URL}${authorPath(slug)}`;
+
+/**
+ * Extract an `@handle` from a twitter.com / x.com profile URL, ignoring any
+ * trailing path or query string (e.g. `?s=21`). Returns undefined when no
+ * handle can be parsed — callers fall back to the brand handle.
+ */
+export const twitterHandle = (url?: string): string | undefined => {
+  const m = url?.match(/(?:twitter\.com|x\.com)\/@?([A-Za-z0-9_]{1,15})/i);
+  return m ? `@${m[1]}` : undefined;
+};

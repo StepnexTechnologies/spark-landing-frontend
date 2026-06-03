@@ -16,6 +16,7 @@ export default function  BlogHeader() {
         { name: "Creators", href: "/blogs/creators" },
         // { name: "Brand", href: "/blogs/brand" },
         { name: "Company", href: "/blogs/company" },
+        { name: "Authors", href: "/blogs/authors" },
     ];
 
     const goToSubscribe = () => {

@@ -28,6 +28,10 @@ export default function BlogFooter() {
           {/* Links */}
           <div className="flex flex-col items-center gap-1">
             <div className="flex flex-wrap justify-center items-center gap-2 md:gap-3 text-xs md:text-sm lg:text-base font-normal text-gray-600">
+              <Link href="/blogs/authors" className="hover:text-purple-600 transition-colors whitespace-nowrap">
+                Authors
+              </Link>
+              <span className="text-gray-400">|</span>
               <Link href="/legal/terms" className="hover:text-purple-600 transition-colors whitespace-nowrap">
                 Terms & Conditions
               </Link>
