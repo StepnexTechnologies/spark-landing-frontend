@@ -18,6 +18,17 @@ api: No public API currently available
 - [Blog: Brands](https://www.sparkonomy.com/blogs/brand) — Insights and updates for brands working with creators and influencers.
 - [Blog: Company](https://www.sparkonomy.com/blogs/company) — Company news and updates from Sparkonomy.
 
+## Authors / Experts
+The Sparkonomy blog is written by named domain experts. Each has a profile (ProfilePage + Person structured data) at the URL below.
+- [Guneet Singh](https://www.sparkonomy.com/blogs/author/guneet-singh) — Founder; global tech leader, startup mentor & venture builder with 20+ years across Google, Microsoft and Samsung. Writes on the creator economy, AI productivity, platform ecosystems and business growth.
+- [Megha Thareja Tyagi](https://www.sparkonomy.com/blogs/author/megha-thareja-tyagi) — Co-Founder; AI strategy and creator-economy infrastructure leader, ex-Google, PayPal and American Express. Writes on go-to-market strategy, commercialization and payments.
+- [Vipasha Joshi](https://www.sparkonomy.com/blogs/author/vipasha-joshi) — Co-Founder & Global Head of Creator Business; creator-economy veteran and LinkedIn Top Voice, ex-Google and Jellysmack. Writes on creator business, AI content strategy and community.
+- [Rachit Jain](https://www.sparkonomy.com/blogs/author/rachit-jain) — Growth, partnerships and GTM leader with 20+ years across Meta, Google, SAP and IBM. Writes on growth strategy, monetization and partnerships.
+- [Binny Agarwal](https://www.sparkonomy.com/blogs/author/binny-agarwal) — Chartered Accountant (CA) and content strategist. Writes simple guides on creator money, pricing, getting paid and AI workflows.
+- [Saurabh Mongia](https://www.sparkonomy.com/blogs/author/saurabh-mongia) — Chartered Accountant and VP (Legal Entity Control) at Morgan Stanley. Writes on creator invoicing, payment workflows and cross-border taxation.
+- [Dev Sparkonomy](https://www.sparkonomy.com/blogs/author/dev-sparkonomy) — The Sparkonomy content team; guides on creator payments, monetization, taxation and growth.
+- [The Sparkonomy Founding Team](https://www.sparkonomy.com/blogs/author/founding-team) — Collective byline for deep dives co-written by all four co-founders.
+
 ## Product / Offering
 - **What it does:** Sparkonomy provides an AI Agent Team built specifically for creators, influencers, YouTubers, Instagrammers and social media influencers. These agents act as a "business team" that handles Content strategy, Commerce (brand deals), and Company Operations (legal and finance). These agents are powered by Sparkonomy’s proprietary Creator Genome, which uses AI to understand a creator’s unique persona & style.
 - **Creator Earn:** AI-powered invoicing tool for creators and influencers — handles GST-compliant invoicing, payment tracking, and professional billing so influencers, YouTubers and Instagrammers can get paid faster without messy spreadsheets.
