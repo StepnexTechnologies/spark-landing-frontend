@@ -36,6 +36,46 @@ export interface WordPressResponse<T> {
 }
 
 /**
+ * Retryable transient statuses: 5xx (server errors) and 429 (rate limit) are
+ * worth retrying; 4xx are deterministic and returned to the caller as-is.
+ */
+function isRetryableStatus(status: number): boolean {
+  return status === 429 || status >= 500;
+}
+
+/**
+ * fetch() with a small exponential backoff. A momentary WordPress 5xx or a
+ * dropped connection is common during a full static build and would otherwise
+ * abort the entire export; retrying recovers from the transient case.
+ *
+ * Retry attempts append a throwaway query param so Next's per-render fetch
+ * memoization doesn't simply replay the first (failed) response.
+ */
+async function fetchWithRetry(
+  url: string,
+  options: RequestInit,
+  retries = 2,
+  baseDelayMs = 300
+): Promise<Response> {
+  for (let attempt = 0; ; attempt++) {
+    const attemptUrl =
+      attempt === 0
+        ? url
+        : `${url}${url.includes("?") ? "&" : "?"}__retry=${attempt}`;
+    try {
+      const response = await fetch(attemptUrl, options);
+      if (!isRetryableStatus(response.status) || attempt >= retries) {
+        return response;
+      }
+    } catch (error) {
+      if (attempt >= retries) throw error;
+    }
+    const delay = baseDelayMs * 2 ** attempt + Math.floor(Math.random() * 100);
+    await new Promise((resolve) => setTimeout(resolve, delay));
+  }
+}
+
+/**
  * Generic WordPress fetch function with error handling and caching
  */
 async function wordpressFetch<T>(
@@ -45,7 +85,7 @@ async function wordpressFetch<T>(
   const url = `${WORDPRESS_URL}${endpoint}`;
 
   try {
-    const response = await fetch(url, {
+    const response = await fetchWithRetry(url, {
       ...options,
       next: { revalidate: 300, tags: ['wp'] },
     });
@@ -78,17 +118,21 @@ async function wordpressFetchWithPagination<T>(
   const url = `${WORDPRESS_URL}${endpoint}`;
 
   try {
-    const response = await fetch(url, {
+    const response = await fetchWithRetry(url, {
       ...options,
       next: { revalidate: 300, tags: ['wp'] },
     });
 
     if (!response.ok) {
-      throw new WordPressAPIError(
-        `WordPress API error: ${response.statusText}`,
-        response.status,
-        endpoint
+      // Fail soft: pagination endpoints feed category/search/listing pages that
+      // are statically pre-rendered at build time. After retries are exhausted,
+      // return an empty page instead of throwing — one transient upstream error
+      // must not abort the whole production build. revalidate:300 restores real
+      // data within ~5 min of the CMS recovering.
+      console.error(
+        `WordPress API error after retries (${endpoint}): ${response.status} ${response.statusText}`
       );
+      return { data: [] as unknown as T, total: 0, totalPages: 0 };
     }
 
     const data = await response.json();
@@ -97,9 +141,6 @@ async function wordpressFetchWithPagination<T>(
 
     return { data, total, totalPages };
   } catch (error) {
-    if (error instanceof WordPressAPIError) {
-      throw error;
-    }
     console.error(`Error fetching from WordPress API (${endpoint}):`, error);
     return { data: [] as unknown as T, total: 0, totalPages: 0 };
   }
