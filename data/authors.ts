@@ -7,6 +7,7 @@ export interface AuthorSocialLinks {
   youtube?: string;
   facebook?: string;
   website?: string;
+  github?: string;
 }
 
 export interface PreviousCompany {
@@ -51,6 +52,11 @@ export interface RecentArticle {
   href: string;
 }
 
+export interface Certification {
+  name: string;
+  issuer?: string; // issuing body / event (e.g., "SIGFEST")
+}
+
 export interface AuthorEntry {
   id: string;
   slug: string; // URL slug for our author page (e.g., "guneet-singh")
@@ -84,6 +90,9 @@ export interface AuthorEntry {
   // Career highlights
   careerHighlights: string[];
 
+  // Credentials & certifications (optional — rendered as its own section)
+  certifications?: Certification[];
+
   // Trust & Authority
   trustItems: TrustItem[];
 
@@ -97,16 +106,23 @@ export interface AuthorEntry {
   // Expertise tags
   areasOfExpertise: string[];
 
+  // Specializations (optional — distinct, more granular list shown separately)
+  specializations?: string[];
+
   // Contact section
   contactEmail: string;
   mediaEmail?: string;
   speakingEmail?: string;
   responseTime?: string;
   linkedinSubscribe?: string;
+  ctaButtonLabel?: string; // overrides the default "Subscribe Now" label on the LinkedIn CTA
 
   // Footer info
   lastUpdated: string;
   profileId: string;
+
+  // Optional legal/personal-views disclaimer rendered near the footer
+  disclaimerNote?: string;
 }
 
 // Centralized authors data
@@ -876,6 +892,272 @@ export const authors: AuthorEntry[] = [
 
     lastUpdated: "April 17, 2026",
     profileId: "authors/vipasha-joshi",
+  },
+  {
+    id: "priyansh_goel",
+    slug: "priyansh-goel",
+
+    // SEO metadata
+    metaTitle: "Priyansh Goel: AI Infrastructure and Retrieval Engineer at Sparkonomy",
+    metaDescription:
+      "Meet Priyansh Goel, founding engineer at Sparkonomy. He builds multimodal retrieval, vector search, and RAG systems that help creator-tech products work at scale.",
+    // WordPress matching - regular WP "Author" user (id 3, nicename "priyansh")
+    wordpressSlug: "priyansh",
+    wordpressAuthorId: 3,
+
+    name: "Priyansh Goel",
+    role: "Founding Engineer, Sparkonomy | AI Infrastructure Builder | Backend Systems Specialist",
+    avatarUrl: "/authors/priyansh-goel-sparkonomy-founding-engineer.png",
+    shortBio:
+      "I am a founding engineer at Sparkonomy, where I build multimodal retrieval systems across video, image, and text. My work focuses on the unseen infrastructure behind AI products, from ingestion and vector indexing to hybrid search, re-ranking, and keeping retrieval fast enough to work in production.",
+
+    socialLinks: {
+      linkedin: "https://www.linkedin.com/in/priyansh-goel/",
+      website: "https://www.priyanshgoel.in/about",
+      github: "https://github.com/priyansh-goel",
+      email: "priyanshg@sparkonomy.com",
+    },
+
+    previousCompanies: [
+      { name: "StepNex Technologies" },
+      { name: "Smollan" },
+      { name: "Constituents AI" },
+    ],
+    previousCompaniesLabel: "Building AI infrastructure and backend systems across:",
+
+    storyTitle: "From Backend Systems to Creator Infrastructure",
+    storyContent: [
+      "I have always been drawn to systems that solve real problems. Not just clean code. Not just polished demos. But technology that reduces work, saves time, and quietly makes a business easier to run.",
+      "Over the last few years, I have worked across SMB workflows, logistics, healthcare, AI-led automation, and creator tech. Each space looked different from the outside. But the deeper problem was often the same: too much manual work, scattered systems, and not enough infrastructure that could carry real business pressure.",
+      "That is what pulled me deeper into backend architecture and AI infrastructure.",
+      "At StepNex Technologies, I learned what it means to build for small and mid-sized businesses in India. These businesses do not need complicated software that looks impressive in a demo. They need systems that simplify workflows, reduce friction, and help teams get work done faster.",
+      "Running StepNex also taught me to see the business behind the build. Unit economics. Customer needs. Operational pain. Technical bets that compound. The difference between a feature people praise and a system people actually use.",
+    ],
+    highlightQuote:
+      "I learned that the best systems do not show off. They remove friction.",
+    storyConclusion: [
+      "Today, that belief shapes my work at Sparkonomy.",
+      "As a founding engineer, I am building the retrieval layer that helps AI understand unstructured creator content at scale. That means video, image, and text need to become searchable, useful, and meaningful inside one intelligent system.",
+      "The creator economy is full of messy, rich, human content. For AI to help creators and brands, it first needs to retrieve the right context at the right moment.",
+      "That is the part I build.",
+      "The ingestion pipelines. The chunks. The embeddings. The vector databases. The hybrid search. The re-ranking. The latency trade-offs.",
+      "These are the invisible systems most users will never see, but they will feel them when the product works smoothly.",
+      "For me, engineering is not just about building what is possible. It is about building what holds up in production, works for real users, and turns unstructured content into measurable value.",
+    ],
+
+    aboutTitle: "About Priyansh",
+    aboutContent: [
+      "Priyansh Goel is a founding engineer at Sparkonomy, where he builds production-scale multimodal retrieval systems for the creator economy. His work focuses on the infrastructure that helps AI products understand and search across video, image, and text with speed, accuracy, and reliability.",
+      "At Sparkonomy, Priyansh owns the retrieval pipeline end to end. His work spans ingestion, chunking, vector indexing, hybrid search, and re-ranking. He also works on the recall-latency trade-off at scale, the quiet technical decision that affects product speed, infrastructure cost, and the quality of AI responses.",
+      "Before Sparkonomy, Priyansh was the Founder and CEO of StepNex Technologies, where he built scalable ERP systems for SMBs across India. That founder experience shaped how he thinks about software. He learned to build for real business needs, customer behavior, and operational efficiency, not just technical elegance.",
+      "His earlier work spans machine learning, backend systems, enterprise analytics, logistics infrastructure, and AI-driven workflow automation. At Smollan, he worked on LLM-based data analytics for enterprise sales data using machine learning, Python, SQL, data visualization, and RAG techniques. At Constituents AI, he built backend infrastructure for RFID-based cargo logistics, AI meal planning, and email marketing automation systems.",
+      "Priyansh works across Python, JavaScript, Go, FastAPI, PostgreSQL, Redis, and vector databases. His current focus includes RAG, ANN search, embeddings, multimodal retrieval, model economics, and AI infrastructure that can become a long-term product moat.",
+      "At Sparkonomy, Priyansh brings together engineering depth and founder instinct. He is not only building retrieval systems because they are technically interesting. He is building them because creator-tech products need strong infrastructure to turn unstructured creator content into real business value.",
+    ],
+
+    careerHighlights: [
+      "Founding Engineer at Sparkonomy, building multimodal semantic search for creator-tech infrastructure.",
+      "Owns retrieval pipelines across ingestion, chunking, vector indexing, hybrid search, and re-ranking.",
+      "Former Founder and CEO of StepNex Technologies, building workflow and ERP systems for Indian SMBs.",
+      "Built LLM-driven analytics and RAG workflows for enterprise sales data during his machine learning internship at Smollan.",
+      "Developed backend systems for RFID-based cargo logistics, AI meal planning, and email marketing automation at Constituents AI.",
+      "Works across Python, JavaScript, Go, FastAPI, PostgreSQL, Redis, and vector databases.",
+      "Runners-up at National DATATHON competition.",
+      "First Prize at ERRORTERROR by IEEE.",
+      "Advanced to the national level in the FIRST Lego League competition.",
+      "Runners-up for the Fastest Line Following Robot competition.",
+      "5th place at Mini Hacks.",
+    ],
+
+    certifications: [
+      { name: "AI BOT DEV", issuer: "SIGFEST" },
+      { name: "Datathon", issuer: "SIGFEST" },
+      { name: "Supervised Machine Learning: Regression and Classification" },
+      { name: "Decrypt 2.0" },
+    ],
+
+    trustItems: [
+      { icon: "experience", label: "Experience", value: "Founding Engineer" },
+      { icon: "expertise", label: "Expertise", value: "Retrieval Systems" },
+      { icon: "featured", label: "Founder", value: "StepNex Technologies" },
+      { icon: "awards", label: "Awards", value: "IEEE Winner" },
+      { icon: "verified", label: "Verified", value: "Sparkonomy Author" },
+      { icon: "following", label: "Focus", value: "AI Infrastructure" },
+    ],
+
+    mediaMentions: [],
+
+    featuredArticles: [],
+    recentArticles: [],
+
+    areasOfExpertise: [
+      "Multimodal Retrieval",
+      "Vector Search",
+      "RAG Systems",
+      "Backend Architecture",
+      "AI Infrastructure",
+      "Semantic Search",
+      "Creator Tech",
+      "System Design",
+      "Python",
+      "Go",
+      "FastAPI",
+      "Vector Databases",
+    ],
+
+    specializations: [
+      "Multimodal retrieval",
+      "Vector search and RAG",
+      "Backend architecture",
+      "AI infrastructure for creator-tech products",
+      "ANN search and embeddings",
+      "Hybrid search and re-ranking",
+      "Production-scale retrieval systems",
+      "Model economics",
+    ],
+
+    contactEmail: "priyanshg@sparkonomy.com",
+    linkedinSubscribe: "https://www.linkedin.com/in/priyansh-goel/",
+    ctaButtonLabel: "Connect on LinkedIn",
+    responseTime:
+      "Building something in AI infrastructure, retrieval systems, creator tech, or backend architecture? I am always interested in conversations with people moving systems from demos to real production value. Connect with me on LinkedIn.",
+
+    lastUpdated: "June 1, 2026",
+    profileId: "authors/priyansh-goel",
+    disclaimerNote:
+      "The views expressed by Priyansh are personal and do not represent the views of any current or past employer or affiliated organization.",
+  },
+  {
+    id: "naad_dantale",
+    slug: "naad-dantale",
+
+    // SEO metadata
+    metaTitle: "Naad Dantale: AI Systems Engineer and Founding Engineer at Sparkonomy",
+    metaDescription:
+      "Meet Naad Dantale, founding engineer at Sparkonomy. He builds AI agents, scalable systems, and creator-first technology that helps creators focus on their craft.",
+    // WordPress matching - regular WP "Author" user (id 11, nicename "naad").
+    wordpressSlug: "naad",
+    wordpressAuthorId: 11,
+
+    name: "Naad Dantale",
+    role: "Founding Engineer, Sparkonomy | Software & ML Engineer | AI Systems Builder",
+    avatarUrl: "/authors/naad-dantale-sparkonomy-founding-engineer.png",
+    shortBio:
+      "I am a software and machine learning engineer based in Pune, India. At Sparkonomy, I build the agentic systems and intelligence layer that help creators move past admin chaos, manage business workflows, and focus more deeply on their craft.",
+
+    socialLinks: {
+      linkedin: "https://www.linkedin.com/in/naad/",
+      website: "https://www.lastbraincell.in/",
+      github: "https://github.com/last-brain-cell",
+    },
+
+    previousCompanies: [
+      { name: "StepNex Technologies" },
+      { name: "Viridium.AI" },
+      { name: "Smollan" },
+      { name: "Constituents AI" },
+    ],
+    previousCompaniesLabel: "Building AI systems and products across:",
+
+    storyTitle: "From Breaking Electronics to Building Agentic Systems",
+    storyContent: [
+      "Naad's relationship with technology started early.",
+      "After 10th grade, he began pulling apart electronics to understand how things worked. Not because someone told him to. Not because it looked good on a résumé. But because he wanted to know what was happening underneath the surface.",
+      "That instinct stayed.",
+      "In college, he taught himself Python and Swift, went deep into machine learning, and began building real systems for real users. The more he built, the clearer one thing became: the hard part was rarely just the code.",
+      "It was understanding the problem. The people using the system. The edge cases. The business pressure. The gap between something that works once and something that holds up.",
+      "During his time co-founding StepNex Technologies, Naad learned this closely. Client negotiations, production issues, timelines, and team coordination taught him what building in the real world actually feels like. It is messy, moving, and often far more human than technical.",
+    ],
+    highlightQuote:
+      "I write code that makes sense, not just code that works.",
+    storyConclusion: [
+      "Today, that belief shapes his work at Sparkonomy.",
+      "As a founding engineer, Naad is building the agentic layer underneath the creator economy. His work focuses on AI agents, creator identity systems, scalable infrastructure, and the invisible business workflows that creators should not have to fight every day.",
+      "For him, good technology is not loud. It does not get in the way. It understands context, reduces friction, and helps people do more of the work only they can do.",
+      "Outside of building, Naad runs marathons, rock climbs, and treks in the Himalayas. Not as a polished metaphor, but because those spaces teach a similar lesson: the interesting part usually begins after you think you are done.",
+    ],
+
+    aboutTitle: "About Naad",
+    aboutContent: [
+      "Naad Dantale is a founding engineer at Sparkonomy, where he builds AI agents and scalable systems for the creator economy. His work focuses on the intelligence layer that helps creators manage complex business workflows such as payments, invoices, brand deals, and creator identity systems with less friction.",
+      "As a software and machine learning engineer, Naad works across AI infrastructure, full-stack systems, document intelligence, RAG workflows, and agent design. He is especially interested in building systems that stay coherent over time, not just tools that produce fast outputs. His engineering philosophy is simple: code should not only work, it should make sense.",
+      "Before Sparkonomy, Naad co-founded StepNex Technologies, a SaaS company building ERP solutions for business operations across finance, HR, inventory, and client-specific workflows. That founder experience shaped how he thinks about software. It taught him to build for users, business pressure, and production reality, not just clean demos.",
+      "His earlier work spans AI, data, and backend engineering. At Viridium.AI, he built document ingestion and analysis services using Python and LangChain, improving analysis accuracy from 75% to 89%. At Smollan, he worked on LLM-based analytics and enterprise RAG solutions in collaboration with Google. At Constituents AI, he built backend systems including RFID-based logistics and AI-powered business tools.",
+      "Naad also co-authored research on Sparse Mixture-of-Experts LLMs for efficient ICD code prediction in clinical outcome modeling. His technical interests include AI agents, long-horizon model behavior, retrieval systems, scalable infrastructure, and the future of software products built around context.",
+      "Naad believes the next leap in software will not come from faster tools alone. It will come from systems that understand context, preserve memory, follow constraints, and stay useful over time. At Sparkonomy, he applies that belief to the creator economy, helping build AI infrastructure that gives creators more control, more clarity, and more room to create.",
+    ],
+
+    careerHighlights: [
+      "Founding Engineer at Sparkonomy, building agentic systems for creator identity, discovery, and operations.",
+      "Co-founder of StepNex Technologies, a SaaS startup building ERP solutions for business operations.",
+      "Built AI document ingestion and analysis services at Viridium.AI using Python and LangChain.",
+      "Improved document analysis accuracy from 75% to 89% through prompt engineering and ingestion strategies.",
+      "Worked on LLM-based analytics and RAG solutions during his ML internship at Smollan.",
+      "Built backend and AI-powered tools at Constituents AI, including RFID logistics and inventory systems.",
+      "Co-authored research on Sparse Mixture-of-Experts LLMs for efficient ICD code prediction in clinical outcome modeling.",
+      "2nd place at the ACM SIGFEST Datathon.",
+      "Runners-up at the Line Following Robot Competition.",
+      "3rd place at the Innovision Ideathon.",
+      "Recipient of a Student Excellence Award.",
+      "6th place at the Vedanta Pink City Half Marathon (21K).",
+    ],
+
+    certifications: [
+      { name: "Sparse Mixture-of-Experts LLMs for Efficient ICD Code Prediction in Clinical Outcome Modeling" },
+      { name: "Machine Learning Training Certificate" },
+      { name: "Machine Learning Internship Certificate" },
+    ],
+
+    trustItems: [
+      { icon: "experience", label: "Experience", value: "Building AI Systems" },
+      { icon: "expertise", label: "Expertise", value: "ML & Software Engineering" },
+      { icon: "featured", label: "Founder", value: "Co-founder, StepNex" },
+      { icon: "verified", label: "Verified", value: "Sparkonomy Author" },
+      { icon: "featured", label: "Research", value: "Published AI Paper" },
+      { icon: "following", label: "Focus", value: "Agentic Systems" },
+    ],
+
+    mediaMentions: [],
+
+    featuredArticles: [],
+    recentArticles: [],
+
+    areasOfExpertise: [
+      "AI Agents",
+      "Machine Learning",
+      "RAG Systems",
+      "Creator Economy",
+      "Agentic Infrastructure",
+      "Scalable Systems",
+      "Full-Stack Engineering",
+      "Developer Tools",
+      "Product Engineering",
+      "Context Management",
+      "Software Architecture",
+      "Future of Work",
+    ],
+
+    specializations: [
+      "AI agents and agentic systems",
+      "Machine learning and RAG workflows",
+      "Scalable software infrastructure",
+      "Full-stack product engineering",
+      "Creator identity systems",
+      "Document intelligence",
+      "Backend architecture",
+      "Context management in AI systems",
+    ],
+
+    contactEmail: "naadkd@sparkonomy.com",
+    linkedinSubscribe: "https://www.linkedin.com/in/naad/",
+    ctaButtonLabel: "Connect on LinkedIn",
+    responseTime:
+      "Building something thoughtful in AI, software, or the creator economy? I am always interested in conversations with people who care about systems, coherence, and technology that feels useful in the real world. Connect with me on LinkedIn.",
+
+    lastUpdated: "June 1, 2026",
+    profileId: "authors/naad-dantale",
+    disclaimerNote:
+      "The views expressed by Naad are personal and do not represent the views of any current or past employer or affiliated organization.",
   },
   {
     id: "founding_team",
