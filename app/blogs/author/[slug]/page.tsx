@@ -208,6 +208,7 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
     author.socialLinks?.youtube,
     author.socialLinks?.facebook,
     author.socialLinks?.website,
+    author.socialLinks?.github,
   ].filter((u): u is string => Boolean(u));
 
   const canonicalUrl = authorUrl(author.slug);
@@ -243,6 +244,23 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
     .filter((t) => t.icon === "awards")
     .map((t) => t.value);
 
+  // Certifications → EducationalOccupationalCredential nodes. hasCredential is a
+  // strong E-E-A-T signal tying verifiable credentials to the Person entity.
+  const credentials = (author.certifications ?? []).map((c) => ({
+    "@type": "EducationalOccupationalCredential",
+    name: c.name,
+    credentialCategory: "certification",
+    ...(c.issuer
+      ? { recognizedBy: { "@type": "Organization", name: c.issuer } }
+      : {}),
+  }));
+
+  // knowsAbout merges the expertise tags with the more granular specializations
+  // (deduped, order-preserving) for a richer topical signal.
+  const knowsAbout = Array.from(
+    new Set([...author.areasOfExpertise, ...(author.specializations ?? [])]),
+  );
+
   // Person entity — nested as the ProfilePage's mainEntity, so it carries no
   // own @context.
   const personEntity = {
@@ -265,7 +283,8 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
     ...(awards.length ? { award: awards } : {}),
     ...(author.contactEmail ? { email: author.contactEmail } : {}),
     sameAs: sameAsLinks,
-    knowsAbout: author.areasOfExpertise,
+    knowsAbout,
+    ...(credentials.length ? { hasCredential: credentials } : {}),
   };
 
   // ProfilePage wrapping the Person — Google's recommended shape for author

@@ -323,6 +323,7 @@ export default async function BlogPostPage({ params, searchParams }: BlogPostPag
         a.socialLinks?.youtube,
         a.socialLinks?.twitter,
         a.socialLinks?.website,
+        a.socialLinks?.github,
         a.wpAuthor?.link,
       ].filter(Boolean),
       ...(a.localAuthor?.areasOfExpertise?.length

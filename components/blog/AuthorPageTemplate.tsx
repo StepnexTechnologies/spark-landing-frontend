@@ -63,6 +63,15 @@ const SocialIcons = {
       />
     </svg>
   ),
+  github: (
+    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0022 12.017C22 6.484 17.522 2 12 2z"
+      />
+    </svg>
+  ),
   email: (
     <svg
       className="w-5 h-5"
@@ -219,6 +228,17 @@ export default function AuthorPageTemplate({
                 aria-label="Website"
               >
                 {SocialIcons.website}
+              </a>
+            )}
+            {author.socialLinks.github && (
+              <a
+                href={author.socialLinks.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#999999] hover:text-[#9747FF] transition-colors"
+                aria-label="GitHub"
+              >
+                {SocialIcons.github}
               </a>
             )}
             {author.socialLinks.email && (
@@ -436,6 +456,32 @@ export default function AuthorPageTemplate({
         </section>
       )}
 
+      {/* Certifications & Credentials */}
+      {author.certifications && author.certifications.length > 0 && (
+        <section className="max-w-4xl mx-auto px-[38px] md:px-4 py-[16px]">
+          <h2 className="text-[20px] md:text-[22px] lg:text-[24px] font-semibold text-[#999999] mb-4">
+            Certifications & Credentials
+          </h2>
+
+          <ul className="space-y-3">
+            {author.certifications.map((cert, index) => (
+              <li
+                key={index}
+                className="flex items-start gap-2 text-[14px] md:text-[16px] font-normal text-[#999999]"
+              >
+                <span className="text-[#999999] mt-1" aria-hidden="true">✓</span>
+                <span>
+                  {cert.name}
+                  {cert.issuer && (
+                    <span className="text-[#B3B3B3]"> — {cert.issuer}</span>
+                  )}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
       {/* As Seen In - Only show if there are media mentions */}
       {author.mediaMentions.length > 0 && (
         <section className="bg-[#F8F8F8] py-[16px] my-[16px]">
@@ -593,6 +639,27 @@ export default function AuthorPageTemplate({
         </section>
       )}
 
+      {/* Specializations */}
+      {author.specializations && author.specializations.length > 0 && (
+        <section className="max-w-4xl mx-auto px-[29px] py-[16px]">
+          <h2 className="text-[24px] md:text-[26px] font-semibold text-[#6B7280] mb-4">
+            Specializations
+          </h2>
+
+          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3">
+            {author.specializations.map((item, index) => (
+              <li
+                key={index}
+                className="flex items-start gap-2 text-[14px] md:text-[16px] font-normal text-[#999999]"
+              >
+                <span className="text-primary mt-1" aria-hidden="true">•</span>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
       {/* Let's Connect CTA */}
       <section className="max-w-4xl mx-auto px-[14px] py-[16px]">
         <div className="bg-gray-50 rounded-3xl p-8 text-center">
@@ -633,7 +700,7 @@ export default function AuthorPageTemplate({
                   className="flex items-center justify-center gap-2 text-[14px] md:text-base font-medium text-primary px-6 py-3 rounded-full bg-white"
                 >
                   {SocialIcons.linkedin}
-                  Subscribe Now
+                  {author.ctaButtonLabel || "Subscribe Now"}
                 </a>
               </div>
             )}
@@ -647,6 +714,13 @@ export default function AuthorPageTemplate({
           )}
         </div>
       </section>
+
+      {/* Personal-views disclaimer */}
+      {author.disclaimerNote && (
+        <p className="max-w-4xl mx-auto px-[29px] text-center text-[12px] md:text-sm font-normal text-[#B3B3B3] italic pb-[8px]">
+          {author.disclaimerNote}
+        </p>
+      )}
 
       {/* Profile freshness signal */}
       {author.lastUpdated && (
