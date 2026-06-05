@@ -919,9 +919,9 @@ export const authors: AuthorEntry[] = [
     },
 
     previousCompanies: [
-      { name: "StepNex Technologies" },
-      { name: "Smollan" },
-      { name: "Constituents AI" },
+      { name: "StepNex Technologies", logo: "/authors/Logos/StepNex.png" },
+      { name: "Smollan", logo: "/authors/Logos/Smollan.png" },
+      { name: "Constituents AI", logo: "/authors/Logos/ConstituentsAI.png" },
     ],
     previousCompaniesLabel: "Building AI infrastructure and backend systems across:",
 
@@ -1052,10 +1052,9 @@ export const authors: AuthorEntry[] = [
     },
 
     previousCompanies: [
-      { name: "StepNex Technologies" },
-      { name: "Viridium.AI" },
-      { name: "Smollan" },
-      { name: "Constituents AI" },
+      { name: "StepNex Technologies", logo: "/authors/Logos/StepNex.png" },
+      { name: "Smollan", logo: "/authors/Logos/Smollan.png" },
+      { name: "Constituents AI", logo: "/authors/Logos/ConstituentsAI.png" },
     ],
     previousCompaniesLabel: "Building AI systems and products across:",
 
