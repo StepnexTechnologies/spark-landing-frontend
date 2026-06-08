@@ -71,22 +71,29 @@ export default function FAQSection({
           {/* Compliance Badges */}
           <div className="flex items-center justify-center gap-6 mb-10">
             <Image
-              src="/logos/GDPR_White.png"
+              src="/logos/GDPR-White_purple.png"
               alt="GDPR"
               height={64}
               width={64}
               className="h-[64px] w-[64px] object-contain"
             />
             <Image
-              src="/logos/CCPA_White.png"
+              src="/logos/CCPA - White_purple.png"
               alt="CCPA"
               height={64}
               width={64}
               className="h-[64px] w-[64px] object-contain"
             />
             <Image
-              src="/logos/DPDP_White.png"
+              src="/logos/DPDP - White_purple.png"
               alt="DPDP"
+              height={64}
+              width={64}
+              className="h-[64px] w-[64px] object-contain"
+            />
+            <Image
+              src="/logos/PDPA-White_purple.png"
+              alt="PDPA"
               height={64}
               width={64}
               className="h-[64px] w-[64px] object-contain"
