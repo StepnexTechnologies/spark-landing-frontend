@@ -13,6 +13,7 @@ const complianceLogos = [
   { src: "/logos/CCPA_White.png", alt: "CCPA", width: 40 },
   { src: "/logos/GDPR_White.png", alt: "GDPR", width: 40 },
   { src: "/logos/DPDP_White.png", alt: "DPDP", width: 40 },
+  { src: "/logos/PDPA-White.png", alt: "PDPA", width: 40 },
 ];
 
 const LogoCarousel = ({ showCompliance = true }: { showCompliance?: boolean }) => {
