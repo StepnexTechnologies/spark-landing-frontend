@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   openGraph: {
     siteName: "Sparkonomy",
     url: "https://sparkonomy.com/creator/promo",
-    title: "Apni Boli, Apna Bill — Hinglish invoicing for creators | Sparkonomy",
+    title: "Apni Boli, Apna Bill — Hinglish invoicing for Creators | Sparkonomy",
     description:
       "Talk in Hinglish, get perfect English invoices. Sign up free and win Amazon vouchers daily. T&Cs apply.",
     locale: "en_IN",
@@ -41,13 +41,13 @@ export const metadata: Metadata = {
     images: [
       {
         url: "/promo/landing-promo/OG_promo_landing.png",
-        alt: "Sparkonomy — Hinglish invoicing for creators",
+        alt: "Sparkonomy — Hinglish invoicing for Creators",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Apni Boli, Apna Bill — Hinglish invoicing for creators | Sparkonomy",
+    title: "Apni Boli, Apna Bill — Hinglish invoicing for Creators | Sparkonomy",
     description:
       "Talk in Hinglish, get perfect English invoices. Sign up free and win Amazon vouchers daily. T&Cs apply.",
     images: ["/promo/landing-promo/OG_promo_landing.png"],
