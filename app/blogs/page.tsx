@@ -13,7 +13,7 @@ export const revalidate = 300;
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.sparkonomy.com/"),
   title: "Blog | Sparkonomy - Tips for Creators, Influencers, YouTubers & Instagrammers",
-  description: "Discover the latest insights, tips, and strategies for creators, influencers, YouTubers & Instagrammers to monetize content, grow their audience, and succeed in the creator economy. Expert guides from Sparkonomy.",
+  description: "Discover the latest insights, tips, and strategies for Creators, influencers, YouTubers & Instagrammers to monetize content, grow their audience, and succeed in the Creator economy. Expert guides from Sparkonomy.",
   keywords: [
     "creator economy",
     "content monetization",
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
   openGraph: {
     siteName: "Sparkonomy",
     title: "Blog | Sparkonomy - Tips for Creators, Influencers & YouTubers",
-    description: "Insights, tips & strategies for creators, influencers, YouTubers & Instagrammers to monetize content and succeed in the creator economy.",
+    description: "Insights, tips & strategies for Creators, influencers, YouTubers & Instagrammers to monetize content and succeed in the Creator economy.",
     url: "https://sparkonomy.com/blogs",
     type: "website",
     locale: "en_US",
@@ -65,7 +65,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Blog | Sparkonomy - Tips for Creators, Influencers & YouTubers",
-    description: "Insights, tips & strategies for creators, influencers, YouTubers & Instagrammers to monetize content and succeed in the creator economy.",
+    description: "Insights, tips & strategies for Creators, influencers, YouTubers & Instagrammers to monetize content and succeed in the Creator economy.",
     images: ["https://sparkonomy.com/sparkonomy.png"],
     creator: "@sparkonomy",
     site: "@sparkonomy",
@@ -227,7 +227,7 @@ export default function Home() {
     "@context": "https://schema.org",
     "@type": "Blog",
     name: "Sparkonomy Blog - For Creators, Influencers, YouTubers & Instagrammers",
-    description: "Insights, tips, and strategies for creators, influencers, YouTubers, Instagrammers and social media influencers to monetize content and succeed in the creator economy.",
+    description: "Insights, tips, and strategies for Creators, influencers, YouTubers, Instagrammers and social media influencers to monetize content and succeed in the creator economy.",
     url: "https://sparkonomy.com/blogs",
     publisher: {
       "@type": "Organization",

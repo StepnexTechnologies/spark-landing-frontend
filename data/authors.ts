@@ -1151,7 +1151,7 @@ export const authors: AuthorEntry[] = [
     linkedinSubscribe: "https://www.linkedin.com/in/naad/",
     ctaButtonLabel: "Connect on LinkedIn",
     responseTime:
-      "Building something thoughtful in AI, software, or the creator economy? I am always interested in conversations with people who care about systems, coherence, and technology that feels useful in the real world. Connect with me on LinkedIn.",
+      "Building something thoughtful in AI, software, or the Creator economy? I am always interested in conversations with people who care about systems, coherence, and technology that feels useful in the real world. Connect with me on LinkedIn.",
 
     lastUpdated: "June 1, 2026",
     profileId: "authors/naad-dantale",
@@ -1165,7 +1165,7 @@ export const authors: AuthorEntry[] = [
     // SEO metadata
     metaTitle: "The Sparkonomy Founding Team",
     metaDescription:
-      "Meet the Sparkonomy founding team — Guneet Singh, Megha Thareja Tyagi, Vipasha Joshi, and Rachit Jain — building AI infrastructure for the creator economy.",
+      "Meet the Sparkonomy founding team — Guneet Singh, Megha Thareja Tyagi, Vipasha Joshi, and Rachit Jain — building AI infrastructure for the Creator economy.",
     // No WordPress slug — this is a synthetic author used to collapse multi-author posts
     // where all four co-founders appear together.
 
@@ -1173,7 +1173,7 @@ export const authors: AuthorEntry[] = [
     role: "Co-Founders, Sparkonomy",
     avatarUrl: "/sparkonomy.png",
     shortBio:
-      "We are the co-founders of Sparkonomy — Guneet Singh, Megha Thareja Tyagi, Vipasha Joshi, and Rachit Jain. Together we bring 70+ years across Google, Meta, Microsoft, PayPal, American Express, Samsung, Jellysmack, SAP, and IBM to building AI infrastructure for the creator economy.",
+      "We are the co-founders of Sparkonomy — Guneet Singh, Megha Thareja Tyagi, Vipasha Joshi, and Rachit Jain. Together we bring 70+ years across Google, Meta, Microsoft, PayPal, American Express, Samsung, Jellysmack, SAP, and IBM to building AI infrastructure for the Creator economy.",
 
     socialLinks: {
       linkedin: "https://www.linkedin.com/company/sparkonomy",
@@ -1198,22 +1198,22 @@ export const authors: AuthorEntry[] = [
       "But the same patterns kept repeating. Creators were running real businesses without the operating support that every traditional business takes for granted. Pricing, contracts, payments, taxes, partnerships — the back-office work was eating the creative work.",
     ],
     highlightQuote:
-      "The creator economy doesn't have a content problem. It has an infrastructure problem.",
+      "The Creator economy doesn't have a content problem. It has an infrastructure problem.",
     storyConclusion: [
-      "Sparkonomy is our answer. We are building AI infrastructure for the creator economy — so creators can spend less time wrestling with operations and more time building durable, profitable businesses.",
+      "Sparkonomy is our answer. We are building AI infrastructure for the Creator economy — so creators can spend less time wrestling with operations and more time building durable, profitable businesses.",
     ],
 
     aboutTitle: "About the Founding Team",
     aboutContent: [
-      "The Sparkonomy founding team brings together leadership across product, growth, payments, partnerships, and the creator economy. Guneet Singh leads tech and platform strategy after 20+ years across Google, Microsoft, and Samsung. Megha Thareja Tyagi leads commercial and AI strategy after two decades at Google, PayPal, and American Express. Vipasha Joshi leads creator business after 16+ years at Google and Jellysmack. Rachit Jain leads growth and partnerships after 20+ years at Meta, Google, SAP, and IBM.",
+      "The Sparkonomy founding team brings together leadership across product, growth, payments, partnerships, and the Creator economy. Guneet Singh leads tech and platform strategy after 20+ years across Google, Microsoft, and Samsung. Megha Thareja Tyagi leads commercial and AI strategy after two decades at Google, PayPal, and American Express. Vipasha Joshi leads Creator business after 16+ years at Google and Jellysmack. Rachit Jain leads growth and partnerships after 20+ years at Meta, Google, SAP, and IBM.",
       "Posts published under \"The Sparkonomy Founding Team\" are co-written by all four — usually deep dives on the strategy, market, or product direction we are taking together.",
     ],
 
     careerHighlights: [
       "70+ combined years across Google, Meta, Microsoft, PayPal, American Express, Samsung, Jellysmack, SAP, and IBM",
-      "Co-founded Sparkonomy to build AI infrastructure for the creator economy",
-      "Operator backgrounds across product, growth, payments, partnerships, and creator business",
-      "Hands-on with the creator economy since the earliest YouTube and platform-scale waves",
+      "Co-founded Sparkonomy to build AI infrastructure for the Creator economy",
+      "Operator backgrounds across product, growth, payments, partnerships, and Creator business",
+      "Hands-on with the Creator economy since the earliest YouTube and platform-scale waves",
     ],
 
     trustItems: [
@@ -1244,7 +1244,7 @@ export const authors: AuthorEntry[] = [
     speakingEmail: "events@sparkonomy.com",
     linkedinSubscribe: "https://www.linkedin.com/company/sparkonomy",
     responseTime:
-      "Building in the creator economy and want to talk to the founding team? Reach us on LinkedIn or by email.",
+      "Building in the Creator economy and want to talk to the founding team? Reach us on LinkedIn or by email.",
 
     lastUpdated: "May 6, 2026",
     profileId: "authors/founding-team",
