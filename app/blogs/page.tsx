@@ -6,7 +6,7 @@ import BlogPostsSkeleton from "@/components/blog/BlogPostsSkeleton";
 import MainSection from "@/components/blog/MainSection";
 import MainSectionSkeleton from "@/components/blog/MainSectionSkeleton";
 import NewsletterSection from "@/components/blog/NewsletterSection";
-import { getPosts, getPostTags, decodeHtmlEntities } from "@/lib/wordpress-improved";
+import { getPosts, getPostsByCategory, getCategoryBySlug, getPostTags, decodeHtmlEntities } from "@/lib/wordpress-improved";
 
 export const revalidate = 300;
 
@@ -72,10 +72,29 @@ export const metadata: Metadata = {
   },
 };
 
+// Latest posts from the Company category (slugs match the /blogs/company page config).
+async function getLatestCompanyPosts() {
+  const categories = await Promise.all(
+    ["company", "company-en"].map((s) => getCategoryBySlug(s))
+  );
+  const ids = categories.filter((c): c is NonNullable<typeof c> => c !== null).map((c) => c.id);
+  if (ids.length === 0) return [];
+  const { data } = await getPostsByCategory(ids, 1, 6);
+  return data.filter((p) => !p.slug.endsWith("-hi"));
+}
+
 async function BlogPosts() {
   // Pull a bit extra to absorb the Hinglish counterparts we filter out below.
-  const { data: rawPosts } = await getPosts(1, 26);
-  const posts = rawPosts.filter((p) => !p.slug.endsWith("-hi")).slice(0, 13);
+  const [{ data: rawPosts }, companyPosts] = await Promise.all([
+    getPosts(1, 26),
+    getLatestCompanyPosts(),
+  ]);
+  const allPosts = rawPosts.filter((p) => !p.slug.endsWith("-hi"));
+  // Featured horizontal tile always shows the latest Company post — skipping the
+  // overall-latest post, which is already shown in the hero above.
+  const companyPost = companyPosts.find((p) => p.id !== allPosts[0]?.id) ?? null;
+  
+  const posts = allPosts.filter((p) => p.id !== companyPost?.id).slice(0, 13);
 
   if (posts.length === 0) {
     return (
@@ -90,8 +109,9 @@ async function BlogPosts() {
 
   const heroPost = posts[0];
   const firstRowPosts = posts.slice(1, 4);
-  const secondRowPost = posts.slice(4, 5);
-  const remainingPosts = posts.slice(5);
+  // Company post owns the featured tile; fall back to the next grid post if none exists.
+  const secondRowPost = companyPost ? [companyPost] : posts.slice(4, 5);
+  const remainingPosts = companyPost ? posts.slice(4) : posts.slice(5);
 
   return (
     <>
@@ -127,7 +147,7 @@ async function BlogPosts() {
             description={decodeHtmlEntities(p.excerpt.rendered)}
             imageSrc={p._embedded?.['wp:featuredmedia']?.[0]?.source_url || p.yoast_head_json?.og_image?.[0]?.url}
             href={`/blogs/${p.slug}`}
-            tag="Brand Story"
+            tag="Company"
             imagePriority={true}
             meta={
               <span>{new Date(p.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
