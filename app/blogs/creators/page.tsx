@@ -8,7 +8,7 @@ const config = CATEGORY_CONFIGS.creators;
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.sparkonomy.com/"),
   title: "Creators & Influencers | Sparkonomy Blog - Tips for YouTubers, Instagrammers & Social Media Influencers",
-  description: "Insights, tips and updates for creators, influencers, YouTubers, Instagrammers and social media influencers. Grow your audience and monetize your content with Sparkonomy.",
+  description: "Insights, tips and updates for Creators, influencers, YouTubers, Instagrammers and social media influencers. Grow your audience and monetize your content with Sparkonomy.",
   keywords: [
     "creators",
     "influencers",
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     siteName: "Sparkonomy",
     url: "https://sparkonomy.com/blogs/creators",
     title: "Creators & Influencers | Sparkonomy Blog - YouTubers, Instagrammers & More",
-    description: "Insights, tips and updates for creators, influencers, YouTubers, Instagrammers and social media influencers on Sparkonomy.",
+    description: "Insights, tips and updates for Creators, influencers, YouTubers, Instagrammers and social media influencers on Sparkonomy.",
     images: [
       {
         url: "/sparkonomy.png",
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Creators & Influencers | Sparkonomy Blog",
-    description: "Tips and insights for creators, influencers, YouTubers & Instagrammers on Sparkonomy.",
+    description: "Tips and insights for Creators, influencers, YouTubers & Instagrammers on Sparkonomy.",
     images: ["/sparkonomy.png"],
     site: "@sparkonomy",
     creator: "@sparkonomy",

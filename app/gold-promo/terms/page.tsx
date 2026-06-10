@@ -29,9 +29,9 @@ export default function GoldPromoTermsPage() {
         <h2 className="text-xl font-semibold mt-8 mb-4">1. The Promo</h2>
         <p className="mb-4">
           We believe every invoice you send is a step toward building your
-          creator business. To celebrate that, Sparkonomy is running &ldquo;Gold
+          Creator business. To celebrate that, Sparkonomy is running &ldquo;Gold
           Shagun&rdquo; (the &ldquo;Promo&rdquo;), a lucky draw where eligible
-          creators who send an invoice through Sparkonomy get a chance to win
+          Creators who send an invoice through Sparkonomy get a chance to win
           a 0.5 gram gold coin. One lucky winner is selected at the end of the
           draw period.
         </p>
@@ -60,7 +60,7 @@ export default function GoldPromoTermsPage() {
             draw.
           </li>
           <li>
-            <strong>One entry per creator.</strong> Whether you send one
+            <strong>One entry per Creator.</strong> Whether you send one
             invoice or twenty during the Promo Period, you get one entry.
             Quality over quantity.
           </li>
@@ -115,7 +115,7 @@ export default function GoldPromoTermsPage() {
           5. Invoice Verification
         </h2>
         <p className="mb-4">
-          We want this Promo to reward creators who are genuinely building
+          We want this Promo to reward Creators who are genuinely building
           their businesses. To that end, we reserve the right to verify that
           any qualifying invoice was sent to a legitimate business contact for
           a genuine commercial purpose. This may include, but is not limited
@@ -131,8 +131,8 @@ export default function GoldPromoTermsPage() {
             email address or phone number;
           </li>
           <li>
-            The invoice was sent to the creator&apos;s own contact details or
-            to a contact controlled by the creator;
+            The invoice was sent to the Creator&apos;s own contact details or
+            to a contact controlled by the Creator;
           </li>
           <li>
             The invoice does not represent a genuine commercial transaction;
@@ -188,7 +188,7 @@ export default function GoldPromoTermsPage() {
           </li>
           <li>
             Talent agencies, intermediaries, or any third party participating
-            on behalf of a creator; and
+            on behalf of a Creator; and
           </li>
           <li>
             Anyone who doesn&apos;t meet the eligibility criteria listed

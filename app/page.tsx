@@ -6,7 +6,7 @@ import {Metadata} from "next";
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.sparkonomy.com/"),
   title: "Sparkonomy",
-  description: "Sparking the creator economy with the world's first AI - made exclusively for creators, influencers, YouTubers & Instagrammers!",
+  description: "Sparking the Creator economy with the world's first AI - made exclusively for creators, influencers, YouTubers & Instagrammers!",
     keywords: [
         "sparkonomy",
         "landing page",

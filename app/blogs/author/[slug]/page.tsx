@@ -62,7 +62,7 @@ export async function generateMetadata({ params }: AuthorPageProps): Promise<Met
   const title = author.metaTitle || `${author.name} - Author at Sparkonomy`;
   // Build description with expertise keywords for better SEO keyword consistency
   const expertiseText =
-    author.areasOfExpertise?.slice(0, 3).join(", ") || "creator economy, content monetization";
+    author.areasOfExpertise?.slice(0, 3).join(", ") || "Creator economy, content monetization";
   const description =
     author.metaDescription ||
     author.shortBio ||

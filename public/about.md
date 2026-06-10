@@ -13,15 +13,15 @@ Sparkonomy exists to change that — by building the intelligence infrastructure
 
 **Our vision is to elevate Creator livelihoods and success globally, transforming creative passion into thriving businesses.**
 
-As we build the foundational infrastructure for the $300B creator economy, we are also bringing to life the "economic equality engine" for the entire ecosystem. This is a system that ensures every creator is represented by the true substance of their craft — unlocking a fair and flourishing future for 250M creators and the brands that partner with them worldwide.
+As we build the foundational infrastructure for the $300B Creator economy, we are also bringing to life the "economic equality engine" for the entire ecosystem. This is a system that ensures every Creator is represented by the true substance of their craft — unlocking a fair and flourishing future for 250M creators and the brands that partner with them worldwide.
 
 ## The intelligence infrastructure for the Creator economy
 
 At Sparkonomy, we believe that being a Creator shouldn't just be a hustle — it should be a thriving, sustainable business. We are building the "engine room" for this new economy, replacing manual chaos with purpose-built AI that acts as a true thinking partner.
 
-Our proprietary **Creator Genome** leverages native multi-modality (powered by Google's Gemini Models) to analyze the "Creative DNA" of a creator's work across video, audio, image, and text — powering a personalized AI Agent Force that turns a creator's raw talent into a structured venture.
+Our proprietary **Creator Genome** leverages native multi-modality (powered by Google's Gemini Models) to analyze the "Creative DNA" of a Creator's work across video, audio, image, and text — powering a personalized AI Agent Force that turns a Creator's raw talent into a structured venture.
 
-We bridge the gap between being a "content creator" and a "company founder" by building the essential business rails — strategic, financial, and legal — that allow passion to become a profession and influence to become an institution.
+We bridge the gap between being a "content Creator" and a "company founder" by building the essential business rails — strategic, financial, and legal — that allow passion to become a profession and influence to become an institution.
 
 ## The team building the future of the Creator economy
 
@@ -31,7 +31,7 @@ Our team has spent decades building and scaling platforms like YouTube, Google, 
 
 But we've also lived the Creator hustle.
 
-This unique vantage point — combining institutional rigor with first-hand creator empathy — is why Sparkonomy exists. We aren't just building another tool; we are applying the same zero-to-one operating discipline and technical excellence used by the world's tech giants to solve the most human challenges for the individual Creator-founder.
+This unique vantage point — combining institutional rigor with first-hand Creator empathy — is why Sparkonomy exists. We aren't just building another tool; we are applying the same zero-to-one operating discipline and technical excellence used by the world's tech giants to solve the most human challenges for the individual Creator-founder.
 
 Our team has advised governments on AI adoption and helped thousands of Creators turn influence into enterprise. We've seen where the systems are broken, and we have the blueprint to fix them.
 

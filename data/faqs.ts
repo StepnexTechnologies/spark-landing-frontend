@@ -36,7 +36,7 @@ export const allFAQs: FAQ[] = [
   {
     question: "How do I create my first invoice?",
     answer:
-      "Sparkonomy's creator AI helps you make an invoice in under 3-minutes with a few taps - and all from your phone! Our smart payments feature helps you get started fast. Duplicate an old invoice, upload a WhatsApp or email screenshot with billing instructions, or just type \"I need an invoice for...\" and watch one get built in for you. It's that easy to spark your invoice. Send a chat - get an invoice. Now, you will never be delayed in sending one!",
+      "Sparkonomy's Creator AI helps you make an invoice in under 3-minutes with a few taps - and all from your phone! Our smart payments feature helps you get started fast. Duplicate an old invoice, upload a WhatsApp or email screenshot with billing instructions, or just type \"I need an invoice for...\" and watch one get built in for you. It's that easy to spark your invoice. Send a chat - get an invoice. Now, you will never be delayed in sending one!",
     category: "Invoice",
   },
   {
@@ -48,7 +48,7 @@ export const allFAQs: FAQ[] = [
   {
     question: "What is a pocket CFO and what will it do?",
     answer:
-      "We know you don't want to be your creator business accountant, and yet you end up being one! Invoices made in Excel, Canva, or Word are impossible to manage and track. Sparkonomy's Pocket CFO AI agent analyses your payments & cash flows every week. Then it sends you quick weekly 5-minute updates on cash flow, overdue payments, and income growth. It keeps your records tidy and your business tax-ready. You go Pro, we get you there!",
+      "We know you don't want to be your Creator business accountant, and yet you end up being one! Invoices made in Excel, Canva, or Word are impossible to manage and track. Sparkonomy's Pocket CFO AI agent analyses your payments & cash flows every week. Then it sends you quick weekly 5-minute updates on cash flow, overdue payments, and income growth. It keeps your records tidy and your business tax-ready. You go Pro, we get you there!",
     category: "Pocket CFO",
   },
   {
