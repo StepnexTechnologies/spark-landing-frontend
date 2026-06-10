@@ -97,7 +97,7 @@ export default function MainBanner({
           transform: subtextVisible ? "translateY(0)" : "translateY(20px)",
         }}
       >
-        Developing AI to spark creator livelihoods
+        Developing AI to spark Creator livelihoods
       </p>
     </div>
   );
