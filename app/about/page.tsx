@@ -163,10 +163,10 @@ const AboutPage = () => {
                 passion into thriving businesses.</strong>
               </p>
               <p className="text-gray-300 leading-relaxed text-lg">
-                As we build the foundational infrastructure for the $300B creator economy, we are also
+                As we build the foundational infrastructure for the $300B Creator economy, we are also
                 bringing to life the &apos;economic equality engine&apos; for the entire ecosystem. This is a system
-                that ensures every creator is represented by the true substance of their craft—unlocking a
-                fair and flourishing future for 250M creators and the brands that partner with them
+                that ensures every Creator is represented by the true substance of their craft—unlocking a
+                fair and flourishing future for 250M Creators and the brands that partner with them
                 worldwide.
               </p>
             </motion.div>
@@ -197,12 +197,12 @@ const AboutPage = () => {
               </p>
               <p className="text-gray-300 leading-relaxed text-lg mb-4">
                 Our proprietary <strong>Creator Genome</strong> leverages native multi-modality (powered by Google&apos;s Gemini
-                Models) to analyze the &quot;Creative DNA&quot; of a creator&apos;s work across video, audio, image, and
-                text—powering a personalized AI Agent Force that turns a creator&apos;s raw talent into a
+                Models) to analyze the &quot;Creative DNA&quot; of a Creator&apos;s work across video, audio, image, and
+                text—powering a personalized AI Agent Force that turns a Creator&apos;s raw talent into a
                 structured venture.
               </p>
               <p className="text-gray-300 leading-relaxed text-lg">
-                We bridge the gap between being a &apos;content creator&apos; and a &apos;company founder&apos; by building the
+                We bridge the gap between being a &apos;content Creator&apos; and a &apos;company founder&apos; by building the
                 essential business rails - strategic, financial, and legal - that allow passion to become a
                 profession and influence to become an institution.
               </p>
@@ -228,20 +228,20 @@ const AboutPage = () => {
                 <h2 className="text-2xl sm:text-3xl font-bold text-white">The team building the future of the Creator economy</h2>
               </div>
               <p className="text-gray-300 leading-relaxed text-lg mb-4">
-                Sparkonomy is built by creators, brand leaders, and AI technologists who have sat on every
+                Sparkonomy is built by Creators, brand leaders, and AI technologists who have sat on every
                 side of the table.
               </p>
               <p className="text-gray-300 leading-relaxed text-lg mb-4">
                 Our team has spent decades building and scaling platforms like YouTube, Google, Meta, and
                 Paypal that power the modern internet. We&apos;ve managed billion-dollar brand budgets,
-                engineered global AI creative tools, and led growth for the world&apos;s largest creator
+                engineered global AI creative tools, and led growth for the world&apos;s largest Creator
                 platforms.
               </p>
               <p className="text-gray-300 leading-relaxed text-lg mb-4">
                 But we&apos;ve also lived the Creator hustle.
               </p>
               <p className="text-gray-300 leading-relaxed text-lg mb-4">
-                This unique vantage point - combining institutional rigor with first-hand creator empathy -
+                This unique vantage point - combining institutional rigor with first-hand Creator empathy -
                 is why Sparkonomy exists. We aren&apos;t just building another tool; we are applying the same
                 zero-to-one operating discipline and technical excellence used by the world&apos;s tech giants to
                 solve the most human challenges for the individual Creator-founder.

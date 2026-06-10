@@ -15,11 +15,11 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
 
   const isHindi = lang !== "en";
   const ogImage = "/promo/landing-promo/OG_promo_landing.png";
-  const ogAlt = "Sparkonomy — Hinglish invoicing for creators";
+  const ogAlt = "Sparkonomy — Hinglish invoicing for Creators";
 
   const title = isHindi
     ? "Apni Boli, Apna Bill — Hinglish mein invoice banayein. Daily Amazon vouchers jeetein!"
-    : "Apni Boli, Apna Bill — Hinglish invoicing for creators. Win Amazon vouchers daily!";
+    : "Apni Boli, Apna Bill — Hinglish invoicing for Creators. Win Amazon vouchers daily!";
 
   const description = isHindi
     ? "Hinglish mein baat karein, perfect English invoices paayein. 100% free sign up karein aur har din Amazon vouchers jeetein. T&Cs apply."
