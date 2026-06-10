@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
+import Autoplay from "embla-carousel-autoplay";
 import Card from "./BlogCard";
 
 interface RelatedPost {
@@ -23,12 +24,16 @@ export default function RelatedPostsMobileCarousel({
   basePath,
   onCardClick,
 }: RelatedPostsMobileCarouselProps) {
-  const [emblaRef, emblaApi] = useEmblaCarousel({
-    align: "center",
-    containScroll: "trimSnaps",
-    loop: false,
-    skipSnaps: false,
-  });
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    {
+      align: "center",
+      containScroll: "trimSnaps",
+      loop: false,
+      skipSnaps: false,
+    },
+   
+    [Autoplay({ delay: 4000, stopOnInteraction: false, stopOnLastSnap: false })]
+  );
 
   const [selectedIndex, setSelectedIndex] = useState<number>(1);
 
