@@ -36,7 +36,7 @@ export const metadata: Metadata = {
   creator: "Sparkonomy",
   publisher: "Sparkonomy",
   alternates: {
-    canonical: "https://sparkonomy.com/blogs",
+    canonical: "https://www.sparkonomy.com/blogs",
   },
   robots: {
     index: true,
@@ -50,12 +50,12 @@ export const metadata: Metadata = {
     siteName: "Sparkonomy",
     title: "Blog | Sparkonomy - Tips for Creators, Influencers & YouTubers",
     description: "Insights, tips & strategies for Creators, influencers, YouTubers & Instagrammers to monetize content and succeed in the Creator economy.",
-    url: "https://sparkonomy.com/blogs",
+    url: "https://www.sparkonomy.com/blogs",
     type: "website",
     locale: "en_US",
     images: [
       {
-        url: "https://sparkonomy.com/sparkonomy.png",
+        url: "https://www.sparkonomy.com/sparkonomy.png",
         width: 1200,
         height: 630,
         alt: "Sparkonomy Blog",
@@ -66,7 +66,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Blog | Sparkonomy - Tips for Creators, Influencers & YouTubers",
     description: "Insights, tips & strategies for Creators, influencers, YouTubers & Instagrammers to monetize content and succeed in the Creator economy.",
-    images: ["https://sparkonomy.com/sparkonomy.png"],
+    images: ["https://www.sparkonomy.com/sparkonomy.png"],
     creator: "@sparkonomy",
     site: "@sparkonomy",
   },
@@ -228,14 +228,14 @@ export default function Home() {
     "@type": "Blog",
     name: "Sparkonomy Blog - For Creators, Influencers, YouTubers & Instagrammers",
     description: "Insights, tips, and strategies for Creators, influencers, YouTubers, Instagrammers and social media influencers to monetize content and succeed in the creator economy.",
-    url: "https://sparkonomy.com/blogs",
+    url: "https://www.sparkonomy.com/blogs",
     publisher: {
       "@type": "Organization",
       name: "Sparkonomy",
-      url: "https://sparkonomy.com",
+      url: "https://www.sparkonomy.com",
       logo: {
         "@type": "ImageObject",
-        url: "https://sparkonomy.com/sparkonomy.png",
+        url: "https://www.sparkonomy.com/sparkonomy.png",
       },
     },
     inLanguage: "en-US",
@@ -250,13 +250,13 @@ export default function Home() {
         "@type": "ListItem",
         position: 1,
         name: "Home",
-        item: "https://sparkonomy.com",
+        item: "https://www.sparkonomy.com",
       },
       {
         "@type": "ListItem",
         position: 2,
         name: "Blog",
-        item: "https://sparkonomy.com/blogs",
+        item: "https://www.sparkonomy.com/blogs",
       },
     ],
   };

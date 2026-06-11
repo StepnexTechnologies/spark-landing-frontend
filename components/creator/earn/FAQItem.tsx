@@ -1,7 +1,7 @@
 "use client";
 
 import {useState} from "react";
-import {AnimatePresence, motion} from "framer-motion";
+import {motion} from "framer-motion";
 import {ChevronDown} from "lucide-react";
 import {track} from "@/lib/analytics/track";
 
@@ -52,7 +52,9 @@ export default function FAQItem({
       className="border-b border-white/20 md:border-white pb-3 md:pb-3"
     >
       <button
+        type="button"
         onClick={handleToggle}
+        aria-expanded={isOpen}
         className="w-full flex items-start md:items-center justify-between gap-6 py-5 text-left group"
       >
         <span className="text-lg md:text-xl font-semibold text-white leading-normal flex-1">
@@ -67,12 +69,13 @@ export default function FAQItem({
         </motion.div>
       </button>
 
-      <AnimatePresence>
-        {isOpen && answer && (
+      {answer && (
           <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
+            initial={false}
+            animate={{
+              height: isOpen ? "auto" : 0,
+              opacity: isOpen ? 1 : 0,
+            }}
             transition={{ duration: 0.3 }}
             className="overflow-hidden"
           >
@@ -80,8 +83,7 @@ export default function FAQItem({
               {answer}
             </p>
           </motion.div>
-        )}
-      </AnimatePresence>
+      )}
     </motion.div>
   );
 }

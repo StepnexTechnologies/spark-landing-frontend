@@ -1,12 +1,29 @@
-"use client";
-
-import {Suspense} from "react";
+import type {Metadata} from "next";
 import Navigation from "@/components/creator/earn/Navigation";
 import CTASection from "@/components/creator/earn/CTASection";
 import EarnFooter from "@/components/creator/earn/EarnFooter";
 import FAQPageContent from "@/components/creator/earn/FAQPageContent";
+import {siteUrl} from "@/lib/urls";
 
-function CreatorEarnFAQsPageContent() {
+const title = "Creator FAQs: Invoicing, Payments & Taxes | Sparkonomy";
+const description =
+    "Find answers about Sparkonomy creator invoicing, payment reminders, taxes, GST, pricing, and getting paid faster.";
+const canonicalUrl = siteUrl("/creator/earn/faqs");
+
+export const metadata: Metadata = {
+    title,
+    description,
+    alternates: {
+        canonical: canonicalUrl,
+    },
+    openGraph: {
+        title,
+        description,
+        url: canonicalUrl,
+    },
+};
+
+export default function CreatorEarnFAQsPage() {
     return (
         <main className="relative min-h-screen bg-black overflow-hidden">
             {/* Background Gradients */}
@@ -24,19 +41,5 @@ function CreatorEarnFAQsPageContent() {
                 <EarnFooter/>
             </div>
         </main>
-    );
-}
-
-export default function CreatorEarnFAQsPage() {
-    return (
-        <Suspense
-            fallback={
-                <div className="min-h-screen bg-black flex items-center justify-center">
-                    <div className="text-white">Loading...</div>
-                </div>
-            }
-        >
-            <CreatorEarnFAQsPageContent />
-        </Suspense>
     );
 }

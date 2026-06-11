@@ -279,7 +279,7 @@ export default async function PreviewPostPage({ params }: PreviewPostPageProps) 
               </div>
               <MetaShareButton
                 title={stripHtml(post.title.rendered)}
-                url={`https://sparkonomy.com/preview/${slug}`}
+                url={`https://www.sparkonomy.com/preview/${slug}`}
                 slug={String(postId)}
               />
             </div>

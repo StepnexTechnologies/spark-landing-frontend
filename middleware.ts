@@ -1,4 +1,5 @@
 import { NextResponse, type NextRequest } from 'next/server';
+import { SITE_URL } from '@/lib/urls';
 
 const LANDING_PREFIXES = [
   '/creator/promo',
@@ -17,7 +18,7 @@ function withContentSignal(res: NextResponse) {
 export function middleware(req: NextRequest) {
   const host = req.headers.get("host") ?? "";
   if (host === "sparkonomy.com") {
-    const url = new URL(`https://www.sparkonomy.com${req.nextUrl.pathname}${req.nextUrl.search}`);
+    const url = new URL(`${req.nextUrl.pathname}${req.nextUrl.search}`, SITE_URL);
     return NextResponse.redirect(url, 301);
   }
 
