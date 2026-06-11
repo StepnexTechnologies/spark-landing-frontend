@@ -298,7 +298,7 @@ export const authors: AuthorEntry[] = [
     shortBio: "The Sparkonomy content team is dedicated to empowering creators with insights, guides, and resources to help them thrive in the creator economy. We cover everything from payment solutions to growth strategies.",
 
     socialLinks: {
-      twitter: "https://twitter.com/sparkonomy",
+      twitter: "https://x.com/SparkonomySays",
       linkedin: "https://www.linkedin.com/company/sparkonomy",
       email: "content@sparkonomy.com",
     },

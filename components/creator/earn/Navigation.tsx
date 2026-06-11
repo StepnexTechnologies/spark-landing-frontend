@@ -37,7 +37,11 @@ export default function Navigation({
           />
         </Link>
         <div className="flex items-center gap-3">
-          {showLanguageSwitcher && <LanguageSwitcher />}
+          {showLanguageSwitcher && (
+            <Suspense fallback={null}>
+              <LanguageSwitcher />
+            </Suspense>
+          )}
           {/* Hidden on mobile, visible on md and above */}
           {showCTA && (
             <Suspense fallback={<div className="h-10" />}>

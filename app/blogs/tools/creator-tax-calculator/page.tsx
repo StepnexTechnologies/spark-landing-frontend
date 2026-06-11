@@ -3,7 +3,7 @@ import Script from "next/script";
 import CreatorTaxCalculator from "./CreatorTaxCalculator";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://sparkonomy.com"),
+  metadataBase: new URL("https://www.sparkonomy.com"),
   title: "Creator Tax Calculator — Free Tool by Sparkonomy",
   description:
     "Free tax calculator for Indian content creators. Compare presumptive taxation (44AD/44ADA) vs normal books for FY 2025-26. Find out which route saves you more money in 30 seconds.",
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   creator: "Sparkonomy",
   publisher: "Sparkonomy",
   alternates: {
-    canonical: "https://sparkonomy.com/blogs/tools/creator-tax-calculator",
+    canonical: "https://www.sparkonomy.com/blogs/tools/creator-tax-calculator",
   },
   robots: {
     index: true,
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    url: "https://sparkonomy.com/blogs/tools/creator-tax-calculator",
+    url: "https://www.sparkonomy.com/blogs/tools/creator-tax-calculator",
     title: "Creator Tax Calculator — Free Tool by Sparkonomy",
     description:
       "Should you go presumptive (44AD/44ADA) or normal books? Free tool for Indian creators. Enter your numbers, get your answer in 30 seconds.",
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
     locale: "en_IN",
     images: [
       {
-        url: "https://sparkonomy.com/og-tax-calculator.png",
+        url: "https://www.sparkonomy.com/og-tax-calculator.png",
         alt: "Creator Tax Calculator by Sparkonomy",
       },
     ],
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     title: "Creator Tax Calculator — Free Tool by Sparkonomy",
     description:
       "44AD vs 44ADA vs Normal Books — compare all 4 tax routes instantly. Free for Indian creators. FY 2025-26.",
-    images: ["https://sparkonomy.com/og-tax-calculator.png"],
+    images: ["https://www.sparkonomy.com/og-tax-calculator.png"],
   },
 };
 
@@ -65,7 +65,7 @@ const jsonLd = {
     {
       "@type": "WebApplication",
       name: "Creator Tax Calculator",
-      url: "https://sparkonomy.com/blogs/tools/creator-tax-calculator",
+      url: "https://www.sparkonomy.com/blogs/tools/creator-tax-calculator",
       description:
         "Free tax calculator for Indian content creators comparing presumptive taxation (44AD/44ADA) versus normal books for FY 2025-26. Calculates estimated tax liability under all four routes — presumptive new regime, presumptive old regime, normal books new regime, and normal books old regime — and recommends the lowest-tax option.",
       applicationCategory: "FinanceApplication",
@@ -76,7 +76,7 @@ const jsonLd = {
       creator: {
         "@type": "Organization",
         name: "Sparkonomy",
-        url: "https://sparkonomy.com",
+        url: "https://www.sparkonomy.com",
         description:
           "Financial and business guidance platform for Indian content creators and influencers.",
       },

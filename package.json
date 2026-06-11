@@ -6,7 +6,9 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "seo:check-host": "node scripts/check-canonical-host.mjs",
+    "seo:check-creator-faq": "node scripts/check-creator-faq-ssr.mjs"
   },
   "dependencies": {
     "@microsoft/clarity": "^1.0.0",

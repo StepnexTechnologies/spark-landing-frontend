@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     "influencer marketing tips",
   ],
   alternates: {
-    canonical: "https://sparkonomy.com/blogs/creators",
+    canonical: "https://www.sparkonomy.com/blogs/creators",
   },
   robots: {
     index: true,
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     siteName: "Sparkonomy",
-    url: "https://sparkonomy.com/blogs/creators",
+    url: "https://www.sparkonomy.com/blogs/creators",
     title: "Creators & Influencers | Sparkonomy Blog - YouTubers, Instagrammers & More",
     description: "Insights, tips and updates for Creators, influencers, YouTubers, Instagrammers and social media influencers on Sparkonomy.",
     images: [

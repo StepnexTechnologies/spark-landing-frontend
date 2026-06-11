@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     siteName: "Sparkonomy",
-    url: "https://sparkonomy.com/creator/promo-w",
+    url: "https://www.sparkonomy.com/creator/promo-w",
     title: "Apni Boli, Apna Bill — Hinglish invoicing for Creators | Sparkonomy",
     description:
       "Talk in Hinglish, get perfect English invoices. Sign up free and win Amazon vouchers daily. T&Cs apply.",

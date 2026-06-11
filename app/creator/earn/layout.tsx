@@ -62,7 +62,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     siteName: "Sparkonomy",
-    url: "https://sparkonomy.com/creator/earn",
+    url: "https://www.sparkonomy.com/creator/earn",
     title: "Get paid faster — like your friend! Join them for FREE on Sparkonomy, the 1st AI for Creators.",
     description:
       "Say NO to messy spreadsheets and manual invoices. Run your Creator business like a pro. Join 100% free before early access ends!",

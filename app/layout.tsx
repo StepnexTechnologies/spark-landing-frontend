@@ -5,7 +5,13 @@ import { RootLayoutClient } from "./root-layout-client";
 import Script from "next/script";
 import type { Metadata } from "next";
 import CookieConsentScript from "@/components/CookieConsentScript";
-import { SITE_URL } from "@/lib/urls";
+import {
+  ORGANIZATION_ID,
+  ORGANIZATION_SOCIAL_URLS,
+  SITE_URL,
+  WEBSITE_ID,
+  siteUrl,
+} from "@/lib/urls";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -80,27 +86,23 @@ const ORG_WEBSITE_JSONLD = JSON.stringify({
   "@graph": [
     {
       "@type": "Organization",
-      "@id": "https://www.sparkonomy.com/#organization",
+      "@id": ORGANIZATION_ID,
       name: "Sparkonomy",
-      url: "https://www.sparkonomy.com",
+      url: SITE_URL,
       logo: {
         "@type": "ImageObject",
-        url: "https://www.sparkonomy.com/sparkonomy.png",
+        url: siteUrl("/sparkonomy.png"),
         width: 512,
         height: 512,
       },
-      sameAs: [
-        "https://twitter.com/sparkonomy",
-        "https://www.linkedin.com/company/sparkonomy",
-        "https://www.instagram.com/sparkonomy",
-      ],
+      sameAs: ORGANIZATION_SOCIAL_URLS,
     },
     {
       "@type": "WebSite",
-      "@id": "https://www.sparkonomy.com/#website",
-      url: "https://www.sparkonomy.com",
+      "@id": WEBSITE_ID,
+      url: SITE_URL,
       name: "Sparkonomy",
-      publisher: { "@id": "https://www.sparkonomy.com/#organization" },
+      publisher: { "@id": ORGANIZATION_ID },
     },
   ],
 });

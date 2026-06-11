@@ -1,7 +1,7 @@
 "use client";
 
 import {motion} from "framer-motion";
-import {useState, useEffect} from "react";
+import {useState} from "react";
 import FAQItem from "./FAQItem";
 import PlanComparison from "./PlanComparison";
 import {ChevronDown} from "lucide-react";
@@ -20,27 +20,17 @@ interface FAQCategoryTranslation {
 }
 
 export default function FAQPageContent() {
-  const {t, ready} = useTranslation("creatorEarn");
+  const {t} = useTranslation("creatorEarn");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [expandedFAQ, setExpandedFAQ] = useState<number | null>(0);
   const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
-  const [mounted, setMounted] = useState(false);
   const {isIndian, isLoading: isGeoLoading} = useIsIndianUser();
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   // Get FAQs and categories from translations
   const faqItems = t("faq.items", {returnObjects: true}) as FAQTranslation[];
   const allFAQs = Array.isArray(faqItems) ? faqItems : [];
   const faqCategoriesData = t("faq.categories", {returnObjects: true}) as FAQCategoryTranslation[];
   const faqCategories = Array.isArray(faqCategoriesData) ? faqCategoriesData : [];
-
-  // Prevent hydration mismatch by not rendering until mounted
-  if (!mounted || !ready) {
-    return null;
-  }
 
   const filteredFAQs =
     selectedCategory === "all"

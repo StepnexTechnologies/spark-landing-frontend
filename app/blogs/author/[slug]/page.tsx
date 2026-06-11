@@ -16,7 +16,13 @@ import {
   decodeHtmlEntities,
   getReadingTime,
 } from "@/lib/wordpress-improved";
-import { SITE_URL, authorPath, authorUrl, twitterHandle } from "@/lib/urls";
+import {
+  ORGANIZATION_SOCIAL_URLS,
+  SITE_URL,
+  authorPath,
+  authorUrl,
+  twitterHandle,
+} from "@/lib/urls";
 
 interface AuthorPageProps {
   params: Promise<{
@@ -229,11 +235,7 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
       width: 512,
       height: 512,
     },
-    sameAs: [
-      "https://twitter.com/sparkonomy",
-      "https://www.linkedin.com/company/sparkonomy",
-      "https://www.instagram.com/sparkonomy",
-    ],
+    sameAs: ORGANIZATION_SOCIAL_URLS,
   };
 
   // Freshness + richer entity facts mapped from data we already hold.

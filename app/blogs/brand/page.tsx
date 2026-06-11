@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: "Brand | Sparkonomy Blog",
   description: "Insights and updates for brands on Sparkonomy",
   alternates: {
-    canonical: "https://sparkonomy.com/blogs/brand",
+    canonical: "https://www.sparkonomy.com/blogs/brand",
   },
   robots: {
     index: true,
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     siteName: "Sparkonomy",
-    url: "https://sparkonomy.com/blogs/brand",
+    url: "https://www.sparkonomy.com/blogs/brand",
     title: "Brand | Sparkonomy Blog",
     description: "Insights and updates for brands on Sparkonomy",
     images: [

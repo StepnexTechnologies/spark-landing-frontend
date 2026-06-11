@@ -1,7 +1,6 @@
 "use client";
 import type React from "react";
 import {useEffect, useRef, useState} from "react";
-import {useSearchParams} from "next/navigation";
 // import Link from "next/link";
 import {motion} from "framer-motion";
 import gsap from "gsap";
@@ -9,9 +8,11 @@ import LogoCarousel from "@/components/LogoCarousel";
 import {track} from "@/lib/analytics/track";
 import {useIsPromoActive} from "@/lib/hooks/useIsPromoActive";
 
-const HeroSection = () => {
-  const searchParams = useSearchParams();
-  const skipIntro = searchParams.get("skipIntro") === "true";
+interface HeroSectionProps {
+  skipIntro?: boolean;
+}
+
+const HeroSection = ({skipIntro = false}: HeroSectionProps) => {
   const isPromoActive = useIsPromoActive();
   const heroMountTime = useRef<number>(0);
   const intro1StartTime = useRef<number>(0);
