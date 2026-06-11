@@ -146,6 +146,11 @@ async function wordpressFetchWithPagination<T>(
   }
 }
 
+// Minimum fields needed for card/listing pages. Excludes content, modified,
+// format, status, meta, acf, etc. — shaves 60-80% off the API response.
+// Must include _links so ?_embed can populate _embedded.
+const LISTING_FIELDS = "_fields=id,slug,title,excerpt,date,yoast_head_json,_links,_embedded";
+
 /**
  * Get all posts with pagination
  */
@@ -154,7 +159,7 @@ export async function getPosts(
   perPage: number = 10
 ): Promise<WordPressResponse<WordPressPost[]>> {
   return wordpressFetchWithPagination<WordPressPost[]>(
-    `/posts?_embed&page=${page}&per_page=${perPage}`
+    `/posts?_embed&${LISTING_FIELDS}&page=${page}&per_page=${perPage}`
   );
 }
 
@@ -266,7 +271,7 @@ export async function getPostsByCategory(
 ): Promise<WordPressResponse<WordPressPost[]>> {
   const ids = Array.isArray(categoryId) ? categoryId.join(',') : String(categoryId);
   return wordpressFetchWithPagination<WordPressPost[]>(
-    `/posts?categories=${ids}&_embed&page=${page}&per_page=${perPage}`
+    `/posts?categories=${ids}&_embed&${LISTING_FIELDS}&page=${page}&per_page=${perPage}`
   );
 }
 
@@ -293,7 +298,7 @@ export async function searchPosts(
   perPage: number = 10
 ): Promise<WordPressResponse<WordPressPost[]>> {
   return wordpressFetchWithPagination<WordPressPost[]>(
-    `/posts?search=${encodeURIComponent(query)}&_embed&page=${page}&per_page=${perPage}`
+    `/posts?search=${encodeURIComponent(query)}&_embed&${LISTING_FIELDS}&page=${page}&per_page=${perPage}`
   );
 }
 

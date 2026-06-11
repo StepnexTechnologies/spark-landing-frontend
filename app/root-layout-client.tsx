@@ -19,6 +19,8 @@ import ReferralClickTracker from "@/components/ReferralClickTracker";
 import PageViewTracker from "@/lib/hooks/usePageViewTracking";
 import ClarityInit from "@/components/ClarityInit";
 
+const WebVitalsReporter = dynamic(() => import("@/components/WebVitalsReporter"), { ssr: false });
+
 export function RootLayoutClient({
   children,
 }: {
@@ -89,6 +91,7 @@ export function RootLayoutClient({
           <PageViewTracker />
         </Suspense>
         <ClarityInit />
+        <WebVitalsReporter />
         {toasterNode}
         {children}
       </>
@@ -102,6 +105,7 @@ export function RootLayoutClient({
         <ReferralClickTracker />
       </Suspense>
       <ClarityInit />
+      <WebVitalsReporter />
       {toasterNode}
       <div className={`relative min-h-[100dvh] w-full flex flex-col overflow-x-hidden ${isHomePage ? "touch-pan-y md:touch-none" : "touch-pan-y"} md:overflow-hidden`}>
         <div className="fixed inset-0 z-0">

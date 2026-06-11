@@ -149,7 +149,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
               strategy="lazyOnload"
             />
-            <Script id="gtag-init" strategy="beforeInteractive">
+            <Script id="gtag-init" strategy="afterInteractive">
               {GTAG_INIT(GA_MEASUREMENT_ID)}
             </Script>
           </>

@@ -22,6 +22,8 @@ export interface CardProps {
   meta?: React.ReactNode;
   /** allow Image to use priority (for featured cards) */
   imagePriority?: boolean;
+  /** override Next.js Image loading strategy independently of priority */
+  imageLoading?: "lazy" | "eager";
   /** show read more button */
   showReadMore?: boolean;
 }
@@ -40,6 +42,7 @@ export default function Card({
   action,
   meta,
   imagePriority = false,
+  imageLoading,
   showReadMore = false,
 }: CardProps) {
   const isHorizontal = layout === "horizontal";
@@ -80,6 +83,7 @@ export default function Card({
                   : "398px"
               }
               priority={imagePriority}
+              loading={imageLoading}
             />
             <div
               className="absolute inset-0 pointer-events-none"
