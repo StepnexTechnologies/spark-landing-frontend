@@ -20,6 +20,10 @@ const nextConfig: NextConfig = {
     },
     images: {
         formats: ['image/avif', 'image/webp'],
+        // 1 year. Safe because Next.js keys the cache on the full source URL —
+        // changing the image in WordPress generates a new URL, busting the cache
+        // automatically. If an editor uses "Replace Media" at the same URL,
+        // clear the cache manually: delete .next/cache/images and restart.
         minimumCacheTTL: 31536000,
         remotePatterns: [
             {

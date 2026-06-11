@@ -152,7 +152,12 @@ async function wordpressFetchWithPagination<T>(
 const LISTING_FIELDS = "_fields=id,slug,title,excerpt,date,yoast_head_json,_links,_embedded";
 
 /**
- * Get all posts with pagination
+ * Get all posts with pagination.
+ *
+ * FIELD RESTRICTION: returns only LISTING_FIELDS (id, slug, title, excerpt,
+ * date, yoast_head_json, _links, _embedded). Fields like `content`, `modified`,
+ * `author`, `categories`, `tags` are absent and will be undefined at runtime.
+ * Use getPostBySlug / getPostBySlugForLang for the full post object.
  */
 export async function getPosts(
   page: number = 1,
@@ -263,6 +268,9 @@ export async function getCategoryBySlug(slug: string): Promise<WordPressCategory
 /**
  * Get posts by category with pagination.
  * Accepts a single category ID or an array of IDs (OR'd together via WP's comma syntax).
+ *
+ * FIELD RESTRICTION: same as getPosts — returns LISTING_FIELDS only.
+ * `content`, `modified`, `author`, `categories`, `tags` will be undefined.
  */
 export async function getPostsByCategory(
   categoryId: number | number[],
@@ -290,7 +298,11 @@ export async function getTags(): Promise<WordPressTag[]> {
 }
 
 /**
- * Search posts
+ * Search posts.
+ *
+ * FIELD RESTRICTION: same as getPosts — returns LISTING_FIELDS only.
+ * `content`, `modified`, `author`, `categories`, `tags` will be undefined.
+ * If a search results page ever needs full post data, remove LISTING_FIELDS here.
  */
 export async function searchPosts(
   query: string,
