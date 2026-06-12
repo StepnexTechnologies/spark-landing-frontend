@@ -128,7 +128,8 @@ async function BlogPosts() {
               href={`/blogs/${p.slug}`}
               layout="vertical"
               descriptionPosition="bottom"
-              imagePriority={true}
+              imagePriority={false}
+              imageLoading="eager"
               showReadMore={true}
               meta={
                 <span>{new Date(p.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
@@ -148,7 +149,8 @@ async function BlogPosts() {
             imageSrc={p._embedded?.['wp:featuredmedia']?.[0]?.source_url || p.yoast_head_json?.og_image?.[0]?.url}
             href={`/blogs/${p.slug}`}
             tag="Company"
-            imagePriority={true}
+            imagePriority={false}
+            imageLoading="eager"
             meta={
               <span>{new Date(p.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
             }
