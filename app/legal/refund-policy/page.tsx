@@ -7,12 +7,7 @@ export default function RefundPolicyPage() {
         <>
             <div className="max-w-4xl mx-auto px-4 py-10 text-gray-800">
                 <LegalHeader
-                    title={
-                        <>
-                            <div>Sparkonomy Refund</div>
-                            <div> & Cancellation Policy</div>
-                        </>
-                    }
+                    title="Sparkonomy Refund & Cancellation Policy"
                     effectiveDate="November 10, 2025"
                     lastUpdated="November 10, 2025"
                     homeHref="/"
