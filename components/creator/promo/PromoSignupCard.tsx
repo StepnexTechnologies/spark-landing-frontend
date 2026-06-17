@@ -103,6 +103,7 @@ export default function PromoSignupCard({
     submitProfile,
     changeNumber,
     verifyOtp,
+    goToSocialAuth,
   } = useSignup();
 
   // Pretty-print the entered E.164 phone for the earn-variant OTP header
@@ -164,7 +165,13 @@ export default function PromoSignupCard({
   })();
 
   const otpVisible =
-    stage === "otp" || stage === "profile" || stage === "submitting" || stage === "submitted";
+    stage === "otp" ||
+    stage === "profile" ||
+    stage === "submitting" ||
+    stage === "submitted" ||
+    // Earn flow post-verify panel — keeps the OTP row (with the green
+    // "Verified" pill) visible above the social-auth CTA.
+    stage === "social";
   // Returning users (requires_basic_info=false) skip the profile sheet entirely;
   // /verify runs straight from the OTP stage with no name/email payload.
   const profileVisible =
@@ -669,6 +676,43 @@ export default function PromoSignupCard({
                 disabled={verifyStatus === "verifying"}
                 t={t}
               />
+            </div>
+          )}
+
+          {/* Post-verify social handoff — replaces the profile form + app
+              redirect for the earn flow. Heading + "3 steps" subtext sit above
+              a white gradient-bordered CTA (mirrors the promo "Create account"
+              button) that hands off to social-auth, with the Meta/YouTube
+              partner footer beneath. */}
+          {stage === "social" && (
+            <div className="mt-4 flex flex-col items-center px-2 text-center">
+              <p className="text-white text-[15px] font-semibold leading-tight">
+                {t("hero.card.socialTitle")}
+              </p>
+              <p className="mt-1 text-white/80 text-[12px] leading-snug">
+                {t("hero.card.socialSubtitle")}
+              </p>
+
+              <button
+                type="button"
+                onClick={goToSocialAuth}
+                className="relative mt-3 w-full inline-flex items-center justify-center overflow-hidden rounded-full p-[1px] shadow-[0_4px_12px_rgba(129,52,165,0.18)] transition-[opacity] duration-200"
+              >
+                <span
+                  aria-hidden="true"
+                  className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#ffffff_0%,rgba(221,42,123,1)_10%,rgba(151,71,255,1)_50%,rgba(221,42,123,0.5)_90%,#ffffff_100%)]"
+                />
+                <span className="relative z-10 inline-flex w-full items-center justify-center rounded-full bg-white py-3 text-sm font-semibold">
+                  <span className="bg-[linear-gradient(162.34deg,#DD2A7B_4.78%,#9747FF_89.95%)] bg-clip-text text-transparent">
+                    {t("hero.card.socialCta")}
+                  </span>
+                </span>
+              </button>
+
+              {/* Unlabeled: the Meta/YouTube PNGs already bake in the
+                  "Built with" / "Developed with" wordmarks, so passing labels
+                  here would render the text twice. */}
+              <PartnerFooter />
             </div>
           )}
         </div>

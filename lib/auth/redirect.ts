@@ -16,3 +16,14 @@ export function redirectToApp(args: RedirectToAppArgs): void {
   if (args.referralCode) url.searchParams.set("ref", args.referralCode);
   window.location.href = url.toString();
 }
+
+// Social-account verification handoff. The earn flow sends the user here after
+// OTP verify instead of straight into the app — they finish the 3-step social
+// check on this host. Auth cookies set by /verify are scoped to
+// .sparkonomy.com, so the session carries across the subdomain.
+export const SOCIAL_AUTH_URL = "https://dev.creator.sparkonomy.com/social-auth";
+
+export function redirectToSocialAuth(): void {
+  if (typeof window === "undefined") return;
+  window.location.href = SOCIAL_AUTH_URL;
+}

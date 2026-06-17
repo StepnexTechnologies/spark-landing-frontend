@@ -24,6 +24,9 @@
       "verify": "Verify",
       "verifying": "Verifying",
       "verified": "Verified",
+      "socialTitle": "Verify your social account",
+      "socialSubtitle": "3 steps to unlock your rewards",
+      "socialCta": "Verify Social & Continue",
       "disclaimer": "By tapping, you agree to create an account and Sparkonomy's <0>Terms</0> and <1>Privacy Policy</1>."
     }
   },
