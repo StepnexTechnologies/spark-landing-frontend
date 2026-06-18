@@ -153,15 +153,11 @@ const ContactPage = () => {
 
       <div className="relative z-10 px-4 sm:px-6 lg:px-8 pb-20 pt-4">
         <div className="max-w-4xl mx-auto">
-          {/* Hero Section */}
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={staggerContainer}
-            className="text-center mb-20 mt-8"
-          >
-            <motion.h1
-              variants={fadeInVariants}
+          {/* Hero Section — rendered statically (no entrance animation) so the
+              LCP <h1> paints with the SSR HTML instead of waiting for the JS
+              bundle to download, hydrate, and run Framer Motion. */}
+          <div className="text-center mb-20 mt-8">
+            <h1
               className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 tracking-tight"
               style={{
                 background: "linear-gradient(135deg, #ffffff 0%, #6C63FF 100%)",
@@ -171,33 +167,29 @@ const ContactPage = () => {
               }}
             >
               Contact Us
-            </motion.h1>
-            <motion.div
-              variants={fadeInVariants}
-              className="flex justify-center items-center space-x-2 text-purple-400"
-            >
+            </h1>
+            <div className="flex justify-center items-center space-x-2 text-purple-400">
               <Sparkles className="w-5 h-5" />
               <span className="text-lg">Get in Touch</span>
               <Sparkles className="w-5 h-5" />
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
 
-          {/* Main Content */}
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={staggerContainer}
-            className="relative z-[60] mb-8"
-          >
-            <motion.p
-              variants={fadeInVariants}
-              className="text-center text-gray-300 text-lg mb-16 max-w-3xl mx-auto leading-relaxed"
-            >
+          {/* Main Content — outer wrapper and intro copy render statically
+              (first screenful, LCP-safe). The scroll-reveal stagger now lives on
+              the cards grid below, so the card animation is unchanged. */}
+          <div className="relative z-[60] mb-8">
+            <p className="text-center text-gray-300 text-lg mb-16 max-w-3xl mx-auto leading-relaxed">
               We&apos;re currently in our early stages but are always eager to connect with creators, brands, and potential partners. Here&apos;s how to reach us.
-            </motion.p>
+            </p>
 
-            <div className="grid lg:grid-cols-2 gap-12">
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+              variants={staggerContainer}
+              className="grid lg:grid-cols-2 gap-12"
+            >
               {/* Contact Information */}
               <motion.div
                 variants={fadeInVariants}
@@ -422,8 +414,8 @@ const ContactPage = () => {
                   </motion.div>
                 )}
               </motion.div>
-            </div>
-          </motion.div>
+            </motion.div>
+          </div>
 
         </div>
       </div>
