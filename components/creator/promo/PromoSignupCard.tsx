@@ -418,7 +418,7 @@ export default function PromoSignupCard({
           </ul>
         </div>
       ) : !otpVisible ? (
-        <ul className="mt-1 px-1 flex items-center justify-center text-[11px] font-normal text-white whitespace-nowrap gap-x-3.5">
+        <ul className="mt-1 px-1 flex items-center justify-between text-[11px] font-normal text-white whitespace-nowrap gap-x-px">
           {checks.map((label, i) => (
             <li key={i} className="flex items-center gap-0.5">
               <span aria-hidden="true">✅</span>
