@@ -16,6 +16,8 @@ export {
 export {
   default as CategoryBlogTemplate,
   CATEGORY_CONFIGS,
+  parseBlogPage,
+  withPagedListingMetadata,
   type CategoryConfig
 } from "./CategoryBlogTemplate";
 export {

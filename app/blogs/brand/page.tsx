@@ -1,11 +1,15 @@
 import type { Metadata } from "next";
-import { CategoryBlogTemplate, CATEGORY_CONFIGS } from "@/components/blog/common";
+import { CategoryBlogTemplate, CATEGORY_CONFIGS, parseBlogPage, withPagedListingMetadata } from "@/components/blog/common";
 
 export const revalidate = 300;
 
 const config = CATEGORY_CONFIGS.brand;
 
-export const metadata: Metadata = {
+interface CategoryPageProps {
+  searchParams: Promise<{ page?: string }>;
+}
+
+const baseMetadata: Metadata = {
   metadataBase: new URL("https://www.sparkonomy.com/"),
   title: "Brand | Sparkonomy Blog",
   description: "Insights and updates for brands on Sparkonomy",
@@ -46,6 +50,12 @@ export const metadata: Metadata = {
   },
 };
 
-export default function BrandPage() {
-  return <CategoryBlogTemplate config={config} />;
+export async function generateMetadata({ searchParams }: CategoryPageProps): Promise<Metadata> {
+  const page = parseBlogPage((await searchParams).page);
+  return withPagedListingMetadata(baseMetadata, "https://www.sparkonomy.com/blogs/brand", page);
+}
+
+export default async function BrandPage({ searchParams }: CategoryPageProps) {
+  const page = parseBlogPage((await searchParams).page);
+  return <CategoryBlogTemplate config={config} currentPage={page} />;
 }
