@@ -29,7 +29,8 @@ export function RootLayoutClient({
   const isLegalPage =
     pathname.startsWith("/legal") ||
     pathname.startsWith("/gold-promo") ||
-    pathname.startsWith("/summer-promo");
+    pathname.startsWith("/summer-promo") ||
+    pathname.startsWith("/super-fan");
   const isCreatorPage = pathname.startsWith("/creator");
   const isBlogPage = pathname.startsWith("/blogs") || pathname.startsWith("/blog");
   const isPreviewPage = pathname.startsWith("/preview");
