@@ -9,7 +9,11 @@ interface BlogPaginationProps {
 
 
 function pageHref(basePath: string, page: number): string {
-  return page <= 1 ? `${basePath}#posts` : `${basePath}?page=${page}#posts`;
+  if (page <= 1) return `${basePath}#posts`;
+  // basePath may already carry a query (e.g. /blogs/search?q=foo) — pick the
+  // right separator so we don't produce a second "?".
+  const sep = basePath.includes("?") ? "&" : "?";
+  return `${basePath}${sep}page=${page}#posts`;
 }
 
 
