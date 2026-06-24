@@ -6,6 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import Button from "../common/button";
+import BlogSearchBar from "./BlogSearchBar";
 
 export default function  BlogHeader() {
     const pathname = usePathname();
@@ -27,7 +28,7 @@ export default function  BlogHeader() {
         <header className="sticky top-0 z-50 w-full bg-white px-6 md:px-10 lg:px-20 py-[8px] ">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 md:gap-4">
                 {/* Top row: Logo and Button */}
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between md:flex-shrink-0">
                     <Link href="/" className="flex items-center">
                         <Image
                             src="/logo.png"
@@ -39,6 +40,11 @@ export default function  BlogHeader() {
                         />
                     </Link>
                     <Button variant="gradient" className="md:hidden !px-7 !py-[14px]" onClick={goToSubscribe}>Subscribe Now</Button>
+                </div>
+
+                {/* Search bar — full width on mobile, flexible middle column on desktop */}
+                <div className="w-full md:flex-1 md:max-w-md md:mx-4">
+                    <BlogSearchBar compact placeholder="Search articles..." className="max-w-none" />
                 </div>
 
                 {/* Bottom row on mobile, right side on desktop: Nav + Button */}
