@@ -69,73 +69,39 @@ export default function HeroSection({ variant, enableTypewriter = false }: HeroS
   const [subTyped, setSubTyped] = useState(enableTypewriter ? 0 : subLen);
   const [showCard, setShowCard] = useState(!enableTypewriter);
 
-  // Slow-network / Data Saver / reduced-motion detection. We keep the staged
-  // reveal playing (it's brand copy, not chrome) but on a slow connection or
-  // low-end phone it starts immediately and types faster, so 4G / iOS users
-  // aren't left staring at a blank headline + blinking cursor. Detected on
-  // mount; the typing effects below depend on the derived timings, so the
-  // moment this flips they reschedule with the fast values (the pending
-  // slow-timing timer is cleared by the effect cleanup).
-  const [isSlow, setIsSlow] = useState(false);
-  useEffect(() => {
-    if (!enableTypewriter) return;
-    const reduceMotion = window.matchMedia?.(
-      "(prefers-reduced-motion: reduce)"
-    )?.matches;
-    const conn = (
-      navigator as Navigator & {
-        connection?: { saveData?: boolean; effectiveType?: string };
-      }
-    ).connection;
-    const slowNet =
-      !!conn &&
-      (conn.saveData === true ||
-        ["slow-2g", "2g", "3g"].includes(conn.effectiveType ?? ""));
-    if (reduceMotion || slowNet) setIsSlow(true);
-  }, [enableTypewriter]);
-
-  // Fast-device defaults vs. slow-device overrides. Slow drops the initial
-  // delay to zero (instant first char) and roughly halves the per-char + pause
-  // timings so the whole sequence resolves quickly.
-  const initialDelay = isSlow ? 0 : TYPE_INITIAL_DELAY_MS;
-  const typeSpeed = isSlow ? 12 : TYPE_SPEED_MS;
-  const subtitlePause = isSlow ? 120 : SUBTITLE_PAUSE_MS;
-  const cardPause = isSlow ? 120 : CARD_PAUSE_MS;
-  const cardFade = isSlow ? 250 : CARD_FADE_MS;
-
   // Title typewriter
   useEffect(() => {
     if (!enableTypewriter) return;
     if (titleTyped >= titleLen) return;
-    const delay = titleTyped === 0 ? initialDelay : typeSpeed;
+    const delay = titleTyped === 0 ? TYPE_INITIAL_DELAY_MS : TYPE_SPEED_MS;
     const id = window.setTimeout(() => setTitleTyped((n) => n + 1), delay);
     return () => window.clearTimeout(id);
-  }, [enableTypewriter, titleTyped, titleLen, initialDelay, typeSpeed]);
+  }, [enableTypewriter, titleTyped, titleLen]);
 
   // Mount the subtitle once the title is done
   useEffect(() => {
     if (!enableTypewriter) return;
     if (titleTyped < titleLen || titleLen === 0) return;
-    const id = window.setTimeout(() => setShowSubtitle(true), subtitlePause);
+    const id = window.setTimeout(() => setShowSubtitle(true), SUBTITLE_PAUSE_MS);
     return () => window.clearTimeout(id);
-  }, [enableTypewriter, titleTyped, titleLen, subtitlePause]);
+  }, [enableTypewriter, titleTyped, titleLen]);
 
   // Subtitle typewriter
   useEffect(() => {
     if (!enableTypewriter) return;
     if (!showSubtitle) return;
     if (subTyped >= subLen) return;
-    const id = window.setTimeout(() => setSubTyped((n) => n + 1), typeSpeed);
+    const id = window.setTimeout(() => setSubTyped((n) => n + 1), TYPE_SPEED_MS);
     return () => window.clearTimeout(id);
-  }, [enableTypewriter, showSubtitle, subTyped, subLen, typeSpeed]);
+  }, [enableTypewriter, showSubtitle, subTyped, subLen]);
 
   // Fade in the card once the subtitle finishes typing
   useEffect(() => {
     if (!enableTypewriter) return;
     if (!showSubtitle || subTyped < subLen) return;
-    const id = window.setTimeout(() => setShowCard(true), cardPause);
+    const id = window.setTimeout(() => setShowCard(true), CARD_PAUSE_MS);
     return () => window.clearTimeout(id);
-  }, [enableTypewriter, showSubtitle, subTyped, subLen, cardPause]);
+  }, [enableTypewriter, showSubtitle, subTyped, subLen]);
 
   // Deep-link: skip the staged reveal so the scroll target exists immediately.
   useEffect(() => {
@@ -242,7 +208,7 @@ export default function HeroSection({ variant, enableTypewriter = false }: HeroS
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={showCard ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-              transition={{ duration: cardFade / 1000, ease: "easeOut" }}
+              transition={{ duration: CARD_FADE_MS / 1000, ease: "easeOut" }}
             >
               <PromoSignupCard play={showCard} variant={variant} />
             </motion.div>
