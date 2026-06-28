@@ -89,15 +89,11 @@ const AboutPage = () => {
 
       <div className="relative z-10 px-4 sm:px-6 lg:px-8 pb-20 pt-8">
         <div className="max-w-4xl mx-auto">
-          {/* Hero Section */}
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={staggerContainer}
-            className="text-center mb-8"
-          >
-            <motion.h1
-              variants={fadeInVariants}
+          {/* Hero Section — rendered statically (no entrance animation) so the
+              LCP heading paints with the SSR HTML instead of waiting for the JS
+              bundle to download, hydrate, and run Framer Motion. */}
+          <div className="text-center mb-8">
+            <h1
               className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 tracking-tight"
               style={{
                 background: "linear-gradient(135deg, #ffffff 0%, #6C63FF 100%)",
@@ -107,21 +103,15 @@ const AboutPage = () => {
               }}
             >
               About Us
-            </motion.h1>
-          </motion.div>
+            </h1>
+          </div>
 
-          {/* Our Story Section */}
-          <motion.section
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={staggerContainer}
-            className="mb-8"
-          >
-            <motion.div
-              variants={fadeInVariants}
-              className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/8 transition-all duration-300"
-            >
+          {/* Our Story Section — first screenful below the hero; rendered
+              statically so its body copy (the largest above-the-fold text block,
+              and thus the likely LCP element on mobile) paints immediately
+              instead of fading in only after hydration. */}
+          <section className="mb-8">
+            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/8 transition-all duration-300">
               <div className="flex items-start space-x-3 mb-6">
                 <div className="w-8 h-8 mt-1 flex-shrink-0 bg-purple-500/20 rounded-full flex items-center justify-center">
                   <Sparkles className="w-4 h-4 text-purple-400" />
@@ -137,8 +127,8 @@ const AboutPage = () => {
                 foundations. Sparkonomy exists to change that - by building the intelligence infrastructure
                 Creators need to succeed.
               </p>
-            </motion.div>
-          </motion.section>
+            </div>
+          </section>
 
           {/* Mission Section */}
           <motion.section

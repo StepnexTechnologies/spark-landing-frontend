@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import type { Metadata } from "next";
 import { getCategoryBySlug, getPostsByCategory, getPostTags, decodeHtmlEntities } from "@/lib/wordpress-improved";
 import BlogCard from "@/components/blog/BlogCard";
 import FeaturedBlogCard from "@/components/blog/FeaturedBlogCard";
@@ -7,17 +8,47 @@ import FeaturedBlogCardSkeleton from "@/components/blog/FeaturedBlogCardSkeleton
 import MainSection from "@/components/blog/MainSection";
 import MainSectionSkeleton from "@/components/blog/MainSectionSkeleton";
 import NewsletterSection from "@/components/blog/NewsletterSection";
+import BlogPagination from "@/components/blog/BlogPagination";
 import NoPostsPlaceholder from "./NoPostsPlaceholder";
+
+// Posts shown in the grid per page. The page-1 hero + featured tile sit on top of
+// this window and aren't counted toward it (matches the /blogs home behaviour).
+const POSTS_PER_PAGE = 12;
 
 // Configuration for each category
 export interface CategoryConfig {
   slugs: string[];
+  /** Route the category lives at, e.g. "/blogs/creators" — used for pagination links + canonical. */
+  basePath: string;
   title: string;
   subtitle: string;
   description: string;
   defaultHashtags: string[];
   gradient: string;
   noPostsMessage?: string;
+}
+
+// Parse ?page into a positive integer, defaulting to 1 for missing/garbage input.
+export function parseBlogPage(raw: string | undefined): number {
+  const n = parseInt(raw ?? "1", 10);
+  return Number.isFinite(n) && n > 0 ? n : 1;
+}
+
+// Adjust a base Metadata for a paginated listing: self-referencing canonical with
+// ?page, a " - Page N" title suffix, and a matching OG url. Page 1 is untouched.
+export function withPagedListingMetadata(
+  base: Metadata,
+  canonicalBase: string,
+  page: number
+): Metadata {
+  if (page <= 1) return base;
+  const canonical = `${canonicalBase}?page=${page}`;
+  return {
+    ...base,
+    title: typeof base.title === "string" ? `${base.title} - Page ${page}` : base.title,
+    alternates: { ...base.alternates, canonical },
+    openGraph: base.openGraph ? { ...base.openGraph, url: canonical } : base.openGraph,
+  };
 }
 
 // Resolve every slug in the config to a WordPress category ID, dropping any that don't exist.
@@ -46,15 +77,16 @@ function getFeaturedImage(post: any): string | undefined {
 }
 
 // Posts Grid Component
-async function CategoryPosts({ config }: { config: CategoryConfig }) {
+async function CategoryPosts({ config, currentPage }: { config: CategoryConfig; currentPage: number }) {
   const categoryIds = await resolveCategoryIds(config.slugs);
-  // Pull extra to absorb the Hinglish counterparts we filter out below (matches blogs home behavior).
+  // Fetch the full category once (WP caps per_page at 100) and paginate in memory,
+  // so the Hinglish filter below can't skew per-page counts (matches /blogs home).
   const { data: rawPosts } = categoryIds.length > 0
-    ? await getPostsByCategory(categoryIds, 1, 28)
+    ? await getPostsByCategory(categoryIds, 1, 100)
     : { data: [] };
-  const posts = rawPosts.filter((p) => !p.slug.endsWith("-hi")).slice(0, 14);
+  const englishPosts = rawPosts.filter((p) => !p.slug.endsWith("-hi"));
 
-  if (posts.length === 0) {
+  if (englishPosts.length === 0) {
     return (
       <div className="text-center py-20 bg-gray-50 rounded-2xl border border-gray-200 mx-4">
         <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gray-100 mb-6">
@@ -87,55 +119,68 @@ async function CategoryPosts({ config }: { config: CategoryConfig }) {
     );
   }
 
-  // Skip first post (shown in hero), same structure as blogs page
-  const firstRowPosts = posts.slice(1, 4); // 3 vertical cards
-  const secondRowPost = posts.slice(4, 5); // 1 featured horizontal card
-  const remainingPosts = posts.slice(5);   // Remaining cards
+  // First post leads the hero banner (page 1 only, rendered by HeroSection); the
+  // rest form the paginated grid.
+  const gridPool = englishPosts.slice(1);
+
+  const totalPages = Math.max(1, Math.ceil(gridPool.length / POSTS_PER_PAGE));
+  const safePage = Math.min(currentPage, totalPages);
+  const isFirstPage = safePage === 1;
+  const start = (safePage - 1) * POSTS_PER_PAGE;
+  const pagePosts = gridPool.slice(start, start + POSTS_PER_PAGE);
+
+  // Page 1 keeps the editorial layout (3-card row → featured tile → remaining grid).
+  // Later pages render a plain grid of the page's posts.
+  const firstRowPosts = isFirstPage ? pagePosts.slice(0, 3) : [];
+  const featuredPost = isFirstPage ? pagePosts[3] : undefined;
+  const remainingPosts = isFirstPage ? pagePosts.slice(4) : pagePosts;
 
   return (
     <>
-      {/* Container for First Row */}
-      <div className="max-w-7xl mx-auto px-4">
-        {/* First Row - 3 vertical cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:mb-12">
-          {firstRowPosts.map((p) => (
-            <BlogCard
-              key={p.id}
-              title={decodeHtmlEntities(p.title.rendered)}
-              description={decodeHtmlEntities(p.excerpt.rendered)}
-              imageSrc={getFeaturedImage(p)}
-              href={`/blogs/${p.slug}`}
-              layout="vertical"
-              showReadMore={true}
-              imagePriority={true}
-              meta={<span>{formatDate(p.date)}</span>}
-            />
-          ))}
-        </div>
-      </div>
+      {isFirstPage && (
+        <>
+          {/* Container for First Row */}
+          <div className="max-w-7xl mx-auto px-4">
+            {/* First Row - 3 vertical cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:mb-12">
+              {firstRowPosts.map((p) => (
+                <BlogCard
+                  key={p.id}
+                  title={decodeHtmlEntities(p.title.rendered)}
+                  description={decodeHtmlEntities(p.excerpt.rendered)}
+                  imageSrc={getFeaturedImage(p)}
+                  href={`/blogs/${p.slug}`}
+                  layout="vertical"
+                  showReadMore={true}
+                  imagePriority={true}
+                  meta={<span>{formatDate(p.date)}</span>}
+                />
+              ))}
+            </div>
+          </div>
 
-      {/* Second Row - 1 horizontal featured card (full width) */}
-      {secondRowPost.length > 0 && (
-        <div className="w-full md:mb-12">
-          {secondRowPost.map((p) => (
-            <FeaturedBlogCard
-              key={p.id}
-              title={decodeHtmlEntities(p.title.rendered)}
-              description={decodeHtmlEntities(p.excerpt.rendered)}
-              imageSrc={getFeaturedImage(p)}
-              href={`/blogs/${p.slug}`}
-              tag="Featured"
-              imagePriority={true}
-              meta={<span>{formatDate(p.date)}</span>}
-            />
-          ))}
-        </div>
+          {/* Second Row - 1 horizontal featured card (full width) */}
+          {featuredPost && (
+            <div className="w-full md:mb-12">
+              <FeaturedBlogCard
+                key={featuredPost.id}
+                title={decodeHtmlEntities(featuredPost.title.rendered)}
+                description={decodeHtmlEntities(featuredPost.excerpt.rendered)}
+                imageSrc={getFeaturedImage(featuredPost)}
+                href={`/blogs/${featuredPost.slug}`}
+                tag="Featured"
+                imagePriority={true}
+                meta={<span>{formatDate(featuredPost.date)}</span>}
+              />
+            </div>
+          )}
+        </>
       )}
 
-      {/* Container for Remaining Rows */}
+      {/* Grid of posts for this page */}
       {remainingPosts.length > 0 && (
         <div className="max-w-7xl mx-auto px-4">
-          {/* Remaining Rows - 3 vertical cards per row */}
+          {/* 3 vertical cards per row */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {remainingPosts.map((p) => (
               <BlogCard
@@ -153,6 +198,11 @@ async function CategoryPosts({ config }: { config: CategoryConfig }) {
           </div>
         </div>
       )}
+
+      {/* Pagination */}
+      <div className="max-w-7xl mx-auto px-4 mt-12">
+        <BlogPagination currentPage={safePage} totalPages={totalPages} basePath={config.basePath} />
+      </div>
     </>
   );
 }
@@ -228,17 +278,20 @@ async function HeroSection({ config }: { config: CategoryConfig }) {
 // Main Category Blog Page Template
 interface CategoryBlogTemplateProps {
   config: CategoryConfig;
+  currentPage?: number;
 }
 
-export default function CategoryBlogTemplate({ config }: CategoryBlogTemplateProps) {
+export default function CategoryBlogTemplate({ config, currentPage = 1 }: CategoryBlogTemplateProps) {
   return (
     <main className="relative overflow-hidden">
-      {/* Main Section with Background Image */}
-      <div className="relative z-10">
-        <Suspense fallback={<MainSectionSkeleton />}>
-          <HeroSection config={config} />
-        </Suspense>
-      </div>
+      {/* Main Section with Background Image — hero only leads the first page */}
+      {currentPage === 1 && (
+        <div className="relative z-10">
+          <Suspense fallback={<MainSectionSkeleton />}>
+            <HeroSection config={config} />
+          </Suspense>
+        </div>
+      )}
 
       {/* Blog Posts Section with Gradient Background */}
       <section className="relative py-16" id="posts">
@@ -252,8 +305,8 @@ export default function CategoryBlogTemplate({ config }: CategoryBlogTemplatePro
         />
 
         <div className="relative z-10">
-          <Suspense key={`${config.slugs.join(',')}-posts`} fallback={<BlogPostsSkeleton />}>
-            <CategoryPosts config={config} />
+          <Suspense key={`${config.slugs.join(',')}-${currentPage}`} fallback={<BlogPostsSkeleton />}>
+            <CategoryPosts config={config} currentPage={currentPage} />
           </Suspense>
         </div>
       </section>
@@ -268,6 +321,7 @@ export default function CategoryBlogTemplate({ config }: CategoryBlogTemplatePro
 export const CATEGORY_CONFIGS: Record<string, CategoryConfig> = {
   brand: {
     slugs: ["brand", "brand-en"],
+    basePath: "/blogs/brand",
     title: "Brand Insights & Marketing Strategies",
     subtitle: "For Brands",
     description: "Discover how top brands leverage creator partnerships to drive growth and engagement.",
@@ -277,6 +331,7 @@ export const CATEGORY_CONFIGS: Record<string, CategoryConfig> = {
   },
   creators: {
     slugs: ["creators", "creators-en"],
+    basePath: "/blogs/creators",
     title: "Creator Tips & Growth Strategies",
     subtitle: "For Creators",
     description: "Unlock your creative potential with tips, tools, and strategies for content creators.",
@@ -286,6 +341,7 @@ export const CATEGORY_CONFIGS: Record<string, CategoryConfig> = {
   },
   company: {
     slugs: ["company", "company-en"],
+    basePath: "/blogs/company",
     title: "Company News & Updates",
     subtitle: "Company",
     description: "Stay updated with the latest news, updates, and announcements from Sparkonomy.",

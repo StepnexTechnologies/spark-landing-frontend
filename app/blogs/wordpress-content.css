@@ -2349,6 +2349,23 @@
   color: #5b21b6;
 }
 
+.wordpress-content p a,
+.wordpress-content li a,
+.wordpress-content td a,
+.wordpress-content th a {
+  color: #8b5cf6;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.2s ease;
+}
+
+.wordpress-content p a:hover,
+.wordpress-content li a:hover,
+.wordpress-content td a:hover,
+.wordpress-content th a:hover {
+  color: #7c3aed;
+}
+
 /* Legacy pro-tip-box support */
 .wordpress-content .pro-tip-box {
   background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);

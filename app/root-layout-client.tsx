@@ -31,11 +31,18 @@ export function RootLayoutClient({
   const isLegalPage =
     pathname.startsWith("/legal") ||
     pathname.startsWith("/gold-promo") ||
-    pathname.startsWith("/summer-promo");
+    pathname.startsWith("/summer-promo") ||
+    pathname.startsWith("/super-fan");
   const isCreatorPage = pathname.startsWith("/creator");
   const isBlogPage = pathname.startsWith("/blogs") || pathname.startsWith("/blog");
   const isPreviewPage = pathname.startsWith("/preview");
   const isHomePage = pathname === "/";
+
+  // /contact and /about render a fully opaque bg-black over the fixed WebGL
+  // canvas, so the fluid sim is never actually visible there — it only costs the
+  // webgl-fluid-enhanced chunk download + GPU/main-thread work during the LCP
+  // window. Skip mounting it on those routes (Footer still renders).
+  const showWebGLBackground = pathname !== "/contact" && pathname !== "/about";
 
   // i18n is only used on /creator routes — avoid loading i18next/react-i18next
   // chunks on blog/legal/home/etc.
@@ -108,9 +115,11 @@ export function RootLayoutClient({
       <WebVitalsReporter />
       {toasterNode}
       <div className={`relative min-h-[100dvh] w-full flex flex-col overflow-x-hidden ${isHomePage ? "touch-pan-y md:touch-none" : "touch-pan-y"} md:overflow-hidden`}>
-        <div className="fixed inset-0 z-0">
-          <WebGLFluidBackground />
-        </div>
+        {showWebGLBackground && (
+          <div className="fixed inset-0 z-0">
+            <WebGLFluidBackground />
+          </div>
+        )}
         {children}
         <Footer minimal={!isHomePage} />
       </div>
