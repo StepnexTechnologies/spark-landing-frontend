@@ -146,15 +146,25 @@ async function wordpressFetchWithPagination<T>(
   }
 }
 
+// Minimum fields needed for card/listing pages. Excludes content, modified,
+// format, status, meta, acf, etc. — shaves 60-80% off the API response.
+// Must include _links so ?_embed can populate _embedded.
+const LISTING_FIELDS = "_fields=id,slug,title,excerpt,date,yoast_head_json,_links,_embedded";
+
 /**
- * Get all posts with pagination
+ * Get all posts with pagination.
+ *
+ * FIELD RESTRICTION: returns only LISTING_FIELDS (id, slug, title, excerpt,
+ * date, yoast_head_json, _links, _embedded). Fields like `content`, `modified`,
+ * `author`, `categories`, `tags` are absent and will be undefined at runtime.
+ * Use getPostBySlug / getPostBySlugForLang for the full post object.
  */
 export async function getPosts(
   page: number = 1,
   perPage: number = 10
 ): Promise<WordPressResponse<WordPressPost[]>> {
   return wordpressFetchWithPagination<WordPressPost[]>(
-    `/posts?_embed&page=${page}&per_page=${perPage}`
+    `/posts?_embed&${LISTING_FIELDS}&page=${page}&per_page=${perPage}`
   );
 }
 
@@ -258,6 +268,9 @@ export async function getCategoryBySlug(slug: string): Promise<WordPressCategory
 /**
  * Get posts by category with pagination.
  * Accepts a single category ID or an array of IDs (OR'd together via WP's comma syntax).
+ *
+ * FIELD RESTRICTION: same as getPosts — returns LISTING_FIELDS only.
+ * `content`, `modified`, `author`, `categories`, `tags` will be undefined.
  */
 export async function getPostsByCategory(
   categoryId: number | number[],
@@ -266,7 +279,7 @@ export async function getPostsByCategory(
 ): Promise<WordPressResponse<WordPressPost[]>> {
   const ids = Array.isArray(categoryId) ? categoryId.join(',') : String(categoryId);
   return wordpressFetchWithPagination<WordPressPost[]>(
-    `/posts?categories=${ids}&_embed&page=${page}&per_page=${perPage}`
+    `/posts?categories=${ids}&_embed&${LISTING_FIELDS}&page=${page}&per_page=${perPage}`
   );
 }
 
@@ -285,7 +298,11 @@ export async function getTags(): Promise<WordPressTag[]> {
 }
 
 /**
- * Search posts
+ * Search posts.
+ *
+ * FIELD RESTRICTION: same as getPosts — returns LISTING_FIELDS only.
+ * `content`, `modified`, `author`, `categories`, `tags` will be undefined.
+ * If a search results page ever needs full post data, remove LISTING_FIELDS here.
  */
 export async function searchPosts(
   query: string,
@@ -293,7 +310,7 @@ export async function searchPosts(
   perPage: number = 10
 ): Promise<WordPressResponse<WordPressPost[]>> {
   return wordpressFetchWithPagination<WordPressPost[]>(
-    `/posts?search=${encodeURIComponent(query)}&_embed&page=${page}&per_page=${perPage}`
+    `/posts?search=${encodeURIComponent(query)}&_embed&${LISTING_FIELDS}&page=${page}&per_page=${perPage}`
   );
 }
 

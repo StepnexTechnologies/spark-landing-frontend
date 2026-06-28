@@ -22,6 +22,13 @@ export interface CardProps {
   meta?: React.ReactNode;
   /** allow Image to use priority (for featured cards) */
   imagePriority?: boolean;
+  /**
+   * Override the Next.js Image `loading` attribute independently of `imagePriority`.
+   * Use `"eager"` when the image is above-fold but should NOT emit a `<link rel="preload">`
+   * (i.e. imagePriority={false} + imageLoading="eager" = fetch immediately, no preload tag).
+   * Omit entirely (defaults to "lazy") for genuinely below-fold images.
+   */
+  imageLoading?: "lazy" | "eager";
   /** show read more button */
   showReadMore?: boolean;
 }
@@ -40,6 +47,7 @@ export default function Card({
   action,
   meta,
   imagePriority = false,
+  imageLoading,
   showReadMore = false,
 }: CardProps) {
   const isHorizontal = layout === "horizontal";
@@ -80,6 +88,7 @@ export default function Card({
                   : "398px"
               }
               priority={imagePriority}
+              loading={imageLoading}
             />
             <div
               className="absolute inset-0 pointer-events-none"

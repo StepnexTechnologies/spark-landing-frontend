@@ -62,13 +62,26 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 })(window,document,'script','dataLayer','${id}');
 `.trim();
 
-// Fire first page_view inline pre-hydration; usePageViewTracking handles SPA navs.
-const GTAG_INIT = (id: string) => `
+// Registers the GA4 property in the dataLayer queue. Runs beforeInteractive so
+// it precedes any web-vitals metric events — if this ran afterInteractive there
+// would be a race where FCP/TTFB callbacks push events before the config is
+// queued, causing gtag.js to drop them on arrival.
+// Cost: two dataLayer.push() calls (~0.5 ms) — negligible vs the original full
+// GTAG_INIT which also fired the page_view IIFE from the blocking head path.
+const GTAG_CONFIG = (id: string) => `
 gtag('js', new Date());
 gtag('config', '${id}', {
   send_page_view: false,
   cookie_flags: 'SameSite=None;Secure',
 });
+`.trim();
+
+// page_view fires afterInteractive (post-paint). Trade-off: users who close the
+// tab before hydration (~<1 s) are not counted. Acceptable for a marketing site
+// where sub-second visits are not meaningful conversions.
+// usePageViewTracking handles SPA navigations and skips the first mount to avoid
+// double-counting this event.
+const GTAG_PAGE_VIEW = `
 (function(){
   var path = location.pathname + location.search;
   var href = location.href;
@@ -144,13 +157,16 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
         {GA_MEASUREMENT_ID && (
           <>
+            <Script id="gtag-config" strategy="beforeInteractive">
+              {GTAG_CONFIG(GA_MEASUREMENT_ID)}
+            </Script>
             <Script
               id="gtag-src"
               src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
               strategy="lazyOnload"
             />
-            <Script id="gtag-init" strategy="beforeInteractive">
-              {GTAG_INIT(GA_MEASUREMENT_ID)}
+            <Script id="gtag-page-view" strategy="afterInteractive">
+              {GTAG_PAGE_VIEW}
             </Script>
           </>
         )}
