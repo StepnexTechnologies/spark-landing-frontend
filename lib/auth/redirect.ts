@@ -21,7 +21,8 @@ export function redirectToApp(args: RedirectToAppArgs): void {
 // OTP verify instead of straight into the app — they finish the 3-step social
 // check on this host. Auth cookies set by /verify are scoped to
 // .sparkonomy.com, so the session carries across the subdomain.
-export const SOCIAL_AUTH_URL = "https://dev.creator.sparkonomy.com/social-auth";
+export const SOCIAL_AUTH_URL =
+  "https://beta.creator.sparkonomy.com/social-auth/verify";
 
 export function redirectToSocialAuth(): void {
   if (typeof window === "undefined") return;
