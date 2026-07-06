@@ -18,7 +18,7 @@ The world's first AI — built just for creators. Late payments, endless follow-
 So easy you'll get it on the first try.
 
 ### 1. Speak, type, or screenshot
-Upload a WhatsApp message, email, or brand chat screenshot — or just say or type "make an invoice."
+Upload a WhatsApp message, email, or brand chat screenshot — or just say or type "*make me an invoice.*"
 - Voice
 - Type
 - Screenshot

@@ -96,14 +96,20 @@ const REFERRAL_STORAGE_KEY = "promo_ref";
 export function SignupProvider({
   children,
   socialAuthAfterVerify = false,
+  namespace = "creatorPromo",
 }: {
   children: React.ReactNode;
   // When true (earn page), a successful OTP verify lands on the "social" stage
   // instead of the profile form / app redirect. Other promo pages omit this and
   // keep the original new-user→profile, returning-user→app behaviour.
   socialAuthAfterVerify?: boolean;
+  // i18n namespace for error copy (errors.*). Defaults to "creatorPromo",
+  // which is Hinglish-only by design (en maps to the hi-Latn bundle — see
+  // lib/i18n.ts). Bilingual pages like /creator/earn must pass their own
+  // namespace so errors follow the page language instead of always Hinglish.
+  namespace?: string;
 }) {
-  const { t, i18n } = useTranslation("creatorPromo");
+  const { t, i18n } = useTranslation(namespace);
 
   const [phone, setPhone] = useState("");
   const [country, setCountry] = useState<string>("IN");

@@ -4,7 +4,7 @@ import MetaPixelScript from "@/components/MetaPixelScript";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.sparkonomy.com/"),
-  title: "Apni Boli, Apna Bill — Hinglish invoicing for creators | Sparkonomy",
+  title: "Apni Boli, Apna Bill — Hinglish invoicing for Creators | Sparkonomy",
   description:
     "Talk in Hinglish, get perfect English invoices. Sign up free and win Amazon vouchers daily. T&Cs apply.",
   keywords: [

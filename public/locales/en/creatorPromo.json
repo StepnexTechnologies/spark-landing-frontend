@@ -5,7 +5,7 @@
   "hero": {
     "tagChip": "Apni Boli, Apna Bill",
     "title": "Business in Hinglish...<0/>why is invoicing in English?",
-    "subtitle": "Now create <0>perfect English</0><1/><2>invoices</2> in Hinglish. Made just for creators.",
+    "subtitle": "Now create <0>perfect English</0><1/><2>invoices</2> in Hinglish. Made just for Creators.",
     "card": {
       "livePromo": "LIVE PROMO",
       "voucherHeading": "Aapka Ulta Bill",
@@ -41,7 +41,7 @@
     ]
   },
   "testimonials": {
-    "title": "What creators are saying",
+    "title": "What Creators are saying",
     "subtitle": "Invoices that get you paid faster — and make you look good doing it.",
     "items": [
       {
@@ -92,8 +92,8 @@
         "answer": "Give your phone number — that's it! After that, share your social handles, answer a couple of easy questions on your billing info, and you'll be sending invoices using Sparkonomy's AI quicker than a collab DM reply!"
       },
       {
-        "question": "How is this AI for creators and its smart payment useful for me?",
-        "answer": "Sparkonomy's AI helps creators run their business like a pro. Share a chat or collab details and a GST-ready invoice is generated in seconds."
+        "question": "How is this AI for Creators and its smart payment useful for me?",
+        "answer": "Sparkonomy's AI helps Creators run their business like a pro. Share a chat or collab details and a GST-ready invoice is generated in seconds."
       },
       {
         "question": "What information do I need to add to my profile to start invoicing?",
@@ -101,7 +101,7 @@
       },
       {
         "question": "How do I create my first invoice?",
-        "answer": "Sparkonomy's creator AI lets you make an invoice in under 3 minutes with a few taps — all from your phone."
+        "answer": "Sparkonomy's Creator AI lets you make an invoice in under 3 minutes with a few taps — all from your phone."
       },
       {
         "question": "How will Sparkonomy make payment reminders on my behalf?",
@@ -130,7 +130,7 @@
   },
   "referral": {
     "defaultName": "Chulbuli",
-    "message": "says this is the easiest app for creator work — and wants you to try it.",
+    "message": "says this is the easiest app for Creator work — and wants you to try it.",
     "signUp": "Sign Up today!"
   },
   "otp": {

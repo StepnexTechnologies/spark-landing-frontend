@@ -7,7 +7,7 @@ import {siteUrl} from "@/lib/urls";
 
 const title = "Creator FAQs: Invoicing, Payments & Taxes | Sparkonomy";
 const description =
-    "Find answers about Sparkonomy creator invoicing, payment reminders, taxes, GST, pricing, and getting paid faster.";
+    "Find answers about Sparkonomy Creator invoicing, payment reminders, taxes, GST, pricing, and getting paid faster.";
 const canonicalUrl = siteUrl("/creator/earn/faqs");
 
 export const metadata: Metadata = {

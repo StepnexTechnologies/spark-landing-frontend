@@ -5,28 +5,28 @@
   "hero": {
     "title": "Zyada kamaayein. Stress Less.<0/><1>Jaldi payment paayein!</1>",
     "features": [
-      "<0>Easy</0> invoices with AI: Voice, chat, or photo",
-      "<0>Error-free</0>: Instant-tax calculations",
-      "<0>Faster</0> payments: Auto-reminders on email & Whatsapp"
+      "<0>Easy</0> invoices AI se: Voice, chat, ya photo",
+      "<0>Error-free</0>: Tax calculation apne aap, instant",
+      "<0>Faster</0> payments: Email & WhatsApp par auto-reminders"
     ],
     "card": {
       "livePromo": "LIVE PROMO",
-      "voucherHeading": "Send free invoice — <0>Win Gold Coin</0>",
+      "voucherHeading": "Free invoice bhejein — <0>Win Gold Coin</0>",
       "voucherBody": "4 invoices/mo free forever. Pehle 5 signups ko har roz Gold Coin.",
       "voucherTerms": "T&Cs apply",
       "ctaLabel": "Get started — bilkul free!",
-      "checks": ["4 invoices/mo free forever", "No card needed", "30-sec signup"],
+      "checks": ["Har mahine 4 invoices free", "Koi card nahi", "30-sec signup"],
       "phonePlaceholder": "XXXX XXXXXX",
       "sendOtp": "Win Now",
       "edit": "Edit",
-      "changeNumber": "Change Number",
-      "otpSentTo": "OTP sent to <0>{{phone}}</0>",
+      "changeNumber": "Number badlein",
+      "otpSentTo": "<0>{{phone}}</0> par OTP bheja gaya",
       "verify": "Verify",
       "verifying": "Verifying",
       "verified": "Verified",
       "socialTitle": "Apna social account verify karein",
       "socialSubtitle": "Rewards unlock karne ke liye 3 steps",
-      "socialCta": "Verify Social & Continue",
+      "socialCta": "Social Verify karein & Aage Badhein",
       "disclaimer": "By tapping, you agree to create an account and Sparkonomy's <0>Terms</0> and <1>Privacy Policy</1>."
     }
   },
@@ -40,7 +40,7 @@
     "items": [
       {
         "title": "Bolo, type, ya screenshot",
-        "description": "WhatsApp message, email, brand chat ka screenshot upload karein — ya bas bolein/ likhein \"invoice banao.\"",
+        "description": "WhatsApp message, email, brand chat ka screenshot upload karein — ya bas bolein/ likhein \"<i>invoice banao.</i>\"",
         "tags": ["Voice", "Type", "Screenshot", "Duplicate"]
       },
       {
@@ -108,7 +108,7 @@
       },
       {
         "question": "Q2: Creators ke liye yeh AI aur smart payment kaise useful hain?",
-        "answer": "Sparkonomy ka AI creators ko apna business ek pro tarah manage karne mein help karta hai. Aap chat ya collab details share karein, aur system GST-ready invoice proper format mein bana dega. Pocket CFO aapke payments aur cash flow track karta hai aur har week 5 minutes ka update bhejta hai. WhatsApp/Email reminders se follow-ups easy ho jaate hain. Aap decide karte hain kisko reminder bhejna hai, with 1-tap actions: Stop, Delay, ya Payment Done."
+        "answer": "Sparkonomy ka AI Creators ko apna business ek pro tarah manage karne mein help karta hai. Aap chat ya collab details share karein, aur system GST-ready invoice proper format mein bana dega. Pocket CFO aapke payments aur cash flow track karta hai aur har week 5 minutes ka update bhejta hai. WhatsApp/Email reminders se follow-ups easy ho jaate hain. Aap decide karte hain kisko reminder bhejna hai, with 1-tap actions: Stop, Delay, ya Payment Done."
       },
       {
         "question": "Q3: Invoicing start karne ke liye kya information profile mein add karna important hai?",
@@ -124,7 +124,7 @@
       },
       {
         "question": "Q6: Pocket CFO kya hai aur yeh kya kaam karega?",
-        "answer": "Hum jaante hain ki aap apne creator business ke accountant nahi banna chahte. Phir bhi invoices, payments, aur follow-ups manage karna time le leta hai. Sparkonomy ka Pocket CFO AI agent har week aapke payments aur cash flow ka summary banata hai. Phir yeh aapko 5-minute ka weekly update bhejta hai—cash flow, overdue payments, aur income growth par. Isse aapke records clean rehte hain aur aapka business tax-ready rehne mein help milti hai. Aap pro banein. Hum aapki help karenge."
+        "answer": "Hum jaante hain ki aap apne Creator business ke accountant nahi banna chahte. Phir bhi invoices, payments, aur follow-ups manage karna time le leta hai. Sparkonomy ka Pocket CFO AI agent har week aapke payments aur cash flow ka summary banata hai. Phir yeh aapko 5-minute ka weekly update bhejta hai—cash flow, overdue payments, aur income growth par. Isse aapke records clean rehte hain aur aapka business tax-ready rehne mein help milti hai. Aap pro banein. Hum aapki help karenge."
       },
       {
         "question": "Q7: Mujhe kitna payment karna hoga?",
@@ -132,7 +132,7 @@
       },
       {
         "question": "Q8: Mere invoices par tax calculate kaise hoga?",
-        "answer": "GST-registered creators ke liye, Sparkonomy aapki invoice details ke basis par GST fields fill karne mein help karta hai. System relevant tax details add karta hai aur CGST/SGST/IGST breakup generate karta hai, taaki invoice GST-ready format mein rahe. Aap final invoice send karne se pehle details review kar sakte hain."
+        "answer": "GST-registered Creators ke liye, Sparkonomy aapki invoice details ke basis par GST fields fill karne mein help karta hai. System relevant tax details add karta hai aur CGST/SGST/IGST breakup generate karta hai, taaki invoice GST-ready format mein rahe. Aap final invoice send karne se pehle details review kar sakte hain."
       },
       {
         "question": "Q9: Kya AI GST calculate karne mein help karta hai?",
@@ -169,7 +169,7 @@
   },
   "referral": {
     "defaultName": "Chulbuli",
-    "message": "ka maan na hai ki yeh app creators ke liye sabse easy hai — aap bhi ise try karke dekho.",
+    "message": "ka maan na hai ki yeh app Creators ke liye sabse easy hai — aap bhi ise try karke dekho.",
     "signUp": "Aaj hi Sign Up karo!"
   },
   "otp": {
