@@ -39,7 +39,7 @@ function CreatorEarnPageContent() {
   // and LCP element paint from the SSR HTML rather than waiting on hydration.
 
   return (
-    <SignupProvider socialAuthAfterVerify>
+    <SignupProvider socialAuthAfterVerify namespace="creatorEarn">
       <main className="relative min-h-screen bg-black overflow-hidden">
         {/* Background Gradients — tuned to reach the end of the FAQ
             (the "View All" / "Show Less" toggle), so bg-black only

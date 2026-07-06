@@ -6,6 +6,16 @@ import {StoryPanelProps} from "./types";
 import {useEffect, useRef} from "react";
 import {XIcon} from "lucide-react";
 
+const slideVariants = {
+  enter: (direction: number) => ({
+    x: direction >= 0 ? "100%" : "-100%",
+  }),
+  center: { x: "0%" },
+  exit: (direction: number) => ({
+    x: direction >= 0 ? "-100%" : "100%",
+  }),
+};
+
 export default function StoryPanel({
   currentIndex,
   totalStories,
@@ -15,6 +25,7 @@ export default function StoryPanel({
   children,
   isPaused,
   onPauseChange,
+  direction,
 }: StoryPanelProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -59,7 +70,7 @@ export default function StoryPanel({
   return (
     <motion.div
       ref={containerRef}
-      className="relative w-full h-full cursor-pointer"
+      className="relative w-full h-full cursor-pointer overflow-hidden"
       onClick={handleClick}
       onMouseDown={() => onPauseChange(true)}
       onMouseUp={() => onPauseChange(false)}
@@ -71,14 +82,16 @@ export default function StoryPanel({
       exit={{ opacity: 0 }}
       transition={{ duration: 0.3 }}
     >
-      <AnimatePresence mode="sync">
+      <AnimatePresence mode="sync" initial={false} custom={direction}>
         <motion.div
           key={currentIndex}
           className="absolute inset-0"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.3 }}
+          custom={direction}
+          variants={slideVariants}
+          initial="enter"
+          animate="center"
+          exit="exit"
+          transition={{ x: { type: "tween", duration: 0.35, ease: [0.32, 0.72, 0, 1] } }}
         >
           {children}
         </motion.div>

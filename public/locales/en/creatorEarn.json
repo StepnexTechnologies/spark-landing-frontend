@@ -31,8 +31,8 @@
     }
   },
   "pitch": {
-    "heading": "The world's first AI — built just for creators.",
-    "description": "Late payments, endless follow-ups and tax headaches — it all ends here! The first AI built for creators, starting with smart payments. You create the content, we'll handle the follow-ups."
+    "heading": "The world's first AI — built just for Creators.",
+    "description": "Late payments, endless follow-ups and tax headaches — it all ends here! The first AI built for Creators, starting with smart payments. You create the content, we'll handle the follow-ups."
   },
   "threeStep": {
     "title": "3 simple steps. That's it.",
@@ -40,7 +40,7 @@
     "items": [
       {
         "title": "Speak, type, or screenshot",
-        "description": "Upload a WhatsApp message, email, or brand chat screenshot — or just say/type \"make an invoice.\"",
+        "description": "Upload a WhatsApp message, email, or brand chat screenshot — or just say/type \"<i>make me an invoice.</i>\"",
         "tags": ["Voice", "Type", "Screenshot", "Duplicate"]
       },
       {
@@ -56,8 +56,8 @@
     ]
   },
   "testimonials": {
-    "title": "What creators are saying",
-    "subtitle": "Faster payments, and you look like a Pro.",
+    "title": "What Creators are saying",
+    "subtitle": "Faster payments, and makes you look like a Pro",
     "items": [
       {
         "quote": "It's been 3 months and I've followed up 15-20 times for payment — still nothing! Please handle reminders for me, I'm done.",
@@ -107,8 +107,8 @@
         "answer": "Give your phone number — that's it! After that, share your social handles, answer a couple of easy questions on your billing info, and you'll be sending invoices using Sparkonomy's AI quicker than a collab DM reply!"
       },
       {
-        "question": "Q2: How is this AI for creators and its smart payment useful for me?",
-        "answer": "Sparkonomy's AI was designed exclusively to help creators manage their businesses like a pro. The smart payments feature helps you send invoices fast and easy. Just share your chat or brand collab details, and we'll make a GST-ready invoice with no math, no stress, no chasing brands. Our Pocket CFO AI tracks your payments and cash flow, sending 5-minute weekly updates to keep you informed. And the best of all, Sparkonomy automatically tracks & sends friendly reminders for your payments on WhatsApp/email. You are always in control of who gets what, with quick 1-tap actions like - STOP, DELAY, or PAYMENT DONE. Earn More. Stress Less."
+        "question": "Q2: How is this AI for Creators and its smart payment useful for me?",
+        "answer": "Sparkonomy's AI was designed exclusively to help Creators manage their businesses like a pro. The smart payments feature helps you send invoices fast and easy. Just share your chat or brand collab details, and we'll make a GST-ready invoice with no math, no stress, no chasing brands. Our Pocket CFO AI tracks your payments and cash flow, sending 5-minute weekly updates to keep you informed. And the best of all, Sparkonomy automatically tracks & sends friendly reminders for your payments on WhatsApp/email. You are always in control of who gets what, with quick 1-tap actions like - STOP, DELAY, or PAYMENT DONE. Earn More. Stress Less."
       },
       {
         "question": "Q3: What information do I need to add to my profile to start invoicing?",
@@ -116,7 +116,7 @@
       },
       {
         "question": "Q4: How do I create my first invoice?",
-        "answer": "Sparkonomy's creator AI helps you make an invoice in under 3-minutes with a few taps - and all from your phone! Our smart payments feature helps you get started fast. Duplicate an old invoice, upload a WhatsApp or email screenshot with billing instructions, or just type \"I need an invoice for...\" and watch one get built in for you. It's that easy to spark your invoice. Send a chat - get an invoice. Now, you will never be delayed in sending one!"
+        "answer": "Sparkonomy's Creator AI helps you make an invoice in under 3-minutes with a few taps - and all from your phone! Our smart payments feature helps you get started fast. Duplicate an old invoice, upload a WhatsApp or email screenshot with billing instructions, or just type \"I need an invoice for...\" and watch one get built in for you. It's that easy to spark your invoice. Send a chat - get an invoice. Now, you will never be delayed in sending one!"
       },
       {
         "question": "Q5: How will Sparkonomy make payment reminders on my behalf?",
@@ -124,11 +124,11 @@
       },
       {
         "question": "Q6: What is a pocket CFO and what will it do?",
-        "answer": "We know you don't want to be your creator business accountant, and yet you end up being one! Invoices made in Excel, Canva, or Word are impossible to manage and track. Sparkonomy's Pocket CFO AI agent analyses your payments & cash flows every week. Then it sends you quick weekly 5-minute updates on cash flow, overdue payments, and income growth. It keeps your records tidy and your business tax-ready. You go Pro, we get you there!"
+        "answer": "We know you don't want to be your Creator business accountant, and yet you end up being one! Invoices made in Excel, Canva, or Word are impossible to manage and track. Sparkonomy's Pocket CFO AI agent analyses your payments & cash flows every week. Then it sends you quick weekly 5-minute updates on cash flow, overdue payments, and income growth. It keeps your records tidy and your business tax-ready. You go Pro, we get you there!"
       },
       {
         "question": "Q7: How much do I have to pay?",
-        "answer": "You can make up to 4 new invoices every month, send unlimited reminders, and get your own Pocket CFO - perfect for most creators. As your needs grow, you can switch to Pro by referring a few friends or for less than the price of a cup of coffee."
+        "answer": "You can make up to 4 new invoices every month, send unlimited reminders, and get your own Pocket CFO - perfect for most Creators. As your needs grow, you can switch to Pro by referring a few friends or for less than the price of a cup of coffee."
       },
       {
         "question": "Q8: How will I calculate taxes on the invoice?",
@@ -169,7 +169,7 @@
   },
   "referral": {
     "defaultName": "Chulbuli",
-    "message": "says this is the easiest app for creator work — and wants you to try it.",
+    "message": "says this is the easiest app for Creator work — and wants you to try it.",
     "signUp": "Sign Up today!"
   },
   "otp": {

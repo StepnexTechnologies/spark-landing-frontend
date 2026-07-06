@@ -1,9 +1,9 @@
 "use client";
 
-import {useRef} from "react";
+import {useRef, type ReactNode} from "react";
 import {motion} from "framer-motion";
 import Image from "next/image";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import {useSectionViewTracking} from "@/lib/hooks/useSectionViewTracking";
 
 interface ThreeStepItem {
@@ -18,7 +18,7 @@ const STEP_IMAGES = [
   "/promo/landing-promo/Step-3.png",
 ];
 
-function StepCard({ index, title, description, tags, imageUrl }: ThreeStepItem & { index: number; imageUrl: string }) {
+function StepCard({ index, title, description, tags, imageUrl }: Omit<ThreeStepItem, "description"> & { description: ReactNode; index: number; imageUrl: string }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 24 }}
@@ -101,7 +101,7 @@ export default function BenefitsSection({
               key={i}
               index={i}
               title={step.title}
-              description={step.description}
+              description={<Trans t={t} i18nKey={`threeStep.items.${i}.description`} />}
               tags={Array.isArray(step.tags) ? step.tags : []}
               imageUrl={STEP_IMAGES[i] ?? STEP_IMAGES[0]}
             />

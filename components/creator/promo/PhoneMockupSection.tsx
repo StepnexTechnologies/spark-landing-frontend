@@ -18,11 +18,15 @@ export default function PhoneMockupSection() {
   const inView = useInView(sectionRef, {amount: 0.6});
   const prefersReducedMotion = useReducedMotion();
   const [activeIndex, setActiveIndex] = useState(0);
+  // Sticky flag: once the section has been seen, keep the hidden preloader
+  // mounted so all screens are cached before the first slide happens.
+  const [warmedUp, setWarmedUp] = useState(false);
 
   useSectionViewTracking(sectionRef, "promo_phone_mockup");
 
   useEffect(() => {
     if (prefersReducedMotion || !inView) return;
+    setWarmedUp(true);
     const id = setInterval(() => {
       setActiveIndex((i) => (i + 1) % SCREENS.length);
     }, SLIDE_INTERVAL_MS);
@@ -62,6 +66,29 @@ export default function PhoneMockupSection() {
               </motion.div>
             </AnimatePresence>
           </div>
+
+          {/* Hidden preloader: without it, each screen image only starts
+              downloading when the carousel first slides to it, leaving the
+              phone blank for the fetch. Same fill/sizes as the visible
+              <Image> so the browser resolves the identical /_next/image URL.
+              Only mounts once the section is in view (first slide is 5s
+              later), and never for reduced-motion users who see one screen. */}
+          {warmedUp && (
+            <div aria-hidden className="absolute inset-x-[11px] top-[10px] bottom-[11px] overflow-hidden" style={{visibility: "hidden"}}>
+              {SCREENS.map((src) => (
+                <Image
+                  key={src}
+                  src={src}
+                  alt=""
+                  fill
+                  sizes="212px"
+                  className="object-cover"
+                  loading="eager"
+                  fetchPriority="low"
+                />
+              ))}
+            </div>
+          )}
 
           {/* Phone frame overlay — section is below the fold so we lazy-load. */}
           <Image

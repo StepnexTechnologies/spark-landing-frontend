@@ -18,6 +18,8 @@ export interface StoryPanelProps {
   children: React.ReactNode;
   isPaused: boolean;
   onPauseChange: (paused: boolean) => void;
+  /** 1 = advancing (slide left), -1 = going back (slide right) */
+  direction: number;
 }
 
 export interface StoryProgressBarProps {

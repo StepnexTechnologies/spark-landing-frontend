@@ -16,9 +16,9 @@ const solitreo = Solitreo({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.sparkonomy.com/"),
-  title: "Get paid faster — like your friend! Join them for FREE on Sparkonomy, the 1st AI for creators.",
+  title: "Get paid faster — like your friend! Join them for FREE on Sparkonomy, the 1st AI for Creators.",
   description:
-    "Say NO to messy spreadsheets and manual invoices. Run your creator business like a pro. Join 100% free before early access ends!",
+    "Say NO to messy spreadsheets and manual invoices. Run your Creator business like a pro. Join 100% free before early access ends!",
   keywords: [
     "creator invoicing",
     "influencer invoicing",
