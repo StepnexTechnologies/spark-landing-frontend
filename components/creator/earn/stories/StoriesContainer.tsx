@@ -17,7 +17,8 @@ const StoryContent3 = dynamic(() => import("./StoryContent3"), { ssr: false });
 const StoryContent4 = dynamic(() => import("./StoryContent4"), { ssr: false });
 import {track} from "@/lib/analytics/track";
 
-const STORY_DURATION = 6000; // 6 seconds per story
+const STORY_DURATION = 2500; // fallback for any story without an explicit duration
+const STORY_DURATIONS = [3000, 2500, 2500, 4000];
 
 // Image paths for each language
 const storyImages = {
@@ -78,7 +79,7 @@ export default function StoriesContainer({
   const stories = storyComponents.map((component, index) => ({
     id: index + 1,
     component,
-    duration: STORY_DURATION,
+    duration: STORY_DURATIONS[index] ?? STORY_DURATION,
     imageSrc: images[index],
   }));
 

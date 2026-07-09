@@ -4,7 +4,7 @@ import { Suspense, useEffect, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { Trans, useTranslation } from "react-i18next";
-import { ArrowRight, Check, Loader2, X } from "lucide-react";
+import { ArrowRight, Check, ChevronLeft, Loader2, X } from "lucide-react";
 import { ValidatedPhoneInput } from "@/components/creator/earn/ValidatedPhoneInput";
 import OtpInput from "@/components/creator/otp/OtpInput";
 import TextInput from "@/components/common/TextInput";
@@ -245,7 +245,7 @@ export default function PromoSignupCard({
         y: { duration: 0.7, times: [0, 0.4, 1], ease: [0.34, 1.4, 0.64, 1] },
         boxShadow: { duration: 0.7, times: [0, 0.4, 1], ease: [0.4, 0, 0.2, 1] },
       }}
-      className={`relative mx-auto w-full max-w-[468px] rounded-[24px] px-3 py-4 ${isEarn ? "border-b border-white" : ""}`}
+      className={`relative mx-auto w-full max-w-[468px] rounded-[24px] px-[10px] py-4 ${isEarn ? "border-b border-white" : ""}`}
     >
       {/* Earn variant: top-right corner coin peeks above the card. Sibling of
           the voucher row so it's positioned relative to the outer card box
@@ -274,7 +274,8 @@ export default function PromoSignupCard({
                     fontFamily:
                       "var(--font-solitreo), 'Brush Script MT', 'Snell Roundhand', cursive",
                     fontWeight: 700,
-                    fontSize: "1.15em",
+                    fontSize: "20px",
+                    letterSpacing: "-0.02em",
                     paddingLeft: "0.1em",
                   }}
                 />,
@@ -575,8 +576,9 @@ export default function PromoSignupCard({
               type="button"
               onClick={changeNumber}
               disabled={stage === "submitting" || stage === "submitted"}
-              className="font-medium hover:underline disabled:opacity-50 disabled:cursor-not-allowed"
+              className="inline-flex items-center gap-0.5 font-medium hover:underline disabled:opacity-50 disabled:cursor-not-allowed"
             >
+              <ChevronLeft className="w-3.5 h-3.5" strokeWidth={2} />
               {t("hero.card.changeNumber")}
             </button>
             <span className="opacity-90">
@@ -618,11 +620,11 @@ export default function PromoSignupCard({
               }
               className={
                 verifyStatus === "verified"
-                  ? // Verified pill — swaps the purple→pink CTA for a solid green
+                  ? // Verified pill — swaps the purple→pink CTA for a pale green
                     // affirmation that locks until the user uses "Change Number"
                     // to restart. Cursor-default + disabled state below makes
                     // sure clicks don't re-fire verify.
-                    "flex-shrink-0 px-4 py-2 rounded-[8px] text-white text-sm font-bold whitespace-nowrap bg-[#16A34A] shadow-[0_2px_8px_rgba(22,163,74,0.45)] cursor-default disabled:opacity-100"
+                    "flex-shrink-0 px-4 py-2 rounded-[8px] text-[#16A34A] text-sm font-bold whitespace-nowrap bg-[#DCFCE7] cursor-default disabled:opacity-100"
                   : "flex-shrink-0 px-4 py-2 rounded-[8px] text-white text-sm font-bold whitespace-nowrap bg-[linear-gradient(180.27deg,#DD2A7B_-46.92%,#9747FF_80.1%)] hover:brightness-110 transition-[filter,opacity] duration-200 disabled:opacity-60 disabled:cursor-not-allowed shadow-[0_2px_8px_rgba(151,71,255,0.4)]"
               }
             >
