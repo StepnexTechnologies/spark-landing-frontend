@@ -15,6 +15,13 @@ export interface FeaturedBlogCardProps {
   meta?: React.ReactNode;
   /** allow Image to use priority (for featured cards) */
   imagePriority?: boolean;
+  /**
+   * Override the Next.js Image `loading` attribute independently of `imagePriority`.
+   * Use `"eager"` when the image is above-fold but should NOT emit a `<link rel="preload">`
+   * (i.e. imagePriority={false} + imageLoading="eager" = fetch immediately, no preload tag).
+   * Omit entirely (defaults to "lazy") for genuinely below-fold images.
+   */
+  imageLoading?: "lazy" | "eager";
 }
 
 export default function FeaturedBlogCard({
@@ -27,6 +34,7 @@ export default function FeaturedBlogCard({
   tag = "Brand Story",
   meta,
   imagePriority = false,
+  imageLoading,
 }: FeaturedBlogCardProps) {
   const content = (
     <div className="flex flex-col md:flex-row w-full h-full">
@@ -43,6 +51,7 @@ export default function FeaturedBlogCard({
               style={{ objectFit: "contain" }}
               sizes="(min-width: 768px) 50vw, 100vw"
               priority={imagePriority}
+              loading={imageLoading}
             />
           </div>
         </div>

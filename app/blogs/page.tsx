@@ -153,45 +153,48 @@ async function BlogPosts({ currentPage }: { currentPage: number }) {
 
   return (
     <>
-      {isFirstPage && (
-        <>
-          {/* First Row - 3 vertical cards */}
-          <div className="max-w-7xl mx-auto px-4 ">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:mb-12">
-              {firstRowPosts.map((p) => (
-                <Card
-                  key={p.id}
-                  title={decodeHtmlEntities(p.title.rendered)}
-                  description={decodeHtmlEntities(p.excerpt.rendered)}
-                  imageSrc={cardImage(p)}
-                  href={`/blogs/${p.slug}`}
-                  layout="vertical"
-                  descriptionPosition="bottom"
-                  imagePriority={true}
-                  showReadMore={true}
-                  meta={<span>{dateLabel(p.date)}</span>}
-                />
-              ))}
-            </div>
-          </div>
+      {/* Container for First Row */}
+      <div className="max-w-7xl mx-auto px-4 ">
+        {/* First Row - 3 vertical cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:mb-12">
+          {firstRowPosts.map((p) => (
+            <Card
+              key={p.id}
+              title={decodeHtmlEntities(p.title.rendered)}
+              description={decodeHtmlEntities(p.excerpt.rendered)}
+              imageSrc={p._embedded?.['wp:featuredmedia']?.[0]?.source_url || p.yoast_head_json?.og_image?.[0]?.url}
+              href={`/blogs/${p.slug}`}
+              layout="vertical"
+              descriptionPosition="bottom"
+              imagePriority={false}
+              imageLoading="eager"
+              showReadMore={true}
+              meta={
+                <span>{new Date(p.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+              }
+            />
+          ))}
+        </div>
+      </div>
 
-          {/* Second Row - 1 featured horizontal card (full width, no container) */}
-          {companyPost && (
-            <div className="w-full md:mb-12">
-              <FeaturedBlogCard
-                key={companyPost.id}
-                title={decodeHtmlEntities(companyPost.title.rendered)}
-                description={decodeHtmlEntities(companyPost.excerpt.rendered)}
-                imageSrc={cardImage(companyPost)}
-                href={`/blogs/${companyPost.slug}`}
-                tag="Company"
-                imagePriority={true}
-                meta={<span>{dateLabel(companyPost.date)}</span>}
-              />
-            </div>
-          )}
-        </>
-      )}
+      {/* Second Row - 1 featured horizontal card (full width, no container) */}
+      <div className="w-full md:mb-12">
+        {secondRowPost.map((p) => (
+          <FeaturedBlogCard
+            key={p.id}
+            title={decodeHtmlEntities(p.title.rendered)}
+            description={decodeHtmlEntities(p.excerpt.rendered)}
+            imageSrc={p._embedded?.['wp:featuredmedia']?.[0]?.source_url || p.yoast_head_json?.og_image?.[0]?.url}
+            href={`/blogs/${p.slug}`}
+            tag="Company"
+            imagePriority={false}
+            imageLoading="eager"
+            meta={
+              <span>{new Date(p.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+            }
+          />
+        ))}
+      </div>
 
       {/* Grid of posts for this page */}
       <div className="max-w-7xl mx-auto px-4">
