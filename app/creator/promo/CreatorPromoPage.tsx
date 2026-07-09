@@ -113,7 +113,9 @@ export default function CreatorPromoPage({ variant, enableTypewriter }: CreatorP
           </Suspense>
           <HeroSection variant={variant} enableTypewriter={enableTypewriter} />
           <ThreeStepSection />
-          <PhoneMockupSection />
+          {/* Hinglish-only page: pin the screens so SSR doesn't emit the
+              English set before the changeLanguage effect above runs. */}
+          <PhoneMockupSection lang="hi-Latn" />
           <TestimonialsSection
             namespace="creatorPromo"
             trackingId="promo_testimonials"

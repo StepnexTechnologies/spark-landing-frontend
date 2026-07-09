@@ -70,7 +70,7 @@ TypeScript interfaces for type safety
 ## Customization
 
 ### Timing
-Edit `STORY_DURATION` in `StoriesContainer.tsx` (default: 6000ms)
+Edit `STORY_DURATIONS` in `StoriesContainer.tsx` — one entry per story (currently 3000ms, 2500ms, 2500ms, 4000ms). `STORY_DURATION` is the fallback for any story without an entry.
 
 ### Images
 Replace gradient placeholders in `StoryContent1-4.tsx` with actual images:

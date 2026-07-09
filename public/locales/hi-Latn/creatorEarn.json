@@ -5,29 +5,29 @@
   "hero": {
     "title": "Zyada kamaayein. Stress Less.<0/><1>Jaldi payment paayein!</1>",
     "features": [
-      "<0>Easy</0> invoices AI se: Voice, chat, ya photo",
-      "<0>Error-free</0>: Tax calculation apne aap, instant",
-      "<0>Faster</0> payments: Email & WhatsApp par auto-reminders"
+      "<0>Easy</0> invoices AI se banayein : Voice, chat ya photo",
+      "<0>Error-free</0>: Instant-tax calculations",
+      "<0>Faster</0> payments: Auto-reminders Email aur WhatsApp par"
     ],
     "card": {
       "livePromo": "LIVE PROMO",
-      "voucherHeading": "Free invoice bhejein — <0>Win Gold Coin</0>",
+      "voucherHeading": "Free Invoice bhejein — <0>Gold Coin Jeetein</0>",
       "voucherBody": "4 invoices/mo free forever. Pehle 5 signups ko har roz Gold Coin.",
       "voucherTerms": "T&Cs apply",
       "ctaLabel": "Get started — bilkul free!",
-      "checks": ["Har mahine 4 invoices free", "Koi card nahi", "30-sec signup"],
+      "checks": ["4 invoices/mo free forever", "No card needed", "30-sec signup"],
       "phonePlaceholder": "XXXX XXXXXX",
       "sendOtp": "Win Now",
       "edit": "Edit",
-      "changeNumber": "Number badlein",
-      "otpSentTo": "<0>{{phone}}</0> par OTP bheja gaya",
+      "changeNumber": "Change Number",
+      "otpSentTo": "OTP <0>{{phone}}</0> par bheja hai",
       "verify": "Verify",
       "verifying": "Verifying",
-      "verified": "Verified",
-      "socialTitle": "Apna social account verify karein",
-      "socialSubtitle": "Rewards unlock karne ke liye 3 steps",
-      "socialCta": "Social Verify karein & Aage Badhein",
-      "disclaimer": "By tapping, you agree to create an account and Sparkonomy's <0>Terms</0> and <1>Privacy Policy</1>."
+      "verified": "Verify ho gaya",
+      "socialTitle": "Social account verify karein",
+      "socialSubtitle": "1 step mey apne rewards unlock karein",
+      "socialCta": "Verify Social & Continue",
+      "disclaimer": "Tap karke aap Sparkonomy ke <0>Terms</0> aur <1>Privacy Policy</1> se agree karte hain."
     }
   },
   "pitch": {
