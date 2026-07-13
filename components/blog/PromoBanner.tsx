@@ -11,7 +11,7 @@ export default function PromoBanner({
   title = "We've now added support for JSON Schema to all actively supported Gemini models.",
   subtitle = "This enables libraries like Pydantic (Python) or Zod (JavaScript/TypeScript).",
   ctaText = "Try Out Now",
-  ctaLink = "https://sparkonomy.com",
+  ctaLink = "https://www.sparkonomy.com",
 }: PromoBannerProps) {
   return (
     <div className="promo-banner">

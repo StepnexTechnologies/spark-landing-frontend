@@ -3,14 +3,12 @@
 import { Suspense, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Trans, useTranslation } from "react-i18next";
-import { useSearchParams } from "next/navigation";
-import Image from "next/image";
 import { ValidatedPhoneInput } from "./ValidatedPhoneInput";
+import FlippingCoin from "./FlippingCoin";
 import { useSignup } from "@/components/creator/promo/SignupContext";
 import GiftCardStackAnimation from "@/components/creator/promo/GiftCardStackAnimation";
 import { PROMO_CONFIG } from "@/lib/promo/config";
 import { track } from "@/lib/analytics/track";
-import { appendUtmTo, readUtmParams } from "@/lib/utm";
 
 // Module-level rAF id so overlapping clicks cancel the previous scroll
 // instead of fighting it (each animation re-reads window.scrollY at start).
@@ -67,15 +65,26 @@ export default function FloatingCTA({
   trackingPrefix = "earn",
   triggerElementId,
 }: FloatingCTAProps = {}) {
-  const { t, i18n } = useTranslation(namespace);
-  const searchParams = useSearchParams();
+  const { t } = useTranslation(namespace);
   const [isVisible, setIsVisible] = useState(false);
+  // Gate visibility on the hero card having been seen at least once. The
+  // observer's initial callback fires synchronously on observe(), so without
+  // this guard the bar pops up on first paint whenever the card starts below
+  // the fold (e.g. /creator/earn, where the story carousel pushes it down).
+  const hasBeenSeenRef = useRef(false);
 
   useEffect(() => {
     const target = triggerElementId ? document.getElementById(triggerElementId) : null;
     if (target) {
       const observer = new IntersectionObserver(
-        ([entry]) => setIsVisible(!entry.isIntersecting),
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            hasBeenSeenRef.current = true;
+            setIsVisible(false);
+          } else {
+            setIsVisible(hasBeenSeenRef.current);
+          }
+        },
         { threshold: 0 },
       );
       observer.observe(target);
@@ -92,74 +101,162 @@ export default function FloatingCTA({
   return variant === "promo" ? (
     <PromoFloatingCTA isVisible={isVisible} t={t} trackingPrefix={trackingPrefix} />
   ) : (
-    <EarnFloatingCTA
-      isVisible={isVisible}
-      t={t}
-      i18n={i18n}
-      searchParams={searchParams}
-      trackingPrefix={trackingPrefix}
-    />
+    <EarnFloatingCTA isVisible={isVisible} t={t} trackingPrefix={trackingPrefix} />
   );
 }
 
 // ---------- Earn variant ---------------------------------------------------
+// Sticky bottom bar mirroring the hero card's Win-Gold-Coin pitch: dark
+// gradient surface, FlippingCoin peeking out of the top-right corner, the
+// shared voucher heading (white + gold script), an inline 3-up checks row,
+// the same white phone input pill, and the Terms/Privacy disclaimer. Submit
+// hands the phone number off to the hero card via SignupContext (same path
+// as the promo variant) so the OTP step happens inline on the card.
 
 interface EarnVariantProps {
   isVisible: boolean;
-  t: (key: string) => string;
-  i18n: { language?: string };
-  searchParams: ReturnType<typeof useSearchParams>;
+  t: ReturnType<typeof useTranslation>["t"];
   trackingPrefix: string;
 }
 
-function EarnFloatingCTA({ isVisible, t, i18n, searchParams, trackingPrefix }: EarnVariantProps) {
-  const [phone, setPhone] = useState("");
+function EarnFloatingCTA({ isVisible, t, trackingPrefix }: EarnVariantProps) {
+  const { phone, setPhone, sendOtp, stage } = useSignup();
+  const prefersReducedMotion = useReducedMotion();
 
-  const referralCode = searchParams.get("ref");
-  const currentLang = i18n.language?.startsWith("hi") ? "hi-Latn" : "en";
+  const checks = (() => {
+    const raw = t("hero.card.checks", { returnObjects: true });
+    return Array.isArray(raw) ? (raw as string[]) : [];
+  })();
 
-  const handleSignup = () => {
-    const url = new URL("https://beta.creator.sparkonomy.com/auth?service=earn");
-    url.searchParams.set("lang", currentLang);
-    if (referralCode) url.searchParams.set("ref", referralCode);
-    if (phone) url.searchParams.set("phone", phone);
-    appendUtmTo(url, readUtmParams(new URLSearchParams(searchParams.toString())));
-    track(`${trackingPrefix}_cta_click`, {
-      cta: "floating_beta_signup",
-      has_phone: Boolean(phone),
-      referral_code: referralCode ?? null,
-    });
-    if (phone) {
-      track(`${trackingPrefix}_floating_cta_phone_submit`, { referral_code: referralCode ?? null });
+  const handleSubmit = async () => {
+    track(`${trackingPrefix}_floating_cta_phone_submit`, { has_phone: Boolean(phone) });
+    const target = document.getElementById("promo-hero-card");
+
+    if (target) {
+      if (prefersReducedMotion) {
+        target.scrollIntoView({ block: "center" });
+      } else {
+        await smoothScrollToCenter(target, 1200);
+      }
     }
-    window.location.href = url.toString();
+
+    if (!phone || stage !== "phone") return;
+
+    await new Promise((r) => window.setTimeout(r, 350));
+    void sendOtp();
   };
 
   return (
     <AnimatePresence>
       {isVisible && (
+        // -bottom-px on the fixed wrapper (and the matching +1px on the
+        // inner pb) overshoots the viewport by 1px to cover the sub-pixel
+        // gap left by framer-motion's translateY(0) on fractional-DPR screens.
         <motion.div
           initial={{ opacity: 0, y: 100 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 100 }}
-          transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
-          className="fixed bottom-4 left-0 right-0 z-50 flex justify-center items-center px-4"
+          transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+          className="fixed -bottom-px left-0 right-0 z-40"
         >
-          <div className="flex items-center w-full max-w-md rounded-full bg-white/10 backdrop-blur-[16px] backdrop-brightness-[100%] shadow-[0_8px_32px_rgba(221,42,123,0.3),inset_0_1px_0_rgba(255,255,255,0.2)] border border-white/20 px-3 py-2 gap-2">
-            <Suspense fallback={null}>
-              <ValidatedPhoneInput
-                id="floating-cta-phone"
-                value={phone}
-                onChange={setPhone}
-                placeholder={t("floatingCta.placeholder")}
+          <div
+            className="relative w-full md:max-w-md md:mx-auto rounded-t-[20px] px-4 pt-3 pb-[max(calc(0.5rem+1px),calc(env(safe-area-inset-bottom)+1px))] shadow-[0_-10px_30px_rgba(0,0,0,0.45),0_-2px_8px_rgba(221,42,123,0.2)]"
+            style={{
+              background:
+                "linear-gradient(180deg, #000000 0%, rgba(221, 42, 123, 0.09) 100%)",
+              backdropFilter: "blur(20px)",
+              WebkitBackdropFilter: "blur(20px)",
+            }}
+          >
+            {/* Top-right coin peeks above the bar edge — sibling of the
+                content column so it pins to the outer surface rather than
+                being affected by the inner padding. */}
+            <div className="absolute -top-5 right-3 z-20 pointer-events-none">
+              <FlippingCoin size={48} />
+            </div>
+
+            {/* Heading — "Send free invoice —" white, "Win Gold Coin" gold
+                Solitreo script. Right padding clears the coin. */}
+            <h3 className="pr-12 text-[18px] font-semibold tracking-[-0.04em] text-white leading-tight">
+              <Trans
+                i18nKey="hero.card.voucherHeading"
+                t={t}
+                components={[
+                  <span
+                    key="gold"
+                    className="italic"
+                    style={{
+                      color: "#FFCC00",
+                      fontFamily:
+                        "var(--font-solitreo), 'Brush Script MT', 'Snell Roundhand', cursive",
+                      fontWeight: 700,
+                      fontSize: "1.15em",
+                      paddingLeft: "0.1em",
+                    }}
+                  />,
+                ]}
               />
-            </Suspense>
-            <button
-              onClick={handleSignup}
-              className="flex-shrink-0 px-5 py-2.5 rounded-full text-white text-sm font-semibold whitespace-nowrap bg-[linear-gradient(162deg,rgba(221,42,123,0.8)_0%,rgba(151,71,255,0.8)_64%)] hover:bg-[linear-gradient(162deg,rgba(221,42,123,1)_0%,rgba(151,71,255,1)_64%)] transition-all duration-200"
-            >
-              {t("floatingCta.signup")}
-            </button>
+            </h3>
+
+            {/* Inline checks — single row mirroring the hero card's earn
+                layout. 10.5px so all three fit on a 360px viewport. */}
+            {checks.length > 0 && (
+              <ul className="mt-1.5 flex items-center text-[10.5px] font-normal text-white whitespace-nowrap gap-x-3.5">
+                {checks.map((label, i) => (
+                  <li key={i} className="flex items-center gap-1">
+                    <span aria-hidden="true">✅</span>
+                    <span>{label}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+
+            {/* Phone input + Win Now — hands off to the hero card */}
+            <div className="mt-2.5 flex items-center w-full rounded-[16px] bg-white border border-black/10 p-[6px] pl-3 gap-2">
+              <Suspense fallback={null}>
+                <ValidatedPhoneInput
+                  id="earn-floating-phone"
+                  value={phone}
+                  onChange={setPhone}
+                  placeholder={t("hero.card.phonePlaceholder")}
+                  theme="light"
+                  inputClassName="bg-transparent border-none outline-none text-base placeholder:text-[#999999] focus:outline-none focus:ring-0 w-full text-[#212529]"
+                />
+              </Suspense>
+              <button
+                type="button"
+                onClick={handleSubmit}
+                disabled={stage === "otpSending"}
+                aria-label={t("floatingCta.ariaLabel")}
+                className="flex-shrink-0 px-4 py-2 rounded-[8px] text-white text-sm font-bold whitespace-nowrap bg-[linear-gradient(180.27deg,#DD2A7B_-46.92%,#9747FF_80.1%)] hover:brightness-110 transition-[filter,opacity] duration-200 disabled:opacity-60 disabled:cursor-not-allowed shadow-[0_2px_8px_rgba(151,71,255,0.4)]"
+              >
+                {stage === "otpSending" ? t("otp.sending") : t("hero.card.sendOtp")}
+              </button>
+            </div>
+
+            {/* Disclaimer */}
+            <p className="mt-1.5 text-[8.5px] text-white/90 text-center leading-snug px-1">
+              <Trans
+                i18nKey="hero.card.disclaimer"
+                t={t}
+                components={[
+                  <a
+                    key="terms"
+                    href="/legal/terms"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline underline-offset-2 font-medium"
+                  />,
+                  <a
+                    key="privacy"
+                    href="/legal/privacy-policy"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline underline-offset-2 font-medium"
+                  />,
+                ]}
+              />
+            </p>
           </div>
         </motion.div>
       )}
@@ -329,6 +426,7 @@ function PromoFloatingCTA({ isVisible, t, trackingPrefix }: PromoVariantProps) {
                     value={phone}
                     onChange={setPhone}
                     placeholder={t("floatingCta.placeholder")}
+                    theme="light"
                     inputClassName="bg-transparent border-none outline-none text-base placeholder:text-[#999999] focus:outline-none focus:ring-0 w-full text-[#212529]"
                   />
                 </Suspense>

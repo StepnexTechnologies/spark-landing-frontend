@@ -3,81 +3,126 @@ import type { Metadata } from "next";
 import Card from "@/components/blog/BlogCard";
 import FeaturedBlogCard from "@/components/blog/FeaturedBlogCard";
 import BlogPostsSkeleton from "@/components/blog/BlogPostsSkeleton";
+import BlogPagination from "@/components/blog/BlogPagination";
 import MainSection from "@/components/blog/MainSection";
 import MainSectionSkeleton from "@/components/blog/MainSectionSkeleton";
 import NewsletterSection from "@/components/blog/NewsletterSection";
-import { getPosts, getPostTags, decodeHtmlEntities } from "@/lib/wordpress-improved";
+import { getPosts, getPostsByCategory, getCategoryBySlug, getPostTags, decodeHtmlEntities } from "@/lib/wordpress-improved";
 
 export const revalidate = 300;
 
-export const metadata: Metadata = {
-  metadataBase: new URL("https://www.sparkonomy.com/"),
-  title: "Blog | Sparkonomy - Tips for Creators, Influencers, YouTubers & Instagrammers",
-  description: "Discover the latest insights, tips, and strategies for Creators, influencers, YouTubers & Instagrammers to monetize content, grow their audience, and succeed in the Creator economy. Expert guides from Sparkonomy.",
-  keywords: [
-    "creator economy",
-    "content monetization",
-    "creator tips",
-    "influencer tips",
-    "passive income",
-    "influencer marketing",
-    "content creation",
-    "digital creators",
-    "social media influencers",
-    "instagrammers",
-    "youtubers",
-    "instagram influencer tips",
-    "youtube creator tips",
-    "content creator monetization",
-    "influencer platform",
-    "Sparkonomy blog",
-  ],
-  authors: [{ name: "Sparkonomy Team" }],
-  creator: "Sparkonomy",
-  publisher: "Sparkonomy",
-  alternates: {
-    canonical: "https://sparkonomy.com/blogs",
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
+// Posts shown in the grid per page. The page-1 hero + featured Company tile are
+// rendered on top of this and are not counted toward the per-page grid window.
+const POSTS_PER_PAGE = 12;
+const BLOG_URL = "https://www.sparkonomy.com/blogs";
+
+interface BlogsPageProps {
+  searchParams: Promise<{ page?: string }>;
+}
+
+// Parse ?page into a positive integer, defaulting to 1 for missing/garbage input.
+function parsePage(raw: string | undefined): number {
+  const n = parseInt(raw ?? "1", 10);
+  return Number.isFinite(n) && n > 0 ? n : 1;
+}
+
+export async function generateMetadata({ searchParams }: BlogsPageProps): Promise<Metadata> {
+  const currentPage = parsePage((await searchParams).page);
+  const canonical = currentPage > 1 ? `${BLOG_URL}?page=${currentPage}` : BLOG_URL;
+  const titleSuffix = currentPage > 1 ? ` - Page ${currentPage}` : "";
+
+  return {
+    metadataBase: new URL("https://www.sparkonomy.com/"),
+    title: `Blog${titleSuffix} | Sparkonomy - Tips for Creators, Influencers, YouTubers & Instagrammers`,
+    description: "Discover the latest insights, tips, and strategies for Creators, influencers, YouTubers & Instagrammers to monetize content, grow their audience, and succeed in the Creator economy. Expert guides from Sparkonomy.",
+    keywords: [
+      "creator economy",
+      "content monetization",
+      "creator tips",
+      "influencer tips",
+      "passive income",
+      "influencer marketing",
+      "content creation",
+      "digital creators",
+      "social media influencers",
+      "instagrammers",
+      "youtubers",
+      "instagram influencer tips",
+      "youtube creator tips",
+      "content creator monetization",
+      "influencer platform",
+      "Sparkonomy blog",
+    ],
+    authors: [{ name: "Sparkonomy Team" }],
+    creator: "Sparkonomy",
+    publisher: "Sparkonomy",
+    alternates: {
+      canonical,
+    },
+    robots: {
       index: true,
       follow: true,
-    },
-  },
-  openGraph: {
-    siteName: "Sparkonomy",
-    title: "Blog | Sparkonomy - Tips for Creators, Influencers & YouTubers",
-    description: "Insights, tips & strategies for Creators, influencers, YouTubers & Instagrammers to monetize content and succeed in the Creator economy.",
-    url: "https://sparkonomy.com/blogs",
-    type: "website",
-    locale: "en_US",
-    images: [
-      {
-        url: "https://sparkonomy.com/sparkonomy.png",
-        width: 1200,
-        height: 630,
-        alt: "Sparkonomy Blog",
+      googleBot: {
+        index: true,
+        follow: true,
       },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Blog | Sparkonomy - Tips for Creators, Influencers & YouTubers",
-    description: "Insights, tips & strategies for Creators, influencers, YouTubers & Instagrammers to monetize content and succeed in the Creator economy.",
-    images: ["https://sparkonomy.com/sparkonomy.png"],
-    creator: "@sparkonomy",
-    site: "@sparkonomy",
-  },
-};
+    },
+    openGraph: {
+      siteName: "Sparkonomy",
+      title: "Blog | Sparkonomy - Tips for Creators, Influencers & YouTubers",
+      description: "Insights, tips & strategies for Creators, influencers, YouTubers & Instagrammers to monetize content and succeed in the Creator economy.",
+      url: canonical,
+      type: "website",
+      locale: "en_US",
+      images: [
+        {
+          url: "https://www.sparkonomy.com/sparkonomy.png",
+          width: 1200,
+          height: 630,
+          alt: "Sparkonomy Blog",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Blog | Sparkonomy - Tips for Creators, Influencers & YouTubers",
+      description: "Insights, tips & strategies for Creators, influencers, YouTubers & Instagrammers to monetize content and succeed in the Creator economy.",
+      images: ["https://www.sparkonomy.com/sparkonomy.png"],
+      creator: "@sparkonomy",
+      site: "@sparkonomy",
+    },
+  };
+}
 
-async function BlogPosts() {
-  // Pull a bit extra to absorb the Hinglish counterparts we filter out below.
-  const { data: rawPosts } = await getPosts(1, 26);
-  const posts = rawPosts.filter((p) => !p.slug.endsWith("-hi")).slice(0, 13);
+// Latest posts from the Company category (slugs match the /blogs/company page config).
+async function getLatestCompanyPosts() {
+  const categories = await Promise.all(
+    ["company", "company-en"].map((s) => getCategoryBySlug(s))
+  );
+  const ids = categories.filter((c): c is NonNullable<typeof c> => c !== null).map((c) => c.id);
+  if (ids.length === 0) return [];
+  const { data } = await getPostsByCategory(ids, 1, 6);
+  return data.filter((p) => !p.slug.endsWith("-hi"));
+}
 
-  if (posts.length === 0) {
+async function getEnglishPosts() {
+  const { data } = await getPosts(1, 100);
+  return data.filter((p) => !p.slug.endsWith("-hi"));
+}
+
+const dateLabel = (iso: string) =>
+  new Date(iso).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+
+const cardImage = (p: { _embedded?: any; yoast_head_json?: any }) =>
+  p._embedded?.["wp:featuredmedia"]?.[0]?.source_url || p.yoast_head_json?.og_image?.[0]?.url;
+
+async function BlogPosts({ currentPage }: { currentPage: number }) {
+  const [englishPosts, companyPosts] = await Promise.all([
+    getEnglishPosts(),
+    getLatestCompanyPosts(),
+  ]);
+
+  if (englishPosts.length === 0) {
     return (
       <div className="text-center py-20 bg-gray-50 rounded-2xl border border-gray-200">
         <h2 className="text-2xl font-semibold text-gray-900 mb-3">No blog posts yet</h2>
@@ -88,75 +133,89 @@ async function BlogPosts() {
     );
   }
 
-  const heroPost = posts[0];
-  const firstRowPosts = posts.slice(1, 4);
-  const secondRowPost = posts.slice(4, 5);
-  const remainingPosts = posts.slice(5);
+
+  const heroPost = englishPosts[0];
+  const companyPost = companyPosts.find((p) => p.id !== heroPost.id) ?? null;
+  const gridPool = englishPosts.filter(
+    (p) => p.id !== heroPost.id && p.id !== companyPost?.id
+  );
+
+  const totalPages = Math.max(1, Math.ceil(gridPool.length / POSTS_PER_PAGE));
+  const safePage = Math.min(currentPage, totalPages);
+  const isFirstPage = safePage === 1;
+  const start = (safePage - 1) * POSTS_PER_PAGE;
+  const pagePosts = gridPool.slice(start, start + POSTS_PER_PAGE);
+
+  // Page 1 keeps the editorial layout (3-card row → featured Company tile →
+  // remaining grid). Later pages render a plain grid of the page's posts.
+  const firstRowPosts = isFirstPage ? pagePosts.slice(0, 3) : [];
+  const remainingPosts = isFirstPage ? pagePosts.slice(3) : pagePosts;
 
   return (
     <>
-      {/* Container for First Row */}
-      <div className="max-w-7xl mx-auto px-4 ">
-        {/* First Row - 3 vertical cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:mb-12">
-          {firstRowPosts.map((p) => (
-            <Card
-              key={p.id}
-              title={decodeHtmlEntities(p.title.rendered)}
-              description={decodeHtmlEntities(p.excerpt.rendered)}
-              imageSrc={p._embedded?.['wp:featuredmedia']?.[0]?.source_url || p.yoast_head_json?.og_image?.[0]?.url}
-              href={`/blogs/${p.slug}`}
-              layout="vertical"
-              descriptionPosition="bottom"
-              imagePriority={true}
-              showReadMore={true}
-              meta={
-                <span>{new Date(p.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
-              }
-            />
-          ))}
-        </div>
-      </div>
+      {isFirstPage && (
+        <>
+          {/* First Row - 3 vertical cards */}
+          <div className="max-w-7xl mx-auto px-4 ">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:mb-12">
+              {firstRowPosts.map((p) => (
+                <Card
+                  key={p.id}
+                  title={decodeHtmlEntities(p.title.rendered)}
+                  description={decodeHtmlEntities(p.excerpt.rendered)}
+                  imageSrc={cardImage(p)}
+                  href={`/blogs/${p.slug}`}
+                  layout="vertical"
+                  descriptionPosition="bottom"
+                  imagePriority={true}
+                  showReadMore={true}
+                  meta={<span>{dateLabel(p.date)}</span>}
+                />
+              ))}
+            </div>
+          </div>
 
-      {/* Second Row - 1 featured horizontal card (full width, no container) */}
-      <div className="w-full md:mb-12">
-        {secondRowPost.map((p) => (
-          <FeaturedBlogCard
-            key={p.id}
-            title={decodeHtmlEntities(p.title.rendered)}
-            description={decodeHtmlEntities(p.excerpt.rendered)}
-            imageSrc={p._embedded?.['wp:featuredmedia']?.[0]?.source_url || p.yoast_head_json?.og_image?.[0]?.url}
-            href={`/blogs/${p.slug}`}
-            tag="Brand Story"
-            imagePriority={true}
-            meta={
-              <span>{new Date(p.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
-            }
-          />
-        ))}
-      </div>
+          {/* Second Row - 1 featured horizontal card (full width, no container) */}
+          {companyPost && (
+            <div className="w-full md:mb-12">
+              <FeaturedBlogCard
+                key={companyPost.id}
+                title={decodeHtmlEntities(companyPost.title.rendered)}
+                description={decodeHtmlEntities(companyPost.excerpt.rendered)}
+                imageSrc={cardImage(companyPost)}
+                href={`/blogs/${companyPost.slug}`}
+                tag="Company"
+                imagePriority={true}
+                meta={<span>{dateLabel(companyPost.date)}</span>}
+              />
+            </div>
+          )}
+        </>
+      )}
 
-      {/* Container for Remaining Rows */}
+      {/* Grid of posts for this page */}
       <div className="max-w-7xl mx-auto px-4">
-        {/* Remaining Rows - 3 vertical cards per row */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {remainingPosts.map((p) => (
             <Card
               key={p.id}
               title={decodeHtmlEntities(p.title.rendered)}
               description={decodeHtmlEntities(p.excerpt.rendered)}
-              imageSrc={p._embedded?.['wp:featuredmedia']?.[0]?.source_url || p.yoast_head_json?.og_image?.[0]?.url}
+              imageSrc={cardImage(p)}
               href={`/blogs/${p.slug}`}
               layout="vertical"
               descriptionPosition="bottom"
               imagePriority={false}
               showReadMore={true}
-              meta={
-                <span>{new Date(p.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
-              }
+              meta={<span>{dateLabel(p.date)}</span>}
             />
           ))}
         </div>
+      </div>
+
+      {/* Pagination */}
+      <div className="max-w-7xl mx-auto px-4 mt-12">
+        <BlogPagination currentPage={safePage} totalPages={totalPages} />
       </div>
     </>
   );
@@ -201,21 +260,23 @@ async function HeroSection() {
   );
 }
 
-export default function Home() {
+export default async function Home({ searchParams }: BlogsPageProps) {
+  const currentPage = parsePage((await searchParams).page);
+
   // Blog structured data for listing page
   const blogJsonLd = {
     "@context": "https://schema.org",
     "@type": "Blog",
     name: "Sparkonomy Blog - For Creators, Influencers, YouTubers & Instagrammers",
     description: "Insights, tips, and strategies for Creators, influencers, YouTubers, Instagrammers and social media influencers to monetize content and succeed in the creator economy.",
-    url: "https://sparkonomy.com/blogs",
+    url: "https://www.sparkonomy.com/blogs",
     publisher: {
       "@type": "Organization",
       name: "Sparkonomy",
-      url: "https://sparkonomy.com",
+      url: "https://www.sparkonomy.com",
       logo: {
         "@type": "ImageObject",
-        url: "https://sparkonomy.com/sparkonomy.png",
+        url: "https://www.sparkonomy.com/sparkonomy.png",
       },
     },
     inLanguage: "en-US",
@@ -230,13 +291,13 @@ export default function Home() {
         "@type": "ListItem",
         position: 1,
         name: "Home",
-        item: "https://sparkonomy.com",
+        item: "https://www.sparkonomy.com",
       },
       {
         "@type": "ListItem",
         position: 2,
         name: "Blog",
-        item: "https://sparkonomy.com/blogs",
+        item: "https://www.sparkonomy.com/blogs",
       },
     ],
   };
@@ -255,12 +316,14 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
 
-      {/* Main Section with Background Image */}
-      <div className="relative z-10">
-        <Suspense fallback={<MainSectionSkeleton />}>
-          <HeroSection />
-        </Suspense>
-      </div>
+      {/* Main Section with Background Image — hero only leads the first page */}
+      {currentPage === 1 && (
+        <div className="relative z-10">
+          <Suspense fallback={<MainSectionSkeleton />}>
+            <HeroSection />
+          </Suspense>
+        </div>
+      )}
 
       {/* Blog Posts Section with Gradient Background */}
       <div className="relative py-12" id="posts">
@@ -274,8 +337,8 @@ export default function Home() {
         />
 
         <div className="relative z-10">
-          <Suspense fallback={<BlogPostsSkeleton />}>
-            <BlogPosts />
+          <Suspense key={currentPage} fallback={<BlogPostsSkeleton />}>
+            <BlogPosts currentPage={currentPage} />
           </Suspense>
         </div>
       </div>

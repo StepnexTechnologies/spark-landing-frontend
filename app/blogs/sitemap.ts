@@ -37,25 +37,31 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages = [
     {
       url: `${baseUrl}/blogs`,
-      lastModified: new Date(),
+      lastModified: new Date('2026-06-10'),
       changeFrequency: 'daily' as const,
       priority: 0.9,
     },
     {
+      url: `${baseUrl}/blogs/authors`,
+      lastModified: new Date('2026-06-03'),
+      changeFrequency: 'weekly' as const,
+      priority: 0.7,
+    },
+    {
       url: `${baseUrl}/blogs/company`,
-      lastModified: new Date(),
+      lastModified: new Date('2026-04-23'),
       changeFrequency: 'weekly' as const,
       priority: 0.7,
     },
     {
       url: `${baseUrl}/blogs/creators`,
-      lastModified: new Date(),
+      lastModified: new Date('2026-06-10'),
       changeFrequency: 'weekly' as const,
       priority: 0.7,
     },
     {
       url: `${baseUrl}/blogs/brand`,
-      lastModified: new Date(),
+      lastModified: new Date('2026-04-23'),
       changeFrequency: 'weekly' as const,
       priority: 0.7,
     },
@@ -70,7 +76,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const parsed = a.lastUpdated ? new Date(`${a.lastUpdated} UTC`) : null
     return {
       url: authorUrl(a.slug),
-      lastModified: parsed && !Number.isNaN(parsed.getTime()) ? parsed : new Date(),
+      lastModified: parsed && !Number.isNaN(parsed.getTime()) ? parsed : undefined,
       changeFrequency: 'monthly' as const,
       priority: 0.6,
     }

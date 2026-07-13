@@ -18,6 +18,9 @@ const H6_MARKER_MAP: Record<string, string> = {
   'sources': 'sources', 'references': 'sources',
   'tax calc': 'tax-calc', 'tax calculator': 'tax-calc',
   'creator tax calc': 'tax-calc', 'creator tax calculator': 'tax-calc',
+  'fmv': 'fmv-calc', 'fmv calc': 'fmv-calc', 'fmv calculator': 'fmv-calc',
+  'barter fmv': 'fmv-calc', 'barter fmv calculator': 'fmv-calc',
+  'fair market value': 'fmv-calc', 'fair market value calculator': 'fmv-calc',
 };
 
 /**

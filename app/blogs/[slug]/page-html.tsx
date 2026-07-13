@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
     };
   }
 
-  const url = `https://sparkonomy.com/blogs/${slug}`;
+  const url = `https://www.sparkonomy.com/blogs/${slug}`;
 
   return {
     metadataBase: new URL("https://www.sparkonomy.com/"),
@@ -129,7 +129,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         <div className="max-w-7xl mx-auto px-6 pb-16">
           <ShareButtons
             title={pageData.title}
-            url={`https://sparkonomy.com/blogs/${slug}`}
+            url={`https://www.sparkonomy.com/blogs/${slug}`}
           />
         </div>
       </main>

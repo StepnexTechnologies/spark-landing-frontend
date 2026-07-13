@@ -1,11 +1,13 @@
 import type { MetadataRoute } from 'next'
+import { siteUrl } from '@/lib/urls'
 
 // Fail-open: only an explicit dev.* SITE_URL is treated as non-prod, so a missing
 // or misconfigured value can't accidentally disallow crawling on production.
 const isProduction = !process.env.SITE_URL?.startsWith('https://dev.')
 
-const AI_BOTS = [
-  // AI training crawlers
+const PRIVATE_PATHS = ['/api/', '/admin']
+
+const AI_TRAINING_BOTS = [
   'GPTBot',
   'anthropic-ai',
   'ClaudeBot',
@@ -16,13 +18,15 @@ const AI_BOTS = [
   'Meta-ExternalAgent',
   'Bytespider',
   'cohere-ai',
-  // AI search / answer engines (user-initiated fetches)
+]
+
+// Search and answer-engine crawlers are explicitly allowed to discover public
+// content. They repeat PRIVATE_PATHS because named groups do not inherit the
+// wildcard group's rules.
+const AI_SEARCH_BOTS = [
   'OAI-SearchBot',
-  'ChatGPT-User',
-  'Claude-User',
   'Claude-SearchBot',
   'PerplexityBot',
-  'Perplexity-User',
   'YouBot',
 ]
 
@@ -33,16 +37,22 @@ export default function robots(): MetadataRoute.Robots {
 
   return {
     rules: [
-      { userAgent: '*', allow: '/', disallow: ['/api/', '/admin/', '/preview/'] },
-      { userAgent: 'Googlebot', allow: '/' },
-      { userAgent: 'Bingbot', allow: '/' },
-      { userAgent: 'DuckDuckBot', allow: '/' },
-      { userAgent: 'Applebot', allow: '/' },
-      ...AI_BOTS.map((userAgent) => ({ userAgent, allow: '/' })),
+      // Generic search, research, and discovery crawlers may access all public
+      // pages. Preview pages stay crawlable so their noindex directive works.
+      { userAgent: '*', allow: '/', disallow: PRIVATE_PATHS },
+      {
+        userAgent: AI_SEARCH_BOTS,
+        allow: '/',
+        disallow: PRIVATE_PATHS,
+      },
+      {
+        userAgent: AI_TRAINING_BOTS,
+        disallow: '/',
+      },
     ],
     sitemap: [
-      'https://www.sparkonomy.com/sitemap.xml',
-      'https://www.sparkonomy.com/blogs/sitemap.xml',
+      siteUrl('/sitemap.xml'),
+      siteUrl('/blogs/sitemap.xml'),
     ],
   }
 }

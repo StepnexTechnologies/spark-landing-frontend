@@ -1,5 +1,4 @@
 import type React from "react";
-import {Suspense} from "react";
 import HeroSection from "@/components/HeroSection";
 import {Metadata} from "next";
 
@@ -46,7 +45,7 @@ export const metadata: Metadata = {
     },
   openGraph: {
       siteName: "Sparkonomy",
-      url: "https://sparkonomy.com/",
+      url: "https://www.sparkonomy.com/",
     title: "Sparkonomy",
     description: "Sparkonomy - The #1 AI platform for creators, influencers, YouTubers & Instagrammers. Transforming the creator economy!",
     images: [
@@ -68,12 +67,17 @@ export const metadata: Metadata = {
   },
 };
 
-export default function Home() {
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: Promise<{skipIntro?: string | string[]}>;
+}) {
+  const params = await searchParams;
+  const skipIntro = params.skipIntro === "true";
+
   return (
     <main className="md:h-[100dvh] md:overflow-hidden">
-      <Suspense>
-        <HeroSection />
-      </Suspense>
+      <HeroSection skipIntro={skipIntro} />
     </main>
   );
 }

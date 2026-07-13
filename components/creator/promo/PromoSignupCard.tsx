@@ -4,7 +4,7 @@ import { Suspense, useEffect, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { Trans, useTranslation } from "react-i18next";
-import { ArrowRight, Check, Loader2, X } from "lucide-react";
+import { ArrowRight, Check, ChevronLeft, Loader2, X } from "lucide-react";
 import { ValidatedPhoneInput } from "@/components/creator/earn/ValidatedPhoneInput";
 import OtpInput from "@/components/creator/otp/OtpInput";
 import TextInput from "@/components/common/TextInput";
@@ -103,6 +103,7 @@ export default function PromoSignupCard({
     submitProfile,
     changeNumber,
     verifyOtp,
+    goToSocialAuth,
   } = useSignup();
 
   // Pretty-print the entered E.164 phone for the earn-variant OTP header
@@ -164,7 +165,13 @@ export default function PromoSignupCard({
   })();
 
   const otpVisible =
-    stage === "otp" || stage === "profile" || stage === "submitting" || stage === "submitted";
+    stage === "otp" ||
+    stage === "profile" ||
+    stage === "submitting" ||
+    stage === "submitted" ||
+    // Earn flow post-verify panel — keeps the OTP row (with the green
+    // "Verified" pill) visible above the social-auth CTA.
+    stage === "social";
   // Returning users (requires_basic_info=false) skip the profile sheet entirely;
   // /verify runs straight from the OTP stage with no name/email payload.
   const profileVisible =
@@ -238,7 +245,7 @@ export default function PromoSignupCard({
         y: { duration: 0.7, times: [0, 0.4, 1], ease: [0.34, 1.4, 0.64, 1] },
         boxShadow: { duration: 0.7, times: [0, 0.4, 1], ease: [0.4, 0, 0.2, 1] },
       }}
-      className={`relative mx-auto w-full max-w-[468px] rounded-[24px] px-3 py-4 ${isEarn ? "border-b border-white" : ""}`}
+      className={`relative mx-auto w-full max-w-[468px] rounded-[24px] px-[10px] py-4 ${isEarn ? "border-b border-white" : ""}`}
     >
       {/* Earn variant: top-right corner coin peeks above the card. Sibling of
           the voucher row so it's positioned relative to the outer card box
@@ -267,7 +274,8 @@ export default function PromoSignupCard({
                     fontFamily:
                       "var(--font-solitreo), 'Brush Script MT', 'Snell Roundhand', cursive",
                     fontWeight: 700,
-                    fontSize: "1.15em",
+                    fontSize: "20px",
+                    letterSpacing: "-0.02em",
                     paddingLeft: "0.1em",
                   }}
                 />,
@@ -411,7 +419,7 @@ export default function PromoSignupCard({
           </ul>
         </div>
       ) : !otpVisible ? (
-        <ul className="mt-1 px-1 flex items-center justify-center text-[11px] font-normal text-white whitespace-nowrap gap-x-3.5">
+        <ul className="mt-1 px-1 flex items-center justify-between text-[11px] font-normal text-white whitespace-nowrap gap-x-px">
           {checks.map((label, i) => (
             <li key={i} className="flex items-center gap-0.5">
               <span aria-hidden="true">✅</span>
@@ -568,8 +576,9 @@ export default function PromoSignupCard({
               type="button"
               onClick={changeNumber}
               disabled={stage === "submitting" || stage === "submitted"}
-              className="font-medium hover:underline disabled:opacity-50 disabled:cursor-not-allowed"
+              className="inline-flex items-center gap-0.5 font-medium hover:underline disabled:opacity-50 disabled:cursor-not-allowed"
             >
+              <ChevronLeft className="w-3.5 h-3.5" strokeWidth={2} />
               {t("hero.card.changeNumber")}
             </button>
             <span className="opacity-90">
@@ -611,11 +620,11 @@ export default function PromoSignupCard({
               }
               className={
                 verifyStatus === "verified"
-                  ? // Verified pill — swaps the purple→pink CTA for a solid green
+                  ? // Verified pill — swaps the purple→pink CTA for a pale green
                     // affirmation that locks until the user uses "Change Number"
                     // to restart. Cursor-default + disabled state below makes
                     // sure clicks don't re-fire verify.
-                    "flex-shrink-0 px-4 py-2 rounded-[8px] text-white text-sm font-bold whitespace-nowrap bg-[#16A34A] shadow-[0_2px_8px_rgba(22,163,74,0.45)] cursor-default disabled:opacity-100"
+                    "flex-shrink-0 px-4 py-2 rounded-[8px] text-[#16A34A] text-sm font-bold whitespace-nowrap bg-[#DCFCE7] cursor-default disabled:opacity-100"
                   : "flex-shrink-0 px-4 py-2 rounded-[8px] text-white text-sm font-bold whitespace-nowrap bg-[linear-gradient(180.27deg,#DD2A7B_-46.92%,#9747FF_80.1%)] hover:brightness-110 transition-[filter,opacity] duration-200 disabled:opacity-60 disabled:cursor-not-allowed shadow-[0_2px_8px_rgba(151,71,255,0.4)]"
               }
             >
@@ -669,6 +678,43 @@ export default function PromoSignupCard({
                 disabled={verifyStatus === "verifying"}
                 t={t}
               />
+            </div>
+          )}
+
+          {/* Post-verify social handoff — replaces the profile form + app
+              redirect for the earn flow. Heading + "3 steps" subtext sit above
+              a white gradient-bordered CTA (mirrors the promo "Create account"
+              button) that hands off to social-auth, with the Meta/YouTube
+              partner footer beneath. */}
+          {stage === "social" && (
+            <div className="mt-4 flex flex-col items-center px-2 text-center">
+              <p className="text-white text-[15px] font-semibold leading-tight">
+                {t("hero.card.socialTitle")}
+              </p>
+              <p className="mt-1 text-white/80 text-[12px] leading-snug">
+                {t("hero.card.socialSubtitle")}
+              </p>
+
+              <button
+                type="button"
+                onClick={goToSocialAuth}
+                className="relative mt-3 w-full inline-flex items-center justify-center overflow-hidden rounded-full p-[1px] shadow-[0_4px_12px_rgba(129,52,165,0.18)] transition-[opacity] duration-200"
+              >
+                <span
+                  aria-hidden="true"
+                  className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#ffffff_0%,rgba(221,42,123,1)_10%,rgba(151,71,255,1)_50%,rgba(221,42,123,0.5)_90%,#ffffff_100%)]"
+                />
+                <span className="relative z-10 inline-flex w-full items-center justify-center rounded-full bg-white py-3 text-sm font-semibold">
+                  <span className="bg-[linear-gradient(162.34deg,#DD2A7B_4.78%,#9747FF_89.95%)] bg-clip-text text-transparent">
+                    {t("hero.card.socialCta")}
+                  </span>
+                </span>
+              </button>
+
+              {/* Unlabeled: the Meta/YouTube PNGs already bake in the
+                  "Built with" / "Developed with" wordmarks, so passing labels
+                  here would render the text twice. */}
+              <PartnerFooter />
             </div>
           )}
         </div>

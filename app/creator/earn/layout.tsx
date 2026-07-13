@@ -1,12 +1,24 @@
 import type {Metadata} from "next";
 import {ReactNode} from "react";
+import { Solitreo } from "next/font/google";
 import MetaPixelScript from "@/components/MetaPixelScript";
+
+// Script font for the hero title's second line ("Jaldi payment paayein!" /
+// "Get paid faster!") and the gold "Win Gold Coin" portion of the signup
+// card. Scoped to /creator/earn via a CSS variable so the rest of the site
+// keeps shipping just Roboto. Solitreo only ships at weight 400.
+const solitreo = Solitreo({
+  subsets: ["latin"],
+  weight: ["400"],
+  display: "swap",
+  variable: "--font-solitreo",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.sparkonomy.com/"),
-  title: "Get paid faster — like your friend! Join them for FREE on Sparkonomy, the 1st AI for creators.",
+  title: "Get paid faster — like your friend! Join them for FREE on Sparkonomy, the 1st AI for Creators.",
   description:
-    "Say NO to messy spreadsheets and manual invoices. Run your creator business like a pro. Join 100% free before early access ends!",
+    "Say NO to messy spreadsheets and manual invoices. Run your Creator business like a pro. Join 100% free before early access ends!",
   keywords: [
     "creator invoicing",
     "influencer invoicing",
@@ -50,7 +62,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     siteName: "Sparkonomy",
-    url: "https://sparkonomy.com/creator/earn",
+    url: "https://www.sparkonomy.com/creator/earn",
     title: "Get paid faster — like your friend! Join them for FREE on Sparkonomy, the 1st AI for Creators.",
     description:
       "Say NO to messy spreadsheets and manual invoices. Run your Creator business like a pro. Join 100% free before early access ends!",
@@ -75,9 +87,9 @@ export default function EarnLayout({
   // set of font-face blocks (adding 600 weight and unused --font-roboto var)
   // and shipping an extra font file on the earn route. Consolidated into root.
   return (
-    <>
+    <div className={solitreo.variable}>
       <MetaPixelScript />
       {children}
-    </>
+    </div>
   );
 }

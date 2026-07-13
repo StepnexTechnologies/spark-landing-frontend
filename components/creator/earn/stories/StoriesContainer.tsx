@@ -4,6 +4,7 @@ import {useCallback, useEffect, useRef, useState} from "react";
 import {useSearchParams} from "next/navigation";
 import {AnimatePresence, motion} from "framer-motion";
 import dynamic from "next/dynamic";
+import Image from "next/image";
 // import { StoriesContainerProps } from "./types";
 import StoryPanel from "./StoryPanel";
 import StoryProgressBar from "./StoryProgressBar";
@@ -16,7 +17,8 @@ const StoryContent3 = dynamic(() => import("./StoryContent3"), { ssr: false });
 const StoryContent4 = dynamic(() => import("./StoryContent4"), { ssr: false });
 import {track} from "@/lib/analytics/track";
 
-const STORY_DURATION = 6000; // 6 seconds per story
+const STORY_DURATION = 2500; // fallback for any story without an explicit duration
+const STORY_DURATIONS = [3000, 2500, 2500, 4000];
 
 // Image paths for each language
 const storyImages = {
@@ -43,14 +45,30 @@ export default function StoriesContainer({
 }) {
   const searchParams = useSearchParams();
   const [currentIndex, setCurrentIndex] = useState(0);
+  // 1 = advancing (new story slides in from the right), -1 = going back
+  const [direction, setDirection] = useState(1);
   const [progress, setProgress] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
+  // Becomes true after hydration; gates the hidden image preloader so it
+  // doesn't compete with story 1's LCP image on the very first paint.
+  const [warmupStarted, setWarmupStarted] = useState(false);
   const startedAt = useRef<number>(0);
 
   useEffect(() => {
     startedAt.current = performance.now();
     track("story_start", { story_index: 0 });
+  }, []);
+
+  // Warm up everything the next stories need. Without this, the first
+  // advance shows a blank panel: the dynamic chunk for StoryContent2 and its
+  // image only start downloading once the slide-in animation has begun
+  // (mobile renders only the active story, so nothing prefetches them).
+  useEffect(() => {
+    import("./StoryContent2");
+    import("./StoryContent3");
+    import("./StoryContent4");
+    setWarmupStarted(true);
   }, []);
 
   // Get language from URL params, default to 'en'
@@ -61,7 +79,7 @@ export default function StoriesContainer({
   const stories = storyComponents.map((component, index) => ({
     id: index + 1,
     component,
-    duration: STORY_DURATION,
+    duration: STORY_DURATIONS[index] ?? STORY_DURATION,
     imageSrc: images[index],
   }));
 
@@ -110,6 +128,7 @@ export default function StoriesContainer({
         to_index: currentIndex + 1,
         trigger,
       });
+      setDirection(1);
       setCurrentIndex((prev) => prev + 1);
       setProgress(0);
     } else {
@@ -133,6 +152,7 @@ export default function StoriesContainer({
         from_index: currentIndex,
         to_index: currentIndex - 1,
       });
+      setDirection(-1);
       setCurrentIndex((prev) => prev - 1);
       setProgress(0);
     }
@@ -149,6 +169,26 @@ export default function StoriesContainer({
   }, [onComplete, currentIndex]);
 
   return (
+    <>
+      {/* Hidden preloader: fetches upcoming story images into the browser
+          cache. Props must match the <Image> in StoryContent* exactly so the
+          browser resolves the same /_next/image URL. */}
+      {warmupStarted && (
+        <div aria-hidden className="absolute w-0 h-0 overflow-hidden" style={{ visibility: "hidden" }}>
+          {images.slice(1).map((src) => (
+            <Image
+              key={src}
+              src={src}
+              alt=""
+              width={362}
+              height={595}
+              sizes="(max-width: 640px) 90vw, 362px"
+              loading="eager"
+              fetchPriority="low"
+            />
+          ))}
+        </div>
+      )}
     <AnimatePresence>
       {isVisible && (
         <motion.div
@@ -180,6 +220,7 @@ export default function StoriesContainer({
                           onClose={handleClose}
                           isPaused={isPaused}
                           onPauseChange={setIsPaused}
+                          direction={direction}
                       >
                           <PreviousStoryComponent imageSrc={previousStory?.imageSrc} priority={false} />
                       </StoryPanel>
@@ -202,6 +243,7 @@ export default function StoriesContainer({
                 onClose={handleClose}
                 isPaused={isPaused}
                 onPauseChange={setIsPaused}
+                direction={direction}
               >
                 <CurrentStoryComponent imageSrc={currentStory?.imageSrc} priority />
               </StoryPanel>
@@ -227,6 +269,7 @@ export default function StoriesContainer({
                               onClose={handleClose}
                               isPaused={isPaused}
                               onPauseChange={setIsPaused}
+                              direction={direction}
                           >
                               <NextStoryComponent imageSrc={nextStory?.imageSrc} priority={false} />
                           </StoryPanel>
@@ -250,6 +293,7 @@ export default function StoriesContainer({
               onClose={handleClose}
               isPaused={isPaused}
               onPauseChange={setIsPaused}
+              direction={direction}
             >
               <CurrentStoryComponent imageSrc={currentStory?.imageSrc} priority />
             </StoryPanel>
@@ -257,5 +301,6 @@ export default function StoriesContainer({
         </motion.div>
       )}
     </AnimatePresence>
+    </>
   );
 }

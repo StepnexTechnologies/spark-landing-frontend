@@ -3,31 +3,50 @@
 import {useEffect, useRef, useState} from "react";
 import {AnimatePresence, motion, useInView, useReducedMotion} from "framer-motion";
 import Image from "next/image";
+import {useTranslation} from "react-i18next";
+import {getCurrentLang, type SupportedLang} from "@/lib/i18n";
 import {useSectionViewTracking} from "@/lib/hooks/useSectionViewTracking";
 
-const SCREENS = [
-  "/promo/landing-promo/Screen_1.png",
-  "/promo/landing-promo/Screen_2.png",
-  "/promo/landing-promo/Screen_3.png",
-];
+// The screenshots contain baked-in UI copy, so each language needs its own set.
+const SCREENS_BY_LANG: Record<SupportedLang, readonly string[]> = {
+  en: [
+    "/promo/landing-promo/Screen_1_EN.png",
+    "/promo/landing-promo/Screen_2_EN.png",
+    "/promo/landing-promo/Screen_3_EN.png",
+  ],
+  "hi-Latn": [
+    "/promo/landing-promo/Screen_1.png",
+    "/promo/landing-promo/Screen_2.png",
+    "/promo/landing-promo/Screen_3.png",
+  ],
+};
 
 const SLIDE_INTERVAL_MS = 5000;
 
-export default function PhoneMockupSection() {
+export default function PhoneMockupSection({lang}: {lang?: SupportedLang} = {}) {
   const sectionRef = useRef<HTMLElement>(null);
   const inView = useInView(sectionRef, {amount: 0.6});
   const prefersReducedMotion = useReducedMotion();
   const [activeIndex, setActiveIndex] = useState(0);
+  // Sticky flag: once the section has been seen, keep the hidden preloader
+  // mounted so all screens are cached before the first slide happens.
+  const [warmedUp, setWarmedUp] = useState(false);
+
+  // `lang` pins the set for pages that are single-language by design (promo).
+  // Without it we follow i18n, which is what bilingual /creator/earn needs.
+  const {i18n} = useTranslation();
+  const screens = SCREENS_BY_LANG[lang ?? getCurrentLang(i18n)];
 
   useSectionViewTracking(sectionRef, "promo_phone_mockup");
 
   useEffect(() => {
     if (prefersReducedMotion || !inView) return;
+    setWarmedUp(true);
     const id = setInterval(() => {
-      setActiveIndex((i) => (i + 1) % SCREENS.length);
+      setActiveIndex((i) => (i + 1) % screens.length);
     }, SLIDE_INTERVAL_MS);
     return () => clearInterval(id);
-  }, [inView, prefersReducedMotion]);
+  }, [inView, prefersReducedMotion, screens.length]);
 
   return (
     <section ref={sectionRef} className="relative py-5 md:py-0 px-5">
@@ -51,7 +70,7 @@ export default function PhoneMockupSection() {
                 className="absolute inset-0"
               >
                 <Image
-                  src={SCREENS[activeIndex]}
+                  src={screens[activeIndex]}
                   alt=""
                   fill
                   sizes="212px"
@@ -62,6 +81,29 @@ export default function PhoneMockupSection() {
               </motion.div>
             </AnimatePresence>
           </div>
+
+          {/* Hidden preloader: without it, each screen image only starts
+              downloading when the carousel first slides to it, leaving the
+              phone blank for the fetch. Same fill/sizes as the visible
+              <Image> so the browser resolves the identical /_next/image URL.
+              Only mounts once the section is in view (first slide is 5s
+              later), and never for reduced-motion users who see one screen. */}
+          {warmedUp && (
+            <div aria-hidden className="absolute inset-x-[11px] top-[10px] bottom-[11px] overflow-hidden" style={{visibility: "hidden"}}>
+              {screens.map((src) => (
+                <Image
+                  key={src}
+                  src={src}
+                  alt=""
+                  fill
+                  sizes="212px"
+                  className="object-cover"
+                  loading="eager"
+                  fetchPriority="low"
+                />
+              ))}
+            </div>
+          )}
 
           {/* Phone frame overlay — section is below the fold so we lazy-load. */}
           <Image

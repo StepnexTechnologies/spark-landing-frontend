@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { Heart, Send } from "lucide-react";
 import AnimatedEmojis from "./stories/AnimatedEmojis";
@@ -19,8 +19,9 @@ const STORY_EMOJIS: readonly (readonly string[])[] = [
   ["❤️", "❤️", "❤️", "❤️", "❤️", "❤️", "❤️", "❤️", "❤️", "❤️"],
 ];
 
-const STORY_INTERVAL_MS = 2000;
-const TOTAL_STORIES = 4;
+// Per-story hold times — the last story lingers longer before looping.
+const STORY_DURATIONS_MS = [2000, 2000, 2000, 4000];
+const TOTAL_STORIES = STORY_DURATIONS_MS.length;
 
 const STORY_IMAGES: Record<"en" | "hi-Latn", readonly string[]> = {
   en: [
@@ -41,33 +42,24 @@ export default function HeroStoryCarousel() {
   const { i18n } = useTranslation();
   const prefersReducedMotion = useReducedMotion();
   const [index, setIndex] = useState(0);
+  const [started, setStarted] = useState(false);
   const [heartTriggerCount, setHeartTriggerCount] = useState(0);
 
   const lang: "en" | "hi-Latn" = i18n.language?.startsWith("hi") ? "hi-Latn" : "en";
   const images = STORY_IMAGES[lang];
 
   useEffect(() => {
-    // Advance regardless of prefers-reduced-motion: bailing out here froze the
-    // carousel on story 1, hiding 3/4 of the content. Crucially this also fires
-    // for anyone on iOS Low Power Mode (Safari reports reduced-motion then), so
-    // a frozen hero was hitting a large slice of mobile traffic, not just users
-    // who opted into reduced motion. Reduced motion is honoured by swapping the
-    // images instantly (no crossfade) below, not by stopping rotation.
-    let intervalId: number | undefined;
-    let fallbackId: number | undefined;
-    const start = () => {
-      if (intervalId !== undefined) return;
-      window.clearTimeout(fallbackId);
-      intervalId = window.setInterval(() => {
-        setIndex((i) => (i + 1) % TOTAL_STORIES);
-      }, STORY_INTERVAL_MS);
-    };
     // Hold story 1 until the page finishes loading before auto-advancing. This
     // keeps the hero visually stable through the first-paint window (so swaps
     // don't inflate Speed Index) and guarantees stories 2-4 have been preloaded
     // and decoded before they're shown (no black flash between stories on slow
     // connections). Fast connections fire 'load' within a second or two, so real
-    // users still get prompt rotation; the 6s fallback covers a stalled 'load'.
+    // users still get prompt rotation; the fallback covers a stalled 'load'.
+    let fallbackId: number | undefined;
+    const start = () => {
+      window.clearTimeout(fallbackId);
+      setStarted(true);
+    };
     if (document.readyState === "complete") {
       start();
     } else {
@@ -79,9 +71,22 @@ export default function HeroStoryCarousel() {
     return () => {
       window.removeEventListener("load", start);
       window.clearTimeout(fallbackId);
-      if (intervalId !== undefined) window.clearInterval(intervalId);
     };
   }, []);
+
+  useEffect(() => {
+    // Advance regardless of prefers-reduced-motion: bailing out here froze the
+    // carousel on story 1, hiding 3/4 of the content. Crucially this also fires
+    // for anyone on iOS Low Power Mode (Safari reports reduced-motion then), so
+    // a frozen hero was hitting a large slice of mobile traffic, not just users
+    // who opted into reduced motion. Reduced motion is honoured by swapping the
+    // images instantly (no slide) below, not by stopping rotation.
+    if (!started) return;
+    const timeoutId = window.setTimeout(() => {
+      setIndex((i) => (i + 1) % TOTAL_STORIES);
+    }, STORY_DURATIONS_MS[index]);
+    return () => window.clearTimeout(timeoutId);
+  }, [started, index]);
 
   // Hearts fountain only runs while the hearts story is active.
   useEffect(() => {
@@ -121,7 +126,7 @@ export default function HeroStoryCarousel() {
                 }}
                 transition={
                   i === index && !prefersReducedMotion
-                    ? { duration: STORY_INTERVAL_MS / 1000, ease: "linear" }
+                    ? { duration: STORY_DURATIONS_MS[index] / 1000, ease: "linear" }
                     : { duration: 0 }
                 }
               />
@@ -130,23 +135,37 @@ export default function HeroStoryCarousel() {
         </div>
 
         <div className="relative w-[210px] h-[312px] rounded-2xl overflow-hidden">
-          {/* Story image — rendered plainly (no framer-motion fade) so the first
-              story, which is the page's LCP element, is present at opacity 1 in
-              the server HTML and paints the instant it downloads instead of
-              waiting for framer-motion to animate it in after hydration (that
-              opacity:0→1 enter was adding seconds of render delay to LCP).
-              Stories swap instantly (keyed by index); the progress bar conveys
-              progression. width=192 → Next serves its w=384 srcset variant
-              (≈half the bytes) for the 210px box; page.tsx preload mirrors it. */}
-          <Image
-            key={index}
-            src={activeImage}
-            alt={`Story ${index + 1}`}
-            width={192}
-            height={285}
-            priority={index === 0}
-            className="absolute inset-0 w-full h-full object-cover"
-          />
+          {/* Story image — the outgoing story slides out left while the next
+              slides in from the right, like swiping through social stories.
+              initial={false} on AnimatePresence keeps the first story (the
+              page's LCP element) static in the server HTML at full opacity, so
+              it paints the instant it downloads instead of waiting for a
+              framer-motion enter animation after hydration (an opacity:0→1
+              enter here was adding seconds of render delay to LCP).
+              width=192 → Next serves its w=384 srcset variant (≈half the
+              bytes) for the 210px box; page.tsx preload mirrors it. */}
+          <AnimatePresence initial={false}>
+            <motion.div
+              key={index}
+              className="absolute inset-0"
+              initial={{ x: "100%" }}
+              animate={{ x: "0%" }}
+              exit={{ x: "-100%" }}
+              transition={{
+                duration: prefersReducedMotion ? 0 : 0.4,
+                ease: [0.32, 0.72, 0, 1],
+              }}
+            >
+              <Image
+                src={activeImage}
+                alt={`Story ${index + 1}`}
+                width={192}
+                height={285}
+                priority={index === 0}
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+            </motion.div>
+          </AnimatePresence>
         </div>
 
         {/* Bottom bar — type bar + heart + send */}

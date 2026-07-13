@@ -12,13 +12,42 @@ import { SignupProvider } from "@/components/creator/promo/SignupContext";
 // Below-the-fold sections are code-split. They still SSR (default
 // dynamic = ssr:true) so crawlers and Lighthouse get the full DOM, but
 // their JS chunks load on demand which keeps the hero TBT/JS budget tight.
-const ThreeStepSection = dynamic(() => import("@/components/creator/promo/ThreeStepSection"));
-const PhoneMockupSection = dynamic(() => import("@/components/creator/promo/PhoneMockupSection"));
-const TestimonialsSection = dynamic(() => import("@/components/creator/earn/TestimonialsSection"));
-const AdvantageSection = dynamic(() => import("@/components/creator/earn/AdvantageSection"));
-const FAQSection = dynamic(() => import("@/components/creator/earn/FAQSection"));
-const EarnFooter = dynamic(() => import("@/components/creator/earn/EarnFooter"));
-const FloatingCTA = dynamic(() => import("@/components/creator/earn/FloatingCTA"), { ssr: false });
+//
+// Each section's import is hoisted into a shared thunk so the same chunk can
+// be both code-split via dynamic() *and* warmed during the hero typewriter
+// window (see prefetchBelowFold below). Reusing one thunk per section keeps
+// the split and the prefetch pointed at the exact same chunk, so warming
+// dedupes against dynamic()'s own load instead of double-fetching.
+const loadThreeStep = () => import("@/components/creator/promo/ThreeStepSection");
+const loadPhoneMockup = () => import("@/components/creator/promo/PhoneMockupSection");
+const loadTestimonials = () => import("@/components/creator/earn/TestimonialsSection");
+const loadAdvantage = () => import("@/components/creator/earn/AdvantageSection");
+const loadFAQ = () => import("@/components/creator/earn/FAQSection");
+const loadFooter = () => import("@/components/creator/earn/EarnFooter");
+const loadFloatingCTA = () => import("@/components/creator/earn/FloatingCTA");
+
+const ThreeStepSection = dynamic(loadThreeStep);
+const PhoneMockupSection = dynamic(loadPhoneMockup);
+const TestimonialsSection = dynamic(loadTestimonials);
+const AdvantageSection = dynamic(loadAdvantage);
+const FAQSection = dynamic(loadFAQ);
+const EarnFooter = dynamic(loadFooter);
+const FloatingCTA = dynamic(loadFloatingCTA, { ssr: false });
+
+// Warm every below-the-fold chunk in one shot. Kicked off on idle (see the
+// effect in CreatorPromoPage) so it overlaps the hero typewriter rather than
+// competing with the hero card for bandwidth on first paint. import() dedupes
+// with dynamic()'s own loading, so this only pulls a chunk forward if it
+// hasn't started yet.
+function prefetchBelowFold() {
+  loadThreeStep();
+  loadPhoneMockup();
+  loadTestimonials();
+  loadAdvantage();
+  loadFAQ();
+  loadFooter();
+  loadFloatingCTA();
+}
 
 interface CreatorPromoPageProps {
   // Threaded into HeroSection. "f" variant is used by /creator/promo-f only
@@ -47,6 +76,24 @@ export default function CreatorPromoPage({ variant, enableTypewriter }: CreatorP
     }
   }, [i18n]);
 
+  // Overlap the rest of the page's JS with the hero typewriter. On idle (so the
+  // hero card hydrates first and gets bandwidth priority) we warm the
+  // below-the-fold chunks, so 4G / low-end users have them cached by the time
+  // they scroll. requestIdleCallback is missing on older iOS Safari, so we fall
+  // back to a short timeout — which still lands inside the typewriter window.
+  useEffect(() => {
+    const w = window as Window & {
+      requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
+      cancelIdleCallback?: (id: number) => void;
+    };
+    if (w.requestIdleCallback) {
+      const id = w.requestIdleCallback(prefetchBelowFold, { timeout: 2500 });
+      return () => w.cancelIdleCallback?.(id);
+    }
+    const t = window.setTimeout(prefetchBelowFold, 800);
+    return () => window.clearTimeout(t);
+  }, []);
+
   return (
     <SignupProvider>
       <main className="relative min-h-screen bg-black overflow-hidden">
@@ -66,7 +113,9 @@ export default function CreatorPromoPage({ variant, enableTypewriter }: CreatorP
           </Suspense>
           <HeroSection variant={variant} enableTypewriter={enableTypewriter} />
           <ThreeStepSection />
-          <PhoneMockupSection />
+          {/* Hinglish-only page: pin the screens so SSR doesn't emit the
+              English set before the changeLanguage effect above runs. */}
+          <PhoneMockupSection lang="hi-Latn" />
           <TestimonialsSection
             namespace="creatorPromo"
             trackingId="promo_testimonials"

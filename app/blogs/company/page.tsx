@@ -1,16 +1,20 @@
 import type { Metadata } from "next";
-import { CategoryBlogTemplate, CATEGORY_CONFIGS } from "@/components/blog/common";
+import { CategoryBlogTemplate, CATEGORY_CONFIGS, parseBlogPage, withPagedListingMetadata } from "@/components/blog/common";
 
 export const revalidate = 300;
 
 const config = CATEGORY_CONFIGS.company;
 
-export const metadata: Metadata = {
+interface CategoryPageProps {
+  searchParams: Promise<{ page?: string }>;
+}
+
+const baseMetadata: Metadata = {
   metadataBase: new URL("https://www.sparkonomy.com/"),
   title: "Company | Sparkonomy Blog",
   description: "Company news and updates from Sparkonomy",
   alternates: {
-    canonical: "https://sparkonomy.com/blogs/company",
+    canonical: "https://www.sparkonomy.com/blogs/company",
   },
   robots: {
     index: true,
@@ -22,7 +26,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     siteName: "Sparkonomy",
-    url: "https://sparkonomy.com/blogs/company",
+    url: "https://www.sparkonomy.com/blogs/company",
     title: "Company | Sparkonomy Blog",
     description: "Company news and updates from Sparkonomy",
     images: [
@@ -46,6 +50,12 @@ export const metadata: Metadata = {
   },
 };
 
-export default function CompanyPage() {
-  return <CategoryBlogTemplate config={config} />;
+export async function generateMetadata({ searchParams }: CategoryPageProps): Promise<Metadata> {
+  const page = parseBlogPage((await searchParams).page);
+  return withPagedListingMetadata(baseMetadata, "https://www.sparkonomy.com/blogs/company", page);
+}
+
+export default async function CompanyPage({ searchParams }: CategoryPageProps) {
+  const page = parseBlogPage((await searchParams).page);
+  return <CategoryBlogTemplate config={config} currentPage={page} />;
 }

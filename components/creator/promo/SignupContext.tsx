@@ -18,7 +18,7 @@ import {
   verify,
 } from "@/lib/auth/api";
 import { AuthApiError, type MessageCode } from "@/lib/auth/errors";
-import { redirectToApp } from "@/lib/auth/redirect";
+import { redirectToApp, redirectToSocialAuth } from "@/lib/auth/redirect";
 import { getCurrentLang } from "@/lib/i18n";
 import { track } from "@/lib/analytics/track";
 import { clearStoredUtm, readUtmParams } from "@/lib/utm";
@@ -29,7 +29,11 @@ export type SignupStage =
   | "otp"
   | "profile"
   | "submitting"
-  | "submitted";
+  | "submitted"
+  // Earn flow only (socialAuthAfterVerify). Reached straight from a successful
+  // OTP verify — the profile form and app redirect are skipped; the card shows
+  // a "Verify your social account" panel whose CTA hands off to social-auth.
+  | "social";
 
 export type VerifyStatus = "idle" | "verifying" | "verified" | "error";
 
@@ -68,6 +72,9 @@ interface SignupContextValue {
   // for explicit "Verify" buttons (e.g. /creator/earn Stage 2). Re-entry is
   // guarded by verifyingRef so double calls are safe.
   verifyOtp: () => Promise<void>;
+  // Hand off to the social-account verification host. Only meaningful in the
+  // earn flow (stage === "social"); wired to the "Verify Social & Continue" CTA.
+  goToSocialAuth: () => void;
 }
 
 const SignupContext = createContext<SignupContextValue | null>(null);
@@ -86,8 +93,23 @@ const OTP_EXPIRY_MS = 290_000;
 const DEFAULT_CHANNELS: Array<"whatsapp"> = ["whatsapp"];
 const REFERRAL_STORAGE_KEY = "promo_ref";
 
-export function SignupProvider({ children }: { children: React.ReactNode }) {
-  const { t, i18n } = useTranslation("creatorPromo");
+export function SignupProvider({
+  children,
+  socialAuthAfterVerify = false,
+  namespace = "creatorPromo",
+}: {
+  children: React.ReactNode;
+  // When true (earn page), a successful OTP verify lands on the "social" stage
+  // instead of the profile form / app redirect. Other promo pages omit this and
+  // keep the original new-user→profile, returning-user→app behaviour.
+  socialAuthAfterVerify?: boolean;
+  // i18n namespace for error copy (errors.*). Defaults to "creatorPromo",
+  // which is Hinglish-only by design (en maps to the hi-Latn bundle — see
+  // lib/i18n.ts). Bilingual pages like /creator/earn must pass their own
+  // namespace so errors follow the page language instead of always Hinglish.
+  namespace?: string;
+}) {
+  const { t, i18n } = useTranslation(namespace);
 
   const [phone, setPhone] = useState("");
   const [country, setCountry] = useState<string>("IN");
@@ -405,6 +427,23 @@ export function SignupProvider({ children }: { children: React.ReactNode }) {
         setVerifyStatus("verified");
         track("promo_otp_verified", { creator_id: creatorId });
 
+        if (socialAuthAfterVerify) {
+          // Earn flow: skip the profile form and the app redirect entirely.
+          // The card swaps to the "Verify your social account" panel, whose
+          // CTA hands off to social-auth via goToSocialAuth.
+          //
+          // No VERIFIED_HOLD here: flipping to "social" in the SAME synchronous
+          // batch as verifyStatus="verified" makes the resend-row removal and
+          // the panel mount net out to a single grow. With the hold, the two
+          // landed in separate renders 150ms apart — the layout animation
+          // shrank (resend row gone) then expanded (panel in), reading as a
+          // mid-collapse bounce. The green "Verified" pill above the panel is
+          // still visible, so we don't lose the success beat.
+          clearStoredUtm();
+          setStage((current) => (current === "otp" ? "social" : current));
+          return;
+        }
+
         await new Promise((r) => setTimeout(r, VERIFIED_HOLD_MS));
 
         if (requiresBasicInfo) {
@@ -460,12 +499,18 @@ export function SignupProvider({ children }: { children: React.ReactNode }) {
       utmSource,
       utmMedium,
       requiresBasicInfo,
+      socialAuthAfterVerify,
       i18n,
       clearExpiryTimer,
       reportSignupError,
       t,
     ],
   );
+
+  const goToSocialAuth = useCallback(() => {
+    track("promo_social_auth_continue", { creator_id: creatorId });
+    redirectToSocialAuth();
+  }, [creatorId]);
 
   // Auto-verify when the 4th digit lands. Calls /auth/verify with just
   // {user_id, otp, referral_code} per the new contract — basic info is
@@ -525,6 +570,7 @@ export function SignupProvider({ children }: { children: React.ReactNode }) {
       submitProfile: handleSubmitProfile,
       changeNumber,
       verifyOtp,
+      goToSocialAuth,
     }),
     [
       phone,
@@ -544,6 +590,7 @@ export function SignupProvider({ children }: { children: React.ReactNode }) {
       handleSubmitProfile,
       changeNumber,
       verifyOtp,
+      goToSocialAuth,
     ],
   );
 

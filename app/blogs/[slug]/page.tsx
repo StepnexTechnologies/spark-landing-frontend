@@ -22,6 +22,7 @@ import KeyTakeawaysEnhancer from "@/components/blog/KeyTakeawaysEnhancer";
 import CheckmarkEnhancer from "@/components/blog/CheckmarkEnhancer";
 import H6SectionParser from "@/components/blog/H6SectionParser";
 import TaxCalculatorInjector from "@/components/blog/TaxCalculatorInjector";
+import FMVCalculatorInjector from "@/components/blog/FMVCalculatorInjector";
 import ImageOrientationEnhancer from "@/components/blog/ImageOrientationEnhancer";
 import ImageLightboxEnhancer from "@/components/blog/ImageLightboxEnhancer";
 import NewsletterSection from "@/components/blog/NewsletterSection";
@@ -69,7 +70,7 @@ export async function generateMetadata({ params, searchParams }: BlogPostPagePro
   const authorNames = getAuthorNames(post);
   const publishedTime = post.date;
   const modifiedTime = post.modified;
-  const englishUrl = `https://sparkonomy.com/blogs/${englishSlug}`;
+  const englishUrl = `${SITE_URL}/blogs/${englishSlug}`;
   const hinglishUrl = `${englishUrl}?lang=hi-Latn`;
   const url = resolvedLang === "hi-Latn" ? hinglishUrl : englishUrl;
   const ogLocale = resolvedLang === "hi-Latn" ? "hi_IN" : "en_US";
@@ -78,7 +79,7 @@ export async function generateMetadata({ params, searchParams }: BlogPostPagePro
   const seoTitle = post.yoast_head_json?.title || title;
   const seoDescription = post.yoast_head_json?.description || description;
   const canonical = url;
-  const ogImage = post.yoast_head_json?.og_image?.[0]?.url || featuredImage || "https://sparkonomy.com/sparkonomy.png";
+  const ogImage = post.yoast_head_json?.og_image?.[0]?.url || featuredImage || `${SITE_URL}/sparkonomy.png`;
   const hinglishExists = await hasHinglishVersion(englishSlug);
 
   // Extract categories and tags for better SEO
@@ -173,8 +174,8 @@ export default async function BlogPostPage({ params, searchParams }: BlogPostPag
   const hinglishExists = await hasHinglishVersion(englishSlug);
   const canonicalSlug = englishSlug;
   const canonicalUrl = resolvedLang === "hi-Latn"
-    ? `https://sparkonomy.com/blogs/${canonicalSlug}?lang=hi-Latn`
-    : `https://sparkonomy.com/blogs/${canonicalSlug}`;
+    ? `${SITE_URL}/blogs/${canonicalSlug}?lang=hi-Latn`
+    : `${SITE_URL}/blogs/${canonicalSlug}`;
 
   const featuredImage = post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || getFeaturedImageUrl(post, "full");
   const featuredAlt = post._embedded?.["wp:featuredmedia"]?.[0]?.alt_text || stripHtml(post.title.rendered);
@@ -340,7 +341,7 @@ export default async function BlogPostPage({ params, searchParams }: BlogPostPag
     description: stripHtml(post.excerpt.rendered),
     image: {
       "@type": "ImageObject",
-      url: featuredImage || "https://sparkonomy.com/sparkonomy.png",
+      url: featuredImage || `${SITE_URL}/sparkonomy.png`,
       width: 1200,
       height: 630,
     },
@@ -352,10 +353,10 @@ export default async function BlogPostPage({ params, searchParams }: BlogPostPag
     publisher: {
       "@type": "Organization",
       name: "Sparkonomy",
-      url: "https://sparkonomy.com",
+      url: SITE_URL,
       logo: {
         "@type": "ImageObject",
-        url: "https://sparkonomy.com/sparkonomy.png",
+        url: `${SITE_URL}/sparkonomy.png`,
         width: 600,
         height: 60,
       },
@@ -380,13 +381,13 @@ export default async function BlogPostPage({ params, searchParams }: BlogPostPag
         "@type": "ListItem",
         position: 1,
         name: "Home",
-        item: "https://sparkonomy.com",
+        item: SITE_URL,
       },
       {
         "@type": "ListItem",
         position: 2,
         name: "Blog",
-        item: "https://sparkonomy.com/blogs",
+        item: `${SITE_URL}/blogs`,
       },
       ...(categoryName
         ? [
@@ -394,7 +395,7 @@ export default async function BlogPostPage({ params, searchParams }: BlogPostPag
               "@type": "ListItem",
               position: 3,
               name: categoryName,
-              item: `https://sparkonomy.com/blogs/${categorySlug}`,
+              item: `${SITE_URL}/blogs/${categorySlug}`,
             },
             {
               "@type": "ListItem",
@@ -681,7 +682,7 @@ export default async function BlogPostPage({ params, searchParams }: BlogPostPag
             const [firstSentence, rest] = splitFirstSentence(blogDescription);
             return (
               <div
-                className="px-4 md:px-6 lg:px-0 text-[18px] md:text-[22px] text-[#6B7280] leading-[1.6] text-justify"
+                className="px-4 md:px-6 lg:px-0 text-[18px] md:text-[22px] text-[#6B7280] leading-[1.6] text-justify [&_a]:text-[#7c3aed] [&_a]:underline [&_a]:underline-offset-2 [&_a:hover]:text-[#5b21b6] [&_a]:transition-colors"
               >
                 <span className="font-semibold" dangerouslySetInnerHTML={{ __html: firstSentence }} />
                 {rest && <span dangerouslySetInnerHTML={{ __html: rest }} />}
@@ -726,6 +727,8 @@ export default async function BlogPostPage({ params, searchParams }: BlogPostPag
           <div className="px-4 md:px-6 lg:px-0">
             {/* Tax Calculator injector — replaces <h6>tax-calc</h6> markers with the calculator */}
             <TaxCalculatorInjector />
+            {/* FMV Calculator injector — replaces <h6>fmv-calc</h6> markers with the calculator */}
+            <FMVCalculatorInjector />
             {/* H6 Section Parser — runs first, wraps all H6-marked sections */}
             <H6SectionParser />
             {/* TOC smooth scroll enhancement */}

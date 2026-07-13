@@ -3,216 +3,162 @@
     "getEarlyAccess": "Early access paayein"
   },
   "hero": {
-    "title": "Duniya ka pehla AI — sirf creators ke liye.\nAb private beta mein. ⚡️"
+    "title": "Zyada kamaayein. Stress Less.<0/><1>Jaldi payment paayein!</1>",
+    "features": [
+      "<0>Easy</0> invoices AI se banayein : Voice, chat ya photo",
+      "<0>Error-free</0>: Instant-tax calculations",
+      "<0>Faster</0> payments: Auto-reminders Email aur WhatsApp par"
+    ],
+    "card": {
+      "livePromo": "LIVE PROMO",
+      "voucherHeading": "Free Invoice bhejein — <0>Gold Coin Jeetein</0>",
+      "voucherBody": "4 invoices/mo free forever. Pehle 5 signups ko har roz Gold Coin.",
+      "voucherTerms": "T&Cs apply",
+      "ctaLabel": "Get started — bilkul free!",
+      "checks": ["4 invoices/mo free forever", "No card needed", "30-sec signup"],
+      "phonePlaceholder": "XXXX XXXXXX",
+      "sendOtp": "Win Now",
+      "edit": "Edit",
+      "changeNumber": "Change Number",
+      "otpSentTo": "OTP <0>{{phone}}</0> par bheja hai",
+      "verify": "Verify",
+      "verifying": "Verifying",
+      "verified": "Verify ho gaya",
+      "socialTitle": "Social account verify karein",
+      "socialSubtitle": "1 step mey apne rewards unlock karein",
+      "socialCta": "Verify Social & Continue",
+      "disclaimer": "Tap karke aap Sparkonomy ke <0>Terms</0> aur <1>Privacy Policy</1> se agree karte hain."
+    }
   },
-  "promo": {
-    "heading": "Apni Boli, Apna Bill",
-    "subheading": "Ab Hinglish mein banayein, perfect English invoices.",
-    "tagline": "Sign up. Win Amazon vouchers daily!",
-    "terms": "T&Cs apply",
-    "cta": "Sign up & Win!"
+  "pitch": {
+    "heading": "Duniya ka pehla AI — sirf Creators ke liye.",
+    "description": "Late payments, baar-baar follow-ups aur tax ka jhanjhat — ab khatam! Creators ke liye banaya pehla AI — jo smart payments se shuru hota hai. Aap content banayein, Follow-ups hum sambhal lenge."
   },
-  "valueProposition": {
-    "heading1": "Zyada kamaayein. Stress kam lein.",
-    "heading2": "Jaldi payment paayein!",
-    "description": "Late payments, baar-baar follow-ups aur tax ka jhanjhat — ab khatam! Creators ke liye banaya pehla AI — jo smart payments se shuru hota hai. Aap content  banayein, Follow-ups hum sambhal lenge.",
-    "cta": "Invoice bhejna shuru karein. Bilkul free"
-  },
-  "benefits": {
-    "title": "Fayde",
-    "cta": "Bilkul free. Abhi start karein.",
+  "threeStep": {
+    "title": "3 simple steps. Bas itna.",
+    "subtitle": "Itna easy ki pehli baar mein hi ho jayega.",
     "items": [
       {
-        "title": "Chat bhejein. Invoice paayein.",
-        "description": "WhatsApp message, email ya brand chat ka screenshot upload karein — ya bas likhein: “Iska invoice bana do.” Fir jaadu dekhiye, humara AI invoice ko proper format mein banata hai, typo-free.GST/PAN details apne aap add ho jayengi.",
-        "highlight": "Aap bas content banao, Cashflow hum banayenge!"
+        "title": "Bolo, type, ya screenshot",
+        "description": "WhatsApp message, email, brand chat ka screenshot upload karein — ya bas bolein/ likhein \"<i>invoice banao.</i>\"",
+        "tags": ["Voice", "Type", "Screenshot", "Duplicate"]
       },
       {
-        "title": "Aap content  banao. Follow-ups hum sambhal lenge.",
-        "description": "Ab “Hey, just checking on the payment?” bhejne ki zarurat nahi. Sparkonomy ka AI WhatsApp aur email par polite, professional reminders bhejta hai. Aap reminders ko manage kar sakte hain, Hum bas process easy banate hain.",
-        "highlight": "Aap rishte banayein. Follow-ups hum sambhal lenge."
+        "title": "AI invoice banayega",
+        "description": "AI proper format mein invoice banata hai, typo-free. GST/ PAN apne aap add. Aap check kar sakte ho, edit kar sakte ho.",
+        "tags": ["Auto-format", "GST/ PAN", "Typo-free"]
       },
       {
-        "title": "Pocket CFO ke saath Pro banein",
-        "description": "Apne cash flow, overdue payments aur income growth ka weekly update paayein, sirf 5 minute mein. Hum aapke records organize rakhte hain aur aapke business ko tax-compliant rehne mein help karte hain. ",
-        "highlight": "Aap pro banein, ham aapki help karenge."
-      }
-    ]
-  },
-  "advantage": {
-    "title": "Aapka Advantage",
-    "subtitle": "Aise invoices jo jaldi payment dilayein aur aapki professional image banayein!",
-    "cta": "Jaldi payment paayein",
-    "items": [
-      {
-        "title": "Payment Ready",
-        "description": "GST auto calculate ho jayega aur payment process integrated rahega"
-      },
-      {
-        "title": "Tax-Compliant",
-        "description": "GSTIN, HSN, aur barter deals manage karna easy ho jayega."
-      },
-      {
-        "title": "WhatsApp Alerts",
-        "description": "WhatsApp par payment status aur reminders milte rahenge"
-      },
-      {
-        "title": "Proof Of Work",
-        "description": "Aapka work auto-fetch ho jayega. Screenshots ki zarurat nahi."
+        "title": "Follow-ups hum karenge",
+        "description": "\"Hi, payment?\" bhejne ki zarurat nahi. Sparkonomy ka AI WhatsApp / email pe polite, professional reminders bhejta hai.",
+        "tags": ["WhatsApp + Email", "Auto-reminders"]
       }
     ]
   },
   "testimonials": {
     "title": "Creators kya bol rahe hain",
+    "subtitle": "Payments jaldi, aur aap Pro lagein.",
     "items": [
       {
-        "quote": "And I have to reach out so many times to get paid in 3 months, and still it hasn't happened 15-20 times! I want you to do my payment reminders",
-        "name": "Food YouTuber",
-        "handle": "700K Followers"
-      },
-      {
-        "quote": "I raise invoices once a month mostly. I don't get time… and it delays my payments. I want you help me raise instant invoices in under 5 mins from my phone",
-        "name": "Tech Instagrammer",
+        "quote": "3 months ho gaye, payment ke liye 15-20 baar reach out kar chuki hoon — still nothing! Reminders aap karo please, I'm done.",
+        "name": "Lifestyle Instagrammer",
         "handle": "1M Followers"
       },
       {
-        "quote": "I don't have time to write down and track all payments in Excel and become my own accountant! I want you to track & remind me of my money matters",
-        "name": "Lifestyle Instagrammer",
-        "handle": "320K Followers"
+        "quote": "Mostly month mein ek baar invoice raise karta hoon — time hi nahi milta, payments delay ho jaate hain. Phone se 5 minute mein invoice dilao please.",
+        "name": "Tech Instagramer",
+        "handle": "1M Followers"
+      },
+      {
+        "quote": "Excel mein payments track karne ka time kahaan hai? Mujhe apna khud ka accountant nahi banna! Aap track karo, remind karo — please.",
+        "name": "Food Youtuber",
+        "handle": "700K Followers"
       }
     ]
   },
-  "cta": {
-    "title": "Kya aap fast payments ke liye ready ho?",
-    "button": "Apna pehla invoice banayein"
+  "advantage": {
+    "title": "Aur kya milta hai?",
+    "items": [
+      {
+        "title": "Proof of Work, automatic.",
+        "description": "Insta, YouTube ke screenshots khud attach ho jayenge. Aapko nahi karna padega."
+      },
+      {
+        "title": "Hamesha free, 4 invoices.",
+        "description": "Har mahine 4 invoices free — koi card nahi, koi hidden charge nahi."
+      },
+      {
+        "title": "Tax calculations, AI karta hai.",
+        "description": "GST ho ya na ho, AI sab calculate kar leta hai. TDS, barter, multi-rate — sab handle."
+      },
+      {
+        "title": "CA-ready, year-end report.",
+        "description": "Saara data ek click pe export. CA ko bheje, ITR file karein — ab Excel ka jhanjhat band."
+      }
+    ]
   },
   "faq": {
     "title": "Frequently Asked Questions",
-    "viewAll": "Poora Dekhein",
-    "categories": [
-      { "key": "all", "label": "Sab" },
-      { "key": "getting-started", "label": "Shuru karna" },
-      { "key": "invoice", "label": "Invoice" },
-      { "key": "payment-reminders", "label": "Payment reminders" },
-      { "key": "pocket-cfo", "label": "Pocket CFO" },
-      { "key": "pricing", "label": "Plans & pricing" },
-      { "key": "taxation", "label": "Tax & GST" }
-    ],
+    "viewAll": "View All",
+    "viewLess": "Show Less",
     "items": [
       {
-        "question": "Main sign up kaise karu?",
-        "answer": "Apna phone number ya email id dein - bas! Uske baad, apne social handles share karein aur billing se related 2–3 easy questions answer karein. Sparkonomy ke AI ke saath, collaboration DMs ka reply dene se bhi zyada fast aap invoices bhej sakenge.",
-        "category": "getting-started"
+        "question": "Q1: Main sign up kaise karu?",
+        "answer": "Apna phone number ya email id dein - bas! Uske baad, apne social handles share karein aur billing se related 2–3 easy questions answer karein. Sparkonomy ke AI ke saath, collaboration DMs ka reply dene se bhi zyada fast aap invoices bhej sakenge."
       },
       {
-        "question": "Creators ke liye yeh AI aur smart payment kaise useful hain?",
-        "answer": "Sparkonomy ka AI creators ko apna business ek pro tarah manage karne mein help karta hai. Aap chat ya collab details share karein, aur system GST-ready invoice proper format mein bana dega. Pocket CFO aapke payments aur cash flow track karta hai aur har week 5 minutes ka update bhejta hai. WhatsApp/Email reminders se follow-ups easy ho jaate hain. Aap decide karte hain kisko reminder bhejna hai, with 1-tap actions: Stop, Delay, ya Payment Done.",
-        "category": "getting-started"
+        "question": "Q2: Creators ke liye yeh AI aur smart payment kaise useful hain?",
+        "answer": "Sparkonomy ka AI Creators ko apna business ek pro tarah manage karne mein help karta hai. Aap chat ya collab details share karein, aur system GST-ready invoice proper format mein bana dega. Pocket CFO aapke payments aur cash flow track karta hai aur har week 5 minutes ka update bhejta hai. WhatsApp/Email reminders se follow-ups easy ho jaate hain. Aap decide karte hain kisko reminder bhejna hai, with 1-tap actions: Stop, Delay, ya Payment Done."
       },
       {
-        "question": "Invoicing start karne ke liye kya information profile mein add Karna important hai?",
-        "answer": "Apna naam, address, PAN, aur payment details (UPI ya bank account) add karein. Agar aapka separate billing organisation hai, toh uska PAN aur registration details (CIN/GSTIN) bhi add karein. Typing ki zarurat nahi—document ki photo upload karein. Ye 5 minutes se kam time leta hai, aur sirf ek baar karna hota hai.",
-        "category": "invoice"
+        "question": "Q3: Invoicing start karne ke liye kya information profile mein add karna important hai?",
+        "answer": "Apna naam, address, PAN, aur payment details (UPI ya bank account) add karein. Agar aapka separate billing organisation hai, toh uska PAN aur registration details (CIN/GSTIN) bhi add karein. Typing ki zarurat nahi—document ki photo upload karein. Ye 5 minutes se kam time leta hai, aur sirf ek baar karna hota hai."
       },
       {
-        "question": "Main apna pehla invoice kaise banau?",
-        "answer": "Creator AI aapko phone par sirf kuch taps mein, 3 minutes se bhi kam time mein invoice bana deta hai. Aap purana invoice duplicate kar sakte hain, WhatsApp/email ka screenshot upload kar sakte hain, ya bas likh dijiye: “Mujhe iske liye invoice chahiye.” Invoice turant ready ho jayega, aur edits bhi aasaani se ho jaayenge.",
-        "category": "invoice"
+        "question": "Q4: Main apna pehla invoice kaise banau?",
+        "answer": "Creator AI aapko phone par sirf kuch taps mein, 3 minutes se bhi kam time mein invoice bana deta hai. Aap purana invoice duplicate kar sakte hain, WhatsApp/email ka screenshot upload kar sakte hain, ya bas likh dijiye: \"Mujhe iske liye invoice chahiye.\" Invoice turant ready ho jayega, aur edits bhi aasaani se ho jaayenge."
       },
       {
-        "question": "Sparkonomy meri taraf se payment reminders kaise bhejhega?",
-        "answer": "Humein pata hai payment ke liye baar-baar follow-up karna kitna frustrating hota hai. Invoice banate time aap choose karte hain ki reminders kitne bhejne hain, kitni frequency par, aur WhatsApp/email par bhejne hain ya nahi. Reminder send hone se pehle aapko confirmation milta hai. Aap 1-tap actions se control rakhte hain: Stop, Delay, ya Payment Done. Aap content banayein, follow-ups hum sambhal lenge.",
-        "category": "payment-reminders"
+        "question": "Q5: Sparkonomy meri taraf se payment reminders kaise bhejhega?",
+        "answer": "Humein pata hai payment ke liye baar-baar follow-up karna kitna frustrating hota hai. Invoice banate time aap choose karte hain ki reminders kitne bhejne hain, kitni frequency par, aur WhatsApp/email par bhejne hain ya nahi. Reminder send hone se pehle aapko confirmation milta hai. Aap 1-tap actions se control rakhte hain: Stop, Delay, ya Payment Done. Aap content banayein, follow-ups hum sambhal lenge."
       },
       {
-        "question": "Pocket CFO kya hai aur yeh kya kaam karega?",
-        "answer": "Hum jaante hain ki aap apne creator business ke accountant nahi banna chahte. Phir bhi invoices, payments, aur follow-ups manage karna time le leta hai. Sparkonomy ka Pocket CFO AI agent har week aapke payments aur cash flow ka summary banata hai. Phir yeh aapko 5-minute ka weekly update bhejta hai—cash flow, overdue payments, aur income growth par. Isse aapke records clean rehte hain aur aapka business tax-ready rehne mein help milti hai. Aap pro banein. Hum aapki help karenge.",
-        "category": "pocket-cfo"
+        "question": "Q6: Pocket CFO kya hai aur yeh kya kaam karega?",
+        "answer": "Hum jaante hain ki aap apne Creator business ke accountant nahi banna chahte. Phir bhi invoices, payments, aur follow-ups manage karna time le leta hai. Sparkonomy ka Pocket CFO AI agent har week aapke payments aur cash flow ka summary banata hai. Phir yeh aapko 5-minute ka weekly update bhejta hai—cash flow, overdue payments, aur income growth par. Isse aapke records clean rehte hain aur aapka business tax-ready rehne mein help milti hai. Aap pro banein. Hum aapki help karenge."
       },
       {
-        "question": "Mujhe kitna payment karna hoga?",
-        "answer": "Basic plan mein aap har month maximum 4 naye invoices bana sakte hain, unlimited reminders bhej sakte hain, aur Pocket CFO updates pa sakte hain. Agar aapko zyada invoices ya extra features chahiye, toh aap Pro plan par upgrade kar sakte hain. Aap referrals ke through benefits bhi unlock kar sakte hain.",
-        "category": "pricing"
+        "question": "Q7: Mujhe kitna payment karna hoga?",
+        "answer": "Basic plan mein aap har month maximum 4 naye invoices bana sakte hain, unlimited reminders bhej sakte hain, aur Pocket CFO updates pa sakte hain. Agar aapko zyada invoices ya extra features chahiye, toh aap Pro plan par upgrade kar sakte hain. Aap referrals ke through benefits bhi unlock kar sakte hain."
       },
       {
-        "question": "Mere invoices par tax calculate kaise hoga?",
-        "answer": " GST-registered creators ke liye, Sparkonomy aapki invoice details ke basis par GST fields fill karne mein help karta hai. System relevant tax details add karta hai aur CGST/SGST/IGST breakup generate karta hai, taaki invoice GST-ready format mein rahe. Aap final invoice send karne se pehle details review kar sakte hain.",
-        "category": "taxation"
+        "question": "Q8: Mere invoices par tax calculate kaise hoga?",
+        "answer": "GST-registered Creators ke liye, Sparkonomy aapki invoice details ke basis par GST fields fill karne mein help karta hai. System relevant tax details add karta hai aur CGST/SGST/IGST breakup generate karta hai, taaki invoice GST-ready format mein rahe. Aap final invoice send karne se pehle details review kar sakte hain."
       },
       {
-        "question": "Kya AI GST calculate karne mein help karta hai?",
-        "answer": " Haan. Sparkonomy ka AI GST-related invoice fields fill karne mein help karta hai. Yeh service category ke hisaab se relevant details add karta hai aur GST-ready invoice template follow karta hai. Aap send karne se pehle sab details verify kar sakte hain.",
-        "category": "taxation"
+        "question": "Q9: Kya AI GST calculate karne mein help karta hai?",
+        "answer": "Haan. Sparkonomy ka AI GST-related invoice fields fill karne mein help karta hai. Yeh service category ke hisaab se relevant details add karta hai aur GST-ready invoice template follow karta hai. Aap send karne se pehle sab details verify kar sakte hain."
       },
       {
-        "question": "Mujhe meri brand services par kitna GST charge karna chahiye?",
-        "answer": " Agar aap GST-registered hain, toh invoice par applicable GST charge karna hota hai. Sparkonomy aapke invoice setup ke basis par GST fields aur CGST/SGST/IGST breakup set karne mein help karta hai. Agar aap GST-registered nahi hain, toh aap GST add nahi kar sakte. Final rate aur classification ke liye aap apni GST registration details ke hisaab se confirm karein.",
-        "category": "taxation"
+        "question": "Q10: Main ek brand ko invoice kaise bheju?",
+        "answer": "Invoice complete karne ke baad, aap Sparkonomy ke through brand ko direct bhej sakte hain. Ya phir PDF download karke email/WhatsApp par send karein. Aap chahein toh send history bhi maintain rahegi, taaki follow-ups easy ho jaayein."
       },
       {
-        "question": "Main Ek brand ko invoice kaise bheju?",
-        "answer": "Invoice complete karne ke baad, aap Sparkonomy ke through brand ko direct bhej sakte hain. Ya phir PDF download karke email/WhatsApp par send karein. Aap chahein toh send history bhi maintain rahegi, taaki follow-ups easy ho jaayein.",
-        "category": "invoice"
-      },
-      {
-        "question": "Kya invoice mein apna logo add kar sakte hain?",
-        "answer": "Haan. Aap apna business logo upload kar sakte hain aur invoices ko apne brand ke hisaab se personalise kar sakte hain. Aap chahein toh profile picture bhi use ho sakti hai. Isse har invoice ko clean, professional look milta hai—without extra effort.",
-        "category": "invoice"
-      },
-      {
-        "question": "Kya Purchase Order (PO) use karke jaldi invoice create kar sakte hain?",
-        "answer": "Haan. “Create Invoice” par tap karke aap brand ka Purchase Order (PO) upload kar sakte hain. System document se key details (brand name, contact info, line items) extract karke pre-fill kar deta hai. Aap bas details verify karein aur invoice jaldi bhej dein.",
-        "category": "invoice"
-      },
-      {
-        "question": "Mujhse invoices bhejne mein delay hota hai... Is it a big deal?",
-        "answer": "Haan, iska impact hota hai. Invoice late bhejne se brand ka payment process late start hota hai, aur payment aur delay ho sakta hai. Sparkonomy ke saath invoicing simple ho jaati hai—AI aapko invoice fast create karne, review karne, aur time par bhejne mein help karta hai, taaki aap content creation par focus kar sakein.",
-        "category": "invoice"
-      },
-      {
-        "question": "Kya aapke invoices meri country ke tax aur service codes ko support karte hain?",
-        "answer": "Haan. Sparkonomy aapki country aur profile settings ke hisaab se relevant tax fields aur service details add karne mein help karta hai. Aap final invoice send karne se pehle sab details review kar sakte hain, taaki classification aur compliance clear rahe.",
-        "category": "invoice"
-      },
-      {
-        "question": "Mujhe lagta hai ki mere invoice mein galti hai. Mujhe kya karna chahiye?",
-        "answer": "Agar invoice abhi tak send nahi hua hai, toh dashboard se “Edit” karke changes karein. Agar invoice send ho chuka hai, toh best practice yeh hai ki purana invoice cancel karke naya invoice create karein, taaki records clean rahein. Agar aap GST-registered hain, toh cancel karke fresh invoice banana zyada safe hota hai. Aap time bachane ke liye purane invoice ko duplicate karke changes kar sakte hain.",
-        "category": "invoice"
-      },
-      {
-        "question": "Maine abhi apna Payment Method change kiya. Kya iska effect mere current invoice par padega?",
-        "answer": "Jo invoices aapne payment method change karne se pehle bheje hain, unmein purane payment details dikhenge. Updated payout details save ho jaati hain aur future invoices ke liye use hoti hain. Agar kisi brand ka payment pending hai, toh unko updated details share karein, taaki delay na ho.",
-        "category": "invoice"
-      },
-      {
-        "question": "Non-paying brands ke final collection aur public disclosure ke liye Sparkonomy ke steps kya hain?",
-        "answer": "Agar koi brand payment ignore kar raha hai, toh Sparkonomy aapko professional escalation follow karne mein help karta hai—reminder sequence, strong follow-up templates, aur proof-of-work/invoice details ek saath ready rakhna. Hum legal support provide nahi karte, aur public shaming/disclosure recommend nahi karte. Agar payment phir bhi pending rahe, toh aap formal written communication karein aur zarurat ho toh legal professional se advice lein.",
-        "category": "payment-reminders"
-      },
-      {
-        "question": "Kya mujhe brands se milne wale free products aur sponsored trips par tax dena hoga?",
-        "answer": "Haan, kai cases mein non-cash benefits bhi taxable ho sakte hain. Agar aapko products, gifts, ya sponsored trips collaboration ke under milte hain, toh unki value ko income/benefit ke taur par report karna pad sakta hai. Best practice: har benefit ka record rakhein aur approximate market value note karein, taaki filing ke time sahi reporting ho sake.",
-        "category": "taxation"
-      },
-      {
-        "question": "Main ek hi time par multiple brand deals kaise manage karun?",
-        "answer": " Agar deals WhatsApp, email, aur Instagram DMs mein scattered hain, toh tracking tough ho jaati hai. Simple rule: sab kuch ek jagah track karein. Har deal ke liye 4 cheezein note karein—brand name, amount, due date, aur payment status. Sparkonomy aapko invoices, payment status, aur income tracking ek dashboard mein manage karne mein help karta hai.",
-        "category": "invoice"
-      },
-      {
-        "question": "Kya camera equipment aur software ke kharche tax deduction ke liye claim kiye ja sakte hain?",
-        "answer": "Haan. Agar aap self-employed creator ya registered business hain, toh aap genuine business expenses ko income se deduct kar sakte hain, subject to rules. Isme camera gear, editing software, props, studio rent, aur work-related internet ka portion include ho sakta hai. Sirf wahi expenses claim karein jo actual work ke liye use hote hain, aur invoices/receipts save rakhein.",
-        "category": "taxation"
+        "question": "Q11: Kya invoice mein apna logo add kar sakte hain?",
+        "answer": "Haan. Aap apna business logo upload kar sakte hain aur invoices ko apne brand ke hisaab se personalise kar sakte hain. Aap chahein toh profile picture bhi use ho sakti hai. Isse har invoice ko clean, professional look milta hai—without extra effort."
       }
     ]
   },
-  "video": {
-    "cta": "Bilkul free, Abhi start karein!"
-  },
   "floatingCta": {
-    "button": "Free mein try karein",
     "placeholder": "Apna mobile number",
-    "signup": "Sign Up"
+    "sendOtp": "Win Now",
+    "staticPrefix": "Win",
+    "primaryLabel": "Now",
+    "swapLabel": "Gold Coin",
+    "heading": "<0>Gold Coin</0> jaa raha hai — aaj ke pehle 5 ko.",
+    "body": "Miss mat karna.",
+    "terms": "T&C apply",
+    "ariaLabel": "Sign up to win a Gold Coin",
+    "modalTitle": "Apni boli mein invoice bhejna shuru karein"
   },
   "footer": {
     "tagline": "sparking the creator economy",
@@ -223,7 +169,50 @@
   },
   "referral": {
     "defaultName": "Chulbuli",
-    "message": "ka maan na hai ki yeh app creators ke liye sabse easy hai — aap bhi ise try karke dekho.",
+    "message": "ka maan na hai ki yeh app Creators ke liye sabse easy hai — aap bhi ise try karke dekho.",
     "signUp": "Aaj hi Sign Up karo!"
+  },
+  "otp": {
+    "title": "4-digit OTP daalein",
+    "sentTo": "{{phone}} par bheja gaya",
+    "verify": "OTP Verify karein",
+    "resendIn": "{{seconds}}s mein dobara bhejein",
+    "resend": "OTP dobara bhejein",
+    "resendViaPrefix": "OTP dobara bhejo via",
+    "smsChannel": "SMS",
+    "whatsappChannel": "WhatsApp",
+    "changeNumber": "Number badlein",
+    "errorInvalid": "Galat OTP. Phir se try karein.",
+    "errorNetwork": "Kuch gadbad ho gayi. Phir se try karein.",
+    "sending": "Bhej rahe hain…",
+    "verifying": "Verify ho raha hai…"
+  },
+  "signupCard": {
+    "otpSentOverWhatsapp": "OTP WhatsApp par bheja gaya hai",
+    "verified": "Verified",
+    "notVerified": "Not verified",
+    "verifying": "Verifying…",
+    "invalid": "Incorrect OTP",
+    "firstNameLabel": "First Name*",
+    "firstNamePlaceholder": "E.g. Chulbuli",
+    "lastNameLabel": "Last Name*",
+    "lastNamePlaceholder": "E.g. Dixit",
+    "emailLabel": "Email",
+    "emailPlaceholder": "E.g. yourname@email.com",
+    "createAccount": "Mera Account Banao!",
+    "creating": "Bana rahe hain…",
+    "done": "Ho gaya!",
+    "builtWith": "Built with",
+    "developedWith": "Developed with",
+    "emailInUse": "Yeh email kisi aur account se linked hai."
+  },
+  "errors": {
+    "INVALID_OTP": "Galat OTP. Phir se try karein.",
+    "OTP_EXPIRED": "OTP expire ho gaya. Naya OTP mangwayein.",
+    "EMAIL_ALREADY_IN_USE": "Yeh email kisi aur account se linked hai.",
+    "PHONE_ALREADY_IN_USE": "Yeh number kisi aur account se linked hai.",
+    "USER_NOT_FOUND": "Account nahi mila. Phir se shuru karein.",
+    "NETWORK_ERROR": "Kuch gadbad ho gayi. Phir se try karein.",
+    "_default": "Kuch gadbad ho gayi. Phir se try karein."
   }
 }

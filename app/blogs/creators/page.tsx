@@ -1,11 +1,15 @@
 import type { Metadata } from "next";
-import { CategoryBlogTemplate, CATEGORY_CONFIGS } from "@/components/blog/common";
+import { CategoryBlogTemplate, CATEGORY_CONFIGS, parseBlogPage, withPagedListingMetadata } from "@/components/blog/common";
 
 export const revalidate = 300;
 
 const config = CATEGORY_CONFIGS.creators;
 
-export const metadata: Metadata = {
+interface CategoryPageProps {
+  searchParams: Promise<{ page?: string }>;
+}
+
+const baseMetadata: Metadata = {
   metadataBase: new URL("https://www.sparkonomy.com/"),
   title: "Creators & Influencers | Sparkonomy Blog - Tips for YouTubers, Instagrammers & Social Media Influencers",
   description: "Insights, tips and updates for Creators, influencers, YouTubers, Instagrammers and social media influencers. Grow your audience and monetize your content with Sparkonomy.",
@@ -24,7 +28,7 @@ export const metadata: Metadata = {
     "influencer marketing tips",
   ],
   alternates: {
-    canonical: "https://sparkonomy.com/blogs/creators",
+    canonical: "https://www.sparkonomy.com/blogs/creators",
   },
   robots: {
     index: true,
@@ -36,7 +40,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     siteName: "Sparkonomy",
-    url: "https://sparkonomy.com/blogs/creators",
+    url: "https://www.sparkonomy.com/blogs/creators",
     title: "Creators & Influencers | Sparkonomy Blog - YouTubers, Instagrammers & More",
     description: "Insights, tips and updates for Creators, influencers, YouTubers, Instagrammers and social media influencers on Sparkonomy.",
     images: [
@@ -60,6 +64,12 @@ export const metadata: Metadata = {
   },
 };
 
-export default function CreatorsPage() {
-  return <CategoryBlogTemplate config={config} />;
+export async function generateMetadata({ searchParams }: CategoryPageProps): Promise<Metadata> {
+  const page = parseBlogPage((await searchParams).page);
+  return withPagedListingMetadata(baseMetadata, "https://www.sparkonomy.com/blogs/creators", page);
+}
+
+export default async function CreatorsPage({ searchParams }: CategoryPageProps) {
+  const page = parseBlogPage((await searchParams).page);
+  return <CategoryBlogTemplate config={config} currentPage={page} />;
 }
