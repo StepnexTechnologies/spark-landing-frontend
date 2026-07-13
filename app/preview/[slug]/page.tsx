@@ -22,6 +22,7 @@ import KeyTakeawaysEnhancer from "@/components/blog/KeyTakeawaysEnhancer";
 import CheckmarkEnhancer from "@/components/blog/CheckmarkEnhancer";
 import H6SectionParser from "@/components/blog/H6SectionParser";
 import TaxCalculatorInjector from "@/components/blog/TaxCalculatorInjector";
+import FMVCalculatorInjector from "@/components/blog/FMVCalculatorInjector";
 import ImageOrientationEnhancer from "@/components/blog/ImageOrientationEnhancer";
 import ImageLightboxEnhancer from "@/components/blog/ImageLightboxEnhancer";
 import NewsletterSection from "@/components/blog/NewsletterSection";
@@ -466,6 +467,8 @@ export default async function PreviewPostPage({ params }: PreviewPostPageProps) 
           <div className="px-4 md:px-6 lg:px-0">
             {/* Tax Calculator injector — replaces <h6>tax-calc</h6> markers with the calculator */}
             <TaxCalculatorInjector />
+            {/* FMV Calculator injector — replaces <h6>fmv-calc</h6> markers with the calculator */}
+            <FMVCalculatorInjector />
             {/* H6 Section Parser — runs first, wraps all H6-marked sections */}
             <H6SectionParser />
             {/* TOC smooth scroll enhancement */}
