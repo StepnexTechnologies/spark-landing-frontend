@@ -7,6 +7,16 @@ const isProduction = !process.env.SITE_URL?.startsWith('https://dev.')
 
 const PRIVATE_PATHS = ['/api/', '/admin']
 
+// Unlisted pages: shared directly with the people they are meant for, never
+// discovered. They stay crawlable by generic bots ONLY so those bots can read
+// the page's own noindex directive — a robots.txt block would hide the very
+// tag that keeps them out of the index. Answer engines are blocked outright
+// because they do not reliably honour noindex.
+const UNLISTED_PATHS = [
+  '/legal/trusted-partner-terms',
+  '/legal/trusted-partner-program-guide',
+]
+
 const AI_TRAINING_BOTS = [
   'GPTBot',
   'anthropic-ai',
@@ -43,7 +53,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: AI_SEARCH_BOTS,
         allow: '/',
-        disallow: PRIVATE_PATHS,
+        disallow: [...PRIVATE_PATHS, ...UNLISTED_PATHS],
       },
       {
         userAgent: AI_TRAINING_BOTS,
