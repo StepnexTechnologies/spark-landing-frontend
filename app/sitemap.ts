@@ -16,6 +16,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ["/legal/terms", "2026-06-11", 0.5, "yearly"],
     ["/legal/privacy-policy", "2026-06-11", 0.5, "yearly"],
     ["/legal/refund-policy", "2026-06-11", 0.5, "yearly"],
+    ["/legal/trusted-partner-terms", "2026-07-14", 0.5, "yearly"],
   ];
 
   return routes.map(([path, lastModified, priority, changeFrequency]) => ({
