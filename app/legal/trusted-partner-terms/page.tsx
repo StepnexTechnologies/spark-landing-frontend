@@ -2,8 +2,7 @@ import LegalFooter from "@/components/LegalFooter";
 import LegalHeader from "@/components/LegalHeader";
 import Link from "next/link";
 
-// TODO: replace with the published Trusted Partner Program Guide URL once it exists.
-const PROGRAM_GUIDE_URL = "#";
+const PROGRAM_GUIDE_URL = "/legal/trusted-partner-program-guide";
 
 export default function TrustedPartnerTermsPage() {
     return (
@@ -58,12 +57,12 @@ export default function TrustedPartnerTermsPage() {
                 </p>
                 <p className="mb-4">
                     Read the full{" "}
-                    <a
+                    <Link
                         href={PROGRAM_GUIDE_URL}
                         className="text-primary font-bold hover:underline"
                     >
                         Sparkonomy Trusted Partner Program Guide
-                    </a>
+                    </Link>
                     .
                 </p>
                 <p className="mb-6">
