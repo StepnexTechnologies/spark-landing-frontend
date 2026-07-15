@@ -8,6 +8,10 @@ import hiLatnCreatorEarn from '@/public/locales/hi-Latn/creatorEarn.json';
 // creatorPromo is Hinglish-only — no English bundle. The promo route forces
 // hi-Latn at mount, so en pulls the same file as a defensive fallback.
 import hiLatnCreatorPromo from '@/public/locales/hi-Latn/creatorPromo.json';
+// creatorPortfolio powers /creator/portfolio. Ships both en + hi-Latn like
+// creatorEarn so the language switcher works on that route.
+import enCreatorPortfolio from '@/public/locales/en/creatorPortfolio.json';
+import hiLatnCreatorPortfolio from '@/public/locales/hi-Latn/creatorPortfolio.json';
 
 const isBrowser = typeof window !== 'undefined';
 
@@ -28,16 +32,18 @@ const initI18n = () => {
         lng: isBrowser ? undefined : 'en',
         supportedLngs: ['en', 'hi-Latn'],
         debug: false,
-        ns: ['creatorEarn', 'creatorPromo'],
+        ns: ['creatorEarn', 'creatorPromo', 'creatorPortfolio'],
         defaultNS: 'creatorEarn',
         resources: {
           en: {
             creatorEarn: enCreatorEarn,
             creatorPromo: hiLatnCreatorPromo,
+            creatorPortfolio: enCreatorPortfolio,
           },
           'hi-Latn': {
             creatorEarn: hiLatnCreatorEarn,
             creatorPromo: hiLatnCreatorPromo,
+            creatorPortfolio: hiLatnCreatorPortfolio,
           },
         },
         detection: {
@@ -61,8 +67,10 @@ const initI18n = () => {
   // deep=true + overwrite=true makes HMR-friendly key additions Just Work.
   i18n.addResourceBundle('en', 'creatorEarn', enCreatorEarn, true, true);
   i18n.addResourceBundle('en', 'creatorPromo', hiLatnCreatorPromo, true, true);
+  i18n.addResourceBundle('en', 'creatorPortfolio', enCreatorPortfolio, true, true);
   i18n.addResourceBundle('hi-Latn', 'creatorEarn', hiLatnCreatorEarn, true, true);
   i18n.addResourceBundle('hi-Latn', 'creatorPromo', hiLatnCreatorPromo, true, true);
+  i18n.addResourceBundle('hi-Latn', 'creatorPortfolio', hiLatnCreatorPortfolio, true, true);
 };
 
 initI18n();
