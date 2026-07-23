@@ -2,7 +2,7 @@
 
 import {useCallback, useEffect, useRef, useState} from "react";
 import {useSearchParams} from "next/navigation";
-import {AnimatePresence, motion} from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 // import { StoriesContainerProps } from "./types";
@@ -191,7 +191,7 @@ export default function StoriesContainer({
       )}
     <AnimatePresence>
       {isVisible && (
-        <motion.div
+        <m.div
           className="fixed inset-0 z-50 bg-black"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -298,7 +298,7 @@ export default function StoriesContainer({
               <CurrentStoryComponent imageSrc={currentStory?.imageSrc} priority />
             </StoryPanel>
           </div>
-        </motion.div>
+        </m.div>
       )}
     </AnimatePresence>
     </>
