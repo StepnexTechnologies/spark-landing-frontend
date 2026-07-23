@@ -1,7 +1,7 @@
 "use client";
 
 import { Suspense, useEffect, useRef, useState } from "react";
-import { AnimatePresence, m, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Trans, useTranslation } from "react-i18next";
 import { ValidatedPhoneInput } from "./ValidatedPhoneInput";
 import FlippingCoin from "./FlippingCoin";
@@ -152,7 +152,7 @@ function EarnFloatingCTA({ isVisible, t, trackingPrefix }: EarnVariantProps) {
         // -bottom-px on the fixed wrapper (and the matching +1px on the
         // inner pb) overshoots the viewport by 1px to cover the sub-pixel
         // gap left by framer-motion's translateY(0) on fractional-DPR screens.
-        <m.div
+        <motion.div
           initial={{ opacity: 0, y: 100 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 100 }}
@@ -258,7 +258,7 @@ function EarnFloatingCTA({ isVisible, t, trackingPrefix }: EarnVariantProps) {
               />
             </p>
           </div>
-        </m.div>
+        </motion.div>
       )}
     </AnimatePresence>
   );
@@ -309,7 +309,7 @@ function PromoFloatingCTA({ isVisible, t, trackingPrefix }: PromoVariantProps) {
   return (
     <AnimatePresence>
       {isVisible && (
-        <m.div
+        <motion.div
           initial={{ opacity: 0, y: 100 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 100 }}
@@ -343,7 +343,7 @@ function PromoFloatingCTA({ isVisible, t, trackingPrefix }: PromoVariantProps) {
                 </div>
                 <div className="flex-1 min-w-0">
                   <h3 className="text-primary font-medium text-sm leading-tight">
-                    <m.span
+                    <motion.span
                       aria-hidden
                       animate={
                         prefersReducedMotion
@@ -376,12 +376,12 @@ function PromoFloatingCTA({ isVisible, t, trackingPrefix }: PromoVariantProps) {
                       className="inline-block mr-1"
                     >
                       ⚡
-                    </m.span>
+                    </motion.span>
                     <Trans
                       i18nKey="floatingCta.heading"
                       t={t}
                       components={[
-                        <m.span
+                        <motion.span
                           key="rupee"
                           className="inline-block origin-center"
                           animate={
@@ -467,7 +467,7 @@ function PromoFloatingCTA({ isVisible, t, trackingPrefix }: PromoVariantProps) {
               </p>
             </div>
           </div>
-        </m.div>
+        </motion.div>
       )}
     </AnimatePresence>
   );
@@ -543,7 +543,7 @@ function AnimatedOtpButton({
           <span className="leading-5">{staticPrefix}</span>
           <span className="relative inline-block overflow-hidden h-5 min-w-[4ch] text-center leading-5">
             <AnimatePresence mode="wait" initial={false}>
-              <m.span
+              <motion.span
                 key={current}
                 initial={{ y: "100%" }}
                 animate={{ y: 0 }}
@@ -552,7 +552,7 @@ function AnimatedOtpButton({
                 className="block leading-5"
               >
                 {current === "primary" ? primaryLabel : swapLabel}
-              </m.span>
+              </motion.span>
             </AnimatePresence>
           </span>
         </>

@@ -1,7 +1,7 @@
 "use client";
 
 import {Suspense, useState, useEffect} from "react";
-import { m } from "framer-motion";
+import {motion} from "framer-motion";
 import { useTranslation } from "react-i18next";
 import CTAButton from "./CTAButton";
 
@@ -19,7 +19,7 @@ export default function VideoSection() {
 
   return (
     <section className="relative py-12 md:py-20 px-5 md:px-20">
-      <m.div
+      <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -35,13 +35,13 @@ export default function VideoSection() {
         {/*      /!* Placeholder for video *!/*/}
         {/*      <div className="absolute inset-0 flex flex-col items-center justify-center">*/}
         {/*        /!* Play Button *!/*/}
-        {/*        <m.button*/}
+        {/*        <motion.button*/}
         {/*          whileHover={{ scale: 1.1 }}*/}
         {/*          whileTap={{ scale: 0.95 }}*/}
         {/*          className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-white/10 backdrop-blur-sm border-2 border-white/30 flex items-center justify-center hover:bg-white/20 transition-colors"*/}
         {/*        >*/}
         {/*          <Play className="w-6 h-6 md:w-8 md:h-8 text-white fill-white ml-1" />*/}
-        {/*        </m.button>*/}
+        {/*        </motion.button>*/}
         {/*          <p className={"text-white"}>Awaited</p>*/}
         {/*      </div>*/}
         {/*    </div>*/}
@@ -49,7 +49,7 @@ export default function VideoSection() {
         {/*</div>*/}
 
         {/* Video Description */}
-        {/*<m.div*/}
+        {/*<motion.div*/}
         {/*  initial={{ opacity: 0, y: 10 }}*/}
         {/*  whileInView={{ opacity: 1, y: 0 }}*/}
         {/*  viewport={{ once: true }}*/}
@@ -59,10 +59,10 @@ export default function VideoSection() {
         {/*  <p className="text-xs md:text-2xl font-normal md:font-semibold text-white">*/}
         {/*    How to Use: Lorem ipsum is the best font for the design*/}
         {/*  </p>*/}
-        {/*</m.div>*/}
+        {/*</motion.div>*/}
 
         {/* CTA Button */}
-        <m.div
+        <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
@@ -72,8 +72,8 @@ export default function VideoSection() {
             <Suspense fallback={null}>
               <CTAButton buttonText={t("video.cta")}/>
             </Suspense>
-        </m.div>
-      </m.div>
+        </motion.div>
+      </motion.div>
     </section>
   );
 }

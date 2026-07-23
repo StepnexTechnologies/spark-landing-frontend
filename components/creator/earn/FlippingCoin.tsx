@@ -1,6 +1,6 @@
 "use client";
 
-import { m } from "framer-motion";
+import { motion } from "framer-motion";
 import { Sparkle } from "lucide-react";
 
 interface FlippingCoinProps {
@@ -61,7 +61,7 @@ export default function FlippingCoin({
           }}
         />
       )}
-      <m.div
+      <motion.div
         className="animate-coin-flip w-full h-full relative [transform-style:preserve-3d]"
         style={{ animationDuration: "var(--coin-duration, 2.5s)" }}
         initial={{ ["--coin-duration" as string]: isFast ? "0.4s" : "2.5s" }}
@@ -84,7 +84,7 @@ export default function FlippingCoin({
           className="absolute inset-0 w-full h-full object-contain"
           style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
         />
-      </m.div>
+      </motion.div>
       {glint &&
         !isFast &&
         TWINKLES.map((t, i) => {

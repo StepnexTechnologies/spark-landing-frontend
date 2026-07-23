@@ -1,7 +1,7 @@
 "use client";
 
 import {useEffect, useRef, useState} from "react";
-import { AnimatePresence, m, useInView, useReducedMotion } from "framer-motion";
+import {AnimatePresence, motion, useInView, useReducedMotion} from "framer-motion";
 import Image from "next/image";
 import {useTranslation} from "react-i18next";
 import {getCurrentLang, type SupportedLang} from "@/lib/i18n";
@@ -51,7 +51,7 @@ export default function PhoneMockupSection({lang}: {lang?: SupportedLang} = {}) 
   return (
     <section ref={sectionRef} className="relative py-5 md:py-0 px-5">
       <div className="flex justify-center">
-        <m.div
+        <motion.div
           initial={{opacity: 0, y: 24}}
           whileInView={{opacity: 1, y: 0}}
           viewport={{once: true, margin: "-50px"}}
@@ -61,7 +61,7 @@ export default function PhoneMockupSection({lang}: {lang?: SupportedLang} = {}) 
           {/* Screen viewport — 190x412 inside the 212x433 phone frame (11px x bezel, ~10.5px y bezel) */}
           <div className="absolute inset-x-[11px] top-[10px] bottom-[11px] rounded-[34px] overflow-hidden">
             <AnimatePresence mode="wait" initial={false}>
-              <m.div
+              <motion.div
                 key={activeIndex}
                 initial={{x: "100%", opacity: 0}}
                 animate={{x: 0, opacity: 1}}
@@ -78,7 +78,7 @@ export default function PhoneMockupSection({lang}: {lang?: SupportedLang} = {}) 
                   loading="lazy"
                   decoding="async"
                 />
-              </m.div>
+              </motion.div>
             </AnimatePresence>
           </div>
 
@@ -115,11 +115,11 @@ export default function PhoneMockupSection({lang}: {lang?: SupportedLang} = {}) 
             loading="lazy"
             decoding="async"
           />
-        </m.div>
+        </motion.div>
       </div>
 
       {/* Partner Logos */}
-      <m.div
+      <motion.div
         initial={{opacity: 0, y: 20}}
         whileInView={{opacity: 1, y: 0}}
         viewport={{once: true, margin: "-50px"}}
@@ -140,7 +140,7 @@ export default function PhoneMockupSection({lang}: {lang?: SupportedLang} = {}) 
           width={120}
           className="h-[32px] w-auto object-contain pl-4"
         />
-      </m.div>
+      </motion.div>
     </section>
   );
 }

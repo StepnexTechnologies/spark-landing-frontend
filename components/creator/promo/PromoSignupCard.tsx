@@ -2,7 +2,7 @@
 
 import { Suspense, useEffect, useState } from "react";
 import Image from "next/image";
-import { AnimatePresence, m } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { Trans, useTranslation } from "react-i18next";
 import { ArrowRight, Check, ChevronLeft, Loader2, X } from "lucide-react";
 import { ValidatedPhoneInput } from "@/components/creator/earn/ValidatedPhoneInput";
@@ -224,7 +224,7 @@ export default function PromoSignupCard({
   }, [profile.lastName, hasTypedLastName]);
 
   return (
-    <m.div
+    <motion.div
       id="promo-hero-card"
       layout
       style={{ background: isEarn ? EARN_CARD_GRADIENT : CARD_GRADIENT }}
@@ -309,7 +309,7 @@ export default function PromoSignupCard({
                   // /promo-f: static "500" that bounces in sync with the
                   // Get OTP button once the user first scrolls or taps.
                   // Same keyframes/timing as the button below.
-                  <m.span
+                  <motion.span
                     key="amount"
                     className="inline-block origin-center"
                     style={{
@@ -333,7 +333,7 @@ export default function PromoSignupCard({
                     }
                   >
                     500
-                  </m.span>
+                  </motion.span>
                 ) : variant === "w" ? (
                   // /promo-w: static "500" — no count-up, no bounce.
                   <span key="amount">500</span>
@@ -344,7 +344,7 @@ export default function PromoSignupCard({
                   // /promo-w: static rupee glyph — no scale pulse.
                   <span key="rupee" />
                 ) : (
-                  <m.span
+                  <motion.span
                     key="rupee"
                     className="inline-block origin-center"
                     style={{
@@ -459,7 +459,7 @@ export default function PromoSignupCard({
                   stage === "submitting" ||
                   stage === "submitted"));
             return (
-              <m.button
+              <motion.button
                 type="button"
                 onClick={phoneLocked ? changeNumber : sendOtp}
                 disabled={ctaDisabled}
@@ -497,7 +497,7 @@ export default function PromoSignupCard({
                 ) : (
                   t("hero.card.sendOtp")
                 )}
-              </m.button>
+              </motion.button>
             );
           })()}
         </div>
@@ -507,7 +507,7 @@ export default function PromoSignupCard({
             bumped back to phone (PHONE_ALREADY_IN_USE, USER_NOT_FOUND). */}
         <AnimatePresence initial={false}>
           {stage === "phone" && error && (
-            <m.p
+            <motion.p
               key="phone-error"
               initial={{ height: 0, opacity: 0, marginTop: 0 }}
               animate={{ height: "auto", opacity: 1, marginTop: 8 }}
@@ -517,14 +517,14 @@ export default function PromoSignupCard({
               className="overflow-hidden text-xs text-red-100 bg-red-600/20 px-2 py-1 rounded text-center"
             >
               {error}
-            </m.p>
+            </motion.p>
           )}
         </AnimatePresence>
 
         {/* Disclaimer — only shown in stage 1 (hidden once OTP is sent) */}
         <AnimatePresence initial={false}>
           {stage === "phone" && (
-            <m.p
+            <motion.p
               key="disclaimer"
               initial={{ height: 0, opacity: 0, marginTop: 0 }}
               animate={{ height: "auto", opacity: 1, marginTop: isEarn ? 6 : 8 }}
@@ -556,7 +556,7 @@ export default function PromoSignupCard({
                   />,
                 ]}
               />
-            </m.p>
+            </motion.p>
           )}
         </AnimatePresence>
       </div>
@@ -657,7 +657,7 @@ export default function PromoSignupCard({
               watcher in SignupContext). */}
           <AnimatePresence initial={false}>
             {verifyStatus === "error" && (
-              <m.div
+              <motion.div
                 key="earn-pill-error"
                 initial={{ opacity: 0, y: -4 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -666,7 +666,7 @@ export default function PromoSignupCard({
                 className="mt-2 flex justify-center"
               >
                 <VerifiedBadge status={verifyStatus} t={t} />
-              </m.div>
+              </motion.div>
             )}
           </AnimatePresence>
 
@@ -750,7 +750,7 @@ export default function PromoSignupCard({
           this block is suppressed for variant="earn". */}
       <AnimatePresence initial={false}>
         {!isEarn && otpVisible && (
-          <m.div
+          <motion.div
             key="otp-section"
             initial={{ height: 0, opacity: 0, marginTop: 0 }}
             animate={{ height: "auto", opacity: 1, marginTop: 12 }}
@@ -799,7 +799,7 @@ export default function PromoSignupCard({
                   the Edit button itself, not here. */}
               <AnimatePresence initial={false}>
                 {verifyStatus === "error" && (
-                  <m.div
+                  <motion.div
                     key="pill-error"
                     initial={{ opacity: 0, y: -4 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -807,18 +807,18 @@ export default function PromoSignupCard({
                     transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
                   >
                     <VerifiedBadge status={verifyStatus} t={t} />
-                  </m.div>
+                  </motion.div>
                 )}
               </AnimatePresence>
             </div>
-          </m.div>
+          </motion.div>
         )}
       </AnimatePresence>
 
       {/* Stage 3: profile form */}
       <AnimatePresence initial={false}>
         {profileVisible && (
-          <m.div
+          <motion.div
             key="profile-section"
             initial={{ height: 0, opacity: 0, marginTop: 0 }}
             animate={{ height: "auto", opacity: 1, marginTop: 16 }}
@@ -839,7 +839,7 @@ export default function PromoSignupCard({
                   content. Forward-only — see hasTypedFirstName state above. */}
               <AnimatePresence initial={false}>
                 {hasTypedFirstName && (
-                  <m.div
+                  <motion.div
                     key="last-name-row"
                     initial={{ height: 0, opacity: 0, marginTop: 0 }}
                     animate={{ height: "auto", opacity: 1, marginTop: 8 }}
@@ -854,7 +854,7 @@ export default function PromoSignupCard({
                       onChange={(e) => setProfileField("lastName", e.target.value)}
                       autoComplete="off"
                     />
-                  </m.div>
+                  </motion.div>
                 )}
               </AnimatePresence>
 
@@ -862,7 +862,7 @@ export default function PromoSignupCard({
                   lastName has been touched. */}
               <AnimatePresence initial={false}>
                 {hasTypedLastName && (
-                  <m.div
+                  <motion.div
                     key="email-and-submit"
                     initial={{ height: 0, opacity: 0, marginTop: 0 }}
                     animate={{ height: "auto", opacity: 1, marginTop: 8 }}
@@ -914,14 +914,14 @@ export default function PromoSignupCard({
                           <span className="bg-[linear-gradient(162.34deg,#DD2A7B_4.78%,#9747FF_89.95%)] bg-clip-text text-transparent">
                             {submitButtonLabel}
                           </span>
-                          <m.span
+                          <motion.span
                             aria-hidden="true"
                             animate={{ x: [0, 4, 0] }}
                             transition={{ duration: 1.1, ease: "easeInOut", repeat: Infinity }}
                             className="inline-flex"
                           >
                             <ArrowRight className="h-4 w-4 text-[#DD2A7B]" strokeWidth={2.5} />
-                          </m.span>
+                          </motion.span>
                         </span>
                       </button>
 
@@ -934,14 +934,14 @@ export default function PromoSignupCard({
                         }
                       />
                     </div>
-                  </m.div>
+                  </motion.div>
                 )}
               </AnimatePresence>
             </div>
-          </m.div>
+          </motion.div>
         )}
       </AnimatePresence>
-    </m.div>
+    </motion.div>
   );
 }
 
