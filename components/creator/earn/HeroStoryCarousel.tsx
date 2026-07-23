@@ -7,6 +7,12 @@ import { useTranslation } from "react-i18next";
 import { Heart, Send } from "lucide-react";
 import AnimatedEmojis from "./stories/AnimatedEmojis";
 import FloatingHearts from "./stories/FloatingHearts";
+import {
+  STORY_IMAGES,
+  nextImageUrl,
+  storySrcSet,
+  type StoryLang,
+} from "./storyImages";
 
 const HEARTS_STORY_INDEX = 3; // Story 4 — gets the rising-hearts fountain
 const HEARTS_TRIGGER_MS = 1400;
@@ -23,21 +29,6 @@ const STORY_EMOJIS: readonly (readonly string[])[] = [
 const STORY_DURATIONS_MS = [2000, 2000, 2000, 4000];
 const TOTAL_STORIES = STORY_DURATIONS_MS.length;
 
-const STORY_IMAGES: Record<"en" | "hi-Latn", readonly string[]> = {
-  en: [
-    "/images/creator/earn/story-1.png",
-    "/images/creator/earn/Story2.png",
-    "/images/creator/earn/story-3.png",
-    "/images/creator/earn/story-4.png",
-  ],
-  "hi-Latn": [
-    "/images/creator/earn/story-1-hi-Latn.png",
-    "/images/creator/earn/Story2-hi.png",
-    "/images/creator/earn/story-3-hi-Latn.png",
-    "/images/creator/earn/story-4-hi-Latn.png",
-  ],
-};
-
 export default function HeroStoryCarousel() {
   const { i18n } = useTranslation();
   const prefersReducedMotion = useReducedMotion();
@@ -45,8 +36,33 @@ export default function HeroStoryCarousel() {
   const [started, setStarted] = useState(false);
   const [heartTriggerCount, setHeartTriggerCount] = useState(0);
 
-  const lang: "en" | "hi-Latn" = i18n.language?.startsWith("hi") ? "hi-Latn" : "en";
+  const lang: StoryLang = i18n.language?.startsWith("hi") ? "hi-Latn" : "en";
   const images = STORY_IMAGES[lang];
+
+  useEffect(() => {
+    // Warm stories 2-4. These were <link rel="preload"> in the document head;
+    // moving them here takes three image fetches out of the LCP window and off
+    // the `load` event, while still giving them the whole hydration→rotation gap
+    // to arrive so swaps never flash black. fetchpriority=low keeps them behind
+    // the story-1 preload in the browser's queue. Same URL builder as the head
+    // preload, so a cached variant is reused rather than refetched.
+    const warm = () => {
+      for (const src of images.slice(1)) {
+        const img = document.createElement("img");
+        img.decoding = "async";
+        img.setAttribute("fetchpriority", "low");
+        img.srcset = storySrcSet(src);
+        img.src = nextImageUrl(src, 384);
+      }
+    };
+
+    if (typeof window.requestIdleCallback === "function") {
+      const handle = window.requestIdleCallback(warm, { timeout: 2000 });
+      return () => window.cancelIdleCallback?.(handle);
+    }
+    const id = window.setTimeout(warm, 300);
+    return () => window.clearTimeout(id);
+  }, [images]);
 
   useEffect(() => {
     // Hold story 1 until the page finishes loading before auto-advancing. This

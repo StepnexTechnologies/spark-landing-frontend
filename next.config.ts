@@ -37,6 +37,12 @@ const nextConfig: NextConfig = {
     },
     images: {
         formats: ['image/avif', 'image/webp'],
+        // Optimized variants were being served with Next's 4h default
+        // (`max-age=14400, must-revalidate`), so repeat visitors re-fetched the
+        // hero story images and logo within the same day. These sources are
+        // versioned by filename in practice, so a 30-day TTL is safe — replace a
+        // source image by giving it a new filename to bust the cache.
+        minimumCacheTTL: 2592000,
         remotePatterns: [
             {
                 protocol: 'https',

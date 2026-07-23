@@ -509,8 +509,8 @@ export function SignupProvider({
 
   const goToSocialAuth = useCallback(() => {
     track("promo_social_auth_continue", { creator_id: creatorId });
-    redirectToSocialAuth();
-  }, [creatorId]);
+    redirectToSocialAuth({ lang: getCurrentLang(i18n) });
+  }, [creatorId, i18n]);
 
   // Auto-verify when the 4th digit lands. Calls /auth/verify with just
   // {user_id, otp, referral_code} per the new contract — basic info is

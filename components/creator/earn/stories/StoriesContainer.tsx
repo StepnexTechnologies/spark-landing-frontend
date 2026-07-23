@@ -18,7 +18,7 @@ const StoryContent4 = dynamic(() => import("./StoryContent4"), { ssr: false });
 import {track} from "@/lib/analytics/track";
 
 const STORY_DURATION = 2500; // fallback for any story without an explicit duration
-const STORY_DURATIONS = [3000, 2500, 2500, 4000];
+const STORY_DURATIONS = [5000, 3000, 3000, 4000];
 
 // Image paths for each language
 const storyImages = {

@@ -28,10 +28,17 @@ export default function Navigation({
       <div className="flex items-center justify-between max-w-[1440px] mx-auto">
         {/* Logo */}
         <Link className="relative h-6 w-[130px] md:h-10 md:w-[218px]" href={"/creator/earn"}>
+          {/* `fill` with no `sizes` defaults to 100vw, which made Next emit a
+              srcset up to w=3840 AND a high-priority preload for it — a
+              multi-tens-of-KB fetch for a logo that paints at 130x24 (mobile) /
+              218x40 (desktop), competing with the LCP image on slow 4G.
+              Declaring the real box keeps the same rendered pixels while
+              dropping the request to the smallest matching variant. */}
           <Image
             src={"/sparkonomy_full_white.png"}
             alt="Sparkonomy Logo"
             fill
+            sizes="(min-width: 768px) 218px, 130px"
             className="object-contain"
             priority
           />
