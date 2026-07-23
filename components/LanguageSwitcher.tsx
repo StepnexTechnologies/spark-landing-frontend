@@ -3,9 +3,10 @@
 import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { Globe, Check, ChevronDown } from "lucide-react";
 import { track } from "@/lib/analytics/track";
+import MotionProvider from "@/components/MotionProvider";
 
 interface LanguageSwitcherProps {
   className?: string;
@@ -54,8 +55,14 @@ export const LanguageSwitcher = ({ className }: LanguageSwitcherProps) => {
     setIsOpen(false);
   };
 
+  // Self-contained MotionProvider: this component renders on the creator routes
+  // (already inside a provider — nesting is harmless, both resolve the same
+  // framer-motion chunk) *and* standalone on /blogs/[slug] and /preview/[slug],
+  // which have no provider of their own. Wrapping here keeps `m.*` valid on
+  // every route without dragging those pages into the migration.
   return (
-    <motion.div
+    <MotionProvider>
+    <m.div
       ref={dropdownRef}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -109,7 +116,7 @@ export const LanguageSwitcher = ({ className }: LanguageSwitcherProps) => {
       {/* Dropdown */}
       <AnimatePresence>
         {isOpen && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: -4 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -4 }}
@@ -151,10 +158,11 @@ export const LanguageSwitcher = ({ className }: LanguageSwitcherProps) => {
                 )}
               </button>
             ))}
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
-    </motion.div>
+    </m.div>
+    </MotionProvider>
   );
 };
 

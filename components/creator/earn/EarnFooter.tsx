@@ -1,6 +1,6 @@
 "use client";
 
-import {motion} from "framer-motion";
+import { m } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import Image from "next/image";
 import Link from "next/link";
@@ -11,7 +11,7 @@ export default function EarnFooter() {
 
   return (
     <footer className="relative py-8 md:py-12 px-5 md:px-20 mb-36">
-      <motion.div
+      <m.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -70,7 +70,7 @@ export default function EarnFooter() {
             <span>{t("footer.copyright")}</span>
           </div>
         </div>
-      </motion.div>
+      </m.div>
     </footer>
   );
 }

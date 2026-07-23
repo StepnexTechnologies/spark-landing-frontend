@@ -1,7 +1,7 @@
 "use client";
 
 import {Suspense, useState, useEffect} from "react";
-import {motion} from "framer-motion";
+import { m } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import CTAButton from "./CTAButton";
 
@@ -19,7 +19,7 @@ export default function CTASection() {
 
   return (
     <section className="relative py-12 md:py-20 px-5 md:px-20">
-      <motion.div
+      <m.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -40,7 +40,7 @@ export default function CTASection() {
               </Suspense>
           </div>
         </div>
-      </motion.div>
+      </m.div>
     </section>
   );
 }

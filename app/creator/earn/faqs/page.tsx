@@ -3,6 +3,7 @@ import Navigation from "@/components/creator/earn/Navigation";
 import CTASection from "@/components/creator/earn/CTASection";
 import EarnFooter from "@/components/creator/earn/EarnFooter";
 import FAQPageContent from "@/components/creator/earn/FAQPageContent";
+import MotionProvider from "@/components/MotionProvider";
 import {siteUrl} from "@/lib/urls";
 
 const title = "Creator FAQs: Invoicing, Payments & Taxes | Sparkonomy";
@@ -34,12 +35,14 @@ export default function CreatorEarnFAQsPage() {
             </div>
 
             {/* Content */}
-            <div className="relative z-10">
-                <Navigation />
-                <FAQPageContent />
-                <CTASection/>
-                <EarnFooter/>
-            </div>
+            <MotionProvider>
+                <div className="relative z-10">
+                    <Navigation />
+                    <FAQPageContent />
+                    <CTASection/>
+                    <EarnFooter/>
+                </div>
+            </MotionProvider>
         </main>
     );
 }
