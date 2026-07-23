@@ -1,7 +1,7 @@
 "use client";
 
 import {Suspense, useRef, useState} from "react";
-import { m } from "framer-motion";
+import {motion} from "framer-motion";
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import FAQItem from "./FAQItem";
@@ -60,7 +60,7 @@ export default function FAQSection({
 
   return (
     <section ref={sectionRef} className="relative py-4 px-5 md:px-20">
-      <m.div
+      <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -140,7 +140,7 @@ export default function FAQSection({
             </div>
           )}
         </div>
-      </m.div>
+      </motion.div>
     </section>
   );
 }

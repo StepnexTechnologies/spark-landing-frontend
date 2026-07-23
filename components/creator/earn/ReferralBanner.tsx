@@ -4,7 +4,7 @@ import {useEffect, useState} from "react";
 import {useSearchParams} from "next/navigation";
 import {useTranslation} from "react-i18next";
 import Image from "next/image";
-import { m } from "framer-motion";
+import {motion} from "framer-motion";
 
 interface ReferrerInfo {
   first_name: string;
@@ -101,7 +101,7 @@ export default function ReferralBanner({ namespace = "creatorEarn" }: ReferralBa
   }
 
   return (
-    <m.div
+    <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
@@ -129,6 +129,6 @@ export default function ReferralBanner({ namespace = "creatorEarn" }: ReferralBa
       <div className="text-white max-w-[350px] md:max-w-[550px]">
         {messageText}
       </div>
-    </m.div>
+    </motion.div>
   );
 }

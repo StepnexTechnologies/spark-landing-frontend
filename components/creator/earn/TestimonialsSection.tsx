@@ -5,7 +5,7 @@ import useEmblaCarousel, { UseEmblaCarouselType } from "embla-carousel-react";
 import { useTranslation } from "react-i18next";
 import TestimonialCard from "./TestimonialCard";
 import styles from "./carousel.module.css";
-import { m } from "framer-motion";
+import { motion } from "framer-motion";
 import { useSectionViewTracking } from "@/lib/hooks/useSectionViewTracking";
 
 interface TestimonialsSectionProps {
@@ -114,7 +114,7 @@ export default function TestimonialsSection({
     <section ref={sectionRef} className="relative py-4 md:px-20">
       <div className="max-w-[1440px] mx-auto">
         {/* Section header */}
-        <m.div
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -129,7 +129,7 @@ export default function TestimonialsSection({
               {subtitle}
             </p>
           )}
-        </m.div>
+        </motion.div>
 
         {/* ---------- Carousel for tablet & phone ---------- */}
         {isCarouselActive ? (
@@ -138,7 +138,7 @@ export default function TestimonialsSection({
               <div className={styles.embla__container}>
                 {testimonials.map((testimonial, index) => (
                   <div className={styles.embla__slide} key={index}>
-                    <m.div
+                    <motion.div
                       animate={{
                         scale: selectedIndex === index ? 1 : 0.93,
                         opacity: selectedIndex === index ? 1 : 0.55,
@@ -154,7 +154,7 @@ export default function TestimonialsSection({
                         index={index}
                         disableEntryAnimation={disableSlideEntryAnimation}
                       />
-                    </m.div>
+                    </motion.div>
                   </div>
                 ))}
               </div>
