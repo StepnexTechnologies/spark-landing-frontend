@@ -33,5 +33,5 @@ Private beta. Waitlist open at https://www.sparkonomy.com/
 
 - Short summary: https://www.sparkonomy.com/llms.txt
 - Full reference: https://www.sparkonomy.com/llms-full.txt
-- AI policy header: `Content-Signal: ai-train=no, ai-search=yes` (per response)
+- AI policy header: `Content-Signal` (per response) — `ai-search=yes` everywhere; `ai-train=yes` on the homepage, `/blogs` and the creator landing pages, `ai-train=no` elsewhere
 - Sitemap: https://www.sparkonomy.com/sitemap.xml
