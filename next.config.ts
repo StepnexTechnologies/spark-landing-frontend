@@ -17,6 +17,27 @@ const UNLISTED_PATHS = [
     "/legal/trusted-partner-program-guide",
 ];
 
+// Marketing surface AI models may train on. Must match AI_TRAINING_ALLOWED in
+// app/robots.ts and AI_TRAINING_PREFIXES in middleware.ts. Path segments are
+// written without the leading slash so they can be reused in the negative
+// lookahead that keeps the site-wide rule below mutually exclusive with this
+// one — every request must match exactly one Content-Signal rule.
+const AI_TRAINING_PREFIXES = ["blogs", "creator/earn", "creator/promo"];
+
+// The homepage is an exact source; a prefix would cover the whole site.
+const AI_TRAINING_ALLOWED_SOURCES = [
+    "/",
+    `/((?:${AI_TRAINING_PREFIXES.join("|")}).*)`,
+];
+
+// "$" excludes the homepage, which is handled by the rule above.
+const AI_TRAINING_EXCLUDED = [
+    "$",
+    "api/",
+    ...AI_TRAINING_PREFIXES,
+    ...UNLISTED_PATHS.map((p) => p.slice(1)),
+];
+
 const nextConfig: NextConfig = {
     output: "standalone",
     experimental: {
@@ -89,8 +110,15 @@ const nextConfig: NextConfig = {
                     },
                 ],
             })),
+            ...AI_TRAINING_ALLOWED_SOURCES.map((source) => ({
+                source,
+                headers: [
+                    ...SECURITY_HEADERS,
+                    { key: "Content-Signal", value: "ai-train=yes, ai-search=yes" },
+                ],
+            })),
             {
-                source: `/((?!api/|${UNLISTED_PATHS.map((p) => p.slice(1)).join("|")}).*)`,
+                source: `/((?!${AI_TRAINING_EXCLUDED.join("|")}).*)`,
                 headers: [
                     ...SECURITY_HEADERS,
                     { key: "Content-Signal", value: "ai-train=no, ai-search=yes" },
