@@ -1,0 +1,158 @@
+{
+  "nav": {
+    "getEarlyAccess": "Get Early Access",
+    "invitationStrip": "NOT PUBLICLY AVAILABLE · BY INVITATION ONLY"
+  },
+  "hero": {
+    "title": "TODO: Portfolio headline line 1.<0/><1>TODO: script tail line 2</1>",
+    "name": "CHULBULI",
+    "tagline": "You are more than <0>@handle</0>",
+    "claimLine": "Claim what's already yours",
+    "steps": "Sign up → Verify → Claim → Customise",
+    "timeEstimate": "10 minute",
+    "features": [
+      "<0>Easy</0> invoices with AI: Voice, chat, or photo",
+      "<0>Error-free</0>: Instant-tax calculations",
+      "<0>Faster</0> payments: Auto-reminders on email & Whatsapp"
+    ],
+    "card": {
+      "livePromo": "LIVE",
+      "voucherHeading": "✨ Created by Sparkonomy AI",
+      "voucherBody": "TODO: one line supporting the card heading.",
+      "voucherTerms": "T&Cs apply",
+      "ctaLabel": "Get started — completely free!",
+      "checks": ["4 invoices/mo free forever", "No card needed", "30-sec signup"],
+      "phonePlaceholder": "XXXX XXXXXX",
+      "sendOtp": "Claim Now",
+      "edit": "Edit",
+      "changeNumber": "Change Number",
+      "otpSentTo": "OTP sent to <0>{{phone}}</0>",
+      "verify": "Verify",
+      "verifying": "Verifying",
+      "verified": "Verified",
+      "socialTitle": "Verify your social account",
+      "socialSubtitle": "Claim your identity",
+      "socialCta": "Verify Social & Continue",
+      "disclaimer": "By tapping, you agree to create an account and Sparkonomy's <0>Terms</0> and <1>Privacy Policy</1>."
+    }
+  },
+  "pitch": {
+    "heading": "TODO: portfolio value-prop heading.",
+    "description": "TODO: portfolio value-prop supporting paragraph."
+  },
+  "advantage": {
+    "title": "Your Advantage",
+    "items": [
+      {
+        "title": "TODO: advantage one title.",
+        "description": "TODO: advantage one description."
+      },
+      {
+        "title": "TODO: advantage two title.",
+        "description": "TODO: advantage two description."
+      },
+      {
+        "title": "TODO: advantage three title.",
+        "description": "TODO: advantage three description."
+      },
+      {
+        "title": "TODO: advantage four title.",
+        "description": "TODO: advantage four description."
+      }
+    ]
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "viewAll": "View All",
+    "viewLess": "Show Less",
+    "items": [
+      {
+        "question": "Q1: TODO first question?",
+        "answer": "TODO: answer to the first question."
+      },
+      {
+        "question": "Q2: TODO second question?",
+        "answer": "TODO: answer to the second question."
+      },
+      {
+        "question": "Q3: TODO third question?",
+        "answer": "TODO: answer to the third question."
+      },
+      {
+        "question": "Q4: TODO fourth question?",
+        "answer": "TODO: answer to the fourth question."
+      },
+      {
+        "question": "Q5: TODO fifth question?",
+        "answer": "TODO: answer to the fifth question."
+      }
+    ]
+  },
+  "floatingCta": {
+    "placeholder": "Your mobile number",
+    "sendOtp": "Claim Now",
+    "staticPrefix": "Claim",
+    "primaryLabel": "Now",
+    "swapLabel": "Portfolio",
+    "heading": "TODO: <0>floating CTA heading</0>.",
+    "body": "TODO: floating CTA body.",
+    "terms": "T&C apply",
+    "ariaLabel": "Sign up to claim your portfolio",
+    "modalTitle": "TODO: modal title"
+  },
+  "footer": {
+    "tagline": "sparking the creator economy",
+    "terms": "Terms & Conditions",
+    "privacy": "Privacy Policy",
+    "refund": "Refund Policy",
+    "copyright": "©All rights reserved."
+  },
+  "referral": {
+    "defaultName": "Chulbuli",
+    "message": "says this is the easiest way to claim your portfolio — and wants you to try it.",
+    "signUp": "Sign Up today!"
+  },
+  "otp": {
+    "title": "Enter the 4-digit OTP",
+    "sentTo": "Sent to {{phone}}",
+    "verify": "Verify OTP",
+    "resendIn": "Resend in {{seconds}}s",
+    "resend": "Resend OTP",
+    "resendViaPrefix": "Resend OTP via",
+    "smsChannel": "SMS",
+    "whatsappChannel": "WhatsApp",
+    "changeNumber": "Change number",
+    "errorInvalid": "Invalid OTP. Please try again.",
+    "errorNetwork": "Something went wrong. Please try again.",
+    "sending": "Sending…",
+    "verifying": "Verifying…"
+  },
+  "signupCard": {
+    "otpSentOverWhatsapp": "OTP sent over WhatsApp",
+    "verified": "Verified",
+    "notVerified": "Not verified",
+    "verifying": "Verifying…",
+    "invalid": "Incorrect OTP",
+    "firstNameLabel": "First Name*",
+    "firstNamePlaceholder": "E.g. Chulbuli",
+    "lastNameLabel": "Last Name*",
+    "lastNamePlaceholder": "E.g. Dixit",
+    "emailLabel": "Email",
+    "emailPlaceholder": "E.g. yourname@email.com",
+    "createAccount": "Create my account!",
+    "creating": "Creating…",
+    "done": "Done!",
+    "builtWith": "Built with",
+    "developedWith": "Developed with",
+    "emailInUse": "This email is already linked to another account."
+  },
+  "errors": {
+    "INVALID_OTP": "Invalid OTP. Please try again.",
+    "OTP_EXPIRED": "OTP expired. Please request a new one.",
+    "EMAIL_ALREADY_IN_USE": "This email is already linked to another account.",
+    "PHONE_ALREADY_IN_USE": "This phone number is already linked to another account.",
+    "USER_NOT_FOUND": "We couldn't find that account. Please start again.",
+    "NETWORK_ERROR": "Something went wrong. Please try again.",
+    "_default": "Something went wrong. Please try again."
+  }
+}
