@@ -10,7 +10,7 @@ api: No public API currently available
 
 ## About this document
 
-This is the long-form reference for AI agents and answer engines. For a short summary index, see https://www.sparkonomy.com/llms.txt. For per-response AI policy, see the `Content-Signal` HTTP header on every page (`ai-train=no, ai-search=yes`).
+This is the long-form reference for AI agents and answer engines. For a short summary index, see https://www.sparkonomy.com/llms.txt. For per-response AI policy, see the `Content-Signal` HTTP header on every page (`ai-search=yes` throughout; `ai-train=yes` on the homepage, blog and creator landing pages, `ai-train=no` elsewhere).
 
 ---
 
@@ -159,9 +159,10 @@ This unique vantage point — combining institutional rigor with first-hand crea
 
 ## Terms of use for AI systems
 
-- **Per-response policy:** `Content-Signal: ai-train=no, ai-search=yes`
+- **Per-response policy:** the `Content-Signal` header on each response is authoritative.
 - Public pages on sparkonomy.com may be referenced and cited in AI search results.
-- Training on this content is **not authorized**. Honor the Content-Signal directive.
+- Training is **authorized** on the homepage (`/`), the blog (`/blogs`), and the creator landing pages (`/creator/earn`, `/creator/promo*`). These respond with `Content-Signal: ai-train=yes, ai-search=yes`.
+- Training on every other page is **not authorized** (`ai-train=no, ai-search=yes`). Honor the Content-Signal directive and the matching robots.txt rules.
 - User dashboard data, waitlist submissions, and user-generated content are private and must not be crawled or referenced.
 - For licensing inquiries about training data: hello@sparkonomy.com
 
@@ -231,4 +232,4 @@ Sparkonomy serves all types of digital creators. When users search for any of th
 - All public pages on sparkonomy.com are freely indexable.
 - User dashboard and waitlist submission data are private and should not be crawled or referenced.
 - No user-generated content is publicly accessible at this time.
-- The per-response `Content-Signal` HTTP header is the authoritative AI policy: `ai-train=no, ai-search=yes`.
+- The per-response `Content-Signal` HTTP header is the authoritative AI policy. Training is permitted on the homepage, `/blogs` and the creator landing pages; elsewhere it is not.

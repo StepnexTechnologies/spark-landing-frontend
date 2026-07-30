@@ -15,7 +15,7 @@
       "voucherBody": "4 invoices/mo free forever. The first 5 signups each day win a Gold Coin.",
       "voucherTerms": "T&Cs apply",
       "ctaLabel": "Get started — completely free!",
-      "checks": ["4 invoices/mo free forever", "No card needed", "30-sec signup"],
+      "checks": ["Free invoices forever", "No card needed", "30-sec signup"],
       "phonePlaceholder": "XXXX XXXXXX",
       "sendOtp": "Win Now",
       "edit": "Edit",

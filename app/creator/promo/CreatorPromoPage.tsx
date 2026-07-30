@@ -8,6 +8,7 @@ import Navigation from "@/components/creator/earn/Navigation";
 import HeroSection from "@/components/creator/promo/HeroSection";
 import ReferralBanner from "@/components/creator/earn/ReferralBanner";
 import { SignupProvider } from "@/components/creator/promo/SignupContext";
+import MotionProvider from "@/components/MotionProvider";
 
 // Below-the-fold sections are code-split. They still SSR (default
 // dynamic = ssr:true) so crawlers and Lighthouse get the full DOM, but
@@ -96,6 +97,7 @@ export default function CreatorPromoPage({ variant, enableTypewriter }: CreatorP
 
   return (
     <SignupProvider>
+      <MotionProvider>
       <main className="relative min-h-screen bg-black overflow-hidden">
         {/* Background Gradients — second blob's height is tuned so the gradient
             reaches the end of the FAQ (the "Sab Dekho" / View All button) and
@@ -143,6 +145,7 @@ export default function CreatorPromoPage({ variant, enableTypewriter }: CreatorP
           />
         </Suspense>
       </main>
+      </MotionProvider>
     </SignupProvider>
   );
 }

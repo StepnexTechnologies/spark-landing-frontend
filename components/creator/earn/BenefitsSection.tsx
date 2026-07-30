@@ -1,7 +1,7 @@
 "use client";
 
 import {Suspense, useState, useEffect, useRef} from "react";
-import {motion} from "framer-motion";
+import { m } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import BenefitCard from "./BenefitCard";
 import CTAButton from "./CTAButton";
@@ -46,7 +46,7 @@ export default function BenefitsSection() {
     <section ref={sectionRef} className="relative py-4 px-5 md:px-20">
       <div className="max-w-[1440px] mx-auto">
         {/* Section Header */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -56,7 +56,7 @@ export default function BenefitsSection() {
           <h2 className="text-2xl md:text-[52px] font-bold text-white">
             {t("benefits.title")}
           </h2>
-        </motion.div>
+        </m.div>
 
         {/* Benefits Cards */}
         <div className="flex flex-col lg:flex-row gap-4 md:gap-8 items-center lg:items-start justify-center mb-12 md:mb-16">
@@ -72,7 +72,7 @@ export default function BenefitsSection() {
         </div>
 
         {/* CTA Button */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, scale: 0.9 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
@@ -82,7 +82,7 @@ export default function BenefitsSection() {
             <Suspense fallback={null}>
               <CTAButton buttonText={t("benefits.cta")}/>
             </Suspense>
-        </motion.div>
+        </m.div>
       </div>
     </section>
   );

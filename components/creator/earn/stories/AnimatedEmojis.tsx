@@ -1,6 +1,6 @@
 "use client";
 
-import {motion} from "framer-motion";
+import { m } from "framer-motion";
 
 interface AnimatedEmojisProps {
   emojis: string[];
@@ -11,7 +11,7 @@ export default function AnimatedEmojis({ emojis, className = "" }: AnimatedEmoji
   return (
     <div className={`flex gap-0.5 ${className}`}>
       {emojis.map((emoji, index) => (
-        <motion.span
+        <m.span
           key={index}
           initial={{ opacity: 0, scale: 0, y: 4 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -23,7 +23,7 @@ export default function AnimatedEmojis({ emojis, className = "" }: AnimatedEmoji
           className="inline-block"
         >
           {emoji}
-        </motion.span>
+        </m.span>
       ))}
     </div>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -205,13 +205,13 @@ export default function HeroSection({ variant, enableTypewriter = false }: HeroS
             </p>
 
             {/* Signup card — fades in last */}
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 20 }}
               animate={showCard ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ duration: CARD_FADE_MS / 1000, ease: "easeOut" }}
             >
               <PromoSignupCard play={showCard} variant={variant} />
-            </motion.div>
+            </m.div>
           </>
         ) : (
           <>

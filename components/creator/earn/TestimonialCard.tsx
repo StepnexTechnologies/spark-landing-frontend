@@ -1,6 +1,6 @@
 "use client";
 
-import {motion} from "framer-motion";
+import { m } from "framer-motion";
 import Image from "next/image";
 
 interface TestimonialCardProps {
@@ -35,7 +35,7 @@ export default function TestimonialCard({
       };
 
   return (
-    <motion.div
+    <m.div
       {...motionProps}
       className={`
         p-3 rounded-[24px] bg-gradient-to-br from-white/10 via-white/0 to-black/10 border border-[#FFFFFF33] backdrop-blur-[2px]
@@ -63,6 +63,6 @@ export default function TestimonialCard({
           <span className="text-white font-normal leading-5 text-sm">{handle}</span>
         </div>
       </div>
-    </motion.div>
+    </m.div>
   );
 }

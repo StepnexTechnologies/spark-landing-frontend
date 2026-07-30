@@ -1,6 +1,6 @@
 "use client";
 
-import {motion} from "framer-motion";
+import { m } from "framer-motion";
 import {useState} from "react";
 import FAQItem from "./FAQItem";
 import PlanComparison from "./PlanComparison";
@@ -41,14 +41,14 @@ export default function FAQPageContent() {
     <section className="relative py-12 md:py-20 px-5 md:px-20">
       <div className="max-w-[1440px] mx-auto">
         {/* Page Title */}
-        <motion.h1
+        <m.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           className="text-[40px] md:text-[40px] font-bold text-white mb-8 md:mb-12 text-left md:text-left"
         >
           {t("faq.title")}
-        </motion.h1>
+        </m.h1>
 
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 min-w-0">
           {/* Mobile Category Dropdown */}
@@ -67,7 +67,7 @@ export default function FAQPageContent() {
               />
             </button>
             {showCategoryDropdown && (
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.2 }}
@@ -89,12 +89,12 @@ export default function FAQPageContent() {
                     {category.label}
                   </button>
                 ))}
-              </motion.div>
+              </m.div>
             )}
           </div>
 
           {/* Desktop Category Sidebar */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
@@ -113,10 +113,10 @@ export default function FAQPageContent() {
                 {category.label}
               </button>
             ))}
-          </motion.div>
+          </m.div>
 
           {/* FAQ List */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
@@ -137,16 +137,16 @@ export default function FAQPageContent() {
 
             {/* Plan Comparison - shown under Pricing category for Indian users */}
             {selectedCategory === "pricing" && isIndian && !isGeoLoading && (
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
                 className="mt-8 w-full overflow-x-auto"
               >
                 <PlanComparison showTitle={true} showActionButtons={false} showPricing={true} />
-              </motion.div>
+              </m.div>
             )}
-          </motion.div>
+          </m.div>
         </div>
       </div>
     </section>

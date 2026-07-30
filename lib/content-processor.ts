@@ -21,6 +21,9 @@ const H6_MARKER_MAP: Record<string, string> = {
   'fmv': 'fmv-calc', 'fmv calc': 'fmv-calc', 'fmv calculator': 'fmv-calc',
   'barter fmv': 'fmv-calc', 'barter fmv calculator': 'fmv-calc',
   'fair market value': 'fmv-calc', 'fair market value calculator': 'fmv-calc',
+  'barter check': 'barter-check', 'barter checker': 'barter-check',
+  'barter deal check': 'barter-check', 'barter deal checker': 'barter-check',
+  'barter deal calculator': 'barter-check',
 };
 
 /**

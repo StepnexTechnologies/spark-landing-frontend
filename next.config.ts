@@ -17,6 +17,27 @@ const UNLISTED_PATHS = [
     "/legal/trusted-partner-program-guide",
 ];
 
+// Marketing surface AI models may train on. Must match AI_TRAINING_ALLOWED in
+// app/robots.ts and AI_TRAINING_PREFIXES in middleware.ts. Path segments are
+// written without the leading slash so they can be reused in the negative
+// lookahead that keeps the site-wide rule below mutually exclusive with this
+// one — every request must match exactly one Content-Signal rule.
+const AI_TRAINING_PREFIXES = ["blogs", "creator/earn", "creator/promo"];
+
+// The homepage is an exact source; a prefix would cover the whole site.
+const AI_TRAINING_ALLOWED_SOURCES = [
+    "/",
+    `/((?:${AI_TRAINING_PREFIXES.join("|")}).*)`,
+];
+
+// "$" excludes the homepage, which is handled by the rule above.
+const AI_TRAINING_EXCLUDED = [
+    "$",
+    "api/",
+    ...AI_TRAINING_PREFIXES,
+    ...UNLISTED_PATHS.map((p) => p.slice(1)),
+];
+
 const nextConfig: NextConfig = {
     output: "standalone",
     experimental: {
@@ -37,6 +58,12 @@ const nextConfig: NextConfig = {
     },
     images: {
         formats: ['image/avif', 'image/webp'],
+        // Optimized variants were being served with Next's 4h default
+        // (`max-age=14400, must-revalidate`), so repeat visitors re-fetched the
+        // hero story images and logo within the same day. These sources are
+        // versioned by filename in practice, so a 30-day TTL is safe — replace a
+        // source image by giving it a new filename to bust the cache.
+        minimumCacheTTL: 2592000,
         remotePatterns: [
             {
                 protocol: 'https',
@@ -83,8 +110,15 @@ const nextConfig: NextConfig = {
                     },
                 ],
             })),
+            ...AI_TRAINING_ALLOWED_SOURCES.map((source) => ({
+                source,
+                headers: [
+                    ...SECURITY_HEADERS,
+                    { key: "Content-Signal", value: "ai-train=yes, ai-search=yes" },
+                ],
+            })),
             {
-                source: `/((?!api/|${UNLISTED_PATHS.map((p) => p.slice(1)).join("|")}).*)`,
+                source: `/((?!${AI_TRAINING_EXCLUDED.join("|")}).*)`,
                 headers: [
                     ...SECURITY_HEADERS,
                     { key: "Content-Signal", value: "ai-train=no, ai-search=yes" },

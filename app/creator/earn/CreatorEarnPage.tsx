@@ -9,6 +9,7 @@ import Navigation from "@/components/creator/earn/Navigation";
 import HeroSection from "@/components/creator/earn/HeroSection";
 import ReferralBanner from "@/components/creator/earn/ReferralBanner";
 import { SignupProvider } from "@/components/creator/promo/SignupContext";
+import MotionProvider from "@/components/MotionProvider";
 
 const ValueProposition = dynamic(() => import("@/components/creator/earn/ValueProposition"));
 const ThreeStepSection = dynamic(() => import("@/components/creator/promo/ThreeStepSection"));
@@ -40,6 +41,7 @@ function CreatorEarnPageContent() {
 
   return (
     <SignupProvider socialAuthAfterVerify namespace="creatorEarn">
+      <MotionProvider>
       <main className="relative min-h-screen bg-black overflow-hidden">
         {/* Background Gradients — tuned to reach the end of the FAQ
             (the "View All" / "Show Less" toggle), so bg-black only
@@ -96,6 +98,7 @@ function CreatorEarnPageContent() {
           triggerElementId="promo-hero-card"
         />
       </main>
+      </MotionProvider>
     </SignupProvider>
   );
 }

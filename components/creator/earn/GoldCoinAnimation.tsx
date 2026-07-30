@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { m, useReducedMotion } from "framer-motion";
 
 interface GoldCoinAnimationProps {
   size?: number;
@@ -28,7 +28,7 @@ export default function GoldCoinAnimation({
       className="relative shrink-0 flex items-center justify-center"
       style={{ width: size, height: size }}
     >
-      <motion.div
+      <m.div
         className="relative"
         style={{ width: size, height: size, willChange: "transform" }}
         animate={animate ? { y: [0, -2, 0], rotate: [0, 6, 0, -6, 0] } : undefined}
@@ -68,7 +68,7 @@ export default function GoldCoinAnimation({
         </svg>
 
         {animate && (
-          <motion.span
+          <m.span
             aria-hidden
             className="absolute -top-1 -right-1 text-[10px]"
             animate={{ opacity: [0, 1, 0], scale: [0.6, 1.1, 0.6] }}
@@ -80,9 +80,9 @@ export default function GoldCoinAnimation({
             }}
           >
             ✨
-          </motion.span>
+          </m.span>
         )}
-      </motion.div>
+      </m.div>
     </div>
   );
 }

@@ -1,38 +1,14 @@
 import type {Metadata} from "next";
 import CreatorEarnPage from "./CreatorEarnPage";
+import {
+  STORY_IMAGES,
+  nextImageUrl,
+  resolveStoryLang,
+  storySrcSet,
+} from "@/components/creator/earn/storyImages";
 
 type Props = {
   searchParams: Promise<{ lang?: string; ref?: string }>;
-};
-
-// Story-image preloads. First-time visitors see the auto-rotating story
-// carousel as their LCP. Story 1 is now rendered straight from the server HTML
-// (the old client-only "Loading..." gate is gone) with Next/Image `priority`,
-// so Next emits a correctly-matched high-priority preload for it automatically.
-// We additionally warm stories 2-4 here at LOW priority so the 2s/4s/6s carousel
-// swaps are instant without ever competing with the LCP fetch or hydration.
-// Skipped when ?ref= is present, since referral visitors bypass the stories.
-function nextImageUrl(src: string, width: number, quality = 75): string {
-  return `/_next/image?url=${encodeURIComponent(src)}&w=${width}&q=${quality}`;
-}
-
-// Mirror the srcset Next/Image generates for the carousel's <Image> (width=192
-// → 1x w=256, 2x w=384, default q=75). Keeping these byte-identical is what lets
-// the browser reuse the preloaded variant instead of refetching.
-function storySrcSet(src: string): string {
-  return `${nextImageUrl(src, 256)} 1x, ${nextImageUrl(src, 384)} 2x`;
-}
-
-// Filenames mirror HeroStoryCarousel's STORY_IMAGES exactly, so the preloads
-// line up with what the component actually requests.
-const STORY_FILES: Record<"en" | "hi-Latn", readonly string[]> = {
-  en: ["story-1.png", "Story2.png", "story-3.png", "story-4.png"],
-  "hi-Latn": [
-    "story-1-hi-Latn.png",
-    "Story2-hi.png",
-    "story-3-hi-Latn.png",
-    "story-4-hi-Latn.png",
-  ],
 };
 
 export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
@@ -76,29 +52,33 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
 
 export default async function Page({ searchParams }: Props) {
   const { lang, ref } = await searchParams;
-  const stories = STORY_FILES[lang === "hi-Latn" ? "hi-Latn" : "en"];
-  const base = "/images/creator/earn/";
-  const shouldPreloadStories = !ref;
+  const stories = STORY_IMAGES[resolveStoryLang(lang)];
+  const hero = stories[0];
 
+  // Story 1 is the LCP element — preload it at high priority from the document
+  // head (Next/Image `priority` alone wasn't getting fetchpriority=high onto the
+  // actual request). The srcset matches the carousel's <Image> exactly, so this
+  // preload IS the request the browser uses.
+  //
+  // Stories 2-4 used to be preloaded here too, at fetchpriority=low. Even
+  // deprioritised, three extra image fetches inside the LCP window still share
+  // the connection — and as document resources they gate `window.load`, which is
+  // what the carousel waits on before rotating. They now warm from
+  // HeroStoryCarousel during idle instead: off the document's critical path, but
+  // with the whole hydration→rotation gap to arrive, so swaps stay flash-free.
+  //
+  // Skipped when ?ref= is present, since referral visitors bypass the stories.
   return (
     <>
-      {shouldPreloadStories &&
-        stories.map((file, i) => (
-          <link
-            key={file}
-            rel="preload"
-            as="image"
-            href={nextImageUrl(base + file, 384)}
-            imageSrcSet={storySrcSet(base + file)}
-            // Story 1 is the LCP — preload it at high priority from the document
-            // head (Next/Image `priority` alone wasn't getting fetchpriority=high
-            // onto the actual request). The srcset matches the carousel <Image>
-            // exactly, so this preload is the request the browser uses. Stories
-            // 2-4 load at low priority during idle so they're decoded before the
-            // (load-gated) rotation reaches them — no black flash on swap.
-            fetchPriority={i === 0 ? "high" : "low"}
-          />
-        ))}
+      {!ref && (
+        <link
+          rel="preload"
+          as="image"
+          href={nextImageUrl(hero, 384)}
+          imageSrcSet={storySrcSet(hero)}
+          fetchPriority="high"
+        />
+      )}
       <CreatorEarnPage />
     </>
   );

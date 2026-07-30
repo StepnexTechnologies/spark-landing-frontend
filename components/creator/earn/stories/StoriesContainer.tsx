@@ -2,7 +2,7 @@
 
 import {useCallback, useEffect, useRef, useState} from "react";
 import {useSearchParams} from "next/navigation";
-import {AnimatePresence, motion} from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 // import { StoriesContainerProps } from "./types";
@@ -18,7 +18,7 @@ const StoryContent4 = dynamic(() => import("./StoryContent4"), { ssr: false });
 import {track} from "@/lib/analytics/track";
 
 const STORY_DURATION = 2500; // fallback for any story without an explicit duration
-const STORY_DURATIONS = [3000, 2500, 2500, 4000];
+const STORY_DURATIONS = [5000, 3000, 3000, 4000];
 
 // Image paths for each language
 const storyImages = {
@@ -191,7 +191,7 @@ export default function StoriesContainer({
       )}
     <AnimatePresence>
       {isVisible && (
-        <motion.div
+        <m.div
           className="fixed inset-0 z-50 bg-black"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -298,7 +298,7 @@ export default function StoriesContainer({
               <CurrentStoryComponent imageSrc={currentStory?.imageSrc} priority />
             </StoryPanel>
           </div>
-        </motion.div>
+        </m.div>
       )}
     </AnimatePresence>
     </>

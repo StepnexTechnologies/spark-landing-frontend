@@ -1,6 +1,6 @@
 "use client";
 
-import {AnimatePresence, motion} from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import {StoryPanelProps} from "./types";
 // import StoryProgressBar from "./StoryProgressBar";
 import {useEffect, useRef} from "react";
@@ -68,7 +68,7 @@ export default function StoryPanel({
   };
 
   return (
-    <motion.div
+    <m.div
       ref={containerRef}
       className="relative w-full h-full cursor-pointer overflow-hidden"
       onClick={handleClick}
@@ -83,7 +83,7 @@ export default function StoryPanel({
       transition={{ duration: 0.3 }}
     >
       <AnimatePresence mode="sync" initial={false} custom={direction}>
-        <motion.div
+        <m.div
           key={currentIndex}
           className="absolute inset-0"
           custom={direction}
@@ -94,7 +94,7 @@ export default function StoryPanel({
           transition={{ x: { type: "tween", duration: 0.35, ease: [0.32, 0.72, 0, 1] } }}
         >
           {children}
-        </motion.div>
+        </m.div>
       </AnimatePresence>
       {/* Close button overlay - positioned to match the X icon in story content */}
       <button
@@ -106,6 +106,6 @@ export default function StoryPanel({
       >
         <XIcon />
       </button>
-    </motion.div>
+    </m.div>
   );
 }

@@ -24,7 +24,17 @@ export function redirectToApp(args: RedirectToAppArgs): void {
 export const SOCIAL_AUTH_URL =
   "https://beta.creator.sparkonomy.com/social-auth/verify";
 
-export function redirectToSocialAuth(): void {
+export interface RedirectToSocialAuthArgs {
+  lang: string;
+}
+
+export function redirectToSocialAuth(args: RedirectToSocialAuthArgs): void {
   if (typeof window === "undefined") return;
-  window.location.href = SOCIAL_AUTH_URL;
+  // Carry the landing page's language across the subdomain hop — the app is a
+  // separate origin, so i18next's localStorage detection can't see the choice
+  // made here and would otherwise default everyone to English. The app's
+  // LanguageQueryParamSync reads ?lang and strips it after applying.
+  const url = new URL(SOCIAL_AUTH_URL);
+  url.searchParams.set("lang", args.lang);
+  window.location.href = url.toString();
 }

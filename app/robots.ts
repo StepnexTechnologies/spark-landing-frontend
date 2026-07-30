@@ -17,6 +17,23 @@ const UNLISTED_PATHS = [
   '/legal/trusted-partner-program-guide',
 ]
 
+// Marketing content we are happy to have absorbed into model weights, so that
+// assistants know what Sparkonomy is without having to fetch us first. `/$`
+// anchors the homepage — a bare `/` would read as "allow the whole site". The
+// rest are prefixes: `/blogs` covers every post, category and author page, and
+// `/creator/promo` also covers `/creator/promo-f` and `/creator/promo-w`.
+// Longest-match wins over the group's `disallow: '/'`, so everything not listed
+// here (waitlist funnels, invites, legal, previews, contact) stays blocked.
+// Must match the training-allowed sources in next.config.ts and middleware.ts —
+// a Content-Signal header that contradicts robots.txt is worse than either rule
+// on its own.
+const AI_TRAINING_ALLOWED = [
+  '/$',
+  '/blogs',
+  '/creator/earn',
+  '/creator/promo',
+]
+
 const AI_TRAINING_BOTS = [
   'GPTBot',
   'anthropic-ai',
@@ -55,8 +72,10 @@ export default function robots(): MetadataRoute.Robots {
         allow: '/',
         disallow: [...PRIVATE_PATHS, ...UNLISTED_PATHS],
       },
+      // Training crawlers get the marketing surface only.
       {
         userAgent: AI_TRAINING_BOTS,
+        allow: AI_TRAINING_ALLOWED,
         disallow: '/',
       },
     ],
