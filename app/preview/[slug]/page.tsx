@@ -23,6 +23,7 @@ import CheckmarkEnhancer from "@/components/blog/CheckmarkEnhancer";
 import H6SectionParser from "@/components/blog/H6SectionParser";
 import TaxCalculatorInjector from "@/components/blog/TaxCalculatorInjector";
 import FMVCalculatorInjector from "@/components/blog/FMVCalculatorInjector";
+import BarterDealCheckerInjector from "@/components/blog/BarterDealCheckerInjector";
 import ImageOrientationEnhancer from "@/components/blog/ImageOrientationEnhancer";
 import ImageLightboxEnhancer from "@/components/blog/ImageLightboxEnhancer";
 import NewsletterSection from "@/components/blog/NewsletterSection";
@@ -469,6 +470,8 @@ export default async function PreviewPostPage({ params }: PreviewPostPageProps) 
             <TaxCalculatorInjector />
             {/* FMV Calculator injector — replaces <h6>fmv-calc</h6> markers with the calculator */}
             <FMVCalculatorInjector />
+            {/* Barter Deal Checker injector — replaces <h6>barter-check</h6> markers with the checker */}
+            <BarterDealCheckerInjector />
             {/* H6 Section Parser — runs first, wraps all H6-marked sections */}
             <H6SectionParser />
             {/* TOC smooth scroll enhancement */}
