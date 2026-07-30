@@ -20,6 +20,12 @@ export const SITE_URL =
     ? "https://www.sparkonomy.com"
     : configuredSiteUrl;
 
+// True only when SITE_URL explicitly names a dev origin. Fail-open by design:
+// a missing or misconfigured value reads as production, so a bad deploy can
+// never silently deindex the real site — and, for dev-gated routes, the failure
+// mode is a 404 on dev rather than an unfinished page leaking to production.
+export const IS_DEV_ENVIRONMENT = configuredSiteUrl.startsWith("https://dev.");
+
 /** Build an absolute URL on the configured canonical origin. */
 export const siteUrl = (path = ""): string => {
   if (!path) return SITE_URL;

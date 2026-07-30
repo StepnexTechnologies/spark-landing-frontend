@@ -1,9 +1,5 @@
 import type { MetadataRoute } from 'next'
-import { siteUrl } from '@/lib/urls'
-
-// Fail-open: only an explicit dev.* SITE_URL is treated as non-prod, so a missing
-// or misconfigured value can't accidentally disallow crawling on production.
-const isProduction = !process.env.SITE_URL?.startsWith('https://dev.')
+import { IS_DEV_ENVIRONMENT, siteUrl } from '@/lib/urls'
 
 const PRIVATE_PATHS = ['/api/', '/admin']
 
@@ -58,7 +54,7 @@ const AI_SEARCH_BOTS = [
 ]
 
 export default function robots(): MetadataRoute.Robots {
-  if (!isProduction) {
+  if (IS_DEV_ENVIRONMENT) {
     return { rules: { userAgent: '*', disallow: '/' } }
   }
 

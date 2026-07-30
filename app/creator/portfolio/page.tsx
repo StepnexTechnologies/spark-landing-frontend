@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { IS_DEV_ENVIRONMENT } from "@/lib/urls";
 import CreatorPortfolioPage from "./PortfolioPage";
 
 type Props = {
@@ -24,6 +26,11 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
   };
 }
 
+// Work in progress: the portfolio page is only reachable on the dev origin. On
+// beta/production SITE_URL is not `https://dev.*`, so this 404s — which also
+// keeps it out of the index without relying on a noindex tag.
 export default function Page() {
+  if (!IS_DEV_ENVIRONMENT) notFound();
+
   return <CreatorPortfolioPage />;
 }
