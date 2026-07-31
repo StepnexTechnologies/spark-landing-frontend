@@ -12,6 +12,9 @@ interface NavigationProps {
   showLanguageSwitcher?: boolean;
   showCTA?: boolean;
   namespace?: string;
+  // "segmented" renders both languages as a single pill toggle instead of the
+  // default globe + chevron dropdown.
+  languageSwitcherVariant?: "dropdown" | "segmented";
   // Optional overrides for the <nav> classes (merged via tailwind-merge, so
   // e.g. passing "py-2 md:py-2" overrides the default vertical padding).
   className?: string;
@@ -21,6 +24,7 @@ export default function Navigation({
   showLanguageSwitcher = true,
   showCTA = true,
   namespace = "creatorEarn",
+  languageSwitcherVariant = "dropdown",
   className,
 }: NavigationProps = {}) {
   const { t } = useTranslation(namespace);
@@ -51,7 +55,7 @@ export default function Navigation({
         <div className="flex items-center gap-3">
           {showLanguageSwitcher && (
             <Suspense fallback={null}>
-              <LanguageSwitcher />
+              <LanguageSwitcher variant={languageSwitcherVariant} />
             </Suspense>
           )}
           {/* Hidden on mobile, visible on md and above */}
