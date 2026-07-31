@@ -4,7 +4,7 @@ import { Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { getDraftPostById, getFeaturedImageUrl, getAuthorName, getAuthorNames, getPostAuthors, getPostAuthorsAsync, formatDate, stripHtml, decodeHtmlEntities, getReadingTime, getDraftPosts, getPostsByCategory } from "@/lib/wordpress-improved";
-import { extractHeadings, addHeadingIds, removeWordPressTOC, extractFirstParagraph, removeLeadingFeaturedImageBlock, processH6Markers, openLinksInNewTab } from "@/lib/content-processor";
+import { extractHeadings, addHeadingIds, removeWordPressTOC, extractFirstParagraph, removeLeadingFeaturedImageBlock, processH6Markers, lazyLoadImages, openLinksInNewTab } from "@/lib/content-processor";
 import Breadcrumb from "@/components/blog/Breadcrumb";
 import BlogLanguageSwitcher from "@/components/blog/BlogLanguageSwitcher";
 import TOCEnhancer from "@/components/blog/TOCEnhancer";
@@ -27,6 +27,7 @@ import BarterDealCheckerInjector from "@/components/blog/BarterDealCheckerInject
 import ImageOrientationEnhancer from "@/components/blog/ImageOrientationEnhancer";
 import ImageLightboxEnhancer from "@/components/blog/ImageLightboxEnhancer";
 import NewsletterSection from "@/components/blog/NewsletterSection";
+import LazyOnVisible from "@/components/blog/LazyOnVisible";
 import RelatedResourcesInjector from "@/components/blog/RelatedResourcesInjector";
 import MetaShareButton from "@/components/blog/MetaShareButton";
 import { getAuthorPageSlug, getAuthorByWordPressSlug, getAuthorBySlug, isFoundingTeamPost } from "@/data/authors";
@@ -125,6 +126,7 @@ export default async function PreviewPostPage({ params }: PreviewPostPageProps) 
   }
 
   const featuredImage = post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || getFeaturedImageUrl(post, "full");
+  const featuredAlt = post._embedded?.["wp:featuredmedia"]?.[0]?.alt_text || stripHtml(post.title.rendered);
   // Use async version to fetch Co-Authors Plus guest authors
   const postAuthors = await getPostAuthorsAsync(post);
   const publishDate = formatDate(post.date);
@@ -192,7 +194,9 @@ export default async function PreviewPostPage({ params }: PreviewPostPageProps) 
   const contentWithoutLeadingImage = featuredImage
     ? removeLeadingFeaturedImageBlock(contentAfterParagraph, featuredImage)
     : contentAfterParagraph;
-  const processedContent = openLinksInNewTab(contentWithoutLeadingImage);
+  // Add native lazy-loading to body images (only featured image competes for LCP)
+  // and force links to open in a new tab
+  const processedContent = openLinksInNewTab(lazyLoadImages(contentWithoutLeadingImage));
 
   // Get category for breadcrumb and related resources
   const categoryName = post._embedded?.["wp:term"]?.[0]?.[0]?.name || "";
@@ -276,7 +280,9 @@ export default async function PreviewPostPage({ params }: PreviewPostPageProps) 
                 <span>·</span>
                 <span>{readingTime} min read</span>
                 <Suspense fallback={<span className="text-sm">Loading...</span>}>
-                  <BlogLanguageSwitcher />
+                  {/* Preview renders a single draft with no Hinglish counterpart,
+                      so the option is disabled — same as a blog post without one. */}
+                  <BlogLanguageSwitcher hinglishAvailable={false} />
                 </Suspense>
               </div>
               <MetaShareButton
@@ -290,7 +296,7 @@ export default async function PreviewPostPage({ params }: PreviewPostPageProps) 
             <div className="border-t border-b border-gray-200 py-2 md:py-5">
               <div className="flex flex-col gap-4">
                 {displayAuthors.map((authorData, index) => (
-                  <div key={index} className={`flex items-center justify-between ${index > 0 ? 'pt-4 border-t border-gray-100' : ''}`}>
+                  <div key={index} className={`flex items-center justify-between gap-1 ${index > 0 ? 'pt-4 border-t border-gray-100' : ''}`}>
                     {/* Author Info */}
                     <div className="flex items-center gap-4">
                       {authorData.avatarUrl && (
@@ -423,7 +429,7 @@ export default async function PreviewPostPage({ params }: PreviewPostPageProps) 
             const [firstSentence, rest] = splitFirstSentence(blogDescription);
             return (
               <div
-                className="px-4 md:px-6 lg:px-0 text-[18px] md:text-[22px] text-[#6B7280] leading-[1.6] text-justify"
+                className="px-4 md:px-6 lg:px-0 text-[18px] md:text-[22px] text-[#6B7280] leading-[1.6] text-justify [&_a]:text-[#7c3aed] [&_a]:underline [&_a]:underline-offset-2 [&_a:hover]:text-[#5b21b6] [&_a]:transition-colors"
               >
                 <span className="font-semibold" dangerouslySetInnerHTML={{ __html: firstSentence }} />
                 {rest && <span dangerouslySetInnerHTML={{ __html: rest }} />}
@@ -440,7 +446,7 @@ export default async function PreviewPostPage({ params }: PreviewPostPageProps) 
               >
                 <Image
                   src={featuredImage}
-                  alt={stripHtml(post.title.rendered)}
+                  alt={featuredAlt}
                   fill
                   className="object-cover"
                   priority
@@ -536,12 +542,16 @@ export default async function PreviewPostPage({ params }: PreviewPostPageProps) 
 
         {/* Related Posts - full width, outside the narrow reading column */}
         <div className="relative z-0 mt-10 lg:mt-16 px-4 md:px-0">
-          <RelatedPosts posts={relatedPosts} basePath="/preview" />
+          <LazyOnVisible minHeight={400}>
+            <RelatedPosts posts={relatedPosts} basePath="/preview" />
+          </LazyOnVisible>
         </div>
       </main>
 
       {/* Newsletter Section */}
-      <NewsletterSection />
+      <LazyOnVisible>
+        <NewsletterSection />
+      </LazyOnVisible>
     </>
   );
 }
