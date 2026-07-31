@@ -10,9 +10,19 @@ import MotionProvider from "@/components/MotionProvider";
 
 interface LanguageSwitcherProps {
   className?: string;
+  /**
+   * "dropdown" (default) — globe + current language + chevron, opens a menu.
+   * "segmented" — both languages side by side in one pill, active one ringed.
+   *   Used on /creator/portfolio, where the choice is meant to read as a
+   *   one-tap toggle rather than a menu to open.
+   */
+  variant?: "dropdown" | "segmented";
 }
 
-export const LanguageSwitcher = ({ className }: LanguageSwitcherProps) => {
+export const LanguageSwitcher = ({
+  className,
+  variant = "dropdown",
+}: LanguageSwitcherProps) => {
   const { i18n } = useTranslation();
   const router = useRouter();
   const pathname = usePathname();
@@ -54,6 +64,59 @@ export const LanguageSwitcher = ({ className }: LanguageSwitcherProps) => {
 
     setIsOpen(false);
   };
+
+  if (variant === "segmented") {
+    return (
+      <MotionProvider>
+        <m.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.4, duration: 0.5 }}
+          className={`w-fit ${className ?? ""}`}
+        >
+          <div
+            className="relative flex items-center rounded-full p-1"
+            style={{
+              background: "rgba(255,255,255,0.06)",
+              border: "1px solid rgba(255,255,255,0.14)",
+              backdropFilter: "blur(14px)",
+              WebkitBackdropFilter: "blur(14px)",
+            }}
+          >
+            {languages.map((lang) => {
+              const isActive = currentLang === lang.code;
+              return (
+                <button
+                  key={lang.code}
+                  type="button"
+                  aria-pressed={isActive}
+                  onClick={() => handleLanguageSelect(lang.code)}
+                  className={`
+                    relative rounded-full px-4 py-1.5
+                    text-[15px] font-medium leading-none
+                    transition-colors duration-200 select-none
+                    ${isActive ? "text-white" : "text-white/60 hover:text-white/90"}
+                  `}
+                >
+                  {/* The ring travels between the two options instead of
+                      cross-fading — layoutId needs the domMax feature bundle,
+                      which MotionProvider already loads. */}
+                  {isActive && (
+                    <m.span
+                      layoutId="language-switcher-pill"
+                      transition={{ type: "spring", stiffness: 400, damping: 32 }}
+                      className="absolute inset-0 rounded-full border border-white/45 bg-white/10"
+                    />
+                  )}
+                  <span className="relative z-10">{lang.label}</span>
+                </button>
+              );
+            })}
+          </div>
+        </m.div>
+      </MotionProvider>
+    );
+  }
 
   // Self-contained MotionProvider: this component renders on the creator routes
   // (already inside a provider — nesting is harmless, both resolve the same

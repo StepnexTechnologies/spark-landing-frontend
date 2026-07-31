@@ -5,21 +5,28 @@ import { ChevronDown, Clock } from "lucide-react";
 import PromoSignupCard from "@/components/creator/promo/PromoSignupCard";
 import PortfolioName from "./PortfolioName";
 
+interface HeroIntroProps {
+  // Creator's name from the portfolio API (`user_details.display_name`), shown
+  // in the H1. Falls back to the i18n placeholder before the fetch resolves and
+  // when the page is opened without a `?portfolio_slug=`.
+  displayName?: string | null;
+}
+
 // Identity lines + signup/claim card. Lives at the top of the content stack
 // (above the Advantage/FAQ sections) so the card and the sections share one
 // normal-flow container — that's what keeps the card from overlapping the
 // sections as it expands.
-export default function HeroIntro() {
+export default function HeroIntro({ displayName }: HeroIntroProps = {}) {
   const { t } = useTranslation("creatorPortfolio");
 
   return (
     <div className="mx-auto flex w-full max-w-[520px] flex-col items-center px-4">
-      {/* Identity — name + tagline + claim line. name/@handle come from the API
-          alongside the video; these are the placeholders. */}
+      {/* Identity — name + tagline + claim line. The name comes from the API
+          alongside the video; the i18n string is the pre-fetch placeholder. */}
       <div className="mb-6 text-center text-white">
         {/* Name rendered with the portfolio hero's fit-to-width / two-line /
             truncate logic. */}
-        <PortfolioName displayName={t("hero.name")} />
+        <PortfolioName displayName={displayName || t("hero.name")} />
         <p className="mt-4 text-[32px] font-bold leading-tight drop-shadow-[0_2px_12px_rgba(0,0,0,0.7)]">
           <Trans i18nKey="hero.tagline" t={t} components={[<span key="h" className="text-white/90" />]} />
         </p>

@@ -5,11 +5,13 @@ import { useSearchParams } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import dynamic from "next/dynamic";
 import "@/lib/i18n"; // Initialize i18n
+import MotionProvider from "@/components/MotionProvider";
 import Navigation from "@/components/creator/earn/Navigation";
 import HeroSection from "@/components/creator/portfolio/HeroSection";
 import HeroIntro from "@/components/creator/portfolio/HeroIntro";
 import LandingBlobs from "@/components/creator/portfolio/LandingBlobs";
 import { SignupProvider } from "@/components/creator/promo/SignupContext";
+import { usePortfolioUserDetails } from "@/lib/hooks/usePortfolioUserDetails";
 
 // Below-the-fold sections are lazy-loaded, mirroring the earn funnel. Advantage
 // and FAQ come straight from the shared earn components (they already accept a
@@ -33,32 +35,77 @@ function CreatorPortfolioPageContent() {
   }, [searchParams, i18n]);
 
   // Two hero versions:
-  //   • "Claim your portfolio"      → the creator's own video (from the API).
+  //   • "Claim your portfolio"      → the creator's own media (from the API).
   //   • "Want a portfolio like @X"  → the placeholder clip.
-  // Until the portfolio API is wired here, the video/poster come off the URL
-  // (?video=<url>&poster=<url>). Replace this with the real fetch — pass the
-  // resolved URLs straight into <HeroSection>. Absent → HeroSection uses the
-  // bundled placeholder.
-  const heroVideoUrl = searchParams.get("video");
-  const heroPosterUrl = searchParams.get("poster");
+  //
+  // Creators land here as /creator/portfolio?portfolio_slug=<slug>. That slug is
+  // the only input to the public portfolio API — the same `user_details` section
+  // the creator app's portfolio hero reads (GET /v1/portfolios/{slug}/sections/
+  // user_details). It carries the hero video, its poster, a still fallback, the
+  // focal point, and the creator's display name.
+  //
+  // No slug, an unknown slug, or a creator with no hero media → the hook yields
+  // null and HeroSection falls back to the bundled placeholder clip, which is
+  // exactly the "want a portfolio like @X" version.
+  //
+  // TO CHECK: the happy path here is unverified. What's been confirmed is the
+  // endpoint exists on both app-api-dev and app-api (unknown slug → 404), and
+  // that CORS allows dev.sparkonomy.com / www.sparkonomy.com respectively. What
+  // hasn't: an actual portfolio slug returning hero media, and that media
+  // rendering in the band. Open /creator/portfolio?portfolio_slug=<real-slug>
+  // and confirm the creator's own video plays instead of the placeholder.
+  // Note the failure mode is silent by design — every error becomes the
+  // placeholder clip, so a wrong field name or shape would look like a creator
+  // who simply has no video. Check the network tab, not just the page.
+  const portfolioSlug = searchParams.get("portfolio_slug");
+  const { data: userDetails } = usePortfolioUserDetails(portfolioSlug);
+
+  // ?video= / ?poster= stay as demo overrides so the hero can be previewed
+  // without a real portfolio behind it. Absent → the API values win.
+  const heroVideoUrl = searchParams.get("video") ?? userDetails?.hero_video_url;
+  const heroPosterUrl =
+    searchParams.get("poster") ?? userDetails?.hero_video_poster_url;
 
   return (
     <SignupProvider socialAuthAfterVerify namespace="creatorPortfolio">
+      {/* Required: every section under components/creator/** renders `m.*`, which
+          needs a LazyMotion ancestor. Without it the feature bundle never loads,
+          `whileInView` never fires, and the below-the-fold sections stay stuck at
+          their `initial` opacity: 0 (visible as an empty gap under the hero). */}
+      <MotionProvider>
       <main className="relative min-h-screen bg-black overflow-hidden">
         {/* Decorative background blobs (config in components/creator/portfolio/blobConfig.ts). */}
         <LandingBlobs />
 
         {/* Content */}
         <div className="relative z-10">
-          <Navigation namespace="creatorPortfolio" className="py-2 md:py-2" />
+          <Navigation
+            namespace="creatorPortfolio"
+            languageSwitcherVariant="segmented"
+            className="py-2 md:py-2"
+          />
           {/* Invitation-only strip directly below the header. */}
-          <div className="relative z-40 border-y border-white/10 bg-black/40 px-5 py-1.5 text-center backdrop-blur-sm">
-            <p className="text-[11px] font-medium uppercase tracking-[0.15em] text-[#DD2A7B]">
+          {/* `backgroundImage` (not the `background` shorthand) so the warm glow
+              layers over the bg-black/40 base rather than replacing it — the
+              gradient is transparent at both ends and only lights the middle. */}
+          <div
+            className="relative z-40 border-y border-white/10 bg-black/40 px-5 py-1.5 text-center backdrop-blur-sm"
+            style={{
+              backgroundImage:
+                "linear-gradient(90deg, rgba(254, 226, 176, 0) 0%, rgba(254, 226, 176, 0.475962) 52.4%, rgba(254, 226, 176, 0) 100%)",
+            }}
+          >
+            <p className="text-[11px] font-medium uppercase tracking-[0.15em] text-white">
               {t("nav.invitationStrip")}
             </p>
           </div>
           {/* Hero = video band only (relative, h-[60vh]). */}
-          <HeroSection videoUrl={heroVideoUrl} posterUrl={heroPosterUrl} />
+          <HeroSection
+            videoUrl={heroVideoUrl}
+            posterUrl={heroPosterUrl}
+            imageUrl={userDetails?.hero_image_url}
+            focalPoint={userDetails?.hero_focal_point}
+          />
 
           {/* Everything else — identity + card + ALL sections — in ONE
               container, positioned to start 100px from the top of the hero.
@@ -72,7 +119,7 @@ function CreatorPortfolioPageContent() {
               layout while the page still scrolls. Change the 100px to shift the
               whole block up/down the video. */}
           <div className="relative z-30 -mt-[calc(60vh-400px)]">
-            <HeroIntro />
+            <HeroIntro displayName={userDetails?.display_name} />
             {/* 3. Your Advantage */}
             <AdvantageSection
               variant="promo"
@@ -105,6 +152,7 @@ function CreatorPortfolioPageContent() {
           cardBackground="linear-gradient(171.03deg, #000000 -0.78%, rgba(221, 42, 123, 0.09) 100.02%)"
         />
       </main>
+      </MotionProvider>
     </SignupProvider>
   );
 }
