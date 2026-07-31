@@ -2334,14 +2334,17 @@
   }
 }
 
-/* Inline link colour. This block was previously declared twice at identical
-   specificity (#7c3aed then #8b5cf6); the second won, so #8b5cf6 is what has
-   always rendered. Kept that value and deleted the dead first copy. */
+/* Inline link colour. Single source of truth — this block was previously
+   declared twice at identical specificity (#7c3aed then #8b5cf6), so #8b5cf6
+   silently won. #8b5cf6 only reaches 4.24:1 on white and fails WCAG AA for
+   body text, and it disagreed with the article intro paragraph, which is
+   rendered outside .wordpress-content and has always used #7c3aed. Unified on
+   #7c3aed (5.7:1) so every link on the page is one colour and passes AA. */
 .wordpress-content p a,
 .wordpress-content li a,
 .wordpress-content td a,
 .wordpress-content th a {
-  color: #8b5cf6;
+  color: #7c3aed;
   text-decoration: underline;
   text-underline-offset: 2px;
   transition: color 0.2s ease;
@@ -2351,7 +2354,7 @@
 .wordpress-content li a:hover,
 .wordpress-content td a:hover,
 .wordpress-content th a:hover {
-  color: #7c3aed;
+  color: #5b21b6;
 }
 
 /* Legacy pro-tip-box support */
