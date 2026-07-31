@@ -11,14 +11,46 @@
   text-align: justify;
 }
 
+/* ====================
+   .not-prose — ESCAPE HATCH FOR EMBEDDED REACT TOOLS
+   ==================== */
+
+/* The blog tools (barter deal checker, calculators) are portalled *into*
+   .wordpress-content by the injectors in components/blog/, so every prose rule
+   below is an ancestor match for their markup. Those rules score (0,1,1) while
+   the tools style themselves with Tailwind utilities at (0,1,0), so the article
+   styles silently win: `.wordpress-content li` forced `display: list-item` over
+   the tool's `flex` and re-enabled the `::marker`, which is why the intro list
+   grew bullet dots in front of its tick badges when embedded but not on
+   /blogs/tools/barter-deal-checker.
+
+   Fixing that needs exclusion, not an override — a higher-specificity reset
+   would beat the tool's own utilities too, and there is no value for `display`
+   that means "let the utility class through". So every prose rule that can
+   reach into a tool carries :not(.not-prose *), the same escape hatch Tailwind
+   Typography ships. Mark a portal container .not-prose and its whole subtree is
+   the tool's own business.
+
+   Adding a prose rule that styles a bare element (p, li, h2, a, b …)? Add the
+   guard too, or it will leak into the tools. */
+.wordpress-content .not-prose {
+  /* These three are inherited from .wordpress-content itself, so :not() on the
+     descendant selectors cannot stop them — the container has to opt out.
+     Values restore the page default the tools get standalone (16px / 1.5),
+     so an embedded tool renders identically to its own route. */
+  text-align: initial;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
 /* Keep headings left-aligned — justify only the running body text so multi-line
    headings don't get their words stretched apart. */
-.wordpress-content h1,
-.wordpress-content h2,
-.wordpress-content h3,
-.wordpress-content h4,
-.wordpress-content h5,
-.wordpress-content h6 {
+.wordpress-content h1:not(.not-prose *),
+.wordpress-content h2:not(.not-prose *),
+.wordpress-content h3:not(.not-prose *),
+.wordpress-content h4:not(.not-prose *),
+.wordpress-content h5:not(.not-prose *),
+.wordpress-content h6:not(.not-prose *) {
   text-align: left;
 }
 
@@ -429,7 +461,7 @@
 }
 
 /* Global heading styles for WordPress content */
-.wordpress-content h1 {
+.wordpress-content h1:not(.not-prose *) {
   font-size: 2.5rem;
   font-weight: 700;
   line-height: 1.15;
@@ -440,7 +472,7 @@
 }
 
 @media (min-width: 768px) {
-  .wordpress-content h1 {
+  .wordpress-content h1:not(.not-prose *) {
     font-size: 3rem;
   }
 }
@@ -449,7 +481,7 @@
    H1 (21:1) → H2 (12.6:1) → H3-H6 (7.5:1) → body p (4.8:1); all pass WCAG AA.
    H2/H3 previously shared the body's #6B7280, and H4-H6 were pure #000000 —
    which made a sub-heading darker than the section heading above it. */
-.wordpress-content h2 {
+.wordpress-content h2:not(.not-prose *) {
   font-size: 1.625rem;
   font-weight: 700;
   line-height: 1.25;
@@ -460,19 +492,19 @@
 }
 
 @media (min-width: 768px) {
-  .wordpress-content h2 {
+  .wordpress-content h2:not(.not-prose *) {
     font-size: 1.875rem;
     margin-top: 1.75rem;
   }
 }
 
 @media (min-width: 1024px) {
-  .wordpress-content h2 {
+  .wordpress-content h2:not(.not-prose *) {
     font-size: 2rem;
   }
 }
 
-.wordpress-content h2:first-child {
+.wordpress-content h2:first-child:not(.not-prose *) {
   margin-top: 0;
 }
 
@@ -599,7 +631,7 @@
   margin-bottom: 0;
 }
 
-.wordpress-content h3 {
+.wordpress-content h3:not(.not-prose *) {
   font-size: 1.375rem !important;
   font-weight: 700;
   line-height: 1.3;
@@ -610,7 +642,7 @@
 }
 
 @media (min-width: 1024px) {
-  .wordpress-content h3 {
+  .wordpress-content h3:not(.not-prose *) {
     font-size: 1.5rem;
   }
 }
@@ -643,7 +675,7 @@
 }
 
 /* Global paragraph and list styles */
-.wordpress-content p {
+.wordpress-content p:not(.not-prose *) {
   font-size: 1.125rem;
   font-weight: 400;
   line-height: 1.7;
@@ -651,25 +683,25 @@
   margin-bottom: 1.5em;
 }
 
-.wordpress-content p:last-child {
+.wordpress-content p:last-child:not(.not-prose *) {
   margin-bottom: 0;
 }
 
 @media (min-width: 768px) {
-  .wordpress-content p {
+  .wordpress-content p:not(.not-prose *) {
     font-size: 1.25rem;
   }
 }
 
-.wordpress-content ul,
-.wordpress-content ol {
+.wordpress-content ul:not(.not-prose *),
+.wordpress-content ol:not(.not-prose *) {
   list-style-position: outside;
   margin-top: 1rem;
   margin-bottom: 1.5rem;
   color: #6B7280;
 }
 
-.wordpress-content ul {
+.wordpress-content ul:not(.not-prose *) {
   list-style-type: disc;
 }
 
@@ -681,7 +713,7 @@
   list-style-type: lower-alpha;
 }
 
-.wordpress-content li {
+.wordpress-content li:not(.not-prose *) {
   font-size: 1.125rem;
   font-weight: 400;
   line-height: 1.7;
@@ -692,7 +724,7 @@
 }
 
 @media (min-width: 768px) {
-  .wordpress-content li {
+  .wordpress-content li:not(.not-prose *) {
     font-size: 1.25rem;
   }
 }
@@ -711,12 +743,12 @@
 }
 
 /* Primary color for list bullets/markers */
-.wordpress-content ul li::marker {
+.wordpress-content ul li:not(.not-prose *)::marker {
   color: #9747FF;
 }
 
-.wordpress-content li strong,
-.wordpress-content li b {
+.wordpress-content li strong:not(.not-prose *),
+.wordpress-content li b:not(.not-prose *) {
   font-size: inherit;
 }
 
@@ -881,13 +913,13 @@
   list-style-type: decimal;
 }
 
-.wordpress-content strong,
-.wordpress-content b {
+.wordpress-content strong:not(.not-prose *),
+.wordpress-content b:not(.not-prose *) {
   font-weight: 600;
 }
 
-.wordpress-content em,
-.wordpress-content i {
+.wordpress-content em:not(.not-prose *),
+.wordpress-content i:not(.not-prose *) {
   font-style: italic;
 }
 
@@ -1874,21 +1906,21 @@
     font-size: 1rem;
   }
 
-  .wordpress-content ul,
-  .wordpress-content ol,
+  .wordpress-content ul:not(.not-prose *),
+  .wordpress-content ol:not(.not-prose *),
   .wordpress-content .wp-block-list {
     padding-left: 1.25rem;
   }
 
-  .wordpress-content h1 {
+  .wordpress-content h1:not(.not-prose *) {
     font-size: 2rem;
   }
 
-  .wordpress-content h2 {
+  .wordpress-content h2:not(.not-prose *) {
     font-size: 1.75rem;
   }
 
-  .wordpress-content h3 {
+  .wordpress-content h3:not(.not-prose *) {
     font-size: 1.5rem;
   }
 
@@ -2340,8 +2372,8 @@
    body text, and it disagreed with the article intro paragraph, which is
    rendered outside .wordpress-content and has always used #7c3aed. Unified on
    #7c3aed (5.7:1) so every link on the page is one colour and passes AA. */
-.wordpress-content p a,
-.wordpress-content li a,
+.wordpress-content p a:not(.not-prose *),
+.wordpress-content li a:not(.not-prose *),
 .wordpress-content td a,
 .wordpress-content th a {
   color: #7c3aed;

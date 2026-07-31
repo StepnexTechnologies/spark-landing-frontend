@@ -38,7 +38,9 @@ export default function BarterDealCheckerInjector() {
     const created: HTMLElement[] = [];
     for (const h6 of markers) {
       const container = document.createElement("div");
-      container.className = "barter-check-embed-container";
+      // not-prose keeps the article's prose rules (bullets, heading sizes,
+      // justified text) out of the tool — see wordpress-content.css.
+      container.className = "barter-check-embed-container not-prose";
       container.setAttribute("data-section-type", "barter-check");
       h6.parentNode?.insertBefore(container, h6);
       h6.remove();
