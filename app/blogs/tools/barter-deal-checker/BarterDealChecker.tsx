@@ -239,24 +239,32 @@ function compute(form: Form): Result {
 // ──────────────────────────────────────────
 //  SHARED STYLE TOKENS (blog theme)
 // ──────────────────────────────────────────
+/* Panel gradient — sits behind white body copy, so every stop is deepened
+   enough for white to clear WCAG AA (4.5:1). The undeepened brand stops
+   (#DD2A7B / #9747FF) only reach ~4.48:1 against white, which left the
+   smaller sentences on these panels hard to read. */
 const BRAND_GRADIENT =
-  "linear-gradient(135deg, #DD2A7B 0%, #9747FF 50%, #334CCA 100%)";
+  "linear-gradient(135deg, #C42169 0%, #7B2FD9 50%, #2A3FA8 100%)";
 const CREATOR_GRADIENT = "linear-gradient(135deg, #DD2A7B 0%, #9747FF 100%)";
 
 const VERDICT_STYLES: Record<
   Verdict,
   { background: string; color: string }
 > = {
+  /* Light-hued verdicts (green, amber) carry dark ink; deep-hued ones (red,
+     brand purple) carry white. White on the bright green was only 2.2:1 —
+     the worst contrast in the tool — so it keeps its colour and flips to
+     dark ink, the same treatment MAYBE already used. */
   YES: {
     background: "linear-gradient(135deg, #2BB44E 0%, #34C759 100%)",
-    color: "#FFFFFF",
+    color: "#06280F",
   },
   MAYBE: {
     background: "linear-gradient(135deg, #F5A623 0%, #FFCC00 100%)",
     color: "#33270A",
   },
   NO: {
-    background: "linear-gradient(135deg, #E12B20 0%, #FF3B30 100%)",
+    background: "linear-gradient(135deg, #B81C13 0%, #D9291F 100%)",
     color: "#FFFFFF",
   },
   NEED_FEE: { background: BRAND_GRADIENT, color: "#FFFFFF" },
@@ -865,13 +873,16 @@ const BarterDealChecker = ({ embed = false }: { embed?: boolean } = {}) => {
                     className="mb-4 px-5 py-7 text-center"
                     style={{ ...cardRadius, ...style }}
                   >
-                    <p className="mb-2 text-[11px] font-bold uppercase tracking-[.1em] opacity-85">
+                    {/* No opacity on the small copy — dimming 11px and 15px
+                        text over a saturated gradient was what pushed these
+                        sentences below a readable contrast ratio. */}
+                    <p className="mb-2 text-[11px] font-bold uppercase tracking-[.1em]">
                       {copy.label}
                     </p>
                     <p className="mb-2 text-[30px] font-bold leading-tight tracking-tight sm:text-[38px]">
                       {copy.big}
                     </p>
-                    <p className="text-[15px] opacity-95">{copy.sub}</p>
+                    <p className="text-[15px]">{copy.sub}</p>
                   </div>
 
                   {!needsMoreInput && (
@@ -1080,14 +1091,14 @@ const BarterDealChecker = ({ embed = false }: { embed?: boolean } = {}) => {
                     <h3 className="mb-2 text-xl font-bold tracking-tight">
                       Stop guessing on every deal
                     </h3>
-                    <p className="mb-4 text-sm opacity-90">
+                    <p className="mb-4 text-sm">
                       Sparkonomy tracks your deals, deliverables and payments in
                       one place — so you know your worth before the brand tells
                       you.
                     </p>
                     <Link
                       href="/creator/earn?utm_source=blog&utm_medium=tool&utm_campaign=barter_checker"
-                      className="inline-block rounded-full bg-white px-7 py-3 text-[15px] font-bold text-[#9747FF]"
+                      className="inline-block rounded-full bg-white px-7 py-3 text-[15px] font-bold text-[#7B2FD9]"
                     >
                       Join Sparkonomy free
                     </Link>
