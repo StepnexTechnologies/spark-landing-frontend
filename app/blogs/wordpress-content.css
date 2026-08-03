@@ -1142,6 +1142,45 @@
   background: #a1a1a1;
 }
 
+/* Horizontal-scroll affordance ("scrolling shadows").
+
+   The `white-space: nowrap` above deliberately keeps every cell on one line, so
+   a wide table overflows its wrapper rather than wrapping — but `overflow-x:
+   auto` scrolls silently, so on a narrow viewport the table just looks clipped
+   mid-word at the screen edge. Nothing tells the reader it can be swiped.
+
+   Two gradient pairs fix that with no JS and no extra markup. The white "cover"
+   gradients use `background-attachment: local` so they travel with the scrolled
+   content; the grey shadows use `scroll` so they stay pinned to the wrapper. At
+   the start of the scroll range the left cover sits exactly on top of the left
+   shadow and hides it — scroll right and the cover slides away, revealing it.
+   Net effect: a shadow appears on a given side only while there is more table
+   in that direction, and both stay hidden when the table already fits.
+
+   Applied at every breakpoint, not just mobile: it self-hides when there is no
+   overflow, and the 760px article column can clip a wide table on desktop too.
+   The cover colour must match the page background (#fff, set by the article
+   `bg-white`) — on a tinted background the covers would show as white bands. */
+.wordpress-content .wp-block-table {
+  background-image:
+    linear-gradient(to right, #fff 30%, rgba(255, 255, 255, 0)),
+    linear-gradient(to left, #fff 30%, rgba(255, 255, 255, 0)),
+    radial-gradient(
+      farthest-side at 0 50%,
+      rgba(107, 114, 128, 0.28),
+      rgba(107, 114, 128, 0)
+    ),
+    radial-gradient(
+      farthest-side at 100% 50%,
+      rgba(107, 114, 128, 0.28),
+      rgba(107, 114, 128, 0)
+    );
+  background-position: left center, right center, left center, right center;
+  background-repeat: no-repeat;
+  background-size: 32px 100%, 32px 100%, 16px 100%, 16px 100%;
+  background-attachment: local, local, scroll, scroll;
+}
+
 /* Pullquote/Quote blocks - Clean centered style */
 .wordpress-content .wp-block-pullquote,
 .wordpress-content .wp-block-quote {
@@ -2498,6 +2537,24 @@
 /* Spacing between consecutive banners */
 .promo-banner-wrapper + .promo-banner-wrapper {
   margin-top: 2rem;
+}
+
+/* ====================
+   TRUST PARA SECTION ("Why trust this guide")
+   ==================== */
+
+/* The trust paragraph is supporting copy, not body prose, so it holds 16px/1.5
+   on every breakpoint instead of following the article's 18px → 20px ramp and
+   its loose 1.7 leading. Both values are set here rather than left to inherit,
+   so the block reads as one deliberate scale — tune the leading on this line.
+
+   Specificity ties with `.wordpress-content p:not(.not-prose *)` (both 0,2,1),
+   so this block must stay *after* that rule and its 768px media query — moving
+   it above them silently restores the 20px / 1.7 body defaults. */
+.wordpress-content .trust-para-section p,
+.wordpress-content .trust-para-section li {
+  font-size: 1rem;
+  line-height: 1.5;
 }
 
 /* ====================

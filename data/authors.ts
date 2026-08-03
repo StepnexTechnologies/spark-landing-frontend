@@ -139,7 +139,7 @@ export const authors: AuthorEntry[] = [
     wordpressAuthorId: 5,
 
     name: "Guneet Singh",
-    role: "Global Tech Leader | Startup Mentor | Venture Builder",
+    role: "Co-Founder, Sparkonomy | Building AI Infrastructure for the Next 100M Creator-Founders",
     avatarUrl: "/authors/ProfilePicture_gunnet.webp",
     shortBio: "I am a tech leader and strategist based in Singapore. After 20 years working across Google, Microsoft, and Samsung I now build and mentor at the edge of technology and new work. Besides building Sparkonomy, I write about how technology systems and AI can support creators by handling the friction, so they can spend more time creating and building a sustainable career.",
 
