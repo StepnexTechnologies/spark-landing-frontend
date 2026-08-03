@@ -2501,6 +2501,20 @@
 }
 
 /* ====================
+   TRUST PARA SECTION ("Why trust this guide")
+   ==================== */
+
+/* The trust paragraph is supporting copy, not body prose, so it stays at 16px
+   on every breakpoint instead of following the article's 18px → 20px ramp.
+   Specificity ties with `.wordpress-content p:not(.not-prose *)` (both 0,2,1),
+   so this block must stay *after* that rule and its 768px media query — moving
+   it above them silently restores the 20px desktop size. */
+.wordpress-content .trust-para-section p,
+.wordpress-content .trust-para-section li {
+  font-size: 1rem;
+}
+
+/* ====================
    CHECKMARK EMOJI STYLING
    Replace green ✅ emoji with primary purple checkmark
    ==================== */
