@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { AuthorEntry, FeaturedArticle, RecentArticle } from "@/data/authors";
+import { AuthorEntry, FeaturedArticle } from "@/data/authors";
 import Breadcrumb from "@/components/blog/Breadcrumb";
 import RelatedPosts from "@/components/blog/RelatedPosts";
 import ImageWithFallback from "@/components/blog/ImageWithFallback";
@@ -102,18 +102,15 @@ interface AuthorPageTemplateProps {
   author: AuthorEntry;
   // Articles can be passed in (fetched from WordPress) or use author's hardcoded articles
   featuredArticles?: FeaturedArticle[];
-  recentArticles?: RecentArticle[];
 }
 
 export default function AuthorPageTemplate({
   author,
   featuredArticles,
-  recentArticles,
 }: AuthorPageTemplateProps) {
   // Use passed articles or fall back to author's hardcoded articles
   const displayFeaturedArticles =
     featuredArticles ?? author.featuredArticles ?? [];
-  const displayRecentArticles = recentArticles ?? author.recentArticles ?? [];
 
   return (
     // <article> (not <main>) — the blog layout already provides the <main> landmark.
@@ -561,64 +558,6 @@ export default function AuthorPageTemplate({
         </section>
       )}
 
-      {/* Recent Articles */}
-      {displayRecentArticles.length > 0 && (
-        <section className="max-w-4xl mx-auto px-[29px] md:px-4 py-[16px]">
-          <h2 className="text-[24px] md:text-[26px] font-semibold text-[#333333] mb-4">
-            Recent Articles
-          </h2>
-
-          <div className="flex flex-col gap-[12px]">
-            {displayRecentArticles.map((article) => (
-              <div
-                key={article.id}
-                className="flex items-center gap-4 max-h-[96px] pb-[12px] border-b border-[#F2F2F2]"
-              >
-                <div className="relative w-[80px] h-[80px] overflow-hidden flex-shrink-0">
-                  <Image
-                    src={article.imageSrc}
-                    alt={article.title}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-                <div className="flex-1 flex flex-col gap-[12px]">
-                  <Link href={article.href}>
-                    <h3 className="text-base md:text-lg text-[#6B7280] underline line-clamp-2">
-                      {article.title}
-                    </h3>
-                  </Link>
-                  <p className="text-[12px] md:text-sm font-normal text-[#6B7280]">
-                    {article.date}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <Link
-            href="/blogs"
-            className="inline-flex items-center gap-2 text-primary text-[16px] font-medium mt-6 hover:underline"
-          >
-            View All Articles
-            <svg
-              className="w-4 h-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              aria-hidden="true"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M17 8l4 4m0 0l-4 4m4-4H3"
-              />
-            </svg>
-          </Link>
-        </section>
-      )}
-
       {/* Areas of Expertise */}
       {author.areasOfExpertise.length > 0 && (
         <section className="max-w-4xl mx-auto px-[29px] md:px-4 py-[16px]">
@@ -700,7 +639,7 @@ export default function AuthorPageTemplate({
                   className="flex items-center justify-center gap-2 text-[14px] md:text-base font-medium text-primary px-6 py-3 rounded-full bg-white"
                 >
                   {SocialIcons.linkedin}
-                  {author.ctaButtonLabel || "Subscribe Now"}
+                  {author.ctaButtonLabel || "Connect Now"}
                 </a>
               </div>
             )}
