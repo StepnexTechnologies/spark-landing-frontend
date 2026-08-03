@@ -2504,14 +2504,18 @@
    TRUST PARA SECTION ("Why trust this guide")
    ==================== */
 
-/* The trust paragraph is supporting copy, not body prose, so it stays at 16px
-   on every breakpoint instead of following the article's 18px → 20px ramp.
+/* The trust paragraph is supporting copy, not body prose, so it holds 16px/1.5
+   on every breakpoint instead of following the article's 18px → 20px ramp and
+   its loose 1.7 leading. Both values are set here rather than left to inherit,
+   so the block reads as one deliberate scale — tune the leading on this line.
+
    Specificity ties with `.wordpress-content p:not(.not-prose *)` (both 0,2,1),
    so this block must stay *after* that rule and its 768px media query — moving
-   it above them silently restores the 20px desktop size. */
+   it above them silently restores the 20px / 1.7 body defaults. */
 .wordpress-content .trust-para-section p,
 .wordpress-content .trust-para-section li {
   font-size: 1rem;
+  line-height: 1.5;
 }
 
 /* ====================
