@@ -50,14 +50,16 @@ export default function TOCEnhancer() {
 
       tocLinks.forEach(link => {
         link.addEventListener('click', (e) => {
-          e.preventDefault();
           const href = link.getAttribute('href');
           if (!href) return;
 
           const targetId = href.substring(1); // Remove the #
           const targetElement = document.getElementById(targetId);
 
+          // Only take over the click when we can actually scroll somewhere.
+          // Preventing the default on a dead anchor leaves the link doing nothing at all.
           if (targetElement) {
+            e.preventDefault();
             // Get the sticky header height
             const header = document.querySelector('header.sticky, header[class*="sticky"]');
             const headerHeight = header ? header.getBoundingClientRect().height : 0;
