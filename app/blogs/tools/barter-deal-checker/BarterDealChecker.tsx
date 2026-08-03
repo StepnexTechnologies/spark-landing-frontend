@@ -113,7 +113,7 @@ const QUESTIONS: Question[] = [
     key: "fee",
     type: "money",
     q: "What do you normally charge for this work?",
-    help: "Your usual cash rate for the same deliverables. This is how we judge whether the deal is worth it.",
+    help: "Your usual fees rate for the same deliverables. This is how we judge whether the deal is worth it.",
   },
   {
     key: "exp",
@@ -128,7 +128,7 @@ const QUESTIONS: Question[] = [
     help: "Choose Yes only if you are registered for GST.",
     options: [
       { value: "Yes", label: "Yes, I am GST registered" },
-      { value: "No", label: "No / not registered" },
+      { value: "No", label: "No, I'm not GST registered" },
     ],
   },
   {
@@ -138,7 +138,7 @@ const QUESTIONS: Question[] = [
     help: "Count everything from this one brand, including this deal.",
     options: [
       { value: "Yes", label: "Yes, it crosses ₹20,000" },
-      { value: "No", label: "No, it stays below" },
+      { value: "No", label: "No, it stays below ₹20,000" },
       {
         value: "Not sure",
         label: "I'm not sure",
