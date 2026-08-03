@@ -5,10 +5,8 @@ import {
   getAuthorBySlug,
   getAllAuthorSlugs,
   FeaturedArticle,
-  RecentArticle,
 } from "@/data/authors";
 import {
-  getPosts,
   getPostsByAuthor,
   getPostsByAuthorSlug,
   getFeaturedImageUrl,
@@ -142,12 +140,10 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
     notFound();
   }
 
-  // Fetch articles from WordPress. Prefer wordpressAuthorId for regular WP
-  // users; fall back to wordpressSlug (handles Co-Authors Plus guest authors
-  // whose slugs are not resolvable via /users?slug=). The two fetches run in
-  // parallel so the per-author call and the site-wide latest call overlap.
+  // Fetch this author's articles from WordPress. Prefer wordpressAuthorId for
+  // regular WP users; fall back to wordpressSlug (handles Co-Authors Plus guest
+  // authors whose slugs are not resolvable via /users?slug=).
   let featuredArticles: FeaturedArticle[] | undefined;
-  let recentArticles: RecentArticle[] | undefined;
 
   type AuthorPostsData = Awaited<ReturnType<typeof getPostsByAuthor>>["data"];
   const authorPostsPromise: Promise<AuthorPostsData> = author.wordpressAuthorId
@@ -156,18 +152,13 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
       ? getPostsByAuthorSlug(author.wordpressSlug, 10)
       : Promise.resolve([] as AuthorPostsData);
 
-  const [authorResult, latestResult] = await Promise.allSettled([
-    authorPostsPromise,
-    getPosts(1, 3),
-  ]);
-
   // Hoisted so the author's own posts are available both for display and for
-  // the authored-articles ItemList structured data built further below.
-  const authorPosts: AuthorPostsData =
-    authorResult.status === "fulfilled" ? authorResult.value : [];
-  if (authorResult.status === "rejected") {
-    console.error("Error fetching WordPress posts for author:", authorResult.reason);
-  }
+  // the authored-articles ItemList structured data built further below. A
+  // failed fetch degrades to an empty list rather than taking down the profile.
+  const authorPosts: AuthorPostsData = await authorPostsPromise.catch((err) => {
+    console.error("Error fetching WordPress posts for author:", err);
+    return [] as AuthorPostsData;
+  });
 
   if (authorPosts.length > 0) {
     // First 2-3 posts as featured articles
@@ -180,31 +171,6 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
       readingTime: `${getReadingTime(post)} min read`,
       href: `/blogs/${post.slug}`,
     }));
-
-    // Remaining posts as recent articles (fallback if the latest-posts
-    // fetch below fails — otherwise it gets overwritten).
-    recentArticles = authorPosts.slice(3).map((post) => ({
-      id: String(post.id),
-      title: decodeHtmlEntities(post.title.rendered),
-      date: formatDate(post.date),
-      imageSrc: getFeaturedImageUrl(post, "full") || "/blog/default-thumbnail.jpg",
-      href: `/blogs/${post.slug}`,
-    }));
-  }
-
-  if (latestResult.status === "fulfilled") {
-    const { data: latestPosts } = latestResult.value;
-    if (latestPosts.length > 0) {
-      recentArticles = latestPosts.map((post) => ({
-        id: String(post.id),
-        title: decodeHtmlEntities(post.title.rendered),
-        date: formatDate(post.date),
-        imageSrc: getFeaturedImageUrl(post, "full") || "/blog/default-thumbnail.jpg",
-        href: `/blogs/${post.slug}`,
-      }));
-    }
-  } else {
-    console.error("Error fetching latest WordPress posts:", latestResult.reason);
   }
 
   // Build social links array for structured data. sameAs is the dominant
@@ -376,7 +342,6 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
       <AuthorPageTemplate
         author={author}
         featuredArticles={featuredArticles}
-        recentArticles={recentArticles}
       />
     </>
   );
