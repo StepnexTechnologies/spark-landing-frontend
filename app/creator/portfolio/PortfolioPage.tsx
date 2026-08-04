@@ -48,15 +48,10 @@ function CreatorPortfolioPageContent() {
   // null and HeroSection falls back to the bundled placeholder clip, which is
   // exactly the "want a portfolio like @X" version.
   //
-  // TO CHECK: the happy path here is unverified. What's been confirmed is the
-  // endpoint exists on both app-api-dev and app-api (unknown slug → 404), and
-  // that CORS allows dev.sparkonomy.com / www.sparkonomy.com respectively. What
-  // hasn't: an actual portfolio slug returning hero media, and that media
-  // rendering in the band. Open /creator/portfolio?portfolio_slug=<real-slug>
-  // and confirm the creator's own video plays instead of the placeholder.
-  // Note the failure mode is silent by design — every error becomes the
-  // placeholder clip, so a wrong field name or shape would look like a creator
-  // who simply has no video. Check the network tab, not just the page.
+  // Worth knowing when this looks broken: every failure path collapses to the
+  // placeholder clip, so a bad slug, a CORS rejection and a creator who simply
+  // has no hero video all render identically. Check the network tab, not the
+  // page. `?portfolio_slug=pandit_baller` is a known-good slug on dev.
   const portfolioSlug = searchParams.get("portfolio_slug");
   const { data: userDetails } = usePortfolioUserDetails(portfolioSlug);
 
