@@ -72,7 +72,7 @@ const QUESTIONS: Question[] = [
     key: "market",
     type: "money",
     q: "What is the market price of the product today?",
-    help: "The normal retail price on the day you received it. Check the brand site, invoice, app or product page. Enter 0 if you have no cash-free perk.",
+    help: "The normal retail price on the day you received it. Check the brand site, invoice, app or product page.",
     skip: true,
   },
   {
@@ -95,11 +95,11 @@ const QUESTIONS: Question[] = [
     q: "Will you keep the product or perk?",
     help: "Choose No if you have to send it back after making the content.",
     options: [
-      { value: "Yes", label: "Yes, I keep it" },
+      { value: "Yes", label: "Yes, I'll keep it" },
       {
         value: "No",
-        label: "No, I return it",
-        sub: "Review units, loaner products, event passes",
+        label: "No, I'll return it",
+        
       },
     ],
   },
@@ -113,7 +113,7 @@ const QUESTIONS: Question[] = [
     key: "fee",
     type: "money",
     q: "What do you normally charge for this work?",
-    help: "Your usual fees rate for the same deliverables. This is how we judge whether the deal is worth it.",
+    help: "Your usual cash fees for the same deliverables. This is how we judge whether the deal is worth it.",
   },
   {
     key: "exp",
