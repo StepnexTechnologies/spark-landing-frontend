@@ -16,14 +16,10 @@ const TIMEOUT_MS = 10_000;
  *
  * Returns `null` rather than throwing when the portfolio doesn't exist, the
  * request times out, or the network fails — the hero has a placeholder for
- * every one of those cases, so there's nothing for a caller to handle.
- *
- * TO CHECK: only exercised against a 404 so far. The response shape below is
- * taken from the creator app's contract (SectionEnvelope<'user_details',
- * UserDetailsData>) rather than from an observed 200 on this host — verify a
- * real slug returns `{ data: { hero_video_url, ... } }` and that the field
- * names still match types/portfolio.ts. Because every failure collapses to
- * `null`, a shape mismatch degrades quietly to the placeholder clip.
+ * every one of those cases, so there's nothing for a caller to handle. Note the
+ * flip side: a shape mismatch degrades just as quietly, so if the backend ever
+ * renames a `hero_*` field the hero silently reverts to the placeholder rather
+ * than erroring. types/portfolio.ts is the contract to re-check first.
  */
 export async function fetchPortfolioUserDetails(
   slug: string,
