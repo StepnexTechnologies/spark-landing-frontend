@@ -3,6 +3,8 @@
  * Removes WordPress TOC and extracts headings for custom TOC
  */
 
+import { decodeEntities } from '@/lib/html-entities';
+
 /**
  * H6 marker keywords recognized server-side.
  * Must stay in sync with components/blog/section-registry.ts
@@ -183,11 +185,7 @@ function slugifyHeadingText(text: string): string {
  * into the comparison key.
  */
 function headingMatchKey(text: string): string {
-  return text
-    .replace(/&#(\d+);/g, (_, code: string) => String.fromCharCode(Number(code)))
-    .replace(/&#x([0-9a-f]+);/gi, (_, code: string) => String.fromCharCode(parseInt(code, 16)))
-    .replace(/&nbsp;/gi, ' ')
-    .replace(/&amp;/gi, '&')
+  return decodeEntities(text)
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '');
 }
@@ -432,7 +430,9 @@ export function extractFAQs(html: string): FAQItem[] {
   let questionMatch;
 
   while ((questionMatch = headingRegex.exec(faqSectionHtml)) !== null) {
-    const question = questionMatch[2].replace(/<[^>]*>/g, '').trim();
+    // Decoded: FAQ text goes straight into JSON-LD as plain text, so a raw
+    // &#8217; would ship to search engines verbatim.
+    const question = decodeEntities(questionMatch[2].replace(/<[^>]*>/g, '')).trim();
 
     // Find the answer (paragraph(s) following the question)
     const afterQuestion = faqSectionHtml.substring(questionMatch.index + questionMatch[0].length);
@@ -448,7 +448,7 @@ export function extractFAQs(html: string): FAQItem[] {
         break;
       }
 
-      const answerText = pMatch[1].replace(/<[^>]*>/g, '').trim();
+      const answerText = decodeEntities(pMatch[1].replace(/<[^>]*>/g, '')).trim();
       if (answerText) {
         answerParts.push(answerText);
       }
@@ -482,8 +482,8 @@ function extractGutenbergAccordionFAQs(html: string): FAQItem[] {
 
   let match;
   while ((match = itemRegex.exec(html)) !== null) {
-    const question = match[1].replace(/<[^>]*>/g, '').trim();
-    const answer = match[2].replace(/<[^>]*>/g, '').trim();
+    const question = decodeEntities(match[1].replace(/<[^>]*>/g, '')).trim();
+    const answer = decodeEntities(match[2].replace(/<[^>]*>/g, '')).trim();
 
     if (question && answer) {
       faqs.push({ question, answer });

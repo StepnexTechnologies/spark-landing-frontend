@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import TurndownService from "turndown";
-import { getPostBySlug } from "@/lib/wordpress-improved";
+import { getPostBySlug, stripHtml } from "@/lib/wordpress-improved";
 
 export const revalidate = 3600;
 
@@ -21,7 +21,7 @@ export async function GET(
     });
     const body = td.turndown(post.content.rendered);
     const md =
-        `# ${post.title.rendered}\n\n` +
+        `# ${stripHtml(post.title.rendered)}\n\n` +
         `> Source: https://www.sparkonomy.com/blogs/${post.slug}\n` +
         `> Published: ${post.date}\n\n` +
         body +

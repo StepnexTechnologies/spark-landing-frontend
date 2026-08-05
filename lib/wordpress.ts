@@ -1,4 +1,5 @@
 import type { WordPressPost, WordPressCategory, WordPressTag } from "@/types/wordpress";
+import { htmlToText } from "@/lib/html-entities";
 
 const WORDPRESS_API_URL = process.env.NEXT_PUBLIC_WORDPRESS_API_URL;
 
@@ -230,12 +231,12 @@ export async function searchPosts(
 }
 
 /**
- * Strip HTML tags from content
+ * Strip HTML tags from content and decode HTML entities
  * @param html - HTML string
- * @returns Plain text
+ * @returns Plain text (entities such as &#8217; decoded)
  */
 export function stripHtml(html: string): string {
-  return html.replace(/<[^>]*>/g, "");
+  return htmlToText(html);
 }
 
 /**
