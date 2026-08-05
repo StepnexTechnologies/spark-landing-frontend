@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { AuthorEntry, FeaturedArticle, RecentArticle } from "@/data/authors";
+import { AuthorEntry, FeaturedArticle } from "@/data/authors";
 import Breadcrumb from "@/components/blog/Breadcrumb";
 import RelatedPosts from "@/components/blog/RelatedPosts";
 import ImageWithFallback from "@/components/blog/ImageWithFallback";
@@ -102,24 +102,21 @@ interface AuthorPageTemplateProps {
   author: AuthorEntry;
   // Articles can be passed in (fetched from WordPress) or use author's hardcoded articles
   featuredArticles?: FeaturedArticle[];
-  recentArticles?: RecentArticle[];
 }
 
 export default function AuthorPageTemplate({
   author,
   featuredArticles,
-  recentArticles,
 }: AuthorPageTemplateProps) {
   // Use passed articles or fall back to author's hardcoded articles
   const displayFeaturedArticles =
     featuredArticles ?? author.featuredArticles ?? [];
-  const displayRecentArticles = recentArticles ?? author.recentArticles ?? [];
 
   return (
     // <article> (not <main>) — the blog layout already provides the <main> landmark.
     <article className="min-h-screen bg-white">
       {/* Breadcrumb — mirrors the BreadcrumbList JSON-LD (Blog › Name) */}
-      <div className="max-w-4xl mx-auto px-4 pt-[16px]">
+      <div className="max-w-4xl mx-auto px-[29px] md:px-4 pt-[16px]">
         <Breadcrumb
           items={[
             { label: "Blog", href: "/blogs" },
@@ -129,7 +126,7 @@ export default function AuthorPageTemplate({
       </div>
 
       {/* Hero Section - Author Profile */}
-      <section className="max-w-4xl mx-auto px-4 py-[16px] text-center">
+      <section className="max-w-4xl mx-auto px-[29px] md:px-4 py-[16px] text-center">
         {/* Avatar */}
         <div className="relative w-[200px] h-[200px] mx-auto mb-[16px] md:mb-[20px]">
           <Image
@@ -143,22 +140,22 @@ export default function AuthorPageTemplate({
         </div>
 
         {/* Author Info Card */}
-        <div className="px-[22px] md:px-0">
+        <div className="px-0">
           {/* Author Label, Name, Role */}
           <div className="flex flex-col gap-1 mb-3 md:mb-4">
-            <p className="text-xs md:text-sm font-bold text-[#6B7280] uppercase tracking-wider">
+            <p className="text-xs md:text-sm font-bold text-[#4B5563] uppercase tracking-wider">
               ABOUT THE AUTHOR
             </p>
             <h1 className="text-[24px] md:text-[26px] lg:text-[28px] font-semibold text-primary">
               {author.name.toUpperCase()}
             </h1>
-            <p className="text-sm md:text-base font-normal text-gray-600">
+            <p className="text-sm md:text-base font-normal text-[#4B5563]">
               {author.role}
             </p>
           </div>
 
           {/* Short Bio Quote */}
-          <blockquote className="text-base md:text-[18px] font-semibold text-[#6B7280] leading-relaxed max-w-2xl mx-auto mb-3 md:mb-4">
+          <blockquote className="text-base md:text-lg font-semibold text-[#6B7280] leading-relaxed max-w-2xl mx-auto mb-3 md:mb-4">
             &ldquo; {author.shortBio}&rdquo;
           </blockquote>
 
@@ -169,7 +166,7 @@ export default function AuthorPageTemplate({
                 href={author.socialLinks.twitter}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#999999] hover:text-[#9747FF] transition-colors"
+                className="text-[#6B7280] hover:text-[#9747FF] transition-colors"
                 aria-label="Twitter"
               >
                 {SocialIcons.twitter}
@@ -180,7 +177,7 @@ export default function AuthorPageTemplate({
                 href={author.socialLinks.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#999999] hover:text-[#9747FF] transition-colors"
+                className="text-[#6B7280] hover:text-[#9747FF] transition-colors"
                 aria-label="LinkedIn"
               >
                 {SocialIcons.linkedin}
@@ -191,7 +188,7 @@ export default function AuthorPageTemplate({
                 href={author.socialLinks.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#999999] hover:text-[#9747FF] transition-colors"
+                className="text-[#6B7280] hover:text-[#9747FF] transition-colors"
                 aria-label="Instagram"
               >
                 {SocialIcons.instagram}
@@ -202,7 +199,7 @@ export default function AuthorPageTemplate({
                 href={author.socialLinks.youtube}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#999999] hover:text-[#9747FF] transition-colors"
+                className="text-[#6B7280] hover:text-[#9747FF] transition-colors"
                 aria-label="YouTube"
               >
                 {SocialIcons.youtube}
@@ -213,7 +210,7 @@ export default function AuthorPageTemplate({
                 href={author.socialLinks.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#999999] hover:text-[#9747FF] transition-colors"
+                className="text-[#6B7280] hover:text-[#9747FF] transition-colors"
                 aria-label="Facebook"
               >
                 {SocialIcons.facebook}
@@ -224,7 +221,7 @@ export default function AuthorPageTemplate({
                 href={author.socialLinks.website}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#999999] hover:text-[#9747FF] transition-colors"
+                className="text-[#6B7280] hover:text-[#9747FF] transition-colors"
                 aria-label="Website"
               >
                 {SocialIcons.website}
@@ -235,7 +232,7 @@ export default function AuthorPageTemplate({
                 href={author.socialLinks.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#999999] hover:text-[#9747FF] transition-colors"
+                className="text-[#6B7280] hover:text-[#9747FF] transition-colors"
                 aria-label="GitHub"
               >
                 {SocialIcons.github}
@@ -246,7 +243,7 @@ export default function AuthorPageTemplate({
                 href={`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(author.socialLinks.email)}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#999999] hover:text-[#9747FF] transition-colors"
+                className="text-[#6B7280] hover:text-[#9747FF] transition-colors"
                 aria-label="Email"
               >
                 {SocialIcons.email}
@@ -258,7 +255,7 @@ export default function AuthorPageTemplate({
         {/* Previous Companies */}
         {author.previousCompanies.length > 0 && (
           <div className="bg-[#F8F8F8] rounded-[12px] p-4">
-            <p className="text-base md:text-lg text-gray-500 mb-4 text-center">
+            <p className="text-base md:text-lg text-[#4B5563] mb-4 text-center">
               {author.previousCompaniesLabel || "Previously at"}
             </p>
             <div className="flex flex-wrap gap-4 md:gap-6 justify-center items-center">
@@ -285,7 +282,7 @@ export default function AuthorPageTemplate({
                       }}
                     />
                   ) : (
-                    <span className="text-gray-500 font-semibold text-sm md:text-lg">
+                    <span className="text-[#4B5563] font-semibold text-sm md:text-lg">
                       {company.name}
                     </span>
                   )}
@@ -297,30 +294,30 @@ export default function AuthorPageTemplate({
       </section>
 
       {/* Story Section */}
-      <section className="max-w-4xl mx-auto px-[38px] md:px-4 py-[16px]">
+      <section className="max-w-4xl mx-auto px-[29px] md:px-4 py-[16px]">
         <div className="bg-white">
-          <h2 className="text-[24px] md:text-[26px] lg:text-[28px] font-semibold text-[#8134AF] mb-6 text-center px-[2px]">
+          <h2 className="text-[24px] md:text-[26px] lg:text-[28px] font-semibold text-[#333333] mb-6 text-center px-[2px]">
             {author.storyTitle}
           </h2>
 
           {author.storyContent.map((paragraph, index) => (
             <p
               key={index}
-              className="text-sm md:text-base font-normal text-[#999999] leading-relaxed mb-4"
+              className="text-base md:text-lg font-normal text-[#6B7280] leading-relaxed mb-4"
             >
               {paragraph}
             </p>
           ))}
 
           {/* Highlight Quote */}
-          <blockquote className="text-[20px] md:text-[22px] lg:text-[24px] font-semibold text-[#8134AF] text-center my-8 px-4">
+          <blockquote className="text-[20px] md:text-[22px] lg:text-[24px] font-semibold text-primary text-center my-8 px-4">
             &ldquo;{author.highlightQuote}&rdquo;
           </blockquote>
 
           {author.storyConclusion.map((paragraph, index) => (
             <p
               key={index}
-              className="text-sm md:text-base font-normal text-[#999999] leading-relaxed mb-4"
+              className="text-base md:text-lg font-normal text-[#6B7280] leading-relaxed mb-4"
             >
               {paragraph.includes("Sparkonomy") ? (
                 <>
@@ -346,15 +343,15 @@ export default function AuthorPageTemplate({
                 height={60}
                 className="h-14 w-auto"
               />
-              <p className="text-gray-600 mt-2">{author.name}</p>
+              <p className="text-[#4B5563] mt-2">{author.name}</p>
             </div>
           )}
         </div>
       </section>
 
       {/* About Section */}
-      <section className="max-w-4xl mx-auto px-[38px] md:px-4 py-[16px]">
-        <h2 className="text-[24px] md:text-[26px] lg:text-[28px] font-semibold text-[#6B7280] mb-4">
+      <section className="max-w-4xl mx-auto px-[29px] md:px-4 py-[16px]">
+        <h2 className="text-[24px] md:text-[26px] lg:text-[28px] font-semibold text-[#333333] mb-4">
           {author.aboutTitle}
         </h2>
 
@@ -393,7 +390,7 @@ export default function AuthorPageTemplate({
           return (
             <p
               key={index}
-              className="text-[14px] md:text-base font-normal text-[#999999] leading-relaxed mb-4"
+              className="text-base md:text-lg font-normal text-[#6B7280] leading-relaxed mb-4"
             >
               {content}
             </p>
@@ -403,8 +400,8 @@ export default function AuthorPageTemplate({
 
       {/* Career Highlights */}
       {author.careerHighlights.length > 0 && (
-        <section className="max-w-4xl mx-auto px-[38px] md:px-4 pb-[12px]">
-          <h2 className="text-[20px] md:text-[22px] lg:text-[24px] font-semibold text-[#999999]">
+        <section className="max-w-4xl mx-auto px-[29px] md:px-4 pb-[12px]">
+          <h2 className="text-[20px] md:text-[22px] lg:text-[24px] font-semibold text-[#333333]">
             Career & Recognition Highlights:
           </h2>
 
@@ -412,9 +409,9 @@ export default function AuthorPageTemplate({
             {author.careerHighlights.map((highlight, index) => (
               <li
                 key={index}
-                className="flex items-start gap-2 text-[14px] md:text-[16px] font-normal text-[#999999]"
+                className="flex items-start gap-2 text-base md:text-lg font-normal text-[#374151]"
               >
-                <span className="text-[#999999] mt-1" aria-hidden="true">✓</span>
+                <span className="text-primary mt-1" aria-hidden="true">✓</span>
                 <span>{highlight}</span>
               </li>
             ))}
@@ -425,7 +422,7 @@ export default function AuthorPageTemplate({
       {/* Trust & Authority */}
       {author.trustItems.length > 0 && (
         <section className="max-w-4xl mx-auto px-[29px] md:px-4 pt-[12px]">
-          <h2 className="text-[20px] md:text-[22px] lg:text-[24px] font-semibold text-[#999999] mb-4">
+          <h2 className="text-[20px] md:text-[22px] lg:text-[24px] font-semibold text-[#333333] mb-4">
             Trust & Authority
           </h2>
 
@@ -447,7 +444,7 @@ export default function AuthorPageTemplate({
                 <p className="text-[12px] md:text-[14px] font-normal text-primary">
                   {item.label}
                 </p>
-                <p className="text-base md:text-lg font-medium text-[#999999]">
+                <p className="text-base md:text-lg font-medium text-[#4B5563]">
                   {item.value}
                 </p>
               </div>
@@ -458,8 +455,8 @@ export default function AuthorPageTemplate({
 
       {/* Certifications & Credentials */}
       {author.certifications && author.certifications.length > 0 && (
-        <section className="max-w-4xl mx-auto px-[38px] md:px-4 py-[16px]">
-          <h2 className="text-[20px] md:text-[22px] lg:text-[24px] font-semibold text-[#999999] mb-4">
+        <section className="max-w-4xl mx-auto px-[29px] md:px-4 py-[16px]">
+          <h2 className="text-[20px] md:text-[22px] lg:text-[24px] font-semibold text-[#333333] mb-4">
             Certifications & Credentials
           </h2>
 
@@ -467,13 +464,13 @@ export default function AuthorPageTemplate({
             {author.certifications.map((cert, index) => (
               <li
                 key={index}
-                className="flex items-start gap-2 text-[14px] md:text-[16px] font-normal text-[#999999]"
+                className="flex items-start gap-2 text-base md:text-lg font-normal text-[#374151]"
               >
-                <span className="text-[#999999] mt-1" aria-hidden="true">✓</span>
+                <span className="text-primary mt-1" aria-hidden="true">✓</span>
                 <span>
                   {cert.name}
                   {cert.issuer && (
-                    <span className="text-[#B3B3B3]"> — {cert.issuer}</span>
+                    <span className="text-[#6B7280]"> — {cert.issuer}</span>
                   )}
                 </span>
               </li>
@@ -485,8 +482,8 @@ export default function AuthorPageTemplate({
       {/* As Seen In - Only show if there are media mentions */}
       {author.mediaMentions.length > 0 && (
         <section className="bg-[#F8F8F8] py-[16px] my-[16px]">
-          <div className="max-w-4xl mx-auto px-[29px]">
-            <h2 className="text-[24px] md:text-[26px] font-semibold text-[#6B7280] mb-4">
+          <div className="max-w-4xl mx-auto px-[29px] md:px-4">
+            <h2 className="text-[24px] md:text-[26px] font-semibold text-[#333333] mb-4">
               As Seen In
             </h2>
 
@@ -517,7 +514,7 @@ export default function AuthorPageTemplate({
                       <p className="text-[14px] md:text-base font-medium text-[#6B7280]">
                         {mention.title}
                       </p>
-                      <p className="text-[12px] md:text-sm font-normal text-[#999999]">
+                      <p className="text-[12px] md:text-sm font-normal text-[#6B7280]">
                         {mention.author} • {mention.date}
                       </p>
                     </div>
@@ -546,7 +543,7 @@ export default function AuthorPageTemplate({
       {/* Featured Articles - Only show if there are articles from WordPress */}
       {displayFeaturedArticles.length > 0 && (
         <section className="max-w-6xl mx-auto px-0 py-[16px]">
-          <h2 className="text-[24px] md:text-[26px] font-semibold text-[#6B7280] mb-4 text-left px-[29px] md:px-4">
+          <h2 className="text-[24px] md:text-[26px] font-semibold text-[#333333] mb-4 text-left px-[29px] md:px-4">
             Featured Articles
           </h2>
           <RelatedPosts
@@ -561,68 +558,10 @@ export default function AuthorPageTemplate({
         </section>
       )}
 
-      {/* Recent Articles */}
-      {displayRecentArticles.length > 0 && (
-        <section className="max-w-4xl mx-auto px-[29px] py-[16px]">
-          <h2 className="text-[24px] md:text-[26px] font-semibold text-[#6B7280] mb-4">
-            Recent Articles
-          </h2>
-
-          <div className="flex flex-col gap-[12px]">
-            {displayRecentArticles.map((article) => (
-              <div
-                key={article.id}
-                className="flex items-center gap-4 max-h-[96px] pb-[12px] border-b border-[#F2F2F2]"
-              >
-                <div className="relative w-[80px] h-[80px] overflow-hidden flex-shrink-0">
-                  <Image
-                    src={article.imageSrc}
-                    alt={article.title}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-                <div className="flex-1 flex flex-col gap-[12px]">
-                  <Link href={article.href}>
-                    <h3 className="text-base md:text-lg text-[#6B7280] underline line-clamp-2">
-                      {article.title}
-                    </h3>
-                  </Link>
-                  <p className="text-[12px] md:text-sm font-normal text-[#999999]">
-                    {article.date}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <Link
-            href="/blogs"
-            className="inline-flex items-center gap-2 text-primary text-[16px] font-medium mt-6 hover:underline"
-          >
-            View All Articles
-            <svg
-              className="w-4 h-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              aria-hidden="true"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M17 8l4 4m0 0l-4 4m4-4H3"
-              />
-            </svg>
-          </Link>
-        </section>
-      )}
-
       {/* Areas of Expertise */}
       {author.areasOfExpertise.length > 0 && (
-        <section className="max-w-4xl mx-auto px-[29px] py-[16px]">
-          <h2 className="text-[24px] md:text-[26px] font-semibold text-[#6B7280] mb-4">
+        <section className="max-w-4xl mx-auto px-[29px] md:px-4 py-[16px]">
+          <h2 className="text-[24px] md:text-[26px] font-semibold text-[#333333] mb-4">
             Areas of Expertise
           </h2>
 
@@ -630,7 +569,7 @@ export default function AuthorPageTemplate({
             {author.areasOfExpertise.map((expertise, index) => (
               <span
                 key={index}
-                className="px-4 py-2 rounded-full bg-[#F2F2F2] text-[12px] md:text-sm font-medium text-[#999999]"
+                className="px-4 py-2 rounded-full bg-[#F2F2F2] text-[12px] md:text-sm font-medium text-[#4B5563]"
               >
                 {expertise}
               </span>
@@ -641,8 +580,8 @@ export default function AuthorPageTemplate({
 
       {/* Specializations */}
       {author.specializations && author.specializations.length > 0 && (
-        <section className="max-w-4xl mx-auto px-[29px] py-[16px]">
-          <h2 className="text-[24px] md:text-[26px] font-semibold text-[#6B7280] mb-4">
+        <section className="max-w-4xl mx-auto px-[29px] md:px-4 py-[16px]">
+          <h2 className="text-[24px] md:text-[26px] font-semibold text-[#333333] mb-4">
             Specializations
           </h2>
 
@@ -650,7 +589,7 @@ export default function AuthorPageTemplate({
             {author.specializations.map((item, index) => (
               <li
                 key={index}
-                className="flex items-start gap-2 text-[14px] md:text-[16px] font-normal text-[#999999]"
+                className="flex items-start gap-2 text-base md:text-lg font-normal text-[#374151]"
               >
                 <span className="text-primary mt-1" aria-hidden="true">•</span>
                 <span>{item}</span>
@@ -661,12 +600,12 @@ export default function AuthorPageTemplate({
       )}
 
       {/* Let's Connect CTA */}
-      <section className="max-w-4xl mx-auto px-[14px] py-[16px]">
+      <section className="max-w-4xl mx-auto px-[29px] md:px-4 py-[16px]">
         <div className="bg-gray-50 rounded-3xl p-8 text-center">
-          <h2 className="text-[24px] md:text-[26px] font-semibold text-primary mb-4">
+          <h2 className="text-[24px] md:text-[26px] font-semibold text-[#333333] mb-4">
             Let&apos;s Connect!
           </h2>
-          <p className="text-[20px] md:text-[22px] font-semibold text-[#999999] mb-6 max-w-md mx-auto">
+          <p className="text-[20px] md:text-[22px] font-semibold text-[#4B5563] mb-6 max-w-md mx-auto">
             Have questions about the creator economy or collaboration
             opportunities? I&apos;d love to hear from you.
           </p>
@@ -700,7 +639,7 @@ export default function AuthorPageTemplate({
                   className="flex items-center justify-center gap-2 text-[14px] md:text-base font-medium text-primary px-6 py-3 rounded-full bg-white"
                 >
                   {SocialIcons.linkedin}
-                  {author.ctaButtonLabel || "Subscribe Now"}
+                  {author.ctaButtonLabel || "Connect Now"}
                 </a>
               </div>
             )}
@@ -708,7 +647,7 @@ export default function AuthorPageTemplate({
 
 
           {author.responseTime && (
-            <p className="text-[14px] md:text-base font-normal text-[#999999] italic mt-4">
+            <p className="text-[14px] md:text-base font-normal text-[#6B7280] italic mt-4">
               {author.responseTime}
             </p>
           )}
@@ -717,14 +656,14 @@ export default function AuthorPageTemplate({
 
       {/* Personal-views disclaimer */}
       {author.disclaimerNote && (
-        <p className="max-w-4xl mx-auto px-[29px] text-center text-[12px] md:text-sm font-normal text-[#B3B3B3] italic pb-[8px]">
+        <p className="max-w-4xl mx-auto px-[29px] md:px-4 text-center text-[12px] md:text-sm font-normal text-[#6B7280] italic pb-[8px]">
           {author.disclaimerNote}
         </p>
       )}
 
       {/* Profile freshness signal */}
       {author.lastUpdated && (
-        <p className="text-center text-[12px] md:text-sm font-normal text-[#999999] pb-[16px]">
+        <p className="text-center text-[12px] md:text-sm font-normal text-[#6B7280] pb-[16px]">
           Profile last updated on{" "}
           <time dateTime={toIsoDate(author.lastUpdated)}>{author.lastUpdated}</time>
         </p>

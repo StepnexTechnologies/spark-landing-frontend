@@ -20,7 +20,7 @@ api: No public API currently available
 
 ## Authors / Experts
 The Sparkonomy blog is written by named domain experts. Each has a profile (ProfilePage + Person structured data) at the URL below.
-- [Guneet Singh](https://www.sparkonomy.com/blogs/author/guneet-singh) — Founder; global tech leader, startup mentor & venture builder with 20+ years across Google, Microsoft and Samsung. Writes on the creator economy, AI productivity, platform ecosystems and business growth.
+- [Guneet Singh](https://www.sparkonomy.com/blogs/author/guneet-singh) — Co-Founder; building AI infrastructure for the next 100M creator-founders, with 20+ years across Google, Microsoft and Samsung. Writes on the creator economy, AI productivity, platform ecosystems and business growth.
 - [Megha Thareja Tyagi](https://www.sparkonomy.com/blogs/author/megha-thareja-tyagi) — Co-Founder; AI strategy and creator-economy infrastructure leader, ex-Google, PayPal and American Express. Writes on go-to-market strategy, commercialization and payments.
 - [Vipasha Joshi](https://www.sparkonomy.com/blogs/author/vipasha-joshi) — Co-Founder & Global Head of Creator Business; creator-economy veteran and LinkedIn Top Voice, ex-Google and Jellysmack. Writes on creator business, AI content strategy and community.
 - [Rachit Jain](https://www.sparkonomy.com/blogs/author/rachit-jain) — Growth, partnerships and GTM leader with 20+ years across Meta, Google, SAP and IBM. Writes on growth strategy, monetization and partnerships.

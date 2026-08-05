@@ -62,6 +62,14 @@ interface PromoSignupCardProps {
   // /creator/earn passes "creatorEarn" so the same card draws Win-Gold-Coin
   // copy, 3 checks, and the "Win Now" CTA label from the earn locale.
   namespace?: string;
+  // earn-variant tweaks (used by the portfolio landing page). Defaults keep the
+  // /creator/earn look unchanged.
+  // Hide the top-right FlippingCoin.
+  hideCornerCoin?: boolean;
+  // Center the heading (and drop the right padding reserved for the coin).
+  centerHeading?: boolean;
+  // Override the card's background (CSS gradient/color string).
+  cardBackground?: string;
 }
 
 // Gift-card bloom + Send-OTP button bounce wait this long after `play` flips
@@ -81,6 +89,9 @@ export default function PromoSignupCard({
   play = true,
   variant,
   namespace = "creatorPromo",
+  hideCornerCoin = false,
+  centerHeading = false,
+  cardBackground,
 }: PromoSignupCardProps = {}) {
   const { t } = useTranslation(namespace);
   const isEarn = variant === "earn";
@@ -227,7 +238,7 @@ export default function PromoSignupCard({
     <motion.div
       id="promo-hero-card"
       layout
-      style={{ background: isEarn ? EARN_CARD_GRADIENT : CARD_GRADIENT }}
+      style={{ background: cardBackground ?? (isEarn ? EARN_CARD_GRADIENT : CARD_GRADIENT) }}
       initial={{
         y: 0,
         boxShadow: isEarn ? "none" : REST_SHADOW,
@@ -250,7 +261,7 @@ export default function PromoSignupCard({
       {/* Earn variant: top-right corner coin peeks above the card. Sibling of
           the voucher row so it's positioned relative to the outer card box
           rather than the content column. */}
-      {isEarn && (
+      {isEarn && !hideCornerCoin && (
         <div className="absolute -top-5 right-3 z-20 pointer-events-none">
           <FlippingCoin size={52} />
         </div>
@@ -258,7 +269,7 @@ export default function PromoSignupCard({
 
       {/* Voucher row */}
       {isEarn ? (
-        <div className="pr-14">
+        <div className={centerHeading ? "text-center" : "pr-14"}>
           {/* Heading — "Send free invoice —" sits at 20px/semibold; the gold
               <0>Win Gold Coin</0> portion has its own weight/style. */}
           <h2 className="text-[20px] font-semibold tracking-[-0.04em] text-white leading-tight">

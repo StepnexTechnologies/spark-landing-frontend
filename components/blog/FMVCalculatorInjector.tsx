@@ -38,7 +38,9 @@ export default function FMVCalculatorInjector() {
     const created: HTMLElement[] = [];
     for (const h6 of markers) {
       const container = document.createElement("div");
-      container.className = "fmv-calc-embed-container";
+      // not-prose keeps the article's prose rules (bullets, heading sizes,
+      // justified text) out of the tool — see wordpress-content.css.
+      container.className = "fmv-calc-embed-container not-prose";
       container.setAttribute("data-section-type", "fmv-calc");
       h6.parentNode?.insertBefore(container, h6);
       h6.remove();

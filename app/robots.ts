@@ -1,9 +1,5 @@
 import type { MetadataRoute } from 'next'
-import { siteUrl } from '@/lib/urls'
-
-// Fail-open: only an explicit dev.* SITE_URL is treated as non-prod, so a missing
-// or misconfigured value can't accidentally disallow crawling on production.
-const isProduction = !process.env.SITE_URL?.startsWith('https://dev.')
+import { IS_DEV_ENVIRONMENT, siteUrl } from '@/lib/urls'
 
 const PRIVATE_PATHS = ['/api/', '/admin']
 
@@ -15,6 +11,23 @@ const PRIVATE_PATHS = ['/api/', '/admin']
 const UNLISTED_PATHS = [
   '/legal/trusted-partner-terms',
   '/legal/trusted-partner-program-guide',
+]
+
+// Marketing content we are happy to have absorbed into model weights, so that
+// assistants know what Sparkonomy is without having to fetch us first. `/$`
+// anchors the homepage — a bare `/` would read as "allow the whole site". The
+// rest are prefixes: `/blogs` covers every post, category and author page, and
+// `/creator/promo` also covers `/creator/promo-f` and `/creator/promo-w`.
+// Longest-match wins over the group's `disallow: '/'`, so everything not listed
+// here (waitlist funnels, invites, legal, previews, contact) stays blocked.
+// Must match the training-allowed sources in next.config.ts and middleware.ts —
+// a Content-Signal header that contradicts robots.txt is worse than either rule
+// on its own.
+const AI_TRAINING_ALLOWED = [
+  '/$',
+  '/blogs',
+  '/creator/earn',
+  '/creator/promo',
 ]
 
 const AI_TRAINING_BOTS = [
@@ -41,7 +54,7 @@ const AI_SEARCH_BOTS = [
 ]
 
 export default function robots(): MetadataRoute.Robots {
-  if (!isProduction) {
+  if (IS_DEV_ENVIRONMENT) {
     return { rules: { userAgent: '*', disallow: '/' } }
   }
 
@@ -55,8 +68,10 @@ export default function robots(): MetadataRoute.Robots {
         allow: '/',
         disallow: [...PRIVATE_PATHS, ...UNLISTED_PATHS],
       },
+      // Training crawlers get the marketing surface only.
       {
         userAgent: AI_TRAINING_BOTS,
+        allow: AI_TRAINING_ALLOWED,
         disallow: '/',
       },
     ],

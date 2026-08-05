@@ -44,14 +44,6 @@ export interface FeaturedArticle {
   href: string;
 }
 
-export interface RecentArticle {
-  id: string;
-  title: string;
-  date: string;
-  imageSrc: string;
-  href: string;
-}
-
 export interface Certification {
   name: string;
   issuer?: string; // issuing body / event (e.g., "SIGFEST")
@@ -101,7 +93,6 @@ export interface AuthorEntry {
 
   // Articles - fetched from WordPress automatically if wordpressSlug/wordpressAuthorId is set
   featuredArticles?: FeaturedArticle[]; // Optional hardcoded fallback
-  recentArticles?: RecentArticle[]; // Optional hardcoded fallback
 
   // Expertise tags
   areasOfExpertise: string[];
@@ -115,7 +106,7 @@ export interface AuthorEntry {
   speakingEmail?: string;
   responseTime?: string;
   linkedinSubscribe?: string;
-  ctaButtonLabel?: string; // overrides the default "Subscribe Now" label on the LinkedIn CTA
+  ctaButtonLabel?: string; // overrides the default "Connect Now" label on the LinkedIn CTA
 
   // Footer info
   lastUpdated: string;
@@ -139,7 +130,7 @@ export const authors: AuthorEntry[] = [
     wordpressAuthorId: 5,
 
     name: "Guneet Singh",
-    role: "Global Tech Leader | Startup Mentor | Venture Builder",
+    role: "Co-Founder, Sparkonomy | Building AI Infrastructure for the Next 100M Creator-Founders",
     avatarUrl: "/authors/ProfilePicture_gunnet.webp",
     shortBio: "I am a tech leader and strategist based in Singapore. After 20 years working across Google, Microsoft, and Samsung I now build and mentor at the edge of technology and new work. Besides building Sparkonomy, I write about how technology systems and AI can support creators by handling the friction, so they can spend more time creating and building a sustainable career.",
 
@@ -260,7 +251,6 @@ export const authors: AuthorEntry[] = [
 
     // Articles fetched from WordPress - no hardcoded articles
     featuredArticles: [],
-    recentArticles: [],
 
     areasOfExpertise: [
       "Creator Economy",
@@ -340,7 +330,6 @@ export const authors: AuthorEntry[] = [
 
     // Articles fetched from WordPress - no hardcoded articles needed
     featuredArticles: [],
-    recentArticles: [],
 
     areasOfExpertise: [
       "Creator Payments",
@@ -433,7 +422,6 @@ export const authors: AuthorEntry[] = [
     mediaMentions: [],
 
     featuredArticles: [],
-    recentArticles: [],
 
     areasOfExpertise: [
       "Business for Creators",
@@ -524,7 +512,6 @@ export const authors: AuthorEntry[] = [
     mediaMentions: [],
 
     featuredArticles: [],
-    recentArticles: [],
 
     areasOfExpertise: [
       "Creator Invoicing",
@@ -638,7 +625,6 @@ export const authors: AuthorEntry[] = [
     ],
 
     featuredArticles: [],
-    recentArticles: [],
 
     areasOfExpertise: [
       "AI Strategy",
@@ -747,7 +733,6 @@ export const authors: AuthorEntry[] = [
     ],
 
     featuredArticles: [],
-    recentArticles: [],
 
     areasOfExpertise: [
       "Growth Strategy",
@@ -869,7 +854,6 @@ export const authors: AuthorEntry[] = [
 
     // Articles fetched from WordPress - no hardcoded articles
     featuredArticles: [],
-    recentArticles: [],
 
     areasOfExpertise: [
       "Creator Economy",
@@ -988,7 +972,6 @@ export const authors: AuthorEntry[] = [
     mediaMentions: [],
 
     featuredArticles: [],
-    recentArticles: [],
 
     areasOfExpertise: [
       "Multimodal Retrieval",
@@ -1119,7 +1102,6 @@ export const authors: AuthorEntry[] = [
     mediaMentions: [],
 
     featuredArticles: [],
-    recentArticles: [],
 
     areasOfExpertise: [
       "AI Agents",
@@ -1226,7 +1208,6 @@ export const authors: AuthorEntry[] = [
     mediaMentions: [],
 
     featuredArticles: [],
-    recentArticles: [],
 
     areasOfExpertise: [
       "Creator Economy",

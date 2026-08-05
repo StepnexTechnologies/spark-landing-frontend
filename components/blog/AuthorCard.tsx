@@ -50,10 +50,10 @@ export default function  AuthorCard({
 
   return (
     <div className="bg-[#F2F2F2] rounded-lg p-6 md:p-8">
-      <h3 className="text-lg md:text-2xl font-semibold text-[#6B7280] mb-4">About the author</h3>
+      <h3 className="text-lg md:text-2xl font-semibold text-[#333333] mb-4">About the author</h3>
 
       <div className="border-l-4 border-purple-600 pl-4 md:pl-6">
-        <p className="text-sm md:text-base font-normal text-[#6B7280] leading-relaxed mb-6">{bio}</p>
+        <p className="text-base md:text-lg font-normal text-[#6B7280] leading-relaxed mb-6">{bio}</p>
 
       <div className="flex flex-col gap-6">
         <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6 md:gap-20">
@@ -73,14 +73,14 @@ export default function  AuthorCard({
               {authorSlug ? (
                 <Link
                   href={`/blogs/author/${authorSlug}`}
-                  className="text-base font-medium text-[#6B7280] hover:text-purple-600 transition-colors"
+                  className="text-base font-medium text-[#4B5563] hover:text-purple-600 transition-colors"
                 >
                   {name}
                 </Link>
               ) : (
-                <h4 className="text-base font-medium text-[#6B7280]">{name}</h4>
+                <h4 className="text-base font-medium text-[#4B5563]">{name}</h4>
               )}
-              {role && <p className="text-xs text-[#999999] mb-3">{role}</p>}
+              {role && <p className="text-xs text-[#4B5563] mb-3">{role}</p>}
 
               {/* Social Links */}
               {hasSocialLinks && (
@@ -90,7 +90,7 @@ export default function  AuthorCard({
                       href={socialLinks.linkedin}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-gray-400 hover:text-gray-600 transition-colors"
+                      className="text-[#6B7280] hover:text-[#4B5563] transition-colors"
                       aria-label="LinkedIn"
                     >
                       <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -103,7 +103,7 @@ export default function  AuthorCard({
                       href={socialLinks.instagram}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-gray-400 hover:text-gray-600 transition-colors"
+                      className="text-[#6B7280] hover:text-[#4B5563] transition-colors"
                       aria-label="Instagram"
                     >
                       <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -116,7 +116,7 @@ export default function  AuthorCard({
                       href={socialLinks.youtube}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-gray-400 hover:text-gray-600 transition-colors"
+                      className="text-[#6B7280] hover:text-[#4B5563] transition-colors"
                       aria-label="YouTube"
                     >
                       <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -129,7 +129,7 @@ export default function  AuthorCard({
                       href={socialLinks.facebook}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-gray-400 hover:text-gray-600 transition-colors"
+                      className="text-[#6B7280] hover:text-[#4B5563] transition-colors"
                       aria-label="Facebook"
                     >
                       <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -142,7 +142,7 @@ export default function  AuthorCard({
                       href={socialLinks.twitter}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-gray-400 hover:text-gray-600 transition-colors"
+                      className="text-[#6B7280] hover:text-[#4B5563] transition-colors"
                       aria-label="Twitter"
                     >
                       <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -158,7 +158,7 @@ export default function  AuthorCard({
           {/* Previous Companies - Right Side on Desktop */}
           {displayCompanies.length > 0 && (
             <div className="hidden md:flex flex-col items-end max-w-[50%]">
-              <p className="text-sm text-[#6B7280] mb-2">{previousCompaniesLabel}</p>
+              <p className="text-sm text-[#4B5563] mb-2">{previousCompaniesLabel}</p>
               <div className="flex flex-wrap items-center justify-end gap-4">
                 {displayCompanies.map((company, index) => (
                   company.logo ? (
@@ -172,7 +172,7 @@ export default function  AuthorCard({
                       style={{ filter: getLogoFilter(company) }}
                     />
                   ) : (
-                    <span key={index} className="text-lg md:text-xl font-bold text-gray-900">
+                    <span key={index} className="text-lg md:text-xl font-bold text-[#333333]">
                       {company.name}
                     </span>
                   )
@@ -185,7 +185,7 @@ export default function  AuthorCard({
         {/* Previous Companies - Below on Mobile */}
         {displayCompanies.length > 0 && (
           <div className="md:hidden flex flex-col items-start">
-            <p className="text-xs text-[#6B7280] mb-2">{previousCompaniesLabel}</p>
+            <p className="text-xs text-[#4B5563] mb-2">{previousCompaniesLabel}</p>
             <div className="flex flex-wrap items-center gap-3">
               {displayCompanies.map((company, index) => (
                 company.logo ? (
@@ -199,7 +199,7 @@ export default function  AuthorCard({
                     style={{ filter: getLogoFilter(company) }}
                   />
                 ) : (
-                  <span key={index} className="text-lg font-bold text-gray-900">
+                  <span key={index} className="text-lg font-bold text-[#333333]">
                     {company.name}
                   </span>
                 )

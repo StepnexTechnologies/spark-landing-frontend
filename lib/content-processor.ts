@@ -3,6 +3,8 @@
  * Removes WordPress TOC and extracts headings for custom TOC
  */
 
+import { decodeEntities } from '@/lib/html-entities';
+
 /**
  * H6 marker keywords recognized server-side.
  * Must stay in sync with components/blog/section-registry.ts
@@ -21,6 +23,9 @@ const H6_MARKER_MAP: Record<string, string> = {
   'fmv': 'fmv-calc', 'fmv calc': 'fmv-calc', 'fmv calculator': 'fmv-calc',
   'barter fmv': 'fmv-calc', 'barter fmv calculator': 'fmv-calc',
   'fair market value': 'fmv-calc', 'fair market value calculator': 'fmv-calc',
+  'barter check': 'barter-check', 'barter checker': 'barter-check',
+  'barter deal check': 'barter-check', 'barter deal checker': 'barter-check',
+  'barter deal calculator': 'barter-check',
 };
 
 /**
@@ -167,27 +172,50 @@ export interface VideoItem {
 }
 
 /**
+ * Slugify heading text into an anchor id. Used on both ends of the TOC — the
+ * link href and the heading id — so the two must stay identical.
+ */
+function slugifyHeadingText(text: string): string {
+  return text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+}
+
+/**
+ * Normalise heading text for comparison only (never for ids). WordPress leaves
+ * entities like &#8217; in the markup, and they would otherwise leak digits
+ * into the comparison key.
+ */
+function headingMatchKey(text: string): string {
+  return decodeEntities(text)
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '');
+}
+
+/**
  * Helper function to extract only H2 headings from HTML (main sections for TOC)
  */
-function extractH2Headings(html: string): Array<{ id: string; text: string }> {
-  const headings: Array<{ id: string; text: string }> = [];
-  const headingRegex = /<h2[^>]*>([\s\S]*?)<\/h2>/gi;
+function extractH2Headings(html: string): Array<{ id: string; text: string; key: string }> {
+  const headings: Array<{ id: string; text: string; key: string }> = [];
+  const headingRegex = /<h2([^>]*)>([\s\S]*?)<\/h2>/gi;
   let match;
 
   while ((match = headingRegex.exec(html)) !== null) {
-    const text = match[1].replace(/<[^>]*>/g, '').trim();
-    // Skip TOC and FAQ headings
+    const attrs = match[1];
+    const text = match[2].replace(/<[^>]*>/g, '').trim();
+    // Skip the TOC heading itself and the sources block
     const textLower = text.toLowerCase();
     if (textLower === 'table of content' ||
         textLower === 'table of contents' ||
-        textLower === 'frequently asked questions' ||
         textLower.includes('sources') ||
         textLower.includes('references')) {
       continue;
     }
-    const id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    // Reuse an id the author set in WordPress. addHeadingIds() never overwrites
+    // an existing id, so the TOC has to link to that one rather than a slug the
+    // rendered heading will never carry.
+    const existingId = /\bid\s*=\s*"([^"]*)"/i.exec(attrs)?.[1].trim();
+    const id = existingId || slugifyHeadingText(text);
     if (id) {
-      headings.push({ id, text });
+      headings.push({ id, text, key: headingMatchKey(text) });
     }
   }
 
@@ -227,18 +255,27 @@ export function removeWordPressTOC(html: string): string {
       }
     }
 
-    // Build new list content with sequential heading matching
+    // Build new list content, matching each TOC item to its heading
+    const usedHeadings = new Set<number>();
     let newListContent = '';
     tocItems.forEach((text, index) => {
-      // Match TOC item to H2 heading by position (index)
-      const matchedHeading = h2Headings[index];
-      if (matchedHeading) {
-        newListContent += `<li><a href="#${matchedHeading.id}" class="toc-link">${text}</a></li>`;
-      } else {
-        // Fallback to generating ID from text if no heading at this index
-        const headingId = text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-        newListContent += `<li><a href="#${headingId}" class="toc-link">${text}</a></li>`;
+      // Match on heading text first — positional matching alone drifts whenever
+      // the post has an H2 that isn't listed in the TOC (CTA blocks, for example)
+      const key = headingMatchKey(text);
+      let headingIndex = h2Headings.findIndex((h, i) => !usedHeadings.has(i) && h.key === key);
+      if (headingIndex === -1 && h2Headings[index] && !usedHeadings.has(index)) {
+        headingIndex = index;
       }
+
+      let headingId: string;
+      if (headingIndex !== -1) {
+        usedHeadings.add(headingIndex);
+        headingId = h2Headings[headingIndex].id;
+      } else {
+        // Fallback to generating ID from text if no heading matched
+        headingId = slugifyHeadingText(text);
+      }
+      newListContent += `<li><a href="#${headingId}" class="toc-link">${text}</a></li>`;
     });
 
     return heading + newUlOpen + newListContent + ulClose;
@@ -333,20 +370,20 @@ export function addHeadingIds(html: string, headings: TOCItem[]): string {
   processed = processed.replace(/<(h[234])([^>]*)>([\s\S]*?)<\/\1>/gi, (match, tag, attrs, content) => {
     const text = content.replace(/<[^>]*>/g, '').trim();
 
-    // Skip TOC and FAQ headings
+    // Skip the TOC heading itself
     if (text.toLowerCase() === 'table of content' ||
-        text.toLowerCase() === 'table of contents' ||
-        text.toLowerCase() === 'frequently asked questions') {
+        text.toLowerCase() === 'table of contents') {
       return match;
     }
 
-    // Check if already has an id
+    // Check if already has an id. extractH2Headings() reads that same id back,
+    // so the TOC still resolves.
     if (/id=/.test(attrs)) {
       return match;
     }
 
     // Generate ID from text content (same logic as TOC link generation)
-    const headingId = text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    const headingId = slugifyHeadingText(text);
 
     if (headingId) {
       const newAttrs = attrs ? `${attrs} id="${headingId}"` : ` id="${headingId}"`;
@@ -393,7 +430,9 @@ export function extractFAQs(html: string): FAQItem[] {
   let questionMatch;
 
   while ((questionMatch = headingRegex.exec(faqSectionHtml)) !== null) {
-    const question = questionMatch[2].replace(/<[^>]*>/g, '').trim();
+    // Decoded: FAQ text goes straight into JSON-LD as plain text, so a raw
+    // &#8217; would ship to search engines verbatim.
+    const question = decodeEntities(questionMatch[2].replace(/<[^>]*>/g, '')).trim();
 
     // Find the answer (paragraph(s) following the question)
     const afterQuestion = faqSectionHtml.substring(questionMatch.index + questionMatch[0].length);
@@ -409,7 +448,7 @@ export function extractFAQs(html: string): FAQItem[] {
         break;
       }
 
-      const answerText = pMatch[1].replace(/<[^>]*>/g, '').trim();
+      const answerText = decodeEntities(pMatch[1].replace(/<[^>]*>/g, '')).trim();
       if (answerText) {
         answerParts.push(answerText);
       }
@@ -443,8 +482,8 @@ function extractGutenbergAccordionFAQs(html: string): FAQItem[] {
 
   let match;
   while ((match = itemRegex.exec(html)) !== null) {
-    const question = match[1].replace(/<[^>]*>/g, '').trim();
-    const answer = match[2].replace(/<[^>]*>/g, '').trim();
+    const question = decodeEntities(match[1].replace(/<[^>]*>/g, '')).trim();
+    const answer = decodeEntities(match[2].replace(/<[^>]*>/g, '')).trim();
 
     if (question && answer) {
       faqs.push({ question, answer });

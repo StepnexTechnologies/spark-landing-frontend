@@ -6,6 +6,7 @@ import Script from "next/script";
 import type { Metadata } from "next";
 import CookieConsentScript from "@/components/CookieConsentScript";
 import {
+  IS_DEV_ENVIRONMENT,
   ORGANIZATION_ID,
   ORGANIZATION_SOCIAL_URLS,
   SITE_URL,
@@ -19,13 +20,9 @@ const roboto = Roboto({
   display: "swap",
 });
 
-// Fail-open: only an explicit dev.* SITE_URL is treated as non-prod, so a missing
-// or misconfigured value can't accidentally noindex production.
-const isProduction = !process.env.SITE_URL?.startsWith('https://dev.')
-
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  robots: isProduction ? undefined : { index: false, follow: false },
+  robots: IS_DEV_ENVIRONMENT ? { index: false, follow: false } : undefined,
   icons: {
     icon: [
       { url: "/home-192x192Px.png", sizes: "192x192", type: "image/png" },

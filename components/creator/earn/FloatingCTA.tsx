@@ -57,6 +57,11 @@ interface FloatingCTAProps {
   // floating CTA doesn't overlap the identical hero OTP card. Falls back to
   // the default "show on any scroll" behavior when omitted or not found.
   triggerElementId?: string;
+  // earn-variant tweaks (used by the portfolio landing page). Defaults keep the
+  // /creator/earn look unchanged.
+  hideCornerCoin?: boolean; // hide the top-right FlippingCoin
+  centerHeading?: boolean; // center the heading (drop the coin's right padding)
+  cardBackground?: string; // override the bar background (CSS gradient/color)
 }
 
 export default function FloatingCTA({
@@ -64,6 +69,9 @@ export default function FloatingCTA({
   namespace = "creatorEarn",
   trackingPrefix = "earn",
   triggerElementId,
+  hideCornerCoin = false,
+  centerHeading = false,
+  cardBackground,
 }: FloatingCTAProps = {}) {
   const { t } = useTranslation(namespace);
   const [isVisible, setIsVisible] = useState(false);
@@ -101,7 +109,14 @@ export default function FloatingCTA({
   return variant === "promo" ? (
     <PromoFloatingCTA isVisible={isVisible} t={t} trackingPrefix={trackingPrefix} />
   ) : (
-    <EarnFloatingCTA isVisible={isVisible} t={t} trackingPrefix={trackingPrefix} />
+    <EarnFloatingCTA
+      isVisible={isVisible}
+      t={t}
+      trackingPrefix={trackingPrefix}
+      hideCornerCoin={hideCornerCoin}
+      centerHeading={centerHeading}
+      cardBackground={cardBackground}
+    />
   );
 }
 
@@ -117,9 +132,19 @@ interface EarnVariantProps {
   isVisible: boolean;
   t: ReturnType<typeof useTranslation>["t"];
   trackingPrefix: string;
+  hideCornerCoin: boolean;
+  centerHeading: boolean;
+  cardBackground?: string;
 }
 
-function EarnFloatingCTA({ isVisible, t, trackingPrefix }: EarnVariantProps) {
+function EarnFloatingCTA({
+  isVisible,
+  t,
+  trackingPrefix,
+  hideCornerCoin,
+  centerHeading,
+  cardBackground,
+}: EarnVariantProps) {
   const { phone, setPhone, sendOtp, stage } = useSignup();
   const prefersReducedMotion = useReducedMotion();
 
@@ -163,6 +188,7 @@ function EarnFloatingCTA({ isVisible, t, trackingPrefix }: EarnVariantProps) {
             className="relative w-full md:max-w-md md:mx-auto rounded-t-[20px] px-4 pt-3 pb-[max(calc(0.5rem+1px),calc(env(safe-area-inset-bottom)+1px))] shadow-[0_-10px_30px_rgba(0,0,0,0.45),0_-2px_8px_rgba(221,42,123,0.2)]"
             style={{
               background:
+                cardBackground ??
                 "linear-gradient(180deg, #000000 0%, rgba(221, 42, 123, 0.09) 100%)",
               backdropFilter: "blur(20px)",
               WebkitBackdropFilter: "blur(20px)",
@@ -171,13 +197,15 @@ function EarnFloatingCTA({ isVisible, t, trackingPrefix }: EarnVariantProps) {
             {/* Top-right coin peeks above the bar edge — sibling of the
                 content column so it pins to the outer surface rather than
                 being affected by the inner padding. */}
-            <div className="absolute -top-5 right-3 z-20 pointer-events-none">
-              <FlippingCoin size={48} />
-            </div>
+            {!hideCornerCoin && (
+              <div className="absolute -top-5 right-3 z-20 pointer-events-none">
+                <FlippingCoin size={48} />
+              </div>
+            )}
 
             {/* Heading — "Send free invoice —" white, "Win Gold Coin" gold
                 Solitreo script. Right padding clears the coin. */}
-            <h3 className="pr-12 text-[18px] font-semibold tracking-[-0.04em] text-white leading-tight">
+            <h3 className={`text-[18px] font-semibold tracking-[-0.04em] text-white leading-tight ${centerHeading ? "text-center" : "pr-12"}`}>
               <Trans
                 i18nKey="hero.card.voucherHeading"
                 t={t}
