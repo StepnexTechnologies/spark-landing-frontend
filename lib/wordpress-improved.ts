@@ -4,6 +4,7 @@
  */
 
 import type { WordPressPost, WordPressCategory, WordPressTag, WordPressAuthor } from "@/types/wordpress";
+import { htmlToText } from "@/lib/html-entities";
 
 const WORDPRESS_URL = process.env.NEXT_PUBLIC_WORDPRESS_API_URL || "https://blog.sparkonomy.com/wp-json/wp/v2";
 
@@ -332,39 +333,19 @@ export async function getAllPostSlugs(): Promise<string[]> {
 // ============================================================================
 
 /**
- * Strip HTML tags from content
+ * Strip HTML tags from content and decode HTML entities, so the result is safe
+ * to render as plain text (breadcrumbs, metadata, JSON-LD, alt/title attrs).
  */
 export function stripHtml(html: string): string {
-  return html.replace(/<[^>]*>/g, "");
+  return htmlToText(html);
 }
 
 /**
- * Strip HTML tags and decode HTML entities from text.
- * Handles all numeric/hex entities generically, plus common named entities.
+ * Strip HTML tags and decode HTML entities from text, and collapse WordPress'
+ * "[&hellip;]" excerpt marker into a plain ellipsis.
  */
 export function decodeHtmlEntities(text: string): string {
-  return text
-    .replace(/<[^>]*>/g, '')
-    // Generic numeric & hex entities (catches ALL numeric codes)
-    .replace(/&#x([0-9a-fA-F]+);/g, (_, hex) => String.fromCodePoint(parseInt(hex, 16)))
-    .replace(/&#(\d+);/g, (_, dec) => String.fromCodePoint(parseInt(dec, 10)))
-    // Named entities
-    .replace(/&hellip;/g, '…')
-    .replace(/&amp;/g, '&')
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/&quot;/g, '"')
-    .replace(/&nbsp;/g, ' ')
-    .replace(/&copy;/g, '©')
-    .replace(/&reg;/g, '®')
-    .replace(/&euro;/g, '€')
-    .replace(/&deg;/g, '°')
-    .replace(/&rsquo;/g, '\u2019')
-    .replace(/&lsquo;/g, '\u2018')
-    .replace(/&rdquo;/g, '\u201D')
-    .replace(/&ldquo;/g, '\u201C')
-    .replace(/&ndash;/g, '–')
-    .replace(/&mdash;/g, '—')
+  return htmlToText(text)
     .replace(/\[…\]/g, '…')
     .replace(/\[\.\.\.\]/g, '…')
     .trim();

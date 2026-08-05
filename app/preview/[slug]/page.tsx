@@ -199,7 +199,7 @@ export default async function PreviewPostPage({ params }: PreviewPostPageProps) 
   const processedContent = openLinksInNewTab(lazyLoadImages(contentWithoutLeadingImage));
 
   // Get category for breadcrumb and related resources
-  const categoryName = post._embedded?.["wp:term"]?.[0]?.[0]?.name || "";
+  const categoryName = decodeHtmlEntities(post._embedded?.["wp:term"]?.[0]?.[0]?.name || "");
   const categoryId = post._embedded?.["wp:term"]?.[0]?.[0]?.id;
 
   // Fetch related draft posts (more posts to have enough for both sections)

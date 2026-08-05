@@ -252,7 +252,7 @@ export default async function BlogPostPage({ params, searchParams }: BlogPostPag
   const processedContent = openLinksInNewTab(lazyLoadImages(contentWithoutDuplicate));
 
   // Get category for breadcrumb and related resources
-  const categoryName = post._embedded?.["wp:term"]?.[0]?.[0]?.name || "";
+  const categoryName = decodeHtmlEntities(post._embedded?.["wp:term"]?.[0]?.[0]?.name || "");
   const categorySlug = post._embedded?.["wp:term"]?.[0]?.[0]?.slug || "";
   const categoryId = post._embedded?.["wp:term"]?.[0]?.[0]?.id;
 
