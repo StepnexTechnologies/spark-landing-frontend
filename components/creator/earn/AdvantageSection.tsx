@@ -1,7 +1,7 @@
 "use client";
 
 import {Suspense, useRef} from "react";
-import { m } from "framer-motion";
+import {motion} from "framer-motion";
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import AdvantageFeature from "./AdvantageFeature";
@@ -61,7 +61,7 @@ function TitleWithLaptopBreak({ title }: { title: string }) {
 // differs from AdvantageFeature's bare-with-bottom-border earn layout.
 function PromoAdvantageCard({ index, title, description, iconUrl }: AdvantageItem & { index: number; iconUrl: string }) {
   return (
-    <m.div
+    <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
@@ -77,7 +77,7 @@ function PromoAdvantageCard({ index, title, description, iconUrl }: AdvantageIte
           <p className="mt-1 md:mt-0 text-white text-sm leading-snug md:text-center">{description}</p>
         </div>
       </div>
-    </m.div>
+    </motion.div>
   );
 }
 
@@ -102,7 +102,7 @@ export default function AdvantageSection({
   return (
     <section ref={sectionRef} className={isPromo ? "relative py-8 md:py-12 px-5 md:px-20" : "relative py-12 md:py-20 px-5 md:px-20"}>
       <div className="max-w-[1440px] mx-auto">
-        <m.div
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -117,7 +117,7 @@ export default function AdvantageSection({
               {t("advantage.subtitle")}
             </p>
           )}
-        </m.div>
+        </motion.div>
 
         {isPromo ? (
           <div className="flex flex-col items-center gap-4 max-w-[480px] mx-auto md:max-w-none md:grid md:grid-cols-2 lg:grid-cols-4 md:gap-x-[55px] md:gap-y-[49px] md:items-stretch">
@@ -146,7 +146,7 @@ export default function AdvantageSection({
               ))}
             </div>
 
-            <m.div
+            <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
@@ -156,7 +156,7 @@ export default function AdvantageSection({
               <Suspense fallback={null}>
                 <CTAButton buttonText={t("advantage.cta")} analyticsEvent={analyticsEvent}/>
               </Suspense>
-            </m.div>
+            </motion.div>
           </>
         )}
       </div>

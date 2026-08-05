@@ -3,10 +3,9 @@
 import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
-import { m, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Globe, Check, ChevronDown } from "lucide-react";
 import { track } from "@/lib/analytics/track";
-import MotionProvider from "@/components/MotionProvider";
 
 interface LanguageSwitcherProps {
   className?: string;
@@ -124,8 +123,7 @@ export const LanguageSwitcher = ({
   // which have no provider of their own. Wrapping here keeps `m.*` valid on
   // every route without dragging those pages into the migration.
   return (
-    <MotionProvider>
-    <m.div
+    <motion.div
       ref={dropdownRef}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -179,7 +177,7 @@ export const LanguageSwitcher = ({
       {/* Dropdown */}
       <AnimatePresence>
         {isOpen && (
-          <m.div
+          <motion.div
             initial={{ opacity: 0, y: -4 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -4 }}
@@ -221,11 +219,10 @@ export const LanguageSwitcher = ({
                 )}
               </button>
             ))}
-          </m.div>
+          </motion.div>
         )}
       </AnimatePresence>
-    </m.div>
-    </MotionProvider>
+    </motion.div>
   );
 };
 

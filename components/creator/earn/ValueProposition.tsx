@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { m } from "framer-motion";
+import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { useSectionViewTracking } from "@/lib/hooks/useSectionViewTracking";
 
@@ -15,7 +15,7 @@ export default function ValueProposition() {
       ref={sectionRef}
       className="relative pt-2 pb-10 md:pt-4 md:pb-16 px-5 md:px-20"
     >
-      <m.div
+      <motion.div
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-80px" }}
@@ -39,7 +39,7 @@ export default function ValueProposition() {
         <p className="text-base md:text-lg text-white/90 leading-relaxed max-w-[640px] mx-auto">
           {t("pitch.description")}
         </p>
-      </m.div>
+      </motion.div>
     </section>
   );
 }

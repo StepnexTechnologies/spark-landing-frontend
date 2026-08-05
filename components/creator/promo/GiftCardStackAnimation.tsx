@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { m } from "framer-motion";
+import { motion } from "framer-motion";
 
 // "Flower" bloom: cards share a bottom-center pivot and start perfectly
 // stacked. They burst out one-by-one into a wide upper-half fan (the
@@ -98,7 +98,7 @@ export default function GiftCardStackAnimation({
         }}
       >
       {CARDS.map((card, i) => (
-        <m.div
+        <motion.div
           key={card.src}
           className="absolute"
           style={{
@@ -146,7 +146,7 @@ export default function GiftCardStackAnimation({
             loading="eager"
             decoding="async"
           />
-        </m.div>
+        </motion.div>
       ))}
 
       {/* Shining particles on top of the front (black) voucher. They sit
@@ -157,7 +157,7 @@ export default function GiftCardStackAnimation({
         style={{ zIndex: 10 }}
       >
         {SPARKLES.map((s, i) => (
-          <m.span
+          <motion.span
             key={i}
             className="absolute block"
             style={{
@@ -192,7 +192,7 @@ export default function GiftCardStackAnimation({
             }}
           >
             <SparkleIcon size={s.size} />
-          </m.span>
+          </motion.span>
         ))}
       </div>
       </div>

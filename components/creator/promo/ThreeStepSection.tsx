@@ -1,7 +1,7 @@
 "use client";
 
 import {useRef, type ReactNode} from "react";
-import { m } from "framer-motion";
+import {motion} from "framer-motion";
 import Image from "next/image";
 import { Trans, useTranslation } from "react-i18next";
 import {useSectionViewTracking} from "@/lib/hooks/useSectionViewTracking";
@@ -20,7 +20,7 @@ const STEP_IMAGES = [
 
 function StepCard({ index, title, description, tags, imageUrl }: Omit<ThreeStepItem, "description"> & { description: ReactNode; index: number; imageUrl: string }) {
   return (
-    <m.div
+    <motion.div
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
@@ -57,7 +57,7 @@ function StepCard({ index, title, description, tags, imageUrl }: Omit<ThreeStepI
           )}
         </div>
       </div>
-    </m.div>
+    </motion.div>
   );
 }
 
@@ -80,7 +80,7 @@ export default function BenefitsSection({
   return (
     <section ref={sectionRef} className="relative pb-5 md:pb-12 px-5 md:px-20">
       <div className="max-w-[1200px] mx-auto">
-        <m.div
+        <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -93,7 +93,7 @@ export default function BenefitsSection({
           <p className="text-sm md:text-base text-white/70 max-w-[520px] mx-auto">
             {t("threeStep.subtitle")}
           </p>
-        </m.div>
+        </motion.div>
 
         <div className="flex flex-col items-center lg:flex-row lg:items-stretch lg:justify-center gap-4 md:gap-6">
           {steps.map((step, i) => (

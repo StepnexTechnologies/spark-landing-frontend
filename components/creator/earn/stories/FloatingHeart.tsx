@@ -1,6 +1,6 @@
 "use client";
 
-import { m } from "framer-motion";
+import {motion} from "framer-motion";
 import {useEffect, useMemo} from "react";
 
 interface FloatingHeartProps {
@@ -36,7 +36,7 @@ export default function FloatingHeart({ id, onComplete, delay = 0 }: FloatingHea
   }, [id, onComplete, animationProps.duration, delay]);
 
   return (
-    <m.div
+    <motion.div
       className="absolute pointer-events-none"
       initial={{
         y: 0,
@@ -74,6 +74,6 @@ export default function FloatingHeart({ id, onComplete, delay = 0 }: FloatingHea
           opacity={animationProps.color.opacity}
         />
       </svg>
-    </m.div>
+    </motion.div>
   );
 }

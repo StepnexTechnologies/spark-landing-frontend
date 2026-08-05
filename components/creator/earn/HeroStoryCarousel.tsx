@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { AnimatePresence, m, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { Heart, Send } from "lucide-react";
 import AnimatedEmojis from "./stories/AnimatedEmojis";
@@ -127,7 +127,7 @@ export default function HeroStoryCarousel() {
               key={i}
               className="flex-1 h-0.5 rounded-full bg-white/30 overflow-hidden"
             >
-              <m.div
+              <motion.div
                 className="h-full bg-white"
                 initial={false}
                 animate={{
@@ -161,7 +161,7 @@ export default function HeroStoryCarousel() {
               width=192 → Next serves its w=384 srcset variant (≈half the
               bytes) for the 210px box; page.tsx preload mirrors it. */}
           <AnimatePresence initial={false}>
-            <m.div
+            <motion.div
               key={index}
               className="absolute inset-0"
               initial={{ x: "100%" }}
@@ -180,7 +180,7 @@ export default function HeroStoryCarousel() {
                 priority={index === 0}
                 className="absolute inset-0 w-full h-full object-cover"
               />
-            </m.div>
+            </motion.div>
           </AnimatePresence>
         </div>
 

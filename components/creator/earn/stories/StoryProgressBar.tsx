@@ -1,6 +1,6 @@
 "use client";
 
-import { m } from "framer-motion";
+import {motion} from "framer-motion";
 import {StoryProgressBarProps} from "./types";
 
 export default function StoryProgressBar({
@@ -16,7 +16,7 @@ export default function StoryProgressBar({
             key={index}
             className="flex-1 h-[2.5px] bg-white/30 rounded-full overflow-hidden"
           >
-            <m.div
+            <motion.div
               className="h-full bg-white rounded-full"
               initial={{ width: "0%" }}
               animate={{

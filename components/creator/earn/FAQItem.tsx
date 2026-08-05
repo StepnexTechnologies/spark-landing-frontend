@@ -1,7 +1,7 @@
 "use client";
 
 import {useState} from "react";
-import { m } from "framer-motion";
+import {motion} from "framer-motion";
 import {ChevronDown} from "lucide-react";
 import {track} from "@/lib/analytics/track";
 
@@ -45,7 +45,7 @@ export default function FAQItem({
   };
 
   return (
-    <m.div
+    <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay: index * 0.05 }}
@@ -60,17 +60,17 @@ export default function FAQItem({
         <span className="text-lg md:text-xl font-semibold text-white leading-normal flex-1">
           {question}
         </span>
-        <m.div
+        <motion.div
           animate={{ rotate: isOpen ? 180 : 0 }}
           transition={{ duration: 0.3 }}
           className="flex-shrink-0 mt-1 md:mt-0"
         >
           <ChevronDown className="w-6 h-6 text-white" />
-        </m.div>
+        </motion.div>
       </button>
 
       {answer && (
-          <m.div
+          <motion.div
             initial={false}
             animate={{
               height: isOpen ? "auto" : 0,
@@ -82,8 +82,8 @@ export default function FAQItem({
             <p className="text-sm md:text-[14px] text-white leading-[1.4] pb-5 whitespace-pre-line">
               {answer}
             </p>
-          </m.div>
+          </motion.div>
       )}
-    </m.div>
+    </motion.div>
   );
 }

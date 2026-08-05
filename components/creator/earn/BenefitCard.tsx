@@ -1,6 +1,6 @@
 "use client";
 
-import { m } from "framer-motion";
+import {motion} from "framer-motion";
 import Image from "next/image";
 
 interface BenefitCardProps {
@@ -17,7 +17,7 @@ export default function BenefitCard({
   decorativeImages = [],
 }: BenefitCardProps) {
   return (
-    <m.div
+    <motion.div
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
@@ -58,6 +58,6 @@ export default function BenefitCard({
           dangerouslySetInnerHTML={{ __html: description }}
         />
       </div>
-    </m.div>
+    </motion.div>
   );
 }
