@@ -5,7 +5,6 @@ import { useSearchParams } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import dynamic from "next/dynamic";
 import "@/lib/i18n"; // Initialize i18n
-import MotionProvider from "@/components/MotionProvider";
 import Navigation from "@/components/creator/earn/Navigation";
 import HeroSection from "@/components/creator/portfolio/HeroSection";
 import HeroIntro from "@/components/creator/portfolio/HeroIntro";
@@ -63,11 +62,6 @@ function CreatorPortfolioPageContent() {
 
   return (
     <SignupProvider socialAuthAfterVerify namespace="creatorPortfolio">
-      {/* Required: every section under components/creator/** renders `m.*`, which
-          needs a LazyMotion ancestor. Without it the feature bundle never loads,
-          `whileInView` never fires, and the below-the-fold sections stay stuck at
-          their `initial` opacity: 0 (visible as an empty gap under the hero). */}
-      <MotionProvider>
       <main className="relative min-h-screen bg-black overflow-hidden">
         {/* Decorative background blobs (config in components/creator/portfolio/blobConfig.ts). */}
         <LandingBlobs />
@@ -147,7 +141,6 @@ function CreatorPortfolioPageContent() {
           cardBackground="linear-gradient(171.03deg, #000000 -0.78%, rgba(221, 42, 123, 0.09) 100.02%)"
         />
       </main>
-      </MotionProvider>
     </SignupProvider>
   );
 }
