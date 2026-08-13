@@ -2557,6 +2557,22 @@
   line-height: 1.5;
 }
 
+/* The gap below the section usually comes from a following heading's margin-top
+   (e.g. the TOC's h2) collapsing through its wrapper; the trust paragraph itself
+   contributes nothing because the p:last-child rule zeroes it. When plain body
+   copy follows instead (paragraphs have no margin-top), that gap vanishes — so
+   the wrapper carries its own bottom margin, sized to the h2 rhythm. Adjacent
+   margins collapse, so the heading case keeps its existing spacing. */
+.wordpress-content .trust-para-section {
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .wordpress-content .trust-para-section {
+    margin-bottom: 1.75rem;
+  }
+}
+
 /* ====================
    CHECKMARK EMOJI STYLING
    Replace green ✅ emoji with primary purple checkmark
