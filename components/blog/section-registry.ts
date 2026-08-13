@@ -61,6 +61,7 @@ export const SECTION_REGISTRY: SectionConfig[] = [
     type: "trust-para",
     wrapperClass: "trust-para-section",
     allowMultiple: true,
+    maxElements: 1,
   },
   {
     markers: [
