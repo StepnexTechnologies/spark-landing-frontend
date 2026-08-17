@@ -83,7 +83,7 @@ export async function generateMetadata({ params }: AuthorPageProps): Promise<Met
     keywords: [
       author.name,
       "Sparkonomy author",
-      "creator economy",
+      "Creator economy",
       "content monetization",
       "digital marketing",
       "influencer marketing",
