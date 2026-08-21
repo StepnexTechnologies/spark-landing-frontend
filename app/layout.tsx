@@ -23,6 +23,8 @@ const roboto = Roboto({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   robots: IS_DEV_ENVIRONMENT ? { index: false, follow: false } : undefined,
+  // Advertises the machine-readable site summary to AI clients that inspect page metadata.
+  alternates: { types: { "text/markdown": "/llms.txt" } },
   icons: {
     icon: [
       { url: "/home-192x192Px.png", sizes: "192x192", type: "image/png" },

@@ -129,6 +129,9 @@ const nextConfig: NextConfig = {
     async rewrites() {
         return [
             { source: "/blogs/:slug.md", destination: "/api/blog-md/:slug" },
+            // Serves the site-level llms.txt dynamically (the static public/ file is gone —
+            // public files win over rewrites, so it had to be removed for this to fire).
+            { source: "/llms.txt", destination: "/api/llms-txt" },
         ];
     },
 };
