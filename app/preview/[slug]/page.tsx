@@ -24,6 +24,7 @@ import H6SectionParser from "@/components/blog/H6SectionParser";
 import TaxCalculatorInjector from "@/components/blog/TaxCalculatorInjector";
 import FMVCalculatorInjector from "@/components/blog/FMVCalculatorInjector";
 import BarterDealCheckerInjector from "@/components/blog/BarterDealCheckerInjector";
+import ConsentAuditInjector from "@/components/blog/ConsentAuditInjector";
 import ImageOrientationEnhancer from "@/components/blog/ImageOrientationEnhancer";
 import ImageLightboxEnhancer from "@/components/blog/ImageLightboxEnhancer";
 import NewsletterSection from "@/components/blog/NewsletterSection";
@@ -478,6 +479,8 @@ export default async function PreviewPostPage({ params }: PreviewPostPageProps) 
             <FMVCalculatorInjector />
             {/* Barter Deal Checker injector — replaces <h6>barter-check</h6> markers with the checker */}
             <BarterDealCheckerInjector />
+            {/* Consent Audit injector — replaces <h6>consent-audit</h6> markers with the audit tool */}
+            <ConsentAuditInjector />
             {/* H6 Section Parser — runs first, wraps all H6-marked sections */}
             <H6SectionParser />
             {/* TOC smooth scroll enhancement */}

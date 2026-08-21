@@ -260,7 +260,7 @@ function resolveDesktopUrl(p: Platform, handle: string): string {
 // ──────────────────────────────────────────
 //  COMPONENT
 // ──────────────────────────────────────────
-const CreatorAIConsentAudit = () => {
+const CreatorAIConsentAudit = ({ embed = false }: { embed?: boolean } = {}) => {
   const [handles, setHandles] = useState<Record<string, string>>({});
   const [activeChipKey, setActiveChipKey] = useState<string | null>(null);
   const [ran, setRan] = useState(false);
@@ -333,13 +333,21 @@ const CreatorAIConsentAudit = () => {
 
   return (
     <div className="caia w-full max-w-full overflow-x-hidden bg-white text-[#212529]">
-      <div className="mx-auto max-w-[820px] px-5 pb-20 pt-8">
+      <div
+        className={`mx-auto max-w-[820px] ${
+          embed ? "px-3 pb-6 pt-4" : "px-5 pb-20 pt-8"
+        }`}
+      >
         {/* HEADER */}
         <header className="mb-7">
           <div className="caia-kicker mb-3 inline-flex items-center rounded-full bg-[#F2F2F2] px-3 py-1.5 text-[11px] font-bold uppercase tracking-[.55px] text-[#9747FF]">
             Sparkonomy · Creator Tools
           </div>
-          <h1 className="m-0 mb-2.5 text-[30px] font-bold leading-[1.2] tracking-[-0.5px] text-[#212529]">
+          <h1
+            className={`m-0 mb-2.5 font-bold leading-[1.2] tracking-[-0.5px] text-[#212529] ${
+              embed ? "text-xl" : "text-[30px]"
+            }`}
+          >
             Are you protected from AI misuse &amp; training?
           </h1>
           <p className="text-[15px] text-[#4B5563]">
@@ -692,9 +700,11 @@ const CreatorAIConsentAudit = () => {
           </div>
         )}
 
-        <footer className="mt-[30px] text-center text-xs text-[#5f5f5f]">
-          Sparkonomy · Helping creators stay informed and in control.
-        </footer>
+        {!embed && (
+          <footer className="mt-[30px] text-center text-xs text-[#5f5f5f]">
+            Sparkonomy · Helping creators stay informed and in control.
+          </footer>
+        )}
       </div>
 
       {/* MODAL */}
