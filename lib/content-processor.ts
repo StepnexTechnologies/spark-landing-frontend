@@ -26,6 +26,9 @@ const H6_MARKER_MAP: Record<string, string> = {
   'barter check': 'barter-check', 'barter checker': 'barter-check',
   'barter deal check': 'barter-check', 'barter deal checker': 'barter-check',
   'barter deal calculator': 'barter-check',
+  'consent audit': 'consent-audit', 'ai consent audit': 'consent-audit',
+  'creator ai consent audit': 'consent-audit', 'ai audit': 'consent-audit',
+  'ai consent': 'consent-audit', 'ai training audit': 'consent-audit',
 };
 
 /**
